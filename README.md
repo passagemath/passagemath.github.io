@@ -1,2 +1,1 @@
-# passagemath.github.io
-Website
+# github.com/passagemath/passagemath
