@@ -1,0 +1,1651 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Utility functions" href="util.html" /><link rel="prev" title="Detecting external software" href="external.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>Test the doctesting framework - Sage&#39;s Doctesting Framework</title>
+      <link rel="stylesheet" type="text/css" href="../../../%5fstatic/pygments.css?v=a078f75a" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-codemirror-monokai.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-tabs.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  --color-brand-primary: #0f0fff;
+  --color-brand-content: #0f0fff;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">Sage's Doctesting Framework</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand" href="../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../%5fstatic/logo_sagemath_black.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../%5fstatic/logo_sagemath_white.svg" alt="Dark Logo"/>
+  </div>
+  
+      <span class="sidebar-brand-text">passagemath 10.6.1 Reference Manual</span>
+  
+</a><div class="select-wrapper">
+  <select id="versions-menu" onchange="changeVersion()">
+    <option value="" selected>other version</option>
+    <option value="https://doc-develop--sagemath.netlify.app">develop</option>
+  </select>
+</div><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-home">
+  <div class="sidebar-tree">
+    <ul><li class="toctree-l1">
+      <a class="reference internal" href="../../index.html">Home - Sage's Doctesting Framework</a>
+    </li></ul>
+  </div>
+</div><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="control.html">Classes involved in doctesting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sources.html">Classes for sources of doctests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forker.html">Processes for running doctests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsing.html">Parsing docstrings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reporting.html">Reporting doctest results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="external.html">Detecting external software</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Test the doctesting framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">Utility functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fixtures.html">Fixtures to help testing functionality</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/test.py" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/edit/main/src/sage/doctest/test.py" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="test-the-doctesting-framework">
+<span id="sage-doctest-test"></span><h1>Test the doctesting framework<a class="headerlink" href="#test-the-doctesting-framework" title="Link to this heading">¶</a></h1>
+<p id="module-sage.doctest.test">Many tests (with expected failures or crashes) are run in a
+subprocess, those tests can be found in the <code class="docutils literal notranslate"><span class="pre">tests/</span></code> subdirectory.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">import</span> <span class="nn">signal</span>
+<span class="gp">sage:</span> <span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="gp">sage:</span> <span class="kn">import</span> <span class="nn">time</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.env</span> <span class="kn">import</span> <span class="n">SAGE_SRC</span>
+<span class="gp">sage:</span> <span class="n">tests_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SAGE_SRC</span><span class="p">,</span> <span class="s1">&#39;sage&#39;</span><span class="p">,</span> <span class="s1">&#39;doctest&#39;</span><span class="p">,</span> <span class="s1">&#39;tests&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">tests_env</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">signal</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">time</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.env</span> <span class="kn">import</span> <span class="n">SAGE_SRC</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">tests_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SAGE_SRC</span><span class="p">,</span> <span class="s1">&#39;sage&#39;</span><span class="p">,</span> <span class="s1">&#39;doctest&#39;</span><span class="p">,</span> <span class="s1">&#39;tests&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">tests_env</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Unset <span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">TERM</span></code> when running doctests, see <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/14370">Issue #14370</a>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">try</span><span class="p">:</span>
+<span class="gp">....:</span>     <span class="k">del</span> <span class="n">tests_env</span><span class="p">[</span><span class="s1">&#39;TERM&#39;</span><span class="p">]</span>
+<span class="gp">....:</span> <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+<span class="gp">....:</span>     <span class="k">pass</span>
+<span class="gp">sage:</span> <span class="n">kwds</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cwd&#39;</span><span class="p">:</span> <span class="n">tests_dir</span><span class="p">,</span> <span class="s1">&#39;env&#39;</span><span class="p">:</span><span class="n">tests_env</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">try</span><span class="p">:</span>
+<span class="gp">...</span>     <span class="k">del</span> <span class="n">tests_env</span><span class="p">[</span><span class="s1">&#39;TERM&#39;</span><span class="p">]</span>
+<span class="gp">...</span> <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+<span class="gp">...</span>     <span class="k">pass</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">kwds</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cwd&#39;</span><span class="p">:</span> <span class="n">tests_dir</span><span class="p">,</span> <span class="s1">&#39;env&#39;</span><span class="p">:</span><span class="n">tests_env</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Check that <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/2235">Issue #2235</a> has been fixed:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">....:</span>       <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;longtime.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 longtime.rst</span>
+<span class="go">[0 tests, ...s wall]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">All</span> <span class="n">tests</span> <span class="n">passed</span><span class="err">!</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">0</span>
+<span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-l&quot;</span><span class="p">,</span> <span class="s2">&quot;longtime.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --long --warn-long 0.0 --random-seed=0 longtime.rst</span>
+<span class="go">[1 test, ...s wall]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">All</span> <span class="n">tests</span> <span class="n">passed</span><span class="err">!</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">...</span>       <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;longtime.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 longtime.rst</span>
+<span class="go">[0 tests, ...s wall]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">All</span> <span class="n">tests</span> <span class="n">passed</span><span class="err">!</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-l&quot;</span><span class="p">,</span> <span class="s2">&quot;longtime.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --long --warn-long 0.0 --random-seed=0 longtime.rst</span>
+<span class="go">[1 test, ...s wall]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">All</span> <span class="n">tests</span> <span class="n">passed</span><span class="err">!</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Check handling of tolerances:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;tolerance.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 tolerance.rst</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;tolerance.rst&quot;, line ..., in sage.doctest.tests.tolerance</span>
+<span class="go">Failed example:</span>
+<span class="go">    print(&quot;:-(&quot;)    # abs tol 0.1</span>
+<span class="go">Expected:</span>
+<span class="go">    :-)</span>
+<span class="go">Got:</span>
+<span class="go">    :-(</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;tolerance.rst&quot;, line ..., in sage.doctest.tests.tolerance</span>
+<span class="go">Failed example:</span>
+<span class="go">    print(&quot;1.0 2.0 3.0&quot;)  # abs tol 0.1</span>
+<span class="go">Expected:</span>
+<span class="go">    4.0 5.0</span>
+<span class="go">Got:</span>
+<span class="go">    1.0 2.0 3.0</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;tolerance.rst&quot;, line ..., in sage.doctest.tests.tolerance</span>
+<span class="go">Failed example:</span>
+<span class="go">    print(&quot;Hello&quot;)  # abs tol 0.1</span>
+<span class="go">Expected:</span>
+<span class="go">    1.0</span>
+<span class="go">Got:</span>
+<span class="go">    Hello</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;tolerance.rst&quot;, line ..., in sage.doctest.tests.tolerance</span>
+<span class="go">Failed example:</span>
+<span class="go">    print(&quot;1.0&quot;)  # abs tol 0.1</span>
+<span class="go">Expected:</span>
+<span class="go">    Hello</span>
+<span class="go">Got:</span>
+<span class="go">    1.0</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;tolerance.rst&quot;, line ..., in sage.doctest.tests.tolerance</span>
+<span class="go">Failed example:</span>
+<span class="go">    print(&quot;Hello 1.1&quot;)  # abs tol 0.1</span>
+<span class="go">Expected:</span>
+<span class="go">    Goodbye 1.0</span>
+<span class="go">Got:</span>
+<span class="go">    Hello 1.1</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;tolerance.rst&quot;, line ..., in sage.doctest.tests.tolerance</span>
+<span class="go">Failed example:</span>
+<span class="go">    print(&quot;Hello 1.0&quot;)  # rel tol 1e-6</span>
+<span class="go">Expected:</span>
+<span class="go">    Goodbye 0.999999</span>
+<span class="go">Got:</span>
+<span class="go">    Hello 1.0</span>
+<span class="go">Tolerance exceeded:</span>
+<span class="go">    0.999999 vs 1.0, tolerance 2e-6 &gt; 1e-6</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;tolerance.rst&quot;, line ..., in sage.doctest.tests.tolerance</span>
+<span class="go">Failed example:</span>
+<span class="go">    print(&quot;Hello 1.0&quot;)  # rel tol 1e-6</span>
+<span class="go">Expected:</span>
+<span class="go">    Hello ...</span>
+<span class="go">Got:</span>
+<span class="go">    Hello 1.0</span>
+<span class="go">Note: combining tolerance (# tol) with ellipsis (...) is not supported</span>
+<span class="go">**********************************************************************</span>
+<span class="gp">...</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;tolerance.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 tolerance.rst</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;tolerance.rst&quot;, line ..., in sage.doctest.tests.tolerance</span>
+<span class="go">Failed example:</span>
+<span class="go">    print(&quot;:-(&quot;)    # abs tol 0.1</span>
+<span class="go">Expected:</span>
+<span class="go">    :-)</span>
+<span class="go">Got:</span>
+<span class="go">    :-(</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;tolerance.rst&quot;, line ..., in sage.doctest.tests.tolerance</span>
+<span class="go">Failed example:</span>
+<span class="go">    print(&quot;1.0 2.0 3.0&quot;)  # abs tol 0.1</span>
+<span class="go">Expected:</span>
+<span class="go">    4.0 5.0</span>
+<span class="go">Got:</span>
+<span class="go">    1.0 2.0 3.0</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;tolerance.rst&quot;, line ..., in sage.doctest.tests.tolerance</span>
+<span class="go">Failed example:</span>
+<span class="go">    print(&quot;Hello&quot;)  # abs tol 0.1</span>
+<span class="go">Expected:</span>
+<span class="go">    1.0</span>
+<span class="go">Got:</span>
+<span class="go">    Hello</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;tolerance.rst&quot;, line ..., in sage.doctest.tests.tolerance</span>
+<span class="go">Failed example:</span>
+<span class="go">    print(&quot;1.0&quot;)  # abs tol 0.1</span>
+<span class="go">Expected:</span>
+<span class="go">    Hello</span>
+<span class="go">Got:</span>
+<span class="go">    1.0</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;tolerance.rst&quot;, line ..., in sage.doctest.tests.tolerance</span>
+<span class="go">Failed example:</span>
+<span class="go">    print(&quot;Hello 1.1&quot;)  # abs tol 0.1</span>
+<span class="go">Expected:</span>
+<span class="go">    Goodbye 1.0</span>
+<span class="go">Got:</span>
+<span class="go">    Hello 1.1</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;tolerance.rst&quot;, line ..., in sage.doctest.tests.tolerance</span>
+<span class="go">Failed example:</span>
+<span class="go">    print(&quot;Hello 1.0&quot;)  # rel tol 1e-6</span>
+<span class="go">Expected:</span>
+<span class="go">    Goodbye 0.999999</span>
+<span class="go">Got:</span>
+<span class="go">    Hello 1.0</span>
+<span class="go">Tolerance exceeded:</span>
+<span class="go">    0.999999 vs 1.0, tolerance 2e-6 &gt; 1e-6</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;tolerance.rst&quot;, line ..., in sage.doctest.tests.tolerance</span>
+<span class="go">Failed example:</span>
+<span class="go">    print(&quot;Hello 1.0&quot;)  # rel tol 1e-6</span>
+<span class="go">Expected:</span>
+<span class="go">    Hello ...</span>
+<span class="go">Got:</span>
+<span class="go">    Hello 1.0</span>
+<span class="go">Note: combining tolerance (# tol) with ellipsis (...) is not supported</span>
+<span class="go">**********************************************************************</span>
+<span class="gp">...</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Test the <code class="docutils literal notranslate"><span class="pre">--initial</span></code> option:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-i&quot;</span><span class="p">,</span> <span class="s2">&quot;initial.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 initial.rst</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;initial.rst&quot;, line 4, in sage.doctest.tests.initial</span>
+<span class="go">Failed example:</span>
+<span class="go">    a = binomiak(10,5)  # random to test that we still get the exception</span>
+<span class="go">Exception raised:</span>
+<span class="go">    Traceback (most recent call last):</span>
+<span class="go">    ...</span>
+<span class="go">    NameError: name &#39;binomiak&#39; is not defined</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;initial.rst&quot;, line 14, in sage.doctest.tests.initial</span>
+<span class="go">Failed example:</span>
+<span class="go">    binomial(10,5)</span>
+<span class="go">Expected:</span>
+<span class="go">    255</span>
+<span class="go">Got:</span>
+<span class="go">    252</span>
+<span class="go">**********************************************************************</span>
+<span class="gp">...</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span>  <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="n">initial</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># 5 doctests failed</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-i&quot;</span><span class="p">,</span> <span class="s2">&quot;initial.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 initial.rst</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;initial.rst&quot;, line 4, in sage.doctest.tests.initial</span>
+<span class="go">Failed example:</span>
+<span class="go">    a = binomiak(10,5)  # random to test that we still get the exception</span>
+<span class="go">Exception raised:</span>
+<span class="go">    Traceback (most recent call last):</span>
+<span class="go">    ...</span>
+<span class="go">    NameError: name &#39;binomiak&#39; is not defined</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;initial.rst&quot;, line 14, in sage.doctest.tests.initial</span>
+<span class="go">Failed example:</span>
+<span class="go">    binomial(10,5)</span>
+<span class="go">Expected:</span>
+<span class="go">    255</span>
+<span class="go">Got:</span>
+<span class="go">    252</span>
+<span class="go">**********************************************************************</span>
+<span class="gp">...</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span>  <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="n">initial</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># 5 doctests failed</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Test the <code class="docutils literal notranslate"><span class="pre">--exitfirst</span></code> option:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;--exitfirst&quot;</span><span class="p">,</span> <span class="s2">&quot;initial.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 initial.rst</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;initial.rst&quot;, line 4, in sage.doctest.tests.initial</span>
+<span class="go">Failed example:</span>
+<span class="go">    a = binomiak(10,5)  # random to test that we still get the exception</span>
+<span class="go">Exception raised:</span>
+<span class="go">    Traceback (most recent call last):</span>
+<span class="go">    ...</span>
+<span class="go">    NameError: name &#39;binomiak&#39; is not defined</span>
+<span class="go">**********************************************************************</span>
+<span class="gp">...</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span>  <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="n">initial</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># 1 doctest failed</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;--exitfirst&quot;</span><span class="p">,</span> <span class="s2">&quot;initial.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 initial.rst</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;initial.rst&quot;, line 4, in sage.doctest.tests.initial</span>
+<span class="go">Failed example:</span>
+<span class="go">    a = binomiak(10,5)  # random to test that we still get the exception</span>
+<span class="go">Exception raised:</span>
+<span class="go">    Traceback (most recent call last):</span>
+<span class="go">    ...</span>
+<span class="go">    NameError: name &#39;binomiak&#39; is not defined</span>
+<span class="go">**********************************************************************</span>
+<span class="gp">...</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span>  <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="n">initial</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># 1 doctest failed</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Test a timeout using the <code class="docutils literal notranslate"><span class="pre">SAGE_TIMEOUT</span></code> environment variable.  Also set
+<code class="docutils literal notranslate"><span class="pre">CYSIGNALS_CRASH_NDEBUG</span></code> to help ensure the test times out in a timely
+manner (<a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/26912">Issue #26912</a>):</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="gp">sage:</span> <span class="n">kwds2</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">kwds</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">kwds2</span><span class="p">[</span><span class="s1">&#39;env&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;SAGE_TIMEOUT&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;CYSIGNALS_CRASH_NDEBUG&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">})</span>
+<span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;99seconds.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds2</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 99seconds.rst</span>
+<span class="go">    Timed out</span>
+<span class="go">**********************************************************************</span>
+<span class="go">Tests run before process (pid=...) timed out:</span>
+<span class="gp">...</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span> <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="mi">99</span><span class="n">seconds</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># Timed out</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">4</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--2" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">kwds2</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">kwds</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">kwds2</span><span class="p">[</span><span class="s1">&#39;env&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;SAGE_TIMEOUT&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;CYSIGNALS_CRASH_NDEBUG&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;99seconds.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds2</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 99seconds.rst</span>
+<span class="go">    Timed out</span>
+<span class="go">**********************************************************************</span>
+<span class="go">Tests run before process (pid=...) timed out:</span>
+<span class="gp">...</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span> <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="mi">99</span><span class="n">seconds</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># Timed out</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">4</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Test handling of <code class="docutils literal notranslate"><span class="pre">KeyboardInterrupt</span></code> in doctests:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;keyboardinterrupt.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 keyboardinterrupt.rst</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;keyboardinterrupt.rst&quot;, line 11, in sage.doctest.tests.keyboardinterrupt</span>
+<span class="go">Failed example:</span>
+<span class="go">    raise KeyboardInterrupt</span>
+<span class="go">Exception raised:</span>
+<span class="go">    Traceback (most recent call last):</span>
+<span class="go">    ...</span>
+<span class="go">    KeyboardInterrupt</span>
+<span class="go">**********************************************************************</span>
+<span class="gp">...</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span> <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="n">keyboardinterrupt</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># 1 doctest failed</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--2" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;keyboardinterrupt.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 keyboardinterrupt.rst</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;keyboardinterrupt.rst&quot;, line 11, in sage.doctest.tests.keyboardinterrupt</span>
+<span class="go">Failed example:</span>
+<span class="go">    raise KeyboardInterrupt</span>
+<span class="go">Exception raised:</span>
+<span class="go">    Traceback (most recent call last):</span>
+<span class="go">    ...</span>
+<span class="go">    KeyboardInterrupt</span>
+<span class="go">**********************************************************************</span>
+<span class="gp">...</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span> <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="n">keyboardinterrupt</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># 1 doctest failed</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Interrupt the doctester:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;interrupt.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">Killing test interrupt.rst</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">Doctests</span> <span class="n">interrupted</span><span class="p">:</span> <span class="mi">0</span><span class="o">/</span><span class="mi">1</span> <span class="n">files</span> <span class="n">tested</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">128</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--8-input--2" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;interrupt.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">Killing test interrupt.rst</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">Doctests</span> <span class="n">interrupted</span><span class="p">:</span> <span class="mi">0</span><span class="o">/</span><span class="mi">1</span> <span class="n">files</span> <span class="n">tested</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">128</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Interrupt the doctester (while parallel testing) when a doctest cannot
+be interrupted. We also test that passing a ridiculous number of threads
+doesn’t hurt:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">F</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="gp">sage:</span> <span class="n">kwds2</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">kwds</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">kwds2</span><span class="p">[</span><span class="s1">&#39;env&#39;</span><span class="p">][</span><span class="s1">&#39;DOCTEST_TEST_PID_FILE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">F</span>  <span class="c1"># Doctester will write its PID in this file</span>
+<span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-tp&quot;</span><span class="p">,</span> <span class="s2">&quot;1000000&quot;</span><span class="p">,</span> <span class="s2">&quot;--timeout=120&quot;</span><span class="p">,</span>  <span class="c1"># long time</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--die_timeout=10&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;99seconds.rst&quot;</span><span class="p">,</span> <span class="s2">&quot;interrupt_diehard.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds2</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 2 files using 1000000 threads...</span>
+<span class="go">Killing test 99seconds.rst</span>
+<span class="go">Killing test interrupt_diehard.rst</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">Doctests</span> <span class="n">interrupted</span><span class="p">:</span> <span class="mi">0</span><span class="o">/</span><span class="mi">2</span> <span class="n">files</span> <span class="n">tested</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">128</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--9-input--2" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">F</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">kwds2</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">kwds</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">kwds2</span><span class="p">[</span><span class="s1">&#39;env&#39;</span><span class="p">][</span><span class="s1">&#39;DOCTEST_TEST_PID_FILE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">F</span>  <span class="c1"># Doctester will write its PID in this file</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-tp&quot;</span><span class="p">,</span> <span class="s2">&quot;1000000&quot;</span><span class="p">,</span> <span class="s2">&quot;--timeout=120&quot;</span><span class="p">,</span>  <span class="c1"># long time</span>
+<span class="gp">...</span>      <span class="s2">&quot;--die_timeout=10&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span>
+<span class="gp">...</span>      <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;99seconds.rst&quot;</span><span class="p">,</span> <span class="s2">&quot;interrupt_diehard.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds2</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 2 files using 1000000 threads...</span>
+<span class="go">Killing test 99seconds.rst</span>
+<span class="go">Killing test interrupt_diehard.rst</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">Doctests</span> <span class="n">interrupted</span><span class="p">:</span> <span class="mi">0</span><span class="o">/</span><span class="mi">2</span> <span class="n">files</span> <span class="n">tested</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">128</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Even though the doctester master process has exited, the child process
+is still alive, but it should be killed automatically
+after the <code class="docutils literal notranslate"><span class="pre">die_timeout</span></code> given above (10 seconds):</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># long time</span>
+<span class="gp">sage:</span> <span class="n">pid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">F</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+<span class="gp">sage:</span> <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">os</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="n">pid</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">SIGQUIT</span><span class="p">)</span>  <span class="c1"># 2 seconds passed =&gt; still alive</span>
+<span class="gp">sage:</span> <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">os</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="n">pid</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">SIGQUIT</span><span class="p">)</span>  <span class="c1"># 10 seconds passed =&gt; dead  # random</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">ProcessLookupError: ...</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--10-input--2" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="c1"># long time</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">pid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">F</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">os</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="n">pid</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">SIGQUIT</span><span class="p">)</span>  <span class="c1"># 2 seconds passed =&gt; still alive</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">os</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="n">pid</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">SIGQUIT</span><span class="p">)</span>  <span class="c1"># 10 seconds passed =&gt; dead  # random</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">ProcessLookupError: ...</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If the child process is dead and removed, the last output should be as above.
+However, the child process interrupted its parent process (see
+<code class="docutils literal notranslate"><span class="pre">'interrupt_diehard.rst'</span></code>), and became an orphan process. Depending on the
+system, an orphan process may eventually become a zombie process instead of
+being removed, and then the last output would just be a blank. Hence the <code class="docutils literal notranslate"><span class="pre">#</span>
+<span class="pre">random</span></code> tag.</p>
+<p class="with-sage-tab with-python-tab">Test a doctest failing with <code class="docutils literal notranslate"><span class="pre">abort()</span></code>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;abort.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 abort.rst</span>
+<span class="go">    Killed due to abort</span>
+<span class="go">**********************************************************************</span>
+<span class="go">Tests run before process (pid=...) failed:</span>
+<span class="gp">...</span>
+<span class="gt">------------------------------------------------------------------------</span>
+<span class="n">Unhandled</span> <span class="n">SIGABRT</span><span class="p">:</span> <span class="n">An</span> <span class="n">abort</span><span class="p">()</span> <span class="n">occurred</span><span class="o">.</span>
+<span class="n">This</span> <span class="n">probably</span> <span class="n">occurred</span> <span class="n">because</span> <span class="n">a</span> <span class="o">*</span><span class="n">compiled</span><span class="o">*</span> <span class="n">module</span> <span class="n">has</span> <span class="n">a</span> <span class="n">bug</span>
+<span class="ow">in</span> <span class="n">it</span> <span class="ow">and</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">properly</span> <span class="n">wrapped</span> <span class="k">with</span> <span class="n">sig_on</span><span class="p">(),</span> <span class="n">sig_off</span><span class="p">()</span><span class="o">.</span>
+<span class="n">Python</span> <span class="n">will</span> <span class="n">now</span> <span class="n">terminate</span><span class="o">.</span>
+<span class="gt">------------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span> <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="n">abort</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># Killed due to abort</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">16</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--11-input--2" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;abort.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 abort.rst</span>
+<span class="go">    Killed due to abort</span>
+<span class="go">**********************************************************************</span>
+<span class="go">Tests run before process (pid=...) failed:</span>
+<span class="gp">...</span>
+<span class="gt">------------------------------------------------------------------------</span>
+<span class="n">Unhandled</span> <span class="n">SIGABRT</span><span class="p">:</span> <span class="n">An</span> <span class="n">abort</span><span class="p">()</span> <span class="n">occurred</span><span class="o">.</span>
+<span class="n">This</span> <span class="n">probably</span> <span class="n">occurred</span> <span class="n">because</span> <span class="n">a</span> <span class="o">*</span><span class="n">compiled</span><span class="o">*</span> <span class="n">module</span> <span class="n">has</span> <span class="n">a</span> <span class="n">bug</span>
+<span class="ow">in</span> <span class="n">it</span> <span class="ow">and</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">properly</span> <span class="n">wrapped</span> <span class="k">with</span> <span class="n">sig_on</span><span class="p">(),</span> <span class="n">sig_off</span><span class="p">()</span><span class="o">.</span>
+<span class="n">Python</span> <span class="n">will</span> <span class="n">now</span> <span class="n">terminate</span><span class="o">.</span>
+<span class="gt">------------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span> <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="n">abort</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># Killed due to abort</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">16</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">A different kind of crash (also test printing of line continuation <code class="docutils literal notranslate"><span class="pre">...:</span></code>,
+represented by <code class="docutils literal notranslate"><span class="pre">&lt;DOTSCOLON&gt;</span></code> below):</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># long time</span>
+<span class="gp">sage:</span> <span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;fail_and_die.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">,</span>
+<span class="gp">....:</span>      <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="c1"># the replacements are needed to avoid the strings being interpreted</span>
+<span class="gp">....:</span> <span class="c1"># specially by the doctesting framework</span>
+<span class="gp">sage:</span> <span class="nb">print</span><span class="p">(</span><span class="n">proc</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;sage:&#39;</span><span class="p">,</span> <span class="s1">&#39;sage&lt;COLON&gt;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;....:&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;DOTSCOLON&gt;&#39;</span><span class="p">))</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 fail_and_die.rst</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;fail_and_die.rst&quot;, line 8, in sage.doctest.tests.fail_and_die</span>
+<span class="go">Failed example:</span>
+<span class="go">    this_gives_a_NameError</span>
+<span class="go">Exception raised:</span>
+<span class="go">    Traceback (most recent call last):</span>
+<span class="go">    ...</span>
+<span class="go">    NameError: name &#39;this_gives_a_NameError&#39; is not defined</span>
+<span class="go">    Killed due to kill signal</span>
+<span class="go">**********************************************************************</span>
+<span class="go">Tests run before process (pid=...) failed:</span>
+<span class="go">sage&lt;COLON&gt; import time, signal ## line 4 ##</span>
+<span class="go">sage&lt;COLON&gt; print(1,</span>
+<span class="go">&lt;DOTSCOLON&gt;       2) ## line 5 ##</span>
+<span class="go">1 2</span>
+<span class="go">sage&lt;COLON&gt; this_gives_a_NameError ## line 8 ##</span>
+<span class="go">sage&lt;COLON&gt; os.kill(os.getpid(), signal.SIGKILL) ## line 9 ##</span>
+<span class="go">**********************************************************************</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span> <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="n">fail_and_die</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># Killed due to kill signal</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="gp">sage:</span> <span class="n">proc</span><span class="o">.</span><span class="n">returncode</span>
+<span class="go">16</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--12-input--2" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="c1"># long time</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;fail_and_die.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">,</span>
+<span class="gp">...</span>      <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="c1"># the replacements are needed to avoid the strings being interpreted</span>
+<span class="gp">...</span> <span class="c1"># specially by the doctesting framework</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">proc</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;sage:&#39;</span><span class="p">,</span> <span class="s1">&#39;sage&lt;COLON&gt;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;....:&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;DOTSCOLON&gt;&#39;</span><span class="p">))</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 fail_and_die.rst</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;fail_and_die.rst&quot;, line 8, in sage.doctest.tests.fail_and_die</span>
+<span class="go">Failed example:</span>
+<span class="go">    this_gives_a_NameError</span>
+<span class="go">Exception raised:</span>
+<span class="go">    Traceback (most recent call last):</span>
+<span class="go">    ...</span>
+<span class="go">    NameError: name &#39;this_gives_a_NameError&#39; is not defined</span>
+<span class="go">    Killed due to kill signal</span>
+<span class="go">**********************************************************************</span>
+<span class="go">Tests run before process (pid=...) failed:</span>
+<span class="go">sage&lt;COLON&gt; import time, signal ## line 4 ##</span>
+<span class="go">sage&lt;COLON&gt; print(1,</span>
+<span class="go">&lt;DOTSCOLON&gt;       2) ## line 5 ##</span>
+<span class="go">1 2</span>
+<span class="go">sage&lt;COLON&gt; this_gives_a_NameError ## line 8 ##</span>
+<span class="go">sage&lt;COLON&gt; os.kill(os.getpid(), signal.SIGKILL) ## line 9 ##</span>
+<span class="go">**********************************************************************</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span> <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="n">fail_and_die</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># Killed due to kill signal</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">proc</span><span class="o">.</span><span class="n">returncode</span>
+<span class="go">16</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Test that <code class="docutils literal notranslate"><span class="pre">sig_on_count</span></code> is checked correctly:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;sig_on.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 sig_on.rst</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;sig_on.rst&quot;, line 6, in sage.doctest.tests.sig_on</span>
+<span class="go">Failed example:</span>
+<span class="go">    sig_on_count() # check sig_on/off pairings (virtual doctest)</span>
+<span class="go">Expected:</span>
+<span class="go">    0</span>
+<span class="go">Got:</span>
+<span class="go">    1</span>
+<span class="go">**********************************************************************</span>
+<span class="go">1 item had failures:</span>
+<span class="go">   1 of   5 in sage.doctest.tests.sig_on</span>
+<span class="go">    [3 tests, 1 failure, ...]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span> <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="n">sig_on</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># 1 doctest failed</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--13-input--2" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;sig_on.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 sig_on.rst</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;sig_on.rst&quot;, line 6, in sage.doctest.tests.sig_on</span>
+<span class="go">Failed example:</span>
+<span class="go">    sig_on_count() # check sig_on/off pairings (virtual doctest)</span>
+<span class="go">Expected:</span>
+<span class="go">    0</span>
+<span class="go">Got:</span>
+<span class="go">    1</span>
+<span class="go">**********************************************************************</span>
+<span class="go">1 item had failures:</span>
+<span class="go">   1 of   5 in sage.doctest.tests.sig_on</span>
+<span class="go">    [3 tests, 1 failure, ...]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span> <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="n">sig_on</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># 1 doctest failed</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Test logfiles in serial and parallel mode (see <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/19271">Issue #19271</a>):</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">t</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--serial&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;--logfile&quot;</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="s2">&quot;simple_failure.rst&quot;</span><span class="p">],</span>
+<span class="gp">....:</span>      <span class="n">stdout</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">),</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">sage:</span> <span class="nb">print</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>  <span class="c1"># long time</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 simple_failure.rst</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;simple_failure.rst&quot;, line 7, in sage.doctest.tests.simple_failure</span>
+<span class="go">Failed example:</span>
+<span class="go">    a * b</span>
+<span class="go">Expected:</span>
+<span class="go">    20</span>
+<span class="go">Got:</span>
+<span class="go">    15</span>
+<span class="go">**********************************************************************</span>
+<span class="go">1 item had failures:</span>
+<span class="go">   1 of   5 in sage.doctest.tests.simple_failure</span>
+<span class="go">    [4 tests, 1 failure, ...]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span> <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="n">simple_failure</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># 1 doctest failed</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+
+<span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;--logfile&quot;</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="s2">&quot;simple_failure.rst&quot;</span><span class="p">],</span>
+<span class="gp">....:</span>      <span class="n">stdout</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">),</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">sage:</span> <span class="nb">print</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>  <span class="c1"># long time</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 simple_failure.rst</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;simple_failure.rst&quot;, line 7, in sage.doctest.tests.simple_failure</span>
+<span class="go">Failed example:</span>
+<span class="go">    a * b</span>
+<span class="go">Expected:</span>
+<span class="go">    20</span>
+<span class="go">Got:</span>
+<span class="go">    15</span>
+<span class="go">**********************************************************************</span>
+<span class="go">1 item had failures:</span>
+<span class="go">   1 of   5 in sage.doctest.tests.simple_failure</span>
+<span class="go">    [4 tests, 1 failure, ...]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span> <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="n">simple_failure</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># 1 doctest failed</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--14-input--2" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">t</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--serial&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;--logfile&quot;</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="s2">&quot;simple_failure.rst&quot;</span><span class="p">],</span>
+<span class="gp">...</span>      <span class="n">stdout</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">),</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>  <span class="c1"># long time</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 simple_failure.rst</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;simple_failure.rst&quot;, line 7, in sage.doctest.tests.simple_failure</span>
+<span class="go">Failed example:</span>
+<span class="go">    a * b</span>
+<span class="go">Expected:</span>
+<span class="go">    20</span>
+<span class="go">Got:</span>
+<span class="go">    15</span>
+<span class="go">**********************************************************************</span>
+<span class="go">1 item had failures:</span>
+<span class="go">   1 of   5 in sage.doctest.tests.simple_failure</span>
+<span class="go">    [4 tests, 1 failure, ...]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span> <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="n">simple_failure</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># 1 doctest failed</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;--logfile&quot;</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="s2">&quot;simple_failure.rst&quot;</span><span class="p">],</span>
+<span class="gp">...</span>      <span class="n">stdout</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">),</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>  <span class="c1"># long time</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 simple_failure.rst</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;simple_failure.rst&quot;, line 7, in sage.doctest.tests.simple_failure</span>
+<span class="go">Failed example:</span>
+<span class="go">    a * b</span>
+<span class="go">Expected:</span>
+<span class="go">    20</span>
+<span class="go">Got:</span>
+<span class="go">    15</span>
+<span class="go">**********************************************************************</span>
+<span class="go">1 item had failures:</span>
+<span class="go">   1 of   5 in sage.doctest.tests.simple_failure</span>
+<span class="go">    [4 tests, 1 failure, ...]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span> <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="n">simple_failure</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># 1 doctest failed</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Test the <code class="docutils literal notranslate"><span class="pre">--debug</span></code> option:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;--debug&quot;</span><span class="p">,</span> <span class="s2">&quot;simple_failure.rst&quot;</span><span class="p">],</span>
+<span class="gp">....:</span>      <span class="n">stdin</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">),</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 simple_failure.rst</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;simple_failure.rst&quot;, line 7, in sage.doctest.tests.simple_failure</span>
+<span class="go">Failed example:</span>
+<span class="go">    a * b</span>
+<span class="go">Expected:</span>
+<span class="go">    20</span>
+<span class="go">Got:</span>
+<span class="go">    15</span>
+<span class="go">**********************************************************************</span>
+<span class="go">Previously executed commands:</span>
+<span class="go">    s...: a = 3</span>
+<span class="go">    s...: b = 5</span>
+<span class="go">    s...: a + b</span>
+<span class="go">    8</span>
+<span class="gp">sage:</span>
+
+<span class="go">Returning to doctests...</span>
+<span class="go">**********************************************************************</span>
+<span class="go">1 item had failures:</span>
+<span class="go">   1 of   5 in sage.doctest.tests.simple_failure</span>
+<span class="go">    [4 tests, 1 failure, ...]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span> <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="n">simple_failure</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># 1 doctest failed</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--15-input--2" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;--debug&quot;</span><span class="p">,</span> <span class="s2">&quot;simple_failure.rst&quot;</span><span class="p">],</span>
+<span class="gp">...</span>      <span class="n">stdin</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">),</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 simple_failure.rst</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;simple_failure.rst&quot;, line 7, in sage.doctest.tests.simple_failure</span>
+<span class="go">Failed example:</span>
+<span class="go">    a * b</span>
+<span class="go">Expected:</span>
+<span class="go">    20</span>
+<span class="go">Got:</span>
+<span class="go">    15</span>
+<span class="go">**********************************************************************</span>
+<span class="go">Previously executed commands:</span>
+<span class="go">    s...: a = 3</span>
+<span class="go">    s...: b = 5</span>
+<span class="go">    s...: a + b</span>
+<span class="go">    8</span>
+<span class="gp">sage:</span>
+<span class="go">&lt;BLANKLINE&gt;</span>
+<span class="go">Returning to doctests...</span>
+<span class="go">**********************************************************************</span>
+<span class="go">1 item had failures:</span>
+<span class="go">   1 of   5 in sage.doctest.tests.simple_failure</span>
+<span class="go">    [4 tests, 1 failure, ...]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span> <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="n">simple_failure</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># 1 doctest failed</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Test running under gdb, without and with a timeout:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span>  <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>   <span class="c1"># long time, optional: gdb</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;--gdb&quot;</span><span class="p">,</span> <span class="s2">&quot;1second.rst&quot;</span><span class="p">],</span>
+<span class="gp">....:</span>      <span class="n">stdin</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">),</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">exec gdb ...</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file...</span>
+<span class="go">sage -t... 1second.rst...</span>
+<span class="go">    [2 tests, ...s wall]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">All</span> <span class="n">tests</span> <span class="n">passed</span><span class="err">!</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--16-input--2" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span>  <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>   <span class="c1"># long time, optional: gdb</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;--gdb&quot;</span><span class="p">,</span> <span class="s2">&quot;1second.rst&quot;</span><span class="p">],</span>
+<span class="gp">...</span>      <span class="n">stdin</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">),</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">exec gdb ...</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file...</span>
+<span class="go">sage -t... 1second.rst...</span>
+<span class="go">    [2 tests, ...s wall]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">All</span> <span class="n">tests</span> <span class="n">passed</span><span class="err">!</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">gdb might need a long time to start up, so we allow 30 seconds:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span>  <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>   <span class="c1"># long time, optional: gdb</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;--gdb&quot;</span><span class="p">,</span> <span class="s2">&quot;-T30&quot;</span><span class="p">,</span> <span class="s2">&quot;99seconds.rst&quot;</span><span class="p">],</span>
+<span class="gp">....:</span>      <span class="n">stdin</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">),</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">exec gdb ...</span>
+<span class="go">Running doctests...</span>
+<span class="go">    Timed out</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--17-input--2" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span>  <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>   <span class="c1"># long time, optional: gdb</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;--gdb&quot;</span><span class="p">,</span> <span class="s2">&quot;-T30&quot;</span><span class="p">,</span> <span class="s2">&quot;99seconds.rst&quot;</span><span class="p">],</span>
+<span class="gp">...</span>      <span class="n">stdin</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">),</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">exec gdb ...</span>
+<span class="go">Running doctests...</span>
+<span class="go">    Timed out</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Test the <code class="docutils literal notranslate"><span class="pre">--show-skipped</span></code> option:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;--show-skipped&quot;</span><span class="p">,</span> <span class="s2">&quot;show_skipped.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests ...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 show_skipped.rst</span>
+<span class="go">    2 tests not run due to known bugs</span>
+<span class="go">    1 gap test not run</span>
+<span class="go">    1 long test not run</span>
+<span class="go">    1 not tested test not run</span>
+<span class="go">    0 tests not run because we ran out of time</span>
+<span class="go">    [2 tests, ...s wall]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">All</span> <span class="n">tests</span> <span class="n">passed</span><span class="err">!</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--18-input--2" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;--show-skipped&quot;</span><span class="p">,</span> <span class="s2">&quot;show_skipped.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests ...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 show_skipped.rst</span>
+<span class="go">    2 tests not run due to known bugs</span>
+<span class="go">    1 gap test not run</span>
+<span class="go">    1 long test not run</span>
+<span class="go">    1 not tested test not run</span>
+<span class="go">    0 tests not run because we ran out of time</span>
+<span class="go">    [2 tests, ...s wall]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">All</span> <span class="n">tests</span> <span class="n">passed</span><span class="err">!</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Optional tests are run correctly:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;--long&quot;</span><span class="p">,</span>  <span class="c1"># long time</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--show-skipped&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage,gap&quot;</span><span class="p">,</span> <span class="s2">&quot;show_skipped.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests ...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --long --warn-long 0.0 --random-seed=0 show_skipped.rst</span>
+<span class="go">    2 tests not run due to known bugs</span>
+<span class="go">    1 not tested test not run</span>
+<span class="go">    0 tests not run because we ran out of time</span>
+<span class="go">    [4 tests, ...s wall]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">All</span> <span class="n">tests</span> <span class="n">passed</span><span class="err">!</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">0</span>
+
+<span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;--long&quot;</span><span class="p">,</span>  <span class="c1"># long time</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--show-skipped&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=gAp&quot;</span><span class="p">,</span> <span class="s2">&quot;show_skipped.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests ...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --long --warn-long 0.0 --random-seed=0 show_skipped.rst</span>
+<span class="go">    2 tests not run due to known bugs</span>
+<span class="go">    1 not tested test not run</span>
+<span class="go">    2 sage tests not run</span>
+<span class="go">    0 tests not run because we ran out of time</span>
+<span class="go">    [2 tests, ...s wall]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">All</span> <span class="n">tests</span> <span class="n">passed</span><span class="err">!</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--19-input--2" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;--long&quot;</span><span class="p">,</span>  <span class="c1"># long time</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--show-skipped&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage,gap&quot;</span><span class="p">,</span> <span class="s2">&quot;show_skipped.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests ...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --long --warn-long 0.0 --random-seed=0 show_skipped.rst</span>
+<span class="go">    2 tests not run due to known bugs</span>
+<span class="go">    1 not tested test not run</span>
+<span class="go">    0 tests not run because we ran out of time</span>
+<span class="go">    [4 tests, ...s wall]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">All</span> <span class="n">tests</span> <span class="n">passed</span><span class="err">!</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">0</span>
+
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;--long&quot;</span><span class="p">,</span>  <span class="c1"># long time</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--show-skipped&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=gAp&quot;</span><span class="p">,</span> <span class="s2">&quot;show_skipped.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests ...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --long --warn-long 0.0 --random-seed=0 show_skipped.rst</span>
+<span class="go">    2 tests not run due to known bugs</span>
+<span class="go">    1 not tested test not run</span>
+<span class="go">    2 sage tests not run</span>
+<span class="go">    0 tests not run because we ran out of time</span>
+<span class="go">    [2 tests, ...s wall]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">All</span> <span class="n">tests</span> <span class="n">passed</span><span class="err">!</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Test an invalid value for <code class="docutils literal notranslate"><span class="pre">--optional</span></code>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=bad-option&quot;</span><span class="p">,</span> <span class="s2">&quot;show_skipped.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">ValueError: invalid optional tag &#39;bad-option&#39;</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--20-input--2" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=bad-option&quot;</span><span class="p">,</span> <span class="s2">&quot;show_skipped.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">ValueError: invalid optional tag &#39;bad-option&#39;</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Test <code class="docutils literal notranslate"><span class="pre">atexit</span></code> support in the doctesting framework:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">F</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="gp">sage:</span> <span class="n">kwds2</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">kwds</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">kwds2</span><span class="p">[</span><span class="s1">&#39;env&#39;</span><span class="p">][</span><span class="s1">&#39;DOCTEST_DELETE_FILE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">F</span>
+<span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;atexit.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds2</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 atexit.rst</span>
+<span class="go">    [3 tests, ...s wall]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">All</span> <span class="n">tests</span> <span class="n">passed</span><span class="err">!</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">0</span>
+<span class="gp">sage:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>  <span class="c1"># long time</span>
+<span class="go">False</span>
+<span class="gp">sage:</span> <span class="k">try</span><span class="p">:</span>
+<span class="gp">....:</span>     <span class="n">os</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
+<span class="gp">....:</span> <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+<span class="gp">....:</span>     <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--21-input--2" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">F</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">kwds2</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">kwds</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">kwds2</span><span class="p">[</span><span class="s1">&#39;env&#39;</span><span class="p">][</span><span class="s1">&#39;DOCTEST_DELETE_FILE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">F</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;atexit.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds2</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 atexit.rst</span>
+<span class="go">    [3 tests, ...s wall]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">All</span> <span class="n">tests</span> <span class="n">passed</span><span class="err">!</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>  <span class="c1"># long time</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">try</span><span class="p">:</span>
+<span class="gp">...</span>     <span class="n">os</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
+<span class="gp">...</span> <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+<span class="gp">...</span>     <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Test that random tests are reproducible:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;random_seed.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 random_seed.rst</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;random_seed.rst&quot;, line 3, in sage.doctest.tests.random_seed</span>
+<span class="go">Failed example:</span>
+<span class="go">    randint(5, 10)</span>
+<span class="go">Expected:</span>
+<span class="go">    9</span>
+<span class="go">Got:</span>
+<span class="go">    5</span>
+<span class="go">**********************************************************************</span>
+<span class="go">1 item had failures:</span>
+<span class="go">   1 of   2 in sage.doctest.tests.random_seed</span>
+<span class="go">    [1 test, 1 failure, ...s wall]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span> <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="n">random_seed</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># 1 doctest failed</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">1</span>
+<span class="gp">sage:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">....:</span>      <span class="s2">&quot;--random-seed=1&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;random_seed.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=1 random_seed.rst</span>
+<span class="go">    [1 test, ...s wall]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">All</span> <span class="n">tests</span> <span class="n">passed</span><span class="err">!</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--22-input--2" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=0&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;random_seed.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=0 random_seed.rst</span>
+<span class="go">**********************************************************************</span>
+<span class="go">File &quot;random_seed.rst&quot;, line 3, in sage.doctest.tests.random_seed</span>
+<span class="go">Failed example:</span>
+<span class="go">    randint(5, 10)</span>
+<span class="go">Expected:</span>
+<span class="go">    9</span>
+<span class="go">Got:</span>
+<span class="go">    5</span>
+<span class="go">**********************************************************************</span>
+<span class="go">1 item had failures:</span>
+<span class="go">   1 of   2 in sage.doctest.tests.random_seed</span>
+<span class="go">    [1 test, 1 failure, ...s wall]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">t</span> <span class="o">--</span><span class="n">warn</span><span class="o">-</span><span class="n">long</span> <span class="mf">0.0</span> <span class="o">--</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span> <span class="n">random_seed</span><span class="o">.</span><span class="n">rst</span>  <span class="c1"># 1 doctest failed</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;sage&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--warn-long&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>    <span class="c1"># long time</span>
+<span class="gp">...</span>      <span class="s2">&quot;--random-seed=1&quot;</span><span class="p">,</span> <span class="s2">&quot;--optional=sage&quot;</span><span class="p">,</span> <span class="s2">&quot;random_seed.rst&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="go">Running doctests...</span>
+<span class="go">Doctesting 1 file.</span>
+<span class="go">sage -t --warn-long 0.0 --random-seed=1 random_seed.rst</span>
+<span class="go">    [1 test, ...s wall]</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="n">All</span> <span class="n">tests</span> <span class="n">passed</span><span class="err">!</span>
+<span class="gt">----------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="util.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Utility functions</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="external.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Detecting external software</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2005--2025, The Sage Development Team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../%5fstatic/documentation_options.js"></script>
+    <script src="../../../%5fstatic/doctools.js"></script>
+    <script src="../../../%5fstatic/sphinx_highlight.js"></script>
+    <script src="../../../%5fstatic/scripts/furo.js"></script>
+    <script src="../../../%5fstatic/clipboard.min.js"></script>
+    <script src="../../../%5fstatic/copybutton.js"></script>
+    <script src="../../../%5fstatic/tabs.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>
+    </body>
+</html>

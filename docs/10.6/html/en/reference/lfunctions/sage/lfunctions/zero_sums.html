@@ -1,0 +1,1467 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="\(L\)-functions from PARI" href="pari.html" /><link rel="prev" title="Dokchitser’s \(L\)-functions calculator" href="dokchitser.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>Class for computing sums over zeros of motivic \(L\)-functions - $L$-Functions</title>
+      <link rel="stylesheet" type="text/css" href="../../../%5fstatic/pygments.css?v=a078f75a" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-codemirror-monokai.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-tabs.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  --color-brand-primary: #0f0fff;
+  --color-brand-content: #0f0fff;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">$L$-Functions</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand" href="../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../%5fstatic/logo_sagemath_black.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../%5fstatic/logo_sagemath_white.svg" alt="Dark Logo"/>
+  </div>
+  
+      <span class="sidebar-brand-text">passagemath 10.6.1 Reference Manual</span>
+  
+</a><div class="select-wrapper">
+  <select id="versions-menu" onchange="changeVersion()">
+    <option value="" selected>other version</option>
+    <option value="https://doc-develop--sagemath.netlify.app">develop</option>
+  </select>
+</div><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-home">
+  <div class="sidebar-tree">
+    <ul><li class="toctree-l1">
+      <a class="reference internal" href="../../index.html">Home - $L$-Functions</a>
+    </li></ul>
+  </div>
+</div><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="lcalc.html">Rubinstein’s <span class="math notranslate nohighlight">\(L\)</span>-function calculator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sympow.html">Watkins symmetric power <span class="math notranslate nohighlight">\(L\)</span>-function calculator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dokchitser.html">Dokchitser’s <span class="math notranslate nohighlight">\(L\)</span>-functions calculator</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Class for computing sums over zeros of motivic <span class="math notranslate nohighlight">\(L\)</span>-functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pari.html"><span class="math notranslate nohighlight">\(L\)</span>-functions from PARI</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/blob/main/src/sage/lfunctions/zero_sums.pyx" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/edit/main/src/sage/lfunctions/zero_sums.pyx" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="class-for-computing-sums-over-zeros-of-motivic-l-functions">
+<span id="sage-lfunctions-zero-sums"></span><h1>Class for computing sums over zeros of motivic <span class="math notranslate nohighlight">\(L\)</span>-functions<a class="headerlink" href="#class-for-computing-sums-over-zeros-of-motivic-l-functions" title="Link to this heading">¶</a></h1>
+<p id="module-sage.lfunctions.zero_sums">All computations are done to double precision.</p>
+<p>AUTHORS:</p>
+<ul class="simple">
+<li><p>Simon Spicer (2014-10): first version</p></li>
+</ul>
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.lfunctions.zero_sums.LFunctionZeroSum">
+<span class="sig-prename descclassname"><span class="pre">sage.lfunctions.zero_sums.</span></span><span class="sig-name descname"><span class="pre">LFunctionZeroSum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/lfunctions/zero_sums.pyx#L1810"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.lfunctions.zero_sums.LFunctionZeroSum" title="Link to this definition">¶</a></dt>
+<dd><p>Constructor for the LFunctionZeroSum class.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">X</span></code> – a motivic object; currently only implemented for X = an elliptic curve
+over the rational numbers</p></li>
+</ul>
+<p>OUTPUT: an LFunctionZeroSum object</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;389a&quot;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">);</span> <span class="n">Z</span>
+<span class="go">Zero sum estimator for L-function attached to Elliptic Curve defined by y^2 + y = x^3 + x^2 - 2*x over Rational Field</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;389a&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">);</span> <span class="n">Z</span>
+<span class="go">Zero sum estimator for L-function attached to Elliptic Curve defined by y^2 + y = x^3 + x^2 - 2*x over Rational Field</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sage.lfunctions.zero_sums.LFunctionZeroSum_EllipticCurve">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.lfunctions.zero_sums.</span></span><span class="sig-name descname"><span class="pre">LFunctionZeroSum_EllipticCurve</span></span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/lfunctions/zero_sums.pyx#L893"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_EllipticCurve" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract" title="sage.lfunctions.zero_sums.LFunctionZeroSum_abstract"><code class="xref py py-class docutils literal notranslate"><span class="pre">LFunctionZeroSum_abstract</span></code></a></p>
+<p>Subclass for computing certain sums over zeros of an elliptic curve <span class="math notranslate nohighlight">\(L\)</span>-function
+without having to determine the zeros themselves.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.lfunctions.zero_sums.LFunctionZeroSum_EllipticCurve.analytic_rank_upper_bound">
+<span class="sig-name descname"><span class="pre">analytic_rank_upper_bound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_Delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adaptive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'compute'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bad_primes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ncpus</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/lfunctions/zero_sums.pyx#L1518"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_EllipticCurve.analytic_rank_upper_bound" title="Link to this definition">¶</a></dt>
+<dd><p>Return an upper bound for the analytic rank of the <span class="math notranslate nohighlight">\(L\)</span>-function
+<span class="math notranslate nohighlight">\(L_E(s)\)</span> attached to <code class="docutils literal notranslate"><span class="pre">self</span></code>, conditional on the Generalized Riemann
+Hypothesis, via computing the zero sum <span class="math notranslate nohighlight">\(\sum_{\gamma} f(\Delta\gamma)\)</span>,
+where <span class="math notranslate nohighlight">\(\gamma\)</span> ranges over the imaginary parts of the zeros of <span class="math notranslate nohighlight">\(L(E,s)\)</span>
+along the critical strip, <span class="math notranslate nohighlight">\(f(x) = \left(\frac{\sin(\pi x)}{\pi x}\right)^2\)</span>,
+and <span class="math notranslate nohighlight">\(\Delta\)</span> is the tightness parameter whose maximum value is
+specified by max_Delta.</p>
+<p>This computation can be run on curves with
+very large conductor (so long as the conductor is known or quickly
+computable) when Delta is not too large (see below).</p>
+<p>Uses Bober’s rank bounding method as described in <a class="reference internal" href="../../../references/index.html#bob2013" id="id1"><span>[Bob2013]</span></a>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">max_Delta</span></code> – (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>) if not <code class="docutils literal notranslate"><span class="pre">None</span></code>, a positive real value
+specifying the maximum Delta value used in the zero sum; larger
+values of Delta yield better bounds - but runtime is exponential in
+Delta. If left as <code class="docutils literal notranslate"><span class="pre">None</span></code>, Delta is set
+to <span class="math notranslate nohighlight">\(\min\left\{\frac{1}{\pi}\left(\log(N+1000)/2-\log(2\pi)-\eta\right), 2.5\right\}\)</span>,
+where <span class="math notranslate nohighlight">\(N\)</span> is the conductor of the curve attached to <code class="docutils literal notranslate"><span class="pre">self</span></code>, and <span class="math notranslate nohighlight">\(\eta\)</span>
+is the Euler-Mascheroni constant <span class="math notranslate nohighlight">\(= 0.5772...\)</span>; the crossover
+point is at conductor ~8.3*10^8. For the former value, empirical
+results show that for about 99.7% of all curves the returned value
+is the actual analytic rank.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">adaptive</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p>
+<ul>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the computation is first run with small and then
+successively larger Delta values up to max_Delta. If at any
+point the computed bound is 0 (or 1 when root_number is -1
+or <code class="docutils literal notranslate"><span class="pre">True</span></code>), the computation halts and that value is returned;
+otherwise the minimum of the computed bounds is returned.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">False</span></code>, the computation is run a single time with
+Delta=max_Delta, and the resulting bound returned.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">root_number</span></code> – (default: <code class="docutils literal notranslate"><span class="pre">'compute'</span></code>) string or integer</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">'compute'</span></code> – the root number of <code class="docutils literal notranslate"><span class="pre">self</span></code> is computed and used to
+(possibly) lower the analytic rank estimate by 1</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'ignore'</span></code> – the above step is omitted</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code> – this value is assumed to be the root number of
+<code class="docutils literal notranslate"><span class="pre">self</span></code>. This is passable so that rank estimation can be done for
+curves whose root number has been precomputed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-1</span></code> – this value is assumed to be the root number of
+<code class="docutils literal notranslate"><span class="pre">self</span></code>. This is passable so that rank estimation can be done for
+curves whose root number has been precomputed.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bad_primes</span></code> – (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>) if not <code class="docutils literal notranslate"><span class="pre">None</span></code>, a list of the primes
+of bad reduction for the curve attached to <code class="docutils literal notranslate"><span class="pre">self</span></code>. This is passable
+so that rank estimation can be done for curves of large conductor
+whose bad primes have been precomputed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ncpus</span></code> – (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>) if not <code class="docutils literal notranslate"><span class="pre">None</span></code>, a positive integer
+defining the maximum number of CPUs to be used for the computation.
+If left as <code class="docutils literal notranslate"><span class="pre">None</span></code>, the maximum available number of CPUs will be used.
+Note: Multiple processors will only be used for Delta values &gt;= 1.75.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Output will be incorrect if the incorrect root number is specified.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Zero sum computation time is exponential in the tightness parameter
+<span class="math notranslate nohighlight">\(\Delta\)</span>, roughly doubling for every increase of 0.1 thereof.
+Using <span class="math notranslate nohighlight">\(\Delta=1\)</span> (and adaptive=False) will yield a runtime of a few
+milliseconds; <span class="math notranslate nohighlight">\(\Delta=2\)</span> takes a few seconds, and <span class="math notranslate nohighlight">\(\Delta=3\)</span> may
+take upwards of an hour. Increase beyond this at your own risk!</p>
+</div>
+<p>OUTPUT:</p>
+<p>A nonnegative integer greater than or equal to the analytic rank of
+<code class="docutils literal notranslate"><span class="pre">self</span></code>. If the returned value is 0 or 1 (the latter if parity is not
+<code class="docutils literal notranslate"><span class="pre">False</span></code>), then this is the true analytic rank of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you use set_verbose(1), extra information about the computation
+will be printed.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#sage.lfunctions.zero_sums.LFunctionZeroSum" title="sage.lfunctions.zero_sums.LFunctionZeroSum"><code class="xref py py-func docutils literal notranslate"><span class="pre">LFunctionZeroSum()</span></code></a>
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">EllipticCurve.root_number()</span></code>
+<a class="reference external" href="../../../misc/sage/misc/verbose.html#sage.misc.verbose.set_verbose" title="(in Utilities v10.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_verbose()</span></code></a></p>
+</div>
+<p>EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab">For most elliptic curves with small conductor the central zero(s)
+of <span class="math notranslate nohighlight">\(L_E(s)\)</span> are fairly isolated, so small values of <span class="math notranslate nohighlight">\(\Delta\)</span>
+will yield tight rank estimates.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;11a&quot;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">E</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
+<span class="go">0</span>
+<span class="gp">sage:</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">analytic_rank_upper_bound</span><span class="p">(</span><span class="n">max_Delta</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">ncpus</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">0</span>
+
+<span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="o">-</span><span class="mi">39</span><span class="p">,</span><span class="mi">123</span><span class="p">])</span>
+<span class="gp">sage:</span> <span class="n">E</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
+<span class="go">1</span>
+<span class="gp">sage:</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">analytic_rank_upper_bound</span><span class="p">(</span><span class="n">max_Delta</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;11a&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">analytic_rank_upper_bound</span><span class="p">(</span><span class="n">max_Delta</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">ncpus</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">0</span>
+
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">39</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">123</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">analytic_rank_upper_bound</span><span class="p">(</span><span class="n">max_Delta</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">This is especially true for elliptic curves with large rank.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+<span class="gp">....:</span>     <span class="n">E</span> <span class="o">=</span> <span class="n">elliptic_curves</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">r</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">....:</span>     <span class="nb">print</span><span class="p">((</span><span class="n">r</span><span class="p">,</span> <span class="n">E</span><span class="o">.</span><span class="n">analytic_rank_upper_bound</span><span class="p">(</span><span class="n">max_Delta</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="gp">....:</span>     <span class="n">adaptive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">root_number</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)))</span>
+<span class="go">(0, 0)</span>
+<span class="go">(1, 1)</span>
+<span class="go">(2, 2)</span>
+<span class="go">(3, 3)</span>
+<span class="go">(4, 4)</span>
+<span class="go">(5, 5)</span>
+<span class="go">(6, 6)</span>
+<span class="go">(7, 7)</span>
+<span class="go">(8, 8)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">9</span><span class="p">)):</span>
+<span class="gp">...</span>     <span class="n">E</span> <span class="o">=</span> <span class="n">elliptic_curves</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">r</span><span class="p">)[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span>
+<span class="gp">...</span>     <span class="nb">print</span><span class="p">((</span><span class="n">r</span><span class="p">,</span> <span class="n">E</span><span class="o">.</span><span class="n">analytic_rank_upper_bound</span><span class="p">(</span><span class="n">max_Delta</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+<span class="gp">...</span>     <span class="n">adaptive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">root_number</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)))</span>
+<span class="go">(0, 0)</span>
+<span class="go">(1, 1)</span>
+<span class="go">(2, 2)</span>
+<span class="go">(3, 3)</span>
+<span class="go">(4, 4)</span>
+<span class="go">(5, 5)</span>
+<span class="go">(6, 6)</span>
+<span class="go">(7, 7)</span>
+<span class="go">(8, 8)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">However, some curves have <span class="math notranslate nohighlight">\(L\)</span>-functions with low-lying zeroes, and for these
+larger values of <span class="math notranslate nohighlight">\(\Delta\)</span> must be used to get tight estimates.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;974b1&quot;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">r</span> <span class="o">=</span> <span class="n">E</span><span class="o">.</span><span class="n">rank</span><span class="p">();</span> <span class="n">r</span>
+<span class="go">0</span>
+<span class="gp">sage:</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">analytic_rank_upper_bound</span><span class="p">(</span><span class="n">max_Delta</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">root_number</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">analytic_rank_upper_bound</span><span class="p">(</span><span class="n">max_Delta</span><span class="o">=</span><span class="mf">1.3</span><span class="p">,</span><span class="n">root_number</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;974b1&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">r</span> <span class="o">=</span> <span class="n">E</span><span class="o">.</span><span class="n">rank</span><span class="p">();</span> <span class="n">r</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">analytic_rank_upper_bound</span><span class="p">(</span><span class="n">max_Delta</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">root_number</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">analytic_rank_upper_bound</span><span class="p">(</span><span class="n">max_Delta</span><span class="o">=</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.3&#39;</span><span class="p">),</span><span class="n">root_number</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Knowing the root number of E allows us to use smaller Delta values
+to get tight bounds, thus speeding up runtime considerably.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">analytic_rank_upper_bound</span><span class="p">(</span><span class="n">max_Delta</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span><span class="n">root_number</span><span class="o">=</span><span class="s1">&#39;compute&#39;</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">analytic_rank_upper_bound</span><span class="p">(</span><span class="n">max_Delta</span><span class="o">=</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.6&#39;</span><span class="p">),</span><span class="n">root_number</span><span class="o">=</span><span class="s1">&#39;compute&#39;</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">The are a small number of curves which have pathologically low-lying
+zeroes. For these curves, this method will produce a bound that is
+strictly larger than the analytic rank, unless very large values of
+Delta are used. The following curve (“256944c1” in the Cremona tables)
+is a rank 0 curve with a zero at 0.0256…; the smallest Delta value
+for which the zero sum is strictly less than 2 is ~2.815.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">7460362000712</span><span class="p">,</span> <span class="o">-</span><span class="mi">7842981500851012704</span><span class="p">])</span>
+<span class="gp">sage:</span> <span class="n">N</span><span class="p">,</span><span class="n">r</span> <span class="o">=</span> <span class="n">E</span><span class="o">.</span><span class="n">conductor</span><span class="p">(),</span><span class="n">E</span><span class="o">.</span><span class="n">analytic_rank</span><span class="p">();</span> <span class="n">N</span><span class="p">,</span> <span class="n">r</span>
+<span class="go">(256944, 0)</span>
+<span class="gp">sage:</span> <span class="n">E</span><span class="o">.</span><span class="n">analytic_rank_upper_bound</span><span class="p">(</span><span class="n">max_Delta</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">adaptive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">sage:</span> <span class="n">E</span><span class="o">.</span><span class="n">analytic_rank_upper_bound</span><span class="p">(</span><span class="n">max_Delta</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">adaptive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">7460362000712</span><span class="p">),</span> <span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">7842981500851012704</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">N</span><span class="p">,</span><span class="n">r</span> <span class="o">=</span> <span class="n">E</span><span class="o">.</span><span class="n">conductor</span><span class="p">(),</span><span class="n">E</span><span class="o">.</span><span class="n">analytic_rank</span><span class="p">();</span> <span class="n">N</span><span class="p">,</span> <span class="n">r</span>
+<span class="go">(256944, 0)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span><span class="o">.</span><span class="n">analytic_rank_upper_bound</span><span class="p">(</span><span class="n">max_Delta</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">adaptive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span><span class="o">.</span><span class="n">analytic_rank_upper_bound</span><span class="p">(</span><span class="n">max_Delta</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">adaptive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">This method is can be called on curves with large conductor.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="o">-</span><span class="mi">2934</span><span class="p">,</span><span class="mi">19238</span><span class="p">])</span>
+<span class="gp">sage:</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">analytic_rank_upper_bound</span><span class="p">()</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--2" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2934</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">19238</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">analytic_rank_upper_bound</span><span class="p">()</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">And it can bound rank on curves with <em>very</em> large conductor, so long as
+you know beforehand/can easily compute the conductor and primes of bad
+reduction less than <span class="math notranslate nohighlight">\(e^{2\pi\Delta}\)</span>. The example below is of the rank
+28 curve discovered by Elkies that is the elliptic curve of (currently)
+largest known rank.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a4</span> <span class="o">=</span> <span class="o">-</span><span class="mi">20067762415575526585033208209338542750930230312178956502</span>
+<span class="gp">sage:</span> <span class="n">a6</span> <span class="o">=</span> <span class="mi">34481611795030556467032985690390720374855944359319180361266008296291939448732243429</span>
+<span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">a4</span><span class="p">,</span><span class="n">a6</span><span class="p">])</span>
+<span class="gp">sage:</span> <span class="n">bad_primes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">48463</span><span class="p">]</span>
+<span class="gp">sage:</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">3455601108357547341532253864901605231198511505793733138900595189472144724781456635380154149870961231592352897621963802238155192936274322687070</span>
+<span class="gp">sage:</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">analytic_rank_upper_bound</span><span class="p">(</span><span class="n">max_Delta</span><span class="o">=</span><span class="mf">2.37</span><span class="p">,</span><span class="n">adaptive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="c1"># long time</span>
+<span class="gp">....:</span> <span class="n">root_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">bad_primes</span><span class="o">=</span><span class="n">bad_primes</span><span class="p">,</span><span class="n">ncpus</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">32</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--2" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a4</span> <span class="o">=</span> <span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">20067762415575526585033208209338542750930230312178956502</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a6</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">34481611795030556467032985690390720374855944359319180361266008296291939448732243429</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">a4</span><span class="p">,</span><span class="n">a6</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">bad_primes</span> <span class="o">=</span> <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">11</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">13</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">17</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">19</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">48463</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">N</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">3455601108357547341532253864901605231198511505793733138900595189472144724781456635380154149870961231592352897621963802238155192936274322687070</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">analytic_rank_upper_bound</span><span class="p">(</span><span class="n">max_Delta</span><span class="o">=</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;2.37&#39;</span><span class="p">),</span><span class="n">adaptive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="c1"># long time</span>
+<span class="gp">...</span> <span class="n">root_number</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">bad_primes</span><span class="o">=</span><span class="n">bad_primes</span><span class="p">,</span><span class="n">ncpus</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">32</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.lfunctions.zero_sums.LFunctionZeroSum_EllipticCurve.cn">
+<span class="sig-name descname"><span class="pre">cn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/lfunctions/zero_sums.pyx#L988"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_EllipticCurve.cn" title="Link to this definition">¶</a></dt>
+<dd><p>Return the <span class="math notranslate nohighlight">\(n\)</span>-th Dirichlet coefficient of the logarithmic
+derivative of the <span class="math notranslate nohighlight">\(L\)</span>-function attached to <code class="docutils literal notranslate"><span class="pre">self</span></code>, shifted so that
+the critical line lies on the imaginary axis.</p>
+<p>The returned value is
+zero if <span class="math notranslate nohighlight">\(n\)</span> is not a perfect prime power;
+when <span class="math notranslate nohighlight">\(n=p^e\)</span> for <span class="math notranslate nohighlight">\(p\)</span> a prime of bad reduction it is <span class="math notranslate nohighlight">\(-a_p^e log(p)/p^e\)</span>,
+where <span class="math notranslate nohighlight">\(a_p\)</span> is <span class="math notranslate nohighlight">\(+1, -1\)</span> or <span class="math notranslate nohighlight">\(0\)</span> according to the reduction type of <span class="math notranslate nohighlight">\(p\)</span>;
+and when <span class="math notranslate nohighlight">\(n=p^e\)</span> for a prime <span class="math notranslate nohighlight">\(p\)</span> of good reduction, the value
+is <span class="math notranslate nohighlight">\(-(\alpha_p^e + \beta_p^e) \log(p)/p^e\)</span>, where <span class="math notranslate nohighlight">\(\alpha_p\)</span>
+and <span class="math notranslate nohighlight">\(\beta_p\)</span> are the two complex roots of the characteristic equation
+of Frobenius at <span class="math notranslate nohighlight">\(p\)</span> on <span class="math notranslate nohighlight">\(E\)</span>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">n</span></code> – nonnegative integer</p></li>
+</ul>
+<p>OUTPUT:</p>
+<p>A real number which (by Hasse’s Theorem) is at
+most <span class="math notranslate nohighlight">\(2\frac{log(n)}{\sqrt{n}}\)</span> in magnitude.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;11a&quot;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">):</span> <span class="nb">print</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">Z</span><span class="o">.</span><span class="n">cn</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(0, 0.0)</span>
+<span class="go">(1, 0.0)</span>
+<span class="go">(2, 0.6931471805599453)</span>
+<span class="go">(3, 0.3662040962227033)</span>
+<span class="go">(4, 0.0)</span>
+<span class="go">(5, -0.32188758248682003)</span>
+<span class="go">(6, 0.0)</span>
+<span class="go">(7, 0.555974328301518)</span>
+<span class="go">(8, -0.34657359027997264)</span>
+<span class="go">(9, 0.6103401603711721)</span>
+<span class="go">(10, 0.0)</span>
+<span class="go">(11, -0.21799047934530644)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--8-input--2" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;11a&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">12</span><span class="p">)):</span> <span class="nb">print</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">Z</span><span class="o">.</span><span class="n">cn</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(0, 0.0)</span>
+<span class="go">(1, 0.0)</span>
+<span class="go">(2, 0.6931471805599453)</span>
+<span class="go">(3, 0.3662040962227033)</span>
+<span class="go">(4, 0.0)</span>
+<span class="go">(5, -0.32188758248682003)</span>
+<span class="go">(6, 0.0)</span>
+<span class="go">(7, 0.555974328301518)</span>
+<span class="go">(8, -0.34657359027997264)</span>
+<span class="go">(9, 0.6103401603711721)</span>
+<span class="go">(10, 0.0)</span>
+<span class="go">(11, -0.21799047934530644)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.lfunctions.zero_sums.LFunctionZeroSum_EllipticCurve.elliptic_curve">
+<span class="sig-name descname"><span class="pre">elliptic_curve</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/lfunctions/zero_sums.pyx#L962"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_EllipticCurve.elliptic_curve" title="Link to this definition">¶</a></dt>
+<dd><p>Return the elliptic curve associated with <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="mi">23</span><span class="p">,</span><span class="mi">100</span><span class="p">])</span>
+<span class="gp">sage:</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">elliptic_curve</span><span class="p">()</span>
+<span class="go">Elliptic Curve defined by y^2 = x^3 + 23*x + 100 over Rational Field</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--9-input--2" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">23</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">100</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">elliptic_curve</span><span class="p">()</span>
+<span class="go">Elliptic Curve defined by y^2 = x^3 + 23*x + 100 over Rational Field</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.lfunctions.zero_sums.LFunctionZeroSum_EllipticCurve.lseries">
+<span class="sig-name descname"><span class="pre">lseries</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/lfunctions/zero_sums.pyx#L975"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_EllipticCurve.lseries" title="Link to this definition">¶</a></dt>
+<dd><p>Return the <span class="math notranslate nohighlight">\(L\)</span>-series associated with <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="mi">23</span><span class="p">,</span><span class="mi">100</span><span class="p">])</span>
+<span class="gp">sage:</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">lseries</span><span class="p">()</span>
+<span class="go">Complex L-series of the Elliptic Curve defined by y^2 = x^3 + 23*x + 100 over Rational Field</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--10-input--2" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">23</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">100</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">lseries</span><span class="p">()</span>
+<span class="go">Complex L-series of the Elliptic Curve defined by y^2 = x^3 + 23*x + 100 over Rational Field</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sage.lfunctions.zero_sums.LFunctionZeroSum_abstract">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.lfunctions.zero_sums.</span></span><span class="sig-name descname"><span class="pre">LFunctionZeroSum_abstract</span></span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/lfunctions/zero_sums.pyx#L47"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../../../structure/sage/structure/sage_object.html#sage.structure.sage_object.SageObject" title="(in Parents and Elements v10.6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SageObject</span></code></a></p>
+<p>Abstract class for computing certain sums over zeros of a motivic <span class="math notranslate nohighlight">\(L\)</span>-function
+without having to determine the zeros themselves.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.C0">
+<span class="sig-name descname"><span class="pre">C0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">include_euler_gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/lfunctions/zero_sums.pyx#L134"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.C0" title="Link to this definition">¶</a></dt>
+<dd><p>Return the constant term of the logarithmic derivative of the
+completed <span class="math notranslate nohighlight">\(L\)</span>-function attached to <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<p>This is equal to
+<span class="math notranslate nohighlight">\(-\eta + \log(N)/2 - \log(2\pi)\)</span>, where <span class="math notranslate nohighlight">\(\eta\)</span> is the
+Euler-Mascheroni constant <span class="math notranslate nohighlight">\(= 0.5772...\)</span>
+and <span class="math notranslate nohighlight">\(N\)</span> is the level of the form attached to <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">include_euler_gamma</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">True</span></code>); if set to
+<code class="docutils literal notranslate"><span class="pre">False</span></code>, return the constant <span class="math notranslate nohighlight">\(\log(N)/2 - \log(2\pi)\)</span>, i.e., do
+not subtract the Euler-Mascheroni constant</p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;389a&quot;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">C0</span><span class="p">()</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">0.5666969404983447</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">C0</span><span class="p">(</span><span class="n">include_euler_gamma</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">1.1439126053998776</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--11-input--2" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;389a&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">C0</span><span class="p">()</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">0.5666969404983447</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">C0</span><span class="p">(</span><span class="n">include_euler_gamma</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">1.1439126053998776</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.cnlist">
+<span class="sig-name descname"><span class="pre">cnlist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">python_floats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/lfunctions/zero_sums.pyx#L162"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.cnlist" title="Link to this definition">¶</a></dt>
+<dd><p>Return a list of Dirichlet coefficient of the logarithmic
+derivative of the <span class="math notranslate nohighlight">\(L\)</span>-function attached to <code class="docutils literal notranslate"><span class="pre">self</span></code>, shifted so that
+the critical line lies on the imaginary axis, up to and
+including <span class="math notranslate nohighlight">\(n\)</span>.</p>
+<p>The <span class="math notranslate nohighlight">\(i\)</span>-th element of the returned list is <code class="docutils literal notranslate"><span class="pre">a[i]</span></code>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">n</span></code> – nonnegative integer</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python_floats</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>); if <code class="docutils literal notranslate"><span class="pre">True</span></code> return
+a list of Python floats instead of Sage Real Double Field elements</p></li>
+</ul>
+<p>OUTPUT: list of real numbers</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_EllipticCurve.cn" title="sage.lfunctions.zero_sums.LFunctionZeroSum_EllipticCurve.cn"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cn()</span></code></a></p>
+</div>
+<div class="admonition-todo admonition" id="id2">
+<p class="admonition-title">Todo</p>
+<p>Speed this up; make more efficient</p>
+</div>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;11a&quot;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">cnlist</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">cnlist</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">):</span> <span class="nb">print</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">cnlist</span><span class="p">[</span><span class="n">n</span><span class="p">]))</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(0, 0.0)</span>
+<span class="go">(1, 0.0)</span>
+<span class="go">(2, 0.6931471805599453)</span>
+<span class="go">(3, 0.3662040962227033)</span>
+<span class="go">(4, 0.0)</span>
+<span class="go">(5, -0.32188758248682003)</span>
+<span class="go">(6, 0.0)</span>
+<span class="go">(7, 0.555974328301518)</span>
+<span class="go">(8, -0.34657359027997264)</span>
+<span class="go">(9, 0.6103401603711721)</span>
+<span class="go">(10, 0.0)</span>
+<span class="go">(11, -0.21799047934530644)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--12-input--2" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;11a&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">cnlist</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">cnlist</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">11</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">12</span><span class="p">)):</span> <span class="nb">print</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">cnlist</span><span class="p">[</span><span class="n">n</span><span class="p">]))</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(0, 0.0)</span>
+<span class="go">(1, 0.0)</span>
+<span class="go">(2, 0.6931471805599453)</span>
+<span class="go">(3, 0.3662040962227033)</span>
+<span class="go">(4, 0.0)</span>
+<span class="go">(5, -0.32188758248682003)</span>
+<span class="go">(6, 0.0)</span>
+<span class="go">(7, 0.555974328301518)</span>
+<span class="go">(8, -0.34657359027997264)</span>
+<span class="go">(9, 0.6103401603711721)</span>
+<span class="go">(10, 0.0)</span>
+<span class="go">(11, -0.21799047934530644)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.completed_logarithmic_derivative">
+<span class="sig-name descname"><span class="pre">completed_logarithmic_derivative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_terms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/lfunctions/zero_sums.pyx#L390"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.completed_logarithmic_derivative" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the value of the completed logarithmic derivative
+<span class="math notranslate nohighlight">\(\frac{\Lambda^{\prime}}{\Lambda}\)</span> at the point s to <em>low</em>
+precision, where <span class="math notranslate nohighlight">\(\Lambda = N^{s/2}(2\pi)^s \Gamma(s) L(s)\)</span>
+and <span class="math notranslate nohighlight">\(L\)</span> is the <span class="math notranslate nohighlight">\(L\)</span>-function attached to <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This is computed naively by evaluating the Dirichlet series
+for <span class="math notranslate nohighlight">\(\frac{L^{\prime}}{L}\)</span>; the convergence thereof is
+controlled by the distance of s from the critical strip
+<span class="math notranslate nohighlight">\(0.5&lt;=\Re(s)&lt;=1.5\)</span>.
+You may use this method to attempt to compute values inside the
+critical strip; however, results are then <em>not</em> guaranteed
+to be correct to any number of digits.</p>
+</div>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">s</span></code> – real or complex value</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">num_terms</span></code> – integer (default: 10000); the maximum number of
+terms summed in the Dirichlet series</p></li>
+</ul>
+<p>OUTPUT:</p>
+<p>A tuple (z,err), where z is the computed value, and err is an
+upper bound on the truncation error in this value introduced
+by truncating the Dirichlet sum.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For the default term cap of 10000, a value accurate to all 53
+bits of a double precision floating point number is only
+guaranteed when <span class="math notranslate nohighlight">\(|\Re(s-1)|&gt;4.58\)</span>, although in practice inputs
+closer to the critical strip will still yield computed values
+close to the true value.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-meth docutils literal notranslate"><span class="pre">logarithmic_derivative()</span></code></p>
+</div>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="mi">23</span><span class="p">,</span><span class="mi">100</span><span class="p">])</span>
+<span class="gp">sage:</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">completed_logarithmic_derivative</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(6.64372066048195, 6.584671359095225e-06)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--13-input--2" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">23</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">100</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">completed_logarithmic_derivative</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(6.64372066048195, 6.584671359095225e-06)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Complex values are handled. The function is odd about s=1, so
+the value at 2-s should be minus the value at s.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">completed_logarithmic_derivative</span><span class="p">(</span><span class="nb">complex</span><span class="p">(</span><span class="o">-</span><span class="mf">2.2</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(-6.898080633125154 + 0.22557015394248361*I, 5.623853049808912e-11)</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">completed_logarithmic_derivative</span><span class="p">(</span><span class="nb">complex</span><span class="p">(</span><span class="mf">4.2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(6.898080633125154 - 0.22557015394248361*I, 5.623853049808912e-11)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--14-input--2" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">completed_logarithmic_derivative</span><span class="p">(</span><span class="nb">complex</span><span class="p">(</span><span class="o">-</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;2.2&#39;</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(-6.898080633125154 + 0.22557015394248361*I, 5.623853049808912e-11)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">completed_logarithmic_derivative</span><span class="p">(</span><span class="nb">complex</span><span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;4.2&#39;</span><span class="p">),</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(6.898080633125154 - 0.22557015394248361*I, 5.623853049808912e-11)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.digamma">
+<span class="sig-name descname"><span class="pre">digamma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_constant_term</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/lfunctions/zero_sums.pyx#L211"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.digamma" title="Link to this definition">¶</a></dt>
+<dd><p>Return the digamma function <span class="math notranslate nohighlight">\(\digamma(s)\)</span> on the complex input s.</p>
+<p>This is given by
+<span class="math notranslate nohighlight">\(\digamma(s) = -\eta + \sum_{k=1}^{\infty} \frac{s-1}{k(k+s-1)}\)</span>,
+where <span class="math notranslate nohighlight">\(\eta\)</span> is the Euler-Mascheroni constant <span class="math notranslate nohighlight">\(=0.5772156649\ldots\)</span>.</p>
+<p>This function is needed in the computing the logarithmic derivative
+of the <span class="math notranslate nohighlight">\(L\)</span>-function attached to <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">s</span></code> – complex number</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">include_constant_term</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">True</span></code>); if set
+to <code class="docutils literal notranslate"><span class="pre">False</span></code>, only the value of the sum over <span class="math notranslate nohighlight">\(k\)</span> is returned without
+subtracting the Euler-Mascheroni constant, i.e., the returned value
+is equal to <span class="math notranslate nohighlight">\(\sum_{k=1}^{\infty} \frac{s-1}{k(k+s-1)}\)</span></p></li>
+</ul>
+<p>OUTPUT:</p>
+<p>A real double precision number if the input is real and not a negative
+integer; Infinity if the input is a negative integer, and a complex
+number otherwise.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;37a&quot;</span><span class="p">))</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">digamma</span><span class="p">(</span><span class="mf">3.2</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">0.9988388912865993</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">digamma</span><span class="p">(</span><span class="mf">3.2</span><span class="p">,</span><span class="n">include_constant_term</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">1.576054556188132</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">digamma</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">I</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">0.09465032062247625 + 1.076674047468581*I</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">digamma</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">+Infinity</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--15-input--2" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;37a&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">digamma</span><span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;3.2&#39;</span><span class="p">))</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">0.9988388912865993</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">digamma</span><span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;3.2&#39;</span><span class="p">),</span><span class="n">include_constant_term</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">1.576054556188132</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">digamma</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">I</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">0.09465032062247625 + 1.076674047468581*I</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">digamma</span><span class="p">(</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">+Infinity</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Evaluating the sum without the constant term at the positive integers n
+returns the (n-1)th harmonic number.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">digamma</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">include_constant_term</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">1.5</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">digamma</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="n">include_constant_term</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">2.283333333333333</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--16-input--2" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">digamma</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">include_constant_term</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">1.5</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">digamma</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="n">include_constant_term</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">2.283333333333333</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.level">
+<span class="sig-name descname"><span class="pre">level</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/lfunctions/zero_sums.pyx#L102"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.level" title="Link to this definition">¶</a></dt>
+<dd><p>Return the level of the form attached to <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">self</span></code> was constructed from an elliptic curve,
+then this is equal to the conductor of <span class="math notranslate nohighlight">\(E\)</span>.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;389a&quot;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">level</span><span class="p">()</span>
+<span class="go">389</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--17-input--2" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;389a&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">level</span><span class="p">()</span>
+<span class="go">389</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.logarithmic_derivative">
+<span class="sig-name descname"><span class="pre">logarithmic_derivative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_terms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/lfunctions/zero_sums.pyx#L280"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.logarithmic_derivative" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the value of the logarithmic derivative
+<span class="math notranslate nohighlight">\(\frac{L^{\prime}}{L}\)</span> at the point s to <em>low</em> precision, where <span class="math notranslate nohighlight">\(L\)</span>
+is the <span class="math notranslate nohighlight">\(L\)</span>-function attached to <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The value is computed naively by evaluating the Dirichlet series
+for <span class="math notranslate nohighlight">\(\frac{L^{\prime}}{L}\)</span>; convergence is controlled by the
+distance of s from the critical strip <span class="math notranslate nohighlight">\(0.5&lt;=\Re(s)&lt;=1.5\)</span>.
+You may use this method to attempt to compute values inside the
+critical strip; however, results are then <em>not</em> guaranteed
+to be correct to any number of digits.</p>
+</div>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">s</span></code> – real or complex value</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">num_terms</span></code> – integer (default: 10000); the maximum number of
+terms summed in the Dirichlet series</p></li>
+</ul>
+<p>OUTPUT:</p>
+<p>A tuple (z,err), where z is the computed value, and err is an
+upper bound on the truncation error in this value introduced
+by truncating the Dirichlet sum.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For the default term cap of 10000, a value accurate to all 53
+bits of a double precision floating point number is only
+guaranteed when <span class="math notranslate nohighlight">\(|\Re(s-1)|&gt;4.58\)</span>, although in practice inputs
+closer to the critical strip will still yield computed values
+close to the true value.</p>
+</div>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="mi">23</span><span class="p">,</span><span class="mi">100</span><span class="p">])</span>
+<span class="gp">sage:</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">logarithmic_derivative</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(5.648066742632698e-05, 1.0974102859764345e-34)</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">logarithmic_derivative</span><span class="p">(</span><span class="mf">2.2</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(0.5751257063594758, 0.024087912696974387)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--18-input--2" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">23</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">100</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">logarithmic_derivative</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(5.648066742632698e-05, 1.0974102859764345e-34)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">logarithmic_derivative</span><span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;2.2&#39;</span><span class="p">))</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(0.5751257063594758, 0.024087912696974387)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Increasing the number of terms should see the truncation error
+decrease.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">logarithmic_derivative</span><span class="p">(</span><span class="mf">2.2</span><span class="p">,</span><span class="n">num_terms</span><span class="o">=</span><span class="mi">50000</span><span class="p">)</span> <span class="c1"># long time # rel tol 1.0e-14</span>
+<span class="go">(0.5751579645060139, 0.008988775519160675)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--19-input--2" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">logarithmic_derivative</span><span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;2.2&#39;</span><span class="p">),</span><span class="n">num_terms</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">50000</span><span class="p">))</span> <span class="c1"># long time # rel tol 1.0e-14</span>
+<span class="go">(0.5751579645060139, 0.008988775519160675)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Attempting to compute values inside the critical strip
+gives infinite error.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">logarithmic_derivative</span><span class="p">(</span><span class="mf">1.3</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(5.442994413920786, +Infinity)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--20-input--2" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">logarithmic_derivative</span><span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.3&#39;</span><span class="p">))</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(5.442994413920786, +Infinity)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Complex inputs and inputs to the left of the critical strip
+are allowed.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">logarithmic_derivative</span><span class="p">(</span><span class="nb">complex</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(0.04764548578052381 + 0.16513832809989326*I, 6.584671359095225e-06)</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">logarithmic_derivative</span><span class="p">(</span><span class="nb">complex</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mf">1.1</span><span class="p">))</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(-13.908452173241546 + 2.591443099074753*I, 2.7131584736258447e-14)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--21-input--2" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">logarithmic_derivative</span><span class="p">(</span><span class="nb">complex</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(0.04764548578052381 + 0.16513832809989326*I, 6.584671359095225e-06)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">logarithmic_derivative</span><span class="p">(</span><span class="nb">complex</span><span class="p">(</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="o">-</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.1&#39;</span><span class="p">)))</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(-13.908452173241546 + 2.591443099074753*I, 2.7131584736258447e-14)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">The logarithmic derivative has poles at the negative integers.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">logarithmic_derivative</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(-Infinity, 2.7131584736258447e-14)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--22-input--2" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">logarithmic_derivative</span><span class="p">(</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">(-Infinity, 2.7131584736258447e-14)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.ncpus">
+<span class="sig-name descname"><span class="pre">ncpus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/lfunctions/zero_sums.pyx#L60"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.ncpus" title="Link to this definition">¶</a></dt>
+<dd><p>Set or return the number of CPUs to be used in parallel computations.</p>
+<p>If called with no input, the number of CPUs currently set is returned;
+else this value is set to <span class="math notranslate nohighlight">\(n\)</span>. If <span class="math notranslate nohighlight">\(n\)</span> is 0 then the number of CPUs is set
+to the max available.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">n</span></code> – (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>) if not <code class="docutils literal notranslate"><span class="pre">None</span></code>, a nonnegative integer</p></li>
+</ul>
+<p>OUTPUT: if <span class="math notranslate nohighlight">\(n\)</span> is not <code class="docutils literal notranslate"><span class="pre">None</span></code>, returns a positive integer</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;389a&quot;</span><span class="p">))</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">ncpus</span><span class="p">()</span>
+<span class="go">1</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">ncpus</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">ncpus</span><span class="p">()</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--23-input--2" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;389a&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">ncpus</span><span class="p">()</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">ncpus</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">ncpus</span><span class="p">()</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">The following output will depend on the system that Sage is running on.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">ncpus</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">ncpus</span><span class="p">()</span>            <span class="c1"># random</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--24-input--2" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">ncpus</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">ncpus</span><span class="p">()</span>            <span class="c1"># random</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.weight">
+<span class="sig-name descname"><span class="pre">weight</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/lfunctions/zero_sums.pyx#L118"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.weight" title="Link to this definition">¶</a></dt>
+<dd><p>Return the weight of the form attached to <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">self</span></code> was constructed
+from an elliptic curve, then this is 2.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;389a&quot;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">weight</span><span class="p">()</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--25-input--2" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;389a&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">weight</span><span class="p">()</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.zerosum">
+<span class="sig-name descname"><span class="pre">zerosum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sincsquared_fast'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ncpus</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/lfunctions/zero_sums.pyx#L456"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.zerosum" title="Link to this definition">¶</a></dt>
+<dd><p>Bound from above the analytic rank of the form attached to <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<p>This bound is obtained by computing <span class="math notranslate nohighlight">\(\sum_{\gamma} f(\Delta(\gamma-\tau))\)</span>,
+where <span class="math notranslate nohighlight">\(\gamma\)</span> ranges over the imaginary parts of the zeros of <span class="math notranslate nohighlight">\(L_E(s)\)</span>
+along the critical strip, and <span class="math notranslate nohighlight">\(f(x)\)</span> is an appropriate even continuous
+<span class="math notranslate nohighlight">\(L_2\)</span> function such that <span class="math notranslate nohighlight">\(f(0)=1\)</span>.</p>
+<p>If <span class="math notranslate nohighlight">\(\tau=0\)</span>, then as <span class="math notranslate nohighlight">\(\Delta\)</span> increases this sum converges from above to
+the analytic rank of the <span class="math notranslate nohighlight">\(L\)</span>-function, as <span class="math notranslate nohighlight">\(f(0) = 1\)</span> is counted with
+multiplicity <span class="math notranslate nohighlight">\(r\)</span>, and the other terms all go to 0 uniformly.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Delta</span></code> – positive real number (default: 1) parameter denoting the
+tightness of the zero sum</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tau</span></code> – real parameter (default: 0) denoting the offset of the sum
+to be computed. When <span class="math notranslate nohighlight">\(\tau=0\)</span> the sum will converge to the analytic rank
+of the <span class="math notranslate nohighlight">\(L\)</span>-function as <span class="math notranslate nohighlight">\(\Delta\)</span> is increased. If <span class="math notranslate nohighlight">\(\tau\)</span> is the value
+of the imaginary part of a noncentral zero, the limit will be 1
+(assuming the zero is simple); otherwise, the limit will be 0.
+Currently only implemented for the sincsquared and cauchy functions;
+otherwise ignored.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">function</span></code> – string (default: <code class="docutils literal notranslate"><span class="pre">'sincsquared_fast'</span></code>); the function
+<span class="math notranslate nohighlight">\(f(x)\)</span> as described above. Currently implemented options for <span class="math notranslate nohighlight">\(f\)</span> are</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">sincsquared</span></code> – <span class="math notranslate nohighlight">\(f(x) = \left(\frac{\sin(\pi x)}{\pi x}\right)^2\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gaussian</span></code> – <span class="math notranslate nohighlight">\(f(x) = e^{-x^2}\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sincsquared_fast</span></code> – same as “sincsquared”, but implementation
+optimized for elliptic curve <span class="math notranslate nohighlight">\(L\)</span>-functions, and tau must be 0. self
+must be attached to an elliptic curve over <span class="math notranslate nohighlight">\(\QQ\)</span> given by its global
+minimal model, otherwise the returned result will be incorrect.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sincsquared_parallel</span></code> – same as “sincsquared_fast”, but optimized
+for parallel computation with large (&gt;2.0) <span class="math notranslate nohighlight">\(\Delta\)</span> values. <code class="docutils literal notranslate"><span class="pre">self</span></code> must
+be attached to an elliptic curve over <span class="math notranslate nohighlight">\(\QQ\)</span> given by its global minimal
+model, otherwise the returned result will be incorrect.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cauchy</span></code> – <span class="math notranslate nohighlight">\(f(x) = \frac{1}{1+x^2}\)</span>; this is only computable to
+low precision, and only when <span class="math notranslate nohighlight">\(\Delta &lt; 2\)</span></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ncpus</span></code> – (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>) if not <code class="docutils literal notranslate"><span class="pre">None</span></code>, a positive integer
+defining the number of CPUs to be used for the computation. If left as
+<code class="docutils literal notranslate"><span class="pre">None</span></code>, the maximum available number of CPUs will be used.
+Only implemented for algorithm=”sincsquared_parallel”; ignored
+otherwise.</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Computation time is exponential in <span class="math notranslate nohighlight">\(\Delta\)</span>, roughly doubling for
+every increase of 0.1 thereof. Using <span class="math notranslate nohighlight">\(\Delta=1\)</span> will yield a
+computation time of a few milliseconds; <span class="math notranslate nohighlight">\(\Delta=2\)</span> takes a few
+seconds, and <span class="math notranslate nohighlight">\(\Delta=3\)</span> takes upwards of an hour. Increase at your
+own risk beyond this!</p>
+</div>
+<p>OUTPUT:</p>
+<p>A positive real number that bounds from above the number of zeros with
+imaginary part equal to <span class="math notranslate nohighlight">\(\tau\)</span>. When <span class="math notranslate nohighlight">\(\tau=0\)</span> this is an upper bound for
+the <span class="math notranslate nohighlight">\(L\)</span>-function’s analytic rank.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-meth docutils literal notranslate"><span class="pre">analytic_rank_bound()</span></code>
+for more documentation and examples on calling this method on elliptic curve
+<span class="math notranslate nohighlight">\(L\)</span>-functions.</p>
+</div>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;389a&quot;</span><span class="p">);</span> <span class="n">E</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
+<span class="go">2</span>
+<span class="gp">sage:</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">E</span><span class="o">.</span><span class="n">lseries</span><span class="p">()</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">[0.000000000, 0.000000000, 2.87609907]</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">zerosum</span><span class="p">(</span><span class="n">Delta</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">function</span><span class="o">=</span><span class="s1">&#39;sincsquared_fast&#39;</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">2.037500084595065</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">zerosum</span><span class="p">(</span><span class="n">Delta</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">function</span><span class="o">=</span><span class="s1">&#39;sincsquared_parallel&#39;</span><span class="p">)</span> <span class="c1"># tol 1.0e-11</span>
+<span class="go">2.037500084595065</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">zerosum</span><span class="p">(</span><span class="n">Delta</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">function</span><span class="o">=</span><span class="s1">&#39;sincsquared&#39;</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">2.0375000845950644</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">zerosum</span><span class="p">(</span><span class="n">Delta</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">tau</span><span class="o">=</span><span class="mf">2.876</span><span class="p">,</span><span class="n">function</span><span class="o">=</span><span class="s1">&#39;sincsquared&#39;</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">1.075551295651154</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">zerosum</span><span class="p">(</span><span class="n">Delta</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">tau</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span><span class="n">function</span><span class="o">=</span><span class="s1">&#39;sincsquared&#39;</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">0.10831555377490683</span>
+<span class="gp">sage:</span> <span class="n">Z</span><span class="o">.</span><span class="n">zerosum</span><span class="p">(</span><span class="n">Delta</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">function</span><span class="o">=</span><span class="s1">&#39;gaussian&#39;</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">2.056890425029435</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--26-input--2" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s2">&quot;389a&quot;</span><span class="p">);</span> <span class="n">E</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">LFunctionZeroSum</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span><span class="o">.</span><span class="n">lseries</span><span class="p">()</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="go">[0.000000000, 0.000000000, 2.87609907]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">zerosum</span><span class="p">(</span><span class="n">Delta</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">function</span><span class="o">=</span><span class="s1">&#39;sincsquared_fast&#39;</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">2.037500084595065</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">zerosum</span><span class="p">(</span><span class="n">Delta</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">function</span><span class="o">=</span><span class="s1">&#39;sincsquared_parallel&#39;</span><span class="p">)</span> <span class="c1"># tol 1.0e-11</span>
+<span class="go">2.037500084595065</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">zerosum</span><span class="p">(</span><span class="n">Delta</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">function</span><span class="o">=</span><span class="s1">&#39;sincsquared&#39;</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">2.0375000845950644</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">zerosum</span><span class="p">(</span><span class="n">Delta</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">tau</span><span class="o">=</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;2.876&#39;</span><span class="p">),</span><span class="n">function</span><span class="o">=</span><span class="s1">&#39;sincsquared&#39;</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">1.075551295651154</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">zerosum</span><span class="p">(</span><span class="n">Delta</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">tau</span><span class="o">=</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.2&#39;</span><span class="p">),</span><span class="n">function</span><span class="o">=</span><span class="s1">&#39;sincsquared&#39;</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">0.10831555377490683</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">zerosum</span><span class="p">(</span><span class="n">Delta</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">function</span><span class="o">=</span><span class="s1">&#39;gaussian&#39;</span><span class="p">)</span> <span class="c1"># tol 1.0e-13</span>
+<span class="go">2.056890425029435</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="pari.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title"><span class="math notranslate nohighlight">\(L\)</span>-functions from PARI</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="dokchitser.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Dokchitser’s <span class="math notranslate nohighlight">\(L\)</span>-functions calculator</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2005--2025, The Sage Development Team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Class for computing sums over zeros of motivic <span class="math notranslate nohighlight">\(L\)</span>-functions</a><ul>
+<li><a class="reference internal" href="#sage.lfunctions.zero_sums.LFunctionZeroSum"><code class="docutils literal notranslate"><span class="pre">LFunctionZeroSum()</span></code></a></li>
+<li><a class="reference internal" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_EllipticCurve"><code class="docutils literal notranslate"><span class="pre">LFunctionZeroSum_EllipticCurve</span></code></a><ul>
+<li><a class="reference internal" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_EllipticCurve.analytic_rank_upper_bound"><code class="docutils literal notranslate"><span class="pre">analytic_rank_upper_bound()</span></code></a></li>
+<li><a class="reference internal" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_EllipticCurve.cn"><code class="docutils literal notranslate"><span class="pre">cn()</span></code></a></li>
+<li><a class="reference internal" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_EllipticCurve.elliptic_curve"><code class="docutils literal notranslate"><span class="pre">elliptic_curve()</span></code></a></li>
+<li><a class="reference internal" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_EllipticCurve.lseries"><code class="docutils literal notranslate"><span class="pre">lseries()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract"><code class="docutils literal notranslate"><span class="pre">LFunctionZeroSum_abstract</span></code></a><ul>
+<li><a class="reference internal" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.C0"><code class="docutils literal notranslate"><span class="pre">C0()</span></code></a></li>
+<li><a class="reference internal" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.cnlist"><code class="docutils literal notranslate"><span class="pre">cnlist()</span></code></a></li>
+<li><a class="reference internal" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.completed_logarithmic_derivative"><code class="docutils literal notranslate"><span class="pre">completed_logarithmic_derivative()</span></code></a></li>
+<li><a class="reference internal" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.digamma"><code class="docutils literal notranslate"><span class="pre">digamma()</span></code></a></li>
+<li><a class="reference internal" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.level"><code class="docutils literal notranslate"><span class="pre">level()</span></code></a></li>
+<li><a class="reference internal" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.logarithmic_derivative"><code class="docutils literal notranslate"><span class="pre">logarithmic_derivative()</span></code></a></li>
+<li><a class="reference internal" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.ncpus"><code class="docutils literal notranslate"><span class="pre">ncpus()</span></code></a></li>
+<li><a class="reference internal" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.weight"><code class="docutils literal notranslate"><span class="pre">weight()</span></code></a></li>
+<li><a class="reference internal" href="#sage.lfunctions.zero_sums.LFunctionZeroSum_abstract.zerosum"><code class="docutils literal notranslate"><span class="pre">zerosum()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../%5fstatic/documentation_options.js"></script>
+    <script src="../../../%5fstatic/doctools.js"></script>
+    <script src="../../../%5fstatic/sphinx_highlight.js"></script>
+    <script src="../../../%5fstatic/scripts/furo.js"></script>
+    <script src="../../../%5fstatic/clipboard.min.js"></script>
+    <script src="../../../%5fstatic/copybutton.js"></script>
+    <script src="../../../%5fstatic/tabs.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>
+    <script defer="defer" src="/Users/mkoeppe/s/sage/sage-rebasing/local/share/mathjax/mathjax/tex-chtml.js?v=0d9741c5"></script>
+    <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>
+    </body>
+</html>

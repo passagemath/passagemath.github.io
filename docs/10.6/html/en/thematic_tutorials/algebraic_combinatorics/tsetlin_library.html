@@ -1,0 +1,778 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Young’s lattice and the RSK algorithm" href="rsk.html" /><link rel="prev" title="\(n\)-Cube" href="n_cube.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>The Tsetlin library - Thematic Tutorials</title>
+      <link rel="stylesheet" type="text/css" href="../../%5fstatic/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/custom-furo.css?v=d2ecc25a" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/custom-jupyter-sphinx.css?v=75860c6b" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/custom-codemirror-monokai.css?v=b5588f12" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/custom-tabs.css?v=8a724d73" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  --color-brand-primary: #0f0fff;
+  --color-brand-content: #0f0fff;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">Thematic Tutorials</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand" href="../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../%5fstatic/logo_sagemath_black.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../%5fstatic/logo_sagemath_white.svg" alt="Dark Logo"/>
+  </div>
+  
+      <span class="sidebar-brand-text">passagemath 10.6.1 Documentation</span>
+  
+</a><div class="select-wrapper">
+  <select id="versions-menu" onchange="changeVersion()">
+    <option value="" selected>other version</option>
+    <option value="https://doc-develop--sagemath.netlify.app">develop</option>
+  </select>
+</div><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-home">
+  <div class="sidebar-tree">
+    <ul><li class="toctree-l1">
+      <a class="reference internal" href="../index.html">Home - Thematic Tutorials</a>
+    </li></ul>
+  </div>
+</div><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../toctree.html">Thematic tutorial document tree</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Thematic tutorial document tree</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current has-children"><a class="reference internal" href="../algebraic_combinatorics.html">Algebraic Combinatorics in Sage</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Algebraic Combinatorics in Sage</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="walks.html">Walks in graphs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="n_cube.html"><span class="math notranslate nohighlight">\(n\)</span>-Cube</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">The Tsetlin library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rsk.html">Young’s lattice and the RSK algorithm</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../sandpile.html">Abelian Sandpile Model</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Abelian Sandpile Model</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../group_theory.html">Group Theory and Sage</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../lie.html">Lie Methods and Related Combinatorics in Sage</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Lie Methods and Related Combinatorics in Sage</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../lie/introduction.html">The Scope of this Document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/lie_basics.html">Lie Group Basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/weyl_character_ring.html">The Weyl Character Ring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/branching_rules.html">Maximal Subgroups and Branching Rules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/weyl_groups.html">Weyl Groups, Coxeter Groups and the Bruhat Order</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/crystals.html">Classical Crystals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/affine.html">Affine Root System Basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/integrable.html">Integrable Highest Weight Representations of Affine Lie algebras</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/affine_finite_crystals.html">Affine Finite Crystals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/affine_hw_crystals.html">Affine Highest Weight Crystals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/elementary_crystals.html">Elementary crystals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/infinity_crystals.html">Infinity Crystals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/iwahori_hecke_algebra.html">Iwahori Hecke Algebras</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/kazhdan_lusztig_polynomials.html">Kazhdan-Lusztig Polynomials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/bibliography.html">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../vector_calculus.html">Tutorial: Vector Calculus in Euclidean Spaces</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of Tutorial: Vector Calculus in Euclidean Spaces</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vector_calculus/vector_calc_cartesian.html">How to compute a gradient, a divergence or a curl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vector_calculus/vector_calc_curvilinear.html">How to perform vector calculus in curvilinear coordinates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vector_calculus/vector_calc_change.html">How to change coordinates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vector_calculus/vector_calc_advanced.html">Advanced aspects: the Euclidean space as a Riemannian manifold</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vector_calculus/vector_calc_plane.html">Vector calculus in the Euclidean plane</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../linear_programming.html">Linear Programming (Mixed Integer)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../numtheory_rsa.html">Number Theory and the RSA Public Key Cryptosystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coding_theory.html">Coding Theory in Sage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../structures_in_coding_theory.html">How to write your own classes for coding theory</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../geometry.html">Polyhedra</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Polyhedra</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../geometry/polyhedra_quicktutorial.html">A Brief Introduction to Polytopes in Sage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../geometry/polyhedra_tutorial.html">A Longer Introduction to Polyhedral Computations in Sage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../geometry/polyhedra_quickref.html">Quick reference for polyhedra in Sage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../geometry/tips.html">Polyhedra tips and tricks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../geometry/visualization.html">Visualization of polyhedron objects in Sage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../geometry/polytope_tikz.html">Draw polytopes in LaTeX using TikZ</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../steenrod_algebra_modules.html">Steenrod Algebra Modules</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of Steenrod Algebra Modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial-programming-python.html">Tutorial: Programming in Python and Sage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial-comprehensions.html">Tutorial: Comprehensions, Iterators, and Iterables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial-objects-and-classes.html">Tutorial: Objects and Classes in Python and Sage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functional_programming.html">Functional Programming for Mathematicians</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coercion_and_categories.html">How to implement new algebraic structures in Sage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial-implementing-algebraic-structures.html">Tutorial: Implementing Algebraic Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cython_interface.html">How to call a C code (or a compiled library) from Sage ?</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../numerical_sage/index.html">Numerical Computing with Sage</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of Numerical Computing with Sage</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../numerical_sage/numerical_tools.html">Numerical Tools</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of Numerical Tools</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../numerical_sage/numpy.html">NumPy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../numerical_sage/scipy.html">SciPy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../numerical_sage/cvxopt.html">Cvxopt</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../numerical_sage/using_compiled_code_iteractively.html">Using Compiled Code Interactively</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of Using Compiled Code Interactively</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../numerical_sage/f2py.html">f2py</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../numerical_sage/f2py_examples.html">More Interesting Examples with f2py</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../numerical_sage/ctypes.html">Ctypes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../numerical_sage/ctypes_examples.html">More complicated ctypes example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../numerical_sage/comparison_to_cython.html">Comparison to Cython/Pyrex</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../numerical_sage/parallel_computation.html">Parallel Computation</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of Parallel Computation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../numerical_sage/mpi4py.html">mpi4py</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../numerical_sage/parallel_laplace_solver.html">Parallel Laplace Solver</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../explicit_methods_in_number_theory/index.html">Three Lectures about Explicit Methods in Number Theory Using Sage</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of Three Lectures about Explicit Methods in Number Theory Using Sage</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../explicit_methods_in_number_theory/introduction.html">Introduction</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../explicit_methods_in_number_theory/number_fields.html">Number Fields</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle navigation of Number Fields</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/nf_introduction.html">Introduction to Number Fields</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/nf_galois_groups.html">Number Fields: Galois Groups and Class Groups</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/nf_orders.html">Orders and Relative Extensions</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../explicit_methods_in_number_theory/birds_eye_view.html">A Bird’s Eye View</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle navigation of A Bird’s Eye View</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/integer_factorization.html">Integer Factorization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/elliptic_curves.html">Elliptic Curves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/birds_other.html">The Matrix of Frobenius on Hyperelliptic Curves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/birds_other.html#modular-symbols">Modular Symbols</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/birds_other.html#enumerating-totally-real-number-fields">Enumerating Totally Real Number Fields</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/birds_other.html#bernoulli-numbers">Bernoulli Numbers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/birds_other.html#polynomial-arithmetic">Polynomial Arithmetic</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../explicit_methods_in_number_theory/modular_forms.html">Modular Forms</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle navigation of Modular Forms</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/modular_forms_and_hecke_operators.html">Modular Forms and Hecke Operators</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/modular_symbols.html">Modular Symbols</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/method_of_graphs.html">Method of Graphs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/level_one_forms.html">Level One Modular Forms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/half_integral.html">Half Integral Weight Forms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/generators_for_rings.html">Generators for Rings of Modular Forms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/l_series.html"><span class="math notranslate nohighlight">\(L\)</span>-series</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/modabvar.html">Modular Abelian Varieties</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../profiling.html">Profiling in Sage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sws2rst.html">Creating a Tutorial from an old Sage Worksheet (.sws)</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/blob/develop/src/doc/en/thematic_tutorials/algebraic_combinatorics/tsetlin_library.rst" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/edit/develop/src/doc/en/thematic_tutorials/algebraic_combinatorics/tsetlin_library.rst" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="the-tsetlin-library">
+<h1>The Tsetlin library<a class="headerlink" href="#the-tsetlin-library" title="Link to this heading">¶</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p>In this section, we study a simple random walk (or Markov chain),
+called the <em>Tsetlin library</em>. It will give us the opportunity to see
+the interplay between combinatorics, linear algebra, representation
+theory and computer exploration, without requiring heavy theoretical
+background. I hope this encourages everyone to play around with
+this or similar systems and investigate their properties!
+Formal theorems and proofs can be found in the references at the
+end of this section.</p>
+<p>It has been known for several years that the theory of group
+representations can facilitate the study of systems whose evolution
+is random (Markov chains), breaking them down into simpler systems.
+More recently it was realized that generalizing this (namely
+replacing the invertibility axiom for groups by other axioms)
+explains the behavior of other particularly simple Markov chains
+such as the Tsetlin library.</p>
+</section>
+<section id="id1">
+<h2>The Tsetlin library<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<p>Consider a bookshelf in a library containing <span class="math notranslate nohighlight">\(n\)</span> distinct books. When
+a person borrows a book and then returns it, it gets placed back on the
+shelf to the right of all books. This is what we naturally do with our
+pile of shirts in the closet: after use and cleaning, the shirt is placed
+on the top of its pile. Hence the most popular books/shirts will more
+likely appear on the right/top of the shelf/pile.</p>
+<p>This type of organization has the advantage of being self-adaptive:</p>
+<ul class="simple">
+<li><p>The books most often used accumulate on the right and thus can easily
+be found.</p></li>
+<li><p>If the use changes over time, the system adapts.</p></li>
+</ul>
+<p>In fact, this type of strategy is used not only in everyday life, but also
+in computer science. The natural questions that arise are:</p>
+<ul class="simple">
+<li><p><em>Stationary distribution</em>: To which state(s) does the system converge to? This,
+among other things, is used to evaluate the average access time to
+a book.</p></li>
+<li><p><em>The rate of convergence</em>: How fast does the system adapt to a changing
+environment .</p></li>
+</ul>
+<p>Let us formalize the description. The Tsetlin library is a discrete Markov
+chain (discrete time, discrete state space) described by:</p>
+<ul class="simple">
+<li><p>The state space <span class="math notranslate nohighlight">\(\Omega_n\)</span> is given by the set of all permutations of the
+<span class="math notranslate nohighlight">\(n\)</span> books.</p></li>
+<li><p>The transition operators are denoted by <span class="math notranslate nohighlight">\(\partial_i \colon \Omega_n \to \Omega_n\)</span>.
+When <span class="math notranslate nohighlight">\(\partial_i\)</span> is applied to a permutation <span class="math notranslate nohighlight">\(\sigma\)</span>, the number <span class="math notranslate nohighlight">\(i\)</span> is moved
+to the end of the permutation.</p></li>
+<li><p>We assign parameters <span class="math notranslate nohighlight">\(x_i \ge 0\)</span> for all <span class="math notranslate nohighlight">\(1\le i\le n\)</span> with
+<span class="math notranslate nohighlight">\(\sum_{i=1}^n x_i = 1\)</span>. The parameter <span class="math notranslate nohighlight">\(x_i\)</span> indicates the probability of
+choosing the operator <span class="math notranslate nohighlight">\(\partial_i\)</span>.</p></li>
+</ul>
+</section>
+<section id="transition-graph-and-matrix">
+<h2>Transition graph and matrix<a class="headerlink" href="#transition-graph-and-matrix" title="Link to this heading">¶</a></h2>
+<p>One can depict the action of the operators <span class="math notranslate nohighlight">\(\partial_i\)</span> on the state
+space <span class="math notranslate nohighlight">\(\Omega_n\)</span> by a digraph. The following picture shows the action
+of <span class="math notranslate nohighlight">\(\partial_1, \partial_2, \partial_3\)</span> on <span class="math notranslate nohighlight">\(\Omega_3\)</span>:</p>
+<a class="reference internal image-reference" href="../_images/tsetlin-library.png"><img alt="../_images/tsetlin-library.png" class="align-center" src="../_images/tsetlin-library.png" style="width: 274.5px; height: 354.75px;" />
+</a>
+<p class="with-sage-tab with-python-tab">The above picture can be reproduced in Sage as follows:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">Poset</span><span class="p">(([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[]))</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span> <span class="o">=</span> <span class="n">Poset</span><span class="p">(([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)],[]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">This is the antichain poset. Its linear extensions are all permutations of <span class="math notranslate nohighlight">\(\{1,2,3\}\)</span>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">linear_extensions</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">L</span>
+<span class="go">The set of all linear extensions of Finite poset containing 3 elements</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+<span class="go">[[3, 2, 1], [3, 1, 2], [1, 3, 2], [1, 2, 3], [2, 1, 3], [2, 3, 1]]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">linear_extensions</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span>
+<span class="go">The set of all linear extensions of Finite poset containing 3 elements</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+<span class="go">[[3, 2, 1], [3, 1, 2], [1, 3, 2], [1, 2, 3], [2, 1, 3], [2, 3, 1]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">The graph is produced via:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">G</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">markov_chain_digraph</span><span class="p">(</span><span class="n">labeling</span><span class="o">=</span><span class="s1">&#39;source&#39;</span><span class="p">);</span> <span class="n">G</span>
+<span class="go">Looped multi-digraph on 6 vertices</span>
+<span class="gp">sage:</span> <span class="n">view</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>  <span class="c1"># not tested</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">markov_chain_digraph</span><span class="p">(</span><span class="n">labeling</span><span class="o">=</span><span class="s1">&#39;source&#39;</span><span class="p">);</span> <span class="n">G</span>
+<span class="go">Looped multi-digraph on 6 vertices</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">view</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>  <span class="c1"># not tested</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">We can now look at the transition matrix and see whether we notice anything about
+its eigenvalue and eigenvectors:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">markov_chain_transition_matrix</span><span class="p">(</span><span class="n">labeling</span><span class="o">=</span><span class="s1">&#39;source&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">M</span>
+<span class="go">[-x0 - x1       x2        0        0       x2        0]</span>
+<span class="go">[      x1 -x0 - x2       x1        0        0        0]</span>
+<span class="go">[       0        0 -x0 - x1       x2        0       x2]</span>
+<span class="go">[      x0        0       x0 -x1 - x2        0        0]</span>
+<span class="go">[       0        0        0       x1 -x0 - x2       x1]</span>
+<span class="go">[       0       x0        0        0       x0 -x1 - x2]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">M</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">markov_chain_transition_matrix</span><span class="p">(</span><span class="n">labeling</span><span class="o">=</span><span class="s1">&#39;source&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">M</span>
+<span class="go">[-x0 - x1       x2        0        0       x2        0]</span>
+<span class="go">[      x1 -x0 - x2       x1        0        0        0]</span>
+<span class="go">[       0        0 -x0 - x1       x2        0       x2]</span>
+<span class="go">[      x0        0       x0 -x1 - x2        0        0]</span>
+<span class="go">[       0        0        0       x1 -x0 - x2       x1]</span>
+<span class="go">[       0       x0        0        0       x0 -x1 - x2]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">This matrix is normalized so that all columns add to 0. So we need to
+add <span class="math notranslate nohighlight">\((x_0 + x_1 + x_2)\)</span> times the <span class="math notranslate nohighlight">\(6\times 6\)</span> identity matrix to get the
+probability matrix:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">x</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">base_ring</span><span class="p">()</span><span class="o">.</span><span class="n">gens</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">Mt</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">*</span><span class="n">matrix</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="o">+</span><span class="n">M</span>
+<span class="gp">sage:</span> <span class="n">Mt</span>
+<span class="go">[x2 x2  0  0 x2  0]</span>
+<span class="go">[x1 x1 x1  0  0  0]</span>
+<span class="go">[ 0  0 x2 x2  0 x2]</span>
+<span class="go">[x0  0 x0 x0  0  0]</span>
+<span class="go">[ 0  0  0 x1 x1 x1]</span>
+<span class="go">[ 0 x0  0  0 x0 x0]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">base_ring</span><span class="p">()</span><span class="o">.</span><span class="n">gens</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Mt</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span><span class="o">+</span><span class="n">x</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span><span class="o">+</span><span class="n">x</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span><span class="o">*</span><span class="n">matrix</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span><span class="o">+</span><span class="n">M</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Mt</span>
+<span class="go">[x2 x2  0  0 x2  0]</span>
+<span class="go">[x1 x1 x1  0  0  0]</span>
+<span class="go">[ 0  0 x2 x2  0 x2]</span>
+<span class="go">[x0  0 x0 x0  0  0]</span>
+<span class="go">[ 0  0  0 x1 x1 x1]</span>
+<span class="go">[ 0 x0  0  0 x0 x0]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Since the <span class="math notranslate nohighlight">\(x_i\)</span> are formal variables, we need to compute the eigenvalues and
+eigenvectors in the symbolic ring <code class="docutils literal notranslate"><span class="pre">SR</span></code>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Mt</span><span class="o">.</span><span class="n">change_ring</span><span class="p">(</span><span class="n">SR</span><span class="p">)</span><span class="o">.</span><span class="n">eigenvalues</span><span class="p">()</span>
+<span class="go">[x2, x1, x0, x0 + x1 + x2, 0, 0]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Mt</span><span class="o">.</span><span class="n">change_ring</span><span class="p">(</span><span class="n">SR</span><span class="p">)</span><span class="o">.</span><span class="n">eigenvalues</span><span class="p">()</span>
+<span class="go">[x2, x1, x0, x0 + x1 + x2, 0, 0]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Do you see any pattern? In fact, if you start playing with bigger values of <span class="math notranslate nohighlight">\(n\)</span> (the size
+of the underlying permutations), you might observe that there is an eigenvalue for
+every subset <span class="math notranslate nohighlight">\(S\)</span> of <span class="math notranslate nohighlight">\(\{1,2,\ldots,n\}\)</span> and the multiplicity is given by a derangement
+number <span class="math notranslate nohighlight">\(d_{n-|S|}\)</span>. Derangment numbers count permutations without fixed point.
+For the eigenvectors we obtain:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Mt</span><span class="o">.</span><span class="n">change_ring</span><span class="p">(</span><span class="n">SR</span><span class="p">)</span><span class="o">.</span><span class="n">eigenvectors_right</span><span class="p">()</span>
+<span class="go">[(x2, [(1, 0, -1, 0, 0, 0)], 1),</span>
+<span class="go"> (x1, [(0, 1, 0, 0, -1, 0)], 1),</span>
+<span class="go"> (x0, [(0, 0, 0, 1, 0, -1)], 1),</span>
+<span class="go"> (x0 + x1 + x2,</span>
+<span class="go">  [(1,</span>
+<span class="go">    (x0 + x1)/(x0 + x2),</span>
+<span class="go">    x0/x1,</span>
+<span class="go">    (x0^2 + x0*x1)/(x1^2 + x1*x2),</span>
+<span class="go">    (x0^2 + x0*x1)/(x0*x2 + x2^2),</span>
+<span class="go">    (x0^2 + x0*x1)/(x1*x2 + x2^2))], 1),</span>
+<span class="go"> (0, [(1, 0, -1, 0, -1, 1), (0, 1, -1, 1, -1, 0)], 2)]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--2" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Mt</span><span class="o">.</span><span class="n">change_ring</span><span class="p">(</span><span class="n">SR</span><span class="p">)</span><span class="o">.</span><span class="n">eigenvectors_right</span><span class="p">()</span>
+<span class="go">[(x2, [(1, 0, -1, 0, 0, 0)], 1),</span>
+<span class="go"> (x1, [(0, 1, 0, 0, -1, 0)], 1),</span>
+<span class="go"> (x0, [(0, 0, 0, 1, 0, -1)], 1),</span>
+<span class="go"> (x0 + x1 + x2,</span>
+<span class="go">  [(1,</span>
+<span class="go">    (x0 + x1)/(x0 + x2),</span>
+<span class="go">    x0/x1,</span>
+<span class="go">    (x0^2 + x0*x1)/(x1^2 + x1*x2),</span>
+<span class="go">    (x0^2 + x0*x1)/(x0*x2 + x2^2),</span>
+<span class="go">    (x0^2 + x0*x1)/(x1*x2 + x2^2))], 1),</span>
+<span class="go"> (0, [(1, 0, -1, 0, -1, 1), (0, 1, -1, 1, -1, 0)], 2)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The stationary distribution is the eigenvector of eigenvalues <span class="math notranslate nohighlight">\(1=x_0+x_1+x_2\)</span>. Do you see a pattern?</p>
+<aside class="topic">
+<p class="topic-title">Optional exercices: Study of the transition operators and graph</p>
+<p>Instead of using the methods that are already in Sage, try to build the
+state space <span class="math notranslate nohighlight">\(\Omega_n\)</span> and the transition operators <span class="math notranslate nohighlight">\(\partial_i\)</span> yourself as follows.</p>
+<ol class="arabic">
+<li><p class="with-sage-tab with-python-tab">For technical reasons, it is most practical in Sage to label the <span class="math notranslate nohighlight">\(n\)</span> books in the library by
+<span class="math notranslate nohighlight">\(0,1,\cdots,n-1\)</span>, and to represent each state in the Markov chain by a permutation
+of the set <span class="math notranslate nohighlight">\(\{0,\dots,n-1\}\)</span> as a tuple. Construct the state space <span class="math notranslate nohighlight">\(\Omega_n\)</span> as:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">Permutations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))))</span>
+<span class="go">[(0, 1, 2), (0, 2, 1), (1, 0, 2), (1, 2, 0), (2, 0, 1), (2, 1, 0)]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--2" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">Permutations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)))))</span>
+<span class="go">[(0, 1, 2), (0, 2, 1), (1, 0, 2), (1, 2, 0), (2, 0, 1), (2, 1, 0)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</li>
+<li><p>Write a function <code class="docutils literal notranslate"><span class="pre">transition_operator(sigma,</span> <span class="pre">i)</span></code> which implements the operator
+<span class="math notranslate nohighlight">\(\partial_i\)</span> which takes as input a tuple <code class="docutils literal notranslate"><span class="pre">sigma</span></code> and integer <span class="math notranslate nohighlight">\(i \in \{1,2,\ldots,n\}\)</span>
+and outputs a new tuple. It might be useful to extract subtuples
+(<code class="docutils literal notranslate"><span class="pre">sigma[i:j]</span></code>) and concatenation.</p></li>
+<li><p>Write a function <code class="docutils literal notranslate"><span class="pre">tsetlin_digraph(n)</span></code> which constructs the
+(multi digraph) as described as shown above. This can be achieved using
+<a class="reference external" href="../../reference/graphs/sage/graphs/digraph.html#sage.graphs.digraph.DiGraph" title="(in Graph Theory v10.6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiGraph</span></code></a>.</p></li>
+<li><p>Verify for which values of <span class="math notranslate nohighlight">\(n\)</span> the digraph is strongly connected
+(i.e., you can go from any vertex to any other vertex by going in the direction of the
+arrow). This indicates whether the Markov chain is irreducible.</p></li>
+</ol>
+</aside>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">¶</a></h2>
+<p>The Tsetlin library was studied from the viewpoint of monoids in <a class="reference internal" href="#bidigare1997" id="id2"><span>[Bidigare1997]</span></a>
+and <a class="reference internal" href="#brown2000" id="id3"><span>[Brown2000]</span></a>. Precise statements of the eigenvalues and the stationary distribution
+of the probability matrix as well as proofs of the statements are given in these papers.
+Generalizations of the Tsetlin library from the antichain to
+arbitrary posets was given in <a class="reference internal" href="#aks2013" id="id4"><span>[AKS2013]</span></a>.</p>
+<div role="list" class="citation-list">
+<div class="citation" id="bidigare1997" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">Bidigare1997</a><span class="fn-bracket">]</span></span>
+<p>Thomas Patrick Bidigare. <em>Hyperplane arrangement
+face algebras and their associated Markov chains</em>. ProQuest LLC,
+Ann Arbor, MI, 1997.  Thesis (Ph.D.) University of Michigan.</p>
+</div>
+<div class="citation" id="brown2000" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">Brown2000</a><span class="fn-bracket">]</span></span>
+<p>Kenneth S. Brown. <em>Semigroups, rings, and Markov
+chains</em>. J. Theoret.  Probab., 13(3):871-938, 2000.</p>
+</div>
+<div class="citation" id="aks2013" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">AKS2013</a><span class="fn-bracket">]</span></span>
+<p>Arvind Ayyer, Steven Klee, Anne Schilling.
+<em>Combinatorial Markov chains on linear extensions</em>
+J. Algebraic Combinatorics,
+<a class="extlink-doi reference external" href="https://doi.org/10.1007/s10801-013-0470-9">doi:10.1007/s10801-013-0470-9</a>, <a class="extlink-arxiv reference external" href="https://arxiv.org/abs/1205.7074">arXiv 1205.7074</a>.</p>
+</div>
+</div>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="rsk.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Young’s lattice and the RSK algorithm</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="n_cube.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title"><span class="math notranslate nohighlight">\(n\)</span>-Cube</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2005--2025, The Sage Development Team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">The Tsetlin library</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#id1">The Tsetlin library</a></li>
+<li><a class="reference internal" href="#transition-graph-and-matrix">Transition graph and matrix</a></li>
+<li><a class="reference internal" href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../%5fstatic/documentation_options.js?v=68afb76a"></script>
+    <script src="../../%5fstatic/doctools.js?v=9bcbadda"></script>
+    <script src="../../%5fstatic/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../%5fstatic/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../../%5fstatic/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../%5fstatic/copybutton.js?v=8e571dd6"></script>
+    <script src="../../%5fstatic/tabs.js?v=3ee01567"></script>
+    <script src="../../%5fstatic/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>
+    <script defer="defer" src="/Users/mkoeppe/s/sage/sage-rebasing/local/share/mathjax/mathjax/tex-chtml.js?v=0d9741c5"></script>
+    <script src="../../%5fstatic/jupyter-sphinx-furo.js?v=24b7fe9d"></script>
+    </body>
+</html>

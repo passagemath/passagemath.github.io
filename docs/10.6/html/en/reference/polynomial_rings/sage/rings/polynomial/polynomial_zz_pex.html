@@ -1,0 +1,1235 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" /><link rel="next" title="Isolate Real Roots of Real Polynomials" href="real_roots.html" /><link rel="prev" title="\(p\)-adic Flat Polynomials" href="padics/polynomial_padic_flat.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>Univariate Polynomials over GF(p^e) via NTL’s ZZ_pEX - Polynomials</title>
+      <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/pygments.css?v=a078f75a" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-codemirror-monokai.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-tabs.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  --color-brand-primary: #0f0fff;
+  --color-brand-content: #0f0fff;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../index.html"><div class="brand">Polynomials</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand" href="../../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../../%5fstatic/logo_sagemath_black.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../../%5fstatic/logo_sagemath_white.svg" alt="Dark Logo"/>
+  </div>
+  
+      <span class="sidebar-brand-text">passagemath 10.6.1 Reference Manual</span>
+  
+</a><div class="select-wrapper">
+  <select id="versions-menu" onchange="changeVersion()">
+    <option value="" selected>other version</option>
+    <option value="https://doc-develop--sagemath.netlify.app">develop</option>
+  </select>
+</div><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-home">
+  <div class="sidebar-tree">
+    <ul><li class="toctree-l1">
+      <a class="reference internal" href="../../../index.html">Home - Polynomials</a>
+    </li></ul>
+  </div>
+</div><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="polynomial_ring_constructor.html">Constructors for polynomial rings</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../../../polynomial_rings_univar.html">Univariate Polynomials and Polynomial Rings</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Univariate Polynomials and Polynomial Rings</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="polynomial_ring.html">Univariate Polynomial Rings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polynomial_ring_homomorphism.html">Ring homomorphisms from a polynomial ring to another ring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polynomial_element.html">Univariate polynomial base class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polynomial_element_generic.html">Univariate Polynomials over domains and fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polynomial_gf2x.html">Univariate Polynomials over GF(2) via NTL’s GF2X</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polynomial_number_field.html">Univariate polynomials over number fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polynomial_integer_dense_flint.html">Dense univariate polynomials over <span class="math notranslate nohighlight">\(\ZZ\)</span>, implemented using FLINT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polynomial_integer_dense_ntl.html">Dense univariate polynomials over <span class="math notranslate nohighlight">\(\ZZ\)</span>, implemented using NTL.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polynomial_rational_flint.html">Univariate polynomials over <span class="math notranslate nohighlight">\(\QQ\)</span> implemented via FLINT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polynomial_zmod_flint.html">Dense univariate polynomials over <span class="math notranslate nohighlight">\(\ZZ/n\ZZ\)</span>, implemented using FLINT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polynomial_modn_dense_ntl.html">Dense univariate polynomials over  <span class="math notranslate nohighlight">\(\ZZ/n\ZZ\)</span>, implemented using NTL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polynomial_real_mpfr_dense.html">Dense univariate polynomials over <span class="math notranslate nohighlight">\(\RR\)</span>, implemented using MPFR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polynomial_singular_interface.html">Polynomial Interfaces to Singular</a></li>
+<li class="toctree-l2"><a class="reference internal" href="padics/polynomial_padic.html">Base class for generic <span class="math notranslate nohighlight">\(p\)</span>-adic polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="padics/polynomial_padic_capped_relative_dense.html"><span class="math notranslate nohighlight">\(p\)</span>-adic Capped Relative Dense Polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="padics/polynomial_padic_flat.html"><span class="math notranslate nohighlight">\(p\)</span>-adic Flat Polynomials</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Univariate Polynomials over GF(p^e) via NTL’s ZZ_pEX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="real_roots.html">Isolate Real Roots of Real Polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex_roots.html">Isolate Complex Roots of Polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="refine_root.html">Refine polynomial roots using Newton–Raphson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ideal.html">Ideals in Univariate Polynomial Rings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polynomial_quotient_ring.html">Quotients of Univariate Polynomial Rings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polynomial_quotient_ring_element.html">Elements of Quotients of Univariate Polynomial Rings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polynomial_compiled.html">Polynomial Compilers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polynomial_fateman.html">Polynomial multiplication by Kronecker substitution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integer_valued_polynomials.html">Integer-valued polynomial rings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="q_integer_valued_polynomials.html">Quantum-valued polynomial rings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="convolution.html">Generic Convolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cyclotomic.html">Fast calculation of cyclotomic polynomials</a></li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../polynomial_rings_multivar.html">Multivariate Polynomials and Polynomial Rings</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Multivariate Polynomials and Polynomial Rings</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="term_order.html">Term orders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi_polynomial_ring_base.html">Base class for multivariate polynomial rings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi_polynomial.html">Base class for elements of multivariate polynomial rings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi_polynomial_ring.html">Multivariate Polynomial Rings over Generic Rings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi_polynomial_element.html">Generic Multivariate Polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi_polynomial_ideal.html">Ideals in multivariate polynomial rings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi_polynomial_sequence.html">Polynomial Sequences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi_polynomial_libsingular.html">Multivariate Polynomials via libSINGULAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi_polynomial_ideal_libsingular.html">Direct low-level access to SINGULAR’s Groebner basis engine via libSINGULAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="msolve.html">Solution of polynomial systems using msolve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polydict.html">Generic data structures for multivariate polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hilbert.html">Compute Hilbert series of monomial ideals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flatten.html">Class to flatten polynomial rings over polynomial ring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monomials.html">Monomials</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../invariant_theory.html">Classical Invariant Theory</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Classical Invariant Theory</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../invariants/invariant_theory.html">Classical Invariant Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../invariants/reconstruction.html">Reconstruction of Algebraic Forms</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../polynomial_rings_toy_implementations.html">Educational Versions of Groebner Basis Related Algorithms</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Educational Versions of Groebner Basis Related Algorithms</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="toy_buchberger.html">Educational versions of Groebner basis algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="toy_variety.html">Educational versions of Groebner basis algorithms: triangular factorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="toy_d_basis.html">Educational version of the <span class="math notranslate nohighlight">\(d\)</span>-Groebner basis algorithm over PIDs</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../fraction_field.html">Fraction Field of Integral Domains</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fraction_field_element.html">Fraction Field Elements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fraction_field_FpT.html">Univariate rational functions over prime fields</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="laurent_polynomial_ring_base.html">Ring of Laurent Polynomials (base class)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="laurent_polynomial_ring.html">Ring of Laurent Polynomials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="laurent_polynomial.html">Elements of Laurent polynomial rings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="omega.html">MacMahon’s Partition Analysis Omega Operator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="infinite_polynomial_ring.html">Infinite Polynomial Rings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="infinite_polynomial_element.html">Elements of Infinite Polynomial Rings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symmetric_ideal.html">Symmetric Ideals of Infinite Polynomial Rings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symmetric_reduction.html">Symmetric Reduction of Infinite Polynomials</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../semirings/tropical_polynomial.html">Univariate Tropical Polynomials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../semirings/tropical_mpolynomial.html">Multivariate Tropical Polynomials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../semirings/tropical_variety.html">Tropical Varieties</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pbori/pbori.html">Boolean Polynomials</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/edit/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="univariate-polynomials-over-gf-p-e-via-ntl-s-zz-pex">
+<span id="sage-rings-polynomial-polynomial-zz-pex"></span><h1>Univariate Polynomials over GF(p^e) via NTL’s ZZ_pEX<a class="headerlink" href="#univariate-polynomials-over-gf-p-e-via-ntl-s-zz-pex" title="Link to this heading">¶</a></h1>
+<p id="module-sage.rings.polynomial.polynomial_zz_pex">AUTHOR:</p>
+<ul class="simple">
+<li><p>Yann Laigle-Chapuy (2010-01) initial implementation</p></li>
+<li><p>Lorenz Panny (2023-01): <code class="xref py py-meth docutils literal notranslate"><span class="pre">minpoly_mod()</span></code></p></li>
+<li><p>Giacomo Pope (2023-08): <code class="xref py py-meth docutils literal notranslate"><span class="pre">reverse()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">inverse_series_trunc()</span></code></p></li>
+</ul>
+<dl class="py class">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.rings.polynomial.polynomial_zz_pex.</span></span><span class="sig-name descname"><span class="pre">Polynomial_ZZ_pEX</span></span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L69"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template" title="sage.rings.polynomial.polynomial_zz_pex.Polynomial_template"><code class="xref py py-class docutils literal notranslate"><span class="pre">Polynomial_template</span></code></a></p>
+<p>Univariate Polynomials over <span class="math notranslate nohighlight">\(\GF{p^n}\)</span> via NTL’s <code class="docutils literal notranslate"><span class="pre">ZZ_pEX</span></code>.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">K</span><span class="o">.&lt;</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">next_prime</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">60</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">implementation</span><span class="o">=</span><span class="s1">&#39;NTL&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">a</span><span class="p">)</span>
+<span class="go">x^4 + 2*a*x^3 + a^2*x^2 + x + a</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">K</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">next_prime</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">60</span><span class="p">))</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,));</span> <span class="p">(</span><span class="n">a</span><span class="p">,)</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">implementation</span><span class="o">=</span><span class="s1">&#39;NTL&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,));</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">a</span><span class="p">)</span>
+<span class="go">x^4 + 2*a*x^3 + a^2*x^2 + x + a</span>
+</pre></div>
+</div>
+</div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.compose_mod">
+<span class="sig-name descname"><span class="pre">compose_mod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modulus</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L716"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.compose_mod" title="Link to this definition">¶</a></dt>
+<dd><p>Compute <span class="math notranslate nohighlight">\(f(g) \bmod h\)</span>.</p>
+<p>To be precise about the order fo compostion, given <code class="docutils literal notranslate"><span class="pre">self</span></code>, <code class="docutils literal notranslate"><span class="pre">other</span></code>
+and <code class="docutils literal notranslate"><span class="pre">modulus</span></code> as <span class="math notranslate nohighlight">\(f(x)\)</span>, <span class="math notranslate nohighlight">\(g(x)\)</span> and <span class="math notranslate nohighlight">\(h(x)\)</span> compute <span class="math notranslate nohighlight">\(f(g(x)) \bmod h(x)\)</span>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">other</span></code> – a polynomial <span class="math notranslate nohighlight">\(g(x)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">modulus</span></code> – a polynomial <span class="math notranslate nohighlight">\(h(x)\)</span></p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">3</span><span class="o">**</span><span class="mi">6</span><span class="p">)[]</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">random_element</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">g</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">random_element</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">g</span><span class="o">.</span><span class="n">compose_mod</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="o">==</span> <span class="n">g</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">%</span> <span class="n">f</span>
+<span class="go">True</span>
+
+<span class="gp">sage:</span> <span class="n">F</span><span class="o">.&lt;</span><span class="n">z3</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">3</span><span class="o">**</span><span class="mi">6</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">F</span><span class="p">[]</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">z3</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">z3</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">z3</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="gp">sage:</span> <span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="n">z3</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">z3</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">z3</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">z3</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">z3</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="gp">sage:</span> <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">z3</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">z3</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">z3</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">z3</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">compose_mod</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+<span class="go">(z3^5 + z3^4 + z3^3 + z3^2 + z3)*x + z3^5 + z3^3 + 2*z3 + 2</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">compose_mod</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="o">==</span> <span class="n">f</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">%</span> <span class="n">h</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">6</span><span class="p">))[</span><span class="s1">&#39;x&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">random_element</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">random_element</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g</span><span class="o">.</span><span class="n">compose_mod</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="o">==</span> <span class="n">g</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">%</span> <span class="n">f</span>
+<span class="go">True</span>
+
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">F</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;z3&#39;</span><span class="p">,));</span> <span class="p">(</span><span class="n">z3</span><span class="p">,)</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">F</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">z3</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">z3</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">z3</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="n">z3</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">z3</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">z3</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">z3</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">z3</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">z3</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">z3</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">z3</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">z3</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">compose_mod</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+<span class="go">(z3^5 + z3^4 + z3^3 + z3^2 + z3)*x + z3^5 + z3^3 + 2*z3 + 2</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">compose_mod</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="o">==</span> <span class="n">f</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">%</span> <span class="n">h</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>AUTHORS:</p>
+<ul class="simple">
+<li><p>Giacomo Pope (2024-08) initial implementation</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.inverse_series_trunc">
+<span class="sig-name descname"><span class="pre">inverse_series_trunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prec</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L553"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.inverse_series_trunc" title="Link to this definition">¶</a></dt>
+<dd><p>Compute and return the inverse of <code class="docutils literal notranslate"><span class="pre">self</span></code> modulo <span class="math notranslate nohighlight">\(x^{prec}\)</span>.</p>
+<p>The constant term of <code class="docutils literal notranslate"><span class="pre">self</span></code> must be invertible.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">101</span><span class="o">^</span><span class="mi">2</span><span class="p">)[]</span>
+<span class="gp">sage:</span> <span class="n">z2</span> <span class="o">=</span>  <span class="n">R</span><span class="o">.</span><span class="n">base_ring</span><span class="p">()</span><span class="o">.</span><span class="n">gen</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">z2</span> <span class="o">+</span> <span class="mi">57</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="p">(</span><span class="mi">13</span><span class="o">*</span><span class="n">z2</span> <span class="o">+</span> <span class="mi">94</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">7</span><span class="o">*</span><span class="n">z2</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">66</span><span class="o">*</span><span class="n">z2</span> <span class="o">+</span> <span class="mi">15</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">inverse_series_trunc</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">51*z2 + 92</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">inverse_series_trunc</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">(30*z2 + 30)*x + 51*z2 + 92</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">inverse_series_trunc</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">(42*z2 + 94)*x^2 + (30*z2 + 30)*x + 51*z2 + 92</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">inverse_series_trunc</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">(99*z2 + 96)*x^3 + (42*z2 + 94)*x^2 + (30*z2 + 30)*x + 51*z2 + 92</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))[</span><span class="s1">&#39;x&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">z2</span> <span class="o">=</span>  <span class="n">R</span><span class="o">.</span><span class="n">base_ring</span><span class="p">()</span><span class="o">.</span><span class="n">gen</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">z2</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">57</span><span class="p">))</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span><span class="o">*</span><span class="n">z2</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">94</span><span class="p">))</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="o">*</span><span class="n">z2</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">66</span><span class="p">)</span><span class="o">*</span><span class="n">z2</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">inverse_series_trunc</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">51*z2 + 92</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">inverse_series_trunc</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">(30*z2 + 30)*x + 51*z2 + 92</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">inverse_series_trunc</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="go">(42*z2 + 94)*x^2 + (30*z2 + 30)*x + 51*z2 + 92</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">inverse_series_trunc</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="go">(99*z2 + 96)*x^3 + (42*z2 + 94)*x^2 + (30*z2 + 30)*x + 51*z2 + 92</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.is_irreducible">
+<span class="sig-name descname"><span class="pre">is_irreducible</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fast_when_false'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L321"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.is_irreducible" title="Link to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> precisely when <code class="docutils literal notranslate"><span class="pre">self</span></code> is irreducible over its base ring.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">algorithm</span></code> – string (default: <code class="docutils literal notranslate"><span class="pre">'fast_when_false'</span></code>);
+there are 3 available algorithms:
+<code class="docutils literal notranslate"><span class="pre">'fast_when_true'</span></code>, <code class="docutils literal notranslate"><span class="pre">'fast_when_false'</span></code>, and <code class="docutils literal notranslate"><span class="pre">'probabilistic'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">iter</span></code> – (default: 1) if the algorithm is <code class="docutils literal notranslate"><span class="pre">'probabilistic'</span></code>,
+defines the number of iterations. The error probability is bounded
+by <span class="math notranslate nohighlight">\(q^{\text{-iter}}\)</span> for polynomials in <span class="math notranslate nohighlight">\(\GF{q}[x]\)</span>.</p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">K</span><span class="o">.&lt;</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">next_prime</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">60</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">implementation</span><span class="o">=</span><span class="s1">&#39;NTL&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span><span class="o">-</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="gp">sage:</span> <span class="n">P</span><span class="o">.</span><span class="n">is_irreducible</span><span class="p">(</span><span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;fast_when_false&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">P</span><span class="o">.</span><span class="n">is_irreducible</span><span class="p">(</span><span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;fast_when_true&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">P</span><span class="o">.</span><span class="n">is_irreducible</span><span class="p">(</span><span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;probabilistic&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">Q</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">a</span><span class="o">^</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">Q</span><span class="o">.</span><span class="n">is_irreducible</span><span class="p">(</span><span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;fast_when_false&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">sage:</span> <span class="n">Q</span><span class="o">.</span><span class="n">is_irreducible</span><span class="p">(</span><span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;fast_when_true&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">sage:</span> <span class="n">Q</span><span class="o">.</span><span class="n">is_irreducible</span><span class="p">(</span><span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;probabilistic&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">K</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">next_prime</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">60</span><span class="p">))</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,));</span> <span class="p">(</span><span class="n">a</span><span class="p">,)</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">implementation</span><span class="o">=</span><span class="s1">&#39;NTL&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,));</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span><span class="o">.</span><span class="n">is_irreducible</span><span class="p">(</span><span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;fast_when_false&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span><span class="o">.</span><span class="n">is_irreducible</span><span class="p">(</span><span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;fast_when_true&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span><span class="o">.</span><span class="n">is_irreducible</span><span class="p">(</span><span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;probabilistic&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Q</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">a</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Q</span><span class="o">.</span><span class="n">is_irreducible</span><span class="p">(</span><span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;fast_when_false&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Q</span><span class="o">.</span><span class="n">is_irreducible</span><span class="p">(</span><span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;fast_when_true&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Q</span><span class="o">.</span><span class="n">is_irreducible</span><span class="p">(</span><span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;probabilistic&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.list">
+<span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L182"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.list" title="Link to this definition">¶</a></dt>
+<dd><p>Return the list of coefficients.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">K</span><span class="o">.&lt;</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">5</span><span class="o">^</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">random_element</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">list</span><span class="p">()</span> <span class="o">==</span> <span class="p">[</span><span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">P</span><span class="mf">.0</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+<span class="go">[0, 1]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">K</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,));</span> <span class="p">(</span><span class="n">a</span><span class="p">,)</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">random_element</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">list</span><span class="p">()</span> <span class="o">==</span> <span class="p">[</span><span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span><span class="o">+</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))]</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span><span class="o">.</span><span class="n">gen</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+<span class="go">[0, 1]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.minpoly_mod">
+<span class="sig-name descname"><span class="pre">minpoly_mod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L371"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.minpoly_mod" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the minimal polynomial of this polynomial modulo another
+polynomial in the same ring.</p>
+<p>ALGORITHM:</p>
+<p>NTL’s <code class="docutils literal notranslate"><span class="pre">MinPolyMod()</span></code>, which uses Shoup’s algorithm <a class="reference internal" href="../../../../references/index.html#sho1999" id="id1"><span>[Sho1999]</span></a>.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">101</span><span class="o">^</span><span class="mi">2</span><span class="p">)[]</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mi">17</span> <span class="o">+</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="gp">sage:</span> <span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">minpoly_mod</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="go">x^17 + 100*x^2 + 2*x + 100</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))[</span><span class="s1">&#39;x&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">17</span><span class="p">)</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">minpoly_mod</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="go">x^17 + 100*x^2 + 2*x + 100</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.modular_composition">
+<span class="sig-name descname"><span class="pre">modular_composition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modulus</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L716"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.modular_composition" title="Link to this definition">¶</a></dt>
+<dd><p>Compute <span class="math notranslate nohighlight">\(f(g) \bmod h\)</span>.</p>
+<p>To be precise about the order fo compostion, given <code class="docutils literal notranslate"><span class="pre">self</span></code>, <code class="docutils literal notranslate"><span class="pre">other</span></code>
+and <code class="docutils literal notranslate"><span class="pre">modulus</span></code> as <span class="math notranslate nohighlight">\(f(x)\)</span>, <span class="math notranslate nohighlight">\(g(x)\)</span> and <span class="math notranslate nohighlight">\(h(x)\)</span> compute <span class="math notranslate nohighlight">\(f(g(x)) \bmod h(x)\)</span>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">other</span></code> – a polynomial <span class="math notranslate nohighlight">\(g(x)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">modulus</span></code> – a polynomial <span class="math notranslate nohighlight">\(h(x)\)</span></p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">3</span><span class="o">**</span><span class="mi">6</span><span class="p">)[]</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">random_element</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">g</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">random_element</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">g</span><span class="o">.</span><span class="n">compose_mod</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="o">==</span> <span class="n">g</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">%</span> <span class="n">f</span>
+<span class="go">True</span>
+
+<span class="gp">sage:</span> <span class="n">F</span><span class="o">.&lt;</span><span class="n">z3</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">3</span><span class="o">**</span><span class="mi">6</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">F</span><span class="p">[]</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">z3</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">z3</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">z3</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="gp">sage:</span> <span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="n">z3</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">z3</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">z3</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">z3</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">z3</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="gp">sage:</span> <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">z3</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">z3</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">z3</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">z3</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">compose_mod</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+<span class="go">(z3^5 + z3^4 + z3^3 + z3^2 + z3)*x + z3^5 + z3^3 + 2*z3 + 2</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">compose_mod</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="o">==</span> <span class="n">f</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">%</span> <span class="n">h</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--2" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">6</span><span class="p">))[</span><span class="s1">&#39;x&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">random_element</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">random_element</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g</span><span class="o">.</span><span class="n">compose_mod</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="o">==</span> <span class="n">g</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">%</span> <span class="n">f</span>
+<span class="go">True</span>
+
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">F</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;z3&#39;</span><span class="p">,));</span> <span class="p">(</span><span class="n">z3</span><span class="p">,)</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">F</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">z3</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">z3</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">z3</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="n">z3</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">z3</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">z3</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">z3</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">z3</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">z3</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">z3</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">z3</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">z3</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">compose_mod</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+<span class="go">(z3^5 + z3^4 + z3^3 + z3^2 + z3)*x + z3^5 + z3^3 + 2*z3 + 2</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">compose_mod</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="o">==</span> <span class="n">f</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">%</span> <span class="n">h</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>AUTHORS:</p>
+<ul class="simple">
+<li><p>Giacomo Pope (2024-08) initial implementation</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.resultant">
+<span class="sig-name descname"><span class="pre">resultant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L289"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.resultant" title="Link to this definition">¶</a></dt>
+<dd><p>Return the resultant of <code class="docutils literal notranslate"><span class="pre">self</span></code> and <code class="docutils literal notranslate"><span class="pre">other</span></code>, which must lie in the same
+polynomial ring.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">other</span></code> – a polynomial</p></li>
+</ul>
+<p>OUTPUT: an element of the base ring of the polynomial ring</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">K</span><span class="o">.&lt;</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">next_prime</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">60</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">implementation</span><span class="o">=</span><span class="s1">&#39;NTL&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="o">**</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">r</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">resultant</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">r</span> <span class="o">==</span> <span class="n">prod</span><span class="p">(</span><span class="n">u</span> <span class="o">-</span> <span class="n">v</span> <span class="k">for</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">eu</span><span class="p">)</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">roots</span><span class="p">()</span> <span class="k">for</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="n">ev</span><span class="p">)</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">roots</span><span class="p">())</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--2" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">K</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">next_prime</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">60</span><span class="p">))</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,));</span> <span class="p">(</span><span class="n">a</span><span class="p">,)</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">implementation</span><span class="o">=</span><span class="s1">&#39;NTL&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,));</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">r</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">resultant</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">r</span> <span class="o">==</span> <span class="n">prod</span><span class="p">(</span><span class="n">u</span> <span class="o">-</span> <span class="n">v</span> <span class="k">for</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">eu</span><span class="p">)</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">roots</span><span class="p">()</span> <span class="k">for</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="n">ev</span><span class="p">)</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">roots</span><span class="p">())</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.reverse">
+<span class="sig-name descname"><span class="pre">reverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degree</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L492"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.reverse" title="Link to this definition">¶</a></dt>
+<dd><p>Return the polynomial obtained by reversing the coefficients
+of this polynomial.  If degree is set then this function behaves
+as if this polynomial has degree <code class="docutils literal notranslate"><span class="pre">degree</span></code>.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">101</span><span class="o">^</span><span class="mi">2</span><span class="p">)[]</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mi">13</span> <span class="o">+</span> <span class="mi">11</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">10</span> <span class="o">+</span> <span class="mi">32</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">6</span> <span class="o">+</span> <span class="mi">4</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+<span class="go">4*x^13 + 32*x^7 + 11*x^3 + 1</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">reverse</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="go">4*x^15 + 32*x^9 + 11*x^5 + x^2</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">reverse</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">4*x^2</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--8-input--2" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))[</span><span class="s1">&#39;x&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+<span class="go">4*x^13 + 32*x^7 + 11*x^3 + 1</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">reverse</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">15</span><span class="p">))</span>
+<span class="go">4*x^15 + 32*x^9 + 11*x^5 + x^2</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">reverse</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">4*x^2</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.shift">
+<span class="sig-name descname"><span class="pre">shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L443"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.shift" title="Link to this definition">¶</a></dt>
+<dd><p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">K</span><span class="o">.&lt;</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">next_prime</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">60</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">implementation</span><span class="o">=</span><span class="s1">&#39;NTL&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">x^4 + x^3 + x</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">x^2 + x</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--9-input--2" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">K</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">next_prime</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">60</span><span class="p">))</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,));</span> <span class="p">(</span><span class="n">a</span><span class="p">,)</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">implementation</span><span class="o">=</span><span class="s1">&#39;NTL&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,));</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">x^4 + x^3 + x</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">x^2 + x</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_template">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.rings.polynomial.polynomial_zz_pex.</span></span><span class="sig-name descname"><span class="pre">Polynomial_template</span></span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L65"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="polynomial_element.html#sage.rings.polynomial.polynomial_element.Polynomial" title="sage.rings.polynomial.polynomial_element.Polynomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Polynomial</span></code></a></p>
+<p>Template for interfacing to external C / C++ libraries for implementations of polynomials.</p>
+<p>AUTHORS:</p>
+<ul class="simple">
+<li><p>Robert Bradshaw (2008-10): original idea for templating</p></li>
+<li><p>Martin Albrecht (2008-10): initial implementation</p></li>
+</ul>
+<p>This file implements a simple templating engine for linking univariate
+polynomials to their C/C++ library implementations. It requires a
+‘linkage’ file which implements the <code class="docutils literal notranslate"><span class="pre">celement_</span></code> functions (see
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">sage.libs.ntl.ntl_GF2X_linkage</span></code> for an example). Both parts are
+then plugged together by inclusion of the linkage file when inheriting from
+this class. See <a class="reference internal" href="polynomial_gf2x.html#module-sage.rings.polynomial.polynomial_gf2x" title="sage.rings.polynomial.polynomial_gf2x"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sage.rings.polynomial.polynomial_gf2x</span></code></a> for an
+example.</p>
+<p>We illustrate the generic glueing using univariate polynomials over
+<span class="math notranslate nohighlight">\(\mathop{\mathrm{GF}}(2)\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Implementations using this template MUST implement coercion from base
+ring elements and <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_unsafe()</span></code>. See
+<a class="reference internal" href="polynomial_gf2x.html#sage.rings.polynomial.polynomial_gf2x.Polynomial_GF2X" title="sage.rings.polynomial.polynomial_gf2x.Polynomial_GF2X"><code class="xref py py-class docutils literal notranslate"><span class="pre">Polynomial_GF2X</span></code></a> for an
+example.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.degree">
+<span class="sig-name descname"><span class="pre">degree</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L773"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.degree" title="Link to this definition">¶</a></dt>
+<dd><p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">)[]</span>
+<span class="gp">sage:</span> <span class="n">x</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
+<span class="go">1</span>
+<span class="gp">sage:</span> <span class="n">P</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
+<span class="go">0</span>
+<span class="gp">sage:</span> <span class="n">P</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
+<span class="go">-1</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--10-input--2" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))[</span><span class="s1">&#39;x&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">x</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
+<span class="go">-1</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.gcd">
+<span class="sig-name descname"><span class="pre">gcd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L347"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.gcd" title="Link to this definition">¶</a></dt>
+<dd><p>Return the greatest common divisor of <code class="docutils literal notranslate"><span class="pre">self</span></code> and <code class="docutils literal notranslate"><span class="pre">other</span></code>.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">)[]</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">x + 1</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">x</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--11-input--2" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))[</span><span class="s1">&#39;x&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">x + 1</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">x</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.get_cparent">
+<span class="sig-name descname"><span class="pre">get_cparent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L184"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.get_cparent" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.is_gen">
+<span class="sig-name descname"><span class="pre">is_gen</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L697"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.is_gen" title="Link to this definition">¶</a></dt>
+<dd><p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">)[]</span>
+<span class="gp">sage:</span> <span class="n">x</span><span class="o">.</span><span class="n">is_gen</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">is_gen</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--12-input--2" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))[</span><span class="s1">&#39;x&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">x</span><span class="o">.</span><span class="n">is_gen</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">is_gen</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.is_one">
+<span class="sig-name descname"><span class="pre">is_one</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L763"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.is_one" title="Link to this definition">¶</a></dt>
+<dd><p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">)[]</span>
+<span class="gp">sage:</span> <span class="n">P</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">is_one</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--13-input--2" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))[</span><span class="s1">&#39;x&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">is_one</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.is_zero">
+<span class="sig-name descname"><span class="pre">is_zero</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L753"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.is_zero" title="Link to this definition">¶</a></dt>
+<dd><p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">)[]</span>
+<span class="gp">sage:</span> <span class="n">x</span><span class="o">.</span><span class="n">is_zero</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--14-input--2" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))[</span><span class="s1">&#39;x&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">x</span><span class="o">.</span><span class="n">is_zero</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.list">
+<span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L197"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.list" title="Link to this definition">¶</a></dt>
+<dd><p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">)[]</span>
+<span class="gp">sage:</span> <span class="n">x</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+<span class="go">[0, 1]</span>
+<span class="gp">sage:</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">[0, 1]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--15-input--2" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))[</span><span class="s1">&#39;x&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">x</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+<span class="go">[0, 1]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">[0, 1]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.quo_rem">
+<span class="sig-name descname"><span class="pre">quo_rem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">right</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L506"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.quo_rem" title="Link to this definition">¶</a></dt>
+<dd><p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">)[]</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">quo_rem</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">(x, 1)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--16-input--2" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))[</span><span class="s1">&#39;x&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">quo_rem</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">(x, 1)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.shift">
+<span class="sig-name descname"><span class="pre">shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L713"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.shift" title="Link to this definition">¶</a></dt>
+<dd><p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">)[]</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">x^4 + x^3 + x</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">x^2 + x</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--17-input--2" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))[</span><span class="s1">&#39;x&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">x^4 + x^3 + x</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">x^2 + x</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.truncate">
+<span class="sig-name descname"><span class="pre">truncate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L787"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.truncate" title="Link to this definition">¶</a></dt>
+<dd><p>Return this polynomial mod <span class="math notranslate nohighlight">\(x^n\)</span>.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span><span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">)[]</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span> <span class="n">f</span>
+<span class="go">x^9 + x^8 + x^7 + x^6 + x^5 + x^4 + x^3 + x^2 + x + 1</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">truncate</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="go">x^5 + x^4 + x^3 + x^2 + x + 1</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--18-input--2" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))[</span><span class="s1">&#39;x&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">)));</span> <span class="n">f</span>
+<span class="go">x^9 + x^8 + x^7 + x^6 + x^5 + x^4 + x^3 + x^2 + x + 1</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">truncate</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+<span class="go">x^5 + x^4 + x^3 + x^2 + x + 1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">If the precision is higher than the degree of the polynomial then
+the polynomial itself is returned:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">truncate</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="ow">is</span> <span class="n">f</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--19-input--2" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">truncate</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span> <span class="ow">is</span> <span class="n">f</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">If the precision is negative, the zero polynomial is returned:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">truncate</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--20-input--2" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">truncate</span><span class="p">(</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.xgcd">
+<span class="sig-name descname"><span class="pre">xgcd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L399"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.xgcd" title="Link to this definition">¶</a></dt>
+<dd><p>Compute extended gcd of <code class="docutils literal notranslate"><span class="pre">self</span></code> and <code class="docutils literal notranslate"><span class="pre">other</span></code>.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">xgcd</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">(x + 1, 0, 1)</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">xgcd</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">(x, 1, 6)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--21-input--2" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">7</span><span class="p">))[</span><span class="s1">&#39;x&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">xgcd</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">(x + 1, 0, 1)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">xgcd</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">(x, 1, 6)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.rings.polynomial.polynomial_zz_pex.make_element">
+<span class="sig-prename descclassname"><span class="pre">sage.rings.polynomial.polynomial_zz_pex.</span></span><span class="sig-name descname"><span class="pre">make_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/polynomial/polynomial_zz_pex.pyx#L33"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.polynomial.polynomial_zz_pex.make_element" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="real_roots.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Isolate Real Roots of Real Polynomials</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="padics/polynomial_padic_flat.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title"><span class="math notranslate nohighlight">\(p\)</span>-adic Flat Polynomials</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2005--2025, The Sage Development Team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Univariate Polynomials over GF(p^e) via NTL’s ZZ_pEX</a><ul>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX"><code class="docutils literal notranslate"><span class="pre">Polynomial_ZZ_pEX</span></code></a><ul>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.compose_mod"><code class="docutils literal notranslate"><span class="pre">compose_mod()</span></code></a></li>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.inverse_series_trunc"><code class="docutils literal notranslate"><span class="pre">inverse_series_trunc()</span></code></a></li>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.is_irreducible"><code class="docutils literal notranslate"><span class="pre">is_irreducible()</span></code></a></li>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.list"><code class="docutils literal notranslate"><span class="pre">list()</span></code></a></li>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.minpoly_mod"><code class="docutils literal notranslate"><span class="pre">minpoly_mod()</span></code></a></li>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.modular_composition"><code class="docutils literal notranslate"><span class="pre">modular_composition()</span></code></a></li>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.resultant"><code class="docutils literal notranslate"><span class="pre">resultant()</span></code></a></li>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.reverse"><code class="docutils literal notranslate"><span class="pre">reverse()</span></code></a></li>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_ZZ_pEX.shift"><code class="docutils literal notranslate"><span class="pre">shift()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template"><code class="docutils literal notranslate"><span class="pre">Polynomial_template</span></code></a><ul>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.degree"><code class="docutils literal notranslate"><span class="pre">degree()</span></code></a></li>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.gcd"><code class="docutils literal notranslate"><span class="pre">gcd()</span></code></a></li>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.get_cparent"><code class="docutils literal notranslate"><span class="pre">get_cparent()</span></code></a></li>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.is_gen"><code class="docutils literal notranslate"><span class="pre">is_gen()</span></code></a></li>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.is_one"><code class="docutils literal notranslate"><span class="pre">is_one()</span></code></a></li>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.is_zero"><code class="docutils literal notranslate"><span class="pre">is_zero()</span></code></a></li>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.list"><code class="docutils literal notranslate"><span class="pre">list()</span></code></a></li>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.quo_rem"><code class="docutils literal notranslate"><span class="pre">quo_rem()</span></code></a></li>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.shift"><code class="docutils literal notranslate"><span class="pre">shift()</span></code></a></li>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.truncate"><code class="docutils literal notranslate"><span class="pre">truncate()</span></code></a></li>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.Polynomial_template.xgcd"><code class="docutils literal notranslate"><span class="pre">xgcd()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sage.rings.polynomial.polynomial_zz_pex.make_element"><code class="docutils literal notranslate"><span class="pre">make_element()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../../%5fstatic/documentation_options.js"></script>
+    <script src="../../../../%5fstatic/doctools.js"></script>
+    <script src="../../../../%5fstatic/sphinx_highlight.js"></script>
+    <script src="../../../../%5fstatic/scripts/furo.js"></script>
+    <script src="../../../../%5fstatic/clipboard.min.js"></script>
+    <script src="../../../../%5fstatic/copybutton.js"></script>
+    <script src="../../../../%5fstatic/tabs.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>
+    <script defer="defer" src="/Users/mkoeppe/s/sage/sage-rebasing/local/share/mathjax/mathjax/tex-chtml.js?v=0d9741c5"></script>
+    <script src="../../../../%5fstatic/jupyter-sphinx-furo.js"></script>
+    </body>
+</html>

@@ -1,0 +1,1141 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" /><link rel="next" title="Discrete dynamical systems" href="../finite_dynamical_system.html" /><link rel="prev" title="Plotting of Mandelbrot and Julia Sets" href="../../../complex_dynamics.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>Mandelbrot and Julia sets - Discrete dynamics</title>
+      <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/pygments.css?v=a078f75a" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-codemirror-monokai.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-tabs.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  --color-brand-primary: #0f0fff;
+  --color-brand-content: #0f0fff;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../index.html"><div class="brand">Discrete dynamics</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand" href="../../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../../%5fstatic/logo_sagemath_black.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../../%5fstatic/logo_sagemath_white.svg" alt="Dark Logo"/>
+  </div>
+  
+      <span class="sidebar-brand-text">passagemath 10.6.1 Reference Manual</span>
+  
+</a><div class="select-wrapper">
+  <select id="versions-menu" onchange="changeVersion()">
+    <option value="" selected>other version</option>
+    <option value="https://doc-develop--sagemath.netlify.app">develop</option>
+  </select>
+</div><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-home">
+  <div class="sidebar-tree">
+    <ul><li class="toctree-l1">
+      <a class="reference internal" href="../../../index.html">Home - Discrete dynamics</a>
+    </li></ul>
+  </div>
+</div><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../cellular_automata.html">Cellular Automata</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Cellular Automata</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cellular_automata/catalog.html">Catalog of Cellular Automata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cellular_automata/elementary.html">Elementary Cellular Automata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cellular_automata/glca.html">Graftal Lace Cellular Automata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cellular_automata/solitons.html">Soliton Cellular Automata</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../../../complex_dynamics.html">Plotting of Mandelbrot and Julia Sets</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Plotting of Mandelbrot and Julia Sets</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Mandelbrot and Julia sets</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../finite_dynamical_system.html">Discrete dynamical systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sandpiles/sandpile.html">Sandpiles</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arithmetic_dynamics/generic_ds.html">Generic dynamical systems on schemes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../arithmetic_dynamics/affine_ds.html">Dynamical systems on affine schemes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../arithmetic_dynamics/projective_ds.html">Dynamical systems on projective schemes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../arithmetic_dynamics/product_projective_ds.html">Dynamical systems for products of projective spaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../arithmetic_dynamics/wehlerK3.html">Wehler K3 Surfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../arithmetic_dynamics/berkovich_ds.html">Dynamical systems on Berkovich space over <span class="math notranslate nohighlight">\(\CC_p\)</span>.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../arithmetic_dynamics/dynamical_semigroup.html">Dynamical semigroups</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/blob/main/src/sage/dynamics/complex_dynamics/mandel_julia.py" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/edit/main/src/sage/dynamics/complex_dynamics/mandel_julia.py" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="mandelbrot-and-julia-sets">
+<span id="sage-dynamics-complex-dynamics-mandel-julia"></span><h1>Mandelbrot and Julia sets<a class="headerlink" href="#mandelbrot-and-julia-sets" title="Link to this heading">¶</a></h1>
+<p id="module-sage.dynamics.complex_dynamics.mandel_julia">Plots the Mandelbrot and Julia sets for general polynomial maps in the complex
+plane.</p>
+<p>The Mandelbrot set is the set of complex numbers <span class="math notranslate nohighlight">\(c\)</span> for which the map
+<span class="math notranslate nohighlight">\(f_c(z)\)</span> does not diverge when iterated from <span class="math notranslate nohighlight">\(z = 0\)</span>. This set of complex
+numbers can be visualized by plotting each value for <span class="math notranslate nohighlight">\(c\)</span> in the complex plane.
+The Mandelbrot set is often an example of a fractal when plotted in the complex
+plane. For general one parameter families of polynomials, the mandelbrot set
+is the parameter values for which the orbits of all critical points remains
+bounded.</p>
+<p>The Julia set for a given parameter <span class="math notranslate nohighlight">\(c\)</span> is the set of complex numbers for which
+the function <span class="math notranslate nohighlight">\(f_c(z)\)</span> is bounded under iteration.</p>
+<p>AUTHORS:</p>
+<ul class="simple">
+<li><p>Ben Barros</p></li>
+</ul>
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.dynamics.complex_dynamics.mandel_julia.external_ray">
+<span class="sig-prename descclassname"><span class="pre">sage.dynamics.complex_dynamics.mandel_julia.</span></span><span class="sig-name descname"><span class="pre">external_ray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/dynamics/complex_dynamics/mandel_julia.py#L293"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.dynamics.complex_dynamics.mandel_julia.external_ray" title="Link to this definition">¶</a></dt>
+<dd><p>Draws the external ray(s) of a given angle (or list of angles)
+by connecting a finite number of points that were approximated using
+Newton’s method. The algorithm used is described in a paper by
+Tomoki Kawahira.</p>
+<p>REFERENCE:</p>
+<p><a class="reference internal" href="../../../../references/index.html#kaw2009" id="id1"><span>[Kaw2009]</span></a></p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">theta</span></code> – double or list of doubles, angles between 0 and 1 inclusive</p></li>
+</ul>
+<p>kwds:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">image</span></code> – 24-bit RGB image (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>); user specified
+image of Mandelbrot set</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">D</span></code> – long (default: <code class="docutils literal notranslate"><span class="pre">25</span></code>); depth of the approximation.
+As <code class="docutils literal notranslate"><span class="pre">D</span></code> increases, the external ray gets closer to the boundary of the
+Mandelbrot set. If the ray doesn’t reach the boundary of the Mandelbrot
+set, increase <code class="docutils literal notranslate"><span class="pre">D</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">S</span></code> – long (default: <code class="docutils literal notranslate"><span class="pre">10</span></code>); sharpness of the approximation.
+Adjusts the number of points used to approximate the external ray (number
+of points is equal to <code class="docutils literal notranslate"><span class="pre">S*D</span></code>). If ray looks jagged, increase <code class="docutils literal notranslate"><span class="pre">S</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">R</span></code> – long (default: <code class="docutils literal notranslate"><span class="pre">100</span></code>); radial parameter. If <code class="docutils literal notranslate"><span class="pre">R</span></code> is
+large, the external ray reaches sufficiently close to infinity. If <code class="docutils literal notranslate"><span class="pre">R</span></code> is
+too small, Newton’s method may not converge to the correct ray.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prec</span></code> – long (default: <code class="docutils literal notranslate"><span class="pre">300</span></code>); specifies the bits of
+precision used by the Complex Field when using Newton’s method to compute
+points on the external ray</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ray_color</span></code> – RGB color (default: <code class="docutils literal notranslate"><span class="pre">[255,</span> <span class="pre">255,</span> <span class="pre">255]</span></code>) color
+of the external ray(s)</p></li>
+</ul>
+<p>OUTPUT: 24-bit RGB image of external ray(s) on the Mandelbrot set</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">external_ray</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>                                                         <span class="c1"># needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">external_ray</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>                                                         <span class="c1"># needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab"></p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">external_ray</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">ray_color</span><span class="o">=</span><span class="p">[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>                                  <span class="c1"># needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">external_ray</span><span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.6&#39;</span><span class="p">),</span> <span class="n">ray_color</span><span class="o">=</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)])</span>                                  <span class="c1"># needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab"></p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">external_ray</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">])</span>                                          <span class="c1"># needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">external_ray</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.2&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.4&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.7&#39;</span><span class="p">)])</span>                                          <span class="c1"># needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab"></p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">external_ray</span><span class="p">([</span><span class="n">i</span><span class="o">/</span><span class="mi">5</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">)])</span>                                   <span class="c1"># needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">external_ray</span><span class="p">([</span><span class="n">i</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">))])</span>                                   <span class="c1"># needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>WARNING:</p>
+<p class="with-sage-tab with-python-tab">If you are passing in an image, make sure you specify
+which parameters to use when drawing the external ray.
+For example, the following is incorrect:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">mandelbrot_plot</span><span class="p">(</span><span class="n">x_center</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># not tested                             # needs sage.plot</span>
+<span class="gp">sage:</span> <span class="n">external_ray</span><span class="p">(</span><span class="mi">5</span><span class="o">/</span><span class="mi">7</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">M</span><span class="p">)</span>       <span class="c1"># not tested                             # needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">M</span> <span class="o">=</span> <span class="n">mandelbrot_plot</span><span class="p">(</span><span class="n">x_center</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>  <span class="c1"># not tested                             # needs sage.plot</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">external_ray</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span> <span class="n">image</span><span class="o">=</span><span class="n">M</span><span class="p">)</span>       <span class="c1"># not tested                             # needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">To get the correct external ray, we adjust our parameters:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">mandelbrot_plot</span><span class="p">(</span><span class="n">x_center</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>                                           <span class="c1"># needs sage.plot</span>
+<span class="gp">sage:</span> <span class="n">external_ray</span><span class="p">(</span><span class="mi">5</span><span class="o">/</span><span class="mi">7</span><span class="p">,</span> <span class="n">x_center</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">M</span><span class="p">)</span>                                    <span class="c1"># needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">M</span> <span class="o">=</span> <span class="n">mandelbrot_plot</span><span class="p">(</span><span class="n">x_center</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>                                           <span class="c1"># needs sage.plot</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">external_ray</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span> <span class="n">x_center</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">image</span><span class="o">=</span><span class="n">M</span><span class="p">)</span>                                    <span class="c1"># needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition-todo admonition" id="id2">
+<p class="admonition-title">Todo</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">copy()</span></code> function for bitmap images needs to be implemented
+in Sage.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.dynamics.complex_dynamics.mandel_julia.julia_plot">
+<span class="sig-prename descclassname"><span class="pre">sage.dynamics.complex_dynamics.mandel_julia.</span></span><span class="sig-name descname"><span class="pre">julia_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/dynamics/complex_dynamics/mandel_julia.py#L506"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.dynamics.complex_dynamics.mandel_julia.julia_plot" title="Link to this definition">¶</a></dt>
+<dd><p>Plots the Julia set of a given polynomial <code class="docutils literal notranslate"><span class="pre">f</span></code>. Users can specify whether
+they would like to display the Mandelbrot side by side with the Julia set
+with the <code class="docutils literal notranslate"><span class="pre">mandelbrot</span></code> argument. If <code class="docutils literal notranslate"><span class="pre">f</span></code> is not specified, this method
+defaults to <span class="math notranslate nohighlight">\(f(z) = z^2-1\)</span>.</p>
+<p>The Julia set of a polynomial <code class="docutils literal notranslate"><span class="pre">f</span></code> is the set of complex numbers <span class="math notranslate nohighlight">\(z\)</span> for
+which the function <span class="math notranslate nohighlight">\(f(z)\)</span> is bounded under iteration. The Julia set can
+be visualized by plotting each point in the set in the complex plane.
+Julia sets are examples of fractals when plotted in the complex plane.</p>
+<p>ALGORITHM:</p>
+<p>Let <span class="math notranslate nohighlight">\(R_c = \bigl(1 + \sqrt{1 + 4|c|}\bigr)/2\)</span> if the polynomial is of the
+form <span class="math notranslate nohighlight">\(f(z) = z^2 + c\)</span>; otherwise, let <span class="math notranslate nohighlight">\(R_c = 2\)</span>.
+For every <span class="math notranslate nohighlight">\(p \in \mathbb{C}\)</span>, if <span class="math notranslate nohighlight">\(|f^{k}(p)| &gt; R_c\)</span> for some <span class="math notranslate nohighlight">\(k \geq 0\)</span>,
+then <span class="math notranslate nohighlight">\(f^{n}(p) \to \infty\)</span>.  Let <span class="math notranslate nohighlight">\(N\)</span> be the maximum number of iterations.
+Compute the first <span class="math notranslate nohighlight">\(N\)</span> points on the orbit of <span class="math notranslate nohighlight">\(p\)</span> under <span class="math notranslate nohighlight">\(f\)</span>. If for
+any <span class="math notranslate nohighlight">\(k &lt; N\)</span>, <span class="math notranslate nohighlight">\(|f^{k}(p)| &gt; R_c\)</span>, we stop the iteration and assign a color
+to the point <span class="math notranslate nohighlight">\(p\)</span> based on how quickly <span class="math notranslate nohighlight">\(p\)</span> escaped to infinity under
+iteration of <span class="math notranslate nohighlight">\(f\)</span>. If <span class="math notranslate nohighlight">\(|f^{i}(p)| \leq R_c\)</span> for all <span class="math notranslate nohighlight">\(i \leq N\)</span>, we assume
+<span class="math notranslate nohighlight">\(p\)</span> is in the Julia set and assign the point <span class="math notranslate nohighlight">\(p\)</span> the color black.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">f</span></code> – input polynomial (default: <code class="docutils literal notranslate"><span class="pre">z^2</span> <span class="pre">-</span> <span class="pre">1</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">period</span></code> – list (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>); returns the Julia set
+for a random <span class="math notranslate nohighlight">\(c\)</span> value with the given (formal) cycle structure</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mandelbrot</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">True</span></code>); when set to
+<code class="docutils literal notranslate"><span class="pre">True</span></code>, an image of the Mandelbrot set is appended to the right of the
+Julia set</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">point_color</span></code> – RGB color (default: <code class="docutils literal notranslate"><span class="pre">'tomato'</span></code>);
+color of the point <span class="math notranslate nohighlight">\(c\)</span> in the Mandelbrot set (any valid input for Color)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x_center</span></code> – double (default: <code class="docutils literal notranslate"><span class="pre">-1.0</span></code>); real part
+of center point</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">y_center</span></code> – double (default: <code class="docutils literal notranslate"><span class="pre">0.0</span></code>); imaginary part
+of center point</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">image_width</span></code> – double (default: <code class="docutils literal notranslate"><span class="pre">4.0</span></code>); width of image
+in the complex plane</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_iteration</span></code> – long (default: <code class="docutils literal notranslate"><span class="pre">500</span></code>); maximum number
+of iterations the map <span class="math notranslate nohighlight">\(f(z)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pixel_count</span></code> – long (default: <code class="docutils literal notranslate"><span class="pre">500</span></code>); side length of
+image in number of pixels</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">base_color</span></code> – hex color (default: <code class="docutils literal notranslate"><span class="pre">'steelblue'</span></code>); color
+used to determine the coloring of set (any valid input for Color)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">level_sep</span></code> – long (default: 1); number of iterations
+between each color level</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">number_of_colors</span></code> – long (default: 30); number of colors
+used to plot image</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">interact</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>); controls whether
+plot will have interactive functionality</p></li>
+</ul>
+<p>OUTPUT: 24-bit RGB image of the Julia set in the complex plane</p>
+<div class="admonition-todo admonition" id="id3">
+<p class="admonition-title">Todo</p>
+<p>Implement the side-by-side Mandelbrot-Julia plots for general one-parameter families
+of polynomials.</p>
+</div>
+<p>EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab">The default <code class="docutils literal notranslate"><span class="pre">f</span></code> is <span class="math notranslate nohighlight">\(z^2 - 1\)</span>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">julia_plot</span><span class="p">()</span>                                                              <span class="c1"># needs sage.plot</span>
+<span class="go">1001x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--2" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">julia_plot</span><span class="p">()</span>                                                              <span class="c1"># needs sage.plot</span>
+<span class="go">1001x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">To display only the Julia set, set <code class="docutils literal notranslate"><span class="pre">mandelbrot</span></code> to <code class="docutils literal notranslate"><span class="pre">False</span></code>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">julia_plot</span><span class="p">(</span><span class="n">mandelbrot</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>                                              <span class="c1"># needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--2" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">julia_plot</span><span class="p">(</span><span class="n">mandelbrot</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>                                              <span class="c1"># needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab"></p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">z</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[]</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">z</span><span class="o">^</span><span class="mi">3</span> <span class="o">-</span> <span class="n">z</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="gp">sage:</span> <span class="n">julia_plot</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>  <span class="c1"># long time                                                # needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--8-input--2" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">z</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">z</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">-</span> <span class="n">z</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">julia_plot</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>  <span class="c1"># long time                                                # needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">To display an interactive plot of the Julia set in the Notebook,
+set <code class="docutils literal notranslate"><span class="pre">interact</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code>. (This is only implemented for polynomials of
+the form <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">z^2</span> <span class="pre">+</span> <span class="pre">c</span></code>):</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">julia_plot</span><span class="p">(</span><span class="n">interact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>                                                 <span class="c1"># needs sage.plot</span>
+<span class="gp">...</span><span class="n">interactive</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="p">(</span><span class="n">FloatSlider</span><span class="p">(</span><span class="n">value</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Real c&#39;</span><span class="o">...</span>
+
+<span class="go">::</span>
+
+<span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">z</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[]</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">z</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span>
+<span class="gp">sage:</span> <span class="n">julia_plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">interact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>                                              <span class="c1"># needs sage.plot</span>
+<span class="gp">...</span><span class="n">interactive</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="p">(</span><span class="n">FloatSlider</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Real c&#39;</span><span class="o">...</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--9-input--2" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">julia_plot</span><span class="p">(</span><span class="n">interact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>                                                 <span class="c1"># needs sage.plot</span>
+<span class="gp">...</span><span class="n">interactive</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="p">(</span><span class="n">FloatSlider</span><span class="p">(</span><span class="n">value</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Real c&#39;</span><span class="o">...</span>
+
+<span class="go">::</span>
+
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">z</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">z</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">julia_plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">interact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>                                              <span class="c1"># needs sage.plot</span>
+<span class="gp">...</span><span class="n">interactive</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="p">(</span><span class="n">FloatSlider</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Real c&#39;</span><span class="o">...</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">To return the Julia set of a random <span class="math notranslate nohighlight">\(c\)</span> value with (formal) cycle structure
+<span class="math notranslate nohighlight">\((2,3)\)</span>, set <code class="docutils literal notranslate"><span class="pre">period</span> <span class="pre">=</span> <span class="pre">[2,3]</span></code>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">julia_plot</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>                                                  <span class="c1"># needs sage.plot</span>
+<span class="go">1001x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--10-input--2" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">julia_plot</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)])</span>                                                  <span class="c1"># needs sage.plot</span>
+<span class="go">1001x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">To return all of the Julia sets of <span class="math notranslate nohighlight">\(c\)</span> values with (formal) cycle structure
+<span class="math notranslate nohighlight">\((2,3)\)</span>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">period</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="c1"># not tested</span>
+<span class="gp">....:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">c</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
+<span class="gp">....:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">ProjectiveSpace</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">....:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">DynamicalSystem</span><span class="p">([</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="n">c</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="p">])</span>
+<span class="gp">....:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">dynatomic_polynomial</span><span class="p">(</span><span class="n">period</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">({</span><span class="n">x</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="n">y</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span><span class="o">.</span><span class="n">roots</span><span class="p">(</span><span class="n">ring</span><span class="o">=</span><span class="n">CC</span><span class="p">)</span>
+<span class="gp">....:</span> <span class="n">c_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">L</span><span class="p">]</span>
+<span class="gp">....:</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">c_values</span><span class="p">:</span>
+<span class="gp">....:</span>     <span class="n">julia_plot</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--11-input--2" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">period</span> <span class="o">=</span> <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span> <span class="c1"># not tested</span>
+<span class="gp">...</span> <span class="n">R</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">c</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">...</span> <span class="n">P</span> <span class="o">=</span> <span class="n">ProjectiveSpace</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,));</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,)</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">...</span> <span class="n">f</span> <span class="o">=</span> <span class="n">DynamicalSystem</span><span class="p">([</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="n">c</span><span class="o">*</span><span class="n">y</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">y</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
+<span class="gp">...</span> <span class="n">L</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">dynatomic_polynomial</span><span class="p">(</span><span class="n">period</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">({</span><span class="n">x</span><span class="p">:</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">y</span><span class="p">:</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)})</span><span class="o">.</span><span class="n">roots</span><span class="p">(</span><span class="n">ring</span><span class="o">=</span><span class="n">CC</span><span class="p">)</span>
+<span class="gp">...</span> <span class="n">c_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">L</span><span class="p">]</span>
+<span class="gp">...</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">c_values</span><span class="p">:</span>
+<span class="gp">...</span>     <span class="n">julia_plot</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Polynomial maps can be defined over a polynomial ring or a fraction field,
+so long as <code class="docutils literal notranslate"><span class="pre">f</span></code> is polynomial:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">z</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[]</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">z</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="gp">sage:</span> <span class="n">julia_plot</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>                                                             <span class="c1"># needs sage.plot</span>
+<span class="go">1001x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--12-input--2" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">z</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">z</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">julia_plot</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>                                                             <span class="c1"># needs sage.plot</span>
+<span class="go">1001x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab"></p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">z</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[]</span>
+<span class="gp">sage:</span> <span class="n">K</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">fraction_field</span><span class="p">();</span> <span class="n">z</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">gen</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">z</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="gp">sage:</span> <span class="n">julia_plot</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>                                                             <span class="c1"># needs sage.plot</span>
+<span class="go">1001x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--13-input--2" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">z</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">K</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">fraction_field</span><span class="p">();</span> <span class="n">z</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">gen</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">z</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">julia_plot</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>                                                             <span class="c1"># needs sage.plot</span>
+<span class="go">1001x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Interact functionality is not implemented if the polynomial is not of the
+form <span class="math notranslate nohighlight">\(f = z^2 + c\)</span>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">z</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[]</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">z</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="gp">sage:</span> <span class="n">julia_plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">interact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>                                              <span class="c1"># needs sage.plot</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">NotImplementedError: The interactive plot is only implemented for ...</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--14-input--2" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">z</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">z</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">julia_plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">interact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>                                              <span class="c1"># needs sage.plot</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">NotImplementedError: The interactive plot is only implemented for ...</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.dynamics.complex_dynamics.mandel_julia.kneading_sequence">
+<span class="sig-prename descclassname"><span class="pre">sage.dynamics.complex_dynamics.mandel_julia.</span></span><span class="sig-name descname"><span class="pre">kneading_sequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/dynamics/complex_dynamics/mandel_julia.py#L438"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.dynamics.complex_dynamics.mandel_julia.kneading_sequence" title="Link to this definition">¶</a></dt>
+<dd><p>Determines the kneading sequence for an angle theta in RR/ZZ which
+is periodic under doubling. We use the definition for the kneading
+sequence given in Definition 3.2 of <a class="reference internal" href="../../../../references/index.html#ls1994" id="id4"><span>[LS1994]</span></a>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">theta</span></code> – a rational number with odd denominator</p></li>
+</ul>
+<p>OUTPUT: string representing the kneading sequence of theta in RR/ZZ</p>
+<p>REFERENCES:</p>
+<p><a class="reference internal" href="../../../../references/index.html#ls1994" id="id5"><span>[LS1994]</span></a></p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">kneading_sequence</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">&#39;*&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--15-input--2" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">kneading_sequence</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="go">&#39;*&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab"></p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">kneading_sequence</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">&#39;1*&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--16-input--2" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">kneading_sequence</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="go">&#39;1*&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Since 1/3 and 7/3 are the same in RR/ZZ, they have the same kneading sequence:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">kneading_sequence</span><span class="p">(</span><span class="mi">7</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">&#39;1*&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--17-input--2" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">kneading_sequence</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="go">&#39;1*&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">We can also use (finite) decimal inputs, as long as the denominator in reduced form is odd:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">kneading_sequence</span><span class="p">(</span><span class="mf">1.2</span><span class="p">)</span>
+<span class="go">&#39;110*&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--18-input--2" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">kneading_sequence</span><span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.2&#39;</span><span class="p">))</span>
+<span class="go">&#39;110*&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Since rationals with even denominator are not periodic under doubling, we have not implemented kneading sequences for such rationals:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">kneading_sequence</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">ValueError: input must be a rational number with odd denominator</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--19-input--2" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">kneading_sequence</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">ValueError: input must be a rational number with odd denominator</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.dynamics.complex_dynamics.mandel_julia.mandelbrot_plot">
+<span class="sig-prename descclassname"><span class="pre">sage.dynamics.complex_dynamics.mandel_julia.</span></span><span class="sig-name descname"><span class="pre">mandelbrot_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/dynamics/complex_dynamics/mandel_julia.py#L64"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.dynamics.complex_dynamics.mandel_julia.mandelbrot_plot" title="Link to this definition">¶</a></dt>
+<dd><p>Plot of the Mandelbrot set for a one parameter family of polynomial maps.</p>
+<p>The family <span class="math notranslate nohighlight">\(f_c(z)\)</span> must have parent <code class="docutils literal notranslate"><span class="pre">R</span></code> of the
+form <code class="docutils literal notranslate"><span class="pre">R.&lt;z,c&gt;</span> <span class="pre">=</span> <span class="pre">CC[]</span></code>.</p>
+<p>REFERENCE:</p>
+<p><a class="reference internal" href="../../../../references/index.html#dev2005" id="id6"><span>[Dev2005]</span></a></p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">f</span></code> – map (default: <code class="docutils literal notranslate"><span class="pre">z^2</span> <span class="pre">+</span> <span class="pre">c</span></code>); polynomial family used to
+plot the Mandelbrot set</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">parameter</span></code> – variable (default: <code class="docutils literal notranslate"><span class="pre">c</span></code>); parameter variable
+used to plot the Mandelbrot set</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x_center</span></code> – double (default: <code class="docutils literal notranslate"><span class="pre">-1.0</span></code>); Real part of center
+point</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">y_center</span></code> – double (default: <code class="docutils literal notranslate"><span class="pre">0.0</span></code>); Imaginary part of
+center point</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">image_width</span></code> – double (default: <code class="docutils literal notranslate"><span class="pre">4.0</span></code>); width of image
+in the complex plane</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_iteration</span></code> – long (default: <code class="docutils literal notranslate"><span class="pre">500</span></code>); maximum number of
+iterations the map <code class="docutils literal notranslate"><span class="pre">f_c(z)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pixel_count</span></code> – long (default: <code class="docutils literal notranslate"><span class="pre">500</span></code>); side length of
+image in number of pixels</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">base_color</span></code> – RGB color (default: <code class="docutils literal notranslate"><span class="pre">[40,</span> <span class="pre">40,</span> <span class="pre">40]</span></code>); color
+used to determine the coloring of set</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">level_sep</span></code> – long (default: 1); number of iterations
+between each color level</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">number_of_colors</span></code> – long (default: 30); number of colors
+used to plot image</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">interact</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>); controls whether
+plot will have interactive functionality</p></li>
+</ul>
+<p>OUTPUT: 24-bit RGB image of the Mandelbrot set in the complex plane</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">mandelbrot_plot</span><span class="p">()</span>                                                         <span class="c1"># needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--20-input--2" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">mandelbrot_plot</span><span class="p">()</span>                                                         <span class="c1"># needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab"></p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">mandelbrot_plot</span><span class="p">(</span><span class="n">pixel_count</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>                                         <span class="c1"># needs sage.plot</span>
+<span class="go">1000x1000px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--21-input--2" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">mandelbrot_plot</span><span class="p">(</span><span class="n">pixel_count</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span>                                         <span class="c1"># needs sage.plot</span>
+<span class="go">1000x1000px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab"></p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">mandelbrot_plot</span><span class="p">(</span><span class="n">x_center</span><span class="o">=-</span><span class="mf">1.11</span><span class="p">,</span> <span class="n">y_center</span><span class="o">=</span><span class="mf">0.2283</span><span class="p">,</span>               <span class="c1"># long time, needs sage.plot</span>
+<span class="gp">....:</span>                 <span class="n">image_width</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">128</span><span class="p">,</span> <span class="n">max_iteration</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
+<span class="gp">....:</span>                 <span class="n">number_of_colors</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">base_color</span><span class="o">=</span><span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--22-input--2" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">mandelbrot_plot</span><span class="p">(</span><span class="n">x_center</span><span class="o">=-</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.11&#39;</span><span class="p">),</span> <span class="n">y_center</span><span class="o">=</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.2283&#39;</span><span class="p">),</span>               <span class="c1"># long time, needs sage.plot</span>
+<span class="gp">...</span>                 <span class="n">image_width</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">128</span><span class="p">),</span> <span class="n">max_iteration</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2000</span><span class="p">),</span>
+<span class="gp">...</span>                 <span class="n">number_of_colors</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">500</span><span class="p">),</span> <span class="n">base_color</span><span class="o">=</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">40</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">100</span><span class="p">)])</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">To display an interactive plot of the Mandelbrot in the Notebook, set
+<code class="docutils literal notranslate"><span class="pre">interact</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code>. (This is only implemented for <code class="docutils literal notranslate"><span class="pre">z^2</span> <span class="pre">+</span> <span class="pre">c</span></code>):</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">mandelbrot_plot</span><span class="p">(</span><span class="n">interact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>                                            <span class="c1"># needs sage.plot</span>
+<span class="gp">...</span><span class="n">interactive</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="p">(</span><span class="n">FloatSlider</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Real center&#39;</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">1e-05</span><span class="p">),</span>
+<span class="go">FloatSlider(value=0.0, description=&#39;Imag center&#39;, max=1.0, min=-1.0, step=1e-05),</span>
+<span class="go">FloatSlider(value=4.0, description=&#39;Width&#39;, max=4.0, min=1e-05, step=1e-05),</span>
+<span class="go">IntSlider(value=500, description=&#39;Iterations&#39;, max=1000),</span>
+<span class="go">IntSlider(value=500, description=&#39;Pixels&#39;, max=1000, min=10),</span>
+<span class="go">IntSlider(value=1, description=&#39;Color sep&#39;, max=20, min=1),</span>
+<span class="go">IntSlider(value=30, description=&#39;# Colors&#39;, min=1),</span>
+<span class="go">ColorPicker(value=&#39;#ff6347&#39;, description=&#39;Base color&#39;), Output()),</span>
+<span class="go">_dom_classes=(&#39;widget-interact&#39;,))</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--23-input--2" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">mandelbrot_plot</span><span class="p">(</span><span class="n">interact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>                                            <span class="c1"># needs sage.plot</span>
+<span class="gp">...</span><span class="n">interactive</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="p">(</span><span class="n">FloatSlider</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Real center&#39;</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">1e-05</span><span class="p">),</span>
+<span class="go">FloatSlider(value=0.0, description=&#39;Imag center&#39;, max=1.0, min=-1.0, step=1e-05),</span>
+<span class="go">FloatSlider(value=4.0, description=&#39;Width&#39;, max=4.0, min=1e-05, step=1e-05),</span>
+<span class="go">IntSlider(value=500, description=&#39;Iterations&#39;, max=1000),</span>
+<span class="go">IntSlider(value=500, description=&#39;Pixels&#39;, max=1000, min=10),</span>
+<span class="go">IntSlider(value=1, description=&#39;Color sep&#39;, max=20, min=1),</span>
+<span class="go">IntSlider(value=30, description=&#39;# Colors&#39;, min=1),</span>
+<span class="go">ColorPicker(value=&#39;#ff6347&#39;, description=&#39;Base color&#39;), Output()),</span>
+<span class="go">_dom_classes=(&#39;widget-interact&#39;,))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab"></p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">mandelbrot_plot</span><span class="p">(</span><span class="n">interact</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">x_center</span><span class="o">=-</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">y_center</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>             <span class="c1"># needs sage.plot</span>
+<span class="gp">....:</span>                 <span class="n">image_width</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">number_of_colors</span><span class="o">=</span><span class="mi">75</span><span class="p">)</span>
+<span class="gp">...</span><span class="n">interactive</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="p">(</span><span class="n">FloatSlider</span><span class="p">(</span><span class="n">value</span><span class="o">=-</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Real center&#39;</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">1e-05</span><span class="p">),</span>
+<span class="go">FloatSlider(value=0.25, description=&#39;Imag center&#39;, max=1.0, min=-1.0, step=1e-05),</span>
+<span class="go">FloatSlider(value=0.5, description=&#39;Width&#39;, max=4.0, min=1e-05, step=1e-05),</span>
+<span class="go">IntSlider(value=500, description=&#39;Iterations&#39;, max=1000),</span>
+<span class="go">IntSlider(value=500, description=&#39;Pixels&#39;, max=1000, min=10),</span>
+<span class="go">IntSlider(value=1, description=&#39;Color sep&#39;, max=20, min=1),</span>
+<span class="go">IntSlider(value=75, description=&#39;# Colors&#39;, min=1),</span>
+<span class="go">ColorPicker(value=&#39;#ff6347&#39;, description=&#39;Base color&#39;), Output()),</span>
+<span class="go">_dom_classes=(&#39;widget-interact&#39;,))</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--24-input--2" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">mandelbrot_plot</span><span class="p">(</span><span class="n">interact</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">x_center</span><span class="o">=-</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.75&#39;</span><span class="p">),</span> <span class="n">y_center</span><span class="o">=</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.25&#39;</span><span class="p">),</span>             <span class="c1"># needs sage.plot</span>
+<span class="gp">...</span>                 <span class="n">image_width</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">number_of_colors</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">75</span><span class="p">))</span>
+<span class="gp">...</span><span class="n">interactive</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="p">(</span><span class="n">FloatSlider</span><span class="p">(</span><span class="n">value</span><span class="o">=-</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Real center&#39;</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">1e-05</span><span class="p">),</span>
+<span class="go">FloatSlider(value=0.25, description=&#39;Imag center&#39;, max=1.0, min=-1.0, step=1e-05),</span>
+<span class="go">FloatSlider(value=0.5, description=&#39;Width&#39;, max=4.0, min=1e-05, step=1e-05),</span>
+<span class="go">IntSlider(value=500, description=&#39;Iterations&#39;, max=1000),</span>
+<span class="go">IntSlider(value=500, description=&#39;Pixels&#39;, max=1000, min=10),</span>
+<span class="go">IntSlider(value=1, description=&#39;Color sep&#39;, max=20, min=1),</span>
+<span class="go">IntSlider(value=75, description=&#39;# Colors&#39;, min=1),</span>
+<span class="go">ColorPicker(value=&#39;#ff6347&#39;, description=&#39;Base color&#39;), Output()),</span>
+<span class="go">_dom_classes=(&#39;widget-interact&#39;,))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Polynomial maps can be defined over a multivariate polynomial ring or a
+univariate polynomial ring tower:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">z</span><span class="p">,</span><span class="n">c</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[]</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">z</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">c</span>
+<span class="gp">sage:</span> <span class="n">mandelbrot_plot</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>                                                        <span class="c1"># needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--25-input--2" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[</span><span class="s1">&#39;z, c&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">c</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">z</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">mandelbrot_plot</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>                                                        <span class="c1"># needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab"></p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">B</span><span class="o">.&lt;</span><span class="n">c</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[]</span>
+<span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">z</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">B</span><span class="p">[]</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">z</span><span class="o">^</span><span class="mi">5</span> <span class="o">+</span> <span class="n">c</span>
+<span class="gp">sage:</span> <span class="n">mandelbrot_plot</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>  <span class="c1"># long time                                           # needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--26-input--2" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">B</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">c</span><span class="p">,)</span> <span class="o">=</span> <span class="n">B</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">B</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">z</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">z</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">mandelbrot_plot</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>  <span class="c1"># long time                                           # needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">When the polynomial is defined over a multivariate polynomial ring it is
+necessary to specify the parameter variable (default parameter is <code class="docutils literal notranslate"><span class="pre">c</span></code>):</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[]</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">a</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">b</span><span class="o">^</span><span class="mi">3</span>
+<span class="gp">sage:</span> <span class="n">mandelbrot_plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>  <span class="c1"># long time                              # needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--27-input--2" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[</span><span class="s1">&#39;a, b&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">a</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">mandelbrot_plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>  <span class="c1"># long time                              # needs sage.plot</span>
+<span class="go">500x500px 24-bit RGB image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Interact functionality is not implemented for general polynomial maps:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--28-input--1" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">z</span><span class="p">,</span><span class="n">c</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[]</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">z</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="n">c</span>
+<span class="gp">sage:</span> <span class="n">mandelbrot_plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">interact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>                                         <span class="c1"># needs sage.plot</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">NotImplementedError: interact only implemented for z^2 + c</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--28-input--2" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[</span><span class="s1">&#39;z, c&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">c</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">z</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">mandelbrot_plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">interact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>                                         <span class="c1"># needs sage.plot</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">NotImplementedError: interact only implemented for z^2 + c</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../finite_dynamical_system.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Discrete dynamical systems</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="../../../complex_dynamics.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Plotting of Mandelbrot and Julia Sets</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2005--2025, The Sage Development Team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Mandelbrot and Julia sets</a><ul>
+<li><a class="reference internal" href="#sage.dynamics.complex_dynamics.mandel_julia.external_ray"><code class="docutils literal notranslate"><span class="pre">external_ray()</span></code></a></li>
+<li><a class="reference internal" href="#sage.dynamics.complex_dynamics.mandel_julia.julia_plot"><code class="docutils literal notranslate"><span class="pre">julia_plot()</span></code></a></li>
+<li><a class="reference internal" href="#sage.dynamics.complex_dynamics.mandel_julia.kneading_sequence"><code class="docutils literal notranslate"><span class="pre">kneading_sequence()</span></code></a></li>
+<li><a class="reference internal" href="#sage.dynamics.complex_dynamics.mandel_julia.mandelbrot_plot"><code class="docutils literal notranslate"><span class="pre">mandelbrot_plot()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../../%5fstatic/documentation_options.js"></script>
+    <script src="../../../../%5fstatic/doctools.js"></script>
+    <script src="../../../../%5fstatic/sphinx_highlight.js"></script>
+    <script src="../../../../%5fstatic/scripts/furo.js"></script>
+    <script src="../../../../%5fstatic/clipboard.min.js"></script>
+    <script src="../../../../%5fstatic/copybutton.js"></script>
+    <script src="../../../../%5fstatic/tabs.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>
+    <script defer="defer" src="/Users/mkoeppe/s/sage/sage-rebasing/local/share/mathjax/mathjax/tex-chtml.js?v=0d9741c5"></script>
+    <script src="../../../../%5fstatic/jupyter-sphinx-furo.js"></script>
+    </body>
+</html>

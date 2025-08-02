@@ -1,0 +1,1701 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Packaging SageMath Downstream" href="downstream.html" /><link rel="prev" title="Using External Libraries and Interfaces" href="coding_in_other.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>Packaging Third-Party Code for Sage - Developer Guide</title>
+      <link rel="stylesheet" type="text/css" href="../%5fstatic/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../%5fstatic/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../%5fstatic/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../%5fstatic/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../%5fstatic/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../%5fstatic/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../%5fstatic/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../%5fstatic/custom-furo.css?v=d2ecc25a" />
+    <link rel="stylesheet" type="text/css" href="../%5fstatic/custom-jupyter-sphinx.css?v=75860c6b" />
+    <link rel="stylesheet" type="text/css" href="../%5fstatic/custom-codemirror-monokai.css?v=b5588f12" />
+    <link rel="stylesheet" type="text/css" href="../%5fstatic/custom-tabs.css?v=8a724d73" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  --color-brand-primary: #0f0fff;
+  --color-brand-content: #0f0fff;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Developer Guide</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../%5fstatic/logo_sagemath_black.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../%5fstatic/logo_sagemath_white.svg" alt="Dark Logo"/>
+  </div>
+  
+      <span class="sidebar-brand-text">passagemath 10.6.1 Documentation</span>
+  
+</a><div class="select-wrapper">
+  <select id="versions-menu" onchange="changeVersion()">
+    <option value="" selected>other version</option>
+    <option value="https://doc-develop--sagemath.netlify.app">develop</option>
+  </select>
+</div><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-home">
+  <div class="sidebar-tree">
+    <ul><li class="toctree-l1">
+      <a class="reference internal" href="index.html">Home - Developer Guide</a>
+    </li></ul>
+  </div>
+</div><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="walkthrough.html">Development Walk-through</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_setup.html">Setting Up Git</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="github.html">The Sage Repository on GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflows.html">Using Git with GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="review.html">Reviewing Code</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="git_basic.html">Git Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_advanced.html">Advanced Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_background.html">Git Tips and References</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">Setting up Your Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding_basics.html">General Conventions</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="doctesting.html">Running Sage’s Doctests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="portability_testing.html">Testing on Multiple Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Development and Testing Tools</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="sage_manuals.html">The Sage Manuals</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="coding_in_python.html">Coding in Python for Sage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding_in_cython.html">Coding in Cython</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding_in_other.html">Using External Libraries and Interfaces</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Packaging Third-Party Code for Sage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downstream.html">Packaging SageMath Downstream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packaging_sage_library.html">Packaging the Sage Library for Modularized Distribution in passagemath</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/blob/develop/src/doc/en/developer/packaging.rst" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/edit/develop/src/doc/en/developer/packaging.rst" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="packaging-third-party-code-for-sage">
+<span id="chapter-packaging"></span><h1>Packaging Third-Party Code for Sage<a class="headerlink" href="#packaging-third-party-code-for-sage" title="Link to this heading">¶</a></h1>
+<p>One of the mottoes of the Sage project is to not reinvent the wheel: If
+an algorithm is already implemented in a well-tested library then
+consider incorporating that library into Sage. The current list of
+available packages are the subdirectories of <a class="extlink-sage_root reference external" href="https://github.com/sagemath/sage/tree/develop/build/pkgs/">SAGE_ROOT/build/pkgs/</a>.
+The installation of packages is done through a bash script located in
+<a class="extlink-sage_root reference external" href="https://github.com/sagemath/sage/tree/develop/build/bin/sage-spkg">SAGE_ROOT/build/bin/sage-spkg</a>. This script is typically invoked by
+giving the command:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost sage]$ </span>./sage<span class="w"> </span>-i<span class="w"> </span>&lt;options&gt;<span class="w"> </span>&lt;package<span class="w"> </span>name&gt;...
+</pre></div>
+</div>
+<p>options can be:</p>
+<ul class="simple">
+<li><p>-f: install a package even if the same version is already installed</p></li>
+<li><p>-s: do not delete build directory</p></li>
+<li><p>-c: after installing, run the test suite for the spkg. This should
+override the settings of <code class="docutils literal notranslate"><span class="pre">SAGE_CHECK</span></code> and <code class="docutils literal notranslate"><span class="pre">SAGE_CHECK_PACKAGES</span></code>.</p></li>
+<li><p>-d: only download the package</p></li>
+</ul>
+<p>The section <a class="reference internal" href="#section-directory-structure"><span class="std std-ref">Directory structure</span></a> describes the structure
+of each individual package in <a class="extlink-sage_root reference external" href="https://github.com/sagemath/sage/tree/develop/build/pkgs">SAGE_ROOT/build/pkgs</a>. In section
+<a class="reference internal" href="#section-manual-build"><span class="std std-ref">Building the package</span></a> we see how you can install and test a new
+spkg that you or someone else wrote. Finally,
+<a class="reference internal" href="#section-inclusion-procedure"><span class="std std-ref">Inclusion procedure for new and updated packages</span></a> explains how to submit a new package
+for inclusion in the Sage source code.</p>
+<section id="package-types">
+<span id="section-package-types"></span><h2>Package types<a class="headerlink" href="#package-types" title="Link to this heading">¶</a></h2>
+<p>Not all packages are built by default, they are divided into standard,
+optional and experimental ones:</p>
+<ul class="simple">
+<li><p><strong>standard</strong> packages are built by default. For a few packages,
+<code class="docutils literal notranslate"><span class="pre">configure</span></code> checks whether they are available from the system,
+in which case the build of those packages is skipped.
+Standard packages have stringent quality requirements:
+they should work on all supported platforms. In order
+for a new standard package to be accepted, it should have been
+optional for a while, see <a class="reference internal" href="#section-inclusion-procedure"><span class="std std-ref">Inclusion procedure for new and updated packages</span></a>.</p></li>
+<li><p><strong>optional</strong> packages are subject to the same requirements, they
+should also work on all supported platforms. If there are
+<a class="reference internal" href="doctesting.html#section-optional-doctest-flag"><span class="std std-ref">optional doctests</span></a> in the Sage
+library, those tests must pass.
+Note that optional packages are not tested as much as standard
+packages, so in practice they might break more often than standard
+packages.</p></li>
+<li><p>for <strong>experimental</strong> packages, the bar is much lower: even if there are
+some problems, the package can still be accepted.</p></li>
+</ul>
+<section id="package-source-types">
+<span id="section-package-source-types"></span><h3>Package source types<a class="headerlink" href="#package-source-types" title="Link to this heading">¶</a></h3>
+<p>Orthogonal to the division by package types, a package has exactly one of
+the following source types:</p>
+<ol class="arabic simple">
+<li><p>A <code class="docutils literal notranslate"><span class="pre">normal</span></code> package:</p>
+<ul class="simple">
+<li><p>comes from the tarball named in the required file <code class="docutils literal notranslate"><span class="pre">checksums.ini</span></code> and
+hosted on the Sage mirrors;</p></li>
+<li><p>its version number is defined by the required file <code class="docutils literal notranslate"><span class="pre">package-version.txt</span></code>;</p></li>
+<li><p>can be patched;</p></li>
+<li><p>Sage installs the package using build and install scripts
+(see <a class="reference internal" href="#section-spkg-install"><span class="std std-ref">Build and install scripts of normal packages</span></a>);</p></li>
+<li><p>Sage records the version number of the package installed using a file in
+<code class="docutils literal notranslate"><span class="pre">$SAGE_LOCAL/var/lib/sage/installed/</span></code> and will rerun the installation
+if <code class="docutils literal notranslate"><span class="pre">package-version.txt</span></code> changes.</p></li>
+</ul>
+</li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">wheel</span></code> package:</p>
+<ul class="simple">
+<li><p>comes from the wheel file(s) named in the required file <code class="docutils literal notranslate"><span class="pre">checksums.ini</span></code>
+and hosted on the Sage mirrors and GitHub Release Assets;</p></li>
+<li><p>its version number is defined by the required file <code class="docutils literal notranslate"><span class="pre">package-version.txt</span></code>;</p></li>
+<li><p>cannot be patched;</p></li>
+<li><p>no build and install scripts are needed
+(with one exception: the package <a class="reference external" href="../reference/spkg/pip.html#spkg-pip" title="(in Packages and Features v10.6.1)"><span>pip: Tool for installing and managing Python packages</span></a> installs itself from
+its wheel using a custom install script);</p></li>
+<li><p>Sage records the version number of the package installed using a file in
+<code class="docutils literal notranslate"><span class="pre">$SAGE_LOCAL/var/lib/sage/installed/</span></code> and will rerun the installation
+if <code class="docutils literal notranslate"><span class="pre">package-version.txt</span></code> changes;</p></li>
+<li><p>platform-independent <code class="docutils literal notranslate"><span class="pre">wheel</span></code> packages are preferred to <code class="docutils literal notranslate"><span class="pre">normal</span></code> packages
+because the installation is faster and there are no build requirements;</p></li>
+<li><p>platform-dependent <code class="docutils literal notranslate"><span class="pre">wheel</span></code> packages should only be used when installation
+from source (as a <code class="docutils literal notranslate"><span class="pre">normal</span></code> package) would have unusual build requirements
+(example: the package <a class="reference external" href="../reference/spkg/rpds_py.html#spkg-rpds-py" title="(in Packages and Features v10.6.1)"><span class="xref std std-ref">rpds_py</span></a> would need Rust);</p></li>
+<li><p>if a platform-dependent <code class="docutils literal notranslate"><span class="pre">wheel</span></code> package is a standard package, there
+must be a <code class="docutils literal notranslate"><span class="pre">configure</span></code> option that disables it
+(example: use of the package <a class="reference external" href="../reference/spkg/rpds_py.html#spkg-rpds-py" title="(in Packages and Features v10.6.1)"><span class="xref std std-ref">rpds_py</span></a> can be disabled
+by using <code class="docutils literal notranslate"><span class="pre">./configure</span> <span class="pre">--disable-notebook</span></code>).</p></li>
+</ul>
+</li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">pip</span></code> package:</p>
+<ul class="simple">
+<li><p>is obtained directly from <a class="reference external" href="https://pypi.org/">https://pypi.org/</a>;</p></li>
+<li><p>the version to be installed is determined using the required file
+<code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> – in its simplest form, this file just
+contains the name of the package (more details at
+<a class="reference external" href="https://pip.pypa.io/en/stable/user_guide/#requirements-files">https://pip.pypa.io/en/stable/user_guide/#requirements-files</a>);</p></li>
+<li><p>cannot be patched;</p></li>
+<li><p>Sage installs the package using the <code class="docutils literal notranslate"><span class="pre">pip</span></code> package manager;</p></li>
+<li><p>Sage delegates the recording of installed package version numbers to it;</p></li>
+<li><p>by policy, no <code class="docutils literal notranslate"><span class="pre">standard</span></code> package is allowed to be a <code class="docutils literal notranslate"><span class="pre">pip</span></code> package.</p></li>
+</ul>
+</li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">script</span></code> package:</p>
+<ul class="simple">
+<li><p>is not associated with a tarball;</p></li>
+<li><p>the file <code class="docutils literal notranslate"><span class="pre">package-version.txt</span></code> is optional;</p></li>
+<li><p>may be associated with a source tree in the repository;</p></li>
+<li><p>installing the package runs the installation script <code class="docutils literal notranslate"><span class="pre">spkg-install</span></code> or
+<code class="docutils literal notranslate"><span class="pre">spkg-install.in</span></code> (see <a class="reference internal" href="#section-spkg-install"><span class="std std-ref">Build and install scripts of normal packages</span></a>);</p></li>
+<li><p>Sage records the version number of the package installed using a file in
+<code class="docutils literal notranslate"><span class="pre">$SAGE_LOCAL/var/lib/sage/installed/</span></code> and will rerun the installation
+if <code class="docutils literal notranslate"><span class="pre">package-version.txt</span></code> changes.</p></li>
+</ul>
+</li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">dummy</span></code> package:</p>
+<ul class="simple">
+<li><p>is only used for recording the names of equivalent system packages;</p></li>
+<li><p>there is no <code class="docutils literal notranslate"><span class="pre">spkg-install</span></code> script, and attempts to install the package
+using Sage will give an error message.</p></li>
+</ul>
+</li>
+</ol>
+<p>To summarize: the package source type is determined as follows: if
+there is a file <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>, it is a <code class="docutils literal notranslate"><span class="pre">pip</span></code> package. If not,
+then if there is a <code class="docutils literal notranslate"><span class="pre">checksums.ini</span></code> file, it is <code class="docutils literal notranslate"><span class="pre">normal</span></code> or <code class="docutils literal notranslate"><span class="pre">wheel</span></code>.
+Otherwise, if it has an <code class="docutils literal notranslate"><span class="pre">spkg-install</span></code> or <code class="docutils literal notranslate"><span class="pre">spkg-install.in</span></code> script,
+it is a <code class="docutils literal notranslate"><span class="pre">script</span></code> package, and if it does not, then it is a <code class="docutils literal notranslate"><span class="pre">dummy</span></code> package.</p>
+</section>
+</section>
+<section id="directory-structure">
+<span id="section-directory-structure"></span><h2>Directory structure<a class="headerlink" href="#directory-structure" title="Link to this heading">¶</a></h2>
+<p>Third-party packages in Sage consist of two parts:</p>
+<ol class="arabic simple">
+<li><p>The tarball as it is distributed by the third party, or as close as
+possible. Valid reasons for modifying the tarball are deleting
+unnecessary files to keep the download size manageable,
+regenerating auto-generated files or changing the directory structure
+if necessary. In certain cases, you may need to (additionally) change
+the filename of the tarball.
+In any case, the actual code must be unmodified: if you need to
+change the sources, add a <a class="reference internal" href="#section-spkg-patching"><span class="std std-ref">patch</span></a>
+instead.</p></li>
+<li><p>The build scripts and associated files are in a subdirectory
+of <a class="extlink-sage_root reference external" href="https://github.com/sagemath/sage/tree/develop/build/pkgs/">SAGE_ROOT/build/pkgs/</a> whose name is the lower-case version of
+the upstream project name. If the
+project name contains characters which are not alphanumeric
+and are not an underscore, those characters should be removed
+or replaced by an underscore. For example, the project
+<code class="docutils literal notranslate"><span class="pre">FFLAS-FFPACK</span></code> is called <code class="docutils literal notranslate"><span class="pre">fflas_ffpack</span></code> in Sage.</p></li>
+</ol>
+<p>As an example, let us consider a hypothetical FoO project. They
+(upstream) distribute a tarball <code class="docutils literal notranslate"><span class="pre">FoO-1.3.tar.gz</span></code> (that will be
+automatically placed in <code class="file docutils literal notranslate"><span class="pre">SAGE_ROOT/upstream</span></code> during the installation
+process). To package it in Sage, we create a subdirectory containing as
+a minimum the following files:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>SAGE_ROOT/build/pkgs/foo
+|-- checksums.ini
+|-- dependencies
+|-- package-version.txt
+|-- spkg-install.in
+|-- SPKG.rst
+`-- type
+</pre></div>
+</div>
+<p>The following are some additional files which can be added:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>SAGE_ROOT/build/pkgs/foo
+|-- distros
+|   |-- platform1.txt
+|   `-- platform2.txt
+|-- has_nonfree_dependencies
+|-- huge
+|-- patches
+|   |-- bar.patch
+|   `-- baz.patch
+|-- spkg-check.in
+|-- spkg-configure.m4
+|-- spkg-src
+`-- trees.txt
+</pre></div>
+</div>
+<p>We discuss the individual files in the following sections.</p>
+<section id="package-type">
+<h3>Package type<a class="headerlink" href="#package-type" title="Link to this heading">¶</a></h3>
+<p>The file <code class="docutils literal notranslate"><span class="pre">type</span></code> should contain a single word, which is either
+<code class="docutils literal notranslate"><span class="pre">standard</span></code>, <code class="docutils literal notranslate"><span class="pre">optional</span></code> or <code class="docutils literal notranslate"><span class="pre">experimental</span></code>.
+See <a class="reference internal" href="#section-package-types"><span class="std std-ref">Package types</span></a> for the meaning of these types.</p>
+</section>
+<section id="build-and-install-scripts-of-normal-packages">
+<span id="section-spkg-install"></span><h3>Build and install scripts of <code class="docutils literal notranslate"><span class="pre">normal</span></code> packages<a class="headerlink" href="#build-and-install-scripts-of-normal-packages" title="Link to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">spkg-build.in</span></code> and <code class="docutils literal notranslate"><span class="pre">spkg-install.in</span></code> files are templates for
+<code class="docutils literal notranslate"><span class="pre">bash</span></code> scripts <code class="docutils literal notranslate"><span class="pre">spkg-build</span></code> and <code class="docutils literal notranslate"><span class="pre">spkg-install</span></code>, which build
+and/or install the package.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">*.in</span></code> script templates should <em>not</em> be prefixed with a shebang
+line (<code class="docutils literal notranslate"><span class="pre">#!...</span></code>) and should not have the executable bit set in their
+permissions.  These are added automatically when generating the
+scripts, along with some additional boilerplate, when the package is
+installed.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">spkg-build.in</span></code> and <code class="docutils literal notranslate"><span class="pre">spkg-install.in</span></code> files in the Sage source
+tree need only focus on the specific steps for building and installing
+that package.  If no <code class="docutils literal notranslate"><span class="pre">spkg-build.in</span></code> exists, then the
+<code class="docutils literal notranslate"><span class="pre">spkg-install.in</span></code> is responsible for both steps, though separating
+them is encouraged where possible.</p>
+<p>It is also possible to include similar script templatess named
+<code class="docutils literal notranslate"><span class="pre">spkg-preinst.in</span></code> or <code class="docutils literal notranslate"><span class="pre">spkg-postinst.in</span></code> to run additional steps
+before or after the package has been installed into
+<code class="docutils literal notranslate"><span class="pre">$SAGE_LOCAL</span></code>. It is encouraged to put steps which modify already
+installed files in a separate <code class="docutils literal notranslate"><span class="pre">spkg-postinst.in</span></code> script template
+rather than combining them with <code class="docutils literal notranslate"><span class="pre">spkg-install.in</span></code>.  This is because
+since <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/24106">Issue #24106</a>, <code class="docutils literal notranslate"><span class="pre">spkg-install</span></code> does not necessarily install
+packages directly to <code class="docutils literal notranslate"><span class="pre">$SAGE_LOCAL</span></code>.  However, by the time
+<code class="docutils literal notranslate"><span class="pre">spkg-postinst</span></code> is run, the installation to <code class="docutils literal notranslate"><span class="pre">$SAGE_LOCAL</span></code> is
+complete.</p>
+<p>In the best case, the upstream project can simply be installed by the
+usual configure / make / make install steps. In that case, the
+<code class="docutils literal notranslate"><span class="pre">spkg-build.in</span></code> script template would simply consist of:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>src
+sdh_configure
+sdh_make
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="#section-sdh-helpers"><span class="std std-ref">Helper functions</span></a> for more on the helper functions
+<code class="docutils literal notranslate"><span class="pre">sdh_configure</span></code>, <code class="docutils literal notranslate"><span class="pre">sdh_make</span></code>, etc.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">spkg-install.in</span></code> script template would consist of:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>src
+sdh_make_install
+</pre></div>
+</div>
+<p>Note that the top-level directory inside the tarball is renamed to
+<code class="docutils literal notranslate"><span class="pre">src</span></code> before calling the <code class="docutils literal notranslate"><span class="pre">spkg-build</span></code> and <code class="docutils literal notranslate"><span class="pre">spkg-install</span></code>
+scripts, so you can just use <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">src</span></code> instead of <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">foo-1.3</span></code>.</p>
+<p>If there is any meaningful documentation included but not installed by
+<code class="docutils literal notranslate"><span class="pre">sdh_make_install</span></code> (which calls <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code>), then you can add
+something like the following to install it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SAGE_SPKG_INSTALL_DOCS</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>yes<span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>sdh_make<span class="w"> </span>doc
+<span class="w">    </span>sdh_install<span class="w"> </span>doc/<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SAGE_SHARE</span><span class="s2">&quot;</span>/doc/PACKAGE_NAME
+<span class="k">fi</span>
+</pre></div>
+</div>
+<p>At build time <span class="target" id="index-0"></span><a class="reference external" href="https://docs.python.org/using/configure.html#envvar-CFLAGS" title="(in Python v3.12)"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">CFLAGS</span></code></a>, <span class="target" id="index-1"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">CXXFLAGS</span></code>, <span class="target" id="index-2"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">FCFLAGS</span></code>,
+and <span class="target" id="index-3"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">F77FLAGS</span></code> are usually set to <code class="docutils literal notranslate"><span class="pre">-g</span> <span class="pre">-O2</span> <span class="pre">-march=native</span></code>
+(according to <a class="reference external" href="../installation/source.html#sage-debug">debugging options</a>
+and whether building
+<a class="reference external" href="../installation/source.html#sage-fat-binary">fat binaries</a>).</p>
+<p>Slightly modified versions are available:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># No ``-march=native``.</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CFLAGS</span><span class="o">=</span><span class="nv">$CFLAGS_NON_NATIVE</span>
+
+<span class="c1"># ``-O3`` instead of ``-O2``.</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CFLAGS</span><span class="o">=</span><span class="nv">$CFLAGS_O3</span>
+
+<span class="c1"># Use flags as set by the user, possibly empty.</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CFLAGS</span><span class="o">=</span><span class="nv">$ORIGINAL_CFLAGS</span>
+</pre></div>
+</div>
+<p>Likewise for <span class="target" id="index-4"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">CXXFLAGS</span></code>, <span class="target" id="index-5"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">FCFLAGS</span></code>, and <span class="target" id="index-6"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">F77FLAGS</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Prior to Sage 9.1, the script templates were called <code class="docutils literal notranslate"><span class="pre">spkg-build</span></code>,
+<code class="docutils literal notranslate"><span class="pre">spkg-install</span></code>, etc., without the extension <code class="docutils literal notranslate"><span class="pre">.in</span></code>.</p>
+<p>Prior to Sage 8.1 the shebang line was included, and the scripts were
+marked executable.  However, this is no longer the case as of
+<a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/23179">Issue #23179</a>.  Now the scripts in the source tree are deliberately
+written not to be directly executed, and are only made into executable
+scripts when they are copied to the package’s build directory.</p>
+<p>Build/install scripts may still be written in Python, but the Python
+code should go in a separate file (e.g. <code class="docutils literal notranslate"><span class="pre">spkg-install.py</span></code>), and can
+then be executed from the real <code class="docutils literal notranslate"><span class="pre">spkg-install.in</span></code> like:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>exec sage-bootstrap-python spkg-install.py
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>exec python3 spkg-install.py
+</pre></div>
+</div>
+<p>In more detail: <code class="docutils literal notranslate"><span class="pre">sage-bootstrap-python</span></code> runs a version of Python
+pre-installed on the machine, which is a build prerequisite of Sage.
+Note that <code class="docutils literal notranslate"><span class="pre">sage-bootstrap-python</span></code> accepts a wide range of Python
+versions, Python &gt;= 2.6 and &gt;= 3.4, see <a class="extlink-sage_root reference external" href="https://github.com/sagemath/sage/tree/develop/build/tox.ini">SAGE_ROOT/build/tox.ini</a>
+for details.  You should only use <code class="docutils literal notranslate"><span class="pre">sage-bootstrap-python</span></code> for
+installation tasks that must be able to run before Sage has made
+<code class="docutils literal notranslate"><span class="pre">python3</span></code> available.  It must not be used for running <code class="docutils literal notranslate"><span class="pre">pip</span></code> or
+<code class="docutils literal notranslate"><span class="pre">setup.py</span></code> for any package.</p>
+<p><code class="docutils literal notranslate"><span class="pre">python3</span></code> runs the version of Python managed by Sage (either its
+own installation of Python 3 from an SPKG or a venv over a system
+python3.  You should use this if you are installing a Python package
+to make sure that the libraries are installed in the right place.</p>
+<p>By the way, there is also a script <code class="docutils literal notranslate"><span class="pre">sage-python</span></code>. This should be
+used at runtime, for example in scripts in <code class="docutils literal notranslate"><span class="pre">SAGE_LOCAL/bin</span></code> which
+expect Sage’s Python to already be built.</p>
+</div>
+<p>Many packages currently do not separate the build and install steps and only
+provide a <code class="docutils literal notranslate"><span class="pre">spkg-install.in</span></code> file that does both.  The separation is useful in
+particular for root-owned install hierarchies, where something like <code class="docutils literal notranslate"><span class="pre">sudo</span></code>
+must be used to install files.  For this purpose Sage uses an environment
+variable <code class="docutils literal notranslate"><span class="pre">$SAGE_SUDO</span></code>, the value of which may be provided by the developer
+at build time,  which should to the appropriate system-specific
+<code class="docutils literal notranslate"><span class="pre">sudo</span></code>-like command (if any).  The following rules are then observed:</p>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">spkg-build.in</span></code> exists, the generated script <code class="docutils literal notranslate"><span class="pre">spkg-build</span></code> is first
+called, followed by <code class="docutils literal notranslate"><span class="pre">$SAGE_SUDO</span> <span class="pre">spkg-install</span></code>.</p></li>
+<li><p>Otherwise, only <code class="docutils literal notranslate"><span class="pre">spkg-install</span></code> is called (without <code class="docutils literal notranslate"><span class="pre">$SAGE_SUDO</span></code>).  Such
+packages should prefix all commands in <code class="docutils literal notranslate"><span class="pre">spkg-install.in</span></code> that write into
+the installation hierarchy with <code class="docutils literal notranslate"><span class="pre">$SAGE_SUDO</span></code>.</p></li>
+</ul>
+<p>If an <code class="docutils literal notranslate"><span class="pre">spkg-src</span></code> file is present, it indicates that the tarball is not
+an unmodified third-party tarball (see <a class="reference internal" href="#section-spkg-patching"><span class="std std-ref">Modifying third-party code</span></a>).
+It documents how the tarball was generated (either by modifying an upstream
+tarball or generating it from a repository). As ideally
+our tarballs are not modified, for most packages there is no <code class="docutils literal notranslate"><span class="pre">spkg-src</span></code> file.</p>
+</section>
+<section id="install-and-source-scripts-of-script-packages">
+<h3>Install and source scripts of <code class="docutils literal notranslate"><span class="pre">script</span></code> packages<a class="headerlink" href="#install-and-source-scripts-of-script-packages" title="Link to this heading">¶</a></h3>
+<p>For <code class="docutils literal notranslate"><span class="pre">script</span></code> packages, it is also possible to use an install script named <code class="docutils literal notranslate"><span class="pre">spkg-install</span></code>.
+It needs to be an executable shell script; it is not subject to the templating
+described in the previous section and will be executed directly from
+the build directory.</p>
+<p>Most of our <code class="docutils literal notranslate"><span class="pre">script</span></code> packages are associated with a source tree included in the
+repository, in a subdirectory of <code class="docutils literal notranslate"><span class="pre">$SAGE_ROOT/pkgs/</span></code>. In this case, there
+is a symlink <code class="docutils literal notranslate"><span class="pre">src</span></code> that points to the source tree and a script <code class="docutils literal notranslate"><span class="pre">spkg-src</span></code>
+that builds a tarball for the package.</p>
+</section>
+<section id="helper-functions">
+<span id="section-sdh-helpers"></span><h3>Helper functions<a class="headerlink" href="#helper-functions" title="Link to this heading">¶</a></h3>
+<p>In the <code class="docutils literal notranslate"><span class="pre">spkg-build</span></code>, <code class="docutils literal notranslate"><span class="pre">spkg-install</span></code>, and <code class="docutils literal notranslate"><span class="pre">spkg-check</span></code> scripts,
+the following functions are available. They are defined in the file
+<a class="extlink-sage_root reference external" href="https://github.com/sagemath/sage/tree/develop/build/bin/sage-dist-helpers">SAGE_ROOT/build/bin/sage-dist-helpers</a>, if you want to look at the
+source code.  They should be used to make sure that appropriate
+variables are set and to avoid code duplication. These function names
+begin with <code class="docutils literal notranslate"><span class="pre">sdh_</span></code>, which stands for “Sage-distribution helper”.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">sdh_die</span> <span class="pre">MESSAGE</span></code>: Exit the build script with the error code of
+the last command if it was non-zero, or with 1 otherwise, and print
+an error message. This is typically used like:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">command</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>sdh_die<span class="w"> </span><span class="s2">&quot;Command failed&quot;</span>
+</pre></div>
+</div>
+<p>This function can also (if not given any arguments) read the error message
+from stdin. In particular this is useful in conjunction with a heredoc to
+write multi-line error messages:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">command</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>sdh_die<span class="w"> </span><span class="s">&lt;&lt; _EOF_</span>
+<span class="s">Command failed.</span>
+<span class="s">Reason given.</span>
+<span class="s">_EOF_</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The other helper functions call <code class="docutils literal notranslate"><span class="pre">sdh_die</span></code>, so do not use (for
+example) <code class="docutils literal notranslate"><span class="pre">sdh_make</span> <span class="pre">||</span> <span class="pre">sdh_die</span></code>: the part of this after
+<code class="docutils literal notranslate"><span class="pre">||</span></code> will never be reached.</p>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sdh_check_vars</span> <span class="pre">[VARIABLE</span> <span class="pre">...]</span></code>: Check that one or more variables
+are defined and non-empty, and exit with an error if any are
+undefined or empty. Variable names should be given without the ‘$’
+to prevent unwanted expansion.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sdh_configure</span> <span class="pre">[...]</span></code>: Runs <code class="docutils literal notranslate"><span class="pre">./configure</span></code> with arguments
+<code class="docutils literal notranslate"><span class="pre">--prefix=&quot;$SAGE_LOCAL&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">--libdir=&quot;$SAGE_LOCAL/lib&quot;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">--disable-static</span></code>, <code class="docutils literal notranslate"><span class="pre">--disable-maintainer-mode</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">--disable-dependency-tracking</span></code>. Additional arguments to <code class="docutils literal notranslate"><span class="pre">./configure</span></code>
+may be given as arguments.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sdh_make</span> <span class="pre">[...]</span></code>: Runs <code class="docutils literal notranslate"><span class="pre">$MAKE</span></code> with the default target.
+Additional arguments to <code class="docutils literal notranslate"><span class="pre">$MAKE</span></code> may be given as arguments.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sdh_make_install</span> <span class="pre">[...]</span></code>: Runs <code class="docutils literal notranslate"><span class="pre">$MAKE</span> <span class="pre">install</span></code> with DESTDIR
+correctly set to a temporary install directory, for staged
+installations. Additional arguments to <code class="docutils literal notranslate"><span class="pre">$MAKE</span></code> may be given as
+arguments. If <code class="docutils literal notranslate"><span class="pre">$SAGE_DESTDIR</span></code> is not set then the command is run
+with <code class="docutils literal notranslate"><span class="pre">$SAGE_SUDO</span></code>, if set.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sdh_pip_install</span> <span class="pre">[...]</span></code>: The equivalent of running <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code>
+with the given arguments, as well as additional default arguments used for
+installing packages into Sage with pip. The last argument must be
+<code class="docutils literal notranslate"><span class="pre">.</span></code> to indicate installation from the current directory.</p>
+<p><code class="docutils literal notranslate"><span class="pre">sdh_pip_install</span></code> actually does the installation via <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">wheel</span></code>,
+creating a wheel file in <code class="docutils literal notranslate"><span class="pre">dist/</span></code>, followed by
+<code class="docutils literal notranslate"><span class="pre">sdh_store_and_pip_install_wheel</span></code> (see below).</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sdh_pip_editable_install</span> <span class="pre">[...]</span></code>: The equivalent of running <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span></code>
+with the given arguments, as well as additional default arguments used for
+installing packages into Sage with pip. The last argument must be
+<code class="docutils literal notranslate"><span class="pre">.</span></code> to indicate installation from the current directory.
+See <a class="reference external" href="https://pip.pypa.io/en/stable/cli/pip_install/#editable-installs">pip documentation</a>
+for more details concerning editable installs.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sdh_pip_uninstall</span> <span class="pre">[...]</span></code>: Runs <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">uninstall</span></code> with the given arguments.
+If unsuccessful, it displays a warning.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sdh_store_and_pip_install_wheel</span> <span class="pre">.</span></code>: The current directory,
+indicated by the required argument <code class="docutils literal notranslate"><span class="pre">.</span></code>, must have a subdirectory
+<code class="docutils literal notranslate"><span class="pre">dist</span></code> containing a unique wheel file (<code class="docutils literal notranslate"><span class="pre">*.whl</span></code>).</p>
+<p>This command (1) moves this wheel file to the
+directory <code class="docutils literal notranslate"><span class="pre">$SAGE_SPKG_WHEELS</span></code> (<code class="docutils literal notranslate"><span class="pre">$SAGE_LOCAL/var/lib/sage/wheels</span></code>)
+and then (2) installs the wheel in <code class="docutils literal notranslate"><span class="pre">$SAGE_LOCAL</span></code>.</p>
+<p>Both of these steps, instead of writing directly into <code class="docutils literal notranslate"><span class="pre">$SAGE_LOCAL</span></code>,
+use the staging directory <code class="docutils literal notranslate"><span class="pre">$SAGE_DESTDIR</span></code> if set; otherwise, they
+use <code class="docutils literal notranslate"><span class="pre">$SAGE_SUDO</span></code> (if set).</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sdh_install</span> <span class="pre">[-T]</span> <span class="pre">SRC</span> <span class="pre">[SRC...]</span> <span class="pre">DEST</span></code>: Copies one or more files or
+directories given as <code class="docutils literal notranslate"><span class="pre">SRC</span></code> (recursively in the case of
+directories) into the destination directory <code class="docutils literal notranslate"><span class="pre">DEST</span></code>, while
+ensuring that <code class="docutils literal notranslate"><span class="pre">DEST</span></code> and all its parent directories exist.
+<code class="docutils literal notranslate"><span class="pre">DEST</span></code> should be a path under <code class="docutils literal notranslate"><span class="pre">$SAGE_LOCAL</span></code>, generally. For
+<code class="docutils literal notranslate"><span class="pre">DESTDIR</span></code> installs, the <code class="docutils literal notranslate"><span class="pre">$SAGE_DESTDIR</span></code> path is automatically
+prepended to the destination.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">-T</span></code> option treats <code class="docutils literal notranslate"><span class="pre">DEST</span></code> as a normal file instead
+(e.g. for copying a file to a different filename). All directory
+components are still created in this case.</p>
+</li>
+</ul>
+<p>The following is automatically added to each install script, so you
+should not need to add it yourself.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sdh_guard</span></code>: Wrapper for <code class="docutils literal notranslate"><span class="pre">sdh_check_vars</span></code> that checks some
+common variables without which many/most packages won’t build
+correctly (<code class="docutils literal notranslate"><span class="pre">SAGE_ROOT</span></code>, <code class="docutils literal notranslate"><span class="pre">SAGE_LOCAL</span></code>, <code class="docutils literal notranslate"><span class="pre">SAGE_SHARE</span></code>). This is
+important to prevent installation to unintended locations.</p></li>
+</ul>
+<p>The following are also available, but rarely used.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sdh_cmake</span> <span class="pre">[...]</span></code>: Runs <code class="docutils literal notranslate"><span class="pre">cmake</span></code> with the given arguments, as well as
+additional arguments (assuming packages are using the GNUInstallDirs module)
+so that <code class="docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code> and <code class="docutils literal notranslate"><span class="pre">CMAKE_INSTALL_LIBDIR</span></code> are set
+correctly.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sdh_preload_lib</span> <span class="pre">EXECUTABLE</span> <span class="pre">SONAME</span></code>: (Linux only – no-op on other
+platforms.)  Check shared libraries loaded by <code class="docutils literal notranslate"><span class="pre">EXECUTABLE</span></code> (may be a
+program or another library) for a library starting with <code class="docutils literal notranslate"><span class="pre">SONAME</span></code>, and
+if found appends <code class="docutils literal notranslate"><span class="pre">SONAME</span></code> to the <code class="docutils literal notranslate"><span class="pre">LD_PRELOAD</span></code> environment variable.
+See <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/24885">Issue #24885</a>.</p></li>
+</ul>
+</section>
+<section id="allowing-for-the-use-of-system-packages">
+<span id="spkg-configure-m4"></span><h3>Allowing for the use of system packages<a class="headerlink" href="#allowing-for-the-use-of-system-packages" title="Link to this heading">¶</a></h3>
+<p>For a number of Sage packages, an already installed system version can
+be used instead, and Sage’s top-level <code class="docutils literal notranslate"><span class="pre">./configure</span></code> script
+determines when this is possible. To enable this, a package needs to
+have a script called <code class="docutils literal notranslate"><span class="pre">spkg-configure.m4</span></code>, which can, for example,
+determines whether the installed software is recent enough (and
+sometimes not too recent) to be usable by Sage. This script is
+processed by the <a class="reference external" href="https://www.gnu.org/savannah-checkouts/gnu/m4/manual/m4-1.4.18/m4.html">GNU M4 macro processor</a>.</p>
+<p>Also, if the software for a Sage package is provided by a system
+package, the <code class="docutils literal notranslate"><span class="pre">./configure</span></code> script can provide that information. To
+do this, there must be a directory <code class="docutils literal notranslate"><span class="pre">build/pkgs/PACKAGE/distros</span></code>
+containing files with names like</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="go">arch.txt</span>
+<span class="go">conda.txt</span>
+<span class="go">debian.txt</span>
+<span class="go">fedora.txt</span>
+<span class="go">homebrew.txt</span>
+<span class="go">...</span>
+</pre></div>
+</div>
+<p>corresponding to different packaging systems. Each system package
+should appear on a separate line. If the shell-style variable reference
+<code class="docutils literal notranslate"><span class="pre">${PYTHON_MINOR}</span></code> appears, it is replaced by the minor version of
+Python, e.g., 12 for Python 3.12.x. Everything on a line after a <code class="docutils literal notranslate"><span class="pre">#</span></code>
+character is ignored, so comments can be included in the files.</p>
+<p>For example, if <code class="docutils literal notranslate"><span class="pre">./configure</span></code> detects that the Homebrew packaging
+system is in use, and if the current package can be provided by a
+Homebrew package called “foo”, then the file
+<code class="docutils literal notranslate"><span class="pre">build/pkgs/PACKAGE/distros/homebrew.txt</span></code> should contain the single
+line “foo”. If <code class="docutils literal notranslate"><span class="pre">foo</span></code> is currently uninstalled, then <code class="docutils literal notranslate"><span class="pre">./configure</span></code>
+will print a message suggesting that the user should run <code class="docutils literal notranslate"><span class="pre">brew</span> <span class="pre">install</span>
+<span class="pre">foo</span></code>. See <a class="reference internal" href="portability_testing.html#section-equiv-distro-packages"><span class="std std-ref">Using Sage’s database of equivalent distribution packages</span></a> for more on this.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>All new standard packages should, when possible, include a
+<code class="docutils literal notranslate"><span class="pre">spkg-configure.m4</span></code> script and a populated <code class="docutils literal notranslate"><span class="pre">distros</span></code>
+directory. There are many examples in <code class="docutils literal notranslate"><span class="pre">build/pkgs</span></code>, including
+<code class="docutils literal notranslate"><span class="pre">build/pkgs/python3</span></code> and <code class="docutils literal notranslate"><span class="pre">build/pkgs/suitesparse</span></code>, to name a few.</p>
+</div>
+<p>Note that this may not be possible (as of this writing) for some
+packages, for example packages installed via pip for use while running
+Sage, like <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> or <code class="docutils literal notranslate"><span class="pre">scipy</span></code>. If a package is installed via
+pip for use in a separate process, like <code class="docutils literal notranslate"><span class="pre">tox</span></code>, then this should be
+possible.</p>
+</section>
+<section id="self-tests">
+<span id="section-spkg-check"></span><h3>Self-tests<a class="headerlink" href="#self-tests" title="Link to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">spkg-check.in</span></code> file is an optional, but highly recommended,
+script template to run self-tests of the package.  The format for the
+<code class="docutils literal notranslate"><span class="pre">spkg-check</span></code> is the same as <code class="docutils literal notranslate"><span class="pre">spkg-build</span></code> and <code class="docutils literal notranslate"><span class="pre">spkg-install</span></code>.  It
+is run after building and installing if the <code class="docutils literal notranslate"><span class="pre">SAGE_CHECK</span></code> environment
+variable is set, see the Sage installation guide. Ideally, upstream
+has some sort of test suite that can be run with the standard <code class="docutils literal notranslate"><span class="pre">make</span>
+<span class="pre">check</span></code> target. In that case, the <code class="docutils literal notranslate"><span class="pre">spkg-check.in</span></code> script template
+would simply contain:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>src
+<span class="nv">$MAKE</span><span class="w"> </span>check
+</pre></div>
+</div>
+</section>
+<section id="python-based-packages">
+<span id="section-python"></span><h3>Python-based packages<a class="headerlink" href="#python-based-packages" title="Link to this heading">¶</a></h3>
+<p>Python-based packages should declare <code class="docutils literal notranslate"><span class="pre">$(PYTHON)</span></code> as an order-only dependency.</p>
+<p>Most <code class="docutils literal notranslate"><span class="pre">normal</span></code> Python-based packages will also have <code class="docutils literal notranslate"><span class="pre">$(PYTHON_TOOLCHAIN)</span></code> as
+an order-only dependency, which will ensure that fundamental packages such
+as <code class="docutils literal notranslate"><span class="pre">pip</span></code> and <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> are available at the time of building the package.</p>
+<p>The best way to install a <code class="docutils literal notranslate"><span class="pre">normal</span></code> Python-based package is to use <code class="docutils literal notranslate"><span class="pre">pip</span></code>, in which
+case the <code class="docutils literal notranslate"><span class="pre">spkg-install.in</span></code> script template might just consist of</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>src<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sdh_pip_install<span class="w"> </span>.
+</pre></div>
+</div>
+<p>Where <code class="docutils literal notranslate"><span class="pre">sdh_pip_install</span></code> is a function provided by <code class="docutils literal notranslate"><span class="pre">sage-dist-helpers</span></code> that
+points to the correct <code class="docutils literal notranslate"><span class="pre">pip</span></code> for the Python used by Sage, and includes some
+default flags needed for correct installation into Sage.</p>
+<p>For <code class="docutils literal notranslate"><span class="pre">spkg-check.in</span></code> script templates, use <code class="docutils literal notranslate"><span class="pre">python3</span></code> rather
+than just <code class="docutils literal notranslate"><span class="pre">python</span></code>.  The paths are set by the Sage build system
+so that this runs the correct version of Python.
+For example, the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> <code class="docutils literal notranslate"><span class="pre">spkg-check.in</span></code> file contains the line</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">exec</span><span class="w"> </span>python3<span class="w"> </span>spkg-check.py
+</pre></div>
+</div>
+<section id="abstract-requirements-the-version-requirements-txt-file">
+<h4>Abstract requirements: The <code class="docutils literal notranslate"><span class="pre">version_requirements.txt</span></code> file<a class="headerlink" href="#abstract-requirements-the-version-requirements-txt-file" title="Link to this heading">¶</a></h4>
+<p>All <code class="docutils literal notranslate"><span class="pre">normal</span></code> Python packages and all <code class="docutils literal notranslate"><span class="pre">wheel</span></code> packages must have a file
+<code class="docutils literal notranslate"><span class="pre">version_requirements.txt</span></code>. For <code class="docutils literal notranslate"><span class="pre">pip</span></code> packages, the file is optional; if
+it is missing, the <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file is used instead.</p>
+<p>If a Python package is available on PyPI, the <code class="docutils literal notranslate"><span class="pre">version_requirements.txt</span></code> file must
+contain the name of the package as it is known to PyPI.</p>
+<p>Optionally,
+<code class="docutils literal notranslate"><span class="pre">version_requirements.txt</span></code> can encode version constraints (such as lower
+and upper bounds).  The constraints are in the format of the
+<code class="docutils literal notranslate"><span class="pre">install_requires</span></code> key of <a class="reference external" href="https://setuptools.readthedocs.io/en/latest/userguide/declarative_config.html">setup.cfg</a>
+or <a class="reference external" href="https://packaging.python.org/discussions/install-requires-vs-requirements/#id5">setup.py</a>.
+An exception are build time dependencies of Sage library, which should instead
+be declared in the <code class="docutils literal notranslate"><span class="pre">requires</span></code> block of <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>.</p>
+<p>Sage uses these version constraints for two purposes:</p>
+<ul class="simple">
+<li><p>As a source for generating the metadata of the Python
+distribution packages in <code class="docutils literal notranslate"><span class="pre">SAGE_ROOT/pkgs/</span></code>, see
+<a class="reference internal" href="packaging_sage_library.html#section-dependencies-distributions"><span class="std std-ref">Dependencies and distribution packages</span></a>.</p></li>
+<li><p>When the experimental option <code class="docutils literal notranslate"><span class="pre">configure</span> <span class="pre">--enable-system-site-packages</span></code> is used,
+then the <code class="docutils literal notranslate"><span class="pre">configure</span></code> script checks these constraints to determine whether
+to accept an installation of this package in the system Python.</p></li>
+</ul>
+<p>It is strongly recommended to include comments (starting with <code class="docutils literal notranslate"><span class="pre">#</span></code>)
+in the file that explain why a particular lower or upper bound is
+warranted or why we wish to include or reject certain versions.</p>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cat<span class="w"> </span>build/pkgs/sphinx/package-version.txt
+<span class="m">3</span>.1.2.p0
+$<span class="w"> </span>cat<span class="w"> </span>build/pkgs/sphinx/version_requirements.txt
+<span class="c1"># gentoo uses 3.2.1</span>
+sphinx<span class="w"> </span>&gt;<span class="o">=</span><span class="m">3</span>,<span class="w"> </span>&lt;<span class="m">3</span>.3
+</pre></div>
+</div>
+<p>The comments may include links to GitHub Issues/PRs, as in the following example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cat<span class="w"> </span>build/pkgs/packaging/version_requirements.txt
+packaging<span class="w"> </span>&gt;<span class="o">=</span><span class="m">18</span>.0
+<span class="c1"># Issue #30975: packaging 20.5 is known to work</span>
+<span class="c1"># but we have to silence &quot;DeprecationWarning: Creating a LegacyVersion&quot;</span>
+</pre></div>
+</div>
+<p>The currently encoded version constraints are merely a starting point.
+Developers and downstream packagers are invited to refine the version
+constraints based on their experience and tests.  When a package
+update is made in order to pick up a critical bug fix from a newer
+version, then the lower bound should be adjusted.
+Setting upper bounds to guard against incompatible future changes is
+a complex topic; see <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/33520">Issue #33520</a>.</p>
+</section>
+<section id="concrete-pinned-requirements-of-normal-wheel-script-packages-the-package-version-txt-file">
+<h4>Concrete (pinned) requirements of <code class="docutils literal notranslate"><span class="pre">normal</span></code>, <code class="docutils literal notranslate"><span class="pre">wheel</span></code>, <code class="docutils literal notranslate"><span class="pre">script</span></code> packages: The <code class="docutils literal notranslate"><span class="pre">package-version.txt</span></code> file<a class="headerlink" href="#concrete-pinned-requirements-of-normal-wheel-script-packages-the-package-version-txt-file" title="Link to this heading">¶</a></h4>
+<p>Like <code class="docutils literal notranslate"><span class="pre">normal</span></code> non-Python packages, all <code class="docutils literal notranslate"><span class="pre">normal</span></code> Python packages and all <code class="docutils literal notranslate"><span class="pre">wheel</span></code> packages
+must have a file <code class="docutils literal notranslate"><span class="pre">package-version.txt</span></code>. For <code class="docutils literal notranslate"><span class="pre">script</span></code> Python packages, the file is optional.</p>
+<p>Sage uses this version for two purposes:</p>
+<ul>
+<li><p>This is the version that the Sage distribution ships.</p></li>
+<li><p>As a source for generating the <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> files of
+the Python distribution packages in <code class="docutils literal notranslate"><span class="pre">SAGE_ROOT/pkgs/</span></code>, see
+<a class="reference internal" href="packaging_sage_library.html#section-dependencies-distributions"><span class="std std-ref">Dependencies and distribution packages</span></a>.</p>
+<p>For the use of the generated <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> files, see
+the <a class="reference external" href="https://pip.pypa.io/en/stable/user_guide/#requirements-files">pip User Guide</a>.</p>
+</li>
+</ul>
+</section>
+<section id="concrete-requirements-of-pip-packages-the-requirements-txt-file">
+<h4>Concrete requirements of <code class="docutils literal notranslate"><span class="pre">pip</span></code> packages: The <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file<a class="headerlink" href="#concrete-requirements-of-pip-packages-the-requirements-txt-file" title="Link to this heading">¶</a></h4>
+<p>In contrast to <code class="docutils literal notranslate"><span class="pre">normal</span></code>, <code class="docutils literal notranslate"><span class="pre">wheel</span></code>, and <code class="docutils literal notranslate"><span class="pre">script</span></code> packages, the
+<code class="docutils literal notranslate"><span class="pre">pip</span></code> packages do not use a <code class="docutils literal notranslate"><span class="pre">package-version.txt</span></code> file.</p>
+<p>Instead, the concrete requirements are set in a <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>
+file, which is passed directly to <code class="docutils literal notranslate"><span class="pre">pip</span></code> at installation time.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file uses a very flexible format, defined
+in the <a class="reference external" href="https://pip.pypa.io/en/stable/user_guide/#requirements-files">pip User Guide</a>.
+Through this format, the concrete requirements can either be
+pinned to a specific version, or set acceptable version ranges, or be
+entirely unconstrained.  The format is even flexible enough to install
+several distribution packages at the same time, and to conditionalize
+on the operating system or Python version.</p>
+<p>Pinning a version has the potential benefit of stability, as it can
+avoid retroactive breakage of the Sage distribution by new,
+incompatible versions, and can also help achieve reproducibility
+of computations.</p>
+<p>The cost is that updating the version requires
+work by at least two Sage developers: One who prepares a PR and one
+who reviews it.  Moreover, when the package does not get the attention of
+developers who upgrade it, there is the potential risk of missing out
+on bugfixes made in newer versions, or missing out on features in
+major new versions.</p>
+<p>Not pinning the version has the obvious potential benefit of always
+being up to date, as <code class="docutils literal notranslate"><span class="pre">pip</span></code> contacts the index server (PyPI) to
+obtain and install the package. (Note that <code class="docutils literal notranslate"><span class="pre">normal</span></code> and <code class="docutils literal notranslate"><span class="pre">wheel</span></code>
+packages are always pinned and do not even have access to the index
+server at the time of building and installing the package.)</p>
+<p>But this dynamism also brings a risk
+of instability, either by the package itself being affected by bugs in
+a new version, or by breaking compatibility with Sage.</p>
+<p>What policy is best for a package depends on various factors,
+including the development velocity and quality control that the
+upstream project uses, the interest by Sage developers in the package,
+the depth of integration in Sage, whether it affects the mathematics,
+etc.</p>
+</section>
+<section id="note-about-dependencies-of-pip-packages">
+<h4>Note about dependencies of <code class="docutils literal notranslate"><span class="pre">pip</span></code> packages<a class="headerlink" href="#note-about-dependencies-of-pip-packages" title="Link to this heading">¶</a></h4>
+<p>Dependencies of a <code class="docutils literal notranslate"><span class="pre">pip</span></code> package do not need to be available as packages
+in the Sage distribution, as the package can pull some of its build-time and
+run-time dependencies directly from PyPI. That’s a mild convenience for developers,
+and can be important if one wants to leave the version range wide open.</p>
+<p>However, if a dependency is also a package of the Sage distribution,
+then we must declare this dependency.  Otherwise, various errors
+can occur when building or upgrading. When new versions of <code class="docutils literal notranslate"><span class="pre">pip</span></code>
+packages add dependencies that happen to be Sage packages, there is a
+separate source of instability.</p>
+</section>
+</section>
+<section id="the-spkg-rst-file">
+<span id="section-spkg-spkg-txt"></span><h3>The SPKG.rst file<a class="headerlink" href="#the-spkg-rst-file" title="Link to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">SPKG.rst</span></code> file should follow this pattern:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>PACKAGE_NAME: One line description
+==================================
+
+Description
+-----------
+
+What does the package do?
+
+License
+-------
+
+What is the license? If non-standard, is it GPLv3+ compatible?
+
+Upstream Contact
+----------------
+
+Provide information for upstream contact.  Usually just an URL.
+
+Dependencies
+------------
+
+Only put special dependencies here that are not captured by the
+``dependencies`` file. Otherwise omit this section.
+
+Special Update/Build Instructions
+---------------------------------
+
+If the tarball was modified by hand and not via an ``spkg-src``
+script, describe what was changed. Otherwise omit this section.
+</pre></div>
+</div>
+<p>with <code class="docutils literal notranslate"><span class="pre">PACKAGE_NAME</span></code> replaced by the SPKG name (= the directory name in
+<code class="docutils literal notranslate"><span class="pre">build/pkgs</span></code>).</p>
+<p>Do not include changelogs in the <code class="docutils literal notranslate"><span class="pre">SPKG.rst</span></code> file. We keep track of
+this information in the commit messages and the pull request
+discussions on GitHub only.</p>
+</section>
+<section id="package-dependencies">
+<span id="section-dependencies"></span><h3>Package dependencies<a class="headerlink" href="#package-dependencies" title="Link to this heading">¶</a></h3>
+<p>Many packages depend on other packages. Consider for example the
+<code class="docutils literal notranslate"><span class="pre">eclib</span></code> package for elliptic curves. This package uses the libraries
+PARI, NTL and FLINT. So the following is the <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> file
+for <code class="docutils literal notranslate"><span class="pre">eclib</span></code>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>pari ntl flint
+
+----------
+All lines of this file are ignored except the first.
+</pre></div>
+</div>
+<p>For Python packages, common dependencies include <code class="docutils literal notranslate"><span class="pre">pip</span></code>,
+<code class="docutils literal notranslate"><span class="pre">setuptools</span></code>, and <code class="docutils literal notranslate"><span class="pre">future</span></code>. If your package depends on any of
+these, use <code class="docutils literal notranslate"><span class="pre">$(PYTHON_TOOLCHAIN)</span></code> instead. For example, here is the
+<code class="docutils literal notranslate"><span class="pre">dependencies</span></code> file for <code class="docutils literal notranslate"><span class="pre">configparser</span></code>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$(PYTHON) | $(PYTHON_TOOLCHAIN)
+</pre></div>
+</div>
+<p>(See below for the meaning of the <code class="docutils literal notranslate"><span class="pre">|</span></code>.)</p>
+<p>If there are no dependencies, you can use</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># no dependencies
+
+----------
+All lines of this file are ignored except the first.
+</pre></div>
+</div>
+<p>There are actually two kinds of dependencies: there are normal
+dependencies and order-only dependencies, which are weaker. The syntax
+for the <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> file is</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>normal dependencies | order-only dependencies
+</pre></div>
+</div>
+<p>If there is no <code class="docutils literal notranslate"><span class="pre">|</span></code>, then all dependencies are normal.</p>
+<ul>
+<li><p>If package A has an <strong>order-only dependency</strong> on B, it simply means
+that B must be built before A can be built. The version of B does not
+matter, only the fact that B is installed matters.
+This should be used if the dependency is purely a build-time
+dependency (for example, a dependency on pip simply because the
+<code class="docutils literal notranslate"><span class="pre">spkg-install</span></code> file uses pip).</p>
+<p>Alternatively, you can put the order-only dependencies in a separate
+file <code class="docutils literal notranslate"><span class="pre">dependencies_order_only</span></code>.</p>
+</li>
+<li><p>If A has a <strong>normal dependency</strong> on B, it means additionally that A
+should be rebuilt every time that B gets updated. This is the most
+common kind of dependency. A normal dependency is what you need for
+libraries: if we upgrade NTL, we should rebuild everything which
+uses NTL.</p></li>
+</ul>
+<p>Some packages are only needed for self-tests of a package (<code class="docutils literal notranslate"><span class="pre">spkg-check</span></code>).
+These dependencies should be declared in a separate file <code class="docutils literal notranslate"><span class="pre">dependencies_check</span></code>.</p>
+<p>Some dependencies are optional in the sense that they are only
+a dependency if they are configured to be installed. These dependencies
+should be declared in a separate file <code class="docutils literal notranslate"><span class="pre">dependencies_optional</span></code>.</p>
+<p>In order to check that the dependencies of your package are likely
+correct, the following command should work without errors:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost sage]$ </span>make<span class="w"> </span>distclean<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>make<span class="w"> </span>base<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>make<span class="w"> </span>PACKAGE_NAME
+</pre></div>
+</div>
+<p>Finally, note that standard packages should only depend on standard
+packages and optional packages should only depend on standard or
+optional packages.</p>
+</section>
+<section id="package-tags">
+<span id="section-spkg-tags"></span><h3>Package tags<a class="headerlink" href="#package-tags" title="Link to this heading">¶</a></h3>
+<p>We use the following “tags” to organize our <a class="reference external" href="../reference/spkg/index.html#spkg" title="(in Packages and Features v10.6.1)"><span class="xref std std-ref">index of packages in the
+Reference Manual</span></a>.</p>
+<ul class="simple">
+<li><p>Place an empty file named <code class="docutils literal notranslate"><span class="pre">math</span></code> in the package directory to make the
+package appear in the “Mathematics” subsections of the index of standard,
+optional, and experimental packages.</p></li>
+<li><p>Place an empty file name <code class="docutils literal notranslate"><span class="pre">front-end</span></code> in the package directory to make
+the package appear in the “Front-end, graphics, document preparation”
+subsections.</p></li>
+<li><p>Packages without these tags appear in the “Other dependencies” subsections.</p></li>
+</ul>
+<p>We use the following tags in our continuous integration scripts to filter
+out packages that we cannot or should not test automatically.</p>
+<ul class="simple">
+<li><p>You can mark a package as “huge” by placing an empty file named
+<code class="docutils literal notranslate"><span class="pre">huge</span></code> in the package directory.  For example, the package
+<code class="docutils literal notranslate"><span class="pre">polytopes_db_4d</span></code> is a large database whose compressed tarball has a
+size of 9 GB.</p></li>
+<li><p>For some other packages, we have placed an empty file named
+<code class="docutils literal notranslate"><span class="pre">has_nonfree_dependencies</span></code> in the package directory. This is to
+indicate that Sage with this package installed cannot be
+redistributed, and also that the package can only be installed after
+installing some other, non-free package.</p></li>
+</ul>
+</section>
+<section id="where-packages-are-installed">
+<span id="section-trees"></span><h3>Where packages are installed<a class="headerlink" href="#where-packages-are-installed" title="Link to this heading">¶</a></h3>
+<p>The Sage distribution has the notion of several installation trees.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">$SAGE_VENV</span></code> is the default installation tree for all Python packages, i.e.,
+normal packages with an <code class="docutils literal notranslate"><span class="pre">version_requirements.txt</span></code>, wheel packages, and pip packages
+with a <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">$SAGE_LOCAL</span></code> is the default installation tree for all non-Python packages.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">$SAGE_DOCS</span></code> (only set at build time) is an installation tree for the
+HTML and PDF documentation.</p></li>
+</ul>
+<p>By placing a file <code class="docutils literal notranslate"><span class="pre">trees.txt</span></code> in the package directory, the installation tree
+can be overridden.  For example, <code class="docutils literal notranslate"><span class="pre">build/pkgs/python3/trees.txt</span></code> contains the
+word <code class="docutils literal notranslate"><span class="pre">SAGE_VENV</span></code>, and <code class="docutils literal notranslate"><span class="pre">build/pkgs/sagemath_doc_html/trees.txt</span></code> contains the
+word <code class="docutils literal notranslate"><span class="pre">SAGE_DOCS</span></code>.</p>
+</section>
+<section id="package-versioning">
+<span id="section-spkg-versioning"></span><h3>Package versioning<a class="headerlink" href="#package-versioning" title="Link to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">package-version.txt</span></code> file contains just the version. So if
+upstream is <code class="docutils literal notranslate"><span class="pre">FoO-1.3.tar.gz</span></code> then the package version file would only
+contain <code class="docutils literal notranslate"><span class="pre">1.3</span></code>.</p>
+<p>If the upstream package is taken from some revision other than a stable
+version or if upstream doesn’t have a version number, you should use the
+date at which the revision is made. For example, the
+<code class="docutils literal notranslate"><span class="pre">database_stein_watkins</span></code> package with version <code class="docutils literal notranslate"><span class="pre">20110713</span></code> contains
+the database as of 2011-07-13. Note that the date should refer to the
+<em>contents</em> of the tarball, not to the day it was packaged for Sage.
+This particular Sage package for <code class="docutils literal notranslate"><span class="pre">database_stein_watkins</span></code> was created
+in 2014, but the data it contains was last updated in 2011.</p>
+<p>If you apply any patches, or if you made changes to the upstream tarball
+(see <a class="reference internal" href="#section-spkg-patching"><span class="std std-ref">Modifying third-party code</span></a> below), then you should append a <code class="docutils literal notranslate"><span class="pre">.p0</span></code>
+to the version to indicate that it’s not an unmodified package.</p>
+<p>Additionally, whenever you make changes to a package <em>without</em> changing
+the upstream tarball (for example, you add an additional patch or you
+fix something in the <code class="docutils literal notranslate"><span class="pre">spkg-install</span></code> file), you should also add or
+increase the patch level. So the different versions would
+be <code class="docutils literal notranslate"><span class="pre">1.3</span></code>, <code class="docutils literal notranslate"><span class="pre">1.3.p0</span></code>, <code class="docutils literal notranslate"><span class="pre">1.3.p1</span></code>, …
+The change in version number or patch level will trigger
+re-installation of the package, such that the changes are taken into
+account.</p>
+</section>
+<section id="checksums-and-tarball-names">
+<span id="section-spkg-checksums"></span><h3>Checksums and tarball names<a class="headerlink" href="#checksums-and-tarball-names" title="Link to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">checksums.ini</span></code> file contains the filename pattern of the
+upstream tarball (without the actual version) and its checksums. So if
+upstream is <code class="docutils literal notranslate"><span class="pre">$SAGE_ROOT/upstream/FoO-1.3.tar.gz</span></code>, create a new file
+<code class="docutils literal notranslate"><span class="pre">$SAGE_ROOT/build/pkgs/foo/checksums.ini</span></code> containing only:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">tarball</span><span class="o">=</span>FoO-VERSION.tar.gz
+</pre></div>
+</div>
+<p>Sage internally replaces the <code class="docutils literal notranslate"><span class="pre">VERSION</span></code> substring with the content of
+<code class="docutils literal notranslate"><span class="pre">package-version.txt</span></code>.</p>
+</section>
+<section id="upstream-urls">
+<span id="section-spkg-upstream-urls"></span><h3>Upstream URLs<a class="headerlink" href="#upstream-urls" title="Link to this heading">¶</a></h3>
+<p>In addition to these fields in <code class="docutils literal notranslate"><span class="pre">checksums.ini</span></code>, the optional field
+<code class="docutils literal notranslate"><span class="pre">upstream_url</span></code> holds an URL to the upstream package archive.</p>
+<p>The Release Manager uses the information in <code class="docutils literal notranslate"><span class="pre">upstream_url</span></code> to
+download the upstream package archive and to make it available on the
+Sage mirrors when a new release is prepared.  On GitHub PRs
+upgrading a package, the PR description should no longer contain
+the upstream URL to avoid duplication of information.</p>
+<p>Note that, like the <code class="docutils literal notranslate"><span class="pre">tarball</span></code> field, the <code class="docutils literal notranslate"><span class="pre">upstream_url</span></code> is a
+template; the substring <code class="docutils literal notranslate"><span class="pre">VERSION</span></code> is substituted with the actual
+version. It can also be written as <code class="docutils literal notranslate"><span class="pre">${VERSION}</span></code>, and it is possible
+to refer to the dot-separated components of a version by <code class="docutils literal notranslate"><span class="pre">VERSION_MAJOR</span></code>,
+<code class="docutils literal notranslate"><span class="pre">VERSION_MINOR</span></code>, and <code class="docutils literal notranslate"><span class="pre">VERSION_MICRO</span></code>.</p>
+<p>For Python packages available from PyPI, you should use an
+<code class="docutils literal notranslate"><span class="pre">upstream_url</span></code> from <code class="docutils literal notranslate"><span class="pre">files.pythonhosted.org</span></code>, which follows the format</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">upstream_url</span><span class="o">=</span>https://files.pythonhosted.org/packages/source/m/matplotlib/matplotlib-VERSION.tar.gz
+</pre></div>
+</div>
+<p>Developers who wish to test a package update from a PR branch before
+the archive is available on a Sage mirror. Sage falls back to
+downloading package tarballs from the <code class="docutils literal notranslate"><span class="pre">upstream_url</span></code> after trying all
+Sage mirrors. (This can be disabled by using <code class="docutils literal notranslate"><span class="pre">./configure</span>
+<span class="pre">--disable-download-from-upstream-url</span></code>.)  To speed up this process,
+you can trim <code class="docutils literal notranslate"><span class="pre">upstream/mirror_list</span></code> to fewer mirrors.</p>
+</section>
+</section>
+<section id="utility-script-to-create-and-maintain-packages">
+<span id="section-sage-package-command"></span><h2>Utility script to create and maintain packages<a class="headerlink" href="#utility-script-to-create-and-maintain-packages" title="Link to this heading">¶</a></h2>
+<p>The command <code class="docutils literal notranslate"><span class="pre">sage</span> <span class="pre">--package</span></code> offers a range of functionality for
+creating and maintaining packages of the Sage distribution.</p>
+<section id="creating-packages">
+<h3>Creating packages<a class="headerlink" href="#creating-packages" title="Link to this heading">¶</a></h3>
+<p>Assuming that you have downloaded
+<code class="docutils literal notranslate"><span class="pre">$SAGE_ROOT/upstream/FoO-1.3.tar.gz</span></code>, you can use:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost sage]$ </span>./sage<span class="w"> </span>--package<span class="w"> </span>create<span class="w"> </span>foo<span class="w">                     </span><span class="se">\</span>
+<span class="w">                                           </span>--version<span class="w"> </span><span class="m">1</span>.3<span class="w">                </span><span class="se">\</span>
+<span class="w">                                           </span>--tarball<span class="w"> </span>FoO-VERSION.tar.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">                                           </span>--type<span class="w"> </span>experimental
+</pre></div>
+</div>
+<p>to create <code class="docutils literal notranslate"><span class="pre">$SAGE_ROOT/build/pkgs/foo/package-version.txt</span></code>,
+<code class="docutils literal notranslate"><span class="pre">checksums.ini</span></code>, and <code class="docutils literal notranslate"><span class="pre">type</span></code> in one step.</p>
+<p>You can skip the manual downloading of the upstream tarball by using
+the additional argument <code class="docutils literal notranslate"><span class="pre">--upstream-url</span></code>.  This command will also
+set the <code class="docutils literal notranslate"><span class="pre">upstream_url</span></code> field in <code class="docutils literal notranslate"><span class="pre">checksums.ini</span></code> described above.</p>
+<p>For Python packages available from PyPI, use a PURL (Package URL,
+see <a class="reference external" href="https://peps.python.org/pep-0725/#concrete-package-specification-through-purl">PEP 725</a>):</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost sage]$ </span>./sage<span class="w"> </span>--package<span class="w"> </span>create<span class="w"> </span>pkg:pypi/scikit-spatial<span class="w"> </span><span class="se">\</span>
+<span class="w">                                           </span>--type<span class="w"> </span>optional
+</pre></div>
+</div>
+<p>An equivalent command uses the SPKG name of the new package:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost sage]$ </span>./sage<span class="w"> </span>--package<span class="w"> </span>create<span class="w"> </span>scikit_spatial<span class="w"> </span>--pypi<span class="w">   </span><span class="se">\</span>
+<span class="w">                                           </span>--type<span class="w"> </span>optional
+</pre></div>
+</div>
+<p>Either of these two commands automatically downloads the most recent version
+from PyPI and also obtains most of the necessary information by querying PyPI.
+In particular, the <code class="docutils literal notranslate"><span class="pre">SPKG.rst</span></code> file is created as a copy of the package’s
+README file.</p>
+<p>By default, when the package is available as a platform-independent
+wheel, the <code class="docutils literal notranslate"><span class="pre">sage</span> <span class="pre">--package</span></code> creates a <code class="docutils literal notranslate"><span class="pre">wheel</span></code> package. In this case,
+the <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> file is automatically generated from the information
+on PyPI, but may still need some manual editing.</p>
+<p>For <code class="docutils literal notranslate"><span class="pre">normal</span></code> and <code class="docutils literal notranslate"><span class="pre">pip</span></code> packages, the <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> file is initialized
+to the bare minimum and will need manual editing. (Watch out for warnings
+regarding <code class="docutils literal notranslate"><span class="pre">--no-deps</span></code> that Sage issues during installation of the package!)</p>
+<p>Also you may want to set lower and upper bounds for acceptable package versions
+in the file <code class="docutils literal notranslate"><span class="pre">version_requirements.txt</span></code>. (Make sure that the version in
+<code class="docutils literal notranslate"><span class="pre">package-version.txt</span></code> falls within this acceptable version range!)</p>
+<p>To create a <code class="docutils literal notranslate"><span class="pre">normal</span></code> package instead of a <code class="docutils literal notranslate"><span class="pre">wheel</span></code> package (for example, when the
+package requires patching), you can use:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost sage]$ </span>./sage<span class="w"> </span>--package<span class="w"> </span>create<span class="w"> </span>pkg:pypi/scikit-spatial<span class="w"> </span><span class="se">\</span>
+<span class="w">                                           </span>--source<span class="w"> </span>normal<span class="w">              </span><span class="se">\</span>
+<span class="w">                                           </span>--type<span class="w"> </span>optional
+</pre></div>
+</div>
+<p>To create a platform-dependent <code class="docutils literal notranslate"><span class="pre">wheel</span></code> package instead of a <code class="docutils literal notranslate"><span class="pre">normal</span></code> package,
+use:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost sage]$ </span>./sage<span class="w"> </span>--package<span class="w"> </span>create<span class="w"> </span>pkg:pypi/scikit-spatial<span class="w"> </span><span class="se">\</span>
+<span class="w">                                           </span>--source<span class="w"> </span>wheel<span class="w">               </span><span class="se">\</span>
+<span class="w">                                           </span>--type<span class="w"> </span>optional
+</pre></div>
+</div>
+<p>To create a <code class="docutils literal notranslate"><span class="pre">pip</span></code> package rather than a <code class="docutils literal notranslate"><span class="pre">normal</span></code> or <code class="docutils literal notranslate"><span class="pre">wheel</span></code> package, you can use:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost sage]$ </span>./sage<span class="w"> </span>--package<span class="w"> </span>create<span class="w"> </span>pkg:pypi/scikit-spatial<span class="w"> </span><span class="se">\</span>
+<span class="w">                                           </span>--source<span class="w"> </span>pip<span class="w">                 </span><span class="se">\</span>
+<span class="w">                                           </span>--type<span class="w"> </span>optional
+</pre></div>
+</div>
+<p>When the package already exists, <code class="docutils literal notranslate"><span class="pre">sage</span> <span class="pre">--package</span> <span class="pre">create</span></code> overwrites it.</p>
+</section>
+<section id="updating-packages-to-a-new-version">
+<h3>Updating packages to a new version<a class="headerlink" href="#updating-packages-to-a-new-version" title="Link to this heading">¶</a></h3>
+<p>A package that has the <code class="docutils literal notranslate"><span class="pre">upstream_url</span></code> information can be updated by
+simply typing:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost sage]$ </span>./sage<span class="w"> </span>--package<span class="w"> </span>update<span class="w"> </span>openblas<span class="w"> </span><span class="m">0</span>.3.79
+</pre></div>
+</div>
+<p>which will automatically download the archive and update the
+information in <code class="docutils literal notranslate"><span class="pre">build/pkgs/openblas/</span></code>.</p>
+<p>For Python packages available from PyPI, there is another shortcut:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost sage]$ </span>./sage<span class="w"> </span>--package<span class="w"> </span>update-latest<span class="w"> </span>pkg:pypi/matplotlib
+<span class="go">Updating matplotlib: 3.3.0 -&gt; 3.3.1</span>
+<span class="go">Downloading tarball to ...matplotlib-3.3.1.tar.bz2</span>
+<span class="go">[...............................................................]</span>
+</pre></div>
+</div>
+<p>When preparing the update, check that any lower and upper bounds for
+acceptable package versions that may be declared in the file
+<code class="docutils literal notranslate"><span class="pre">version_requirements.txt</span></code> are still correct, and update them as needed.
+The version in <code class="docutils literal notranslate"><span class="pre">package-version.txt</span></code> always needs to fall within the
+version range!</p>
+<p>If you pass the switch <code class="docutils literal notranslate"><span class="pre">--commit</span></code>, the script will run <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code>
+for you.</p>
+<p>If you prefer to update a package <code class="docutils literal notranslate"><span class="pre">foo</span></code> by making manual
+changes to the files in <code class="docutils literal notranslate"><span class="pre">build/pkgs/foo</span></code>, you will need to run:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost sage]$ </span>./sage<span class="w"> </span>--package<span class="w"> </span>fix-checksum<span class="w"> </span>foo
+</pre></div>
+</div>
+<p>which will modify the <code class="docutils literal notranslate"><span class="pre">checksums.ini</span></code> file with the correct
+checksums.</p>
+</section>
+<section id="obtaining-package-metrics">
+<h3>Obtaining package metrics<a class="headerlink" href="#obtaining-package-metrics" title="Link to this heading">¶</a></h3>
+<p>The command <code class="docutils literal notranslate"><span class="pre">sage</span> <span class="pre">--package</span> <span class="pre">metrics</span></code> computes machine-readable
+aggregated metrics for all packages in the Sage distribution or a
+given list of packages:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost sage]$ </span>./sage<span class="w"> </span>--package<span class="w"> </span>metrics
+<span class="go">has_file_distros_arch_txt=181</span>
+<span class="go">has_file_distros_conda_txt=289</span>
+<span class="go">has_file_distros_debian_txt=172</span>
+<span class="go">has_file_distros_fedora_txt=183</span>
+<span class="go">has_file_distros_gentoo_txt=211</span>
+<span class="go">has_file_distros_homebrew_txt=95</span>
+<span class="go">has_file_distros_macports_txt=173</span>
+<span class="go">has_file_distros_nix_txt=72</span>
+<span class="go">has_file_distros_opensuse_txt=206</span>
+<span class="go">has_file_distros_slackware_txt=32</span>
+<span class="go">has_file_distros_void_txt=221</span>
+<span class="go">has_file_patches=63</span>
+<span class="go">has_file_spkg_check=106</span>
+<span class="go">has_file_spkg_configure_m4=262</span>
+<span class="go">has_file_spkg_install=322</span>
+<span class="go">has_tarball_upstream_url=291</span>
+<span class="go">line_count_file_patches=31904</span>
+<span class="go">line_count_file_spkg_check=585</span>
+<span class="go">line_count_file_spkg_configure_m4=3337</span>
+<span class="go">line_count_file_spkg_install=4342</span>
+<span class="go">packages=442</span>
+<span class="go">type_base=1</span>
+<span class="go">type_experimental=18</span>
+<span class="go">type_optional=151</span>
+<span class="go">type_standard=272</span>
+</pre></div>
+</div>
+<p>Developers can use these metrics to monitor the complexity and quality
+of the Sage distribution. Here are some examples:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">has_file_patches</span></code> indicates how many packages have non-empty
+<code class="docutils literal notranslate"><span class="pre">patches/</span></code> directories, and <code class="docutils literal notranslate"><span class="pre">line_count_file_patches</span></code> gives
+the total number of lines in the patch files.</p>
+<p>Ideally, we would not have to carry patches for a
+package. For example, updating patches when a new upstream version
+is released can be a maintenance burden.</p>
+<p>Developers can help by working with the upstream maintainers of the
+package to prepare a new version that requires fewer or smaller
+patches, or none at all.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">line_count_spkg_install</span></code> gives the total number of lines in
+<code class="docutils literal notranslate"><span class="pre">spkg-install</span></code> or <code class="docutils literal notranslate"><span class="pre">spkg-install.in</span></code> files; see
+<a class="reference internal" href="#section-spkg-install"><span class="std std-ref">Build and install scripts of normal packages</span></a>.</p>
+<p>When we carry complex <code class="docutils literal notranslate"><span class="pre">spkg-install.in</span></code> scripts for normal packages,
+it may indicate that the upstream package’s build and installation
+scripts should be improved.</p>
+<p>Developers can help by working with the upstream maintainers of the
+package to prepare an improved version.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">has_file_spkg_check</span></code> indicates how many packages have an
+<code class="docutils literal notranslate"><span class="pre">spkg-check</span></code> or <code class="docutils literal notranslate"><span class="pre">spkg-check.in</span></code> file; see <a class="reference internal" href="#section-spkg-check"><span class="std std-ref">Self-tests</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">has_file_spkg_configure_m4</span></code> indicates how many packages
+are prepared to check for an equivalent system package, and
+<code class="docutils literal notranslate"><span class="pre">has_file_distros_arch_txt</span></code>, <code class="docutils literal notranslate"><span class="pre">has_file_distros_conda_txt</span></code>
+etc. count how many packages provide the corresponding system package
+information.</p></li>
+</ul>
+</section>
+</section>
+<section id="building-the-package">
+<span id="section-manual-build"></span><h2>Building the package<a class="headerlink" href="#building-the-package" title="Link to this heading">¶</a></h2>
+<p>At this stage you have a new tarball that is not yet distributed with
+Sage (<code class="docutils literal notranslate"><span class="pre">FoO-1.3.tar.gz</span></code> in the example of section
+<a class="reference internal" href="#section-directory-structure"><span class="std std-ref">Directory structure</span></a>).</p>
+<p>Now you can install the package using:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost sage]$ </span>./sage<span class="w"> </span>-i<span class="w"> </span>package_name
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost sage]$ </span>./sage<span class="w"> </span>-f<span class="w"> </span>package_name
+</pre></div>
+</div>
+<p>to force a reinstallation. If your package contains a <code class="docutils literal notranslate"><span class="pre">spkg-check</span></code>
+script (see <a class="reference internal" href="#section-spkg-check"><span class="std std-ref">Self-tests</span></a>) it can be run with:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost sage]$ </span>./sage<span class="w"> </span>-i<span class="w"> </span>-c<span class="w"> </span>package_name
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost sage]$ </span>./sage<span class="w"> </span>-f<span class="w"> </span>-c<span class="w"> </span>package_name
+</pre></div>
+</div>
+<p>If all went fine, open a PR with the code under
+<a class="extlink-sage_root reference external" href="https://github.com/sagemath/sage/tree/develop/build/pkgs">SAGE_ROOT/build/pkgs</a>.</p>
+</section>
+<section id="modifying-third-party-code">
+<span id="section-spkg-patching"></span><h2>Modifying third-party code<a class="headerlink" href="#modifying-third-party-code" title="Link to this heading">¶</a></h2>
+<p>In the Sage distribution, we try to use unpatched original upstream tarballs
+of stable versions of third-party packages whenever possible.
+Sometimes, however, modifications are necessary, either to fix a bug or
+to make the package build on the platforms supported by Sage.</p>
+<p>Only <code class="docutils literal notranslate"><span class="pre">normal</span></code> packages can be patched; see <a class="reference internal" href="#section-package-source-types"><span class="std std-ref">Package source types</span></a>.
+If a Python package is currently a <code class="docutils literal notranslate"><span class="pre">wheel</span></code> package
+and you need to patch it, change it to a <code class="docutils literal notranslate"><span class="pre">normal</span></code> package first.</p>
+<section id="when-to-patch-when-to-repackage-when-to-autoconfiscate">
+<span id="section-spkg-patch-or-repackage"></span><h3>When to patch, when to repackage, when to autoconfiscate<a class="headerlink" href="#when-to-patch-when-to-repackage-when-to-autoconfiscate" title="Link to this heading">¶</a></h3>
+<ul>
+<li><p>First check whether there is already a newer stable version of the package
+available that fixes the problem. In this case, try to upgrade the package.</p></li>
+<li><p>Check if Debian or another distribution already provides patches
+for upstream.  Use them if possible, don’t reinvent the wheel.</p></li>
+<li><p>If the upstream project is maintained on GitHub, check if there is a Pull
+Request that can be imported; see <a class="reference internal" href="#section-spkg-patch-from-pr"><span class="std std-ref">Preparing a patch by importing a pull request from GitHub</span></a> below.</p></li>
+<li><p>Sometimes it may seem as if you need to patch a (hand-written)
+<code class="docutils literal notranslate"><span class="pre">Makefile</span></code> because it “hard-codes” some paths or compiler flags:</p>
+<div class="highlight-diff notranslate"><div class="highlight"><pre><span></span><span class="gd">--- a/Makefile</span>
+<span class="gi">+++ b/Makefile</span>
+<span class="gu">@@ -77,7 +77,7 @@</span>
+<span class="w"> </span># This is a Makefile.
+<span class="w"> </span># Handwritten.
+
+<span class="gd">-DESTDIR = /usr/local</span>
+<span class="gi">+DESTDIR = $(SAGE_ROOT)/local</span>
+<span class="w"> </span>BINDIR   = $(DESTDIR)/bin
+<span class="w"> </span>INCDIR   = $(DESTDIR)/include
+<span class="w"> </span>LIBDIR   = $(DESTDIR)/lib
+</pre></div>
+</div>
+<p>Don’t use patching for that.  Makefile variables can be overridden
+from the command-line.  Just use the following in <code class="docutils literal notranslate"><span class="pre">spkg-install</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span>MAKE<span class="k">)</span><span class="w"> </span><span class="nv">DESTDIR</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$SAGE_ROOT</span><span class="s2">/local&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p>If the upstream Makefile does not build shared libraries,
+don’t bother trying to patch it.</p>
+<p>Autoconfiscate the package instead and use the standard facilities
+of Automake and Libtool.  This ensures that the shared library build
+is portable between Linux and macOS.</p>
+</li>
+<li><p>If you have to make changes to <code class="docutils literal notranslate"><span class="pre">configure.ac</span></code> or other source
+files of the autotools build system (or if you are autoconfiscating
+the package), then you can’t use patching; make a <a class="reference internal" href="#section-spkg-src"><span class="std std-ref">modified
+tarball</span></a> instead.</p></li>
+<li><p>If the patch would be huge, don’t use patching.  Make a
+<a class="reference internal" href="#section-spkg-src"><span class="std std-ref">modified tarball</span></a> instead.</p></li>
+<li><p>Otherwise, <a class="reference internal" href="#section-spkg-patch-maintenance"><span class="std std-ref">maintain a set of patches</span></a>.</p></li>
+</ul>
+</section>
+<section id="preparing-a-patch-by-importing-a-pull-request-from-github">
+<span id="section-spkg-patch-from-pr"></span><h3>Preparing a patch by importing a pull request from GitHub<a class="headerlink" href="#preparing-a-patch-by-importing-a-pull-request-from-github" title="Link to this heading">¶</a></h3>
+<p>In the easiest and quite commmon case, a pull request is already available on
+the upstream package’s GitHub repository.</p>
+<p>For example, if <a class="reference external" href="https://github.com/discopt/cmr/pull/64">https://github.com/discopt/cmr/pull/64</a> is the PR that we wish to use,
+change the URL to <a class="reference external" href="https://github.com/discopt/cmr/pull/64.patch">https://github.com/discopt/cmr/pull/64.patch</a> and save this file
+in the <code class="docutils literal notranslate"><span class="pre">patches/</span></code> subdirectory of the package directory (create the subdirectory
+if it does not exist yet). Make sure that it has the <code class="docutils literal notranslate"><span class="pre">.patch</span></code>
+file name extension; if your browser saved it with a <code class="docutils literal notranslate"><span class="pre">.patch.txt</span></code> extension,
+rename it.</p>
+<p>Modify the <code class="docutils literal notranslate"><span class="pre">package-version.txt</span></code> file to indicate the changed patch level; see
+<a class="reference internal" href="#section-spkg-versioning"><span class="std std-ref">Package versioning</span></a>. This ensures that the package will be rebuilt,
+even though its upstream version did not change. This is important in particular
+when other people are testing your added patch.</p>
+<p>Next, test building the package with the patch, for example using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">build</span></code>.
+You should see a message like <code class="docutils literal notranslate"><span class="pre">Applying</span> <span class="pre">64.patch</span></code>. Messages such as
+<code class="docutils literal notranslate"><span class="pre">Hunk</span> <span class="pre">#1</span> <span class="pre">succeeded</span> <span class="pre">at</span> <span class="pre">144</span> <span class="pre">with</span> <span class="pre">fuzz</span> <span class="pre">1</span> <span class="pre">(offset</span> <span class="pre">9</span> <span class="pre">lines)</span></code> are safe to
+ignore. They appear when the PR from which you prepared the patch is based
+on a version that differs from the version that the Sage package uses, or
+when there are other patches that make changes to the same file.</p>
+<p>Be sure add the patch file to your branch using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span></code>. When you commit it,
+use a commit message such as
+<code class="docutils literal notranslate"><span class="pre">build/pkgs/cmr:</span> <span class="pre">Add</span> <span class="pre">https://github.com/discopt/cmr/pull/64</span> <span class="pre">as</span> <span class="pre">a</span> <span class="pre">patch</span></code>.
+When you open your PR from this branch, our automatic test runs on GitHub
+Actions will automatically rebuild the patched package.</p>
+</section>
+<section id="preparing-a-patch-manually">
+<span id="section-spkg-patch-manually"></span><h3>Preparing a patch manually<a class="headerlink" href="#preparing-a-patch-manually" title="Link to this heading">¶</a></h3>
+<p>Patches must include documentation in their header (before the first diff hunk), and
+must have only one “prefix” level in the paths (that is, only one path level
+above the root of the upstream sources being patched).  So a typical patch file
+should look like this:</p>
+<div class="highlight-diff notranslate"><div class="highlight"><pre><span></span>Add autodoc_builtin_argspec config option
+
+Following the title line you can add a multi-line description of
+what the patch does, where you got it from if you did not write it
+yourself, if they are platform specific, if they should be pushed
+upstream, etc...
+
+<span class="gh">diff -dru Sphinx-1.2.2/sphinx/ext/autodoc.py.orig Sphinx-1.2.2/sphinx/ext/autodoc.py</span>
+<span class="gd">--- Sphinx-1.2.2/sphinx/ext/autodoc.py.orig  2014-03-02 20:38:09.000000000 +1300</span>
+<span class="gi">+++ Sphinx-1.2.2/sphinx/ext/autodoc.py  2014-10-19 23:02:09.000000000 +1300</span>
+<span class="gu">@@ -1452,6 +1462,7 @@</span>
+
+<span class="w"> </span>    app.add_config_value(&#39;autoclass_content&#39;, &#39;class&#39;, True)
+<span class="w"> </span>    app.add_config_value(&#39;autodoc_member_order&#39;, &#39;alphabetic&#39;, True)
+<span class="gi">+    app.add_config_value(&#39;autodoc_builtin_argspec&#39;, None, True)</span>
+<span class="w"> </span>    app.add_config_value(&#39;autodoc_default_flags&#39;, [], True)
+<span class="w"> </span>    app.add_config_value(&#39;autodoc_docstring_signature&#39;, True, True)
+<span class="w"> </span>    app.add_event(&#39;autodoc-process-docstring&#39;)
+</pre></div>
+</div>
+<p>Patches directly under the <code class="docutils literal notranslate"><span class="pre">patches/</span></code> directly are applied automatically
+before running the <code class="docutils literal notranslate"><span class="pre">spkg-install</span></code> script (so long as they have the <code class="docutils literal notranslate"><span class="pre">.patch</span></code>
+extension).  If you need to apply patches conditionally (such as only on
+a specifically platform), you can place those patches in a subdirectory of
+<code class="docutils literal notranslate"><span class="pre">patches/</span></code> and apply them manually using the <code class="docutils literal notranslate"><span class="pre">sage-apply-patches</span></code> script.
+For example, considering the layout:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>SAGE_ROOT/build/pkgs/foo
+|-- patches
+|   |-- solaris
+|   |   |-- solaris.patch
+|   |-- bar.patch
+|   `-- baz.patch
+</pre></div>
+</div>
+<p>The patches <code class="docutils literal notranslate"><span class="pre">bar.patch</span></code> and <code class="docutils literal notranslate"><span class="pre">baz.patch</span></code> are applied to the unpacked
+upstream sources in <code class="docutils literal notranslate"><span class="pre">src/</span></code> before running <code class="docutils literal notranslate"><span class="pre">spkg-install</span></code>.  To conditionally
+apply the patch for Solaris the <code class="docutils literal notranslate"><span class="pre">spkg-install</span></code> should contain a section like
+this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$UNAME</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;SunOS&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>sage-apply-patches<span class="w"> </span>-d<span class="w"> </span>solaris
+<span class="k">fi</span>
+</pre></div>
+</div>
+<p>where the <code class="docutils literal notranslate"><span class="pre">-d</span></code> flag applies all patches in the <code class="docutils literal notranslate"><span class="pre">solaris/</span></code> subdirectory of
+the main <code class="docutils literal notranslate"><span class="pre">patches/</span></code> directory.</p>
+</section>
+<section id="how-to-maintain-a-set-of-patches">
+<span id="section-spkg-patch-maintenance"></span><h3>How to maintain a set of patches<a class="headerlink" href="#how-to-maintain-a-set-of-patches" title="Link to this heading">¶</a></h3>
+<p>We recommend the following workflow for maintaining a set of patches.</p>
+<ul>
+<li><p>Fork the package and put it on a public git repository.</p>
+<p>If upstream has a public version control repository, import it from
+there.  If upstream does not have a public version control
+repository, import the current sources from the upstream tarball.
+Let’s call the branch <code class="docutils literal notranslate"><span class="pre">upstream</span></code>.</p>
+</li>
+<li><p>Create a branch for the changes necessary for Sage, let’s call it
+<code class="docutils literal notranslate"><span class="pre">sage_package_VERSION</span></code>, where <code class="docutils literal notranslate"><span class="pre">version</span></code> is the upstream version
+number.</p></li>
+<li><p>Make the changes and commit them to the branch.</p></li>
+<li><p>Generate the patches against the <code class="docutils literal notranslate"><span class="pre">upstream</span></code> branch:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rm<span class="w"> </span>-Rf<span class="w"> </span>SAGE_ROOT/build/pkgs/PACKAGE/patches
+mkdir<span class="w"> </span>SAGE_ROOT/build/pkgs/PACKAGE/patches
+git<span class="w"> </span>format-patch<span class="w"> </span>-o<span class="w"> </span>SAGE_ROOT/build/pkgs/PACKAGE/patches/<span class="w"> </span>upstream
+</pre></div>
+</div>
+</li>
+<li><p>Optionally, create an <code class="docutils literal notranslate"><span class="pre">spkg-src</span></code> file in the Sage package’s
+directory that regenerates the patch directory using the above
+commands.</p></li>
+<li><p>When a new upstream version becomes available, merge (or import) it
+into <code class="docutils literal notranslate"><span class="pre">upstream</span></code>, then create a new branch and rebase it on top of
+the updated upstream:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>sage_package_OLDVERSION
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>sage_package_NEWVERSION
+git<span class="w"> </span>rebase<span class="w"> </span>upstream
+</pre></div>
+</div>
+<p>Then regenerate the patches.</p>
+</li>
+</ul>
+</section>
+<section id="modified-tarballs">
+<span id="section-spkg-src"></span><h3>Modified tarballs<a class="headerlink" href="#modified-tarballs" title="Link to this heading">¶</a></h3>
+<p>If you really must modify the upstream tarball, then it is
+recommended that you write a script, called <code class="docutils literal notranslate"><span class="pre">spkg-src</span></code>, that makes the
+changes. This not only serves as documentation but also makes it easier
+to apply the same modifications to future versions.</p>
+</section>
+</section>
+<section id="inclusion-procedure-for-new-and-updated-packages">
+<span id="section-inclusion-procedure"></span><h2>Inclusion procedure for new and updated packages<a class="headerlink" href="#inclusion-procedure-for-new-and-updated-packages" title="Link to this heading">¶</a></h2>
+<p>Packages that are not part of Sage will first become optional or
+experimental (the latter if they will not build on all supported
+systems). After they have been in optional for some time without
+problems they can be proposed to be included as standard packages in
+Sage.</p>
+<p>To propose a package for optional/experimental inclusion please open a GitHub
+PR added with labels <code class="docutils literal notranslate"><span class="pre">c:</span> <span class="pre">packages:</span> <span class="pre">experimental</span></code> or <code class="docutils literal notranslate"><span class="pre">c:</span> <span class="pre">packages:</span>
+<span class="pre">optional</span></code>. The associated code requirements are described in the following
+sections.</p>
+<p>After the PR was reviewed and included, optional packages stay in
+that status for at least a year, after which they can be proposed to be
+included as standard packages in Sage. For this a GitHub PR is opened
+with the label <code class="docutils literal notranslate"><span class="pre">c:</span> <span class="pre">packages:</span> <span class="pre">standard</span></code>. Then make
+a proposal in the Google Group <code class="docutils literal notranslate"><span class="pre">sage-devel</span></code>.</p>
+<p>Upgrading packages to new upstream versions or with additional patches
+includes opening a PR in the respective category too, as described
+above.</p>
+<section id="license-information">
+<h3>License information<a class="headerlink" href="#license-information" title="Link to this heading">¶</a></h3>
+<p>License information for a package needs to be put both in its
+<code class="docutils literal notranslate"><span class="pre">SPKG.rst</span></code> file and in the file <a class="extlink-sage_root reference external" href="https://github.com/sagemath/sage/tree/develop/COPYING.txt">SAGE_ROOT/COPYING.txt</a>.
+Whenever upgrading a package, check whether the license changed between
+versions.</p>
+<p>If an upstream tarball of a package cannot be redistributed for license
+reasons, rename it to include the string <code class="docutils literal notranslate"><span class="pre">do-not-distribute</span></code>.  This
+will keep the release management scripts from uploading it to the Sage mirrors.</p>
+<p>Sometimes an upstream tarball contains some distributable parts using
+a free software license and some non-free parts.  In this case, it can
+be a good solution to make a custom tarball consisting of only the free
+parts; see <a class="reference internal" href="#section-spkg-src"><span class="std std-ref">Modified tarballs</span></a> and the <code class="docutils literal notranslate"><span class="pre">giac</span></code> package as an example.</p>
+</section>
+<section id="prerequisites-for-new-standard-packages">
+<h3>Prerequisites for new standard packages<a class="headerlink" href="#prerequisites-for-new-standard-packages" title="Link to this heading">¶</a></h3>
+<p>For a package to become part of Sage’s standard distribution, it
+must meet the following requirements:</p>
+<ul class="simple">
+<li><p><strong>License</strong>. For standard packages, the license must be compatible
+with the GNU General Public License, version 3. The Free Software
+Foundation maintains a long list of <a class="reference external" href="http://www.gnu.org/licenses/license-list.html">licenses and comments about
+them</a>.</p></li>
+<li><p><strong>Build Support</strong>. The code must build on all the fully supported
+platforms (Linux, macOS); see <a class="reference internal" href="portability_testing.html#chapter-portability-testing"><span class="std std-ref">Testing on Multiple Platforms</span></a>.
+It must be installed either from source as a normal package,
+or as a Python (platform-independent) wheel package, see
+<a class="reference internal" href="#section-package-source-types"><span class="std std-ref">Package source types</span></a>.</p></li>
+<li><p><strong>Quality</strong>. The code should be “better” than any other available
+code (that passes the two above criteria), and the authors need to
+justify this. The comparison should be made to both Python and other
+software. Criteria in passing the quality test include:</p>
+<ul>
+<li><p>Speed</p></li>
+<li><p>Documentation</p></li>
+<li><p>Usability</p></li>
+<li><p>Absence of memory leaks</p></li>
+<li><p>Maintainable</p></li>
+<li><p>Portability</p></li>
+<li><p>Reasonable build time, size, dependencies</p></li>
+</ul>
+</li>
+<li><p><strong>Previously an optional package</strong>. A new standard package must have
+spent some time as an optional package. Or have a good reason why
+this is not possible.</p></li>
+<li><p><strong>Refereeing</strong>. The code must be refereed, as discussed in
+<a class="reference internal" href="github.html#chapter-github"><span class="std std-ref">The Sage Repository on GitHub</span></a>.</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="downstream.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Packaging SageMath Downstream</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="coding_in_other.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Using External Libraries and Interfaces</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2005--2025, The Sage Development Team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Packaging Third-Party Code for Sage</a><ul>
+<li><a class="reference internal" href="#package-types">Package types</a><ul>
+<li><a class="reference internal" href="#package-source-types">Package source types</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#directory-structure">Directory structure</a><ul>
+<li><a class="reference internal" href="#package-type">Package type</a></li>
+<li><a class="reference internal" href="#build-and-install-scripts-of-normal-packages">Build and install scripts of <code class="docutils literal notranslate"><span class="pre">normal</span></code> packages</a></li>
+<li><a class="reference internal" href="#install-and-source-scripts-of-script-packages">Install and source scripts of <code class="docutils literal notranslate"><span class="pre">script</span></code> packages</a></li>
+<li><a class="reference internal" href="#helper-functions">Helper functions</a></li>
+<li><a class="reference internal" href="#allowing-for-the-use-of-system-packages">Allowing for the use of system packages</a></li>
+<li><a class="reference internal" href="#self-tests">Self-tests</a></li>
+<li><a class="reference internal" href="#python-based-packages">Python-based packages</a><ul>
+<li><a class="reference internal" href="#abstract-requirements-the-version-requirements-txt-file">Abstract requirements: The <code class="docutils literal notranslate"><span class="pre">version_requirements.txt</span></code> file</a></li>
+<li><a class="reference internal" href="#concrete-pinned-requirements-of-normal-wheel-script-packages-the-package-version-txt-file">Concrete (pinned) requirements of <code class="docutils literal notranslate"><span class="pre">normal</span></code>, <code class="docutils literal notranslate"><span class="pre">wheel</span></code>, <code class="docutils literal notranslate"><span class="pre">script</span></code> packages: The <code class="docutils literal notranslate"><span class="pre">package-version.txt</span></code> file</a></li>
+<li><a class="reference internal" href="#concrete-requirements-of-pip-packages-the-requirements-txt-file">Concrete requirements of <code class="docutils literal notranslate"><span class="pre">pip</span></code> packages: The <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file</a></li>
+<li><a class="reference internal" href="#note-about-dependencies-of-pip-packages">Note about dependencies of <code class="docutils literal notranslate"><span class="pre">pip</span></code> packages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-spkg-rst-file">The SPKG.rst file</a></li>
+<li><a class="reference internal" href="#package-dependencies">Package dependencies</a></li>
+<li><a class="reference internal" href="#package-tags">Package tags</a></li>
+<li><a class="reference internal" href="#where-packages-are-installed">Where packages are installed</a></li>
+<li><a class="reference internal" href="#package-versioning">Package versioning</a></li>
+<li><a class="reference internal" href="#checksums-and-tarball-names">Checksums and tarball names</a></li>
+<li><a class="reference internal" href="#upstream-urls">Upstream URLs</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#utility-script-to-create-and-maintain-packages">Utility script to create and maintain packages</a><ul>
+<li><a class="reference internal" href="#creating-packages">Creating packages</a></li>
+<li><a class="reference internal" href="#updating-packages-to-a-new-version">Updating packages to a new version</a></li>
+<li><a class="reference internal" href="#obtaining-package-metrics">Obtaining package metrics</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#building-the-package">Building the package</a></li>
+<li><a class="reference internal" href="#modifying-third-party-code">Modifying third-party code</a><ul>
+<li><a class="reference internal" href="#when-to-patch-when-to-repackage-when-to-autoconfiscate">When to patch, when to repackage, when to autoconfiscate</a></li>
+<li><a class="reference internal" href="#preparing-a-patch-by-importing-a-pull-request-from-github">Preparing a patch by importing a pull request from GitHub</a></li>
+<li><a class="reference internal" href="#preparing-a-patch-manually">Preparing a patch manually</a></li>
+<li><a class="reference internal" href="#how-to-maintain-a-set-of-patches">How to maintain a set of patches</a></li>
+<li><a class="reference internal" href="#modified-tarballs">Modified tarballs</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#inclusion-procedure-for-new-and-updated-packages">Inclusion procedure for new and updated packages</a><ul>
+<li><a class="reference internal" href="#license-information">License information</a></li>
+<li><a class="reference internal" href="#prerequisites-for-new-standard-packages">Prerequisites for new standard packages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../%5fstatic/documentation_options.js?v=68afb76a"></script>
+    <script src="../%5fstatic/doctools.js?v=9bcbadda"></script>
+    <script src="../%5fstatic/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../%5fstatic/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../%5fstatic/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../%5fstatic/copybutton.js?v=8e571dd6"></script>
+    <script src="../%5fstatic/tabs.js?v=3ee01567"></script>
+    <script src="../%5fstatic/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="../%5fstatic/jupyter-sphinx-furo.js?v=24b7fe9d"></script>
+    </body>
+</html>

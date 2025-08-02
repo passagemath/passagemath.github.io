@@ -1,0 +1,1333 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Interactive Simplex Method" href="interactive_simplex_method.html" /><link rel="prev" title="Constraints on Linear Functions Tensored with a Free Module" href="linear_tensor_constraints.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>Numerical Root Finding and Optimization - Numerical Optimization</title>
+      <link rel="stylesheet" type="text/css" href="../../../%5fstatic/pygments.css?v=a078f75a" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-codemirror-monokai.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-tabs.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  --color-brand-primary: #0f0fff;
+  --color-brand-content: #0f0fff;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">Numerical Optimization</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand" href="../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../%5fstatic/logo_sagemath_black.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../%5fstatic/logo_sagemath_white.svg" alt="Dark Logo"/>
+  </div>
+  
+      <span class="sidebar-brand-text">passagemath 10.6.1 Reference Manual</span>
+  
+</a><div class="select-wrapper">
+  <select id="versions-menu" onchange="changeVersion()">
+    <option value="" selected>other version</option>
+    <option value="https://doc-develop--sagemath.netlify.app">develop</option>
+  </select>
+</div><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-home">
+  <div class="sidebar-tree">
+    <ul><li class="toctree-l1">
+      <a class="reference internal" href="../../index.html">Home - Numerical Optimization</a>
+    </li></ul>
+  </div>
+</div><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="knapsack.html">Knapsack Problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mip.html">Mixed Integer Linear Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sdp.html">Semidefinite Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linear_functions.html">Linear Functions and Constraints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linear_tensor.html">Matrix/Vector-Valued Linear Functions: Parents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linear_tensor_element.html">Matrix/Vector-Valued Linear Functions: Elements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linear_tensor_constraints.html">Constraints on Linear Functions Tensored with a Free Module</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Numerical Root Finding and Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interactive_simplex_method.html">Interactive Simplex Method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gauss_legendre.html">Gauss-Legendre Integration for Vector-Valued Functions</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="backends/generic_backend.html">Generic Backend for LP solvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends/interactivelp_backend.html">InteractiveLP Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends/glpk_backend.html">GLPK Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends/glpk_exact_backend.html">GLPK/exact Backend (simplex method in exact rational arithmetic)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends/glpk_graph_backend.html">GLPK Backend for access to GLPK graph functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends/ppl_backend.html">PPL Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends/cvxopt_backend.html">CVXOPT Backend</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="backends/logging_backend.html">Logging Backend</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="backends/generic_sdp_backend.html">Generic Backend for SDP solvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends/cvxopt_sdp_backend.html">CVXOPT SDP Backend</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/optimize.py" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/edit/main/src/sage/numerical/optimize.py" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="numerical-root-finding-and-optimization">
+<span id="sage-numerical-optimize"></span><h1>Numerical Root Finding and Optimization<a class="headerlink" href="#numerical-root-finding-and-optimization" title="Link to this heading">¶</a></h1>
+<p id="module-sage.numerical.optimize">AUTHOR:</p>
+<ul class="simple">
+<li><p>William Stein (2007): initial version</p></li>
+<li><p>Nathann Cohen (2008): Bin Packing</p></li>
+</ul>
+<section id="functions-and-methods">
+<h2>Functions and Methods<a class="headerlink" href="#functions-and-methods" title="Link to this heading">¶</a></h2>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.numerical.optimize.binpacking">
+<span class="sig-prename descclassname"><span class="pre">sage.numerical.optimize.</span></span><span class="sig-name descname"><span class="pre">binpacking</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">integrality_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/optimize.py#L749"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.optimize.binpacking" title="Link to this definition">¶</a></dt>
+<dd><p>Solve the bin packing problem.</p>
+<p>The Bin Packing problem is the following :</p>
+<p>Given a list of items of weights <span class="math notranslate nohighlight">\(p_i\)</span> and a real value <span class="math notranslate nohighlight">\(k\)</span>, what is the
+least number of bins such that all the items can be packed in the bins,
+while ensuring that the sum of the weights of the items packed in each bin
+is at most <span class="math notranslate nohighlight">\(k\)</span> ?</p>
+<p>For more informations, see <a class="extlink-wikipedia reference external" href="https://en.wikipedia.org/wiki/Bin_packing_problem">Wikipedia article Bin_packing_problem</a>.</p>
+<p>Two versions of this problem are solved by this algorithm :</p>
+<ul class="simple">
+<li><p>Is it possible to put the given items in <span class="math notranslate nohighlight">\(k\)</span> bins ?</p></li>
+<li><p>What is the assignment of items using the least number of bins with
+the given list of items ?</p></li>
+</ul>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">items</span></code> – list or dict; either a list of real values (the items’
+weight), or a dictionary associating to each item its weight</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maximum</span></code> – (default: 1) the maximal size of a bin</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">k</span></code> – integer (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>); number of bins:</p>
+<ul>
+<li><p>When set to an integer value, the function returns a partition of the
+items into <span class="math notranslate nohighlight">\(k\)</span> bins if possible, and raises an exception otherwise.</p></li>
+<li><p>When set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, the function returns a partition of the items
+using the least possible number of bins.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">solver</span></code> – (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>) specify a Mixed Integer Linear Programming
+(MILP) solver to be used. If set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, the default one is used. For
+more information on MILP solvers and which default solver is used, see
+the method
+<a class="reference internal" href="mip.html#sage.numerical.mip.MixedIntegerLinearProgram.solve" title="sage.numerical.mip.MixedIntegerLinearProgram.solve"><code class="xref py py-meth docutils literal notranslate"><span class="pre">solve</span></code></a>
+of the class
+<a class="reference internal" href="mip.html#sage.numerical.mip.MixedIntegerLinearProgram" title="sage.numerical.mip.MixedIntegerLinearProgram"><code class="xref py py-class docutils literal notranslate"><span class="pre">MixedIntegerLinearProgram</span></code></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">verbose</span></code> – integer (default: 0); sets the level of verbosity. Set
+to 0 by default, which means quiet.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">integrality_tolerance</span></code> – parameter for use with MILP solvers over an
+inexact base ring; see <a class="reference internal" href="mip.html#sage.numerical.mip.MixedIntegerLinearProgram.get_values" title="sage.numerical.mip.MixedIntegerLinearProgram.get_values"><code class="xref py py-meth docutils literal notranslate"><span class="pre">MixedIntegerLinearProgram.get_values()</span></code></a></p></li>
+</ul>
+<p>OUTPUT:</p>
+<p>A list of lists, each member corresponding to a bin and containing either
+the list of the weights inside it when <code class="docutils literal notranslate"><span class="pre">items</span></code> is a list of items’ weight,
+or the list of items inside it when <code class="docutils literal notranslate"><span class="pre">items</span></code> is a dictionary. If there is
+no solution, an exception is raised (this can only happen when <code class="docutils literal notranslate"><span class="pre">k</span></code> is
+specified or if <code class="docutils literal notranslate"><span class="pre">maximum</span></code> is less than the weight of one item).</p>
+<p>EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab">Trying to find the minimum amount of boxes for 5 items of weights
+<span class="math notranslate nohighlight">\(1/5, 1/4, 2/3, 3/4, 5/7\)</span>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.numerical.optimize</span> <span class="kn">import</span> <span class="n">binpacking</span>
+<span class="gp">sage:</span> <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="o">/</span><span class="mi">7</span><span class="p">]</span>
+<span class="gp">sage:</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">binpacking</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>                                                 <span class="c1"># needs sage.numerical.mip</span>
+<span class="gp">sage:</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>                                                                 <span class="c1"># needs sage.numerical.mip</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.numerical.optimize</span> <span class="kn">import</span> <span class="n">binpacking</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">7</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">binpacking</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>                                                 <span class="c1"># needs sage.numerical.mip</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>                                                                 <span class="c1"># needs sage.numerical.mip</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Checking the bins are of correct size</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nb">all</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">)</span>                                            <span class="c1"># needs sage.numerical.mip</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">all</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">)</span>                                            <span class="c1"># needs sage.numerical.mip</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Checking every item is in a bin</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">b3</span> <span class="o">=</span> <span class="n">bins</span>                                                         <span class="c1"># needs sage.numerical.mip</span>
+<span class="gp">sage:</span> <span class="nb">all</span><span class="p">((</span><span class="n">v</span> <span class="ow">in</span> <span class="n">b1</span> <span class="ow">or</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">b2</span> <span class="ow">or</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">b3</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">)</span>                      <span class="c1"># needs sage.numerical.mip</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">b3</span> <span class="o">=</span> <span class="n">bins</span>                                                         <span class="c1"># needs sage.numerical.mip</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">all</span><span class="p">((</span><span class="n">v</span> <span class="ow">in</span> <span class="n">b1</span> <span class="ow">or</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">b2</span> <span class="ow">or</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">b3</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">)</span>                      <span class="c1"># needs sage.numerical.mip</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">And only in one bin</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>                                  <span class="c1"># needs sage.numerical.mip</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>                                  <span class="c1"># needs sage.numerical.mip</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>One way to use only three boxes (which is best possible) is to put
+<span class="math notranslate nohighlight">\(1/5 + 3/4\)</span> together in a box, <span class="math notranslate nohighlight">\(1/3+2/3\)</span> in another, and <span class="math notranslate nohighlight">\(5/7\)</span>
+by itself in the third one.</p>
+<p class="with-sage-tab with-python-tab">Of course, we can also check that there is no solution using only two boxes</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.numerical.optimize</span> <span class="kn">import</span> <span class="n">binpacking</span>
+<span class="gp">sage:</span> <span class="n">binpacking</span><span class="p">([</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.3</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.9</span><span class="p">],</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>                                        <span class="c1"># needs sage.numerical.mip</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">ValueError: this problem has no solution</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.numerical.optimize</span> <span class="kn">import</span> <span class="n">binpacking</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">binpacking</span><span class="p">([</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.2&#39;</span><span class="p">),</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.3&#39;</span><span class="p">),</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.8&#39;</span><span class="p">),</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.9&#39;</span><span class="p">)],</span> <span class="n">k</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>                                        <span class="c1"># needs sage.numerical.mip</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">ValueError: this problem has no solution</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">We can also provide a dictionary keyed by items and associating to each item
+its weight. Then, the bins contain the name of the items inside it</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">values</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span><span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span><span class="mi">5</span><span class="o">/</span><span class="mi">7</span><span class="p">}</span>
+<span class="gp">sage:</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">binpacking</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>                                                 <span class="c1"># needs sage.numerical.mip</span>
+<span class="gp">sage:</span> <span class="nb">set</span><span class="p">(</span><span class="n">flatten</span><span class="p">(</span><span class="n">bins</span><span class="p">))</span> <span class="o">==</span> <span class="nb">set</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>                                  <span class="c1"># needs sage.numerical.mip</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">values</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">7</span><span class="p">)}</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">binpacking</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>                                                 <span class="c1"># needs sage.numerical.mip</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">set</span><span class="p">(</span><span class="n">flatten</span><span class="p">(</span><span class="n">bins</span><span class="p">))</span> <span class="o">==</span> <span class="nb">set</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>                                  <span class="c1"># needs sage.numerical.mip</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.numerical.optimize.find_fit">
+<span class="sig-prename descclassname"><span class="pre">sage.numerical.optimize.</span></span><span class="sig-name descname"><span class="pre">find_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_guess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solution_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/optimize.py#L586"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.optimize.find_fit" title="Link to this definition">¶</a></dt>
+<dd><p>Finds numerical estimates for the parameters of the function model to
+give a best fit to data.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code> – a two dimensional table of floating point numbers of the
+form <span class="math notranslate nohighlight">\([[x_{1,1}, x_{1,2}, \ldots, x_{1,k}, f_1],
+[x_{2,1}, x_{2,2}, \ldots, x_{2,k}, f_2],
+\ldots,
+[x_{n,1}, x_{n,2}, \ldots, x_{n,k}, f_n]]\)</span> given as either a list of
+lists, matrix, or numpy array.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model</span></code> – either a symbolic expression, symbolic function, or a
+Python function. <code class="docutils literal notranslate"><span class="pre">model</span></code> has to be a function of the variables
+<span class="math notranslate nohighlight">\((x_1, x_2, \ldots, x_k)\)</span> and free parameters
+<span class="math notranslate nohighlight">\((a_1, a_2, \ldots, a_l)\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">initial_guess</span></code> – (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>) initial estimate for the
+parameters <span class="math notranslate nohighlight">\((a_1, a_2, \ldots, a_l)\)</span>, given as either a list, tuple,
+vector or numpy array. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the default estimate for each
+parameter is <span class="math notranslate nohighlight">\(1\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">parameters</span></code> – (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>) a list of the parameters
+<span class="math notranslate nohighlight">\((a_1, a_2, \ldots, a_l)\)</span>. If model is a symbolic function it is
+ignored, and the free parameters of the symbolic function are used.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">variables</span></code> – (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>) a list of the variables
+<span class="math notranslate nohighlight">\((x_1, x_2, \ldots, x_k)\)</span>. If model is a symbolic function it is
+ignored, and the variables of the symbolic function are used.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">solution_dict</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>); if <code class="docutils literal notranslate"><span class="pre">True</span></code>, return the
+solution as a dictionary rather than an equation</p></li>
+</ul>
+<p>EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab">First we create some data points of a sine function with some “random”
+perturbations:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">data</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="mf">1.2</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">i</span><span class="o">-</span><span class="mf">0.2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">normalvariate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>             <span class="c1"># needs sage.symbolic</span>
+<span class="gp">....:</span>         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xsrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="o">*</span><span class="n">pi</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)]</span>
+<span class="gp">sage:</span> <span class="n">var</span><span class="p">(</span><span class="s1">&#39;a, b, c, x&#39;</span><span class="p">)</span>                                                         <span class="c1"># needs sage.symbolic</span>
+<span class="go">(a, b, c, x)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--2" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">data</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.2&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.5&#39;</span><span class="p">)</span><span class="o">*</span><span class="n">i</span><span class="o">-</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.2&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.1&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">normalvariate</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>             <span class="c1"># needs sage.symbolic</span>
+<span class="gp">...</span>         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xsrange</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="n">pi</span><span class="p">,</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.2&#39;</span><span class="p">))]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">var</span><span class="p">(</span><span class="s1">&#39;a, b, c, x&#39;</span><span class="p">)</span>                                                         <span class="c1"># needs sage.symbolic</span>
+<span class="go">(a, b, c, x)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">We define a function with free parameters <span class="math notranslate nohighlight">\(a\)</span>, <span class="math notranslate nohighlight">\(b\)</span> and <span class="math notranslate nohighlight">\(c\)</span>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="n">c</span><span class="p">)</span>                                             <span class="c1"># needs sage.symbolic</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--2" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">__tmp__</span><span class="o">=</span><span class="n">var</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">);</span> <span class="n">model</span> <span class="o">=</span> <span class="n">symbolic_expression</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="n">c</span><span class="p">)</span>                                             <span class="p">)</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="c1"># needs sage.symbolic</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">We search for the parameters that give the best fit to the data:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">find_fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>                                                     <span class="c1"># needs sage.symbolic</span>
+<span class="go">[a == 1.21..., b == 0.49..., c == 0.19...]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--8-input--2" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">find_fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>                                                     <span class="c1"># needs sage.symbolic</span>
+<span class="go">[a == 1.21..., b == 0.49..., c == 0.19...]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">We can also use a Python function for the model:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span> <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="n">c</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">fit</span> <span class="o">=</span> <span class="n">find_fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">],</span> <span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="p">],</span>              <span class="c1"># needs sage.symbolic</span>
+<span class="gp">....:</span>                <span class="n">solution_dict</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">fit</span><span class="p">[</span><span class="n">a</span><span class="p">],</span> <span class="n">fit</span><span class="p">[</span><span class="n">b</span><span class="p">],</span> <span class="n">fit</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>                                                    <span class="c1"># needs sage.symbolic</span>
+<span class="go">(1.21..., 0.49..., 0.19...)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--9-input--2" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span> <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="n">c</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">fit</span> <span class="o">=</span> <span class="n">find_fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">],</span> <span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="p">],</span>              <span class="c1"># needs sage.symbolic</span>
+<span class="gp">...</span>                <span class="n">solution_dict</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">fit</span><span class="p">[</span><span class="n">a</span><span class="p">],</span> <span class="n">fit</span><span class="p">[</span><span class="n">b</span><span class="p">],</span> <span class="n">fit</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>                                                    <span class="c1"># needs sage.symbolic</span>
+<span class="go">(1.21..., 0.49..., 0.19...)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">We search for a formula for the <span class="math notranslate nohighlight">\(n\)</span>-th prime number:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.pari</span>
+<span class="gp">sage:</span> <span class="n">dataprime</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">nth_prime</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="mi">100</span><span class="p">)]</span>
+<span class="gp">sage:</span> <span class="n">find_fit</span><span class="p">(</span><span class="n">dataprime</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">log</span><span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">x</span><span class="p">),</span>                                   <span class="c1"># needs sage.symbolic</span>
+<span class="gp">....:</span>          <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">],</span> <span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+<span class="go">[a == 1.11..., b == 1.24...]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--10-input--2" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="c1"># needs sage.libs.pari</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">dataprime</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">nth_prime</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">5000</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">100</span><span class="p">))]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">find_fit</span><span class="p">(</span><span class="n">dataprime</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">log</span><span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">x</span><span class="p">),</span>                                   <span class="c1"># needs sage.symbolic</span>
+<span class="gp">...</span>          <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">],</span> <span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+<span class="go">[a == 1.11..., b == 1.24...]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>ALGORITHM:</p>
+<p>Uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.leastsq.html#scipy.optimize.leastsq" title="(in SciPy v1.12.0)"><code class="docutils literal notranslate"><span class="pre">scipy.optimize.leastsq()</span></code></a> which in turn uses MINPACK’s
+<code class="docutils literal notranslate"><span class="pre">lmdif</span></code> and <code class="docutils literal notranslate"><span class="pre">lmder</span></code> algorithms.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.numerical.optimize.find_local_maximum">
+<span class="sig-prename descclassname"><span class="pre">sage.numerical.optimize.</span></span><span class="sig-name descname"><span class="pre">find_local_maximum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.48e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxfun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/optimize.py#L178"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.optimize.find_local_maximum" title="Link to this definition">¶</a></dt>
+<dd><p>Numerically find a local maximum of the expression <span class="math notranslate nohighlight">\(f\)</span> on the interval
+<span class="math notranslate nohighlight">\([a,b]\)</span> (or <span class="math notranslate nohighlight">\([b,a]\)</span>) along with the point at which the maximum is attained.</p>
+<p>Note that this function only finds a <em>local</em> maximum, and not the
+global maximum on that interval – see the examples with
+<a class="reference internal" href="#sage.numerical.optimize.find_local_maximum" title="sage.numerical.optimize.find_local_maximum"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_local_maximum()</span></code></a>.</p>
+<p>See the documentation for <a class="reference internal" href="#sage.numerical.optimize.find_local_maximum" title="sage.numerical.optimize.find_local_maximum"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_local_maximum()</span></code></a> for more
+details and possible workarounds for finding the global minimum on
+an interval.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">find_local_maximum</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="go">(0.561096338191..., 0.8603335890...)</span>
+<span class="gp">sage:</span> <span class="n">find_local_maximum</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">maxfun</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">(0.561090323458..., 0.857926501456...)</span>
+<span class="gp">sage:</span> <span class="n">find_local_maximum</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">e</span><span class="o">^</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>                             <span class="c1"># needs sage.symbolic</span>
+<span class="go">(1.579175535558..., 0.7853981...)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--11-input--2" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">find_local_maximum</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="go">(0.561096338191..., 0.8603335890...)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">find_local_maximum</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">tol</span><span class="o">=</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.1&#39;</span><span class="p">),</span> <span class="n">maxfun</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="go">(0.561090323458..., 0.857926501456...)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">find_local_maximum</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="o">*</span><span class="n">e</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">7</span><span class="p">))</span>                             <span class="c1"># needs sage.symbolic</span>
+<span class="go">(1.579175535558..., 0.7853981...)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.numerical.optimize.find_local_minimum">
+<span class="sig-prename descclassname"><span class="pre">sage.numerical.optimize.</span></span><span class="sig-name descname"><span class="pre">find_local_minimum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.48e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxfun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/optimize.py#L209"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.optimize.find_local_minimum" title="Link to this definition">¶</a></dt>
+<dd><p>Numerically find a local minimum of the expression <code class="docutils literal notranslate"><span class="pre">f</span></code> on the
+interval <span class="math notranslate nohighlight">\([a,b]\)</span> (or <span class="math notranslate nohighlight">\([b,a]\)</span>) and the point at which it attains that
+minimum.  Note that <code class="docutils literal notranslate"><span class="pre">f</span></code> must be a function of (at most) one
+variable.</p>
+<p>Note that this function only finds a <em>local</em> minimum, and not the
+global minimum on that interval – see the examples below.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">f</span></code> – a function of at most one variable</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span></code> – endpoints of interval on which to minimize <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tol</span></code> – the convergence tolerance</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxfun</span></code> – maximum function evaluations</p></li>
+</ul>
+<p>OUTPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">minval</span></code> – (float) the minimum value that <span class="math notranslate nohighlight">\(f\)</span> takes on in the
+interval <span class="math notranslate nohighlight">\([a,b]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code> – (float) the point at which <span class="math notranslate nohighlight">\(f\)</span> takes on the minimum value</p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">find_local_minimum</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="go">(-3.28837139559..., 3.4256184695...)</span>
+<span class="gp">sage:</span> <span class="n">find_local_minimum</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+<span class="go">(-3.28837136189098..., 3.42575079030572...)</span>
+<span class="gp">sage:</span> <span class="n">find_local_minimum</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">maxfun</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">(-3.28837084598..., 3.4250840220...)</span>
+<span class="gp">sage:</span> <span class="n">show</span><span class="p">(</span><span class="n">plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>                                                      <span class="c1"># needs sage.plot</span>
+<span class="gp">sage:</span> <span class="n">find_local_minimum</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="go">(-9.4772942594..., 9.5293344109...)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--12-input--2" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">find_local_minimum</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="go">(-3.28837139559..., 3.4256184695...)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">find_local_minimum</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">tol</span><span class="o">=</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1e-3&#39;</span><span class="p">))</span>
+<span class="go">(-3.28837136189098..., 3.42575079030572...)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">find_local_minimum</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">tol</span><span class="o">=</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1e-2&#39;</span><span class="p">),</span> <span class="n">maxfun</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="go">(-3.28837084598..., 3.4250840220...)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">show</span><span class="p">(</span><span class="n">plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">20</span><span class="p">)))</span>                                                      <span class="c1"># needs sage.plot</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">find_local_minimum</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">15</span><span class="p">))</span>
+<span class="go">(-9.4772942594..., 9.5293344109...)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Only local minima are found; if you enlarge the interval, the
+returned minimum may be <em>larger</em>! See <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/2607">Issue #2607</a>.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.symbolic</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">x</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">find_local_minimum</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">(-2.182769784677722, -2.1945027498534686)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--13-input--2" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="c1"># needs sage.symbolic</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">__tmp__</span><span class="o">=</span><span class="n">var</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">);</span> <span class="n">f</span> <span class="o">=</span> <span class="n">symbolic_expression</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">find_local_minimum</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">-</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;2.5&#39;</span><span class="p">),</span> <span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">(-2.182769784677722, -2.1945027498534686)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Enlarging the interval returns a larger minimum:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.symbolic</span>
+<span class="gp">sage:</span> <span class="n">find_local_minimum</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">(-1.3076194129914434, 1.3552111405712108)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--14-input--2" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="c1"># needs sage.symbolic</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">find_local_minimum</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">-</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;2.5&#39;</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">(-1.3076194129914434, 1.3552111405712108)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">One work-around is to plot the function and grab the minimum from
+that, although the plotting code does not necessarily do careful
+numerics (observe the small number of decimal places that we
+actually test):</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.plot sage.symbolic</span>
+<span class="gp">sage:</span> <span class="n">plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">ymin</span><span class="p">()</span>
+<span class="go">-2.182...</span>
+<span class="gp">sage:</span> <span class="n">plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">ymin</span><span class="p">()</span>
+<span class="go">-2.182...</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--15-input--2" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="c1"># needs sage.plot sage.symbolic</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;2.5&#39;</span><span class="p">),</span> <span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span><span class="o">.</span><span class="n">ymin</span><span class="p">()</span>
+<span class="go">-2.182...</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;2.5&#39;</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span><span class="o">.</span><span class="n">ymin</span><span class="p">()</span>
+<span class="go">-2.182...</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>ALGORITHM:</p>
+<p>Uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.fminbound.html#scipy.optimize.fminbound" title="(in SciPy v1.12.0)"><code class="docutils literal notranslate"><span class="pre">scipy.optimize.fminbound()</span></code></a> which uses Brent’s method.</p>
+<p>AUTHOR:</p>
+<ul class="simple">
+<li><p>William Stein (2007-12-07)</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.numerical.optimize.find_root">
+<span class="sig-prename descclassname"><span class="pre">sage.numerical.optimize.</span></span><span class="sig-name descname"><span class="pre">find_root</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8.881784197001252e-16</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/optimize.py#L20"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.optimize.find_root" title="Link to this definition">¶</a></dt>
+<dd><p>Numerically find a root of <code class="docutils literal notranslate"><span class="pre">f</span></code> on the closed interval <span class="math notranslate nohighlight">\([a,b]\)</span>
+(or <span class="math notranslate nohighlight">\([b,a]\)</span>) if possible, where <code class="docutils literal notranslate"><span class="pre">f</span></code> is a function in the one variable.
+Note: this function only works in fixed (machine) precision, it is not
+possible to get arbitrary precision approximations with it.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">f</span></code> – a function of one variable or symbolic equality</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span></code> – endpoints of the interval</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xtol</span></code>, <code class="docutils literal notranslate"><span class="pre">rtol</span></code> – the routine converges when a root is known
+to lie within <code class="docutils literal notranslate"><span class="pre">xtol</span></code> of the value return. Should be <span class="math notranslate nohighlight">\(\geq 0\)</span>.
+The routine modifies this to take into account the relative precision
+of doubles. By default, rtol is <code class="docutils literal notranslate"><span class="pre">4*numpy.finfo(float).eps</span></code>, the
+minimum allowed value for <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.brentq.html#scipy.optimize.brentq" title="(in SciPy v1.12.0)"><code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq()</span></code></a>, which is
+what this method uses underneath. This value is equal to <code class="docutils literal notranslate"><span class="pre">2.0**-50</span></code> for
+IEEE-754 double precision floats as used by Python.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxiter</span></code> – integer; if convergence is not achieved in
+<code class="docutils literal notranslate"><span class="pre">maxiter</span></code> iterations, an error is raised. Must be <span class="math notranslate nohighlight">\(\geq 0\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">full_output</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>); if <code class="docutils literal notranslate"><span class="pre">True</span></code>, also return
+object that contains information about convergence</p></li>
+</ul>
+<p>EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab">An example involving an algebraic polynomial function:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">17</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span><span class="o">^</span><span class="mi">3</span>
+<span class="gp">sage:</span> <span class="n">find_root</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">2.999999999999995</span>
+<span class="gp">sage:</span> <span class="n">find_root</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># abs tol 1e-6 (note -- precision of answer isn&#39;t very good on some machines)</span>
+<span class="go">0.124999</span>
+<span class="gp">sage:</span> <span class="n">find_root</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">-17.0</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--16-input--2" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">];</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">_first_ngens</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">Integer</span><span class="p">(</span><span class="mi">17</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">find_root</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="go">2.999999999999995</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">find_root</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>  <span class="c1"># abs tol 1e-6 (note -- precision of answer isn&#39;t very good on some machines)</span>
+<span class="go">0.124999</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">find_root</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="go">-17.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">In Pomerance’s book on primes he asserts that the famous Riemann
+Hypothesis is equivalent to the statement that the function <span class="math notranslate nohighlight">\(f(x)\)</span>
+defined below is positive for all <span class="math notranslate nohighlight">\(x \geq 2.01\)</span>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="gp">....:</span>     <span class="k">return</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Li</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">prime_pi</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--17-input--2" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="gp">...</span>     <span class="k">return</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Li</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">prime_pi</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">We find where <span class="math notranslate nohighlight">\(f\)</span> equals, i.e., what value that is slightly smaller
+than <span class="math notranslate nohighlight">\(2.01\)</span> that could have been used in the formulation of the Riemann
+Hypothesis:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">find_root</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>                                           <span class="c1"># needs sage.symbolic</span>
+<span class="go">2.0082...</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--18-input--2" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">find_root</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">rtol</span><span class="o">=</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.0001&#39;</span><span class="p">))</span>                                           <span class="c1"># needs sage.symbolic</span>
+<span class="go">2.0082...</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">This agrees with the plot:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">2.01</span><span class="p">)</span>                                                          <span class="c1"># needs sage.symbolic</span>
+<span class="go">Graphics object consisting of 1 graphics primitive</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--19-input--2" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;2.01&#39;</span><span class="p">))</span>                                                          <span class="c1"># needs sage.symbolic</span>
+<span class="go">Graphics object consisting of 1 graphics primitive</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">The following example was added due to <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/4942">Issue #4942</a> and demonstrates that
+the function need not be defined at the endpoints:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">find_root</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># abs tol 1e-6</span>
+<span class="go">1.41421356237</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--20-input--2" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">find_root</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>  <span class="c1"># abs tol 1e-6</span>
+<span class="go">1.41421356237</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">The following is an example, again from <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/4942">Issue #4942</a> where Brent’s method
+fails. Currently no other method is implemented, but at least we
+acknowledge the fact that the algorithm fails:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">find_root</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">0.0</span>
+<span class="gp">sage:</span> <span class="n">find_root</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.00001</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">NotImplementedError: Brent&#39;s method failed to find a zero for f on the interval</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--21-input--2" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">find_root</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">+</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">0.0</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">find_root</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">+</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.00001&#39;</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">NotImplementedError: Brent&#39;s method failed to find a zero for f on the interval</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">An example of a function which evaluates to NaN on the entire interval:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">find_root</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">RuntimeError: f appears to have no zero on the interval</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--22-input--2" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">__tmp__</span><span class="o">=</span><span class="n">var</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">);</span> <span class="n">f</span> <span class="o">=</span> <span class="n">symbolic_expression</span><span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.0&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">find_root</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">RuntimeError: f appears to have no zero on the interval</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.numerical.optimize.minimize">
+<span class="sig-prename descclassname"><span class="pre">sage.numerical.optimize.</span></span><span class="sig-name descname"><span class="pre">minimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gradient</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hessian</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'default'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/optimize.py#L300"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.optimize.minimize" title="Link to this definition">¶</a></dt>
+<dd><p>This function is an interface to a variety of algorithms for computing
+the minimum of a function of several variables.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">func</span></code> – either a symbolic function or a Python function whose
+argument is a tuple with <span class="math notranslate nohighlight">\(n\)</span> components</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x0</span></code> – initial point for finding minimum</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gradient</span></code> – (optional) gradient function. This will be computed
+automatically for symbolic functions.  For Python functions, it allows
+the use of algorithms requiring derivatives.  It should accept a
+tuple of arguments and return a NumPy array containing the partial
+derivatives at that point.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hessian</span></code> – (optional) hessian function. This will be computed
+automatically for symbolic functions. For Python functions, it allows
+the use of algorithms requiring derivatives. It should accept a tuple
+of arguments and return a NumPy array containing the second partial
+derivatives of the function.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">algorithm</span></code> – string specifying algorithm to use. Options are
+<code class="docutils literal notranslate"><span class="pre">'default'</span></code> (for Python functions, the simplex method is the default)
+(for symbolic functions bfgs is the default):</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">'simplex'</span></code> – using the downhill simplex algorithm</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'powell'</span></code> – use the modified Powell algorithm</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'bfgs'</span></code> – (Broyden-Fletcher-Goldfarb-Shanno) requires gradient</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'cg'</span></code> – (conjugate-gradient) requires gradient</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'ncg'</span></code> – (newton-conjugate gradient) requires gradient and hessian</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">verbose</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>); print convergence message</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For additional information on the algorithms implemented in this function,
+consult SciPy’s <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/optimize.html#module-scipy.optimize" title="(in SciPy v1.12.0)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">documentation</span> <span class="pre">on</span> <span class="pre">optimization</span> <span class="pre">and</span> <span class="pre">root</span>
+<span class="pre">finding</span></code></a>.</p>
+</div>
+<p>EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab">Minimize a fourth order polynomial in three variables (see the
+<a class="extlink-wikipedia reference external" href="https://en.wikipedia.org/wiki/Rosenbrock_function">Wikipedia article Rosenbrock_function</a>):</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nb">vars</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="s1">&#39;x y z&#39;</span><span class="p">)</span>                                                       <span class="c1"># needs sage.symbolic</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">100</span><span class="o">*</span><span class="p">(</span><span class="n">z</span><span class="o">-</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span>                     <span class="c1"># needs sage.symbolic</span>
+<span class="gp">sage:</span> <span class="n">minimize</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="mf">.1</span><span class="p">,</span><span class="mf">.3</span><span class="p">,</span><span class="mf">.4</span><span class="p">])</span>  <span class="c1"># abs tol 1e-6                                   # needs sage.symbolic</span>
+<span class="go">(1.0, 1.0, 1.0)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--23-input--2" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">vars</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="s1">&#39;x y z&#39;</span><span class="p">)</span>                                                       <span class="c1"># needs sage.symbolic</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">z</span><span class="o">-</span><span class="n">y</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>                     <span class="c1"># needs sage.symbolic</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">minimize</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;.1&#39;</span><span class="p">),</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;.3&#39;</span><span class="p">),</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;.4&#39;</span><span class="p">)])</span>  <span class="c1"># abs tol 1e-6                                   # needs sage.symbolic</span>
+<span class="go">(1.0, 1.0, 1.0)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Try the newton-conjugate gradient method; the gradient and hessian are
+computed automatically:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">minimize</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="mf">.1</span><span class="p">,</span> <span class="mf">.3</span><span class="p">,</span> <span class="mf">.4</span><span class="p">],</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;ncg&#39;</span><span class="p">)</span>  <span class="c1"># abs tol 1e-6                # needs sage.symbolic</span>
+<span class="go">(1.0, 1.0, 1.0)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--24-input--2" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">minimize</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;.1&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;.3&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;.4&#39;</span><span class="p">)],</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;ncg&#39;</span><span class="p">)</span>  <span class="c1"># abs tol 1e-6                # needs sage.symbolic</span>
+<span class="go">(1.0, 1.0, 1.0)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">We get additional convergence information with the <span class="math notranslate nohighlight">\(verbose\)</span> option:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">minimize</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="mf">.1</span><span class="p">,</span> <span class="mf">.3</span><span class="p">,</span> <span class="mf">.4</span><span class="p">],</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;ncg&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>                  <span class="c1"># needs sage.symbolic</span>
+<span class="go">Optimization terminated successfully.</span>
+<span class="gp">...</span>
+<span class="go">(0.9999999..., 0.999999..., 0.999999...)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--25-input--2" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">minimize</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;.1&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;.3&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;.4&#39;</span><span class="p">)],</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;ncg&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>                  <span class="c1"># needs sage.symbolic</span>
+<span class="go">Optimization terminated successfully.</span>
+<span class="gp">...</span>
+<span class="go">(0.9999999..., 0.999999..., 0.999999...)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Same example with just Python functions:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">def</span> <span class="nf">rosen</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>  <span class="c1"># The Rosenbrock function</span>
+<span class="gp">....:</span>    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="mf">100.0</span><span class="n">r</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="n">r</span><span class="p">:]</span><span class="o">-</span><span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="n">r</span><span class="p">]</span><span class="o">**</span><span class="mf">2.0</span><span class="n">r</span><span class="p">)</span><span class="o">**</span><span class="mf">2.0</span><span class="n">r</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="n">r</span><span class="o">-</span><span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="n">r</span><span class="p">])</span><span class="o">**</span><span class="mf">2.0</span><span class="n">r</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">minimize</span><span class="p">(</span><span class="n">rosen</span><span class="p">,</span> <span class="p">[</span><span class="mf">.1</span><span class="p">,</span><span class="mf">.3</span><span class="p">,</span><span class="mf">.4</span><span class="p">])</span> <span class="c1"># abs tol 3e-5</span>
+<span class="go">(1.0, 1.0, 1.0)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--26-input--2" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">rosen</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>  <span class="c1"># The Rosenbrock function</span>
+<span class="gp">...</span>    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="mf">100.0</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">-</span><span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mf">2.0</span><span class="p">)</span><span class="o">**</span><span class="mf">2.0</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">minimize</span><span class="p">(</span><span class="n">rosen</span><span class="p">,</span> <span class="p">[</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;.1&#39;</span><span class="p">),</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;.3&#39;</span><span class="p">),</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;.4&#39;</span><span class="p">)])</span> <span class="c1"># abs tol 3e-5</span>
+<span class="go">(1.0, 1.0, 1.0)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Same example with a pure Python function and a Python function to
+compute the gradient:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs numpy</span>
+<span class="gp">sage:</span> <span class="k">def</span> <span class="nf">rosen</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>  <span class="c1"># The Rosenbrock function</span>
+<span class="gp">....:</span>    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="mf">100.0</span><span class="n">r</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="n">r</span><span class="p">:]</span><span class="o">-</span><span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="n">r</span><span class="p">]</span><span class="o">**</span><span class="mf">2.0</span><span class="n">r</span><span class="p">)</span><span class="o">**</span><span class="mf">2.0</span><span class="n">r</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="n">r</span><span class="o">-</span><span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="n">r</span><span class="p">])</span><span class="o">**</span><span class="mf">2.0</span><span class="n">r</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="kn">import</span> <span class="nn">numpy</span>
+<span class="gp">sage:</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">short_version</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+<span class="gp">....:</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">legacy</span><span class="o">=</span><span class="s2">&quot;1.25&quot;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">zeros</span>
+<span class="gp">sage:</span> <span class="k">def</span> <span class="nf">rosen_der</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="gp">....:</span>    <span class="n">xm</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="n">r</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="n">r</span><span class="p">]</span>
+<span class="gp">....:</span>    <span class="n">xm_m1</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="n">r</span><span class="p">]</span>
+<span class="gp">....:</span>    <span class="n">xm_p1</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="n">r</span><span class="p">:]</span>
+<span class="gp">....:</span>    <span class="n">der</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="gp">....:</span>    <span class="n">der</span><span class="p">[</span><span class="mi">1</span><span class="n">r</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span> <span class="mi">200</span><span class="n">r</span><span class="o">*</span><span class="p">(</span><span class="n">xm</span><span class="o">-</span><span class="n">xm_m1</span><span class="o">**</span><span class="mi">2</span><span class="n">r</span><span class="p">)</span> <span class="o">-</span> <span class="mi">400</span><span class="n">r</span><span class="o">*</span><span class="p">(</span><span class="n">xm_p1</span> <span class="o">-</span> <span class="n">xm</span><span class="o">**</span><span class="mi">2</span><span class="n">r</span><span class="p">)</span><span class="o">*</span><span class="n">xm</span> <span class="o">-</span> <span class="mi">2</span><span class="n">r</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="n">r</span><span class="o">-</span><span class="n">xm</span><span class="p">)</span>
+<span class="gp">....:</span>    <span class="n">der</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">400</span><span class="n">r</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="n">r</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="n">r</span><span class="p">]</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="n">r</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="n">r</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="n">r</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="n">r</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">....:</span>    <span class="n">der</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">200</span><span class="n">r</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="n">r</span><span class="p">]</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="n">r</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="n">r</span><span class="p">)</span>
+<span class="gp">....:</span>    <span class="k">return</span> <span class="n">der</span>
+<span class="gp">sage:</span> <span class="n">minimize</span><span class="p">(</span><span class="n">rosen</span><span class="p">,</span> <span class="p">[</span><span class="mf">.1</span><span class="p">,</span><span class="mf">.3</span><span class="p">,</span><span class="mf">.4</span><span class="p">],</span> <span class="n">gradient</span><span class="o">=</span><span class="n">rosen_der</span><span class="p">,</span>  <span class="c1"># abs tol 1e-6</span>
+<span class="gp">....:</span>          <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;bfgs&#39;</span><span class="p">)</span>
+<span class="go">(1.0, 1.0, 1.0)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--27-input--2" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="c1"># needs numpy</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">rosen</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>  <span class="c1"># The Rosenbrock function</span>
+<span class="gp">...</span>    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="mf">100.0</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">-</span><span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mf">2.0</span><span class="p">)</span><span class="o">**</span><span class="mf">2.0</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">numpy</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">short_version</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)])</span> <span class="o">&gt;</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
+<span class="gp">...</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">legacy</span><span class="o">=</span><span class="s2">&quot;1.25&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">zeros</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">rosen_der</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="gp">...</span>    <span class="n">xm</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">...</span>    <span class="n">xm_m1</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+<span class="gp">...</span>    <span class="n">xm_p1</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+<span class="gp">...</span>    <span class="n">der</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="gp">...</span>    <span class="n">der</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">200</span><span class="o">*</span><span class="p">(</span><span class="n">xm</span><span class="o">-</span><span class="n">xm_m1</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">400</span><span class="o">*</span><span class="p">(</span><span class="n">xm_p1</span> <span class="o">-</span> <span class="n">xm</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">xm</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">xm</span><span class="p">)</span>
+<span class="gp">...</span>    <span class="n">der</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">400</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)])</span>
+<span class="gp">...</span>    <span class="n">der</span><span class="p">[</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">200</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">...</span>    <span class="k">return</span> <span class="n">der</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">minimize</span><span class="p">(</span><span class="n">rosen</span><span class="p">,</span> <span class="p">[</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;.1&#39;</span><span class="p">),</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;.3&#39;</span><span class="p">),</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;.4&#39;</span><span class="p">)],</span> <span class="n">gradient</span><span class="o">=</span><span class="n">rosen_der</span><span class="p">,</span>  <span class="c1"># abs tol 1e-6</span>
+<span class="gp">...</span>          <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;bfgs&#39;</span><span class="p">)</span>
+<span class="go">(1.0, 1.0, 1.0)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.numerical.optimize.minimize_constrained">
+<span class="sig-prename descclassname"><span class="pre">sage.numerical.optimize.</span></span><span class="sig-name descname"><span class="pre">minimize_constrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gradient</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'default'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/optimize.py#L446"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.optimize.minimize_constrained" title="Link to this definition">¶</a></dt>
+<dd><p>Minimize a function with constraints.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">func</span></code> – either a symbolic function, or a Python function whose
+argument is a tuple with <span class="math notranslate nohighlight">\(n\)</span> components</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cons</span></code> – constraints. This should be either a function or list of
+functions that must be positive. Alternatively, the constraints can
+be specified as a list of intervals that define the region we are
+minimizing in. If the constraints are specified as functions, the
+functions should be functions of a tuple with <span class="math notranslate nohighlight">\(n\)</span> components
+(assuming <span class="math notranslate nohighlight">\(n\)</span> variables). If the constraints are specified as a list
+of intervals and there are no constraints for a given variable, that
+component can be (<code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x0</span></code> – initial point for finding minimum</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">algorithm</span></code> – (optional) specify the algorithm to use:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">'default'</span></code> – default choices</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'l-bfgs-b'</span></code> – only effective if you specify bound constraints;
+see <a class="reference internal" href="../../../references/index.html#zbn1997" id="id1"><span>[ZBN1997]</span></a></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gradient</span></code> – (optional) gradient function. This will be computed
+automatically for symbolic functions. This is only used when the
+constraints are specified as a list of intervals.</p></li>
+</ul>
+<p>EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab">Let us maximize <span class="math notranslate nohighlight">\(x + y - 50\)</span> subject to the following constraints:
+<span class="math notranslate nohighlight">\(50x + 24y \leq 2400\)</span>, <span class="math notranslate nohighlight">\(30x + 33y \leq 2100\)</span>, <span class="math notranslate nohighlight">\(x \geq 45\)</span>,
+and <span class="math notranslate nohighlight">\(y \geq 5\)</span>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--28-input--1" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="o">-</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">50</span>
+<span class="gp">sage:</span> <span class="n">c_1</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">45</span>
+<span class="gp">sage:</span> <span class="n">c_2</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">5</span>
+<span class="gp">sage:</span> <span class="n">c_3</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="o">-</span><span class="mi">50</span><span class="o">*</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">24</span><span class="o">*</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">2400</span>
+<span class="gp">sage:</span> <span class="n">c_4</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="o">-</span><span class="mi">30</span><span class="o">*</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">33</span><span class="o">*</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">2100</span>
+<span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">minimize_constrained</span><span class="p">(</span><span class="n">f</span><span class="p">,[</span><span class="n">c_1</span><span class="p">,</span><span class="n">c_2</span><span class="p">,</span><span class="n">c_3</span><span class="p">,</span><span class="n">c_4</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="gp">sage:</span> <span class="n">a</span>
+<span class="go">(45.0, 6.25...)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--28-input--2" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="o">-</span><span class="n">p</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span><span class="o">-</span><span class="n">p</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span><span class="o">+</span><span class="n">Integer</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">c_1</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">c_2</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">c_3</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="o">*</span><span class="n">p</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">24</span><span class="p">)</span><span class="o">*</span><span class="n">p</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span><span class="o">+</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2400</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">c_4</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="o">*</span><span class="n">p</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">33</span><span class="p">)</span><span class="o">*</span><span class="n">p</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span><span class="o">+</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">minimize_constrained</span><span class="p">(</span><span class="n">f</span><span class="p">,[</span><span class="n">c_1</span><span class="p">,</span><span class="n">c_2</span><span class="p">,</span><span class="n">c_3</span><span class="p">,</span><span class="n">c_4</span><span class="p">],[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span>
+<span class="go">(45.0, 6.25...)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Let’s find a minimum of <span class="math notranslate nohighlight">\(\sin(xy)\)</span>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="s1">&#39;x y&#39;</span><span class="p">)</span>                                                          <span class="c1"># needs sage.symbolic</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span>                                                         <span class="c1"># needs sage.symbolic</span>
+<span class="gp">sage:</span> <span class="n">minimize_constrained</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[(</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">),(</span><span class="mi">4</span><span class="p">,</span><span class="mi">10</span><span class="p">)],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>                       <span class="c1"># needs sage.symbolic</span>
+<span class="go">(4.8..., 4.8...)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--29-input--2" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="s1">&#39;x y&#39;</span><span class="p">)</span>                                                          <span class="c1"># needs sage.symbolic</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">__tmp__</span><span class="o">=</span><span class="n">var</span><span class="p">(</span><span class="s2">&quot;x,y&quot;</span><span class="p">);</span> <span class="n">f</span> <span class="o">=</span> <span class="n">symbolic_expression</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span>                                                         <span class="p">)</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="c1"># needs sage.symbolic</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">minimize_constrained</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[(</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">),(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">))],[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">)])</span>                       <span class="c1"># needs sage.symbolic</span>
+<span class="go">(4.8..., 4.8...)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Check if L-BFGS-B finds the same minimum:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--30-input--1" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">minimize_constrained</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[(</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">),(</span><span class="mi">4</span><span class="p">,</span><span class="mi">10</span><span class="p">)],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span>                       <span class="c1"># needs sage.symbolic</span>
+<span class="gp">....:</span>                      <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;l-bfgs-b&#39;</span><span class="p">)</span>
+<span class="go">(4.7..., 4.9...)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--30-input--2" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">minimize_constrained</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[(</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">),(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">))],[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">)],</span>                       <span class="c1"># needs sage.symbolic</span>
+<span class="gp">...</span>                      <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;l-bfgs-b&#39;</span><span class="p">)</span>
+<span class="go">(4.7..., 4.9...)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Rosenbrock function (see the <a class="extlink-wikipedia reference external" href="https://en.wikipedia.org/wiki/Rosenbrock_function">Wikipedia article Rosenbrock_function</a>):</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--31-input--1" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">rosen</span><span class="p">,</span> <span class="n">rosen_der</span>
+<span class="gp">sage:</span> <span class="n">minimize_constrained</span><span class="p">(</span><span class="n">rosen</span><span class="p">,</span> <span class="p">[(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">),(</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">)],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+<span class="gp">....:</span>                      <span class="n">gradient</span><span class="o">=</span><span class="n">rosen_der</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;l-bfgs-b&#39;</span><span class="p">)</span>
+<span class="go">(-10.0, 10.0)</span>
+<span class="gp">sage:</span> <span class="n">minimize_constrained</span><span class="p">(</span><span class="n">rosen</span><span class="p">,</span> <span class="p">[(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">),(</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">)],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+<span class="gp">....:</span>                      <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;l-bfgs-b&#39;</span><span class="p">)</span>
+<span class="go">(-10.0, 10.0)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--31-input--2" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">rosen</span><span class="p">,</span> <span class="n">rosen_der</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">minimize_constrained</span><span class="p">(</span><span class="n">rosen</span><span class="p">,</span> <span class="p">[(</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">)),(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">))],[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
+<span class="gp">...</span>                      <span class="n">gradient</span><span class="o">=</span><span class="n">rosen_der</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;l-bfgs-b&#39;</span><span class="p">)</span>
+<span class="go">(-10.0, 10.0)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">minimize_constrained</span><span class="p">(</span><span class="n">rosen</span><span class="p">,</span> <span class="p">[(</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">)),(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">))],[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
+<span class="gp">...</span>                      <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;l-bfgs-b&#39;</span><span class="p">)</span>
+<span class="go">(-10.0, 10.0)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="interactive_simplex_method.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Interactive Simplex Method</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="linear_tensor_constraints.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Constraints on Linear Functions Tensored with a Free Module</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2005--2025, The Sage Development Team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Numerical Root Finding and Optimization</a><ul>
+<li><a class="reference internal" href="#functions-and-methods">Functions and Methods</a></li>
+<li><a class="reference internal" href="#sage.numerical.optimize.binpacking"><code class="docutils literal notranslate"><span class="pre">binpacking()</span></code></a></li>
+<li><a class="reference internal" href="#sage.numerical.optimize.find_fit"><code class="docutils literal notranslate"><span class="pre">find_fit()</span></code></a></li>
+<li><a class="reference internal" href="#sage.numerical.optimize.find_local_maximum"><code class="docutils literal notranslate"><span class="pre">find_local_maximum()</span></code></a></li>
+<li><a class="reference internal" href="#sage.numerical.optimize.find_local_minimum"><code class="docutils literal notranslate"><span class="pre">find_local_minimum()</span></code></a></li>
+<li><a class="reference internal" href="#sage.numerical.optimize.find_root"><code class="docutils literal notranslate"><span class="pre">find_root()</span></code></a></li>
+<li><a class="reference internal" href="#sage.numerical.optimize.minimize"><code class="docutils literal notranslate"><span class="pre">minimize()</span></code></a></li>
+<li><a class="reference internal" href="#sage.numerical.optimize.minimize_constrained"><code class="docutils literal notranslate"><span class="pre">minimize_constrained()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../%5fstatic/documentation_options.js"></script>
+    <script src="../../../%5fstatic/doctools.js"></script>
+    <script src="../../../%5fstatic/sphinx_highlight.js"></script>
+    <script src="../../../%5fstatic/scripts/furo.js"></script>
+    <script src="../../../%5fstatic/clipboard.min.js"></script>
+    <script src="../../../%5fstatic/copybutton.js"></script>
+    <script src="../../../%5fstatic/tabs.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>
+    <script defer="defer" src="/Users/mkoeppe/s/sage/sage-rebasing/local/share/mathjax/mathjax/tex-chtml.js?v=0d9741c5"></script>
+    <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>
+    </body>
+</html>

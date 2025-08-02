@@ -1,0 +1,1596 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" /><link rel="next" title="Blum-Goldwasser Probabilistic Encryption" href="../public_key/blum_goldwasser.html" /><link rel="prev" title="DES" href="des.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>PRESENT - Cryptography</title>
+      <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/pygments.css?v=a078f75a" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-codemirror-monokai.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-tabs.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  --color-brand-primary: #0f0fff;
+  --color-brand-content: #0f0fff;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../index.html"><div class="brand">Cryptography</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand" href="../../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../../%5fstatic/logo_sagemath_black.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../../%5fstatic/logo_sagemath_white.svg" alt="Dark Logo"/>
+  </div>
+  
+      <span class="sidebar-brand-text">passagemath 10.6.1 Reference Manual</span>
+  
+</a><div class="select-wrapper">
+  <select id="versions-menu" onchange="changeVersion()">
+    <option value="" selected>other version</option>
+    <option value="https://doc-develop--sagemath.netlify.app">develop</option>
+  </select>
+</div><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-home">
+  <div class="sidebar-tree">
+    <ul><li class="toctree-l1">
+      <a class="reference internal" href="../../../index.html">Home - Cryptography</a>
+    </li></ul>
+  </div>
+</div><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cryptosystem.html">Cryptosystems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cipher.html">Ciphers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classical.html">Classical Cryptosystems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classical_cipher.html">Classical Ciphers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sdes.html">Simplified DES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="miniaes.html">Mini-AES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="des.html">DES</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">PRESENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../public_key/blum_goldwasser.html">Blum-Goldwasser Probabilistic Encryption</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stream.html">Stream Cryptosystems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stream_cipher.html">Stream Ciphers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lfsr.html">Linear feedback shift register (LFSR) sequence commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../util.html">Utility Functions for Cryptography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../boolean_function.html">Boolean functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sbox.html">S-Boxes and Their Algebraic Representations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sboxes.html">S-Boxes used in cryptographic schemes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mq/mpolynomialsystemgenerator.html">Abstract base class for generators of polynomial systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mq/sr.html">Small Scale Variants of the AES (SR) Polynomial System Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mq/rijndael_gf.html">Rijndael-GF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lattice.html">Hard Lattice Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lwe.html">(Ring-)LWE oracle generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../key_exchange/catalog.html">Index of key exchange schemes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../key_exchange/key_exchange_scheme.html">Key Exchange Schemes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../key_exchange/diffie_hellman.html">Diffie-Hellman Key Exchange Scheme</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/blob/main/src/sage/crypto/block_cipher/present.py" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/edit/main/src/sage/crypto/block_cipher/present.py" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="present">
+<span id="sage-crypto-block-cipher-present"></span><h1>PRESENT<a class="headerlink" href="#present" title="Link to this heading">¶</a></h1>
+<p id="module-sage.crypto.block_cipher.present">An ultra-lightweight block cipher.</p>
+<p>This file implements the PRESENT block cipher and the corresponding key
+schedule as described in <a class="reference internal" href="../../../../references/index.html#bklpprsv2007" id="id1"><span>[BKLPPRSV2007]</span></a>. PRESENT is an example of an
+SP-network and consists of 31 rounds. The block length is 64 bits and two key
+lengths of 80 and 128 bits are supported.</p>
+<p>This implementation is meant for experimental and educational usage only,
+do not use it in production code!</p>
+<p>EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab">Encrypt a message:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT</span>
+<span class="gp">sage:</span> <span class="n">present</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">present</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">plaintext</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
+<span class="go">&#39;2844b365c06992a3&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">plaintext</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
+<span class="go">&#39;2844b365c06992a3&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">And decrypt it again:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">present</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">ciphertext</span><span class="o">=</span><span class="mh">0x2844b365c06992a3</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">ciphertext</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mh">0x2844b365c06992a3</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Have a look at the used round keys:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT_KS</span>
+<span class="gp">sage:</span> <span class="n">ks</span> <span class="o">=</span> <span class="n">PRESENT_KS</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ks</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span>
+<span class="go">[&#39;0&#39;,</span>
+<span class="go"> &#39;c000000000000000&#39;,</span>
+<span class="go">  ...</span>
+<span class="go"> &#39;6dab31744f41d700&#39;]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT_KS</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ks</span> <span class="o">=</span> <span class="n">PRESENT_KS</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ks</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))]</span>
+<span class="go">[&#39;0&#39;,</span>
+<span class="go"> &#39;c000000000000000&#39;,</span>
+<span class="go">  ...</span>
+<span class="go"> &#39;6dab31744f41d700&#39;]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Tweak around with the cipher:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.crypto.sbox</span> <span class="kn">import</span> <span class="n">SBox</span>
+<span class="gp">sage:</span> <span class="n">cipher</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">(</span><span class="n">rounds</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">doFinalRound</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">cipher</span><span class="o">.</span><span class="n">sbox</span> <span class="o">=</span> <span class="n">SBox</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">))</span>
+<span class="gp">sage:</span> <span class="n">cipher</span><span class="o">.</span><span class="n">keySchedule</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>  <span class="c1"># return the 0 keys as round keys</span>
+<span class="gp">sage:</span> <span class="n">cipher</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">plaintext</span><span class="o">=</span><span class="mh">0x1234</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="mh">0x0</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
+<span class="go">&#39;1234&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.crypto.sbox</span> <span class="kn">import</span> <span class="n">SBox</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">cipher</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">(</span><span class="n">rounds</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">doFinalRound</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">cipher</span><span class="o">.</span><span class="n">sbox</span> <span class="o">=</span> <span class="n">SBox</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">16</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">cipher</span><span class="o">.</span><span class="n">keySchedule</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span>  <span class="c1"># return the 0 keys as round keys</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">cipher</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">plaintext</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mh">0x1234</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mh">0x0</span><span class="p">))</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
+<span class="go">&#39;1234&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>AUTHORS:</p>
+<ul class="simple">
+<li><p>Lukas Stennes (2019-02-01): initial version</p></li>
+</ul>
+<dl class="py class">
+<dt class="sig sig-object py" id="sage.crypto.block_cipher.present.PRESENT">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.crypto.block_cipher.present.</span></span><span class="sig-name descname"><span class="pre">PRESENT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keySchedule</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">80</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rounds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doFinalRound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/crypto/block_cipher/present.py#L118"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.crypto.block_cipher.present.PRESENT" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../../../../structure/sage/structure/sage_object.html#sage.structure.sage_object.SageObject" title="(in Parents and Elements v10.6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SageObject</span></code></a></p>
+<p>This class implements PRESENT described in <a class="reference internal" href="../../../../references/index.html#bklpprsv2007" id="id2"><span>[BKLPPRSV2007]</span></a>.</p>
+<p>EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab">You can invoke PRESENT encryption/decryption either by calling PRESENT with
+an appropriate flag:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT</span>
+<span class="gp">sage:</span> <span class="n">present</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="mh">0xFFFFFFFFFFFFFFFF</span>
+<span class="gp">sage:</span> <span class="n">K</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="gp">sage:</span> <span class="n">present</span><span class="p">(</span><span class="n">present</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;encrypt&#39;</span><span class="p">),</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;decrypt&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">P</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0xFFFFFFFFFFFFFFFF</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">K</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span><span class="p">(</span><span class="n">present</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;encrypt&#39;</span><span class="p">),</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;decrypt&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">P</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Or by calling encryption/decryption methods directly:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">C</span> <span class="o">=</span> <span class="n">present</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">P</span> <span class="o">==</span> <span class="n">present</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">C</span> <span class="o">=</span> <span class="n">present</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span> <span class="o">==</span> <span class="n">present</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">The number of rounds can be reduced easily:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">present</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">(</span><span class="n">rounds</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">present</span><span class="p">(</span><span class="n">present</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;encrypt&#39;</span><span class="p">),</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;decrypt&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">P</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--2" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">(</span><span class="n">rounds</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">15</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span><span class="p">(</span><span class="n">present</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;encrypt&#39;</span><span class="p">),</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;decrypt&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">P</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">You can use integers or a list-like bit representation for the inputs. If
+the input is an integer the output will be too. If it is list-like the
+output will be a bit vector:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">ZZ</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">digits</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">padto</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">K</span> <span class="o">=</span> <span class="n">ZZ</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">digits</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">padto</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="nb">list</span><span class="p">(</span><span class="n">present</span><span class="p">(</span><span class="n">present</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;encrypt&#39;</span><span class="p">),</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;decrypt&#39;</span><span class="p">))</span> <span class="o">==</span> <span class="n">P</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">ZZ</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">digits</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">padto</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">K</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="gp">sage:</span> <span class="nb">list</span><span class="p">(</span><span class="n">present</span><span class="p">(</span><span class="n">present</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;encrypt&#39;</span><span class="p">),</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;decrypt&#39;</span><span class="p">))</span> <span class="o">==</span> <span class="n">P</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--2" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span> <span class="o">=</span> <span class="n">ZZ</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">digits</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">padto</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">64</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">K</span> <span class="o">=</span> <span class="n">ZZ</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">digits</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">padto</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">80</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">present</span><span class="p">(</span><span class="n">present</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;encrypt&#39;</span><span class="p">),</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;decrypt&#39;</span><span class="p">))</span> <span class="o">==</span> <span class="n">P</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span> <span class="o">=</span> <span class="n">ZZ</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">digits</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">padto</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">64</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">K</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">present</span><span class="p">(</span><span class="n">present</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;encrypt&#39;</span><span class="p">),</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;decrypt&#39;</span><span class="p">))</span> <span class="o">==</span> <span class="n">P</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">The 80-bit version of PRESENT is used by default but the 128-bit version is
+also implemented:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">present</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="mh">0x0123456789abcdef</span>
+<span class="gp">sage:</span> <span class="n">K</span> <span class="o">=</span> <span class="mh">0x00112233445566778899aabbccddeeff</span>
+<span class="gp">sage:</span> <span class="n">present</span><span class="p">(</span><span class="n">present</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;encrypt&#39;</span><span class="p">),</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;decrypt&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">P</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--8-input--2" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">128</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x0123456789abcdef</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">K</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x00112233445566778899aabbccddeeff</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span><span class="p">(</span><span class="n">present</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;encrypt&#39;</span><span class="p">),</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;decrypt&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">P</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#sage.crypto.block_cipher.present.PRESENT_KS" title="sage.crypto.block_cipher.present.PRESENT_KS"><code class="xref py py-class docutils literal notranslate"><span class="pre">PRESENT_KS</span></code></a>
+<a class="reference internal" href="../sboxes.html#module-sage.crypto.sboxes" title="sage.crypto.sboxes"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sage.crypto.sboxes</span></code></a></p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.crypto.block_cipher.present.PRESENT.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keySchedule</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">80</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rounds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doFinalRound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/crypto/block_cipher/present.py#L177"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.crypto.block_cipher.present.PRESENT.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Construct an instance of PRESENT.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">keySchedule</span></code> – (default: <code class="docutils literal notranslate"><span class="pre">80</span></code>) the key schedule that will be
+used for encryption and decryption. Use <code class="docutils literal notranslate"><span class="pre">80</span></code> or <code class="docutils literal notranslate"><span class="pre">128</span></code> as a
+shortcut for the original key schedules from <a class="reference internal" href="../../../../references/index.html#bklpprsv2007" id="id3"><span>[BKLPPRSV2007]</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rounds</span></code> – integer (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>); the number of rounds. If
+<code class="docutils literal notranslate"><span class="pre">None</span></code> the number of rounds of the key schedule is used.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">doFinalRound</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>); flag to
+control whether the linear layer in the last round should take place
+or not. Since the last linear layer does not add any security, it
+usually does not take place in real world implementations for
+performance reasons.</p></li>
+</ul>
+<p>EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab">By default a 80-bit version with 31 rounds is created:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT</span>
+<span class="gp">sage:</span> <span class="n">PRESENT</span><span class="p">()</span> <span class="c1"># indirect doctest</span>
+<span class="go">PRESENT block cipher with 31 rounds, deactivated linear layer in</span>
+<span class="go">last round and the following key schedule:</span>
+<span class="go">Original PRESENT key schedule with 80-bit keys and 31 rounds</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--9-input--2" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">PRESENT</span><span class="p">()</span> <span class="c1"># indirect doctest</span>
+<span class="go">PRESENT block cipher with 31 rounds, deactivated linear layer in</span>
+<span class="go">last round and the following key schedule:</span>
+<span class="go">Original PRESENT key schedule with 80-bit keys and 31 rounds</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">The 128-bit version is also implemented:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">PRESENT</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span> <span class="c1"># indirect doctest</span>
+<span class="go">PRESENT block cipher with 31 rounds, deactivated linear layer in</span>
+<span class="go">last round and the following key schedule:</span>
+<span class="go">Original PRESENT key schedule with 128-bit keys and 31 rounds</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--10-input--2" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">PRESENT</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">128</span><span class="p">))</span> <span class="c1"># indirect doctest</span>
+<span class="go">PRESENT block cipher with 31 rounds, deactivated linear layer in</span>
+<span class="go">last round and the following key schedule:</span>
+<span class="go">Original PRESENT key schedule with 128-bit keys and 31 rounds</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Reducing the number of rounds is simple. But increasing it is not
+possible:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">PRESENT</span><span class="p">(</span><span class="n">keySchedule</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">rounds</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span> <span class="c1"># indirect doctest</span>
+<span class="go">PRESENT block cipher with 23 rounds, deactivated linear layer in</span>
+<span class="go">last round and the following key schedule:</span>
+<span class="go">Original PRESENT key schedule with 80-bit keys and 31 rounds</span>
+<span class="gp">sage:</span> <span class="n">PRESENT</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span> <span class="c1"># indirect doctest</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">ValueError: number of rounds must be less or equal to the number</span>
+<span class="go">of rounds of the key schedule</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--11-input--2" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">PRESENT</span><span class="p">(</span><span class="n">keySchedule</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">80</span><span class="p">),</span> <span class="n">rounds</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">23</span><span class="p">))</span> <span class="c1"># indirect doctest</span>
+<span class="go">PRESENT block cipher with 23 rounds, deactivated linear layer in</span>
+<span class="go">last round and the following key schedule:</span>
+<span class="go">Original PRESENT key schedule with 80-bit keys and 31 rounds</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">PRESENT</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">80</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span> <span class="c1"># indirect doctest</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">ValueError: number of rounds must be less or equal to the number</span>
+<span class="go">of rounds of the key schedule</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">By default the linear layer operation in the last round is omitted but
+of course you can enable it:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">PRESENT</span><span class="p">(</span><span class="n">doFinalRound</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># indirect doctest</span>
+<span class="go">PRESENT block cipher with 31 rounds, activated linear layer in</span>
+<span class="go">last round and the following key schedule:</span>
+<span class="go">Original PRESENT key schedule with 80-bit keys and 31 rounds</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--12-input--2" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">PRESENT</span><span class="p">(</span><span class="n">doFinalRound</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># indirect doctest</span>
+<span class="go">PRESENT block cipher with 31 rounds, activated linear layer in</span>
+<span class="go">last round and the following key schedule:</span>
+<span class="go">Original PRESENT key schedule with 80-bit keys and 31 rounds</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">You can use arbitrary key schedules. Since it is the only one
+implemented here the original key schedule is used for demonstration:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT_KS</span>
+<span class="gp">sage:</span> <span class="n">PRESENT</span><span class="p">(</span><span class="n">keySchedule</span><span class="o">=</span><span class="n">PRESENT_KS</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span> <span class="c1"># indirect doctest</span>
+<span class="go">PRESENT block cipher with 15 rounds, deactivated linear layer in</span>
+<span class="go">last round and the following key schedule:</span>
+<span class="go">Original PRESENT key schedule with 80-bit keys and 15 rounds</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--13-input--2" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT_KS</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">PRESENT</span><span class="p">(</span><span class="n">keySchedule</span><span class="o">=</span><span class="n">PRESENT_KS</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">80</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">15</span><span class="p">)))</span> <span class="c1"># indirect doctest</span>
+<span class="go">PRESENT block cipher with 15 rounds, deactivated linear layer in</span>
+<span class="go">last round and the following key schedule:</span>
+<span class="go">Original PRESENT key schedule with 80-bit keys and 15 rounds</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#sage.crypto.block_cipher.present.PRESENT_KS" title="sage.crypto.block_cipher.present.PRESENT_KS"><code class="xref py py-class docutils literal notranslate"><span class="pre">PRESENT_KS</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.crypto.block_cipher.present.PRESENT.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'encrypt'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/crypto/block_cipher/present.py#L269"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.crypto.block_cipher.present.PRESENT.__call__" title="Link to this definition">¶</a></dt>
+<dd><p>Apply PRESENT encryption or decryption on <code class="docutils literal notranslate"><span class="pre">block</span></code> using <code class="docutils literal notranslate"><span class="pre">key</span></code>.
+The flag <code class="docutils literal notranslate"><span class="pre">algorithm</span></code> controls what action is to be performed on
+<code class="docutils literal notranslate"><span class="pre">block</span></code>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">block</span></code> – integer or bit list-like; the plaintext or ciphertext</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">K</span></code> – integer or bit list-like; the key</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">algorithm</span></code> – string (default: <code class="docutils literal notranslate"><span class="pre">'encrypt'</span></code>); a flag to signify
+whether encryption or decryption is to be applied to <code class="docutils literal notranslate"><span class="pre">B</span></code>. The
+encryption flag is <code class="docutils literal notranslate"><span class="pre">'encrypt'</span></code> and the decryption flag is
+<code class="docutils literal notranslate"><span class="pre">'decrypt'</span></code></p></li>
+</ul>
+<p>OUTPUT:</p>
+<ul class="simple">
+<li><p>The plaintext or ciphertext corresponding to <code class="docutils literal notranslate"><span class="pre">block</span></code>, obtained using
+the <code class="docutils literal notranslate"><span class="pre">key</span></code>. If <code class="docutils literal notranslate"><span class="pre">block</span></code> is an integer the output will be too. If
+<code class="docutils literal notranslate"><span class="pre">block</span></code> is list-like the output will be a bit vector.</p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT</span>
+<span class="gp">sage:</span> <span class="n">present</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">(</span><span class="n">doFinalRound</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="mh">0xFFFFFFFFFFFFFFFF</span>
+<span class="gp">sage:</span> <span class="n">K</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="gp">sage:</span> <span class="n">present</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;encrypt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
+<span class="go">&#39;a112ffc72f68417b&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--14-input--2" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">(</span><span class="n">doFinalRound</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0xFFFFFFFFFFFFFFFF</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">K</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="s1">&#39;encrypt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
+<span class="go">&#39;a112ffc72f68417b&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.crypto.block_cipher.present.PRESENT.decrypt">
+<span class="sig-name descname"><span class="pre">decrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/crypto/block_cipher/present.py#L434"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.crypto.block_cipher.present.PRESENT.decrypt" title="Link to this definition">¶</a></dt>
+<dd><p>Return the plaintext corresponding to the <code class="docutils literal notranslate"><span class="pre">ciphertext</span></code>, using PRESENT decryption with <code class="docutils literal notranslate"><span class="pre">key</span></code>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ciphertext</span></code> – integer or bit list-like; the ciphertext that will
+be decrypted</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">key</span></code> – integer or bit list-like; the key</p></li>
+</ul>
+<p>OUTPUT:</p>
+<ul class="simple">
+<li><p>The plaintext corresponding to <code class="docutils literal notranslate"><span class="pre">ciphertext</span></code>, obtained using the
+<code class="docutils literal notranslate"><span class="pre">key</span></code>. If <code class="docutils literal notranslate"><span class="pre">ciphertext</span></code> is an integer the output will be too. If
+<code class="docutils literal notranslate"><span class="pre">ciphertext</span></code> is list-like the output will be a bit vector.</p></li>
+</ul>
+<p>EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab">The test vectors from <a class="reference internal" href="../../../../references/index.html#bklpprsv2007" id="id4"><span>[BKLPPRSV2007]</span></a> are checked here:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT</span>
+<span class="gp">sage:</span> <span class="n">present</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">(</span><span class="n">doFinalRound</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">p1</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="gp">sage:</span> <span class="n">k1</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="gp">sage:</span> <span class="n">c1</span> <span class="o">=</span> <span class="mh">0x5579C1387B228445</span>
+<span class="gp">sage:</span> <span class="n">present</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">k1</span><span class="p">)</span> <span class="o">==</span> <span class="n">p1</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">p2</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="gp">sage:</span> <span class="n">k2</span> <span class="o">=</span> <span class="mh">0xFFFFFFFFFFFFFFFFFFFF</span>
+<span class="gp">sage:</span> <span class="n">c2</span> <span class="o">=</span> <span class="mh">0xE72C46C0F5945049</span>
+<span class="gp">sage:</span> <span class="n">present</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span> <span class="n">k2</span><span class="p">)</span> <span class="o">==</span> <span class="n">p2</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">p3</span> <span class="o">=</span> <span class="mh">0xFFFFFFFFFFFFFFFF</span>
+<span class="gp">sage:</span> <span class="n">k3</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="gp">sage:</span> <span class="n">c3</span> <span class="o">=</span> <span class="mh">0xA112FFC72F68417B</span>
+<span class="gp">sage:</span> <span class="n">present</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">c3</span><span class="p">,</span> <span class="n">k3</span><span class="p">)</span> <span class="o">==</span> <span class="n">p3</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">p4</span> <span class="o">=</span> <span class="mh">0xFFFFFFFFFFFFFFFF</span>
+<span class="gp">sage:</span> <span class="n">k4</span> <span class="o">=</span> <span class="mh">0xFFFFFFFFFFFFFFFFFFFF</span>
+<span class="gp">sage:</span> <span class="n">c4</span> <span class="o">=</span> <span class="mh">0x3333DCD3213210D2</span>
+<span class="gp">sage:</span> <span class="n">present</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">c4</span><span class="p">,</span> <span class="n">k4</span><span class="p">)</span> <span class="o">==</span> <span class="n">p4</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--15-input--2" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">(</span><span class="n">doFinalRound</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">p1</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">k1</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">c1</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x5579C1387B228445</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">k1</span><span class="p">)</span> <span class="o">==</span> <span class="n">p1</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">k2</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0xFFFFFFFFFFFFFFFFFFFF</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">c2</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0xE72C46C0F5945049</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span> <span class="n">k2</span><span class="p">)</span> <span class="o">==</span> <span class="n">p2</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">p3</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0xFFFFFFFFFFFFFFFF</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">k3</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">c3</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0xA112FFC72F68417B</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">c3</span><span class="p">,</span> <span class="n">k3</span><span class="p">)</span> <span class="o">==</span> <span class="n">p3</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">p4</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0xFFFFFFFFFFFFFFFF</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">k4</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0xFFFFFFFFFFFFFFFFFFFF</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">c4</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x3333DCD3213210D2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">c4</span><span class="p">,</span> <span class="n">k4</span><span class="p">)</span> <span class="o">==</span> <span class="n">p4</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.crypto.block_cipher.present.PRESENT.encrypt">
+<span class="sig-name descname"><span class="pre">encrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plaintext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/crypto/block_cipher/present.py#L351"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.crypto.block_cipher.present.PRESENT.encrypt" title="Link to this definition">¶</a></dt>
+<dd><p>Return the ciphertext corresponding to <code class="docutils literal notranslate"><span class="pre">plaintext</span></code>, using PRESENT
+encryption with <code class="docutils literal notranslate"><span class="pre">key</span></code>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">plaintext</span></code> – integer or bit list-like; the plaintext that will be
+encrypted</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">key</span></code> – integer or bit list-like; the key</p></li>
+</ul>
+<p>OUTPUT:</p>
+<ul class="simple">
+<li><p>The ciphertext corresponding to <code class="docutils literal notranslate"><span class="pre">plaintext</span></code>, obtained using the
+<code class="docutils literal notranslate"><span class="pre">key</span></code>. If <code class="docutils literal notranslate"><span class="pre">plaintext</span></code> is an integer the output will be too. If
+<code class="docutils literal notranslate"><span class="pre">plaintext</span></code> is list-like the output will be a bit vector.</p></li>
+</ul>
+<p>EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab">The test vectors from <a class="reference internal" href="../../../../references/index.html#bklpprsv2007" id="id5"><span>[BKLPPRSV2007]</span></a> are checked here:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT</span>
+<span class="gp">sage:</span> <span class="n">present</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">(</span><span class="n">doFinalRound</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">p1</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="gp">sage:</span> <span class="n">k1</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="gp">sage:</span> <span class="n">c1</span> <span class="o">=</span> <span class="mh">0x5579C1387B228445</span>
+<span class="gp">sage:</span> <span class="n">present</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">k1</span><span class="p">)</span> <span class="o">==</span> <span class="n">c1</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">p2</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="gp">sage:</span> <span class="n">k2</span> <span class="o">=</span> <span class="mh">0xFFFFFFFFFFFFFFFFFFFF</span>
+<span class="gp">sage:</span> <span class="n">c2</span> <span class="o">=</span> <span class="mh">0xE72C46C0F5945049</span>
+<span class="gp">sage:</span> <span class="n">present</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="n">k2</span><span class="p">)</span> <span class="o">==</span> <span class="n">c2</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">p3</span> <span class="o">=</span> <span class="mh">0xFFFFFFFFFFFFFFFF</span>
+<span class="gp">sage:</span> <span class="n">k3</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="gp">sage:</span> <span class="n">c3</span> <span class="o">=</span> <span class="mh">0xA112FFC72F68417B</span>
+<span class="gp">sage:</span> <span class="n">present</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">p3</span><span class="p">,</span> <span class="n">k3</span><span class="p">)</span> <span class="o">==</span> <span class="n">c3</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">p4</span> <span class="o">=</span> <span class="mh">0xFFFFFFFFFFFFFFFF</span>
+<span class="gp">sage:</span> <span class="n">k4</span> <span class="o">=</span> <span class="mh">0xFFFFFFFFFFFFFFFFFFFF</span>
+<span class="gp">sage:</span> <span class="n">c4</span> <span class="o">=</span> <span class="mh">0x3333DCD3213210D2</span>
+<span class="gp">sage:</span> <span class="n">present</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">p4</span><span class="p">,</span> <span class="n">k4</span><span class="p">)</span> <span class="o">==</span> <span class="n">c4</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--16-input--2" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">(</span><span class="n">doFinalRound</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">p1</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">k1</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">c1</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x5579C1387B228445</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">k1</span><span class="p">)</span> <span class="o">==</span> <span class="n">c1</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">k2</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0xFFFFFFFFFFFFFFFFFFFF</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">c2</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0xE72C46C0F5945049</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="n">k2</span><span class="p">)</span> <span class="o">==</span> <span class="n">c2</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">p3</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0xFFFFFFFFFFFFFFFF</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">k3</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">c3</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0xA112FFC72F68417B</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">p3</span><span class="p">,</span> <span class="n">k3</span><span class="p">)</span> <span class="o">==</span> <span class="n">c3</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">p4</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0xFFFFFFFFFFFFFFFF</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">k4</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0xFFFFFFFFFFFFFFFFFFFF</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">c4</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x3333DCD3213210D2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">p4</span><span class="p">,</span> <span class="n">k4</span><span class="p">)</span> <span class="o">==</span> <span class="n">c4</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>ALGORITHM:</p>
+<p>Description of the encryption function based on <a class="reference internal" href="../../../../references/index.html#bklpprsv2007" id="id6"><span>[BKLPPRSV2007]</span></a>:</p>
+<p>A top-level algorithmic description of PRESENT encryption:</p>
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="go">generateRoundKeys()</span>
+<span class="go">for i = 1 to 31 do</span>
+<span class="go">    addRoundkey(STATE, K_i)</span>
+<span class="go">    sBoxLayer(STATE)</span>
+<span class="go">    pLayer(STATE)</span>
+<span class="go">end for</span>
+<span class="go">addRoundkey(STATE, K_{32})</span>
+</pre></div>
+</div>
+<p>Each of the 31 rounds consists of an XOR operation to introduce a round
+key <span class="math notranslate nohighlight">\(K_i\)</span> for <span class="math notranslate nohighlight">\(1 \leq i \leq 32\)</span>, where <span class="math notranslate nohighlight">\(K_{32}\)</span> is used for
+post-whitening, a linear bitwise permutation and a non-linear
+substitution layer. The non-linear layer uses a single 4-bit S-box
+which is applied 16 times in parallel in each round. Each stage but
+addRoundkey is specified in its corresponding function.</p>
+<p><strong>addRoundkey:</strong>
+Given round key <span class="math notranslate nohighlight">\(K_i = \kappa^i_{63} \dots \kappa^i_0\)</span> for <span class="math notranslate nohighlight">\(1 \leq i
+\leq 32\)</span> and current STATE <span class="math notranslate nohighlight">\(b_{63} \dots b_0\)</span>, addRoundkey consists of
+the operation for <span class="math notranslate nohighlight">\(0 \leq j \leq 63\)</span>, <span class="math notranslate nohighlight">\(b_j = b_j \oplus \kappa^i_j\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.crypto.block_cipher.present.PRESENT.linear_layer">
+<span class="sig-name descname"><span class="pre">linear_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inverse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/crypto/block_cipher/present.py#L566"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.crypto.block_cipher.present.PRESENT.linear_layer" title="Link to this definition">¶</a></dt>
+<dd><p>Apply the pLayer of PRESENT to the bit vector <code class="docutils literal notranslate"><span class="pre">state</span></code> and return the
+result.</p>
+<p>The bit permutation used in PRESENT is given by the following
+table. Bit <span class="math notranslate nohighlight">\(i\)</span> of STATE is moved to bit position <span class="math notranslate nohighlight">\(P(i)\)</span>.</p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>i</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>3</p></td>
+<td><p>4</p></td>
+<td><p>5</p></td>
+<td><p>6</p></td>
+<td><p>7</p></td>
+<td><p>8</p></td>
+<td><p>9</p></td>
+<td><p>10</p></td>
+<td><p>11</p></td>
+<td><p>12</p></td>
+<td><p>13</p></td>
+<td><p>14</p></td>
+<td><p>15</p></td>
+</tr>
+<tr class="row-even"><td><p>P(i)</p></td>
+<td><p>0</p></td>
+<td><p>16</p></td>
+<td><p>32</p></td>
+<td><p>48</p></td>
+<td><p>1</p></td>
+<td><p>17</p></td>
+<td><p>33</p></td>
+<td><p>49</p></td>
+<td><p>2</p></td>
+<td><p>18</p></td>
+<td><p>34</p></td>
+<td><p>50</p></td>
+<td><p>3</p></td>
+<td><p>19</p></td>
+<td><p>35</p></td>
+<td><p>51</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>i</p></td>
+<td><p>16</p></td>
+<td><p>17</p></td>
+<td><p>18</p></td>
+<td><p>19</p></td>
+<td><p>20</p></td>
+<td><p>21</p></td>
+<td><p>22</p></td>
+<td><p>23</p></td>
+<td><p>24</p></td>
+<td><p>25</p></td>
+<td><p>26</p></td>
+<td><p>27</p></td>
+<td><p>28</p></td>
+<td><p>29</p></td>
+<td><p>30</p></td>
+<td><p>31</p></td>
+</tr>
+<tr class="row-odd"><td><p>P(i)</p></td>
+<td><p>4</p></td>
+<td><p>20</p></td>
+<td><p>36</p></td>
+<td><p>52</p></td>
+<td><p>5</p></td>
+<td><p>21</p></td>
+<td><p>37</p></td>
+<td><p>53</p></td>
+<td><p>6</p></td>
+<td><p>22</p></td>
+<td><p>38</p></td>
+<td><p>54</p></td>
+<td><p>7</p></td>
+<td><p>23</p></td>
+<td><p>39</p></td>
+<td><p>55</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>i</p></td>
+<td><p>32</p></td>
+<td><p>33</p></td>
+<td><p>34</p></td>
+<td><p>35</p></td>
+<td><p>36</p></td>
+<td><p>37</p></td>
+<td><p>38</p></td>
+<td><p>39</p></td>
+<td><p>40</p></td>
+<td><p>41</p></td>
+<td><p>42</p></td>
+<td><p>43</p></td>
+<td><p>44</p></td>
+<td><p>45</p></td>
+<td><p>46</p></td>
+<td><p>47</p></td>
+</tr>
+<tr class="row-even"><td><p>P(i)</p></td>
+<td><p>8</p></td>
+<td><p>24</p></td>
+<td><p>40</p></td>
+<td><p>56</p></td>
+<td><p>9</p></td>
+<td><p>25</p></td>
+<td><p>41</p></td>
+<td><p>57</p></td>
+<td><p>10</p></td>
+<td><p>26</p></td>
+<td><p>42</p></td>
+<td><p>58</p></td>
+<td><p>11</p></td>
+<td><p>27</p></td>
+<td><p>43</p></td>
+<td><p>59</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>i</p></td>
+<td><p>48</p></td>
+<td><p>49</p></td>
+<td><p>50</p></td>
+<td><p>51</p></td>
+<td><p>52</p></td>
+<td><p>53</p></td>
+<td><p>54</p></td>
+<td><p>55</p></td>
+<td><p>56</p></td>
+<td><p>57</p></td>
+<td><p>58</p></td>
+<td><p>59</p></td>
+<td><p>60</p></td>
+<td><p>61</p></td>
+<td><p>62</p></td>
+<td><p>63</p></td>
+</tr>
+<tr class="row-odd"><td><p>P(i)</p></td>
+<td><p>12</p></td>
+<td><p>28</p></td>
+<td><p>44</p></td>
+<td><p>60</p></td>
+<td><p>13</p></td>
+<td><p>29</p></td>
+<td><p>45</p></td>
+<td><p>61</p></td>
+<td><p>14</p></td>
+<td><p>30</p></td>
+<td><p>46</p></td>
+<td><p>62</p></td>
+<td><p>15</p></td>
+<td><p>31</p></td>
+<td><p>47</p></td>
+<td><p>63</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT</span>
+<span class="gp">sage:</span> <span class="n">present</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">state</span> <span class="o">=</span> <span class="n">vector</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">64</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">62</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">present</span><span class="o">.</span><span class="n">linear_layer</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="go">(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,</span>
+<span class="go">0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,</span>
+<span class="go">0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--17-input--2" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">state</span> <span class="o">=</span> <span class="n">vector</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">64</span><span class="p">),</span> <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span><span class="o">+</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span><span class="o">*</span><span class="n">Integer</span><span class="p">(</span><span class="mi">62</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span><span class="o">.</span><span class="n">linear_layer</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="go">(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,</span>
+<span class="go">0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,</span>
+<span class="go">0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.crypto.block_cipher.present.PRESENT.round">
+<span class="sig-name descname"><span class="pre">round</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">round_counter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">round_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inverse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/crypto/block_cipher/present.py#L490"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.crypto.block_cipher.present.PRESENT.round" title="Link to this definition">¶</a></dt>
+<dd><p>Apply one round of PRESENT to <code class="docutils literal notranslate"><span class="pre">state</span></code> and return the result.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">convert_to_vector</span>
+<span class="gp">sage:</span> <span class="n">present</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">k</span> <span class="o">=</span> <span class="n">convert_to_vector</span><span class="p">(</span><span class="mh">0x0011223344556677</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">convert_to_vector</span><span class="p">(</span><span class="mh">0x0123456789abcdef</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">ZZ</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">present</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">k</span><span class="p">)),</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
+<span class="go">&#39;ad0ed4ca386b6559&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--18-input--2" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">convert_to_vector</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">128</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">k</span> <span class="o">=</span> <span class="n">convert_to_vector</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mh">0x0011223344556677</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">64</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">convert_to_vector</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mh">0x0123456789abcdef</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">64</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ZZ</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">present</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">k</span><span class="p">)),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
+<span class="go">&#39;ad0ed4ca386b6559&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.crypto.block_cipher.present.PRESENT.sbox_layer">
+<span class="sig-name descname"><span class="pre">sbox_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inverse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/crypto/block_cipher/present.py#L517"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.crypto.block_cipher.present.PRESENT.sbox_layer" title="Link to this definition">¶</a></dt>
+<dd><p>Apply the sBoxLayer of PRESENT to the bit vector <code class="docutils literal notranslate"><span class="pre">state</span></code> and return
+the result.</p>
+<p>The S-box used in PRESENT is a 4-bit to 4-bit S-box. The action of this
+box in hexadecimal notation is given by the following table.</p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>x</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>3</p></td>
+<td><p>4</p></td>
+<td><p>5</p></td>
+<td><p>6</p></td>
+<td><p>7</p></td>
+<td><p>8</p></td>
+<td><p>9</p></td>
+<td><p>A</p></td>
+<td><p>B</p></td>
+<td><p>C</p></td>
+<td><p>D</p></td>
+<td><p>E</p></td>
+<td><p>F</p></td>
+</tr>
+<tr class="row-even"><td><p>S[x]</p></td>
+<td><p>C</p></td>
+<td><p>5</p></td>
+<td><p>6</p></td>
+<td><p>B</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>A</p></td>
+<td><p>D</p></td>
+<td><p>3</p></td>
+<td><p>E</p></td>
+<td><p>F</p></td>
+<td><p>8</p></td>
+<td><p>4</p></td>
+<td><p>7</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>For sBoxLayer the current STATE <span class="math notranslate nohighlight">\(b_{63} \dots b_0\)</span> is considered as
+sixteen 4-bit words <span class="math notranslate nohighlight">\(w_{15} \dots w_0\)</span> where <span class="math notranslate nohighlight">\(w_i =
+b_{4i+3}||b_{4i+2}||b_{4i+1}||b_{4i}\)</span> for <span class="math notranslate nohighlight">\(0 \leq i \leq 15\)</span> and the
+output nibble S[<span class="math notranslate nohighlight">\(w_i\)</span>] provides the updated state values in the obvious
+way.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT</span>
+<span class="gp">sage:</span> <span class="n">present</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">state</span> <span class="o">=</span> <span class="n">vector</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">64</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">64</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">present</span><span class="o">.</span><span class="n">sbox_layer</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="go">(0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0,</span>
+<span class="go">1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1,</span>
+<span class="go">0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1)</span>
+<span class="gp">sage:</span> <span class="n">state</span> <span class="o">=</span> <span class="n">vector</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">64</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">63</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">present</span><span class="o">.</span><span class="n">sbox_layer</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="go">(1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0,</span>
+<span class="go">1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1,</span>
+<span class="go">0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--19-input--2" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span> <span class="o">=</span> <span class="n">PRESENT</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">state</span> <span class="o">=</span> <span class="n">vector</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">64</span><span class="p">),</span> <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span><span class="o">*</span><span class="n">Integer</span><span class="p">(</span><span class="mi">64</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span><span class="o">.</span><span class="n">sbox_layer</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="go">(0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0,</span>
+<span class="go">1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1,</span>
+<span class="go">0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">state</span> <span class="o">=</span> <span class="n">vector</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">64</span><span class="p">),</span> <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span><span class="o">+</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span><span class="o">*</span><span class="n">Integer</span><span class="p">(</span><span class="mi">63</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">present</span><span class="o">.</span><span class="n">sbox_layer</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="go">(1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0,</span>
+<span class="go">1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1,</span>
+<span class="go">0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="../sbox.html#module-sage.crypto.sbox" title="sage.crypto.sbox"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sage.crypto.sbox</span></code></a> uses big endian by default whereas most of
+Sage uses little endian. So to use the big endian PRESENT Sbox from
+<a class="reference internal" href="../sboxes.html#module-sage.crypto.sboxes" title="sage.crypto.sboxes"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sage.crypto.sboxes</span></code></a> <a class="reference internal" href="#sage.crypto.block_cipher.present.PRESENT.sbox_layer" title="sage.crypto.block_cipher.present.PRESENT.sbox_layer"><code class="xref py py-func docutils literal notranslate"><span class="pre">sbox_layer()</span></code></a> has to do some endian
+conversion (i.e. reverse input and output of the Sbox). Keep this in
+mind if you change the Sbox or <a class="reference internal" href="#sage.crypto.block_cipher.present.PRESENT.sbox_layer" title="sage.crypto.block_cipher.present.PRESENT.sbox_layer"><code class="xref py py-func docutils literal notranslate"><span class="pre">sbox_layer()</span></code></a>.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sage.crypto.block_cipher.present.PRESENT_KS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.crypto.block_cipher.present.</span></span><span class="sig-name descname"><span class="pre">PRESENT_KS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keysize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">80</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rounds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">31</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">master_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/crypto/block_cipher/present.py#L609"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.crypto.block_cipher.present.PRESENT_KS" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../../../../structure/sage/structure/sage_object.html#sage.structure.sage_object.SageObject" title="(in Parents and Elements v10.6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SageObject</span></code></a></p>
+<p>This class implements the PRESENT key schedules for both 80-bit and 128-bit
+keys as described in <a class="reference internal" href="../../../../references/index.html#bklpprsv2007" id="id7"><span>[BKLPPRSV2007]</span></a>.</p>
+<p>EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab">Initialise the key schedule with a <span class="math notranslate nohighlight">\(master\_key\)</span> to use it as an iterable:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT_KS</span>
+<span class="gp">sage:</span> <span class="n">ks</span> <span class="o">=</span> <span class="n">PRESENT_KS</span><span class="p">(</span><span class="n">master_key</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">ks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mh">0x0</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">ks</span><span class="p">[</span><span class="mi">31</span><span class="p">]</span> <span class="o">==</span> <span class="mh">0x6dab31744f41d700</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--20-input--2" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT_KS</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ks</span> <span class="o">=</span> <span class="n">PRESENT_KS</span><span class="p">(</span><span class="n">master_key</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ks</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span> <span class="o">==</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ks</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">31</span><span class="p">)]</span> <span class="o">==</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x6dab31744f41d700</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Or omit the <span class="math notranslate nohighlight">\(master\_key\)</span> and pass a key when calling the key schedule:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">ks</span> <span class="o">=</span> <span class="n">PRESENT_KS</span><span class="p">(</span><span class="n">keysize</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">K</span> <span class="o">=</span> <span class="n">ks</span><span class="p">(</span><span class="mh">0x00112233445566778899aabbccddeeff</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">K</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mh">0x0011223344556677</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">K</span><span class="p">[</span><span class="mi">31</span><span class="p">]</span> <span class="o">==</span> <span class="mh">0x091989a5ae8eab21</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--21-input--2" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ks</span> <span class="o">=</span> <span class="n">PRESENT_KS</span><span class="p">(</span><span class="n">keysize</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">128</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">K</span> <span class="o">=</span> <span class="n">ks</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mh">0x00112233445566778899aabbccddeeff</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">K</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span> <span class="o">==</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x0011223344556677</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">K</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">31</span><span class="p">)]</span> <span class="o">==</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x091989a5ae8eab21</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>ALGORITHM:</p>
+<p>Description of the key schedule for 64-bit and 128-bit keys from
+<a class="reference internal" href="../../../../references/index.html#bklpprsv2007" id="id8"><span>[BKLPPRSV2007]</span></a>:</p>
+<p>The key schedule for 64-bit keys works as follows:</p>
+<p>At round <span class="math notranslate nohighlight">\(i\)</span> the 64-bit round key <span class="math notranslate nohighlight">\(K_i = \kappa_{63}\kappa_{62} \dots
+\kappa_0\)</span> consists of the 64 leftmost bits of the current contents of
+register <span class="math notranslate nohighlight">\(K\)</span>. Thus at round <span class="math notranslate nohighlight">\(i\)</span> we have that:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[K_i = \kappa_{63}\kappa_{62}\dots \kappa_0 = k_{79}k_{78}\dots k_{16}.\]</div>
+</div>
+<p>After extracting the round key <span class="math notranslate nohighlight">\(K_i\)</span>, the key register <span class="math notranslate nohighlight">\(K = k_{79}k_{78}
+\dots k_0\)</span> is updated as follows:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\ [k_{79}k_{78}\dots k_{1}k_{0}] &amp;= [k_{18}k_{17}\dots k_{20}k_{19}] \\
+[k_{79}k_{78}k_{77}k_{76}] &amp;= S[k_{79}k_{78}k_{77}k_{76}] \\
+[k_{19}k_{18}k_{17}k_{16}k_{15}] &amp;= [k_{19}k_{18}k_{17}k_{16}k_{15}]
+                                    \oplus round\_counter
+\end{aligned}\end{split}\]</div>
+</div>
+<p>Thus, the key register is rotated by 61 bit positions to the left, the
+left-most four bits are passed through the PRESENT S-box, and the
+round_counter value <span class="math notranslate nohighlight">\(i\)</span> is exclusive-ored with bits <span class="math notranslate nohighlight">\(k_{19}k_{18}k_{17}
+k_{16}k_{15}\)</span> of <span class="math notranslate nohighlight">\(K\)</span> with the least significant bit of round_counter on
+the right.</p>
+<p>The key schedule for 128-bit keys works as follows:</p>
+<p>At round <span class="math notranslate nohighlight">\(i\)</span> the 64-bit round key <span class="math notranslate nohighlight">\(K_i = \kappa_{63}\kappa_{62} \dots
+\kappa_0\)</span> consists of the 64 leftmost bits fo the current contents of
+register <span class="math notranslate nohighlight">\(K\)</span>. Thus at round <span class="math notranslate nohighlight">\(i\)</span> we have that:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[K_i = \kappa_{63}\kappa_{62}\dots \kappa_0 = k_{127}k_{126}\dots k_{64}\]</div>
+</div>
+<p>After extracting the round key <span class="math notranslate nohighlight">\(K_i\)</span>, the key register <span class="math notranslate nohighlight">\(K = k_{127}k_{126}
+\dots k_0\)</span> is updated as follows:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\ [k_{127}k_{126}\dots k_{1}k_{0}] &amp;= [k_{66}k_{65}\dots k_{68}k_{67}]
+\\
+[k_{127}k_{126}k_{125}k_{124}] &amp;= S[k_{127}k_{126}k_{125}k_{124}]\\
+[k_{123}k_{122}k_{121}k_{120}] &amp;= S[k_{123}k_{122}k_{121}k_{120}]\\
+[k_{66}k_{65}k_{64}k_{63}k_{62}] &amp;= [k_{66}k_{65}k_{64}k_{63}k_{62}]
+                                    \oplus round\_counter
+\end{aligned}\end{split}\]</div>
+</div>
+<p>Thus, the key register is rotated by 61 bit positions to the left, the
+left-most eight bits are passed through two PRESENT S-boxes, and the
+round_counter value <span class="math notranslate nohighlight">\(i\)</span> is exclusive-ored with bits <span class="math notranslate nohighlight">\(k_{66}k_{65}k_{64}
+k_{63}k_{62}\)</span> of <span class="math notranslate nohighlight">\(K\)</span> with the least significant bit of round_counter on
+the right.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#sage.crypto.block_cipher.present.PRESENT" title="sage.crypto.block_cipher.present.PRESENT"><code class="xref py py-class docutils literal notranslate"><span class="pre">PRESENT</span></code></a>
+<a class="reference internal" href="../sboxes.html#module-sage.crypto.sboxes" title="sage.crypto.sboxes"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sage.crypto.sboxes</span></code></a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="../sbox.html#module-sage.crypto.sbox" title="sage.crypto.sbox"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sage.crypto.sbox</span></code></a> uses big endian by default whereas most of Sage
+uses little endian. So to use the big endian PRESENT Sbox from
+<a class="reference internal" href="../sboxes.html#module-sage.crypto.sboxes" title="sage.crypto.sboxes"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sage.crypto.sboxes</span></code></a> <a class="reference internal" href="#sage.crypto.block_cipher.present.PRESENT_KS" title="sage.crypto.block_cipher.present.PRESENT_KS"><code class="xref py py-class docutils literal notranslate"><span class="pre">PRESENT_KS</span></code></a> has to do some endian
+conversion (i.e. reverse input and output of the Sbox). Keep this in
+mind if you change the Sbox or <a class="reference internal" href="#sage.crypto.block_cipher.present.PRESENT_KS.__call__" title="sage.crypto.block_cipher.present.PRESENT_KS.__call__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__call__()</span></code></a>.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.crypto.block_cipher.present.PRESENT_KS.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keysize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">80</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rounds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">31</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">master_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/crypto/block_cipher/present.py#L714"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.crypto.block_cipher.present.PRESENT_KS.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Construct an instance of PRESENT_KS.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">keysize</span></code> – integer (default: 80); the size of the keys that
+will be used in bits. It must be either 80 or 128.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rounds</span></code> – integer (default: 31); the number of rounds
+<code class="docutils literal notranslate"><span class="pre">self</span></code> can create keys for</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">master_key</span></code> – integer or bit list-like (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>); the
+key that will be used</p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT_KS</span>
+<span class="gp">sage:</span> <span class="n">PRESENT_KS</span><span class="p">()</span>
+<span class="go">Original PRESENT key schedule with 80-bit keys and 31 rounds</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--22-input--2" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT_KS</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">PRESENT_KS</span><span class="p">()</span>
+<span class="go">Original PRESENT key schedule with 80-bit keys and 31 rounds</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you want to use a PRESENT_KS object as an iterable you have to
+pass a <code class="docutils literal notranslate"><span class="pre">master_key</span></code> value on initialisation. Otherwise you can
+omit <code class="docutils literal notranslate"><span class="pre">master_key</span></code> and pass a key when you call the object.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.crypto.block_cipher.present.PRESENT_KS.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">K</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/crypto/block_cipher/present.py#L749"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.crypto.block_cipher.present.PRESENT_KS.__call__" title="Link to this definition">¶</a></dt>
+<dd><p>Return all round keys in a list.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">K</span></code> – integer or bit list-like; the key</p></li>
+</ul>
+<p>OUTPUT:</p>
+<ul class="simple">
+<li><p>A list containing <code class="docutils literal notranslate"><span class="pre">rounds</span> <span class="pre">+</span> <span class="pre">1</span></code> round keys. Since addRoundkey takes
+place in every round and after the last round there must be
+<code class="docutils literal notranslate"><span class="pre">rounds</span> <span class="pre">+</span> <span class="pre">1</span></code> round keys.  If <code class="docutils literal notranslate"><span class="pre">K</span></code> is an integer the elements of
+the output list will be too. If <code class="docutils literal notranslate"><span class="pre">K</span></code> is list-like the element of the
+output list will be  bit vectors.</p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT_KS</span>
+<span class="gp">sage:</span> <span class="n">ks</span> <span class="o">=</span> <span class="n">PRESENT_KS</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">ks</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">31</span><span class="p">]</span> <span class="o">==</span> <span class="mh">0x6dab31744f41d700</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--23-input--2" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">PRESENT_KS</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ks</span> <span class="o">=</span> <span class="n">PRESENT_KS</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ks</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">31</span><span class="p">)]</span> <span class="o">==</span> <span class="n">Integer</span><span class="p">(</span><span class="mh">0x6dab31744f41d700</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you want to use a PRESENT_KS object as an iterable you have to
+pass a <code class="docutils literal notranslate"><span class="pre">master_key</span></code> value on initialisation. Otherwise you can
+omit <code class="docutils literal notranslate"><span class="pre">master_key</span></code> and pass a key when you call the object.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.crypto.block_cipher.present.convert_to_vector">
+<span class="sig-prename descclassname"><span class="pre">sage.crypto.block_cipher.present.</span></span><span class="sig-name descname"><span class="pre">convert_to_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">I</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">L</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/crypto/block_cipher/present.py#L881"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.crypto.block_cipher.present.convert_to_vector" title="Link to this definition">¶</a></dt>
+<dd><p>Convert <code class="docutils literal notranslate"><span class="pre">I</span></code> to a bit vector of length <code class="docutils literal notranslate"><span class="pre">L</span></code>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">I</span></code> – integer or bit list-like</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">L</span></code> – integer; the desired bit length of the output</p></li>
+</ul>
+<p>OUTPUT: the <code class="docutils literal notranslate"><span class="pre">L</span></code>-bit vector representation of <code class="docutils literal notranslate"><span class="pre">I</span></code></p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">convert_to_vector</span>
+<span class="gp">sage:</span> <span class="n">convert_to_vector</span><span class="p">(</span><span class="mh">0x1F</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">(1, 1, 1, 1, 1, 0, 0, 0)</span>
+<span class="gp">sage:</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vector</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">4</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">sage:</span> <span class="n">convert_to_vector</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="go">(1, 0, 1, 0)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--24-input--2" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.crypto.block_cipher.present</span> <span class="kn">import</span> <span class="n">convert_to_vector</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">convert_to_vector</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mh">0x1F</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
+<span class="go">(1, 1, 1, 1, 1, 0, 0, 0)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vector</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">convert_to_vector</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="go">(1, 0, 1, 0)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../public_key/blum_goldwasser.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Blum-Goldwasser Probabilistic Encryption</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="des.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">DES</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2005--2025, The Sage Development Team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">PRESENT</a><ul>
+<li><a class="reference internal" href="#sage.crypto.block_cipher.present.PRESENT"><code class="docutils literal notranslate"><span class="pre">PRESENT</span></code></a><ul>
+<li><a class="reference internal" href="#sage.crypto.block_cipher.present.PRESENT.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#sage.crypto.block_cipher.present.PRESENT.__call__"><code class="docutils literal notranslate"><span class="pre">__call__()</span></code></a></li>
+<li><a class="reference internal" href="#sage.crypto.block_cipher.present.PRESENT.decrypt"><code class="docutils literal notranslate"><span class="pre">decrypt()</span></code></a></li>
+<li><a class="reference internal" href="#sage.crypto.block_cipher.present.PRESENT.encrypt"><code class="docutils literal notranslate"><span class="pre">encrypt()</span></code></a></li>
+<li><a class="reference internal" href="#sage.crypto.block_cipher.present.PRESENT.linear_layer"><code class="docutils literal notranslate"><span class="pre">linear_layer()</span></code></a></li>
+<li><a class="reference internal" href="#sage.crypto.block_cipher.present.PRESENT.round"><code class="docutils literal notranslate"><span class="pre">round()</span></code></a></li>
+<li><a class="reference internal" href="#sage.crypto.block_cipher.present.PRESENT.sbox_layer"><code class="docutils literal notranslate"><span class="pre">sbox_layer()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sage.crypto.block_cipher.present.PRESENT_KS"><code class="docutils literal notranslate"><span class="pre">PRESENT_KS</span></code></a><ul>
+<li><a class="reference internal" href="#sage.crypto.block_cipher.present.PRESENT_KS.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#sage.crypto.block_cipher.present.PRESENT_KS.__call__"><code class="docutils literal notranslate"><span class="pre">__call__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sage.crypto.block_cipher.present.convert_to_vector"><code class="docutils literal notranslate"><span class="pre">convert_to_vector()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../../%5fstatic/documentation_options.js"></script>
+    <script src="../../../../%5fstatic/doctools.js"></script>
+    <script src="../../../../%5fstatic/sphinx_highlight.js"></script>
+    <script src="../../../../%5fstatic/scripts/furo.js"></script>
+    <script src="../../../../%5fstatic/clipboard.min.js"></script>
+    <script src="../../../../%5fstatic/copybutton.js"></script>
+    <script src="../../../../%5fstatic/tabs.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>
+    <script defer="defer" src="/Users/mkoeppe/s/sage/sage-rebasing/local/share/mathjax/mathjax/tex-chtml.js?v=0d9741c5"></script>
+    <script src="../../../../%5fstatic/jupyter-sphinx-furo.js"></script>
+    </body>
+</html>

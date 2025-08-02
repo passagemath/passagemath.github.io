@@ -1,0 +1,929 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Interface to 4ti2" href="four_ti_2.html" /><link rel="prev" title="Interface to Axiom" href="axiom.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>The Elliptic Curve Factorization Method - Interpreter Interfaces</title>
+      <link rel="stylesheet" type="text/css" href="../../../%5fstatic/pygments.css?v=a078f75a" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-codemirror-monokai.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-tabs.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  --color-brand-primary: #0f0fff;
+  --color-brand-content: #0f0fff;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">Interpreter Interfaces</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand" href="../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../%5fstatic/logo_sagemath_black.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../%5fstatic/logo_sagemath_white.svg" alt="Dark Logo"/>
+  </div>
+  
+      <span class="sidebar-brand-text">passagemath 10.6.1 Reference Manual</span>
+  
+</a><div class="select-wrapper">
+  <select id="versions-menu" onchange="changeVersion()">
+    <option value="" selected>other version</option>
+    <option value="https://doc-develop--sagemath.netlify.app">develop</option>
+  </select>
+</div><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-home">
+  <div class="sidebar-tree">
+    <ul><li class="toctree-l1">
+      <a class="reference internal" href="../../index.html">Home - Interpreter Interfaces</a>
+    </li></ul>
+  </div>
+</div><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Common Interface Functionality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="expect.html">Common Interface Functionality through Pexpect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sagespawn.html">Sage wrapper around pexpect’s <code class="docutils literal notranslate"><span class="pre">spawn</span></code> class and</a></li>
+<li class="toctree-l1"><a class="reference internal" href="abc.html">Abstract base classes for interface elements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="axiom.html">Interface to Axiom</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">The Elliptic Curve Factorization Method</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="four_ti_2.html">Interface to 4ti2</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="fricas.html">Interface to FriCAS</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="frobby.html">Interface to Frobby for fast computations on monomial ideals.</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gap.html">Interface to GAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gap3.html">Interface to GAP3</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gfan.html">Interface to Groebner Fan</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="giac.html">Pexpect Interface to Giac</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gnuplot.html">Interface to the Gnuplot interpreter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gp.html">Interface to the GP calculator of PARI/GP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jmoldata.html">Interface for extracting data and generating images from Jmol readable files.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kash.html">Interface to KASH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kenzo.html">Library interface to Kenzo</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="latte.html">Interface to LattE integrale programs</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lie.html">Interface to LiE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lisp.html">Lisp Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="magma.html">Interface to Magma</a></li>
+<li class="toctree-l1"><a class="reference internal" href="magma_free.html">Interface to the free online MAGMA calculator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maple.html">Interface to Maple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mathematica.html">Interface to Mathematica</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mathics.html">Interface to Mathics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matlab.html">Interface to MATLAB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxima.html">Pexpect interface to Maxima</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxima_abstract.html">Abstract interface to Maxima</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxima_lib.html">Library interface to Maxima</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mupad.html">Interface to MuPAD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mwrank.html">Interface to mwrank</a></li>
+<li class="toctree-l1"><a class="reference internal" href="octave.html">Interface to GNU Octave</a></li>
+<li class="toctree-l1"><a class="reference internal" href="phc.html">Interface to PHC.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="polymake.html">Interface to polymake</a></li>
+<li class="toctree-l1"><a class="reference internal" href="povray.html">POV-Ray, The Persistence of Vision Ray Tracer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="psage.html">Parallel Interface to the Sage interpreter</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="qepcad.html">Interface to QEPCAD</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="r.html">Interfaces to R</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rubik.html">Interface to several Rubik’s cube solvers.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sage0.html">Interface to Sage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scilab.html">Interface to Scilab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="singular.html">Interface to Singular</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sympy.html">SymPy –&gt; Sage conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tachyon.html">The Tachyon Ray Tracer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tides.html">Interface to TIDES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quit.html">Quitting interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="read_data.html">An interface to read data files</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/blob/main/src/sage/interfaces/ecm.py" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/edit/main/src/sage/interfaces/ecm.py" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="the-elliptic-curve-factorization-method">
+<span id="sage-interfaces-ecm"></span><h1>The Elliptic Curve Factorization Method<a class="headerlink" href="#the-elliptic-curve-factorization-method" title="Link to this heading">¶</a></h1>
+<p id="module-sage.interfaces.ecm">The elliptic curve factorization method (ECM) is the fastest way to
+factor a <strong>known composite</strong> integer if one of the factors is
+relatively small (up to approximately 80 bits / 25 decimal digits). To
+factor an arbitrary integer it must be combined with a primality
+test. The <a class="reference internal" href="#sage.interfaces.ecm.ECM.factor" title="sage.interfaces.ecm.ECM.factor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ECM.factor()</span></code></a> method is an example for how to combine
+ECM with a primality test to compute the prime factorization of integers.</p>
+<p>Sage includes GMP-ECM, which is a highly optimized implementation of
+Lenstra’s elliptic curve factorization method.  See
+<a class="reference external" href="https://gitlab.inria.fr/zimmerma/ecm">https://gitlab.inria.fr/zimmerma/ecm</a> for more about GMP-ECM.</p>
+<p>AUTHORS:</p>
+<p>These people wrote GMP-ECM:
+Pierrick Gaudry, Jim Fougeron,
+Laurent Fousse, Alexander Kruppa,
+Dave Newman, Paul Zimmermann</p>
+<p>BUGS:</p>
+<p>Output from ecm is non-deterministic. Doctests should set the random
+seed, but currently there is no facility to do so.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="sage.interfaces.ecm.ECM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.interfaces.ecm.</span></span><span class="sig-name descname"><span class="pre">ECM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">B1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/interfaces/ecm.py#L62"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.interfaces.ecm.ECM" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../../../structure/sage/structure/sage_object.html#sage.structure.sage_object.SageObject" title="(in Parents and Elements v10.6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SageObject</span></code></a></p>
+<p>Create an interface to the GMP-ECM elliptic curve method
+factorization program.</p>
+<p>See <a class="reference external" href="https://gitlab.inria.fr/zimmerma/ecm">https://gitlab.inria.fr/zimmerma/ecm</a></p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">B1</span></code> – integer; Stage 1 bound</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">B2</span></code> – integer; Stage 2 bound (or interval B2min-B2max)</p></li>
+</ul>
+<p>In addition the following keyword arguments can be used:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x0</span></code> – integer <span class="math notranslate nohighlight">\(x\)</span>; use <span class="math notranslate nohighlight">\(x\)</span> as initial point</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sigma</span></code> – integer <span class="math notranslate nohighlight">\(s\)</span>; use s as curve generator [ecm]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">A</span></code> – integer <span class="math notranslate nohighlight">\(a\)</span>; use a as curve parameter [ecm]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">k</span></code> – integer <span class="math notranslate nohighlight">\(n\)</span>; perform <span class="math notranslate nohighlight">\(&gt;= n\)</span> steps in stage 2</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">power</span></code> – integer <span class="math notranslate nohighlight">\(n\)</span>; use <span class="math notranslate nohighlight">\(x^n\)</span> for Brent-Suyama’s
+extension</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dickson</span></code> – integer <span class="math notranslate nohighlight">\(n\)</span>; use <span class="math notranslate nohighlight">\(n\)</span>-th Dickson’s polynomial
+for Brent-Suyama’s extension</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">c</span></code> – integer <span class="math notranslate nohighlight">\(n\)</span>; perform <span class="math notranslate nohighlight">\(n\)</span> runs for each input</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pm1</span></code> – boolean; perform P-1 instead of ECM</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pp1</span></code> – boolean; perform P+1 instead of ECM</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">q</span></code> – boolean; quiet mode</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">v</span></code> – boolean; verbose mode</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">timestamp</span></code> – boolean; print a time stamp with each number</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mpzmod</span></code> – boolean; use GMP’s mpz_mod for mod reduction</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">modmuln</span></code> – boolean; use Montgomery’s MODMULN for mod reduction</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">redc</span></code> – boolean; use Montgomery’s REDC for mod reduction</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nobase2</span></code> – boolean; disable special base-2 code</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">base2</span></code> – integer <span class="math notranslate nohighlight">\(n\)</span>; force base 2 mode with 2^n+1 (n&gt;0)
+or 2^n-1 (n&lt;0)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">save</span></code> – string filename; save residues at end of stage 1
+to file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">savea</span></code> – string filename; Like -save, appends to
+existing files</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">resume</span></code> – string filename; resume residues from file,
+reads from stdin if file is “-”</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">primetest</span></code> – boolean; perform a primality test on input</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">treefile</span></code> – string; store product tree of F in files f.0
+f.1 …</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">i</span></code> – integer; increment B1 by this constant on each run</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">I</span></code> – integer <span class="math notranslate nohighlight">\(f\)</span>; auto-calculated increment for B1
+multiplied by <span class="math notranslate nohighlight">\(f\)</span> scale factor</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">inp</span></code> – string; use file as input (instead of redirecting
+stdin)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">b</span></code> – boolean; use breadth-first mode of file processing</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">d</span></code> – boolean; use depth-first mode of file processing
+(default)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">one</span></code> – boolean; stop processing a candidate if a factor
+is found (looping mode )</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n</span></code> – boolean; run ecm in ‘nice’ mode (below normal
+priority)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nn</span></code> – boolean; run ecm in ‘very nice’ mode (idle
+priority)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">t</span></code> – integer <span class="math notranslate nohighlight">\(n\)</span>; trial divide candidates before P-1,
+P+1 or ECM up to <span class="math notranslate nohighlight">\(n\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ve</span></code> – integer <span class="math notranslate nohighlight">\(n\)</span>; verbosely show short (<span class="math notranslate nohighlight">\(&lt; n\)</span>
+character) expressions on each loop</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">B2scale</span></code> – integer; multiplies the default B2 value</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">go</span></code> – integer; preload with group order val, which can
+be a simple expression, or can use N as a placeholder for
+the number being factored</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prp</span></code> – string; use shell command cmd to do large
+primality tests</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prplen</span></code> – integer; only candidates longer than this
+number of digits are ‘large’</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prpval</span></code> – integer; value&gt;=0 which indicates the prp
+command foundnumber to be PRP</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prptmp</span></code> – file; outputs n value to temp file prior to
+running (NB. gets deleted)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prplog</span></code> – file; otherwise get PRP results from this file
+(NB. gets deleted)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prpyes</span></code> – string; literal string found in prplog file
+when number is PRP</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prpno</span></code> – string; literal string found in prplog file
+when number is composite</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.interfaces.ecm.ECM.factor">
+<span class="sig-name descname"><span class="pre">factor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor_digits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proof</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/interfaces/ecm.py#L564"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.interfaces.ecm.ECM.factor" title="Link to this definition">¶</a></dt>
+<dd><p>Return a probable prime factorization of <span class="math notranslate nohighlight">\(n\)</span>.</p>
+<p>Combines GMP-ECM with a primality test, see
+<a class="reference external" href="../../../rings_standard/sage/rings/integer.html#sage.rings.integer.Integer.is_prime" title="(in Standard Commutative Rings v10.6.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_prime()</span></code></a>. The primality
+test is provable or probabilistic depending on the <span class="math notranslate nohighlight">\(proof\)</span>
+flag.</p>
+<p>Moreover, for small <span class="math notranslate nohighlight">\(n\)</span> PARI is used directly.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>There is no mathematical guarantee that the factors
+returned are actually prime if <code class="docutils literal notranslate"><span class="pre">proof=False</span></code>
+(default). It is extremely likely, though. Currently,
+there are no known examples where this fails.</p>
+</div>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">n</span></code> – positive integer</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">factor_digits</span></code> – integer or <code class="docutils literal notranslate"><span class="pre">None</span></code> (default); optional
+guess at how many digits are in the smallest factor</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">B1</span></code> – initial lower bound, defaults to 2000 (15 digit
+factors); used if <code class="docutils literal notranslate"><span class="pre">factor_digits</span></code> is not specified</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">proof</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>); whether to prove
+that the factors are prime</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kwds</span></code> – keyword arguments to pass to ecm-gmp; see help
+for <a class="reference internal" href="#sage.interfaces.ecm.ECM" title="sage.interfaces.ecm.ECM"><code class="xref py py-class docutils literal notranslate"><span class="pre">ECM</span></code></a> for more details</p></li>
+</ul>
+<p>OUTPUT: list of integers whose product is <span class="math notranslate nohighlight">\(n\)</span></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Trial division should typically be performed, but this is
+not implemented (yet) in this method.</p>
+<p>If you suspect that n is the product of two
+similarly-sized primes, other methods (such as a quadratic
+sieve – use the qsieve command) will usually be faster.</p>
+<p>The best known algorithm for factoring in the case where
+all factors are large is the general number field
+sieve. This is not implemented in Sage; You probably want
+to use a cluster for problems of this size.</p>
+</div>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.pari</span>
+<span class="gp">sage:</span> <span class="n">ecm</span><span class="o">.</span><span class="n">factor</span><span class="p">(</span><span class="mi">602400691612422154516282778947806249229526581</span><span class="p">)</span>
+<span class="go">[45949729863572179, 13109994191499930367061460439]</span>
+<span class="gp">sage:</span> <span class="n">ecm</span><span class="o">.</span><span class="n">factor</span><span class="p">((</span><span class="mi">2</span><span class="o">^</span><span class="mi">197</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># long time</span>
+<span class="go">[197002597249, 1348959352853811313, 251951573867253012259144010843]</span>
+<span class="gp">sage:</span> <span class="n">ecm</span><span class="o">.</span><span class="n">factor</span><span class="p">(</span><span class="mi">179427217</span><span class="o">^</span><span class="mi">13</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">179427217</span><span class="p">]</span> <span class="o">*</span> <span class="mi">13</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="c1"># needs sage.libs.pari</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ecm</span><span class="o">.</span><span class="n">factor</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">602400691612422154516282778947806249229526581</span><span class="p">))</span>
+<span class="go">[45949729863572179, 13109994191499930367061460439]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ecm</span><span class="o">.</span><span class="n">factor</span><span class="p">((</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">197</span><span class="p">)</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>  <span class="c1"># long time</span>
+<span class="go">[197002597249, 1348959352853811313, 251951573867253012259144010843]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ecm</span><span class="o">.</span><span class="n">factor</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">179427217</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">13</span><span class="p">))</span> <span class="o">==</span> <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">179427217</span><span class="p">)]</span> <span class="o">*</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.interfaces.ecm.ECM.find_factor">
+<span class="sig-name descname"><span class="pre">find_factor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor_digits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2000</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/interfaces/ecm.py#L514"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.interfaces.ecm.ECM.find_factor" title="Link to this definition">¶</a></dt>
+<dd><p>Return a factor of n.</p>
+<p>See also <a class="reference internal" href="#sage.interfaces.ecm.ECM.factor" title="sage.interfaces.ecm.ECM.factor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">factor()</span></code></a> if you want a prime factorization of
+<span class="math notranslate nohighlight">\(n\)</span>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">n</span></code> – positive integer</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">factor_digits</span></code> – integer or <code class="docutils literal notranslate"><span class="pre">None</span></code> (default); decimal
+digits estimate of the wanted factor</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">B1</span></code> – integer; Stage 1 bound (default: 2000). This is
+used as bound if <code class="docutils literal notranslate"><span class="pre">factor_digits</span></code> is not specified</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kwds</span></code> – optional keyword parameters</p></li>
+</ul>
+<p>OUTPUT:</p>
+<p>List of integers whose product is n. For certain lengths of
+the factor, this is the best algorithm to find a
+factor.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>ECM is not a good primality test. Not finding a
+factorization is only weak evidence for <span class="math notranslate nohighlight">\(n\)</span> being
+prime. You should run a <strong>good</strong> primality test before
+calling this function.</p>
+</div>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">ECM</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">508021860739623467191080372196682785441177798407961</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">find_factor</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="go">[79792266297612017, 6366805760909027985741435139224233]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">ECM</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">n</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">508021860739623467191080372196682785441177798407961</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">find_factor</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="go">[79792266297612017, 6366805760909027985741435139224233]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Note that the input number cannot have more than 4095 digits:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="mi">2</span><span class="o">^</span><span class="mi">2</span><span class="o">^</span><span class="mi">14</span><span class="o">+</span><span class="mi">1</span>
+<span class="gp">sage:</span> <span class="n">ecm</span><span class="o">.</span><span class="n">find_factor</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">ValueError: n must have at most 4095 digits</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span><span class="o">+</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ecm</span><span class="o">.</span><span class="n">find_factor</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">ValueError: n must have at most 4095 digits</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.interfaces.ecm.ECM.get_last_params">
+<span class="sig-name descname"><span class="pre">get_last_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/interfaces/ecm.py#L661"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.interfaces.ecm.ECM.get_last_params" title="Link to this definition">¶</a></dt>
+<dd><p>Return the parameters (including the curve) of the last ecm run.</p>
+<p>In the case that the number was factored successfully, this
+will return the parameters that yielded the factorization.</p>
+<p>OUTPUT:</p>
+<p>A dictionary containing the parameters for the most recent
+factorization.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.pari</span>
+<span class="gp">sage:</span> <span class="n">ecm</span><span class="o">.</span><span class="n">factor</span><span class="p">((</span><span class="mi">2</span><span class="o">^</span><span class="mi">197</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>             <span class="c1"># long time</span>
+<span class="go">[197002597249, 1348959352853811313, 251951573867253012259144010843]</span>
+<span class="gp">sage:</span> <span class="n">ecm</span><span class="o">.</span><span class="n">get_last_params</span><span class="p">()</span>                 <span class="c1"># random output</span>
+<span class="go">{&#39;poly&#39;: &#39;x^1&#39;, &#39;sigma&#39;: &#39;1785694449&#39;, &#39;B1&#39;: &#39;8885&#39;, &#39;B2&#39;: &#39;1002846&#39;}</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="c1"># needs sage.libs.pari</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ecm</span><span class="o">.</span><span class="n">factor</span><span class="p">((</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">197</span><span class="p">)</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>             <span class="c1"># long time</span>
+<span class="go">[197002597249, 1348959352853811313, 251951573867253012259144010843]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ecm</span><span class="o">.</span><span class="n">get_last_params</span><span class="p">()</span>                 <span class="c1"># random output</span>
+<span class="go">{&#39;poly&#39;: &#39;x^1&#39;, &#39;sigma&#39;: &#39;1785694449&#39;, &#39;B1&#39;: &#39;8885&#39;, &#39;B2&#39;: &#39;1002846&#39;}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.interfaces.ecm.ECM.interact">
+<span class="sig-name descname"><span class="pre">interact</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/interfaces/ecm.py#L251"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.interfaces.ecm.ECM.interact" title="Link to this definition">¶</a></dt>
+<dd><p>Interactively interact with the ECM program.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">ecm</span><span class="o">.</span><span class="n">interact</span><span class="p">()</span>    <span class="c1"># not tested</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ecm</span><span class="o">.</span><span class="n">interact</span><span class="p">()</span>    <span class="c1"># not tested</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.interfaces.ecm.ECM.one_curve">
+<span class="sig-name descname"><span class="pre">one_curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor_digits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ECM'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/interfaces/ecm.py#L418"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.interfaces.ecm.ECM.one_curve" title="Link to this definition">¶</a></dt>
+<dd><p>Run one single ECM (or P-1/P+1) curve on input n.</p>
+<p>Note that trying a single curve is not particularly useful by
+itself. One typically needs to run over thousands of trial
+curves to factor <span class="math notranslate nohighlight">\(n\)</span>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">n</span></code> – positive integer</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">factor_digits</span></code> – integer; decimal digits estimate of the
+wanted factor</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">B1</span></code> – integer; Stage 1 bound (default: 2000)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">algorithm</span></code> – either “ECM” (default); “P-1” or “P+1”</p></li>
+</ul>
+<p>OUTPUT:</p>
+<p>A list <code class="docutils literal notranslate"><span class="pre">[p,</span> <span class="pre">q]</span></code> where p and q are integers and n = p * q.
+If no factor was found, then p = 1 and q = n.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Neither p nor q in the output is guaranteed to be prime.</p>
+</div>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">ECM</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">508021860739623467191080372196682785441177798407961</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">one_curve</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">B1</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="go">[1, 508021860739623467191080372196682785441177798407961]</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">one_curve</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">B1</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1022170541</span><span class="p">)</span>
+<span class="go">[79792266297612017, 6366805760909027985741435139224233]</span>
+<span class="gp">sage:</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">432132887883903108009802143314445113500016816977037257</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">one_curve</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">B1</span><span class="o">=</span><span class="mi">500000</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;P-1&#39;</span><span class="p">)</span>
+<span class="go">[67872792749091946529, 6366805760909027985741435139224233]</span>
+<span class="gp">sage:</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">2088352670731726262548647919416588631875815083</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="o">.</span><span class="n">one_curve</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">B1</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;P+1&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">[328006342451, 6366805760909027985741435139224233]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">ECM</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">n</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">508021860739623467191080372196682785441177798407961</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">one_curve</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">B1</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10000</span><span class="p">),</span> <span class="n">sigma</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">11</span><span class="p">))</span>
+<span class="go">[1, 508021860739623467191080372196682785441177798407961]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">one_curve</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">B1</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10000</span><span class="p">),</span> <span class="n">sigma</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1022170541</span><span class="p">))</span>
+<span class="go">[79792266297612017, 6366805760909027985741435139224233]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">n</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">432132887883903108009802143314445113500016816977037257</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">one_curve</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">B1</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">500000</span><span class="p">),</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;P-1&#39;</span><span class="p">)</span>
+<span class="go">[67872792749091946529, 6366805760909027985741435139224233]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">n</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2088352670731726262548647919416588631875815083</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">one_curve</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">B1</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2000</span><span class="p">),</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;P+1&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="go">[328006342451, 6366805760909027985741435139224233]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.interfaces.ecm.ECM.recommended_B1">
+<span class="sig-name descname"><span class="pre">recommended_B1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">factor_digits</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/interfaces/ecm.py#L301"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.interfaces.ecm.ECM.recommended_B1" title="Link to this definition">¶</a></dt>
+<dd><p>Return recommended <code class="docutils literal notranslate"><span class="pre">B1</span></code> setting.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">factor_digits</span></code> – integer; number of digits</p></li>
+</ul>
+<p>OUTPUT:</p>
+<p>Integer. Recommended settings from
+<a class="reference external" href="http://www.mersennewiki.org/index.php/Elliptic_Curve_Method">http://www.mersennewiki.org/index.php/Elliptic_Curve_Method</a></p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">ecm</span><span class="o">.</span><span class="n">recommended_B1</span><span class="p">(</span><span class="mi">33</span><span class="p">)</span>
+<span class="go">1000000</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--2" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ecm</span><span class="o">.</span><span class="n">recommended_B1</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">33</span><span class="p">))</span>
+<span class="go">1000000</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.interfaces.ecm.ECM.time">
+<span class="sig-name descname"><span class="pre">time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor_digits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/interfaces/ecm.py#L683"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.interfaces.ecm.ECM.time" title="Link to this definition">¶</a></dt>
+<dd><p>Print a runtime estimate.</p>
+<p>BUGS:</p>
+<p>This method should really return something and not just print
+stuff on the screen.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">n</span></code> – positive integer</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">factor_digits</span></code> – the (estimated) number of digits of the
+smallest factor</p></li>
+</ul>
+<p>OUTPUT:</p>
+<p>An approximation for the amount of time it will take to find a
+factor of size factor_digits in a single process on the
+current computer.  This estimate is provided by GMP-ECM’s
+verbose option on a single run of a curve.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.pari</span>
+<span class="gp">sage:</span> <span class="n">n</span> <span class="o">=</span> <span class="n">next_prime</span><span class="p">(</span><span class="mi">11</span><span class="o">^</span><span class="mi">23</span><span class="p">)</span><span class="o">*</span><span class="n">next_prime</span><span class="p">(</span><span class="mi">11</span><span class="o">^</span><span class="mi">37</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">ecm</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>                  <span class="c1"># random output</span>
+<span class="go">Expected curves: 910, Expected time: 23.95m</span>
+<span class="gp">sage:</span> <span class="n">ecm</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>     <span class="c1"># random output</span>
+<span class="go">GMP-ECM 6.4.4 [configured with MPIR 2.6.0, --enable-asm-redc] [ECM]</span>
+<span class="go">Running on localhost.localdomain</span>
+<span class="go">Input number is 304481639541418099574459496544854621998616257489887231115912293 (63 digits)</span>
+<span class="go">Using MODMULN [mulredc:0, sqrredc:0]</span>
+<span class="go">Using B1=250000, B2=128992510, polynomial Dickson(3), sigma=3244548117</span>
+<span class="go">dF=2048, k=3, d=19110, d2=11, i0=3</span>
+<span class="go">Expected number of curves to find a factor of n digits:</span>
+<span class="go">35  40  45  50  55  60  65  70  75  80</span>
+<span class="go">4911  70940  1226976  2.5e+07  5.8e+08  1.6e+10  2.7e+13  4e+18  5.4e+23  Inf</span>
+<span class="go">Step 1 took 230ms</span>
+<span class="go">Using 10 small primes for NTT</span>
+<span class="go">Estimated memory usage: 4040K</span>
+<span class="go">Initializing tables of differences for F took 0ms</span>
+<span class="go">Computing roots of F took 9ms</span>
+<span class="go">Building F from its roots took 16ms</span>
+<span class="go">Computing 1/F took 9ms</span>
+<span class="go">Initializing table of differences for G took 0ms</span>
+<span class="go">Computing roots of G took 8ms</span>
+<span class="go">Building G from its roots took 16ms</span>
+<span class="go">Computing roots of G took 7ms</span>
+<span class="go">Building G from its roots took 16ms</span>
+<span class="go">Computing G * H took 6ms</span>
+<span class="go">Reducing  G * H mod F took 5ms</span>
+<span class="go">Computing roots of G took 7ms</span>
+<span class="go">Building G from its roots took 17ms</span>
+<span class="go">Computing G * H took 5ms</span>
+<span class="go">Reducing  G * H mod F took 5ms</span>
+<span class="go">Computing polyeval(F,G) took 34ms</span>
+<span class="go">Computing product of all F(g_i) took 0ms</span>
+<span class="go">Step 2 took 164ms</span>
+<span class="go">Expected time to find a factor of n digits:</span>
+<span class="go">35  40  45  50  55  60  65  70  75  80</span>
+<span class="go">32.25m  7.76h  5.60d  114.21d  7.27y  196.42y  337811y  5e+10y  7e+15y  Inf</span>
+
+<span class="go">Expected curves: 4911, Expected time: 32.25m</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--2" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="c1"># needs sage.libs.pari</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">n</span> <span class="o">=</span> <span class="n">next_prime</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">23</span><span class="p">))</span><span class="o">*</span><span class="n">next_prime</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">37</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ecm</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">35</span><span class="p">))</span>                  <span class="c1"># random output</span>
+<span class="go">Expected curves: 910, Expected time: 23.95m</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ecm</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>     <span class="c1"># random output</span>
+<span class="go">GMP-ECM 6.4.4 [configured with MPIR 2.6.0, --enable-asm-redc] [ECM]</span>
+<span class="go">Running on localhost.localdomain</span>
+<span class="go">Input number is 304481639541418099574459496544854621998616257489887231115912293 (63 digits)</span>
+<span class="go">Using MODMULN [mulredc:0, sqrredc:0]</span>
+<span class="go">Using B1=250000, B2=128992510, polynomial Dickson(3), sigma=3244548117</span>
+<span class="go">dF=2048, k=3, d=19110, d2=11, i0=3</span>
+<span class="go">Expected number of curves to find a factor of n digits:</span>
+<span class="go">35  40  45  50  55  60  65  70  75  80</span>
+<span class="go">4911  70940  1226976  2.5e+07  5.8e+08  1.6e+10  2.7e+13  4e+18  5.4e+23  Inf</span>
+<span class="go">Step 1 took 230ms</span>
+<span class="go">Using 10 small primes for NTT</span>
+<span class="go">Estimated memory usage: 4040K</span>
+<span class="go">Initializing tables of differences for F took 0ms</span>
+<span class="go">Computing roots of F took 9ms</span>
+<span class="go">Building F from its roots took 16ms</span>
+<span class="go">Computing 1/F took 9ms</span>
+<span class="go">Initializing table of differences for G took 0ms</span>
+<span class="go">Computing roots of G took 8ms</span>
+<span class="go">Building G from its roots took 16ms</span>
+<span class="go">Computing roots of G took 7ms</span>
+<span class="go">Building G from its roots took 16ms</span>
+<span class="go">Computing G * H took 6ms</span>
+<span class="go">Reducing  G * H mod F took 5ms</span>
+<span class="go">Computing roots of G took 7ms</span>
+<span class="go">Building G from its roots took 17ms</span>
+<span class="go">Computing G * H took 5ms</span>
+<span class="go">Reducing  G * H mod F took 5ms</span>
+<span class="go">Computing polyeval(F,G) took 34ms</span>
+<span class="go">Computing product of all F(g_i) took 0ms</span>
+<span class="go">Step 2 took 164ms</span>
+<span class="go">Expected time to find a factor of n digits:</span>
+<span class="go">35  40  45  50  55  60  65  70  75  80</span>
+<span class="go">32.25m  7.76h  5.60d  114.21d  7.27y  196.42y  337811y  5e+10y  7e+15y  Inf</span>
+<span class="go">&lt;BLANKLINE&gt;</span>
+<span class="go">Expected curves: 4911, Expected time: 32.25m</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="four_ti_2.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Interface to 4ti2</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="axiom.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Interface to Axiom</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2005--2025, The Sage Development Team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">The Elliptic Curve Factorization Method</a><ul>
+<li><a class="reference internal" href="#sage.interfaces.ecm.ECM"><code class="docutils literal notranslate"><span class="pre">ECM</span></code></a><ul>
+<li><a class="reference internal" href="#sage.interfaces.ecm.ECM.factor"><code class="docutils literal notranslate"><span class="pre">factor()</span></code></a></li>
+<li><a class="reference internal" href="#sage.interfaces.ecm.ECM.find_factor"><code class="docutils literal notranslate"><span class="pre">find_factor()</span></code></a></li>
+<li><a class="reference internal" href="#sage.interfaces.ecm.ECM.get_last_params"><code class="docutils literal notranslate"><span class="pre">get_last_params()</span></code></a></li>
+<li><a class="reference internal" href="#sage.interfaces.ecm.ECM.interact"><code class="docutils literal notranslate"><span class="pre">interact()</span></code></a></li>
+<li><a class="reference internal" href="#sage.interfaces.ecm.ECM.one_curve"><code class="docutils literal notranslate"><span class="pre">one_curve()</span></code></a></li>
+<li><a class="reference internal" href="#sage.interfaces.ecm.ECM.recommended_B1"><code class="docutils literal notranslate"><span class="pre">recommended_B1()</span></code></a></li>
+<li><a class="reference internal" href="#sage.interfaces.ecm.ECM.time"><code class="docutils literal notranslate"><span class="pre">time()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../%5fstatic/documentation_options.js"></script>
+    <script src="../../../%5fstatic/doctools.js"></script>
+    <script src="../../../%5fstatic/sphinx_highlight.js"></script>
+    <script src="../../../%5fstatic/scripts/furo.js"></script>
+    <script src="../../../%5fstatic/clipboard.min.js"></script>
+    <script src="../../../%5fstatic/copybutton.js"></script>
+    <script src="../../../%5fstatic/tabs.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>
+    <script defer="defer" src="/Users/mkoeppe/s/sage/sage-rebasing/local/share/mathjax/mathjax/tex-chtml.js?v=0d9741c5"></script>
+    <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>
+    </body>
+</html>

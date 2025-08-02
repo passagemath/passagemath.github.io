@@ -1,0 +1,1185 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Orientations" href="orientations.html" /><link rel="prev" title="Path enumeration" href="path_enumeration.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>GenericGraph Cython functions - Graph Theory</title>
+      <link rel="stylesheet" type="text/css" href="../../../%5fstatic/pygments.css?v=a078f75a" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-codemirror-monokai.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-tabs.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  --color-brand-primary: #0f0fff;
+  --color-brand-content: #0f0fff;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">Graph Theory</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand" href="../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../%5fstatic/logo_sagemath_black.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../%5fstatic/logo_sagemath_white.svg" alt="Dark Logo"/>
+  </div>
+  
+      <span class="sidebar-brand-text">passagemath 10.6.1 Reference Manual</span>
+  
+</a><div class="select-wrapper">
+  <select id="versions-menu" onchange="changeVersion()">
+    <option value="" selected>other version</option>
+    <option value="https://doc-develop--sagemath.netlify.app">develop</option>
+  </select>
+</div><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-home">
+  <div class="sidebar-tree">
+    <ul><li class="toctree-l1">
+      <a class="reference internal" href="../../index.html">Home - Graph Theory</a>
+    </li></ul>
+  </div>
+</div><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="generic_graph.html">Generic graphs (common to directed/undirected)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph.html">Undirected graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="digraph.html">Directed graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bipartite_graph.html">Bipartite graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matching_covered_graph.html">Matching covered graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="views.html">View classes</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="graph_generators.html">Common graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="digraph_generators.html">Common digraphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph_generators_pyx.html">Common graphs and digraphs generators (Cython)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph_database.html">Graph database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="strongly_regular_db.html">Database of strongly regular graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generators/distance_regular.html">Database of distance regular graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generators/classical_geometries.html">Families of graphs derived from classical geometries over finite fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generators/families.html">Various families of graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generators/basic.html">Basic graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generators/chessboard.html">Chessboard graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generators/intersection.html">Intersection graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generators/platonic_solids.html">1-skeletons of Platonic solids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generators/random.html">Random graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generators/smallgraphs.html">Various small graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generators/world_map.html">Graphs from the World Map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="isgci.html">ISGCI: Information System on Graph Classes and their Inclusions</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="base/overview.html">Overview of (di)graph data structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base/c_graph.html">Fast compiled graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base/sparse_graph.html">Fast sparse graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base/dense_graph.html">Fast dense graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base/static_dense_graph.html">Static dense graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base/static_sparse_graph.html">Static sparse graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base/static_sparse_backend.html">Static sparse graph backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base/graph_backends.html">Backends for Sage (di)graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base/boost_graph.html">Interface to run Boost algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="hypergraph_generators.html">Hypergraph generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../combinat/designs/incidence_structures.html">Incidence structures (i.e. hypergraphs, i.e. set systems)</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="graph_coloring.html">Graph coloring</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cliquer.html">Interface with Cliquer (clique-related problems)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="centrality.html">Centrality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="asteroidal_triples.html">Asteroidal triples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="independent_sets.html">Independent sets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chrompoly.html">Chromatic polynomial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cographs.html">Cographs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparability.html">Comparability and permutation graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="isoperimetric_inequalities.html">Isoperimetric inequalities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="line_graph.html">Line graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spanning_tree.html">Spanning trees</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pq_trees.html">PQ-Trees</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trees.html">Generation of trees</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matching.html">Matching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matchpoly.html">Matching polynomial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="genus.html">Genus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lovasz_theta.html">Lovász theta-function of graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="schnyder.html">Schnyder’s algorithm for straight-line planar embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="planarity.html">Wrapper for Boyer’s (C) planarity algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="traversals.html">Graph traversals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph_plot.html">Graph plotting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph_plot_js.html">Graph plotting in Javascript with d3.js</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph_decompositions/tree_decomposition.html">Tree decompositions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph_decompositions/vertex_separation.html">Vertex separation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph_decompositions/rankwidth.html">Rank Decompositions of graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph_decompositions/bandwidth.html">Bandwidth of undirected graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph_decompositions/cutwidth.html">Cutwidth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph_decompositions/fast_digraph.html">Compact structure for fast operations on less than 32 vertices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph_decompositions/graph_products.html">Products of graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph_decompositions/slice_decomposition.html">Slice decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph_decompositions/modular_decomposition.html">Modular Decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph_decompositions/clique_separators.html">Decomposition by clique minimal separators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convexity_properties.html">Convexity properties of graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="weakly_chordal.html">Weakly chordal graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distances_all_pairs.html">Distances/shortest paths between all pairs of vertices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph_latex.html">LaTeX options for graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph_editor.html">Graph editor widget</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph_list.html">Lists of graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph_input.html">Functions for reading/building graphs/digraphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hyperbolicity.html">Hyperbolicity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutte_polynomial.html">Tutte polynomial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="partial_cube.html">Partial cubes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="path_enumeration.html">Path enumeration</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">GenericGraph Cython functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orientations.html">Orientations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="connectivity.html">Connectivity related functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="edge_connectivity.html">Edge connectivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="domination.html">Domination</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/blob/main/src/sage/graphs/generic_graph_pyx.pyx" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/edit/main/src/sage/graphs/generic_graph_pyx.pyx" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="genericgraph-cython-functions">
+<span id="sage-graphs-generic-graph-pyx"></span><h1>GenericGraph Cython functions<a class="headerlink" href="#genericgraph-cython-functions" title="Link to this heading">¶</a></h1>
+<p id="module-sage.graphs.generic_graph_pyx">AUTHORS:</p>
+<ul class="simple">
+<li><p>Robert L. Miller   (2007-02-13): initial version</p></li>
+<li><p>Robert W. Bradshaw (2007-03-31): fast spring layout algorithms</p></li>
+<li><p>Nathann Cohen                  : exhaustive search</p></li>
+</ul>
+<dl class="py class">
+<dt class="sig sig-object py" id="sage.graphs.generic_graph_pyx.GenericGraph_pyx">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.graphs.generic_graph_pyx.</span></span><span class="sig-name descname"><span class="pre">GenericGraph_pyx</span></span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/graphs/generic_graph_pyx.pyx#L36"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.graphs.generic_graph_pyx.GenericGraph_pyx" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../../../structure/sage/structure/sage_object.html#sage.structure.sage_object.SageObject" title="(in Parents and Elements v10.6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SageObject</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sage.graphs.generic_graph_pyx.SubgraphSearch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.graphs.generic_graph_pyx.</span></span><span class="sig-name descname"><span class="pre">SubgraphSearch</span></span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/graphs/generic_graph_pyx.pyx#L616"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.graphs.generic_graph_pyx.SubgraphSearch" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class implements methods to exhaustively search for
+copies of a graph <span class="math notranslate nohighlight">\(H\)</span> in a larger graph <span class="math notranslate nohighlight">\(G\)</span>.</p>
+<p>It is possible to look for induced subgraphs instead, and to
+iterate or count the number of their occurrences.</p>
+<p>ALGORITHM:</p>
+<p>The algorithm is a brute-force search.  Let <span class="math notranslate nohighlight">\(V(H) =
+\{h_1,\dots,h_k\}\)</span>.  It first tries to find in <span class="math notranslate nohighlight">\(G\)</span> a possible
+representative of <span class="math notranslate nohighlight">\(h_1\)</span>, then a representative of <span class="math notranslate nohighlight">\(h_2\)</span> compatible
+with <span class="math notranslate nohighlight">\(h_1\)</span>, then a representative of <span class="math notranslate nohighlight">\(h_3\)</span> compatible with the first
+two, etc.</p>
+<p>This way, most of the time we need to test far less than <span class="math notranslate nohighlight">\(k!
+\binom{|V(G)|}{k}\)</span> subsets, and hope this brute-force technique
+can sometimes be useful.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This algorithm does not take vertex/edge labels into account.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.graphs.generic_graph_pyx.SubgraphSearch.cardinality">
+<span class="sig-name descname"><span class="pre">cardinality</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/graphs/generic_graph_pyx.pyx#L704"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.graphs.generic_graph_pyx.SubgraphSearch.cardinality" title="Link to this definition">¶</a></dt>
+<dd><p>Return the number of labelled subgraphs of <span class="math notranslate nohighlight">\(G\)</span> isomorphic to
+<span class="math notranslate nohighlight">\(H\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method counts the subgraphs by enumerating them all !
+Hence it probably is not a good idea to count their number
+before enumerating them :-)</p>
+</div>
+<p>EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab">Counting the number of labelled <span class="math notranslate nohighlight">\(P_3\)</span> in <span class="math notranslate nohighlight">\(P_5\)</span>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">SubgraphSearch</span>
+<span class="gp">sage:</span> <span class="n">g</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">PathGraph</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">h</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">PathGraph</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">S</span> <span class="o">=</span> <span class="n">SubgraphSearch</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>                                              <span class="c1"># needs sage.modules</span>
+<span class="gp">sage:</span> <span class="n">S</span><span class="o">.</span><span class="n">cardinality</span><span class="p">()</span>                                                       <span class="c1"># needs sage.modules</span>
+<span class="go">6</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">SubgraphSearch</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">PathGraph</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">h</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">PathGraph</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">S</span> <span class="o">=</span> <span class="n">SubgraphSearch</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>                                              <span class="c1"># needs sage.modules</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">S</span><span class="o">.</span><span class="n">cardinality</span><span class="p">()</span>                                                       <span class="c1"># needs sage.modules</span>
+<span class="go">6</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Check that the method is working even when vertices or edges are of
+incomparable types (see <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/35904">Issue #35904</a>):</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">SubgraphSearch</span>
+<span class="gp">sage:</span> <span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">G</span><span class="o">.</span><span class="n">add_cycle</span><span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)])</span>
+<span class="gp">sage:</span> <span class="n">H</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">H</span><span class="o">.</span><span class="n">add_path</span><span class="p">(</span><span class="s2">&quot;xyz&quot;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">S</span> <span class="o">=</span> <span class="n">SubgraphSearch</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>                                              <span class="c1"># needs sage.modules</span>
+<span class="gp">sage:</span> <span class="n">S</span><span class="o">.</span><span class="n">cardinality</span><span class="p">()</span>                                                       <span class="c1"># needs sage.modules</span>
+<span class="go">10</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">SubgraphSearch</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span><span class="o">.</span><span class="n">add_cycle</span><span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">H</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">H</span><span class="o">.</span><span class="n">add_path</span><span class="p">(</span><span class="s2">&quot;xyz&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">S</span> <span class="o">=</span> <span class="n">SubgraphSearch</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>                                              <span class="c1"># needs sage.modules</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">S</span><span class="o">.</span><span class="n">cardinality</span><span class="p">()</span>                                                       <span class="c1"># needs sage.modules</span>
+<span class="go">10</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.graphs.generic_graph_pyx.binary_string_from_dig6">
+<span class="sig-prename descclassname"><span class="pre">sage.graphs.generic_graph_pyx.</span></span><span class="sig-name descname"><span class="pre">binary_string_from_dig6</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/graphs/generic_graph_pyx.pyx#L576"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.graphs.generic_graph_pyx.binary_string_from_dig6" title="Link to this definition">¶</a></dt>
+<dd><p>A helper function for the dig6 format.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">s</span></code> – a graph6 string</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n</span></code> – the length of the binary string encoded by <code class="docutils literal notranslate"><span class="pre">s</span></code></p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">binary_string_from_dig6</span>
+<span class="gp">sage:</span> <span class="n">d6</span> <span class="o">=</span> <span class="s1">&#39;?????_@?CG??B??@OG?C?G???GO??W@a???CO???OACC?OA?P@G??O?????&#39;</span>
+<span class="gp">sage:</span> <span class="n">d6</span> <span class="o">+=</span> <span class="s1">&#39;?G??C????c?G?CC?_?@???C_??_?C????PO?C_??AA?OOAHCA___?CC?A?&#39;</span>
+<span class="gp">sage:</span> <span class="n">d6</span> <span class="o">+=</span> <span class="s1">&#39;CAOGO??????A??G?GR?C?_o`???g???A_C?OG??O?G_IA????_QO@EG???&#39;</span>
+<span class="gp">sage:</span> <span class="n">d6</span> <span class="o">+=</span> <span class="s1">&#39;O??C?_?C@?G???@?_??AC?AO?a???O?????A?_Dw?H???__O@AAOAACd?_&#39;</span>
+<span class="gp">sage:</span> <span class="n">d6</span> <span class="o">+=</span> <span class="s1">&#39;C??G?G@??GO?_???O@?_O??W??@P???AG??B?????G??GG???A??@?aC_G&#39;</span>
+<span class="gp">sage:</span> <span class="n">d6</span> <span class="o">+=</span> <span class="s1">&#39;@A??O??_?A?????O@Z?_@M????GQ@_G@?C?&#39;</span>
+<span class="gp">sage:</span> <span class="n">binary_string_from_dig6</span><span class="p">(</span><span class="n">d6</span><span class="p">,</span> <span class="mi">63</span><span class="p">)</span>
+<span class="go">&#39;0000000000000000000000000000001000000000010000000001000010000000000000000000110000000000000000010100000010000000000001000000000010000000000...10000000000000000000000000000000010000000001011011000000100000000001001110000000000000000000000000001000010010000001100000001000000001000000000100000000&#39;</span>
+<span class="gp">sage:</span> <span class="n">d6</span> <span class="o">=</span> <span class="s1">&#39;???C?@AA?_?A?O?C??S??O?q_?P?CHD??@?C?GC???C??GG?C_??O?COG??&#39;</span>
+<span class="gp">sage:</span> <span class="n">d6</span> <span class="o">+=</span> <span class="s1">&#39;??I?J??Q??O?_@@??@??????&#39;</span>
+<span class="gp">sage:</span> <span class="n">binary_string_from_dig6</span><span class="p">(</span><span class="n">d6</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="go">&#39;0000000000000000000001000000000000010000100000100000001000000000000000100000000100000...010000000000000100010000001000000000000000000000000000001010000000001011000000000000010010000000000000010000000000100000000001000001000000000000000001000000000000000000000000000000000000&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">binary_string_from_dig6</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">d6</span> <span class="o">=</span> <span class="s1">&#39;?????_@?CG??B??@OG?C?G???GO??W@a???CO???OACC?OA?P@G??O?????&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">d6</span> <span class="o">+=</span> <span class="s1">&#39;?G??C????c?G?CC?_?@???C_??_?C????PO?C_??AA?OOAHCA___?CC?A?&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">d6</span> <span class="o">+=</span> <span class="s1">&#39;CAOGO??????A??G?GR?C?_o`???g???A_C?OG??O?G_IA????_QO@EG???&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">d6</span> <span class="o">+=</span> <span class="s1">&#39;O??C?_?C@?G???@?_??AC?AO?a???O?????A?_Dw?H???__O@AAOAACd?_&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">d6</span> <span class="o">+=</span> <span class="s1">&#39;C??G?G@??GO?_???O@?_O??W??@P???AG??B?????G??GG???A??@?aC_G&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">d6</span> <span class="o">+=</span> <span class="s1">&#39;@A??O??_?A?????O@Z?_@M????GQ@_G@?C?&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">binary_string_from_dig6</span><span class="p">(</span><span class="n">d6</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">63</span><span class="p">))</span>
+<span class="go">&#39;0000000000000000000000000000001000000000010000000001000010000000000000000000110000000000000000010100000010000000000001000000000010000000000...10000000000000000000000000000000010000000001011011000000100000000001001110000000000000000000000000001000010010000001100000001000000001000000000100000000&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">d6</span> <span class="o">=</span> <span class="s1">&#39;???C?@AA?_?A?O?C??S??O?q_?P?CHD??@?C?GC???C??GG?C_??O?COG??&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">d6</span> <span class="o">+=</span> <span class="s1">&#39;??I?J??Q??O?_@@??@??????&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">binary_string_from_dig6</span><span class="p">(</span><span class="n">d6</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span>
+<span class="go">&#39;0000000000000000000001000000000000010000100000100000001000000000000000100000000100000...010000000000000100010000001000000000000000000000000000001010000000001011000000000000010010000000000000010000000000100000000001000001000000000000000001000000000000000000000000000000000000&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.graphs.generic_graph_pyx.binary_string_from_graph6">
+<span class="sig-prename descclassname"><span class="pre">sage.graphs.generic_graph_pyx.</span></span><span class="sig-name descname"><span class="pre">binary_string_from_graph6</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/graphs/generic_graph_pyx.pyx#L536"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.graphs.generic_graph_pyx.binary_string_from_graph6" title="Link to this definition">¶</a></dt>
+<dd><p>Decode a binary string from its graph6 representation.</p>
+<p>This helper function is the inverse of <span class="math notranslate nohighlight">\(R\)</span> from <a class="reference internal" href="../../../references/index.html#mck2015" id="id1"><span>[McK2015]</span></a>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">s</span></code> – a graph6 string</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n</span></code> – the length of the binary string encoded by <code class="docutils literal notranslate"><span class="pre">s</span></code></p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">binary_string_from_graph6</span>
+<span class="gp">sage:</span> <span class="n">g6</span> <span class="o">=</span> <span class="s1">&#39;?????_@?CG??B??@OG?C?G???GO??W@a???CO???OACC?OA?P@G??O?????&#39;</span>
+<span class="gp">sage:</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;?G??C????c?G?CC?_?@???C_??_?C????PO?C_??AA?OOAHCA___?CC?A?&#39;</span>
+<span class="gp">sage:</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;CAOGO??????A??G?GR?C?_o`???g???A_C?OG??O?G_IA????_QO@EG???&#39;</span>
+<span class="gp">sage:</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;O??C?_?C@?G???@?_??AC?AO?a???O?????A?_Dw?H???__O@AAOAACd?_&#39;</span>
+<span class="gp">sage:</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;C??G?G@??GO?_???O@?_O??W??@P???AG??B?????G??GG???A??@?aC_G&#39;</span>
+<span class="gp">sage:</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;@A??O??_?A?????O@Z?_@M????GQ@_G@?C?&#39;</span>
+<span class="gp">sage:</span> <span class="n">binary_string_from_graph6</span><span class="p">(</span><span class="n">g6</span><span class="p">,</span> <span class="mi">63</span><span class="p">)</span>
+<span class="go">&#39;0000000000000000000000000000001000000000010000000001000010000000000000000000110000000000000000010100000010000000000001000000000010000000000...10000000000000000000000000000000010000000001011011000000100000000001001110000000000000000000000000001000010010000001100000001000000001000000000100000000&#39;</span>
+<span class="gp">sage:</span> <span class="n">g6</span> <span class="o">=</span> <span class="s1">&#39;???C?@AA?_?A?O?C??S??O?q_?P?CHD??@?C?GC???C??GG?C_??O?COG??&#39;</span>
+<span class="gp">sage:</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;??I?J??Q??O?_@@??@??????&#39;</span>
+<span class="gp">sage:</span> <span class="n">binary_string_from_graph6</span><span class="p">(</span><span class="n">g6</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="go">&#39;0000000000000000000001000000000000010000100000100000001000000000000000100000000100000...010000000000000100010000001000000000000000000000000000001010000000001011000000000000010010000000000000010000000000100000000001000001000000000000000001000000000000000000000000000000000000&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">binary_string_from_graph6</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g6</span> <span class="o">=</span> <span class="s1">&#39;?????_@?CG??B??@OG?C?G???GO??W@a???CO???OACC?OA?P@G??O?????&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;?G??C????c?G?CC?_?@???C_??_?C????PO?C_??AA?OOAHCA___?CC?A?&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;CAOGO??????A??G?GR?C?_o`???g???A_C?OG??O?G_IA????_QO@EG???&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;O??C?_?C@?G???@?_??AC?AO?a???O?????A?_Dw?H???__O@AAOAACd?_&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;C??G?G@??GO?_???O@?_O??W??@P???AG??B?????G??GG???A??@?aC_G&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;@A??O??_?A?????O@Z?_@M????GQ@_G@?C?&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">binary_string_from_graph6</span><span class="p">(</span><span class="n">g6</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">63</span><span class="p">))</span>
+<span class="go">&#39;0000000000000000000000000000001000000000010000000001000010000000000000000000110000000000000000010100000010000000000001000000000010000000000...10000000000000000000000000000000010000000001011011000000100000000001001110000000000000000000000000001000010010000001100000001000000001000000000100000000&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g6</span> <span class="o">=</span> <span class="s1">&#39;???C?@AA?_?A?O?C??S??O?q_?P?CHD??@?C?GC???C??GG?C_??O?COG??&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;??I?J??Q??O?_@@??@??????&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">binary_string_from_graph6</span><span class="p">(</span><span class="n">g6</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span>
+<span class="go">&#39;0000000000000000000001000000000000010000100000100000001000000000000000100000000100000...010000000000000100010000001000000000000000000000000000001010000000001011000000000000010010000000000000010000000000100000000001000001000000000000000001000000000000000000000000000000000000&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.graphs.generic_graph_pyx.binary_string_to_graph6">
+<span class="sig-prename descclassname"><span class="pre">sage.graphs.generic_graph_pyx.</span></span><span class="sig-name descname"><span class="pre">binary_string_to_graph6</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/graphs/generic_graph_pyx.pyx#L441"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.graphs.generic_graph_pyx.binary_string_to_graph6" title="Link to this definition">¶</a></dt>
+<dd><p>Transform a binary string into its graph6 representation.</p>
+<p>This helper function is named <span class="math notranslate nohighlight">\(R\)</span> in <a class="reference internal" href="../../../references/index.html#mck2015" id="id2"><span>[McK2015]</span></a>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code> – a binary string</p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">binary_string_to_graph6</span>
+<span class="gp">sage:</span> <span class="n">binary_string_to_graph6</span><span class="p">(</span><span class="s1">&#39;110111010110110010111000001100000001000000001&#39;</span><span class="p">)</span>
+<span class="go">&#39;vUqwK@?G&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">binary_string_to_graph6</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">binary_string_to_graph6</span><span class="p">(</span><span class="s1">&#39;110111010110110010111000001100000001000000001&#39;</span><span class="p">)</span>
+<span class="go">&#39;vUqwK@?G&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.graphs.generic_graph_pyx.find_hamiltonian">
+<span class="sig-prename descclassname"><span class="pre">sage.graphs.generic_graph_pyx.</span></span><span class="sig-name descname"><span class="pre">find_hamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backtrack_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">find_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/graphs/generic_graph_pyx.pyx#L1156"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.graphs.generic_graph_pyx.find_hamiltonian" title="Link to this definition">¶</a></dt>
+<dd><p>Randomized backtracking for finding Hamiltonian cycles and paths.</p>
+<p>ALGORITHM:</p>
+<p>A path <code class="docutils literal notranslate"><span class="pre">P</span></code> is maintained during the execution of the algorithm.
+Initially the path will contain an edge of the graph. Every 10
+iterations the path is reversed. Every <code class="docutils literal notranslate"><span class="pre">reset_bound</span></code> iterations
+the path will be cleared and the procedure is restarted. Every
+<code class="docutils literal notranslate"><span class="pre">backtrack_bound</span></code> steps we discard the last five vertices and
+continue with the procedure. The total number of steps in the
+algorithm is controlled by <code class="docutils literal notranslate"><span class="pre">max_iter</span></code>. If a Hamiltonian cycle or
+Hamiltonian path is found it is returned. If the number of steps
+reaches <code class="docutils literal notranslate"><span class="pre">max_iter</span></code> then a longest path is returned. See OUTPUT
+for more details.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">G</span></code> – graph</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_iter</span></code> – maximum number of iterations</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reset_bound</span></code> – number of iterations before restarting the
+procedure</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">backtrack_bound</span></code> – number of iterations to elapse before
+discarding the last 5 vertices of the path</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">find_path</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>); if set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, will
+search a Hamiltonian path. If <code class="docutils literal notranslate"><span class="pre">False</span></code>, will search for a Hamiltonian
+cycle.</p></li>
+</ul>
+<p>OUTPUT:</p>
+<p>A pair <code class="docutils literal notranslate"><span class="pre">(B,</span> <span class="pre">P)</span></code>, where <code class="docutils literal notranslate"><span class="pre">B</span></code> is a Boolean and <code class="docutils literal notranslate"><span class="pre">P</span></code> is a list
+of vertices.</p>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">B</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code> and <code class="docutils literal notranslate"><span class="pre">find_path</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>, <code class="docutils literal notranslate"><span class="pre">P</span></code>
+represents a Hamiltonian cycle.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">B</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code> and <code class="docutils literal notranslate"><span class="pre">find_path</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">P</span></code>
+represents a Hamiltonian path.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">B</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>, then <code class="docutils literal notranslate"><span class="pre">P</span></code> represents the longest path
+found during the execution of the algorithm.</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>May loop endlessly when run on a graph with vertices of degree 1.</p>
+</div>
+<p>EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab">For demonstration purposes we fix a random seed:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">First we try the algorithm in the Dodecahedral graph, which is
+Hamiltonian, so we are able to find a Hamiltonian cycle and a
+Hamiltonian path:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">find_hamiltonian</span> <span class="k">as</span> <span class="n">fh</span>
+<span class="gp">sage:</span> <span class="n">G</span><span class="o">=</span><span class="n">graphs</span><span class="o">.</span><span class="n">DodecahedralGraph</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="go">(True, [12, 11, 10, 9, 13, 14, 15, 5, 4, 3, 2, 6, 7, 8, 1, 0, 19, 18, 17, 16])</span>
+<span class="gp">sage:</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">find_path</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">(True, [10, 0, 19, 3, 4, 5, 15, 16, 17, 18, 11, 12, 13, 9, 8, 1, 2, 6, 7, 14])</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--2" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">find_hamiltonian</span> <span class="k">as</span> <span class="n">fh</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span><span class="o">=</span><span class="n">graphs</span><span class="o">.</span><span class="n">DodecahedralGraph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="go">(True, [12, 11, 10, 9, 13, 14, 15, 5, 4, 3, 2, 6, 7, 8, 1, 0, 19, 18, 17, 16])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">find_path</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">(True, [10, 0, 19, 3, 4, 5, 15, 16, 17, 18, 11, 12, 13, 9, 8, 1, 2, 6, 7, 14])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Another test, now in the Möbius-Kantor graph which is also
+Hamiltonian, as in our previous example, we are able to find a
+Hamiltonian cycle and path:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">G</span><span class="o">=</span><span class="n">graphs</span><span class="o">.</span><span class="n">MoebiusKantorGraph</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="go">(True, [15, 10, 2, 3, 4, 5, 13, 8, 11, 14, 6, 7, 0, 1, 9, 12])</span>
+<span class="gp">sage:</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">find_path</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">(True, [10, 15, 7, 6, 5, 4, 12, 9, 14, 11, 3, 2, 1, 0, 8, 13])</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--2" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span><span class="o">=</span><span class="n">graphs</span><span class="o">.</span><span class="n">MoebiusKantorGraph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="go">(True, [15, 10, 2, 3, 4, 5, 13, 8, 11, 14, 6, 7, 0, 1, 9, 12])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">find_path</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">(True, [10, 15, 7, 6, 5, 4, 12, 9, 14, 11, 3, 2, 1, 0, 8, 13])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Now, we try the algorithm on a non Hamiltonian graph, the Petersen
+graph.  This graph is known to be hypohamiltonian, so a
+Hamiltonian path can be found:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">G</span><span class="o">=</span><span class="n">graphs</span><span class="o">.</span><span class="n">PetersenGraph</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="go">(False, [9, 4, 0, 1, 6, 8, 5, 7, 2, 3])</span>
+<span class="gp">sage:</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">find_path</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">(True, [7, 2, 1, 0, 5, 8, 6, 9, 4, 3])</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--8-input--2" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span><span class="o">=</span><span class="n">graphs</span><span class="o">.</span><span class="n">PetersenGraph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="go">(False, [9, 4, 0, 1, 6, 8, 5, 7, 2, 3])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">find_path</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">(True, [7, 2, 1, 0, 5, 8, 6, 9, 4, 3])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">We now show the algorithm working on another known hypohamiltonian
+graph, the generalized Petersen graph with parameters 11 and 2:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">G</span><span class="o">=</span><span class="n">graphs</span><span class="o">.</span><span class="n">GeneralizedPetersenGraph</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="go">(False, [7, 8, 9, 10, 0, 1, 2, 3, 14, 12, 21, 19, 17, 6, 5, 4, 15, 13, 11, 20, 18, 16])</span>
+<span class="gp">sage:</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">find_path</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">(True, [2, 1, 12, 21, 10, 0, 11, 13, 15, 17, 19, 8, 7, 6, 5, 4, 3, 14, 16, 18, 20, 9])</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--9-input--2" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span><span class="o">=</span><span class="n">graphs</span><span class="o">.</span><span class="n">GeneralizedPetersenGraph</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">11</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="go">(False, [7, 8, 9, 10, 0, 1, 2, 3, 14, 12, 21, 19, 17, 6, 5, 4, 15, 13, 11, 20, 18, 16])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">find_path</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">(True, [2, 1, 12, 21, 10, 0, 11, 13, 15, 17, 19, 8, 7, 6, 5, 4, 3, 14, 16, 18, 20, 9])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Finally, an example on a graph which does not have a Hamiltonian
+path:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">G</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">HyperStarGraph</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">G</span><span class="o">.</span><span class="n">order</span><span class="p">()</span>
+<span class="go">10</span>
+<span class="gp">sage:</span> <span class="n">b</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">find_path</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">b</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+<span class="go">(False, 9)</span>
+<span class="gp">sage:</span> <span class="n">b</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">find_path</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">b</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+<span class="go">(False, 9)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--10-input--2" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">HyperStarGraph</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span><span class="o">.</span><span class="n">order</span><span class="p">()</span>
+<span class="go">10</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">b</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">find_path</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">b</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+<span class="go">(False, 9)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">b</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">find_path</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">b</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+<span class="go">(False, 9)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">The method can also be used for directed graphs:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">G</span> <span class="o">=</span> <span class="n">DiGraph</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)])</span>
+<span class="gp">sage:</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="go">(False, [0, 1, 2, 3])</span>
+<span class="gp">sage:</span> <span class="n">G</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="go">(False, [3, 2, 1, 0])</span>
+<span class="gp">sage:</span> <span class="n">G</span> <span class="o">=</span> <span class="n">DiGraph</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">G</span><span class="o">.</span><span class="n">add_cycle</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="gp">sage:</span> <span class="n">b</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">b</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+<span class="go">(True, 6)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--11-input--2" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span> <span class="o">=</span> <span class="n">DiGraph</span><span class="p">([(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="go">(False, [0, 1, 2, 3])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="go">(False, [3, 2, 1, 0])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span> <span class="o">=</span> <span class="n">DiGraph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span><span class="o">.</span><span class="n">add_cycle</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">b</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">fh</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">b</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+<span class="go">(True, 6)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.graphs.generic_graph_pyx.int_to_binary_string">
+<span class="sig-prename descclassname"><span class="pre">sage.graphs.generic_graph_pyx.</span></span><span class="sig-name descname"><span class="pre">int_to_binary_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/graphs/generic_graph_pyx.pyx#L413"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.graphs.generic_graph_pyx.int_to_binary_string" title="Link to this definition">¶</a></dt>
+<dd><p>A quick python int to binary string conversion.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">n</span></code> – integer</p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">sage</span><span class="o">.</span><span class="n">graphs</span><span class="o">.</span><span class="n">generic_graph_pyx</span><span class="o">.</span><span class="n">int_to_binary_string</span><span class="p">(</span><span class="mi">389</span><span class="p">)</span>
+<span class="go">&#39;110000101&#39;</span>
+<span class="gp">sage:</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">389</span><span class="p">)</span><span class="o">.</span><span class="n">binary</span><span class="p">()</span>
+<span class="go">&#39;110000101&#39;</span>
+<span class="gp">sage:</span> <span class="n">sage</span><span class="o">.</span><span class="n">graphs</span><span class="o">.</span><span class="n">generic_graph_pyx</span><span class="o">.</span><span class="n">int_to_binary_string</span><span class="p">(</span><span class="mi">2007</span><span class="p">)</span>
+<span class="go">&#39;11111010111&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--12-input--2" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">sage</span><span class="o">.</span><span class="n">graphs</span><span class="o">.</span><span class="n">generic_graph_pyx</span><span class="o">.</span><span class="n">int_to_binary_string</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">389</span><span class="p">))</span>
+<span class="go">&#39;110000101&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">Integer</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">389</span><span class="p">))</span><span class="o">.</span><span class="n">binary</span><span class="p">()</span>
+<span class="go">&#39;110000101&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">sage</span><span class="o">.</span><span class="n">graphs</span><span class="o">.</span><span class="n">generic_graph_pyx</span><span class="o">.</span><span class="n">int_to_binary_string</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2007</span><span class="p">))</span>
+<span class="go">&#39;11111010111&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.graphs.generic_graph_pyx.layout_split">
+<span class="sig-prename descclassname"><span class="pre">sage.graphs.generic_graph_pyx.</span></span><span class="sig-name descname"><span class="pre">layout_split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layout_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">G</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/graphs/generic_graph_pyx.pyx#L49"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.graphs.generic_graph_pyx.layout_split" title="Link to this definition">¶</a></dt>
+<dd><p>Graph each component of <code class="docutils literal notranslate"><span class="pre">G</span></code> separately with <code class="docutils literal notranslate"><span class="pre">layout_function</span></code>,
+placing them adjacent to each other.</p>
+<p>This is done because several layout methods need the input graph to
+be connected. For instance, on a disconnected graph, the spring
+layout will push components further and further from each other
+without bound, resulting in very tight clumps for each component.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the axis are scaled to fit the plot in a square, the
+horizontal distance may end up being “squished” due to
+the several adjacent components.</p>
+</div>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">G</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">DodecahedralGraph</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span> <span class="n">G</span><span class="o">.</span><span class="n">add_cycle</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">i</span><span class="p">,</span> <span class="mi">100</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">)))</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">layout_split</span><span class="p">,</span> <span class="n">spring_layout_fast</span>
+<span class="gp">sage:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">layout_split</span><span class="p">(</span><span class="n">spring_layout_fast</span><span class="p">,</span> <span class="n">G</span><span class="p">);</span> <span class="n">D</span>  <span class="c1"># random</span>
+<span class="go">{0: [0.77..., 0.06...],</span>
+<span class="go"> ...</span>
+<span class="go"> 902: [3.13..., 0.22...]}</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--13-input--2" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">DodecahedralGraph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span> <span class="n">G</span><span class="o">.</span><span class="n">add_cycle</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="n">i</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">layout_split</span><span class="p">,</span> <span class="n">spring_layout_fast</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">layout_split</span><span class="p">(</span><span class="n">spring_layout_fast</span><span class="p">,</span> <span class="n">G</span><span class="p">);</span> <span class="n">D</span>  <span class="c1"># random</span>
+<span class="go">{0: [0.77..., 0.06...],</span>
+<span class="go"> ...</span>
+<span class="go"> 902: [3.13..., 0.22...]}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>AUTHOR:</p>
+<p>Robert Bradshaw</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.graphs.generic_graph_pyx.length_and_string_from_graph6">
+<span class="sig-prename descclassname"><span class="pre">sage.graphs.generic_graph_pyx.</span></span><span class="sig-name descname"><span class="pre">length_and_string_from_graph6</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/graphs/generic_graph_pyx.pyx#L494"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.graphs.generic_graph_pyx.length_and_string_from_graph6" title="Link to this definition">¶</a></dt>
+<dd><p>Return a pair <code class="docutils literal notranslate"><span class="pre">(length,</span> <span class="pre">graph6_string)</span></code> from a graph6 string of unknown length.</p>
+<p>This helper function is the inverse of <span class="math notranslate nohighlight">\(N\)</span> from <a class="reference internal" href="../../../references/index.html#mck2015" id="id3"><span>[McK2015]</span></a>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">s</span></code> – a graph6 string describing a binary vector (and encoding its
+length)</p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">length_and_string_from_graph6</span>
+<span class="gp">sage:</span> <span class="n">g6</span> <span class="o">=</span> <span class="s1">&#39;~??~?????_@?CG??B??@OG?C?G???GO??W@a???CO???OACC?OA?P@G??O?&#39;</span>
+<span class="gp">sage:</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;?????G??C????c?G?CC?_?@???C_??_?C????PO?C_??AA?OOAHCA___?C&#39;</span>
+<span class="gp">sage:</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;C?A?CAOGO??????A??G?GR?C?_o`???g???A_C?OG??O?G_IA????_QO@E&#39;</span>
+<span class="gp">sage:</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;G???O??C?_?C@?G???@?_??AC?AO?a???O?????A?_Dw?H???__O@AAOAA&#39;</span>
+<span class="gp">sage:</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;Cd?_C??G?G@??GO?_???O@?_O??W??@P???AG??B?????G??GG???A??@?&#39;</span>
+<span class="gp">sage:</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;aC_G@A??O??_?A?????O@Z?_@M????GQ@_G@?C?&#39;</span>
+<span class="gp">sage:</span> <span class="n">length_and_string_from_graph6</span><span class="p">(</span><span class="n">g6</span><span class="p">)</span>
+<span class="go">(63, &#39;?????_@?CG??B??@OG?C?G???GO??W@a???CO???OACC?OA?P@G??O??????G??C????c?G?CC?_?@???C_??_?C????PO?C_??AA?OOAHCA___?CC?A?CAOGO??????A??G?GR?C?_o`???g???A_C?OG??O?G_IA????_QO@EG???O??C?_?C@?G???@?_??AC?AO?a???O?????A?_Dw?H???__O@AAOAACd?_C??G?G@??GO?_???O@?_O??W??@P???AG??B?????G??GG???A??@?aC_G@A??O??_?A?????O@Z?_@M????GQ@_G@?C?&#39;)</span>
+<span class="gp">sage:</span> <span class="n">g6</span> <span class="o">=</span> <span class="s1">&#39;_???C?@AA?_?A?O?C??S??O?q_?P?CHD??@?C?GC???C??GG?C_??O?COG?&#39;</span>
+<span class="gp">sage:</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;???I?J??Q??O?_@@??@??????&#39;</span>
+<span class="gp">sage:</span> <span class="n">length_and_string_from_graph6</span><span class="p">(</span><span class="n">g6</span><span class="p">)</span>
+<span class="go">(32, &#39;???C?@AA?_?A?O?C??S??O?q_?P?CHD??@?C?GC???C??GG?C_??O?COG????I?J??Q??O?_@@??@??????&#39;)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--14-input--2" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">length_and_string_from_graph6</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g6</span> <span class="o">=</span> <span class="s1">&#39;~??~?????_@?CG??B??@OG?C?G???GO??W@a???CO???OACC?OA?P@G??O?&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;?????G??C????c?G?CC?_?@???C_??_?C????PO?C_??AA?OOAHCA___?C&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;C?A?CAOGO??????A??G?GR?C?_o`???g???A_C?OG??O?G_IA????_QO@E&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;G???O??C?_?C@?G???@?_??AC?AO?a???O?????A?_Dw?H???__O@AAOAA&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;Cd?_C??G?G@??GO?_???O@?_O??W??@P???AG??B?????G??GG???A??@?&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;aC_G@A??O??_?A?????O@Z?_@M????GQ@_G@?C?&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">length_and_string_from_graph6</span><span class="p">(</span><span class="n">g6</span><span class="p">)</span>
+<span class="go">(63, &#39;?????_@?CG??B??@OG?C?G???GO??W@a???CO???OACC?OA?P@G??O??????G??C????c?G?CC?_?@???C_??_?C????PO?C_??AA?OOAHCA___?CC?A?CAOGO??????A??G?GR?C?_o`???g???A_C?OG??O?G_IA????_QO@EG???O??C?_?C@?G???@?_??AC?AO?a???O?????A?_Dw?H???__O@AAOAACd?_C??G?G@??GO?_???O@?_O??W??@P???AG??B?????G??GG???A??@?aC_G@A??O??_?A?????O@Z?_@M????GQ@_G@?C?&#39;)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g6</span> <span class="o">=</span> <span class="s1">&#39;_???C?@AA?_?A?O?C??S??O?q_?P?CHD??@?C?GC???C??GG?C_??O?COG?&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g6</span> <span class="o">+=</span> <span class="s1">&#39;???I?J??Q??O?_@@??@??????&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">length_and_string_from_graph6</span><span class="p">(</span><span class="n">g6</span><span class="p">)</span>
+<span class="go">(32, &#39;???C?@AA?_?A?O?C??S??O?q_?P?CHD??@?C?GC???C??GG?C_??O?COG????I?J??Q??O?_@@??@??????&#39;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.graphs.generic_graph_pyx.small_integer_to_graph6">
+<span class="sig-prename descclassname"><span class="pre">sage.graphs.generic_graph_pyx.</span></span><span class="sig-name descname"><span class="pre">small_integer_to_graph6</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/graphs/generic_graph_pyx.pyx#L468"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.graphs.generic_graph_pyx.small_integer_to_graph6" title="Link to this definition">¶</a></dt>
+<dd><p>Encode a small integer (i.e. a number of vertices) as a graph6 string.</p>
+<p>This helper function is named <span class="math notranslate nohighlight">\(N\)</span> <a class="reference internal" href="../../../references/index.html#mck2015" id="id4"><span>[McK2015]</span></a>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">n</span></code> – integer</p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">small_integer_to_graph6</span>
+<span class="gp">sage:</span> <span class="n">small_integer_to_graph6</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>
+<span class="go">&#39;L&#39;</span>
+<span class="gp">sage:</span> <span class="n">small_integer_to_graph6</span><span class="p">(</span><span class="mi">136</span><span class="p">)</span>
+<span class="go">&#39;~?AG&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--15-input--2" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">small_integer_to_graph6</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">small_integer_to_graph6</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">13</span><span class="p">))</span>
+<span class="go">&#39;L&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">small_integer_to_graph6</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">136</span><span class="p">))</span>
+<span class="go">&#39;~?AG&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.graphs.generic_graph_pyx.spring_layout_fast">
+<span class="sig-prename descclassname"><span class="pre">sage.graphs.generic_graph_pyx.</span></span><span class="sig-name descname"><span class="pre">spring_layout_fast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vpos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rescale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by_component</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/graphs/generic_graph_pyx.pyx#L126"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.graphs.generic_graph_pyx.spring_layout_fast" title="Link to this definition">¶</a></dt>
+<dd><p>Spring force model layout.</p>
+<p>This function primarily acts as a wrapper around <code class="xref py py-func docutils literal notranslate"><span class="pre">run_spring()</span></code>,
+converting to and from raw C types.</p>
+<p>This kind of speed cannot be achieved by naive Cythonification of the
+function alone, especially if we require a function call (let alone
+an object creation) every time we want to add a pair of doubles.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">by_component</span></code> – boolean</p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">G</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">DodecahedralGraph</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span> <span class="n">G</span><span class="o">.</span><span class="n">add_cycle</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">i</span><span class="p">,</span> <span class="mi">100</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">)))</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">spring_layout_fast</span>
+<span class="gp">sage:</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">spring_layout_fast</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># random</span>
+<span class="go">[0.00..., 0.03...]</span>
+<span class="gp">sage:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">pos</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--16-input--2" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">DodecahedralGraph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span> <span class="n">G</span><span class="o">.</span><span class="n">add_cycle</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="n">i</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">spring_layout_fast</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">spring_layout_fast</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">pos</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span>  <span class="c1"># random</span>
+<span class="go">[0.00..., 0.03...]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">pos</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>With <code class="docutils literal notranslate"><span class="pre">split=True</span></code>, each component of G is laid out separately,
+placing them adjacent to each other. This is done because on a
+disconnected graph, the spring layout will push components further
+and further from each other without bound, resulting in very tight
+clumps for each component.</p>
+<p class="with-sage-tab with-python-tab">If the axis are scaled to fit the plot in a square, the
+horizontal distance may end up being “squished” due to
+the several adjacent components.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">G</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">DodecahedralGraph</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span> <span class="n">G</span><span class="o">.</span><span class="n">add_cycle</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">i</span><span class="p">,</span> <span class="mi">100</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">)))</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">spring_layout_fast</span>
+<span class="gp">sage:</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">spring_layout_fast</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">by_component</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># random</span>
+<span class="go">[2.21..., -0.00...]</span>
+<span class="gp">sage:</span> <span class="nb">len</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span> <span class="o">==</span> <span class="n">G</span><span class="o">.</span><span class="n">order</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--17-input--2" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">DodecahedralGraph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span> <span class="n">G</span><span class="o">.</span><span class="n">add_cycle</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="n">i</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">spring_layout_fast</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">spring_layout_fast</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">by_component</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">pos</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span>  <span class="c1"># random</span>
+<span class="go">[2.21..., -0.00...]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span> <span class="o">==</span> <span class="n">G</span><span class="o">.</span><span class="n">order</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.graphs.generic_graph_pyx.transitive_reduction_acyclic">
+<span class="sig-prename descclassname"><span class="pre">sage.graphs.generic_graph_pyx.</span></span><span class="sig-name descname"><span class="pre">transitive_reduction_acyclic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">immutable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/graphs/generic_graph_pyx.pyx#L1589"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.graphs.generic_graph_pyx.transitive_reduction_acyclic" title="Link to this definition">¶</a></dt>
+<dd><p>Return the transitive reduction of an acyclic digraph.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">G</span></code> – an acyclic digraph</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">immutable</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>); whether to create a
+mutable/immutable transitive closure. <code class="docutils literal notranslate"><span class="pre">immutable=None</span></code> (default) means
+that the (di)graph and its transitive closure will behave the same way.</p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">transitive_reduction_acyclic</span>
+<span class="gp">sage:</span> <span class="n">G</span> <span class="o">=</span> <span class="n">posets</span><span class="o">.</span><span class="n">BooleanLattice</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">hasse_diagram</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">G</span> <span class="o">==</span> <span class="n">transitive_reduction_acyclic</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">transitive_closure</span><span class="p">())</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--18-input--2" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.graphs.generic_graph_pyx</span> <span class="kn">import</span> <span class="n">transitive_reduction_acyclic</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span> <span class="o">=</span> <span class="n">posets</span><span class="o">.</span><span class="n">BooleanLattice</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span><span class="o">.</span><span class="n">hasse_diagram</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span> <span class="o">==</span> <span class="n">transitive_reduction_acyclic</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">transitive_closure</span><span class="p">())</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="orientations.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Orientations</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="path_enumeration.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Path enumeration</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2005--2025, The Sage Development Team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">GenericGraph Cython functions</a><ul>
+<li><a class="reference internal" href="#sage.graphs.generic_graph_pyx.GenericGraph_pyx"><code class="docutils literal notranslate"><span class="pre">GenericGraph_pyx</span></code></a></li>
+<li><a class="reference internal" href="#sage.graphs.generic_graph_pyx.SubgraphSearch"><code class="docutils literal notranslate"><span class="pre">SubgraphSearch</span></code></a><ul>
+<li><a class="reference internal" href="#sage.graphs.generic_graph_pyx.SubgraphSearch.cardinality"><code class="docutils literal notranslate"><span class="pre">cardinality()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sage.graphs.generic_graph_pyx.binary_string_from_dig6"><code class="docutils literal notranslate"><span class="pre">binary_string_from_dig6()</span></code></a></li>
+<li><a class="reference internal" href="#sage.graphs.generic_graph_pyx.binary_string_from_graph6"><code class="docutils literal notranslate"><span class="pre">binary_string_from_graph6()</span></code></a></li>
+<li><a class="reference internal" href="#sage.graphs.generic_graph_pyx.binary_string_to_graph6"><code class="docutils literal notranslate"><span class="pre">binary_string_to_graph6()</span></code></a></li>
+<li><a class="reference internal" href="#sage.graphs.generic_graph_pyx.find_hamiltonian"><code class="docutils literal notranslate"><span class="pre">find_hamiltonian()</span></code></a></li>
+<li><a class="reference internal" href="#sage.graphs.generic_graph_pyx.int_to_binary_string"><code class="docutils literal notranslate"><span class="pre">int_to_binary_string()</span></code></a></li>
+<li><a class="reference internal" href="#sage.graphs.generic_graph_pyx.layout_split"><code class="docutils literal notranslate"><span class="pre">layout_split()</span></code></a></li>
+<li><a class="reference internal" href="#sage.graphs.generic_graph_pyx.length_and_string_from_graph6"><code class="docutils literal notranslate"><span class="pre">length_and_string_from_graph6()</span></code></a></li>
+<li><a class="reference internal" href="#sage.graphs.generic_graph_pyx.small_integer_to_graph6"><code class="docutils literal notranslate"><span class="pre">small_integer_to_graph6()</span></code></a></li>
+<li><a class="reference internal" href="#sage.graphs.generic_graph_pyx.spring_layout_fast"><code class="docutils literal notranslate"><span class="pre">spring_layout_fast()</span></code></a></li>
+<li><a class="reference internal" href="#sage.graphs.generic_graph_pyx.transitive_reduction_acyclic"><code class="docutils literal notranslate"><span class="pre">transitive_reduction_acyclic()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../%5fstatic/documentation_options.js"></script>
+    <script src="../../../%5fstatic/doctools.js"></script>
+    <script src="../../../%5fstatic/sphinx_highlight.js"></script>
+    <script src="../../../%5fstatic/scripts/furo.js"></script>
+    <script src="../../../%5fstatic/clipboard.min.js"></script>
+    <script src="../../../%5fstatic/copybutton.js"></script>
+    <script src="../../../%5fstatic/tabs.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>
+    <script defer="defer" src="/Users/mkoeppe/s/sage/sage-rebasing/local/share/mathjax/mathjax/tex-chtml.js?v=0d9741c5"></script>
+    <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>
+    </body>
+</html>

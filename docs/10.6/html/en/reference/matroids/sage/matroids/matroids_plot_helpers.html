@@ -1,0 +1,1140 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Set systems" href="set_system.html" /><link rel="prev" title="Lean matrices" href="lean_matrix.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>Helper functions for plotting the geometric representation of matroids - Matroid Theory</title>
+      <link rel="stylesheet" type="text/css" href="../../../%5fstatic/pygments.css?v=a078f75a" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-codemirror-monokai.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-tabs.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  --color-brand-primary: #0f0fff;
+  --color-brand-content: #0f0fff;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">Matroid Theory</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand" href="../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../%5fstatic/logo_sagemath_black.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../%5fstatic/logo_sagemath_white.svg" alt="Dark Logo"/>
+  </div>
+  
+      <span class="sidebar-brand-text">passagemath 10.6.1 Reference Manual</span>
+  
+</a><div class="select-wrapper">
+  <select id="versions-menu" onchange="changeVersion()">
+    <option value="" selected>other version</option>
+    <option value="https://doc-develop--sagemath.netlify.app">develop</option>
+  </select>
+</div><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-home">
+  <div class="sidebar-tree">
+    <ul><li class="toctree-l1">
+      <a class="reference internal" href="../../index.html">Home - Matroid Theory</a>
+    </li></ul>
+  </div>
+</div><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="constructor.html">Matroid construction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matroid.html">The abstract Matroid class</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="matroids_catalog.html">Catalog of matroids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database_collections.html">Collections of matroids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database_matroids.html">Database of matroids</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="basis_matroid.html">Basis matroids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_closures_matroid.html">Circuit closures matroids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuits_matroid.html">Circuits matroids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flats_matroid.html">Flats matroids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gammoid.html">Gammoids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphic_matroid.html">Graphic matroids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linear_matroid.html">Linear matroids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rank_matroid.html">Rank function matroids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transversal_matroid.html">Transversal matroids</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="chow_ring_ideal.html">Chow ring ideals of matroids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chow_ring.html">Chow rings of matroids</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="basis_exchange_matroid.html">Basis exchange matroids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dual_matroid.html">Dual matroids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="minor_matroid.html">Minors of matroids</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced matroid functionality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extension.html">Iterators for linear subclasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Some useful functions for the matroid class.</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="lean_matrix.html">Lean matrices</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Helper functions for plotting the geometric representation of matroids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="set_system.html">Set systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="union_matroid.html">Union of matroids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unpickling.html">Unpickling methods</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/blob/main/src/sage/matroids/matroids_plot_helpers.py" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/edit/main/src/sage/matroids/matroids_plot_helpers.py" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="helper-functions-for-plotting-the-geometric-representation-of-matroids">
+<span id="sage-matroids-matroids-plot-helpers"></span><h1>Helper functions for plotting the geometric representation of matroids<a class="headerlink" href="#helper-functions-for-plotting-the-geometric-representation-of-matroids" title="Link to this heading">¶</a></h1>
+<p id="module-sage.matroids.matroids_plot_helpers">AUTHORS:</p>
+<ul class="simple">
+<li><p>Jayant Apte (2014-06-06): initial version</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This file provides functions that are called by <code class="docutils literal notranslate"><span class="pre">show()</span></code> and <code class="docutils literal notranslate"><span class="pre">plot()</span></code>
+methods of abstract matroids class. The basic idea is to first decide
+the placement of points in $mathbb{R}^2$ and then draw lines in geometric
+representation through these points. Point placement procedures such as
+<code class="docutils literal notranslate"><span class="pre">addtripts</span></code>, <code class="docutils literal notranslate"><span class="pre">addnontripts</span></code> together produce <code class="docutils literal notranslate"><span class="pre">(x,y)</span></code> tuples
+corresponding to ground set of the matroid in a dictionary.
+These methods provide simple but rigid point placement algorithm.
+Alternatively, one can build the point placement dictionary manually or
+via an optimization that gives aesthetically pleasing point placement (in
+some sense. This is not yet implemented).    One can then use
+<code class="docutils literal notranslate"><span class="pre">createline</span></code> function to produce sequence of <code class="docutils literal notranslate"><span class="pre">100</span></code> points on a smooth
+curve containing the points in the specified line which in turn uses
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.splprep.html#scipy.interpolate.splprep" title="(in SciPy v1.12.0)"><code class="docutils literal notranslate"><span class="pre">scipy.interpolate.splprep()</span></code></a> and
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.splev.html#scipy.interpolate.splev" title="(in SciPy v1.12.0)"><code class="docutils literal notranslate"><span class="pre">scipy.interpolate.splev()</span></code></a>.  Then one
+can use sage’s graphics primitives <code class="docutils literal notranslate"><span class="pre">line</span></code>, <code class="docutils literal notranslate"><span class="pre">point</span></code>, <code class="docutils literal notranslate"><span class="pre">text</span></code> and
+<code class="docutils literal notranslate"><span class="pre">points</span></code> to produce graphics object containing points (ground set
+elements) and lines (for a rank 3 matroid, these are flats of rank 2 of
+size greater than equal to 3) of the geometric representation of the
+matroid. Loops and parallel elements are added as per conventions in
+<a class="reference internal" href="../../../references/index.html#oxl2011" id="id1"><span>[Oxl2011]</span></a> using function <code class="docutils literal notranslate"><span class="pre">addlp</span></code>. The priority order for point placement
+methods used inside plot() and show() is as follows:</p>
+<ol class="arabic">
+<li><p>User Specified points dictionary and lineorders</p></li>
+<li><p>cached point placement dictionary and line orders (a list of ordered
+lists) in M._cached_info (a dictionary)</p></li>
+<li><p>Internal point placement and orders deciding heuristics
+If a custom point placement and/or line orders is desired, then user
+can simply specify the custom points dictionary as:</p>
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="go">M.cached info = {&#39;plot_positions&#39;:&lt;dictionary_of _points&gt;,</span>
+<span class="go">                 &#39;plot_lineorders&#39;:&lt;list of lists&gt;}</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<section id="references">
+<h2>REFERENCES<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../../references/index.html#oxl2011" id="id2"><span>[Oxl2011]</span></a> James Oxley, “Matroid Theory, Second Edition”. Oxford University
+Press, 2011.</p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">sage:</span> <span class="n">M1</span> <span class="o">=</span> <span class="n">Matroid</span><span class="p">(</span><span class="n">ring</span><span class="o">=</span><span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">matrix</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+<span class="gp">....:</span>                                  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+<span class="gp">....:</span>                                  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<span class="gp">sage:</span> <span class="n">pos_dict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>  <span class="mi">1</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>  <span class="mi">2</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>  <span class="mi">3</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+<span class="gp">....:</span>             <span class="mi">4</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>  <span class="mi">5</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="mi">6</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.666666666666667</span><span class="p">),</span>
+<span class="gp">....:</span>             <span class="mi">7</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="mi">8</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="mi">9</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="mi">10</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">)}</span>
+<span class="gp">sage:</span> <span class="n">M1</span><span class="o">.</span><span class="n">_cached_info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;plot_positions&#39;</span><span class="p">:</span> <span class="n">pos_dict</span><span class="p">,</span> <span class="s1">&#39;plot_lineorders&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+<span class="gp">sage:</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">geomrep</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">sp</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>                                    <span class="c1"># needs sage.plot sage.rings.finite_rings</span>
+<span class="go">Graphics object consisting of 22 graphics primitives</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">M1</span> <span class="o">=</span> <span class="n">Matroid</span><span class="p">(</span><span class="n">ring</span><span class="o">=</span><span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">matrix</span><span class="o">=</span><span class="p">[[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
+<span class="gp">...</span>                                  <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)],</span>
+<span class="gp">...</span>                                  <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">pos_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span>  <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span>  <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span>  <span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.5&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">)),</span>
+<span class="gp">...</span>             <span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.5&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">)),</span>  <span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.0&#39;</span><span class="p">)),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.666666666666667&#39;</span><span class="p">)),</span>
+<span class="gp">...</span>             <span class="n">Integer</span><span class="p">(</span><span class="mi">7</span><span class="p">):</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span> <span class="p">(</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span> <span class="p">(</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))}</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">M1</span><span class="o">.</span><span class="n">_cached_info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;plot_positions&#39;</span><span class="p">:</span> <span class="n">pos_dict</span><span class="p">,</span> <span class="s1">&#39;plot_lineorders&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">geomrep</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">sp</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>                                    <span class="c1"># needs sage.plot sage.rings.finite_rings</span>
+<span class="go">Graphics object consisting of 22 graphics primitives</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.matroids.matroids_plot_helpers.addlp">
+<span class="sig-prename descclassname"><span class="pre">sage.matroids.matroids_plot_helpers.</span></span><span class="sig-name descname"><span class="pre">addlp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">M1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptsdict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">G</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/matroids/matroids_plot_helpers.py#L452"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.matroids.matroids_plot_helpers.addlp" title="Link to this definition">¶</a></dt>
+<dd><p>Return a graphics object containing loops (in inset) and parallel elements
+of matroid.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">M</span></code> – matroid</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">M1</span></code> – a simple matroid corresponding to <code class="docutils literal notranslate"><span class="pre">M</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">L</span></code> – list of elements in <code class="docutils literal notranslate"><span class="pre">M.groundset()</span></code> that are loops of matroid
+<code class="docutils literal notranslate"><span class="pre">M</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">P</span></code> – list of elements in <code class="docutils literal notranslate"><span class="pre">M.groundset()</span></code> not in
+<code class="docutils literal notranslate"><span class="pre">M.simplify.groundset()</span></code> or <code class="docutils literal notranslate"><span class="pre">L</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ptsdict</span></code> – dictionary containing elements in <code class="docutils literal notranslate"><span class="pre">M.groundset()</span></code> not
+necessarily containing elements of <code class="docutils literal notranslate"><span class="pre">L</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">G</span></code> – (optional) a sage graphics object to which loops and parallel
+elements of matroid <span class="math notranslate nohighlight">\(M\)</span> added</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">limits</span></code> – (optional) current axes limits [xmin,xmax,ymin,ymax]</p></li>
+</ul>
+<p>OUTPUT: a 2-tuple containing:</p>
+<ol class="arabic simple">
+<li><p>A sage graphics object containing loops and parallel elements of
+matroid <code class="docutils literal notranslate"><span class="pre">M</span></code></p></li>
+<li><p>axes limits array</p></li>
+</ol>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Matroid</span><span class="p">(</span><span class="n">ring</span><span class="o">=</span><span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">matrix</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+<span class="gp">....:</span>                                 <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+<span class="gp">....:</span>                                 <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<span class="gp">sage:</span> <span class="n">M1</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">slp</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>                                   <span class="c1"># needs sage.rings.finite_rings</span>
+<span class="gp">sage:</span> <span class="n">G</span><span class="p">,</span> <span class="n">lims</span> <span class="o">=</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">addlp</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">M1</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">P</span><span class="p">,{</span><span class="mi">0</span><span class="p">:(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)})</span>                 <span class="c1"># needs sage.plot sage.rings.finite_rings</span>
+<span class="gp">sage:</span> <span class="n">G</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>                                                        <span class="c1"># needs sage.plot sage.rings.finite_rings</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Matroid</span><span class="p">(</span><span class="n">ring</span><span class="o">=</span><span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">matrix</span><span class="o">=</span><span class="p">[[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
+<span class="gp">...</span>                                 <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)],</span>
+<span class="gp">...</span>                                 <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">M1</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">slp</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>                                   <span class="c1"># needs sage.rings.finite_rings</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span><span class="p">,</span> <span class="n">lims</span> <span class="o">=</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">addlp</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">M1</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">P</span><span class="p">,{</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">):(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))})</span>                 <span class="c1"># needs sage.plot sage.rings.finite_rings</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>                                                        <span class="c1"># needs sage.plot sage.rings.finite_rings</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method does NOT do any checks.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.matroids.matroids_plot_helpers.addnontripts">
+<span class="sig-prename descclassname"><span class="pre">sage.matroids.matroids_plot_helpers.</span></span><span class="sig-name descname"><span class="pre">addnontripts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tripts_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nontripts_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptsdict</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/matroids/matroids_plot_helpers.py#L221"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.matroids.matroids_plot_helpers.addnontripts" title="Link to this definition">¶</a></dt>
+<dd><p>Return modified <code class="docutils literal notranslate"><span class="pre">ptsdict</span></code> with additional keys and values corresponding
+to <code class="docutils literal notranslate"><span class="pre">nontripts</span></code>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tripts</span></code> – list of 3 ground set elements that are to be placed on
+vertices of the triangle</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ptsdict</span></code> – dictionary (at least) containing ground set elements in
+<code class="docutils literal notranslate"><span class="pre">tripts</span></code> as keys and their (x,y) position as values</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nontripts</span></code> – list of ground set elements whose corresponding points
+are to be placed inside the triangle</p></li>
+</ul>
+<p>OUTPUT:</p>
+<p>A dictionary containing ground set elements in <code class="docutils literal notranslate"><span class="pre">tripts</span></code> as keys and
+their (x,y) position as values along with all keys and respective values
+in <code class="docutils literal notranslate"><span class="pre">ptsdict</span></code>.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.matroids.advanced</span> <span class="kn">import</span> <span class="n">setprint</span>
+<span class="gp">sage:</span> <span class="n">ptsdict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="s1">&#39;b&#39;</span><span class="p">:(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="s1">&#39;c&#39;</span><span class="p">:(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">)}</span>
+<span class="gp">sage:</span> <span class="n">ptsdict_1</span><span class="o">=</span><span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">addnontripts</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">],</span>
+<span class="gp">....:</span>         <span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">,</span><span class="s1">&#39;e&#39;</span><span class="p">,</span><span class="s1">&#39;f&#39;</span><span class="p">],</span><span class="n">ptsdict</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">setprint</span><span class="p">(</span><span class="n">ptsdict_1</span><span class="p">)</span>
+<span class="go">{&#39;a&#39;: [0, 0], &#39;b&#39;: [1, 2], &#39;c&#39;: [0, 2], &#39;d&#39;: [0.6666666666666666, 1.0],</span>
+<span class="go">&#39;e&#39;: [0.6666666666666666, 0.8888888888888888],</span>
+<span class="go">&#39;f&#39;: [0.8888888888888888, 1.3333333333333333]}</span>
+<span class="gp">sage:</span> <span class="n">ptsdict_2</span><span class="o">=</span><span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">addnontripts</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">],</span>
+<span class="gp">....:</span>         <span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">,</span><span class="s1">&#39;e&#39;</span><span class="p">,</span><span class="s1">&#39;f&#39;</span><span class="p">,</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="s1">&#39;h&#39;</span><span class="p">],</span><span class="n">ptsdict</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">setprint</span><span class="p">(</span><span class="n">ptsdict_2</span><span class="p">)</span>
+<span class="go">{&#39;a&#39;: [0, 0], &#39;b&#39;: [1, 2], &#39;c&#39;: [0, 2], &#39;d&#39;: [0.6666666666666666, 1.0],</span>
+<span class="go">&#39;e&#39;: [0.6666666666666666, 0.8888888888888888],</span>
+<span class="go">&#39;f&#39;: [0.8888888888888888, 1.3333333333333333],</span>
+<span class="go">&#39;g&#39;: [0.2222222222222222, 1.0],</span>
+<span class="go">&#39;h&#39;: [0.5185185185185185, 0.5555555555555555]}</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.matroids.advanced</span> <span class="kn">import</span> <span class="n">setprint</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ptsdict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span><span class="s1">&#39;b&#39;</span><span class="p">:(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span><span class="s1">&#39;c&#39;</span><span class="p">:(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))}</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ptsdict_1</span><span class="o">=</span><span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">addnontripts</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">],</span>
+<span class="gp">...</span>         <span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">,</span><span class="s1">&#39;e&#39;</span><span class="p">,</span><span class="s1">&#39;f&#39;</span><span class="p">],</span><span class="n">ptsdict</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">setprint</span><span class="p">(</span><span class="n">ptsdict_1</span><span class="p">)</span>
+<span class="go">{&#39;a&#39;: [0, 0], &#39;b&#39;: [1, 2], &#39;c&#39;: [0, 2], &#39;d&#39;: [0.6666666666666666, 1.0],</span>
+<span class="go">&#39;e&#39;: [0.6666666666666666, 0.8888888888888888],</span>
+<span class="go">&#39;f&#39;: [0.8888888888888888, 1.3333333333333333]}</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ptsdict_2</span><span class="o">=</span><span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">addnontripts</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">],</span>
+<span class="gp">...</span>         <span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">,</span><span class="s1">&#39;e&#39;</span><span class="p">,</span><span class="s1">&#39;f&#39;</span><span class="p">,</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="s1">&#39;h&#39;</span><span class="p">],</span><span class="n">ptsdict</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">setprint</span><span class="p">(</span><span class="n">ptsdict_2</span><span class="p">)</span>
+<span class="go">{&#39;a&#39;: [0, 0], &#39;b&#39;: [1, 2], &#39;c&#39;: [0, 2], &#39;d&#39;: [0.6666666666666666, 1.0],</span>
+<span class="go">&#39;e&#39;: [0.6666666666666666, 0.8888888888888888],</span>
+<span class="go">&#39;f&#39;: [0.8888888888888888, 1.3333333333333333],</span>
+<span class="go">&#39;g&#39;: [0.2222222222222222, 1.0],</span>
+<span class="go">&#39;h&#39;: [0.5185185185185185, 0.5555555555555555]}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method does NOT do any checks.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.matroids.matroids_plot_helpers.createline">
+<span class="sig-prename descclassname"><span class="pre">sage.matroids.matroids_plot_helpers.</span></span><span class="sig-name descname"><span class="pre">createline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ptsdict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineorders2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/matroids/matroids_plot_helpers.py#L288"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.matroids.matroids_plot_helpers.createline" title="Link to this definition">¶</a></dt>
+<dd><p>Return ordered lists of coordinates of points to be traversed to draw a
+2D line.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ptsdict</span></code> – dictionary containing keys and their (x,y) position as
+values</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ll</span></code> – list of keys in <code class="docutils literal notranslate"><span class="pre">ptsdict</span></code> through which a line is to be
+drawn</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lineorders2</span></code> – (optional) list of ordered lists of keys in
+<code class="docutils literal notranslate"><span class="pre">ptsdict</span></code> such that if ll is setwise same as any of these then points
+corresponding to values of the keys will be traversed in that order thus
+overriding internal order deciding heuristic</p></li>
+</ul>
+<p>OUTPUT: a tuple containing 4 elements in this order:</p>
+<ol class="arabic simple">
+<li><p>Ordered list of x-coordinates of values of keys in <code class="docutils literal notranslate"><span class="pre">ll</span></code> specified in
+ptsdict.</p></li>
+<li><p>Ordered list of y-coordinates of values of keys in <code class="docutils literal notranslate"><span class="pre">ll</span></code> specified
+in ptsdict.</p></li>
+<li><p>Ordered list of interpolated x-coordinates of points through which a
+line can be drawn.</p></li>
+<li><p>Ordered list of interpolated y-coordinates of points through which a
+line can be drawn.</p></li>
+</ol>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">sage:</span> <span class="n">ptsdict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="s1">&#39;b&#39;</span><span class="p">:(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="s1">&#39;c&#39;</span><span class="p">:(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span><span class="s1">&#39;d&#39;</span><span class="p">:(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">)}</span>
+<span class="gp">sage:</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">x_i</span><span class="p">,</span><span class="n">y_i</span> <span class="o">=</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">createline</span><span class="p">(</span><span class="n">ptsdict</span><span class="p">,</span>
+<span class="gp">....:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">])</span>
+<span class="gp">sage:</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_i</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_i</span><span class="p">)]</span>
+<span class="go">[4, 4, 100, 100]</span>
+<span class="gp">sage:</span> <span class="n">G</span> <span class="o">=</span> <span class="n">line</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">thickness</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>             <span class="c1"># needs sage.plot</span>
+<span class="gp">sage:</span> <span class="n">G</span> <span class="o">+=</span> <span class="n">points</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>                 <span class="c1"># needs sage.plot</span>
+<span class="gp">sage:</span> <span class="n">G</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>                                                                  <span class="c1"># needs sage.plot</span>
+<span class="gp">sage:</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">x_i</span><span class="p">,</span><span class="n">y_i</span> <span class="o">=</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">createline</span><span class="p">(</span><span class="n">ptsdict</span><span class="p">,</span>
+<span class="gp">....:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">],</span><span class="n">lineorders2</span><span class="o">=</span><span class="p">[[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">],</span>
+<span class="gp">....:</span> <span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">,</span><span class="s1">&#39;q&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="s1">&#39;s&#39;</span><span class="p">]])</span>
+<span class="gp">sage:</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_i</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_i</span><span class="p">)]</span>
+<span class="go">[4, 4, 100, 100]</span>
+<span class="gp">sage:</span> <span class="n">G</span> <span class="o">=</span> <span class="n">line</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">thickness</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>             <span class="c1"># needs sage.plot</span>
+<span class="gp">sage:</span> <span class="n">G</span> <span class="o">+=</span> <span class="n">points</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>                 <span class="c1"># needs sage.plot</span>
+<span class="gp">sage:</span> <span class="n">G</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>                                                                  <span class="c1"># needs sage.plot</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ptsdict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)),</span><span class="s1">&#39;b&#39;</span><span class="p">:(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span><span class="s1">&#39;c&#39;</span><span class="p">:(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">)),</span><span class="s1">&#39;d&#39;</span><span class="p">:(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))}</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">x_i</span><span class="p">,</span><span class="n">y_i</span> <span class="o">=</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">createline</span><span class="p">(</span><span class="n">ptsdict</span><span class="p">,</span>
+<span class="gp">...</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_i</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_i</span><span class="p">)]</span>
+<span class="go">[4, 4, 100, 100]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span> <span class="o">=</span> <span class="n">line</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">thickness</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">zorder</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>             <span class="c1"># needs sage.plot</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span> <span class="o">+=</span> <span class="n">points</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">300</span><span class="p">),</span> <span class="n">zorder</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>                 <span class="c1"># needs sage.plot</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>                                                                  <span class="c1"># needs sage.plot</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">x_i</span><span class="p">,</span><span class="n">y_i</span> <span class="o">=</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">createline</span><span class="p">(</span><span class="n">ptsdict</span><span class="p">,</span>
+<span class="gp">...</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">],</span><span class="n">lineorders2</span><span class="o">=</span><span class="p">[[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">],</span>
+<span class="gp">...</span> <span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">,</span><span class="s1">&#39;q&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="s1">&#39;s&#39;</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_i</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_i</span><span class="p">)]</span>
+<span class="go">[4, 4, 100, 100]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span> <span class="o">=</span> <span class="n">line</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">thickness</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">zorder</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>             <span class="c1"># needs sage.plot</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span> <span class="o">+=</span> <span class="n">points</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">300</span><span class="p">),</span> <span class="n">zorder</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>                 <span class="c1"># needs sage.plot</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>                                                                  <span class="c1"># needs sage.plot</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method does NOT do any checks.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.matroids.matroids_plot_helpers.geomrep">
+<span class="sig-prename descclassname"><span class="pre">sage.matroids.matroids_plot_helpers.</span></span><span class="sig-name descname"><span class="pre">geomrep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineorders1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/matroids/matroids_plot_helpers.py#L721"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.matroids.matroids_plot_helpers.geomrep" title="Link to this definition">¶</a></dt>
+<dd><p>Return a sage graphics object containing geometric representation of
+matroid M1.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">M1</span></code> – matroid</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">B1</span></code> – (optional) list of elements in <code class="docutils literal notranslate"><span class="pre">M1.groundset()</span></code> that
+correspond to a basis of <code class="docutils literal notranslate"><span class="pre">M1</span></code> and will be placed as vertices of the
+triangle in the geometric representation of <code class="docutils literal notranslate"><span class="pre">M1</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lineorders1</span></code> – (optional) list of ordered lists of elements of
+<code class="docutils literal notranslate"><span class="pre">M1.groundset()</span></code> such that if a line in geometric representation is
+setwise same as any of these then points contained will be traversed in
+that order thus overriding internal order deciding heuristic</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pd</span></code> – (optional) dictionary mapping ground set elements to their
+(x,y) positions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sp</span></code> – (optional) if <code class="docutils literal notranslate"><span class="pre">True</span></code>, a positioning dictionary and line orders
+will be placed in <code class="docutils literal notranslate"><span class="pre">M._cached_info</span></code></p></li>
+</ul>
+<p>OUTPUT:</p>
+<p>A sage graphics object of type &lt;class ‘sage.plot.graphics.Graphics’&gt; that
+corresponds to the geometric representation of the matroid.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">matroids</span><span class="o">.</span><span class="n">catalog</span><span class="o">.</span><span class="n">P7</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">G</span> <span class="o">=</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">geomrep</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>                                      <span class="c1"># needs sage.plot</span>
+<span class="gp">sage:</span> <span class="n">G</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">xmin</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>                                  <span class="c1"># needs sage.plot</span>
+<span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">matroids</span><span class="o">.</span><span class="n">catalog</span><span class="o">.</span><span class="n">P7</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">G</span> <span class="o">=</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">geomrep</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">lineorders1</span><span class="o">=</span><span class="p">[[</span><span class="s1">&#39;f&#39;</span><span class="p">,</span><span class="s1">&#39;e&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">]])</span>         <span class="c1"># needs sage.plot</span>
+<span class="gp">sage:</span> <span class="n">G</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">xmin</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>                                  <span class="c1"># needs sage.plot</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">M</span> <span class="o">=</span> <span class="n">matroids</span><span class="o">.</span><span class="n">catalog</span><span class="o">.</span><span class="n">P7</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span> <span class="o">=</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">geomrep</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>                                      <span class="c1"># needs sage.plot</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">xmin</span><span class="o">=-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">xmax</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">ymin</span><span class="o">=-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">ymax</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>                                  <span class="c1"># needs sage.plot</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">M</span> <span class="o">=</span> <span class="n">matroids</span><span class="o">.</span><span class="n">catalog</span><span class="o">.</span><span class="n">P7</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span> <span class="o">=</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">geomrep</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">lineorders1</span><span class="o">=</span><span class="p">[[</span><span class="s1">&#39;f&#39;</span><span class="p">,</span><span class="s1">&#39;e&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">]])</span>         <span class="c1"># needs sage.plot</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">xmin</span><span class="o">=-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">xmax</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">ymin</span><span class="o">=-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">ymax</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>                                  <span class="c1"># needs sage.plot</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method does NOT do any checks.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.matroids.matroids_plot_helpers.it">
+<span class="sig-prename descclassname"><span class="pre">sage.matroids.matroids_plot_helpers.</span></span><span class="sig-name descname"><span class="pre">it</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nB1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lps</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/matroids/matroids_plot_helpers.py#L84"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.matroids.matroids_plot_helpers.it" title="Link to this definition">¶</a></dt>
+<dd><p>Return points on and off the triangle and lines to be drawn for a rank 3
+matroid.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">M</span></code> – matroid</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">B1</span></code> – list of groundset elements of <code class="docutils literal notranslate"><span class="pre">M</span></code> that corresponds to a
+basis of matroid <code class="docutils literal notranslate"><span class="pre">M</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nB1</span></code> – list of elements in the ground set of M that corresponds to
+<code class="docutils literal notranslate"><span class="pre">M.simplify.groundset()</span> <span class="pre">\</span> <span class="pre">B1</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lps</span></code> – list of elements in the ground set of matroid M that are loops</p></li>
+</ul>
+<p>OUTPUT: a tuple containing 4 elements in this order:</p>
+<ol class="arabic simple">
+<li><p>A dictionary containing 2-tuple (x,y) coordinates with
+<code class="docutils literal notranslate"><span class="pre">M.simplify.groundset()</span></code> elements that can be placed on the sides of
+the triangle as keys.</p></li>
+<li><p>A list of 3 lists of elements of <code class="docutils literal notranslate"><span class="pre">M.simplify.groundset()</span></code> that can
+be placed on the 3 sides of the triangle.</p></li>
+<li><p>A list of elements of <code class="docutils literal notranslate"><span class="pre">M.simplify.groundset()</span></code> that cane be placed
+inside the triangle in the geometric representation.</p></li>
+<li><p>A list of lists of elements of <code class="docutils literal notranslate"><span class="pre">M.simplify.groundset()</span></code> that
+correspond to lines in the geometric representation other than the sides
+of the triangle.</p></li>
+</ol>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span> <span class="k">as</span> <span class="n">mph</span>
+<span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Matroid</span><span class="p">(</span><span class="n">ring</span><span class="o">=</span><span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">matrix</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+<span class="gp">....:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<span class="gp">sage:</span> <span class="n">N</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">B1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">N</span><span class="o">.</span><span class="n">basis</span><span class="p">())</span>
+<span class="gp">sage:</span> <span class="n">nB1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span><span class="o">.</span><span class="n">groundset</span><span class="p">())</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">B1</span><span class="p">))</span>
+<span class="gp">sage:</span> <span class="n">pts</span><span class="p">,</span><span class="n">trilines</span><span class="p">,</span><span class="n">nontripts</span><span class="p">,</span><span class="n">curvedlines</span> <span class="o">=</span> <span class="n">mph</span><span class="o">.</span><span class="n">it</span><span class="p">(</span><span class="n">M</span><span class="p">,</span>
+<span class="gp">....:</span> <span class="n">B1</span><span class="p">,</span><span class="n">nB1</span><span class="p">,</span><span class="n">M</span><span class="o">.</span><span class="n">loops</span><span class="p">())</span>
+<span class="gp">sage:</span> <span class="n">pts</span>
+<span class="go">{1: (1.0, 0.0), 2: (1.5, 1.0), 3: (0.5, 1.0),</span>
+<span class="go"> 4: (0, 0), 5: (1, 2), 6: (2, 0)}</span>
+<span class="gp">sage:</span> <span class="n">trilines</span>
+<span class="go">[[3, 4, 5], [2, 5, 6], [1, 4, 6]]</span>
+<span class="gp">sage:</span> <span class="n">nontripts</span>
+<span class="go">[0]</span>
+<span class="gp">sage:</span> <span class="n">curvedlines</span>
+<span class="go">[[0, 1, 5], [0, 2, 4], [0, 3, 6], [1, 2, 3], [1, 4, 6], [2, 5, 6],</span>
+<span class="go"> [3, 4, 5]]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span> <span class="k">as</span> <span class="n">mph</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Matroid</span><span class="p">(</span><span class="n">ring</span><span class="o">=</span><span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">matrix</span><span class="o">=</span><span class="p">[[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)],</span>
+<span class="gp">...</span> <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)],[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">N</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">B1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">N</span><span class="o">.</span><span class="n">basis</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">nB1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span><span class="o">.</span><span class="n">groundset</span><span class="p">())</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">B1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">pts</span><span class="p">,</span><span class="n">trilines</span><span class="p">,</span><span class="n">nontripts</span><span class="p">,</span><span class="n">curvedlines</span> <span class="o">=</span> <span class="n">mph</span><span class="o">.</span><span class="n">it</span><span class="p">(</span><span class="n">M</span><span class="p">,</span>
+<span class="gp">...</span> <span class="n">B1</span><span class="p">,</span><span class="n">nB1</span><span class="p">,</span><span class="n">M</span><span class="o">.</span><span class="n">loops</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">pts</span>
+<span class="go">{1: (1.0, 0.0), 2: (1.5, 1.0), 3: (0.5, 1.0),</span>
+<span class="go"> 4: (0, 0), 5: (1, 2), 6: (2, 0)}</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">trilines</span>
+<span class="go">[[3, 4, 5], [2, 5, 6], [1, 4, 6]]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">nontripts</span>
+<span class="go">[0]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">curvedlines</span>
+<span class="go">[[0, 1, 5], [0, 2, 4], [0, 3, 6], [1, 2, 3], [1, 4, 6], [2, 5, 6],</span>
+<span class="go"> [3, 4, 5]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method does NOT do any checks.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.matroids.matroids_plot_helpers.line_hasorder">
+<span class="sig-prename descclassname"><span class="pre">sage.matroids.matroids_plot_helpers.</span></span><span class="sig-name descname"><span class="pre">line_hasorder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lodrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/matroids/matroids_plot_helpers.py#L558"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.matroids.matroids_plot_helpers.line_hasorder" title="Link to this definition">¶</a></dt>
+<dd><p>Determine if an order is specified for a line.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">l</span></code> – a line specified as a list of ground set elements</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lordrs</span></code> – (optional) list of lists each specifying an order on
+a subset of ground set elements that may or may not correspond to a
+line in geometric representation</p></li>
+</ul>
+<p>OUTPUT: a tuple containing 2 elements in this order:</p>
+<ol class="arabic simple">
+<li><p>A boolean indicating whether there is any list in <code class="docutils literal notranslate"><span class="pre">lordrs</span></code> that is
+setwise equal to <code class="docutils literal notranslate"><span class="pre">l</span></code>.</p></li>
+<li><p>A list specifying an order on <code class="docutils literal notranslate"><span class="pre">set(l)</span></code> if 1. is True, otherwise
+an empty list.</p></li>
+</ol>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">sage:</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">line_hasorder</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">],</span>
+<span class="gp">....:</span> <span class="p">[[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">],[</span><span class="s1">&#39;p&#39;</span><span class="p">,</span><span class="s1">&#39;q&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">]])</span>
+<span class="go">(True, [&#39;a&#39;, &#39;c&#39;, &#39;d&#39;, &#39;b&#39;])</span>
+<span class="gp">sage:</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">line_hasorder</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">],</span>
+<span class="gp">....:</span> <span class="p">[[</span><span class="s1">&#39;p&#39;</span><span class="p">,</span><span class="s1">&#39;q&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">],[</span><span class="s1">&#39;l&#39;</span><span class="p">,</span><span class="s1">&#39;m&#39;</span><span class="p">,</span><span class="s1">&#39;n&#39;</span><span class="p">,</span><span class="s1">&#39;o&#39;</span><span class="p">]])</span>
+<span class="go">(False, [])</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--2" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">line_hasorder</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">],</span>
+<span class="gp">...</span> <span class="p">[[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">],[</span><span class="s1">&#39;p&#39;</span><span class="p">,</span><span class="s1">&#39;q&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">]])</span>
+<span class="go">(True, [&#39;a&#39;, &#39;c&#39;, &#39;d&#39;, &#39;b&#39;])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">line_hasorder</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">],</span>
+<span class="gp">...</span> <span class="p">[[</span><span class="s1">&#39;p&#39;</span><span class="p">,</span><span class="s1">&#39;q&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">],[</span><span class="s1">&#39;l&#39;</span><span class="p">,</span><span class="s1">&#39;m&#39;</span><span class="p">,</span><span class="s1">&#39;n&#39;</span><span class="p">,</span><span class="s1">&#39;o&#39;</span><span class="p">]])</span>
+<span class="go">(False, [])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method does NOT do any checks.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.matroids.matroids_plot_helpers.lineorders_union">
+<span class="sig-prename descclassname"><span class="pre">sage.matroids.matroids_plot_helpers.</span></span><span class="sig-name descname"><span class="pre">lineorders_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lineorders1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineorders2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/matroids/matroids_plot_helpers.py#L599"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.matroids.matroids_plot_helpers.lineorders_union" title="Link to this definition">¶</a></dt>
+<dd><p>Return a list of ordered lists of ground set elements that corresponds to
+union of two sets of ordered lists of ground set elements in a sense.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">lineorders1</span></code> – list of ordered lists specifying orders on subsets
+of ground set</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lineorders2</span></code> – list of ordered lists specifying orders subsets of
+ground set</p></li>
+</ul>
+<p>OUTPUT:</p>
+<p>A list of ordered lists of ground set elements that are (setwise) in only
+one of <code class="docutils literal notranslate"><span class="pre">lineorders1</span></code> or <code class="docutils literal notranslate"><span class="pre">lineorders2</span></code> along with the ones in
+lineorder2 that are setwise equal to any list in lineorders1.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">sage:</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">lineorders_union</span><span class="p">([[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">],</span>
+<span class="gp">....:</span> <span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">,</span><span class="s1">&#39;q&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">],[</span><span class="s1">&#39;i&#39;</span><span class="p">,</span><span class="s1">&#39;j&#39;</span><span class="p">,</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="s1">&#39;l&#39;</span><span class="p">]],[[</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="s1">&#39;p&#39;</span><span class="p">,</span><span class="s1">&#39;q&#39;</span><span class="p">]])</span>
+<span class="go">[[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;], [&#39;p&#39;, &#39;q&#39;, &#39;r&#39;], [&#39;i&#39;, &#39;j&#39;, &#39;k&#39;, &#39;l&#39;]]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--2" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">lineorders_union</span><span class="p">([[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">],</span>
+<span class="gp">...</span> <span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">,</span><span class="s1">&#39;q&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">],[</span><span class="s1">&#39;i&#39;</span><span class="p">,</span><span class="s1">&#39;j&#39;</span><span class="p">,</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="s1">&#39;l&#39;</span><span class="p">]],[[</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="s1">&#39;p&#39;</span><span class="p">,</span><span class="s1">&#39;q&#39;</span><span class="p">]])</span>
+<span class="go">[[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;], [&#39;p&#39;, &#39;q&#39;, &#39;r&#39;], [&#39;i&#39;, &#39;j&#39;, &#39;k&#39;, &#39;l&#39;]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.matroids.matroids_plot_helpers.posdict_is_sane">
+<span class="sig-prename descclassname"><span class="pre">sage.matroids.matroids_plot_helpers.</span></span><span class="sig-name descname"><span class="pre">posdict_is_sane</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos_dict</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/matroids/matroids_plot_helpers.py#L640"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.matroids.matroids_plot_helpers.posdict_is_sane" title="Link to this definition">¶</a></dt>
+<dd><p>Return a boolean establishing sanity of <code class="docutils literal notranslate"><span class="pre">posdict</span></code> wrt matroid <code class="docutils literal notranslate"><span class="pre">M</span></code>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">M1</span></code> – matroid</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">posdict</span></code> – dictionary mapping ground set elements to (x,y)
+positions</p></li>
+</ul>
+<p>OUTPUT:</p>
+<p>A boolean that is <code class="docutils literal notranslate"><span class="pre">True</span></code> if posdict indeed has all the required elements
+to plot the geometric elements, otherwise <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">sage:</span> <span class="n">M1</span> <span class="o">=</span> <span class="n">Matroid</span><span class="p">(</span><span class="n">ring</span><span class="o">=</span><span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">matrix</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+<span class="gp">....:</span>                                  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+<span class="gp">....:</span>                                  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<span class="gp">sage:</span> <span class="n">pos_dict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>  <span class="mi">1</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>  <span class="mi">2</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>  <span class="mi">3</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+<span class="gp">....:</span> <span class="mi">4</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>  <span class="mi">5</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="mi">6</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.6666666666666666</span><span class="p">)}</span>
+<span class="gp">sage:</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">posdict_is_sane</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span><span class="n">pos_dict</span><span class="p">)</span>                        <span class="c1"># needs sage.rings.finite_rings</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">pos_dict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>  <span class="mi">2</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>  <span class="mi">3</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+<span class="gp">....:</span>             <span class="mi">4</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="mi">5</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="mi">6</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.6666666666666666</span><span class="p">)}</span>
+<span class="gp">sage:</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">posdict_is_sane</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span><span class="n">pos_dict</span><span class="p">)</span>                        <span class="c1"># needs sage.rings.finite_rings</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--8-input--2" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">M1</span> <span class="o">=</span> <span class="n">Matroid</span><span class="p">(</span><span class="n">ring</span><span class="o">=</span><span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">matrix</span><span class="o">=</span><span class="p">[[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
+<span class="gp">...</span>                                  <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)],</span>
+<span class="gp">...</span>                                  <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">pos_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span>  <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span>  <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span>  <span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.5&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">)),</span>
+<span class="gp">...</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.5&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">)),</span>  <span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.0&#39;</span><span class="p">)),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.6666666666666666&#39;</span><span class="p">))}</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">posdict_is_sane</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span><span class="n">pos_dict</span><span class="p">)</span>                        <span class="c1"># needs sage.rings.finite_rings</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">pos_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span>  <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span>  <span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.5&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">)),</span>
+<span class="gp">...</span>             <span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.5&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">)),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.0&#39;</span><span class="p">)),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.6666666666666666&#39;</span><span class="p">))}</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">posdict_is_sane</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span><span class="n">pos_dict</span><span class="p">)</span>                        <span class="c1"># needs sage.rings.finite_rings</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method does NOT do any checks. <code class="docutils literal notranslate"><span class="pre">M1</span></code> is assumed to be a
+matroid and <code class="docutils literal notranslate"><span class="pre">posdict</span></code> is assumed to be a dictionary.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.matroids.matroids_plot_helpers.slp">
+<span class="sig-prename descclassname"><span class="pre">sage.matroids.matroids_plot_helpers.</span></span><span class="sig-name descname"><span class="pre">slp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/matroids/matroids_plot_helpers.py#L374"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.matroids.matroids_plot_helpers.slp" title="Link to this definition">¶</a></dt>
+<dd><p>Return simple matroid, loops and parallel elements of given matroid.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">M1</span></code> – matroid</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pos_dict</span></code> – (optional) dictionary containing non loopy elements of
+<code class="docutils literal notranslate"><span class="pre">M</span></code> as keys and their (x,y) positions as keys. While simplifying the
+matroid, all except one element in a parallel class that is also
+specified in <code class="docutils literal notranslate"><span class="pre">pos_dict</span></code> will be retained.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">B</span></code> – (optional) a basis of M1 that has been chosen for placement on
+vertices of triangle</p></li>
+</ul>
+<p>OUTPUT: a tuple containing 3 elements in this order:</p>
+<ol class="arabic simple">
+<li><p>Simple matroid corresponding to <code class="docutils literal notranslate"><span class="pre">M1</span></code>.</p></li>
+<li><p>Loops of matroid <code class="docutils literal notranslate"><span class="pre">M1</span></code>.</p></li>
+<li><p>Elements that are in <span class="math notranslate nohighlight">\(M1.groundset()\)</span> but not in ground set of 1 or
+in 2</p></li>
+</ol>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.matroids.advanced</span> <span class="kn">import</span> <span class="n">setprint</span>
+<span class="gp">sage:</span> <span class="n">M1</span> <span class="o">=</span> <span class="n">Matroid</span><span class="p">(</span><span class="n">ring</span><span class="o">=</span><span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">matrix</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+<span class="gp">....:</span>                                  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+<span class="gp">....:</span>                                  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<span class="gp">sage:</span> <span class="n">M</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">slp</span><span class="p">(</span><span class="n">M1</span><span class="p">)</span>                                   <span class="c1"># needs sage.rings.finite_rings</span>
+<span class="gp">sage:</span> <span class="n">M</span><span class="o">.</span><span class="n">is_simple</span><span class="p">()</span>                                                             <span class="c1"># needs sage.rings.finite_rings</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">setprint</span><span class="p">([</span><span class="n">L</span><span class="p">,</span><span class="n">P</span><span class="p">])</span>                                                           <span class="c1"># needs sage.rings.finite_rings</span>
+<span class="go">[{10, 8, 9}, {7}]</span>
+<span class="gp">sage:</span> <span class="n">M1</span> <span class="o">=</span> <span class="n">Matroid</span><span class="p">(</span><span class="n">ring</span><span class="o">=</span><span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">matrix</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+<span class="gp">....:</span>                                  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+<span class="gp">....:</span>                                  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<span class="gp">sage:</span> <span class="n">posdict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">8</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>  <span class="mi">1</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>  <span class="mi">2</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>  <span class="mi">3</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+<span class="gp">....:</span>            <span class="mi">4</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>  <span class="mi">5</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="mi">6</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.6666666666666666</span><span class="p">)}</span>
+<span class="gp">sage:</span> <span class="n">M</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">slp</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">pos_dict</span><span class="o">=</span><span class="n">posdict</span><span class="p">)</span>                 <span class="c1"># needs sage.rings.finite_rings</span>
+<span class="gp">sage:</span> <span class="n">M</span><span class="o">.</span><span class="n">is_simple</span><span class="p">()</span>                                                             <span class="c1"># needs sage.rings.finite_rings</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">setprint</span><span class="p">([</span><span class="n">L</span><span class="p">,</span><span class="n">P</span><span class="p">])</span>                                                           <span class="c1"># needs sage.rings.finite_rings</span>
+<span class="go">[{0, 10, 9}, {7}]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--9-input--2" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.matroids.advanced</span> <span class="kn">import</span> <span class="n">setprint</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">M1</span> <span class="o">=</span> <span class="n">Matroid</span><span class="p">(</span><span class="n">ring</span><span class="o">=</span><span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">matrix</span><span class="o">=</span><span class="p">[[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
+<span class="gp">...</span>                                  <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)],</span>
+<span class="gp">...</span>                                  <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">M</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">slp</span><span class="p">(</span><span class="n">M1</span><span class="p">)</span>                                   <span class="c1"># needs sage.rings.finite_rings</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">M</span><span class="o">.</span><span class="n">is_simple</span><span class="p">()</span>                                                             <span class="c1"># needs sage.rings.finite_rings</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">setprint</span><span class="p">([</span><span class="n">L</span><span class="p">,</span><span class="n">P</span><span class="p">])</span>                                                           <span class="c1"># needs sage.rings.finite_rings</span>
+<span class="go">[{10, 8, 9}, {7}]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">M1</span> <span class="o">=</span> <span class="n">Matroid</span><span class="p">(</span><span class="n">ring</span><span class="o">=</span><span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">matrix</span><span class="o">=</span><span class="p">[[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
+<span class="gp">...</span>                                  <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)],</span>
+<span class="gp">...</span>                                  <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)]])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">posdict</span> <span class="o">=</span> <span class="p">{</span><span class="n">Integer</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span>  <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span>  <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span>  <span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.5&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">)),</span>
+<span class="gp">...</span>            <span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.5&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">)),</span>  <span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.0&#39;</span><span class="p">)),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.6666666666666666&#39;</span><span class="p">))}</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">M</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">slp</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">pos_dict</span><span class="o">=</span><span class="n">posdict</span><span class="p">)</span>                 <span class="c1"># needs sage.rings.finite_rings</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">M</span><span class="o">.</span><span class="n">is_simple</span><span class="p">()</span>                                                             <span class="c1"># needs sage.rings.finite_rings</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">setprint</span><span class="p">([</span><span class="n">L</span><span class="p">,</span><span class="n">P</span><span class="p">])</span>                                                           <span class="c1"># needs sage.rings.finite_rings</span>
+<span class="go">[{0, 10, 9}, {7}]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method does NOT do any checks.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.matroids.matroids_plot_helpers.tracklims">
+<span class="sig-prename descclassname"><span class="pre">sage.matroids.matroids_plot_helpers.</span></span><span class="sig-name descname"><span class="pre">tracklims</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lims</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_i</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_i</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/matroids/matroids_plot_helpers.py#L689"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.matroids.matroids_plot_helpers.tracklims" title="Link to this definition">¶</a></dt>
+<dd><p>Return modified limits list.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">lims</span></code> – list with 4 elements <code class="docutils literal notranslate"><span class="pre">[xmin,xmax,ymin,ymax]</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x_i</span></code> – new x values to track</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">y_i</span></code> – new y values to track</p></li>
+</ul>
+<p>OUTPUT: list with 4 elements <code class="docutils literal notranslate"><span class="pre">[xmin,xmax,ymin,ymax]</span></code></p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">sage:</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">tracklims</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+<span class="gp">....:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
+<span class="go">[-1, 6, -1, 7]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--10-input--2" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">tracklims</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">7</span><span class="p">)],[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
+<span class="gp">...</span> <span class="p">[</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">6</span><span class="p">)])</span>
+<span class="go">[-1, 6, -1, 7]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method does NOT do any checks.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.matroids.matroids_plot_helpers.trigrid">
+<span class="sig-prename descclassname"><span class="pre">sage.matroids.matroids_plot_helpers.</span></span><span class="sig-name descname"><span class="pre">trigrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tripts</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/matroids/matroids_plot_helpers.py#L181"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.matroids.matroids_plot_helpers.trigrid" title="Link to this definition">¶</a></dt>
+<dd><p>Return a grid of 4 points inside given 3 points as a list.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tripts</span></code> – list of 3 lists of the form [x,y] where x and y are the
+Cartesian coordinates of a point</p></li>
+</ul>
+<p>OUTPUT: list of lists containing 4 points in following order:</p>
+<ul class="simple">
+<li><ol class="arabic simple">
+<li><p>Barycenter of 3 input points.</p></li>
+</ol>
+</li>
+<li><p>2,3,4. Barycenters of 1. with 3 different 2-subsets of input points
+respectively.</p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">sage:</span> <span class="n">points</span> <span class="o">=</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">trigrid</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">]])</span>
+<span class="gp">sage:</span> <span class="n">points</span>
+<span class="go">[[3.6666666666666665, 2.6666666666666665],</span>
+<span class="go"> [3.222222222222222, 2.888888888888889],</span>
+<span class="go"> [4.222222222222222, 3.222222222222222],</span>
+<span class="go"> [3.5555555555555554, 1.8888888888888886]]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--11-input--2" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.matroids</span> <span class="kn">import</span> <span class="n">matroids_plot_helpers</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">points</span> <span class="o">=</span> <span class="n">matroids_plot_helpers</span><span class="o">.</span><span class="n">trigrid</span><span class="p">([[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)],[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">)],[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)]])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">points</span>
+<span class="go">[[3.6666666666666665, 2.6666666666666665],</span>
+<span class="go"> [3.222222222222222, 2.888888888888889],</span>
+<span class="go"> [4.222222222222222, 3.222222222222222],</span>
+<span class="go"> [3.5555555555555554, 1.8888888888888886]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method does NOT do any checks.</p>
+</div>
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="set_system.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Set systems</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="lean_matrix.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Lean matrices</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2005--2025, The Sage Development Team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Helper functions for plotting the geometric representation of matroids</a><ul>
+<li><a class="reference internal" href="#references">REFERENCES</a></li>
+<li><a class="reference internal" href="#sage.matroids.matroids_plot_helpers.addlp"><code class="docutils literal notranslate"><span class="pre">addlp()</span></code></a></li>
+<li><a class="reference internal" href="#sage.matroids.matroids_plot_helpers.addnontripts"><code class="docutils literal notranslate"><span class="pre">addnontripts()</span></code></a></li>
+<li><a class="reference internal" href="#sage.matroids.matroids_plot_helpers.createline"><code class="docutils literal notranslate"><span class="pre">createline()</span></code></a></li>
+<li><a class="reference internal" href="#sage.matroids.matroids_plot_helpers.geomrep"><code class="docutils literal notranslate"><span class="pre">geomrep()</span></code></a></li>
+<li><a class="reference internal" href="#sage.matroids.matroids_plot_helpers.it"><code class="docutils literal notranslate"><span class="pre">it()</span></code></a></li>
+<li><a class="reference internal" href="#sage.matroids.matroids_plot_helpers.line_hasorder"><code class="docutils literal notranslate"><span class="pre">line_hasorder()</span></code></a></li>
+<li><a class="reference internal" href="#sage.matroids.matroids_plot_helpers.lineorders_union"><code class="docutils literal notranslate"><span class="pre">lineorders_union()</span></code></a></li>
+<li><a class="reference internal" href="#sage.matroids.matroids_plot_helpers.posdict_is_sane"><code class="docutils literal notranslate"><span class="pre">posdict_is_sane()</span></code></a></li>
+<li><a class="reference internal" href="#sage.matroids.matroids_plot_helpers.slp"><code class="docutils literal notranslate"><span class="pre">slp()</span></code></a></li>
+<li><a class="reference internal" href="#sage.matroids.matroids_plot_helpers.tracklims"><code class="docutils literal notranslate"><span class="pre">tracklims()</span></code></a></li>
+<li><a class="reference internal" href="#sage.matroids.matroids_plot_helpers.trigrid"><code class="docutils literal notranslate"><span class="pre">trigrid()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../%5fstatic/documentation_options.js"></script>
+    <script src="../../../%5fstatic/doctools.js"></script>
+    <script src="../../../%5fstatic/sphinx_highlight.js"></script>
+    <script src="../../../%5fstatic/scripts/furo.js"></script>
+    <script src="../../../%5fstatic/clipboard.min.js"></script>
+    <script src="../../../%5fstatic/copybutton.js"></script>
+    <script src="../../../%5fstatic/tabs.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>
+    <script defer="defer" src="/Users/mkoeppe/s/sage/sage-rebasing/local/share/mathjax/mathjax/tex-chtml.js?v=0d9741c5"></script>
+    <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>
+    </body>
+</html>

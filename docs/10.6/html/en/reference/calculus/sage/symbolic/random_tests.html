@@ -1,0 +1,809 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="prev" title="Benchmarks" href="benchmark.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>Randomized tests of GiNaC / PyNaC - Symbolic Calculus</title>
+      <link rel="stylesheet" type="text/css" href="../../../%5fstatic/pygments.css?v=a078f75a" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-codemirror-monokai.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-tabs.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  --color-brand-primary: #0f0fff;
+  --color-brand-content: #0f0fff;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">Symbolic Calculus</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand" href="../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../%5fstatic/logo_sagemath_black.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../%5fstatic/logo_sagemath_white.svg" alt="Dark Logo"/>
+  </div>
+  
+      <span class="sidebar-brand-text">passagemath 10.6.1 Reference Manual</span>
+  
+</a><div class="select-wrapper">
+  <select id="versions-menu" onchange="changeVersion()">
+    <option value="" selected>other version</option>
+    <option value="https://doc-develop--sagemath.netlify.app">develop</option>
+  </select>
+</div><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-home">
+  <div class="sidebar-tree">
+    <ul><li class="toctree-l1">
+      <a class="reference internal" href="../../index.html">Home - Symbolic Calculus</a>
+    </li></ul>
+  </div>
+</div><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="expression.html">Symbolic Expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="callable.html">Callable Symbolic Expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calculus/expr.html">Constructor for symbolic expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assumptions.html">Assumptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relation.html">Symbolic Equations and Inequalities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calculus/calculus.html">Symbolic Computation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="units.html">Units of measurement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ring.html">The symbolic ring</a></li>
+<li class="toctree-l1"><a class="reference internal" href="subring.html">Subrings of the Symbolic Ring</a></li>
+<li class="toctree-l1"><a class="reference internal" href="function.html">Classes for symbolic functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="function_factory.html">Factory for symbolic functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calculus/functional.html">Functional notation support for common calculus methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration/integral.html">Symbolic Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration/external.html">TESTS::</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calculus/test_sympy.html">A Sample Session using SymPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calculus/tests.html">Calculus Tests and Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="expression_conversions.html">Conversion of symbolic expressions to other types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="complexity_measures.html">Complexity Measures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calculus/wester.html">Further examples from Wester’s paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calculus/desolvers.html">Solving ordinary differential equations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calculus/transforms/dwt.html">Discrete Wavelet Transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calculus/transforms/dft.html">Discrete Fourier Transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calculus/transforms/fft.html">Fast Fourier Transforms Using GSL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calculus/ode.html">Solving ODE numerically by GSL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calculus/integration.html">Numerical Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calculus/riemann.html">Riemann Mapping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calculus/interpolation.html">Real Interpolation using GSL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calculus/interpolators.html">Complex Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calculus/functions.html">Calculus functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calculus/var.html">Symbolic variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxima_wrapper.html">Access to Maxima methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="operators.html">Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmark.html">Benchmarks</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Randomized tests of GiNaC / PyNaC</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/blob/main/src/sage/symbolic/random_tests.py" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/edit/main/src/sage/symbolic/random_tests.py" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="randomized-tests-of-ginac-pynac">
+<span id="sage-symbolic-random-tests"></span><h1>Randomized tests of GiNaC / PyNaC<a class="headerlink" href="#randomized-tests-of-ginac-pynac" title="Link to this heading">¶</a></h1>
+<dl class="py function" id="module-sage.symbolic.random_tests">
+<dt class="sig sig-object py" id="sage.symbolic.random_tests.assert_strict_weak_order">
+<span class="sig-prename descclassname"><span class="pre">sage.symbolic.random_tests.</span></span><span class="sig-name descname"><span class="pre">assert_strict_weak_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmp_func</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/symbolic/random_tests.py#L330"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.symbolic.random_tests.assert_strict_weak_order" title="Link to this definition">¶</a></dt>
+<dd><p>Check that <code class="docutils literal notranslate"><span class="pre">cmp_func</span></code> is a strict weak order on the elements a,b,c.</p>
+<p>A strict weak order is a binary relation <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> such that</p>
+<ul class="simple">
+<li><p>For all <span class="math notranslate nohighlight">\(x\)</span>, it is not the case that <span class="math notranslate nohighlight">\(x &lt; x\)</span> (irreflexivity).</p></li>
+<li><p>For all <span class="math notranslate nohighlight">\(x\not=y\)</span>, if <span class="math notranslate nohighlight">\(x &lt; y\)</span> then it is not the case that <span class="math notranslate nohighlight">\(y &lt;
+x\)</span> (asymmetry).</p></li>
+<li><p>For all <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, and <span class="math notranslate nohighlight">\(z\)</span>, if <span class="math notranslate nohighlight">\(x &lt; y\)</span> and <span class="math notranslate nohighlight">\(y &lt; z\)</span> then <span class="math notranslate nohighlight">\(x &lt; z\)</span>
+(transitivity).</p></li>
+<li><p>For all <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, and <span class="math notranslate nohighlight">\(z\)</span>, if x is incomparable with <span class="math notranslate nohighlight">\(y\)</span>, and
+<span class="math notranslate nohighlight">\(y\)</span> is incomparable with <span class="math notranslate nohighlight">\(z\)</span>, then <span class="math notranslate nohighlight">\(x\)</span> is incomparable with <span class="math notranslate nohighlight">\(z\)</span>
+(transitivity of incomparability).</p></li>
+</ul>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span></code>, <code class="docutils literal notranslate"><span class="pre">c</span></code> – anything that can be compared by <code class="docutils literal notranslate"><span class="pre">cmp_func</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cmp_func</span></code> – function of two arguments that returns their
+comparison (i.e. either <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p></li>
+</ul>
+<p>OUTPUT:</p>
+<p>Nothing. Raises a <a class="reference external" href="https://docs.python.org/library/exceptions.html#ValueError" title="(in Python v3.12)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> if <code class="docutils literal notranslate"><span class="pre">cmp_func</span></code>
+is not a strict weak order on the three given elements.</p>
+<p>REFERENCES:</p>
+<p><a class="extlink-wikipedia reference external" href="https://en.wikipedia.org/wiki/Strict_weak_ordering">Wikipedia article Strict_weak_ordering</a></p>
+<p>EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab">The usual ordering of integers is a strict weak order:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.symbolic.random_tests</span> <span class="kn">import</span> <span class="n">assert_strict_weak_order</span>
+<span class="gp">sage:</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+<span class="gp">sage:</span> <span class="n">assert_strict_weak_order</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="gp">sage:</span> <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">SR</span><span class="p">(</span><span class="n">oo</span><span class="p">),</span> <span class="n">SR</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">SR</span><span class="p">(</span><span class="n">oo</span><span class="p">)]</span>
+<span class="gp">sage:</span> <span class="n">cmp_M</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+<span class="gp">....:</span>     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+<span class="gp">....:</span>         <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+<span class="gp">....:</span>             <span class="n">cmp_M</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="gp">....:</span>         <span class="k">elif</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+<span class="gp">....:</span>             <span class="n">cmp_M</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">sage:</span> <span class="n">cmp_M</span>
+<span class="go">[ 0 -1 -1]</span>
+<span class="go">[ 1  0 -1]</span>
+<span class="go">[ 1  1  0]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.symbolic.random_tests</span> <span class="kn">import</span> <span class="n">assert_strict_weak_order</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">assert_strict_weak_order</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">SR</span><span class="p">(</span><span class="n">oo</span><span class="p">),</span> <span class="n">SR</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span> <span class="n">SR</span><span class="p">(</span><span class="n">oo</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">cmp_M</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)):</span>
+<span class="gp">...</span>     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)):</span>
+<span class="gp">...</span>         <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+<span class="gp">...</span>             <span class="n">cmp_M</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">...</span>         <span class="k">elif</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+<span class="gp">...</span>             <span class="n">cmp_M</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">cmp_M</span>
+<span class="go">[ 0 -1 -1]</span>
+<span class="go">[ 1  0 -1]</span>
+<span class="go">[ 1  1  0]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.symbolic.random_tests.choose_from_prob_list">
+<span class="sig-prename descclassname"><span class="pre">sage.symbolic.random_tests.</span></span><span class="sig-name descname"><span class="pre">choose_from_prob_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lst</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/symbolic/random_tests.py#L131"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.symbolic.random_tests.choose_from_prob_list" title="Link to this definition">¶</a></dt>
+<dd><p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">lst</span></code> – list of tuples, where the first element of each tuple
+is a nonnegative float (a probability), and the probabilities sum
+to one</p></li>
+</ul>
+<p>OUTPUT:</p>
+<p>A tuple randomly selected from the list according to the given
+probabilities.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.symbolic.random_tests</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">v</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">0.1</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="kc">True</span><span class="p">)]</span>
+<span class="gp">sage:</span> <span class="n">choose_from_prob_list</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>  <span class="c1"># random</span>
+<span class="go">(0.900000000000000, True)</span>
+<span class="gp">sage:</span> <span class="n">true_count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">sage:</span> <span class="n">total_count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">sage:</span> <span class="k">def</span> <span class="nf">more_samples</span><span class="p">():</span>
+<span class="gp">....:</span>     <span class="k">global</span> <span class="n">true_count</span><span class="p">,</span> <span class="n">total_count</span>
+<span class="gp">....:</span>     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span>
+<span class="gp">....:</span>         <span class="n">total_count</span> <span class="o">+=</span> <span class="mf">1.0</span>
+<span class="gp">....:</span>         <span class="k">if</span> <span class="n">choose_from_prob_list</span><span class="p">(</span><span class="n">v</span><span class="p">)[</span><span class="mi">1</span><span class="p">]:</span>
+<span class="gp">....:</span>             <span class="n">true_count</span> <span class="o">+=</span> <span class="mf">1.0</span>
+<span class="gp">sage:</span> <span class="n">more_samples</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="k">while</span> <span class="nb">abs</span><span class="p">(</span><span class="n">true_count</span><span class="o">/</span><span class="n">total_count</span> <span class="o">-</span> <span class="mf">0.9</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.01</span><span class="p">:</span>
+<span class="gp">....:</span>     <span class="n">more_samples</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.symbolic.random_tests</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">v</span> <span class="o">=</span> <span class="p">[(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.1&#39;</span><span class="p">),</span> <span class="kc">False</span><span class="p">),</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.9&#39;</span><span class="p">),</span> <span class="kc">True</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">choose_from_prob_list</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>  <span class="c1"># random</span>
+<span class="go">(0.900000000000000, True)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">true_count</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">total_count</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">more_samples</span><span class="p">():</span>
+<span class="gp">...</span>     <span class="k">global</span> <span class="n">true_count</span><span class="p">,</span> <span class="n">total_count</span>
+<span class="gp">...</span>     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10000</span><span class="p">)):</span>
+<span class="gp">...</span>         <span class="n">total_count</span> <span class="o">+=</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">)</span>
+<span class="gp">...</span>         <span class="k">if</span> <span class="n">choose_from_prob_list</span><span class="p">(</span><span class="n">v</span><span class="p">)[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)]:</span>
+<span class="gp">...</span>             <span class="n">true_count</span> <span class="o">+=</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">more_samples</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">while</span> <span class="nb">abs</span><span class="p">(</span><span class="n">true_count</span><span class="o">/</span><span class="n">total_count</span> <span class="o">-</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.9&#39;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.01&#39;</span><span class="p">):</span>
+<span class="gp">...</span>     <span class="n">more_samples</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.symbolic.random_tests.normalize_prob_list">
+<span class="sig-prename descclassname"><span class="pre">sage.symbolic.random_tests.</span></span><span class="sig-name descname"><span class="pre">normalize_prob_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/symbolic/random_tests.py#L80"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.symbolic.random_tests.normalize_prob_list" title="Link to this definition">¶</a></dt>
+<dd><p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pl</span></code> – list of tuples, where the first element of each tuple is
+a floating-point number (representing a relative probability).  The
+second element of each tuple may be a list or any other kind of object.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">extra</span></code> – tuple which is to be appended to every tuple in <code class="docutils literal notranslate"><span class="pre">pl</span></code></p></li>
+</ul>
+<p>This function takes such a list of tuples (a “probability list”) and
+normalizes the probabilities so that they sum to one.  If any of the
+values are lists, then those lists are first normalized; then
+the probabilities in the list are multiplied by the main probability
+and the sublist is merged with the main list.</p>
+<p>For example, suppose we want to select between group A and group B with
+50% probability each.  Then within group A, we select A1 or A2 with 50%
+probability each (so the overall probability of selecting A1 is 25%);
+and within group B, we select B1, B2, or B3 with probabilities in
+a 1:2:2 ratio.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.symbolic.random_tests</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">A</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;A1&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;A2&#39;</span><span class="p">)]</span>
+<span class="gp">sage:</span> <span class="n">B</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;B1&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;B2&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;B3&#39;</span><span class="p">)]</span>
+<span class="gp">sage:</span> <span class="n">top</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">50</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="s1">&#39;Group A&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="s1">&#39;Group B&#39;</span><span class="p">)]</span>
+<span class="gp">sage:</span> <span class="n">normalize_prob_list</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
+<span class="go">[(0.250000000000000, &#39;A1&#39;, &#39;Group A&#39;), (0.250000000000000, &#39;A2&#39;, &#39;Group A&#39;), (0.1, &#39;B1&#39;, &#39;Group B&#39;), (0.2, &#39;B2&#39;, &#39;Group B&#39;), (0.2, &#39;B3&#39;, &#39;Group B&#39;)]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.symbolic.random_tests</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">A</span> <span class="o">=</span> <span class="p">[(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.5&#39;</span><span class="p">),</span> <span class="s1">&#39;A1&#39;</span><span class="p">),</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.5&#39;</span><span class="p">),</span> <span class="s1">&#39;A2&#39;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">B</span> <span class="o">=</span> <span class="p">[(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;B1&#39;</span><span class="p">),</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;B2&#39;</span><span class="p">),</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;B3&#39;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">top</span> <span class="o">=</span> <span class="p">[(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">A</span><span class="p">,</span> <span class="s1">&#39;Group A&#39;</span><span class="p">),</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">B</span><span class="p">,</span> <span class="s1">&#39;Group B&#39;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">normalize_prob_list</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
+<span class="go">[(0.250000000000000, &#39;A1&#39;, &#39;Group A&#39;), (0.250000000000000, &#39;A2&#39;, &#39;Group A&#39;), (0.1, &#39;B1&#39;, &#39;Group B&#39;), (0.2, &#39;B2&#39;, &#39;Group B&#39;), (0.2, &#39;B3&#39;, &#39;Group B&#39;)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.symbolic.random_tests.random_expr">
+<span class="sig-prename descclassname"><span class="pre">sage.symbolic.random_tests.</span></span><span class="sig-name descname"><span class="pre">random_expr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">size,</span> <span class="pre">nvars=1,</span> <span class="pre">ncoeffs=None,</span> <span class="pre">var_frac=0.5,</span> <span class="pre">internal=[(0.6,</span> <span class="pre">[(0.3,</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">add&gt;),</span> <span class="pre">(0.1,</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">sub&gt;),</span> <span class="pre">(0.3,</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">mul&gt;),</span> <span class="pre">(0.2,</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">truediv&gt;),</span> <span class="pre">(0.1,</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">pow&gt;)],</span> <span class="pre">2),</span> <span class="pre">(0.2,</span> <span class="pre">[(0.8,</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">neg&gt;),</span> <span class="pre">(0.2,</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">inv&gt;)],</span> <span class="pre">1),</span> <span class="pre">(0.2,</span> <span class="pre">[(1.0,</span> <span class="pre">Ei,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">Order,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">_swap_harmonic,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">abs,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">airy_ai,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">airy_ai_prime,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">airy_bi,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">airy_bi_prime,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">arccos,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">arccosh,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">arccot,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">arccoth,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">arccsc,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">arccsch,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">arcsec,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">arcsech,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">arcsin,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">arcsinh,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">arctan,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">arctan2,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">arctanh,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">arg,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">bessel_I,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">bessel_J,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">bessel_K,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">bessel_Y,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">beta,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">binomial,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">ceil,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">chebyshev_T,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">chebyshev_U,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">complex_root_of,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">conjugate,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">cos,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">cos_integral,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">cosh,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">cosh_integral,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">cot,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">coth,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">csc,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">csch,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">dickman_rho,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">dilog,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">dirac_delta,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">elliptic_e,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">elliptic_ec,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">elliptic_eu,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">elliptic_f,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">elliptic_kc,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">elliptic_pi,</span> <span class="pre">3),</span> <span class="pre">(1.0,</span> <span class="pre">erf,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">erfc,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">erfi,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">erfinv,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">exp,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">exp_integral_e,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">exp_integral_e1,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">exp_polar,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">factorial,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">floor,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">frac,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">fresnel_cos,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">fresnel_sin,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">gamma_inc_lower,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">gegenbauer,</span> <span class="pre">3),</span> <span class="pre">(1.0,</span> <span class="pre">gen_laguerre,</span> <span class="pre">3),</span> <span class="pre">(1.0,</span> <span class="pre">gen_legendre_P,</span> <span class="pre">3),</span> <span class="pre">(1.0,</span> <span class="pre">gen_legendre_Q,</span> <span class="pre">3),</span> <span class="pre">(1.0,</span> <span class="pre">hahn,</span> <span class="pre">5),</span> <span class="pre">(1.0,</span> <span class="pre">hankel1,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">hankel2,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">harmonic_number,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">heaviside,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">hermite,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">hurwitz_zeta,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">hypergeometric_M,</span> <span class="pre">3),</span> <span class="pre">(1.0,</span> <span class="pre">hypergeometric_U,</span> <span class="pre">3),</span> <span class="pre">(1.0,</span> <span class="pre">imag_part,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">integrate,</span> <span class="pre">4),</span> <span class="pre">(1.0,</span> <span class="pre">inverse_jacobi_cd,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">inverse_jacobi_cn,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">inverse_jacobi_cs,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">inverse_jacobi_dc,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">inverse_jacobi_dn,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">inverse_jacobi_ds,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">inverse_jacobi_nc,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">inverse_jacobi_nd,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">inverse_jacobi_ns,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">inverse_jacobi_sc,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">inverse_jacobi_sd,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">inverse_jacobi_sn,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">jacobi_P,</span> <span class="pre">4),</span> <span class="pre">(1.0,</span> <span class="pre">jacobi_am,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">jacobi_cd,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">jacobi_cn,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">jacobi_cs,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">jacobi_dc,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">jacobi_dn,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">jacobi_ds,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">jacobi_nc,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">jacobi_nd,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">jacobi_ns,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">jacobi_sc,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">jacobi_sd,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">jacobi_sn,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">krawtchouk,</span> <span class="pre">4),</span> <span class="pre">(1.0,</span> <span class="pre">kronecker_delta,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">laguerre,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">lambert_w,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">legendre_P,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">legendre_Q,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">log,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">log_gamma,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">log_integral,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">log_integral_offset,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">meixner,</span> <span class="pre">4),</span> <span class="pre">(1.0,</span> <span class="pre">polylog,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">prime_pi,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">product,</span> <span class="pre">4),</span> <span class="pre">(1.0,</span> <span class="pre">real_nth_root,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">real_part,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">sec,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">sech,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">sgn,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">sin,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">sin_integral,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">sinh,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">sinh_integral,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">spherical_bessel_J,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">spherical_bessel_Y,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">spherical_hankel1,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">spherical_hankel2,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">spherical_harmonic,</span> <span class="pre">4),</span> <span class="pre">(1.0,</span> <span class="pre">stieltjes,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">struve_H,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">struve_L,</span> <span class="pre">2),</span> <span class="pre">(1.0,</span> <span class="pre">sum,</span> <span class="pre">4),</span> <span class="pre">(1.0,</span> <span class="pre">tan,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">tanh,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">unit_step,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">zeta,</span> <span class="pre">1),</span> <span class="pre">(1.0,</span> <span class="pre">zetaderiv,</span> <span class="pre">2)])],</span> <span class="pre">nullary=[(1.0,</span> <span class="pre">pi),</span> <span class="pre">(1.0,</span> <span class="pre">e),</span> <span class="pre">(0.05,</span> <span class="pre">golden_ratio),</span> <span class="pre">(0.05,</span> <span class="pre">log2),</span> <span class="pre">(0.05,</span> <span class="pre">euler_gamma),</span> <span class="pre">(0.05,</span> <span class="pre">catalan),</span> <span class="pre">(0.05,</span> <span class="pre">khinchin),</span> <span class="pre">(0.05,</span> <span class="pre">twinprime),</span> <span class="pre">(0.05,</span> <span class="pre">mertens)],</span> <span class="pre">nullary_frac=0.2,</span> <span class="pre">coeff_generator=&lt;bound</span> <span class="pre">method</span> <span class="pre">RationalField.random_element</span> <span class="pre">of</span> <span class="pre">Rational</span> <span class="pre">Field&gt;,</span> <span class="pre">verbose=False</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/symbolic/random_tests.py#L271"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.symbolic.random_tests.random_expr" title="Link to this definition">¶</a></dt>
+<dd><p>Produce a random symbolic expression of the given size.  By
+default, the expression involves (at most) one variable, an arbitrary
+number of coefficients, and all of the symbolic functions and constants
+(from the probability lists full_internal and full_nullary).  It is
+possible to adjust the ratio of leaves between symbolic constants,
+variables, and coefficients (var_frac gives the fraction of variables,
+and nullary_frac the fraction of symbolic constants; the remaining
+leaves are coefficients).</p>
+<p>The actual mix of symbolic constants and internal nodes can be modified
+by specifying different probability lists.</p>
+<p>To use a different type for coefficients, you can specify
+coeff_generator, which should be a function that will return
+a random coefficient every time it is called.</p>
+<p>This function will often raise an error because it tries to create
+an erroneous expression (such as a division by zero).</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.symbolic.random_tests</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">some_functions</span> <span class="o">=</span> <span class="p">[</span><span class="n">arcsinh</span><span class="p">,</span> <span class="n">arctan</span><span class="p">,</span> <span class="n">arctan2</span><span class="p">,</span> <span class="n">arctanh</span><span class="p">,</span>
+<span class="gp">....:</span> <span class="n">arg</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">binomial</span><span class="p">,</span> <span class="n">ceil</span><span class="p">,</span> <span class="n">conjugate</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">cosh</span><span class="p">,</span> <span class="n">cot</span><span class="p">,</span> <span class="n">coth</span><span class="p">,</span>
+<span class="gp">....:</span> <span class="n">elliptic_pi</span><span class="p">,</span> <span class="n">erf</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">factorial</span><span class="p">,</span> <span class="n">floor</span><span class="p">,</span> <span class="n">heaviside</span><span class="p">,</span> <span class="n">imag_part</span><span class="p">,</span>
+<span class="gp">....:</span> <span class="n">sech</span><span class="p">,</span> <span class="n">sgn</span><span class="p">,</span> <span class="n">sin</span><span class="p">,</span> <span class="n">sinh</span><span class="p">,</span> <span class="n">tan</span><span class="p">,</span> <span class="n">tanh</span><span class="p">,</span> <span class="n">unit_step</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="n">zetaderiv</span><span class="p">]</span>
+<span class="gp">sage:</span> <span class="n">my_internal</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">full_binary</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">full_unary</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="gp">....:</span> <span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="p">[(</span><span class="mf">1.0</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">f</span><span class="o">.</span><span class="n">number_of_arguments</span><span class="p">())</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">some_functions</span><span class="p">])]</span>
+<span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">random_expr</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">nvars</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">internal</span><span class="o">=</span><span class="n">my_internal</span><span class="p">,</span>  <span class="c1"># not tested  # known bug</span>
+<span class="gp">....:</span>             <span class="n">coeff_generator</span><span class="o">=</span><span class="n">CDF</span><span class="o">.</span><span class="n">random_element</span><span class="p">)</span>
+<span class="go">(v1^(0.9713408427702117 + 0.195868299334218*I)/cot(-pi + v1^2 + v3) + tan(arctan(v2 + arctan2(-0.35859061674557324 + 0.9407509502498164*I, v3) - 0.8419115504372718 + 0.30375717982404615*I) + arctan2((0.2275357305882964 - 0.8258002386106038*I)/factorial(v2), -v3 - 0.7604559947718565 - 0.5543672548552057*I) + ceil(1/arctan2(v1, v1))))/v2</span>
+<span class="gp">sage:</span> <span class="n">random_expr</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># not tested  # known bug</span>
+<span class="go">About to apply &lt;built-in function inv&gt; to [31]</span>
+<span class="go">About to apply sgn to [v1]</span>
+<span class="go">About to apply &lt;built-in function add&gt; to [1/31, sgn(v1)]</span>
+<span class="go">sgn(v1) + 1/31</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.symbolic.random_tests</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">some_functions</span> <span class="o">=</span> <span class="p">[</span><span class="n">arcsinh</span><span class="p">,</span> <span class="n">arctan</span><span class="p">,</span> <span class="n">arctan2</span><span class="p">,</span> <span class="n">arctanh</span><span class="p">,</span>
+<span class="gp">...</span> <span class="n">arg</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">binomial</span><span class="p">,</span> <span class="n">ceil</span><span class="p">,</span> <span class="n">conjugate</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">cosh</span><span class="p">,</span> <span class="n">cot</span><span class="p">,</span> <span class="n">coth</span><span class="p">,</span>
+<span class="gp">...</span> <span class="n">elliptic_pi</span><span class="p">,</span> <span class="n">erf</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">factorial</span><span class="p">,</span> <span class="n">floor</span><span class="p">,</span> <span class="n">heaviside</span><span class="p">,</span> <span class="n">imag_part</span><span class="p">,</span>
+<span class="gp">...</span> <span class="n">sech</span><span class="p">,</span> <span class="n">sgn</span><span class="p">,</span> <span class="n">sin</span><span class="p">,</span> <span class="n">sinh</span><span class="p">,</span> <span class="n">tan</span><span class="p">,</span> <span class="n">tanh</span><span class="p">,</span> <span class="n">unit_step</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="n">zetaderiv</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">my_internal</span> <span class="o">=</span> <span class="p">[(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.6&#39;</span><span class="p">),</span> <span class="n">full_binary</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.2&#39;</span><span class="p">),</span> <span class="n">full_unary</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span>
+<span class="gp">...</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.2&#39;</span><span class="p">),</span> <span class="p">[(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">),</span><span class="n">f</span><span class="p">,</span><span class="n">f</span><span class="o">.</span><span class="n">number_of_arguments</span><span class="p">())</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">some_functions</span><span class="p">])]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">random_expr</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nvars</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">internal</span><span class="o">=</span><span class="n">my_internal</span><span class="p">,</span>  <span class="c1"># not tested  # known bug</span>
+<span class="gp">...</span>             <span class="n">coeff_generator</span><span class="o">=</span><span class="n">CDF</span><span class="o">.</span><span class="n">random_element</span><span class="p">)</span>
+<span class="go">(v1^(0.9713408427702117 + 0.195868299334218*I)/cot(-pi + v1^2 + v3) + tan(arctan(v2 + arctan2(-0.35859061674557324 + 0.9407509502498164*I, v3) - 0.8419115504372718 + 0.30375717982404615*I) + arctan2((0.2275357305882964 - 0.8258002386106038*I)/factorial(v2), -v3 - 0.7604559947718565 - 0.5543672548552057*I) + ceil(1/arctan2(v1, v1))))/v2</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">random_expr</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># not tested  # known bug</span>
+<span class="go">About to apply &lt;built-in function inv&gt; to [31]</span>
+<span class="go">About to apply sgn to [v1]</span>
+<span class="go">About to apply &lt;built-in function add&gt; to [1/31, sgn(v1)]</span>
+<span class="go">sgn(v1) + 1/31</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.symbolic.random_tests.random_expr_helper">
+<span class="sig-prename descclassname"><span class="pre">sage.symbolic.random_tests.</span></span><span class="sig-name descname"><span class="pre">random_expr_helper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">internal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leaves</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/symbolic/random_tests.py#L225"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.symbolic.random_tests.random_expr_helper" title="Link to this definition">¶</a></dt>
+<dd><p>Produce a random symbolic expression of size <em>n_nodes</em> (or slightly
+larger).  Internal nodes are selected from the <em>internal</em> probability
+list; leaves are selected from <em>leaves</em>.  If <em>verbose</em> is True,
+then a message is printed before creating an internal node.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.symbolic.random_tests</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">random_expr_helper</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="p">[(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">operator</span><span class="o">.</span><span class="n">add</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+<span class="gp">....:</span>     <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">operator</span><span class="o">.</span><span class="n">neg</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span> <span class="p">[(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">x</span><span class="p">)],</span> <span class="kc">True</span><span class="p">)</span>
+<span class="go">About to apply &lt;built-in function ...</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.symbolic.random_tests</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">random_expr_helper</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">9</span><span class="p">),</span> <span class="p">[(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.5&#39;</span><span class="p">),</span> <span class="n">operator</span><span class="o">.</span><span class="n">add</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span>
+<span class="gp">...</span>     <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.5&#39;</span><span class="p">),</span> <span class="n">operator</span><span class="o">.</span><span class="n">neg</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))],</span> <span class="p">[(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.5&#39;</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.5&#39;</span><span class="p">),</span> <span class="n">x</span><span class="p">)],</span> <span class="kc">True</span><span class="p">)</span>
+<span class="go">About to apply &lt;built-in function ...</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">In small cases we will see all cases quickly:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">def</span> <span class="nf">next_expr</span><span class="p">():</span>
+<span class="gp">....:</span>     <span class="k">return</span> <span class="n">random_expr_helper</span><span class="p">(</span>
+<span class="gp">....:</span>         <span class="mi">6</span><span class="p">,</span> <span class="p">[(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">operator</span><span class="o">.</span><span class="n">add</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">operator</span><span class="o">.</span><span class="n">neg</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span>
+<span class="gp">....:</span>         <span class="p">[(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">x</span><span class="p">)],</span> <span class="kc">False</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">all_exprs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">):</span>
+<span class="gp">....:</span>     <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="o">+</span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="mi">5</span><span class="o">-</span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="p">)):</span>
+<span class="gp">....:</span>         <span class="k">if</span> <span class="n">a</span> <span class="o">%</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">sign</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">!=</span> <span class="n">sign</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+<span class="gp">....:</span>             <span class="k">continue</span>
+<span class="gp">....:</span>         <span class="n">all_exprs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">our_exprs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="k">while</span> <span class="n">our_exprs</span> <span class="o">!=</span> <span class="n">all_exprs</span><span class="p">:</span>
+<span class="gp">....:</span>    <span class="n">our_exprs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">next_expr</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">next_expr</span><span class="p">():</span>
+<span class="gp">...</span>     <span class="k">return</span> <span class="n">random_expr_helper</span><span class="p">(</span>
+<span class="gp">...</span>         <span class="n">Integer</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="p">[(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.5&#39;</span><span class="p">),</span> <span class="n">operator</span><span class="o">.</span><span class="n">add</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.5&#39;</span><span class="p">),</span> <span class="n">operator</span><span class="o">.</span><span class="n">neg</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))],</span>
+<span class="gp">...</span>         <span class="p">[(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.5&#39;</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.5&#39;</span><span class="p">),</span> <span class="n">x</span><span class="p">)],</span> <span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">all_exprs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">)):</span>
+<span class="gp">...</span>     <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">+</span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">-</span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="p">)):</span>
+<span class="gp">...</span>         <span class="k">if</span> <span class="n">a</span> <span class="o">%</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">==</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="ow">and</span> <span class="n">sign</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">!=</span> <span class="n">sign</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+<span class="gp">...</span>             <span class="k">continue</span>
+<span class="gp">...</span>         <span class="n">all_exprs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">our_exprs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">while</span> <span class="n">our_exprs</span> <span class="o">!=</span> <span class="n">all_exprs</span><span class="p">:</span>
+<span class="gp">...</span>    <span class="n">our_exprs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">next_expr</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.symbolic.random_tests.random_integer_vector">
+<span class="sig-prename descclassname"><span class="pre">sage.symbolic.random_tests.</span></span><span class="sig-name descname"><span class="pre">random_integer_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/symbolic/random_tests.py#L170"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.symbolic.random_tests.random_integer_vector" title="Link to this definition">¶</a></dt>
+<dd><p>Give a random list of length <em>length</em>, consisting of nonnegative
+integers that sum to <em>n</em>.</p>
+<p>This is an approximation to IntegerVectors(n, length).random_element().
+That gives values uniformly at random, but might be slow; this
+routine is not uniform, but should always be fast.</p>
+<p>(This routine is uniform if <code class="docutils literal notranslate"><span class="pre">length</span></code> is 1 or 2; for longer vectors,
+we prefer approximately balanced vectors, where all the values
+are around <span class="math notranslate nohighlight">\(n/{length}\)</span>.)</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.symbolic.random_tests</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">random_integer_vector</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span> <span class="n">a</span>  <span class="c1"># random</span>
+<span class="go">[11, 89]</span>
+<span class="gp">sage:</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">sage:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">100</span>
+
+<span class="gp">sage:</span> <span class="n">b</span> <span class="o">=</span> <span class="n">random_integer_vector</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">20</span>
+<span class="gp">sage:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">10000</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--2" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.symbolic.random_tests</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">random_integer_vector</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span> <span class="n">a</span>  <span class="c1"># random</span>
+<span class="go">[11, 89]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">sum</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">100</span>
+
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="n">random_integer_vector</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10000</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">20</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">sum</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">10000</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">The routine is uniform if <code class="docutils literal notranslate"><span class="pre">length</span></code> is 2:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">true_count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">sage:</span> <span class="n">total_count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">sage:</span> <span class="k">def</span> <span class="nf">more_samples</span><span class="p">():</span>
+<span class="gp">....:</span>     <span class="k">global</span> <span class="n">true_count</span><span class="p">,</span> <span class="n">total_count</span>
+<span class="gp">....:</span>     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+<span class="gp">....:</span>         <span class="n">total_count</span> <span class="o">+=</span> <span class="mf">1.0</span>
+<span class="gp">....:</span>         <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="n">random_integer_vector</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+<span class="gp">....:</span>             <span class="n">true_count</span> <span class="o">+=</span> <span class="mf">1.0</span>
+<span class="gp">sage:</span> <span class="n">more_samples</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="k">while</span> <span class="nb">abs</span><span class="p">(</span><span class="n">true_count</span><span class="o">/</span><span class="n">total_count</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.01</span><span class="p">:</span>
+<span class="gp">....:</span>     <span class="n">more_samples</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--2" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">true_count</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">total_count</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">more_samples</span><span class="p">():</span>
+<span class="gp">...</span>     <span class="k">global</span> <span class="n">true_count</span><span class="p">,</span> <span class="n">total_count</span>
+<span class="gp">...</span>     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1000</span><span class="p">)):</span>
+<span class="gp">...</span>         <span class="n">total_count</span> <span class="o">+=</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">)</span>
+<span class="gp">...</span>         <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="n">random_integer_vector</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)):</span>
+<span class="gp">...</span>             <span class="n">true_count</span> <span class="o">+=</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">more_samples</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">while</span> <span class="nb">abs</span><span class="p">(</span><span class="n">true_count</span><span class="o">/</span><span class="n">total_count</span> <span class="o">-</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.01&#39;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;0.01&#39;</span><span class="p">):</span>
+<span class="gp">...</span>     <span class="n">more_samples</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.symbolic.random_tests.test_symbolic_expression_order">
+<span class="sig-prename descclassname"><span class="pre">sage.symbolic.random_tests.</span></span><span class="sig-name descname"><span class="pre">test_symbolic_expression_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repetitions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/symbolic/random_tests.py#L422"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.symbolic.random_tests.test_symbolic_expression_order" title="Link to this definition">¶</a></dt>
+<dd><p>Test whether the comparison of random symbolic expressions
+satisfies the strict weak order axioms.</p>
+<p>This is important because the C++ extension class uses
+<code class="docutils literal notranslate"><span class="pre">std::sort()</span></code> which requires a strict weak order. See also
+<a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/9880">Issue #9880</a>.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.symbolic.random_tests</span> <span class="kn">import</span> <span class="n">test_symbolic_expression_order</span>
+<span class="gp">sage:</span> <span class="n">test_symbolic_expression_order</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">test_symbolic_expression_order</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>  <span class="c1"># long time</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--8-input--2" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.symbolic.random_tests</span> <span class="kn">import</span> <span class="n">test_symbolic_expression_order</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">test_symbolic_expression_order</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">200</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">test_symbolic_expression_order</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10000</span><span class="p">))</span>  <span class="c1"># long time</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          <a class="prev-page" href="benchmark.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Benchmarks</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2005--2025, The Sage Development Team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Randomized tests of GiNaC / PyNaC</a><ul>
+<li><a class="reference internal" href="#sage.symbolic.random_tests.assert_strict_weak_order"><code class="docutils literal notranslate"><span class="pre">assert_strict_weak_order()</span></code></a></li>
+<li><a class="reference internal" href="#sage.symbolic.random_tests.choose_from_prob_list"><code class="docutils literal notranslate"><span class="pre">choose_from_prob_list()</span></code></a></li>
+<li><a class="reference internal" href="#sage.symbolic.random_tests.normalize_prob_list"><code class="docutils literal notranslate"><span class="pre">normalize_prob_list()</span></code></a></li>
+<li><a class="reference internal" href="#sage.symbolic.random_tests.random_expr"><code class="docutils literal notranslate"><span class="pre">random_expr()</span></code></a></li>
+<li><a class="reference internal" href="#sage.symbolic.random_tests.random_expr_helper"><code class="docutils literal notranslate"><span class="pre">random_expr_helper()</span></code></a></li>
+<li><a class="reference internal" href="#sage.symbolic.random_tests.random_integer_vector"><code class="docutils literal notranslate"><span class="pre">random_integer_vector()</span></code></a></li>
+<li><a class="reference internal" href="#sage.symbolic.random_tests.test_symbolic_expression_order"><code class="docutils literal notranslate"><span class="pre">test_symbolic_expression_order()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../%5fstatic/documentation_options.js"></script>
+    <script src="../../../%5fstatic/doctools.js"></script>
+    <script src="../../../%5fstatic/sphinx_highlight.js"></script>
+    <script src="../../../%5fstatic/scripts/furo.js"></script>
+    <script src="../../../%5fstatic/clipboard.min.js"></script>
+    <script src="../../../%5fstatic/copybutton.js"></script>
+    <script src="../../../%5fstatic/tabs.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>
+    <script defer="defer" src="/Users/mkoeppe/s/sage/sage-rebasing/local/share/mathjax/mathjax/tex-chtml.js?v=0d9741c5"></script>
+    <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>
+    </body>
+</html>

@@ -1,0 +1,1246 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" /><link rel="next" title="Test Backend" href="test_backend.html" /><link rel="prev" title="Catalog of all available output container types." href="output_catalog.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>Base Class for Backends - The Sage Command Line</title>
+      <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/pygments.css?v=a078f75a" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-codemirror-monokai.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-tabs.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  --color-brand-primary: #0f0fff;
+  --color-brand-content: #0f0fff;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../index.html"><div class="brand">The Sage Command Line</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand" href="../../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../../%5fstatic/logo_sagemath_black.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../../%5fstatic/logo_sagemath_white.svg" alt="Dark Logo"/>
+  </div>
+  
+      <span class="sidebar-brand-text">passagemath 10.6.1 Reference Manual</span>
+  
+</a><div class="select-wrapper">
+  <select id="versions-menu" onchange="changeVersion()">
+    <option value="" selected>other version</option>
+    <option value="https://doc-develop--sagemath.netlify.app">develop</option>
+  </select>
+</div><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-home">
+  <div class="sidebar-tree">
+    <ul><li class="toctree-l1">
+      <a class="reference internal" href="../../../index.html">Home - The Sage Command Line</a>
+    </li></ul>
+  </div>
+</div><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../options.html">Invoking Sage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../startup.html">Sage startup scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../environ.html">Environment variables used by Sage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../environ.html#relevant-environment-variables-for-other-packages">Relevant environment variables for other packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../misc/trace.html">Interactively tracing execution of a command</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../preparse.html">The Sage Preparser</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../load.html">Load Python, Sage, Cython, Fortran and Magma files in Sage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../attach.html">Keep track of attached files</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../display/formatter.html">IPython Displayhook Formatters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../display/pretty_print.html">The Sage pretty printer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../display/fancy_repr.html">Representations of objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../display/util.html">Utility functions for pretty-printing</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="display_manager.html">Display Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preferences.html">Display Preferences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pretty_print.html">The <code class="docutils literal notranslate"><span class="pre">pretty_print</span></code> command</a></li>
+<li class="toctree-l1"><a class="reference internal" href="buffer.html">Output Buffer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_basic.html">Basic Output Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_graphics.html">Graphics Output Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_graphics3d.html">Three-Dimensional Graphics Output Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_video.html">Video Output Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_catalog.html">Catalog of all available output container types.</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Base Class for Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test_backend.html">Test Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend_doctest.html">The backend used for doctests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend_ipython.html">IPython Backend for the Sage Rich Output System</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../interpreter.html">Sage’s IPython Modifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipython_extension.html">Sage’s IPython Extension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interface_magic.html">Magics for each of the Sage interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipython_kernel/interact.html">Interacts for the Sage Jupyter notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipython_kernel/widgets.html">Widgets to be used for the Sage Jupyter notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipython_kernel/install.html">Installing the SageMath Jupyter Kernel and Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipython_kernel/kernel.html">The Sage ZMQ Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipython_tests.html">Tests for the IPython integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../display/jsmol_iframe.html">HTML Generator for JSmol</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image.html">Sage Wrapper for Bitmap Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inputhook.html">The Sage Input Hook</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/rich_output/backend_base.py" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/edit/main/src/sage/repl/rich_output/backend_base.py" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="base-class-for-backends">
+<span id="sage-repl-rich-output-backend-base"></span><h1>Base Class for Backends<a class="headerlink" href="#base-class-for-backends" title="Link to this heading">¶</a></h1>
+<p id="module-sage.repl.rich_output.backend_base">The display backends are the commandline, the
+IPython notebook, the Emacs sage mode, the Sage doctester, …. All of
+these have different capabilities for what they can display.</p>
+<p>To implement a new display backend, you need to subclass
+<a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase" title="sage.repl.rich_output.backend_base.BackendBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">BackendBase</span></code></a>. All backend-specific handling of rich output
+should be in <a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.displayhook" title="sage.repl.rich_output.backend_base.BackendBase.displayhook"><code class="xref py py-meth docutils literal notranslate"><span class="pre">displayhook()</span></code></a> and
+<a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.display_immediately" title="sage.repl.rich_output.backend_base.BackendBase.display_immediately"><code class="xref py py-meth docutils literal notranslate"><span class="pre">display_immediately()</span></code></a>. See <a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendSimple" title="sage.repl.rich_output.backend_base.BackendSimple"><code class="xref py py-class docutils literal notranslate"><span class="pre">BackendSimple</span></code></a>
+for an absolutely minimal example of a functioning backend.</p>
+<p>You declare the types of rich output that your backend can handle in
+<a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.supported_output" title="sage.repl.rich_output.backend_base.BackendBase.supported_output"><code class="xref py py-meth docutils literal notranslate"><span class="pre">supported_output()</span></code></a>. There are two ways to then
+display specific output types in your own backend.</p>
+<ul class="simple">
+<li><p>Directly use one of the existing output containers listed in
+<a class="reference internal" href="output_catalog.html#module-sage.repl.rich_output.output_catalog" title="sage.repl.rich_output.output_catalog"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sage.repl.rich_output.output_catalog</span></code></a>. That is, test for the
+rich output type in <a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.display_immediately" title="sage.repl.rich_output.backend_base.BackendBase.display_immediately"><code class="xref py py-meth docutils literal notranslate"><span class="pre">display_immediately()</span></code></a> and
+handle it.</p></li>
+<li><p>Subclass the rich output container to attach your backend-specific
+functionality. Then <a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.display_immediately" title="sage.repl.rich_output.backend_base.BackendBase.display_immediately"><code class="xref py py-meth docutils literal notranslate"><span class="pre">display_immediately()</span></code></a> will
+receive instances of your subclass. See
+<a class="reference internal" href="test_backend.html#sage.repl.rich_output.test_backend.BackendTest" title="sage.repl.rich_output.test_backend.BackendTest"><code class="xref py py-class docutils literal notranslate"><span class="pre">BackendTest</span></code></a> for an
+example of how this is done.</p></li>
+</ul>
+<p>You can also mix both ways of implementing different rich output types.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendSimple</span>
+<span class="gp">sage:</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendSimple</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">plain_text</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">plain_text_formatter</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)));</span>  <span class="n">plain_text</span>
+<span class="go">OutputPlainText container</span>
+<span class="gp">sage:</span> <span class="n">backend</span><span class="o">.</span><span class="n">displayhook</span><span class="p">(</span><span class="n">plain_text</span><span class="p">,</span> <span class="n">plain_text</span><span class="p">)</span>
+<span class="go">[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendSimple</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendSimple</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">plain_text</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">plain_text_formatter</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">))));</span>  <span class="n">plain_text</span>
+<span class="go">OutputPlainText container</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span><span class="o">.</span><span class="n">displayhook</span><span class="p">(</span><span class="n">plain_text</span><span class="p">,</span> <span class="n">plain_text</span><span class="p">)</span>
+<span class="go">[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="sage.repl.rich_output.backend_base.BackendBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.repl.rich_output.backend_base.</span></span><span class="sig-name descname"><span class="pre">BackendBase</span></span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/rich_output/backend_base.py#L56"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.rich_output.backend_base.BackendBase" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../../../../structure/sage/structure/sage_object.html#sage.structure.sage_object.SageObject" title="(in Parents and Elements v10.6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SageObject</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.rich_output.backend_base.BackendBase.ascii_art_formatter">
+<span class="sig-name descname"><span class="pre">ascii_art_formatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/rich_output/backend_base.py#L322"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.rich_output.backend_base.BackendBase.ascii_art_formatter" title="Link to this definition">¶</a></dt>
+<dd><p>Hook to override how ascii art is being formatted.</p>
+<p>INPUT:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">obj</span></code> – anything</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">**kwds</span></code> – optional keyword arguments to control the
+formatting. Supported are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">concatenate</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>); if
+<code class="docutils literal notranslate"><span class="pre">True</span></code>, the argument <code class="docutils literal notranslate"><span class="pre">obj</span></code> must be iterable and its
+entries will be concatenated. There is a single
+whitespace between entries.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>OUTPUT:</p>
+<p>Instance of
+<a class="reference internal" href="output_basic.html#sage.repl.rich_output.output_basic.OutputAsciiArt" title="sage.repl.rich_output.output_basic.OutputAsciiArt"><code class="xref py py-class docutils literal notranslate"><span class="pre">OutputAsciiArt</span></code></a>
+containing the ascii art string representation of the object.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">sage:</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">out</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">ascii_art_formatter</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">)))</span>
+<span class="gp">sage:</span> <span class="n">out</span>
+<span class="go">OutputAsciiArt container</span>
+<span class="gp">sage:</span> <span class="n">out</span><span class="o">.</span><span class="n">ascii_art</span>
+<span class="go">buffer containing 114 bytes</span>
+<span class="gp">sage:</span> <span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">ascii_art</span><span class="o">.</span><span class="n">get_str</span><span class="p">())</span>
+<span class="go">[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,</span>
+
+<span class="go"> 22, 23, 24, 25, 26, 27, 28, 29 ]</span>
+<span class="gp">sage:</span> <span class="n">backend</span><span class="o">.</span><span class="n">ascii_art_formatter</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">concatenate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">ascii_art</span><span class="o">.</span><span class="n">get_str</span><span class="p">()</span>
+<span class="go">&#39;[ 1, 2, 3 ]&#39;</span>
+<span class="gp">sage:</span> <span class="n">backend</span><span class="o">.</span><span class="n">ascii_art_formatter</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">concatenate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">ascii_art</span><span class="o">.</span><span class="n">get_str</span><span class="p">()</span>
+<span class="go">&#39;1 2 3&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">out</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">ascii_art_formatter</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">30</span><span class="p">))))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">out</span>
+<span class="go">OutputAsciiArt container</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">out</span><span class="o">.</span><span class="n">ascii_art</span>
+<span class="go">buffer containing 114 bytes</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">ascii_art</span><span class="o">.</span><span class="n">get_str</span><span class="p">())</span>
+<span class="go">[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,</span>
+<span class="go">&lt;BLANKLINE&gt;</span>
+<span class="go"> 22, 23, 24, 25, 26, 27, 28, 29 ]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span><span class="o">.</span><span class="n">ascii_art_formatter</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)],</span> <span class="n">concatenate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">ascii_art</span><span class="o">.</span><span class="n">get_str</span><span class="p">()</span>
+<span class="go">&#39;[ 1, 2, 3 ]&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span><span class="o">.</span><span class="n">ascii_art_formatter</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)],</span> <span class="n">concatenate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">ascii_art</span><span class="o">.</span><span class="n">get_str</span><span class="p">()</span>
+<span class="go">&#39;1 2 3&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.rich_output.backend_base.BackendBase.default_preferences">
+<span class="sig-name descname"><span class="pre">default_preferences</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/rich_output/backend_base.py#L136"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.rich_output.backend_base.BackendBase.default_preferences" title="Link to this definition">¶</a></dt>
+<dd><p>Return the backend’s display preferences.</p>
+<p>Override this method to change the default preferences when
+using your backend.</p>
+<p>OUTPUT:</p>
+<p>Instance of
+<a class="reference internal" href="preferences.html#sage.repl.rich_output.preferences.DisplayPreferences" title="sage.repl.rich_output.preferences.DisplayPreferences"><code class="xref py py-class docutils literal notranslate"><span class="pre">DisplayPreferences</span></code></a>.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">sage:</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">backend</span><span class="o">.</span><span class="n">default_preferences</span><span class="p">()</span>
+<span class="go">Display preferences:</span>
+<span class="go">* align_latex is not specified</span>
+<span class="go">* graphics is not specified</span>
+<span class="go">* supplemental_plot is not specified</span>
+<span class="go">* text is not specified</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span><span class="o">.</span><span class="n">default_preferences</span><span class="p">()</span>
+<span class="go">Display preferences:</span>
+<span class="go">* align_latex is not specified</span>
+<span class="go">* graphics is not specified</span>
+<span class="go">* supplemental_plot is not specified</span>
+<span class="go">* text is not specified</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.rich_output.backend_base.BackendBase.display_immediately">
+<span class="sig-name descname"><span class="pre">display_immediately</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plain_text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rich_output</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/rich_output/backend_base.py#L545"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.rich_output.backend_base.BackendBase.display_immediately" title="Link to this definition">¶</a></dt>
+<dd><p>Show output without going back to the command line prompt.</p>
+<p>This method is similar to the rich output <a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.displayhook" title="sage.repl.rich_output.backend_base.BackendBase.displayhook"><code class="xref py py-meth docutils literal notranslate"><span class="pre">displayhook()</span></code></a>,
+except that it can be invoked at any time. Typically, it ends
+up being called by <a class="reference external" href="../../../../plotting/sage/plot/graphics.html#sage.plot.graphics.Graphics.show" title="(in 2D Graphics v10.6.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sage.plot.graphics.Graphics.show()</span></code></a>.</p>
+<p>Derived classes must implement this method.</p>
+<p>INPUT:</p>
+<p>Same as <a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.displayhook" title="sage.repl.rich_output.backend_base.BackendBase.displayhook"><code class="xref py py-meth docutils literal notranslate"><span class="pre">displayhook()</span></code></a>.</p>
+<p>OUTPUT:</p>
+<p>This method may return something so you can implement
+<a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.displayhook" title="sage.repl.rich_output.backend_base.BackendBase.displayhook"><code class="xref py py-meth docutils literal notranslate"><span class="pre">displayhook()</span></code></a> by calling this method. However, when
+called by the display manager any potential return value is
+discarded: There is no way to return anything without
+returning to the command prompt.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.output_basic</span> <span class="kn">import</span> <span class="n">OutputPlainText</span>
+<span class="gp">sage:</span> <span class="n">plain_text</span> <span class="o">=</span> <span class="n">OutputPlainText</span><span class="o">.</span><span class="n">example</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">sage:</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">backend</span><span class="o">.</span><span class="n">display_immediately</span><span class="p">(</span><span class="n">plain_text</span><span class="p">,</span> <span class="n">plain_text</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">NotImplementedError: derived classes must implement this method</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.output_basic</span> <span class="kn">import</span> <span class="n">OutputPlainText</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">plain_text</span> <span class="o">=</span> <span class="n">OutputPlainText</span><span class="o">.</span><span class="n">example</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span><span class="o">.</span><span class="n">display_immediately</span><span class="p">(</span><span class="n">plain_text</span><span class="p">,</span> <span class="n">plain_text</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">NotImplementedError: derived classes must implement this method</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.rich_output.backend_base.BackendBase.displayhook">
+<span class="sig-name descname"><span class="pre">displayhook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plain_text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rich_output</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/rich_output/backend_base.py#L499"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.rich_output.backend_base.BackendBase.displayhook" title="Link to this definition">¶</a></dt>
+<dd><p>Backend implementation of the displayhook.</p>
+<p>The value of the last statement on a REPL input line or
+notebook cell are usually handed to the Python displayhook and
+shown on screen.  By overriding this method you define how
+your backend handles output. The difference to the usual
+displayhook is that Sage already converted the value to the
+most suitable rich output container.</p>
+<p>Derived classes must implement this method.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">plain_text</span></code> – instance of
+<a class="reference internal" href="output_basic.html#sage.repl.rich_output.output_basic.OutputPlainText" title="sage.repl.rich_output.output_basic.OutputPlainText"><code class="xref py py-class docutils literal notranslate"><span class="pre">OutputPlainText</span></code></a>. The
+plain text version of the output.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rich_output</span></code> – instance of an output container class
+(subclass of
+<a class="reference internal" href="output_basic.html#sage.repl.rich_output.output_basic.OutputBase" title="sage.repl.rich_output.output_basic.OutputBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">OutputBase</span></code></a>). Guaranteed
+to be one of the output containers returned from
+<a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.supported_output" title="sage.repl.rich_output.backend_base.BackendBase.supported_output"><code class="xref py py-meth docutils literal notranslate"><span class="pre">supported_output()</span></code></a>, possibly the same as
+<code class="docutils literal notranslate"><span class="pre">plain_text</span></code>.</p></li>
+</ul>
+<p>OUTPUT:</p>
+<p>This method may return something, which is then returned from
+the display manager’s
+<a class="reference internal" href="display_manager.html#sage.repl.rich_output.display_manager.DisplayManager.displayhook" title="sage.repl.rich_output.display_manager.DisplayManager.displayhook"><code class="xref py py-meth docutils literal notranslate"><span class="pre">displayhook()</span></code></a>
+method.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.output_basic</span> <span class="kn">import</span> <span class="n">OutputPlainText</span>
+<span class="gp">sage:</span> <span class="n">plain_text</span> <span class="o">=</span> <span class="n">OutputPlainText</span><span class="o">.</span><span class="n">example</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">sage:</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">backend</span><span class="o">.</span><span class="n">displayhook</span><span class="p">(</span><span class="n">plain_text</span><span class="p">,</span> <span class="n">plain_text</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">NotImplementedError: derived classes must implement this method</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.output_basic</span> <span class="kn">import</span> <span class="n">OutputPlainText</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">plain_text</span> <span class="o">=</span> <span class="n">OutputPlainText</span><span class="o">.</span><span class="n">example</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span><span class="o">.</span><span class="n">displayhook</span><span class="p">(</span><span class="n">plain_text</span><span class="p">,</span> <span class="n">plain_text</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">NotImplementedError: derived classes must implement this method</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.rich_output.backend_base.BackendBase.get_display_manager">
+<span class="sig-name descname"><span class="pre">get_display_manager</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/rich_output/backend_base.py#L77"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.rich_output.backend_base.BackendBase.get_display_manager" title="Link to this definition">¶</a></dt>
+<dd><p>Return the display manager singleton.</p>
+<p>This is a convenience method to access the display manager
+singleton.</p>
+<p>OUTPUT:</p>
+<p>The unique
+<a class="reference internal" href="display_manager.html#sage.repl.rich_output.display_manager.DisplayManager" title="sage.repl.rich_output.display_manager.DisplayManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">DisplayManager</span></code></a>
+instance.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">sage:</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_display_manager</span><span class="p">()</span>
+<span class="go">The Sage display manager using the doctest backend</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_display_manager</span><span class="p">()</span>
+<span class="go">The Sage display manager using the doctest backend</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.rich_output.backend_base.BackendBase.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/rich_output/backend_base.py#L100"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.rich_output.backend_base.BackendBase.install" title="Link to this definition">¶</a></dt>
+<dd><p>Hook that will be called once before the backend is used for the
+first time.</p>
+<p>The default implementation does nothing.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">kwds</span></code> – optional keyword arguments that are passed
+through by the
+<a class="reference internal" href="display_manager.html#sage.repl.rich_output.display_manager.DisplayManager.switch_backend" title="sage.repl.rich_output.display_manager.DisplayManager.switch_backend"><code class="xref py py-meth docutils literal notranslate"><span class="pre">switch_backend()</span></code></a>
+method.</p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">sage:</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">backend</span><span class="o">.</span><span class="n">install</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--2" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span><span class="o">.</span><span class="n">install</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.rich_output.backend_base.BackendBase.is_in_terminal">
+<span class="sig-name descname"><span class="pre">is_in_terminal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/rich_output/backend_base.py#L190"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.rich_output.backend_base.BackendBase.is_in_terminal" title="Link to this definition">¶</a></dt>
+<dd><p>Test whether the UI is meant to run in a terminal.</p>
+<p>See
+<a class="reference internal" href="display_manager.html#sage.repl.rich_output.display_manager.DisplayManager.is_in_terminal" title="sage.repl.rich_output.display_manager.DisplayManager.is_in_terminal"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sage.repl.rich_output.display_manager.DisplayManager.is_in_terminal()</span></code></a>
+for details.</p>
+<p>OUTPUT: defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">sage:</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">backend</span><span class="o">.</span><span class="n">is_in_terminal</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--2" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span><span class="o">.</span><span class="n">is_in_terminal</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.rich_output.backend_base.BackendBase.latex_formatter">
+<span class="sig-name descname"><span class="pre">latex_formatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/rich_output/backend_base.py#L419"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.rich_output.backend_base.BackendBase.latex_formatter" title="Link to this definition">¶</a></dt>
+<dd><p>Hook to override how latex is being formatted.</p>
+<p>INPUT:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">obj</span></code> – anything</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">**kwds</span></code> – optional keyword arguments to control the
+formatting. Supported are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">concatenate</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>); if
+<code class="docutils literal notranslate"><span class="pre">True</span></code>, the argument <code class="docutils literal notranslate"><span class="pre">obj</span></code> must be iterable and its
+entries will be concatenated. There is a single
+whitespace between entries.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>OUTPUT:</p>
+<p>Instance of <code class="xref py py-class docutils literal notranslate"><span class="pre">OutputHtml</span></code>
+containing the latex string representation of the object.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">sage:</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">out</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">latex_formatter</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">out</span>
+<span class="go">OutputHtml container</span>
+<span class="gp">sage:</span> <span class="n">out</span><span class="o">.</span><span class="n">html</span>
+<span class="go">buffer containing 42 bytes</span>
+<span class="gp">sage:</span> <span class="n">out</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">get_str</span><span class="p">()</span>
+<span class="go">&#39;&lt;html&gt;\\(\\displaystyle \\frac{1}{2}\\)&lt;/html&gt;&#39;</span>
+
+<span class="gp">sage:</span> <span class="c1"># needs sage.symbolic</span>
+<span class="gp">sage:</span> <span class="n">out</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">latex_formatter</span><span class="p">([</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="n">ZZ</span><span class="p">],</span> <span class="n">concatenate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">out</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">get_str</span><span class="p">()</span>
+<span class="go">&#39;&lt;html&gt;\\(\\displaystyle \\newcommand{\\Bold}[1]{\\mathbf{#1}}\\left[\\frac{1}{2}, x, \\frac{3}{4}, \\Bold{Z}\\right]\\)&lt;/html&gt;&#39;</span>
+<span class="gp">sage:</span> <span class="n">out</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">latex_formatter</span><span class="p">([</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="n">ZZ</span><span class="p">],</span> <span class="n">concatenate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">out</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">get_str</span><span class="p">()</span>
+<span class="go">&#39;&lt;html&gt;\\(\\displaystyle \\newcommand{\\Bold}[1]{\\mathbf{#1}}\\frac{1}{2} x \\frac{3}{4} \\Bold{Z}\\)&lt;/html&gt;&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--8-input--2" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">out</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">latex_formatter</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">out</span>
+<span class="go">OutputHtml container</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">out</span><span class="o">.</span><span class="n">html</span>
+<span class="go">buffer containing 42 bytes</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">out</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">get_str</span><span class="p">()</span>
+<span class="go">&#39;&lt;html&gt;\\(\\displaystyle \\frac{1}{2}\\)&lt;/html&gt;&#39;</span>
+
+<span class="gp">&gt;&gt;&gt;</span> <span class="c1"># needs sage.symbolic</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">out</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">latex_formatter</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">ZZ</span><span class="p">],</span> <span class="n">concatenate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">out</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">get_str</span><span class="p">()</span>
+<span class="go">&#39;&lt;html&gt;\\(\\displaystyle \\newcommand{\\Bold}[1]{\\mathbf{#1}}\\left[\\frac{1}{2}, x, \\frac{3}{4}, \\Bold{Z}\\right]\\)&lt;/html&gt;&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">out</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">latex_formatter</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">ZZ</span><span class="p">],</span> <span class="n">concatenate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">out</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">get_str</span><span class="p">()</span>
+<span class="go">&#39;&lt;html&gt;\\(\\displaystyle \\newcommand{\\Bold}[1]{\\mathbf{#1}}\\frac{1}{2} x \\frac{3}{4} \\Bold{Z}\\)&lt;/html&gt;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.rich_output.backend_base.BackendBase.max_width">
+<span class="sig-name descname"><span class="pre">max_width</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/rich_output/backend_base.py#L209"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.rich_output.backend_base.BackendBase.max_width" title="Link to this definition">¶</a></dt>
+<dd><p>Return the number of characters that fit into one output line.</p>
+<p>OUTPUT: integer</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">sage:</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">backend</span><span class="o">.</span><span class="n">max_width</span><span class="p">()</span>
+<span class="go">79</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--9-input--2" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span><span class="o">.</span><span class="n">max_width</span><span class="p">()</span>
+<span class="go">79</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.rich_output.backend_base.BackendBase.newline">
+<span class="sig-name descname"><span class="pre">newline</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/rich_output/backend_base.py#L224"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.rich_output.backend_base.BackendBase.newline" title="Link to this definition">¶</a></dt>
+<dd><p>Return the newline string.</p>
+<p>OUTPUT: string for starting a new line of output</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">sage:</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">backend</span><span class="o">.</span><span class="n">newline</span><span class="p">()</span>
+<span class="go">&#39;\n&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--10-input--2" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span><span class="o">.</span><span class="n">newline</span><span class="p">()</span>
+<span class="go">&#39;\n&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.rich_output.backend_base.BackendBase.plain_text_formatter">
+<span class="sig-name descname"><span class="pre">plain_text_formatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/rich_output/backend_base.py#L267"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.rich_output.backend_base.BackendBase.plain_text_formatter" title="Link to this definition">¶</a></dt>
+<dd><p>Hook to override how plain text is being formatted.</p>
+<p>If the object does not have a <code class="docutils literal notranslate"><span class="pre">_rich_repr_</span></code> method, or if it
+does not return a rich output object
+(<a class="reference internal" href="output_basic.html#sage.repl.rich_output.output_basic.OutputBase" title="sage.repl.rich_output.output_basic.OutputBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">OutputBase</span></code></a>),
+then this method is used to generate plain text output.</p>
+<p>INPUT:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">obj</span></code> – anything</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">**kwds</span></code> – optional keyword arguments to control the
+formatting. Supported are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">concatenate</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>); if
+<code class="docutils literal notranslate"><span class="pre">True</span></code>, the argument <code class="docutils literal notranslate"><span class="pre">obj</span></code> must be iterable and its
+entries will be concatenated. There is a single
+whitespace between entries.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>OUTPUT:</p>
+<p>Instance of
+<a class="reference internal" href="output_basic.html#sage.repl.rich_output.output_basic.OutputPlainText" title="sage.repl.rich_output.output_basic.OutputPlainText"><code class="xref py py-class docutils literal notranslate"><span class="pre">OutputPlainText</span></code></a>
+containing the string representation of the object.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">sage:</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">out</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">plain_text_formatter</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">)))</span>
+<span class="gp">sage:</span> <span class="n">out</span>
+<span class="go">OutputPlainText container</span>
+<span class="gp">sage:</span> <span class="n">out</span><span class="o">.</span><span class="n">text</span>
+<span class="go">buffer containing 139 bytes</span>
+<span class="gp">sage:</span> <span class="n">out</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">get_str</span><span class="p">()</span>
+<span class="go">&#39;[0,\n 1,\n 2,\n 3,\n 4,\n 5,\n 6,\n 7,\n 8,\n 9,\n</span>
+<span class="go">10,\n 11,\n 12,\n 13,\n 14,\n 15,\n 16,\n 17,\n 18,\n</span>
+<span class="go">19,\n 20,\n 21,\n 22,\n 23,\n 24,\n 25,\n 26,\n 27,\n</span>
+<span class="go">28,\n 29]&#39;</span>
+
+<span class="gp">sage:</span> <span class="n">out</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">plain_text_formatter</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)),</span> <span class="n">concatenate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">out</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">get_str</span><span class="p">()</span>
+<span class="go">&#39;0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--11-input--2" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">out</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">plain_text_formatter</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">30</span><span class="p">))))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">out</span>
+<span class="go">OutputPlainText container</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">out</span><span class="o">.</span><span class="n">text</span>
+<span class="go">buffer containing 139 bytes</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">out</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">get_str</span><span class="p">()</span>
+<span class="go">&#39;[0,\n 1,\n 2,\n 3,\n 4,\n 5,\n 6,\n 7,\n 8,\n 9,\n</span>
+<span class="go">10,\n 11,\n 12,\n 13,\n 14,\n 15,\n 16,\n 17,\n 18,\n</span>
+<span class="go">19,\n 20,\n 21,\n 22,\n 23,\n 24,\n 25,\n 26,\n 27,\n</span>
+<span class="go">28,\n 29]&#39;</span>
+
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">out</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">plain_text_formatter</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">20</span><span class="p">))),</span> <span class="n">concatenate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">out</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">get_str</span><span class="p">()</span>
+<span class="go">&#39;0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.rich_output.backend_base.BackendBase.set_underscore_variable">
+<span class="sig-name descname"><span class="pre">set_underscore_variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/rich_output/backend_base.py#L472"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.rich_output.backend_base.BackendBase.set_underscore_variable" title="Link to this definition">¶</a></dt>
+<dd><p>Set the <code class="docutils literal notranslate"><span class="pre">_</span></code> builtin variable.</p>
+<p>By default, this sets the special <code class="docutils literal notranslate"><span class="pre">_</span></code> variable. Backends
+that organize the history differently (e.g. IPython) can
+override this method.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">obj</span></code> – result of the most recent evaluation</p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">sage:</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">backend</span><span class="o">.</span><span class="n">set_underscore_variable</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">_</span>
+<span class="go">123</span>
+
+<span class="gp">sage:</span> <span class="s1">&#39;foo&#39;</span>
+<span class="go">&#39;foo&#39;</span>
+<span class="gp">sage:</span> <span class="n">_</span>     <span class="c1"># indirect doctest</span>
+<span class="go">&#39;foo&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--12-input--2" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span><span class="o">.</span><span class="n">set_underscore_variable</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">123</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">_</span>
+<span class="go">123</span>
+
+<span class="gp">&gt;&gt;&gt;</span> <span class="s1">&#39;foo&#39;</span>
+<span class="go">&#39;foo&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">_</span>     <span class="c1"># indirect doctest</span>
+<span class="go">&#39;foo&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.rich_output.backend_base.BackendBase.supported_output">
+<span class="sig-name descname"><span class="pre">supported_output</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/rich_output/backend_base.py#L162"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.rich_output.backend_base.BackendBase.supported_output" title="Link to this definition">¶</a></dt>
+<dd><p>Return the outputs that are supported by the backend.</p>
+<p>Subclasses must implement this method.</p>
+<p>OUTPUT:</p>
+<p>Iterable of output container classes, that is, subclass of
+<a class="reference internal" href="output_basic.html#sage.repl.rich_output.output_basic.OutputBase" title="sage.repl.rich_output.output_basic.OutputBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">OutputBase</span></code></a>).  May
+be a list/tuple/set/frozenset. The order is ignored. Only used
+internally by the display manager.</p>
+<p>You may return backend-specific subclasses of existing output
+containers. This allows you to attach backend-specific
+functionality to the output container.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">sage:</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">backend</span><span class="o">.</span><span class="n">supported_output</span><span class="p">()</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">NotImplementedError: derived classes must implement this method</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--13-input--2" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span><span class="o">.</span><span class="n">supported_output</span><span class="p">()</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">NotImplementedError: derived classes must implement this method</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.rich_output.backend_base.BackendBase.unicode_art_formatter">
+<span class="sig-name descname"><span class="pre">unicode_art_formatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/rich_output/backend_base.py#L370"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.rich_output.backend_base.BackendBase.unicode_art_formatter" title="Link to this definition">¶</a></dt>
+<dd><p>Hook to override how unicode art is being formatted.</p>
+<p>INPUT:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">obj</span></code> – anything</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">**kwds</span></code> – optional keyword arguments to control the
+formatting. Supported are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">concatenate</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>); if
+<code class="docutils literal notranslate"><span class="pre">True</span></code>, the argument <code class="docutils literal notranslate"><span class="pre">obj</span></code> must be iterable and its
+entries will be concatenated. There is a single
+whitespace between entries.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>OUTPUT:</p>
+<p>Instance of
+<a class="reference internal" href="output_basic.html#sage.repl.rich_output.output_basic.OutputUnicodeArt" title="sage.repl.rich_output.output_basic.OutputUnicodeArt"><code class="xref py py-class docutils literal notranslate"><span class="pre">OutputUnicodeArt</span></code></a>
+containing the unicode art string representation of the object.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">sage:</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">out</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">unicode_art_formatter</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">)))</span>
+<span class="gp">sage:</span> <span class="n">out</span>
+<span class="go">OutputUnicodeArt container</span>
+<span class="gp">sage:</span> <span class="n">out</span><span class="o">.</span><span class="n">unicode_art</span>
+<span class="go">buffer containing 114 bytes</span>
+<span class="gp">sage:</span> <span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">unicode_art</span><span class="o">.</span><span class="n">get_str</span><span class="p">())</span>
+<span class="go">[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,</span>
+
+<span class="go">22, 23, 24, 25, 26, 27, 28, 29 ]</span>
+
+<span class="gp">sage:</span> <span class="n">backend</span><span class="o">.</span><span class="n">unicode_art_formatter</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">concatenate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">unicode_art</span><span class="o">.</span><span class="n">get_str</span><span class="p">()</span>
+<span class="go">&#39;[ 1, 2, 3 ]&#39;</span>
+<span class="gp">sage:</span> <span class="n">backend</span><span class="o">.</span><span class="n">unicode_art_formatter</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">concatenate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">unicode_art</span><span class="o">.</span><span class="n">get_str</span><span class="p">()</span>
+<span class="go">&#39;1 2 3&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--14-input--2" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">out</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">unicode_art_formatter</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">30</span><span class="p">))))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">out</span>
+<span class="go">OutputUnicodeArt container</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">out</span><span class="o">.</span><span class="n">unicode_art</span>
+<span class="go">buffer containing 114 bytes</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">unicode_art</span><span class="o">.</span><span class="n">get_str</span><span class="p">())</span>
+<span class="go">[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,</span>
+<span class="go">&lt;BLANKLINE&gt;</span>
+<span class="go">22, 23, 24, 25, 26, 27, 28, 29 ]</span>
+
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span><span class="o">.</span><span class="n">unicode_art_formatter</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)],</span> <span class="n">concatenate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">unicode_art</span><span class="o">.</span><span class="n">get_str</span><span class="p">()</span>
+<span class="go">&#39;[ 1, 2, 3 ]&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span><span class="o">.</span><span class="n">unicode_art_formatter</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)],</span> <span class="n">concatenate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">unicode_art</span><span class="o">.</span><span class="n">get_str</span><span class="p">()</span>
+<span class="go">&#39;1 2 3&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.rich_output.backend_base.BackendBase.uninstall">
+<span class="sig-name descname"><span class="pre">uninstall</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/rich_output/backend_base.py#L122"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.rich_output.backend_base.BackendBase.uninstall" title="Link to this definition">¶</a></dt>
+<dd><p>Hook that will be called once right before the backend is removed.</p>
+<p>The default implementation does nothing.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">sage:</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">backend</span><span class="o">.</span><span class="n">uninstall</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--15-input--2" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendBase</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendBase</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span><span class="o">.</span><span class="n">uninstall</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sage.repl.rich_output.backend_base.BackendSimple">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.repl.rich_output.backend_base.</span></span><span class="sig-name descname"><span class="pre">BackendSimple</span></span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/rich_output/backend_base.py#L581"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.rich_output.backend_base.BackendSimple" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase" title="sage.repl.rich_output.backend_base.BackendBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">BackendBase</span></code></a></p>
+<p>Simple Backend.</p>
+<p>This backend only supports plain text.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendSimple</span>
+<span class="gp">sage:</span> <span class="n">BackendSimple</span><span class="p">()</span>
+<span class="go">simple</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--16-input--2" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendSimple</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">BackendSimple</span><span class="p">()</span>
+<span class="go">simple</span>
+</pre></div>
+</div>
+</div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.rich_output.backend_base.BackendSimple.display_immediately">
+<span class="sig-name descname"><span class="pre">display_immediately</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plain_text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rich_output</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/rich_output/backend_base.py#L629"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.rich_output.backend_base.BackendSimple.display_immediately" title="Link to this definition">¶</a></dt>
+<dd><p>Show output without going back to the command line prompt.</p>
+<p>INPUT:</p>
+<p>Same as <a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.displayhook" title="sage.repl.rich_output.backend_base.BackendBase.displayhook"><code class="xref py py-meth docutils literal notranslate"><span class="pre">displayhook()</span></code></a>.</p>
+<p>OUTPUT: this backend returns nothing, it just prints to stdout</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.output_basic</span> <span class="kn">import</span> <span class="n">OutputPlainText</span>
+<span class="gp">sage:</span> <span class="n">plain_text</span> <span class="o">=</span> <span class="n">OutputPlainText</span><span class="o">.</span><span class="n">example</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendSimple</span>
+<span class="gp">sage:</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendSimple</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">backend</span><span class="o">.</span><span class="n">display_immediately</span><span class="p">(</span><span class="n">plain_text</span><span class="p">,</span> <span class="n">plain_text</span><span class="p">)</span>
+<span class="go">Example plain text output</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--17-input--2" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.output_basic</span> <span class="kn">import</span> <span class="n">OutputPlainText</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">plain_text</span> <span class="o">=</span> <span class="n">OutputPlainText</span><span class="o">.</span><span class="n">example</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendSimple</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendSimple</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span><span class="o">.</span><span class="n">display_immediately</span><span class="p">(</span><span class="n">plain_text</span><span class="p">,</span> <span class="n">plain_text</span><span class="p">)</span>
+<span class="go">Example plain text output</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.rich_output.backend_base.BackendSimple.supported_output">
+<span class="sig-name descname"><span class="pre">supported_output</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/rich_output/backend_base.py#L609"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.rich_output.backend_base.BackendSimple.supported_output" title="Link to this definition">¶</a></dt>
+<dd><p>Return the outputs that are supported by the backend.</p>
+<p>OUTPUT:</p>
+<p>Iterable of output container classes, that is, subclass of
+<a class="reference internal" href="output_basic.html#sage.repl.rich_output.output_basic.OutputBase" title="sage.repl.rich_output.output_basic.OutputBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">OutputBase</span></code></a>).
+This backend only supports the plain text output container.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendSimple</span>
+<span class="gp">sage:</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendSimple</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">backend</span><span class="o">.</span><span class="n">supported_output</span><span class="p">()</span>
+<span class="go">{&lt;class &#39;sage.repl.rich_output.output_basic.OutputPlainText&#39;&gt;}</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--18-input--2" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.rich_output.backend_base</span> <span class="kn">import</span> <span class="n">BackendSimple</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">BackendSimple</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">backend</span><span class="o">.</span><span class="n">supported_output</span><span class="p">()</span>
+<span class="go">{&lt;class &#39;sage.repl.rich_output.output_basic.OutputPlainText&#39;&gt;}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="test_backend.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Test Backend</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="output_catalog.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Catalog of all available output container types.</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2005--2025, The Sage Development Team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Base Class for Backends</a><ul>
+<li><a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase"><code class="docutils literal notranslate"><span class="pre">BackendBase</span></code></a><ul>
+<li><a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.ascii_art_formatter"><code class="docutils literal notranslate"><span class="pre">ascii_art_formatter()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.default_preferences"><code class="docutils literal notranslate"><span class="pre">default_preferences()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.display_immediately"><code class="docutils literal notranslate"><span class="pre">display_immediately()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.displayhook"><code class="docutils literal notranslate"><span class="pre">displayhook()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.get_display_manager"><code class="docutils literal notranslate"><span class="pre">get_display_manager()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.install"><code class="docutils literal notranslate"><span class="pre">install()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.is_in_terminal"><code class="docutils literal notranslate"><span class="pre">is_in_terminal()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.latex_formatter"><code class="docutils literal notranslate"><span class="pre">latex_formatter()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.max_width"><code class="docutils literal notranslate"><span class="pre">max_width()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.newline"><code class="docutils literal notranslate"><span class="pre">newline()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.plain_text_formatter"><code class="docutils literal notranslate"><span class="pre">plain_text_formatter()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.set_underscore_variable"><code class="docutils literal notranslate"><span class="pre">set_underscore_variable()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.supported_output"><code class="docutils literal notranslate"><span class="pre">supported_output()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.unicode_art_formatter"><code class="docutils literal notranslate"><span class="pre">unicode_art_formatter()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendBase.uninstall"><code class="docutils literal notranslate"><span class="pre">uninstall()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendSimple"><code class="docutils literal notranslate"><span class="pre">BackendSimple</span></code></a><ul>
+<li><a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendSimple.display_immediately"><code class="docutils literal notranslate"><span class="pre">display_immediately()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.rich_output.backend_base.BackendSimple.supported_output"><code class="docutils literal notranslate"><span class="pre">supported_output()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../../%5fstatic/documentation_options.js"></script>
+    <script src="../../../../%5fstatic/doctools.js"></script>
+    <script src="../../../../%5fstatic/sphinx_highlight.js"></script>
+    <script src="../../../../%5fstatic/scripts/furo.js"></script>
+    <script src="../../../../%5fstatic/clipboard.min.js"></script>
+    <script src="../../../../%5fstatic/copybutton.js"></script>
+    <script src="../../../../%5fstatic/tabs.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="../../../../%5fstatic/jupyter-sphinx-furo.js"></script>
+    </body>
+</html>

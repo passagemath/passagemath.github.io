@@ -1,0 +1,1742 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Function pickling" href="fpickle.html" /><link rel="prev" title="Support for persistent functions in .sage files" href="func_persist.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>Object persistence - Utilities</title>
+      <link rel="stylesheet" type="text/css" href="../../../%5fstatic/pygments.css?v=a078f75a" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-codemirror-monokai.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-tabs.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  --color-brand-primary: #0f0fff;
+  --color-brand-content: #0f0fff;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">Utilities</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand" href="../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../%5fstatic/logo_sagemath_black.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../%5fstatic/logo_sagemath_white.svg" alt="Dark Logo"/>
+  </div>
+  
+      <span class="sidebar-brand-text">passagemath 10.6.1 Reference Manual</span>
+  
+</a><div class="select-wrapper">
+  <select id="versions-menu" onchange="changeVersion()">
+    <option value="" selected>other version</option>
+    <option value="https://doc-develop--sagemath.netlify.app">develop</option>
+  </select>
+</div><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-home">
+  <div class="sidebar-tree">
+    <ul><li class="toctree-l1">
+      <a class="reference internal" href="../../index.html">Home - Utilities</a>
+    </li></ul>
+  </div>
+</div><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="defaults.html">Default Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functional.html">Functional notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="randstate.html">Random Number States</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prandom.html">Random Numbers with Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unknown.html">The Unknown truth value</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="abstract_method.html">Abstract methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bindable_class.html">Bindable classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="decorators.html">Decorators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="constant_function.html">Constant functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classcall_metaclass.html">Special Methods for Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inherit_comparison.html">Metaclass for inheriting comparison functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="method_decorator.html">Base Class to Support Method Decorators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="object_multiplexer.html">Multiplex calls to one object to calls to many objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fast_methods.html">Fast methods via Cython</a></li>
+<li class="toctree-l1"><a class="reference internal" href="call.html">Attribute and method calling</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="callable_dict.html">Callable dictionaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="converting_dict.html">Converting Dictionary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flatten.html">Flatten nested lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="search.html">Searching a sorted list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mrange.html">Multidimensional enumeration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multireplace.html">multi_replace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="map_threaded.html">Threaded map function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../arith/srange.html">Ranges and the <code class="docutils literal notranslate"><span class="pre">[1,2,..,n]</span></code> notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="element_with_label.html">Elements with labels.</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="temporary_file.html">Temporary file handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="remote_file.html">get_remote_file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="messaging.html">Message delivery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sage_ostools.html">Miscellaneous operating system functions</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../databases/sql_db.html">Relational (sqlite) Databases Module</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="stopgap.html">Stopgaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="superseded.html">Handling Superseded Functionality</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="misc.html">Miscellaneous functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="misc_c.html">Miscellaneous functions (Cython)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="verbose.html">Verbosity System and Logging in SageMath</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lazy_attribute.html">Lazy attributes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lazy_format.html">Lazy format strings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lazy_import.html">Lazy imports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lazy_import_cache.html">Lazy import cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lazy_list.html">Lazy lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lazy_string.html">Lazy strings</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cachefunc.html">Cached Functions and Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="weak_dict.html">Fast and safe weak value dictionary</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ext/fast_callable.html">Fast Expression Evaluation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ext/fast_eval.html">Fast Numerical Evaluation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cython.html">Cython support functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inline_fortran.html">Fortran compiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parser.html">A parser for symbolic equations and expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Evaluating Python code without any preparsing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sage_eval.html">Evaluating a String in Sage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sh.html">Evaluating shell scripts</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../typeset/symbols.html">Symbols for Character Art</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../typeset/character_art.html">Base Class for Character-Based Art</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../typeset/character_art_factory.html">Factory for Character-Based Art</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../typeset/ascii_art.html">ASCII Art</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../typeset/unicode_art.html">Unicode Art</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../typeset/unicode_characters.html">Unicode Characters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="repr.html">Repr formatting support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sage_input.html">Sage Input Formatting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Tables</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="html.html">HTML Fragments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mathml.html">MathML output support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sagetex.html">Installing and using SageTeX</a></li>
+<li class="toctree-l1"><a class="reference internal" href="latex.html">LaTeX printing support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="latex_macros.html">LaTeX macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="latex_standalone.html">Standalone LaTeX Document class and TikzPicture</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="func_persist.html">Support for persistent functions in .sage files</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Object persistence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fpickle.html">Function pickling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="explain_pickle.html">A tool for inspecting Python pickles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nested_class.html">Fixing pickle for nested classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="session.html">Loading and saving sessions and listing all variables</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="banner.html">SageMath version and banner info</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reset.html">Interpreter reset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Determination of programs for viewing web pages, etc.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pager.html">Pager for showing strings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sagedoc.html">Format Sage documentation for viewing with IPython and the notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sagedoc_conf.html">Sphinx configuration shared by sage.misc.sphinxify and sage_docbuild</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinxify.html">Process docstrings with Sphinx</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="package.html">Listing Sage packages</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="citation.html">Dependency usage tracking for citations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copying.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="sage_unittest.html">Unit testing for Sage objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="random_testing.html">Random testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test_nested_class.html">Test for nested class Parent</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="benchmark.html">Benchmarks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sage_timeit.html">Accurate timing information for Sage commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sage_timeit_class.html">The <code class="docutils literal notranslate"><span class="pre">timeit</span></code> command</a></li>
+<li class="toctree-l1"><a class="reference internal" href="profiler.html">Simple profiling tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gperftools.html">C Function Profiler Using Google Perftools</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="instancedoc.html">Dynamic documentation for instances of classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sageinspect.html">Inspect Python, Sage, and Cython objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="edit_module.html">Edit the source code of Sage interactively</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classgraph.html">Class inheritance graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev_tools.html">Some tools for developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="function_mangling.html">Function Mangling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rest_index_of_methods.html">ReST index of functions</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ext/memory.html">Low-level memory allocation functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c3.html">The C3 algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c3_controlled.html">The C3 algorithm, under control of a total order</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/persist.pyx" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/edit/main/src/sage/misc/persist.pyx" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="object-persistence">
+<span id="sage-misc-persist"></span><h1>Object persistence<a class="headerlink" href="#object-persistence" title="Link to this heading">¶</a></h1>
+<p id="module-sage.misc.persist">You can load and save most Sage object to disk using the load and
+save member functions and commands.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is impossible to save certain Sage objects to disk. For example,
+if <span class="math notranslate nohighlight">\(x\)</span> is a MAGMA object, i.e., a wrapper around an object
+that is defined in MAGMA, there is no way to save <span class="math notranslate nohighlight">\(x\)</span> to
+disk, since MAGMA doesn’t support saving of individual objects to
+disk.</p>
+</div>
+<ul class="simple">
+<li><p>Versions: Loading and saving of objects is guaranteed to work
+even if the version of Python changes. Saved objects can be loaded
+in future versions of Python. However, if the data structure that
+defines the object, e.g., in Sage code, changes drastically (or
+changes name or disappears), then the object might not load
+correctly or work correctly.</p></li>
+<li><p>Objects are zlib compressed for space efficiency.</p></li>
+</ul>
+<dl class="py class">
+<dt class="sig sig-object py" id="sage.misc.persist.SagePickler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.misc.persist.</span></span><span class="sig-name descname"><span class="pre">SagePickler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">persistent_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">py2compat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/persist.pyx#L707"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.persist.SagePickler" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_BasePickler</span></code></p>
+<p>Subclass <code class="docutils literal notranslate"><span class="pre">pickle.Pickler</span></code> with Sage-specific default options, and
+built-in support for external object persistence.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">file_obj</span></code> – a readable file-like object returning <code class="docutils literal notranslate"><span class="pre">bytes</span></code> from
+which the pickle data will be loaded</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">persistent_id</span></code> – callable or None; if given this callable takes a
+single object to be pickled, and returns an “ID” (a key with which to
+restore the object upon unpickling, which may itself be any pickleable
+object).  See the Python documentation on <a class="reference external" href="https://docs.python.org/2.7/library/pickle.html#pickling-and-unpickling-external-objects">pickling and unpickling
+external objects</a> for more details.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">py2compat</span></code> – on Python 3 only, this creates pickles that have a
+better chance of being read on Python 2, by using protocol version 2
+(instead of 4) and fixing up imports of standard library modules and
+types whose names changed between Python 2 and 3.  This is enabled by
+default for the best chances of cross-Python compatibility.</p></li>
+<li><p>Further arguments are passed to <a class="reference external" href="https://docs.python.org/library/pickle.html#pickle.load" title="(in Python v3.12)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pickle.load()</span></code></a>, where in Python-3
+Sage sets the default <code class="docutils literal notranslate"><span class="pre">encoding='latin1'</span></code>. This is essential to make
+pickles readable in Python-3 that were created in Python-2. See
+<a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/28444">Issue #28444</a> for details.</p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.misc.persist</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="gp">....:</span>     <span class="n">unpickle_override</span><span class="p">,</span> <span class="n">register_unpickle_override</span><span class="p">,</span> <span class="n">SageUnpickler</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.rings.integer</span> <span class="kn">import</span> <span class="n">make_integer</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
+<span class="gp">sage:</span> <span class="k">def</span> <span class="nf">fake_constructor</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="gp">....:</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;unpickling an Integer&quot;</span><span class="p">)</span>
+<span class="gp">....:</span>     <span class="k">return</span> <span class="n">make_integer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">register_unpickle_override</span><span class="p">(</span><span class="s1">&#39;sage.rings.integer&#39;</span><span class="p">,</span> <span class="s1">&#39;make_integer&#39;</span><span class="p">,</span>
+<span class="gp">....:</span>                            <span class="n">fake_constructor</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">unp</span> <span class="o">=</span> <span class="n">SageUnpickler</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="kc">False</span><span class="p">)))</span>
+<span class="gp">sage:</span> <span class="n">unp</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="go">unpickling an Integer</span>
+<span class="go">1</span>
+<span class="gp">sage:</span> <span class="k">del</span> <span class="n">unpickle_override</span><span class="p">[(</span><span class="s1">&#39;sage.rings.integer&#39;</span><span class="p">,</span> <span class="s1">&#39;make_integer&#39;</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.misc.persist</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="gp">...</span>     <span class="n">unpickle_override</span><span class="p">,</span> <span class="n">register_unpickle_override</span><span class="p">,</span> <span class="n">SageUnpickler</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.rings.integer</span> <span class="kn">import</span> <span class="n">make_integer</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">fake_constructor</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="gp">...</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;unpickling an Integer&quot;</span><span class="p">)</span>
+<span class="gp">...</span>     <span class="k">return</span> <span class="n">make_integer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">register_unpickle_override</span><span class="p">(</span><span class="s1">&#39;sage.rings.integer&#39;</span><span class="p">,</span> <span class="s1">&#39;make_integer&#39;</span><span class="p">,</span>
+<span class="gp">...</span>                            <span class="n">fake_constructor</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">unp</span> <span class="o">=</span> <span class="n">SageUnpickler</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">compress</span><span class="o">=</span><span class="kc">False</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">unp</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="go">unpickling an Integer</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">del</span> <span class="n">unpickle_override</span><span class="p">[(</span><span class="s1">&#39;sage.rings.integer&#39;</span><span class="p">,</span> <span class="s1">&#39;make_integer&#39;</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">The <code class="docutils literal notranslate"><span class="pre">SagePickler</span></code> can also be passed a <code class="docutils literal notranslate"><span class="pre">persistent_id</span></code> function:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">table</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;b&#39;</span><span class="p">}</span>
+<span class="gp">sage:</span> <span class="c1"># in practice this might be a database or something...</span>
+<span class="gp">sage:</span> <span class="k">def</span> <span class="nf">load_object_from_table</span><span class="p">(</span><span class="n">obj_id</span><span class="p">):</span>
+<span class="gp">....:</span>     <span class="n">tag</span><span class="p">,</span> <span class="n">obj_id</span>
+<span class="gp">....:</span>     <span class="k">return</span> <span class="n">table</span><span class="p">[</span><span class="n">obj_id</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">table</span> <span class="o">=</span> <span class="p">{</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span> <span class="s1">&#39;b&#39;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="c1"># in practice this might be a database or something...</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">load_object_from_table</span><span class="p">(</span><span class="n">obj_id</span><span class="p">):</span>
+<span class="gp">...</span>     <span class="n">tag</span><span class="p">,</span> <span class="n">obj_id</span>
+<span class="gp">...</span>     <span class="k">return</span> <span class="n">table</span><span class="p">[</span><span class="n">obj_id</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.misc.persist.SagePickler.dumps">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/persist.pyx#L800"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.persist.SagePickler.dumps" title="Link to this definition">¶</a></dt>
+<dd><p>Equivalent to <a class="reference external" href="https://docs.python.org/library/pickle.html#pickle.dumps" title="(in Python v3.12)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pickle.dumps()</span></code></a> but using the
+<a class="reference internal" href="#sage.misc.persist.SagePickler" title="sage.misc.persist.SagePickler"><code class="xref py py-class docutils literal notranslate"><span class="pre">sage.misc.persist.SagePickler</span></code></a>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">obj</span></code> – the object to pickle</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kwargs</span></code> – keyword arguments passed to the
+<a class="reference internal" href="#sage.misc.persist.SagePickler" title="sage.misc.persist.SagePickler"><code class="xref py py-class docutils literal notranslate"><span class="pre">sage.misc.persist.SagePickler</span></code></a> constructor</p></li>
+</ul>
+<p>OUTPUT: <code class="docutils literal notranslate"><span class="pre">pickle</span></code> – the pickled object as <code class="docutils literal notranslate"><span class="pre">bytes</span></code></p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">import</span> <span class="nn">pickle</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.misc.persist</span> <span class="kn">import</span> <span class="n">SagePickler</span>
+<span class="gp">sage:</span> <span class="n">gherkin</span> <span class="o">=</span> <span class="n">SagePickler</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">gherkin</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">pickle</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.misc.persist</span> <span class="kn">import</span> <span class="n">SagePickler</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">gherkin</span> <span class="o">=</span> <span class="n">SagePickler</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">gherkin</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sage.misc.persist.SageUnpickler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.misc.persist.</span></span><span class="sig-name descname"><span class="pre">SageUnpickler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">persistent_load</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/persist.pyx#L831"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.persist.SageUnpickler" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_BaseUnpickler</span></code></p>
+<p>Subclass <code class="docutils literal notranslate"><span class="pre">pickle.Unpickler</span></code> to control how certain objects get unpickled
+(registered overrides, specifically).</p>
+<p>This is only needed in Python 3 and up.  On Python 2 the behavior of the
+<code class="docutils literal notranslate"><span class="pre">cPickle</span></code> module is customized differently.</p>
+<p>This class simply overrides <code class="docutils literal notranslate"><span class="pre">Unpickler.find_class</span></code> to wrap
+<code class="docutils literal notranslate"><span class="pre">sage.misc.persist.unpickle_global</span></code>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">file_obj</span></code> – a readable file-like object returning <code class="docutils literal notranslate"><span class="pre">bytes</span></code> from
+which the pickle data will be loaded</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">persistent_load</span></code> – callable or None; if given this callable
+implements loading of persistent external objects.  The function
+should take a single argument, the persistent object ID. See the
+Python documentation on <a class="reference external" href="https://docs.python.org/2.7/library/pickle.html#pickling-and-unpickling-external-objects">pickling and unpickling external objects</a>
+for more details.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kwargs</span></code> – additional keyword arguments passed to the
+<code class="docutils literal notranslate"><span class="pre">pickle.Unpickler</span></code> constructor</p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.misc.persist</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="gp">....:</span>     <span class="n">unpickle_override</span><span class="p">,</span> <span class="n">register_unpickle_override</span><span class="p">,</span> <span class="n">SageUnpickler</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.rings.integer</span> <span class="kn">import</span> <span class="n">make_integer</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
+<span class="gp">sage:</span> <span class="k">def</span> <span class="nf">fake_constructor</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="gp">....:</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;unpickling an Integer&quot;</span><span class="p">)</span>
+<span class="gp">....:</span>     <span class="k">return</span> <span class="n">make_integer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">register_unpickle_override</span><span class="p">(</span><span class="s1">&#39;sage.rings.integer&#39;</span><span class="p">,</span> <span class="s1">&#39;make_integer&#39;</span><span class="p">,</span>
+<span class="gp">....:</span>                            <span class="n">fake_constructor</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">unp</span> <span class="o">=</span> <span class="n">SageUnpickler</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="kc">False</span><span class="p">)))</span>
+<span class="gp">sage:</span> <span class="n">unp</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="go">unpickling an Integer</span>
+<span class="go">1</span>
+<span class="gp">sage:</span> <span class="k">del</span> <span class="n">unpickle_override</span><span class="p">[(</span><span class="s1">&#39;sage.rings.integer&#39;</span><span class="p">,</span> <span class="s1">&#39;make_integer&#39;</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.misc.persist</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="gp">...</span>     <span class="n">unpickle_override</span><span class="p">,</span> <span class="n">register_unpickle_override</span><span class="p">,</span> <span class="n">SageUnpickler</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.rings.integer</span> <span class="kn">import</span> <span class="n">make_integer</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">fake_constructor</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="gp">...</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;unpickling an Integer&quot;</span><span class="p">)</span>
+<span class="gp">...</span>     <span class="k">return</span> <span class="n">make_integer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">register_unpickle_override</span><span class="p">(</span><span class="s1">&#39;sage.rings.integer&#39;</span><span class="p">,</span> <span class="s1">&#39;make_integer&#39;</span><span class="p">,</span>
+<span class="gp">...</span>                            <span class="n">fake_constructor</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">unp</span> <span class="o">=</span> <span class="n">SageUnpickler</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">compress</span><span class="o">=</span><span class="kc">False</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">unp</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="go">unpickling an Integer</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">del</span> <span class="n">unpickle_override</span><span class="p">[(</span><span class="s1">&#39;sage.rings.integer&#39;</span><span class="p">,</span> <span class="s1">&#39;make_integer&#39;</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">The <code class="docutils literal notranslate"><span class="pre">SageUnpickler</span></code> can also be passed a <code class="docutils literal notranslate"><span class="pre">persistent_load</span></code> function:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">table</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;b&#39;</span><span class="p">}</span>
+<span class="gp">sage:</span> <span class="c1"># in practice this might be a database or something...</span>
+<span class="gp">sage:</span> <span class="k">def</span> <span class="nf">load_object_from_table</span><span class="p">(</span><span class="n">obj_id</span><span class="p">):</span>
+<span class="gp">....:</span>     <span class="n">tag</span><span class="p">,</span> <span class="n">obj_id</span>
+<span class="gp">....:</span>     <span class="k">return</span> <span class="n">table</span><span class="p">[</span><span class="n">obj_id</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">table</span> <span class="o">=</span> <span class="p">{</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span> <span class="s1">&#39;b&#39;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="c1"># in practice this might be a database or something...</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">load_object_from_table</span><span class="p">(</span><span class="n">obj_id</span><span class="p">):</span>
+<span class="gp">...</span>     <span class="n">tag</span><span class="p">,</span> <span class="n">obj_id</span>
+<span class="gp">...</span>     <span class="k">return</span> <span class="n">table</span><span class="p">[</span><span class="n">obj_id</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.misc.persist.SageUnpickler.loads">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/persist.pyx#L884"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.persist.SageUnpickler.loads" title="Link to this definition">¶</a></dt>
+<dd><p>Equivalent to <a class="reference external" href="https://docs.python.org/library/pickle.html#pickle.loads" title="(in Python v3.12)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pickle.loads()</span></code></a> but using the
+<a class="reference internal" href="#sage.misc.persist.SagePickler" title="sage.misc.persist.SagePickler"><code class="xref py py-class docutils literal notranslate"><span class="pre">sage.misc.persist.SagePickler</span></code></a>.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code> – the pickle data as <code class="docutils literal notranslate"><span class="pre">bytes</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kwargs</span></code> – keyword arguments passed to the
+<a class="reference internal" href="#sage.misc.persist.SageUnpickler" title="sage.misc.persist.SageUnpickler"><code class="xref py py-class docutils literal notranslate"><span class="pre">sage.misc.persist.SageUnpickler</span></code></a> constructor</p></li>
+</ul>
+<p>OUTPUT: <code class="docutils literal notranslate"><span class="pre">obj</span></code> – the object that was serialized to the given pickle data</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">import</span> <span class="nn">pickle</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.misc.persist</span> <span class="kn">import</span> <span class="n">SageUnpickler</span>
+<span class="gp">sage:</span> <span class="n">gherkin</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">SageUnpickler</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">gherkin</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">pickle</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.misc.persist</span> <span class="kn">import</span> <span class="n">SageUnpickler</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">gherkin</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">SageUnpickler</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">gherkin</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.misc.persist.db">
+<span class="sig-prename descclassname"><span class="pre">sage.misc.persist.</span></span><span class="sig-name descname"><span class="pre">db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/persist.pyx#L1226"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.persist.db" title="Link to this definition">¶</a></dt>
+<dd><p>Load object with given name from the Sage database. Use x.db(name)
+or db_save(x, name) to save objects to the database.</p>
+<p>The database directory is <code class="docutils literal notranslate"><span class="pre">$HOME/.sage/db</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.misc.persist.db_save">
+<span class="sig-prename descclassname"><span class="pre">sage.misc.persist.</span></span><span class="sig-name descname"><span class="pre">db_save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/persist.pyx#L1239"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.persist.db_save" title="Link to this definition">¶</a></dt>
+<dd><p>Save x to the Sage database.</p>
+<p>The database directory is <code class="docutils literal notranslate"><span class="pre">$HOME/.sage/db</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.misc.persist.dumps">
+<span class="sig-prename descclassname"><span class="pre">sage.misc.persist.</span></span><span class="sig-name descname"><span class="pre">dumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/persist.pyx#L314"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.persist.dumps" title="Link to this definition">¶</a></dt>
+<dd><p>Dump obj to a string s.  To recover obj, use <code class="docutils literal notranslate"><span class="pre">loads(s)</span></code>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#sage.misc.persist.loads" title="sage.misc.persist.loads"><code class="xref py py-func docutils literal notranslate"><span class="pre">loads()</span></code></a></p>
+</div>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span>
+<span class="gp">sage:</span> <span class="n">s</span> <span class="o">=</span> <span class="n">dumps</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">a2</span> <span class="o">=</span> <span class="n">loads</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">type</span><span class="p">(</span><span class="n">a2</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">a2</span>
+<span class="go">2/3</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--2" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">dumps</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a2</span> <span class="o">=</span> <span class="n">loads</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">type</span><span class="p">(</span><span class="n">a2</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a2</span>
+<span class="go">2/3</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.misc.persist.load">
+<span class="sig-prename descclassname"><span class="pre">sage.misc.persist.</span></span><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/persist.pyx#L89"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.persist.load" title="Link to this definition">¶</a></dt>
+<dd><p>Load Sage object from the file with name filename, which will have
+an <code class="docutils literal notranslate"><span class="pre">.sobj</span></code> extension added if it doesn’t have one.  Or, if the input
+is a filename ending in <code class="docutils literal notranslate"><span class="pre">.py</span></code>, <code class="docutils literal notranslate"><span class="pre">.pyx</span></code>, <code class="docutils literal notranslate"><span class="pre">.sage</span></code>, <code class="docutils literal notranslate"><span class="pre">.spyx</span></code>,
+<code class="docutils literal notranslate"><span class="pre">.f</span></code>, <code class="docutils literal notranslate"><span class="pre">.f90</span></code> or <code class="docutils literal notranslate"><span class="pre">.m</span></code>, load that file into the current running
+session using <a class="reference external" href="../../../repl/sage/repl/load.html#sage.repl.load.load" title="(in The Sage Command Line v10.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sage.repl.load.load()</span></code></a>.</p>
+<p>Loaded files are not loaded into their own namespace, i.e., this is
+much more like Python’s <code class="docutils literal notranslate"><span class="pre">execfile</span></code> than Python’s <code class="docutils literal notranslate"><span class="pre">import</span></code>.</p>
+<p>This function also loads a <code class="docutils literal notranslate"><span class="pre">.sobj</span></code> file over a network by
+specifying the full URL.  (Setting <code class="docutils literal notranslate"><span class="pre">verbose</span> <span class="pre">=</span> <span class="pre">False</span></code> suppresses
+the loading progress indicator.)</p>
+<p>When a pickle created with Python 2 is unpickled in Python 3, Sage
+uses the default encoding <code class="docutils literal notranslate"><span class="pre">latin1</span></code> to unpickle data of type <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>.</p>
+<p>Finally, if you give multiple positional input arguments, then all
+of those files are loaded, or all of the objects are loaded and a
+list of the corresponding loaded objects is returned.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">compress</span></code> is true (the default), then the data stored in the file
+are supposed to be compressed. If <code class="docutils literal notranslate"><span class="pre">verbose</span></code> is true (the default), then
+some logging is printed when accessing remote files. Further keyword
+arguments are passed to <a class="reference external" href="https://docs.python.org/library/pickle.html#pickle.load" title="(in Python v3.12)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pickle.load()</span></code></a>.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">u</span> <span class="o">=</span> <span class="s1">&#39;https://www.sagemath.org/files/test.sobj&#39;</span>
+<span class="gp">sage:</span> <span class="n">s</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>                                                  <span class="c1"># optional - internet</span>
+<span class="go">Attempting to load remote file: https://www.sagemath.org/files/test.sobj</span>
+<span class="go">Loading started</span>
+<span class="go">Loading ended</span>
+<span class="gp">sage:</span> <span class="n">s</span>                                                            <span class="c1"># optional - internet</span>
+<span class="go">&#39;hello SageMath&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--2" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">u</span> <span class="o">=</span> <span class="s1">&#39;https://www.sagemath.org/files/test.sobj&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>                                                  <span class="c1"># optional - internet</span>
+<span class="go">Attempting to load remote file: https://www.sagemath.org/files/test.sobj</span>
+<span class="go">Loading started</span>
+<span class="go">Loading ended</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">s</span>                                                            <span class="c1"># optional - internet</span>
+<span class="go">&#39;hello SageMath&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">We test loading a file or multiple files or even mixing loading files and objects:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">t</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">(</span><span class="n">ext</span><span class="o">=</span><span class="s1">&#39;.py&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">....:</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;print(&#39;hello world&#39;)&quot;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">load</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="go">hello world</span>
+<span class="gp">sage:</span> <span class="n">load</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">t</span><span class="p">)</span>
+<span class="go">hello world</span>
+<span class="go">hello world</span>
+<span class="gp">sage:</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">();</span> <span class="n">save</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span><span class="n">t2</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">load</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">t2</span><span class="p">)</span>
+<span class="go">hello world</span>
+<span class="go">hello world</span>
+<span class="go">[None, None, 2/3]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--8-input--2" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">t</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">(</span><span class="n">ext</span><span class="o">=</span><span class="s1">&#39;.py&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">...</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;print(&#39;hello world&#39;)&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">load</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="go">hello world</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">load</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">t</span><span class="p">)</span>
+<span class="go">hello world</span>
+<span class="go">hello world</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">();</span> <span class="n">save</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">t2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">load</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">t2</span><span class="p">)</span>
+<span class="go">hello world</span>
+<span class="go">hello world</span>
+<span class="go">[None, None, 2/3]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Files with a <code class="docutils literal notranslate"><span class="pre">.sage</span></code> extension are preparsed. Also note that we
+can access global variables:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">t</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">(</span><span class="n">ext</span><span class="o">=</span><span class="s1">&#39;.sage&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">....:</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;a += Mod(2/3, 11)&quot;</span><span class="p">)</span>  <span class="c1"># This evaluates to Mod(8, 11)</span>
+<span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="gp">sage:</span> <span class="n">load</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">a</span>
+<span class="go">7</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--9-input--2" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">t</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">(</span><span class="n">ext</span><span class="o">=</span><span class="s1">&#39;.sage&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">...</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;a += Mod(2/3, 11)&quot;</span><span class="p">)</span>  <span class="c1"># This evaluates to Mod(8, 11)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">load</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span>
+<span class="go">7</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">We can load Fortran files:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">code</span> <span class="o">=</span> <span class="s1">&#39;      subroutine hello</span><span class="se">\n</span><span class="s1">         print *, &quot;Hello World!&quot;</span><span class="se">\n</span><span class="s1">      end subroutine hello</span><span class="se">\n</span><span class="s1">&#39;</span>
+<span class="gp">sage:</span> <span class="n">t</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">(</span><span class="n">ext</span><span class="o">=</span><span class="s1">&#39;.F&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">....:</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">load</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>                                                                   <span class="c1"># needs numpy</span>
+<span class="gp">sage:</span> <span class="n">hello</span>                                                                     <span class="c1"># needs numpy</span>
+<span class="go">&lt;fortran ...&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--10-input--2" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">code</span> <span class="o">=</span> <span class="s1">&#39;      subroutine hello</span><span class="se">\n</span><span class="s1">         print *, &quot;Hello World!&quot;</span><span class="se">\n</span><span class="s1">      end subroutine hello</span><span class="se">\n</span><span class="s1">&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">t</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">(</span><span class="n">ext</span><span class="o">=</span><span class="s1">&#39;.F&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">...</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">load</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>                                                                   <span class="c1"># needs numpy</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">hello</span>                                                                     <span class="c1"># needs numpy</span>
+<span class="go">&lt;fortran ...&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.misc.persist.load_sage_element">
+<span class="sig-prename descclassname"><span class="pre">sage.misc.persist.</span></span><span class="sig-name descname"><span class="pre">load_sage_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dic_pic</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/persist.pyx#L1219"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.persist.load_sage_element" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.misc.persist.load_sage_object">
+<span class="sig-prename descclassname"><span class="pre">sage.misc.persist.</span></span><span class="sig-name descname"><span class="pre">load_sage_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/persist.pyx#L1210"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.persist.load_sage_object" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.misc.persist.loads">
+<span class="sig-prename descclassname"><span class="pre">sage.misc.persist.</span></span><span class="sig-name descname"><span class="pre">loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/persist.pyx#L911"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.persist.loads" title="Link to this definition">¶</a></dt>
+<dd><p>Recover an object x that has been dumped to a string s
+using <code class="docutils literal notranslate"><span class="pre">s</span> <span class="pre">=</span> <span class="pre">dumps(x)</span></code>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#sage.misc.persist.dumps" title="sage.misc.persist.dumps"><code class="xref py py-func docutils literal notranslate"><span class="pre">dumps()</span></code></a></p>
+</div>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">4</span><span class="o">/</span><span class="mi">3</span><span class="p">])</span>                                              <span class="c1"># needs sage.modules</span>
+<span class="gp">sage:</span> <span class="n">s</span> <span class="o">=</span> <span class="n">dumps</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>                                                              <span class="c1"># needs sage.modules</span>
+<span class="gp">sage:</span> <span class="n">loads</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>                                                                  <span class="c1"># needs sage.modules</span>
+<span class="go">[   1    2]</span>
+<span class="go">[   3 -4/3]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--11-input--2" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)])</span>                                              <span class="c1"># needs sage.modules</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">dumps</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>                                                              <span class="c1"># needs sage.modules</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">loads</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>                                                                  <span class="c1"># needs sage.modules</span>
+<span class="go">[   1    2]</span>
+<span class="go">[   3 -4/3]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">If compress is <code class="docutils literal notranslate"><span class="pre">True</span></code> (the default), it will try to decompress
+the data with zlib and with bz2 (in turn); if neither succeeds,
+it will assume the data is actually uncompressed.  If <code class="docutils literal notranslate"><span class="pre">compress==False</span></code>
+is explicitly specified, then no decompression is attempted.
+Further arguments are passed to python’s <a class="reference external" href="https://docs.python.org/library/pickle.html#pickle.load" title="(in Python v3.12)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pickle.load()</span></code></a>.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1..10</span><span class="p">]</span>
+<span class="gp">sage:</span> <span class="n">loads</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span> <span class="o">==</span> <span class="n">v</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">loads</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">compress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">==</span> <span class="n">v</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">loads</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">compress</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">UnpicklingError: invalid load key, &#39;x&#39;.</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--12-input--2" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">v</span> <span class="o">=</span> <span class="p">(</span><span class="n">ellipsis_range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="bp">Ellipsis</span><span class="p">,</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">loads</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span> <span class="o">==</span> <span class="n">v</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">loads</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">compress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">==</span> <span class="n">v</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">loads</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">compress</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">UnpicklingError: invalid load key, &#39;x&#39;.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">The next example demonstrates that Sage strives to avoid data loss
+in the transition from Python-2 to Python-3. The problem is that Python-3
+by default would not be able to unpickle a non-ASCII Python-2 string appearing
+in a pickle. See <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/28444">Issue #28444</a> for details.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span> <span class="nc">Foo</span><span class="p">():</span>
+<span class="gp">....:</span>     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+<span class="gp">....:</span>         <span class="bp">self</span><span class="o">.</span><span class="n">bar</span> <span class="o">=</span> <span class="n">s</span>
+<span class="gp">....:</span>     <span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">....:</span>         <span class="k">return</span> <span class="n">Foo</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bar</span><span class="p">,)</span>
+<span class="gp">....:</span>
+<span class="gp">sage:</span> <span class="kn">import</span> <span class="nn">__main__</span>
+<span class="gp">sage:</span> <span class="n">__main__</span><span class="o">.</span><span class="n">Foo</span> <span class="o">=</span> <span class="n">Foo</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--13-input--2" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">Foo</span><span class="p">():</span>
+<span class="gp">...</span>     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+<span class="gp">...</span>         <span class="bp">self</span><span class="o">.</span><span class="n">bar</span> <span class="o">=</span> <span class="n">s</span>
+<span class="gp">...</span>     <span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">...</span>         <span class="k">return</span> <span class="n">Foo</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bar</span><span class="p">,)</span>
+<span class="gp">....:</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">__main__</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">__main__</span><span class="o">.</span><span class="n">Foo</span> <span class="o">=</span> <span class="n">Foo</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">The data that is passed to <code class="docutils literal notranslate"><span class="pre">loads</span></code> in the following line was created
+by <code class="docutils literal notranslate"><span class="pre">dumps(Foo('\x80\x07')</span></code> in Python-2.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">g</span> <span class="o">=</span> <span class="n">loads</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;x</span><span class="se">\x9c</span><span class="s1">k`J</span><span class="se">\x8e\x8f\xcf</span><span class="s1">M</span><span class="se">\xcc\xcc\x8b\x8f\xe7</span><span class="s1">r</span><span class="se">\xcb\xcf\xe7</span><span class="s1">*d</span><span class="se">\x0c</span><span class="s1">ej`/dj</span><span class="se">\r</span><span class="s1">*d</span><span class="se">\xd6\x03\x00\x89\xc5\x08</span><span class="s1">{&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="nb">type</span><span class="p">(</span><span class="n">g</span><span class="p">),</span> <span class="n">g</span><span class="o">.</span><span class="n">bar</span>
+<span class="go">(&lt;class &#39;__main__.Foo&#39;&gt;, &#39;\x80\x07&#39;)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--14-input--2" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">loads</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;x</span><span class="se">\x9c</span><span class="s1">k`J</span><span class="se">\x8e\x8f\xcf</span><span class="s1">M</span><span class="se">\xcc\xcc\x8b\x8f\xe7</span><span class="s1">r</span><span class="se">\xcb\xcf\xe7</span><span class="s1">*d</span><span class="se">\x0c</span><span class="s1">ej`/dj</span><span class="se">\r</span><span class="s1">*d</span><span class="se">\xd6\x03\x00\x89\xc5\x08</span><span class="s1">{&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">g</span><span class="p">),</span> <span class="n">g</span><span class="o">.</span><span class="n">bar</span>
+<span class="go">(&lt;class &#39;__main__.Foo&#39;&gt;, &#39;\x80\x07&#39;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">The following line demonstrates what would happen without <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/28444">Issue #28444</a>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">loads</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;x</span><span class="se">\x9c</span><span class="s1">k`J</span><span class="se">\x8e\x8f\xcf</span><span class="s1">M</span><span class="se">\xcc\xcc\x8b\x8f\xe7</span><span class="s1">r</span><span class="se">\xcb\xcf\xe7</span><span class="s1">*d</span><span class="se">\x0c</span><span class="s1">ej`/dj</span><span class="se">\r</span><span class="s1">*d</span><span class="se">\xd6\x03\x00\x89\xc5\x08</span><span class="s1">{&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;ASCII&#39;</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">UnicodeDecodeError: &#39;ascii&#39; codec can...t decode byte 0x80 in position 0: ordinal not in range(128)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--15-input--2" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">loads</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;x</span><span class="se">\x9c</span><span class="s1">k`J</span><span class="se">\x8e\x8f\xcf</span><span class="s1">M</span><span class="se">\xcc\xcc\x8b\x8f\xe7</span><span class="s1">r</span><span class="se">\xcb\xcf\xe7</span><span class="s1">*d</span><span class="se">\x0c</span><span class="s1">ej`/dj</span><span class="se">\r</span><span class="s1">*d</span><span class="se">\xd6\x03\x00\x89\xc5\x08</span><span class="s1">{&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;ASCII&#39;</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">UnicodeDecodeError: &#39;ascii&#39; codec can...t decode byte 0x80 in position 0: ordinal not in range(128)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.misc.persist.make_None">
+<span class="sig-prename descclassname"><span class="pre">sage.misc.persist.</span></span><span class="sig-name descname"><span class="pre">make_None</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/persist.pyx#L1196"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.persist.make_None" title="Link to this definition">¶</a></dt>
+<dd><p>Do nothing and return <code class="docutils literal notranslate"><span class="pre">None</span></code>. Used for overriding pickles when
+that pickle is no longer needed.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.misc.persist</span> <span class="kn">import</span> <span class="n">make_None</span>
+<span class="gp">sage:</span> <span class="nb">print</span><span class="p">(</span><span class="n">make_None</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">foo</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">))</span>                                       <span class="c1"># needs sage.symbolic</span>
+<span class="go">None</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--16-input--2" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.misc.persist</span> <span class="kn">import</span> <span class="n">make_None</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">make_None</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">42</span><span class="p">),</span> <span class="n">pi</span><span class="p">,</span> <span class="n">foo</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">))</span>                                       <span class="c1"># needs sage.symbolic</span>
+<span class="go">None</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.misc.persist.picklejar">
+<span class="sig-prename descclassname"><span class="pre">sage.misc.persist.</span></span><span class="sig-name descname"><span class="pre">picklejar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/persist.pyx#L997"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.persist.picklejar" title="Link to this definition">¶</a></dt>
+<dd><p>Create pickled sobj of <code class="docutils literal notranslate"><span class="pre">obj</span></code> in <code class="docutils literal notranslate"><span class="pre">dir</span></code>, with name the absolute
+value of the hash of the pickle of obj.  This is used in conjunction
+with <a class="reference internal" href="#sage.misc.persist.unpickle_all" title="sage.misc.persist.unpickle_all"><code class="xref py py-func docutils literal notranslate"><span class="pre">unpickle_all()</span></code></a>.</p>
+<p>To use this to test the whole Sage library right now, set the
+environment variable <code class="docutils literal notranslate"><span class="pre">SAGE_PICKLE_JAR</span></code>, which will make it so
+<a class="reference internal" href="#sage.misc.persist.dumps" title="sage.misc.persist.dumps"><code class="xref py py-func docutils literal notranslate"><span class="pre">dumps()</span></code></a> will by default call <a class="reference internal" href="#sage.misc.persist.picklejar" title="sage.misc.persist.picklejar"><code class="xref py py-func docutils literal notranslate"><span class="pre">picklejar()</span></code></a> with the
+default dir.  Once you do that and doctest Sage, you’ll find that
+the <code class="docutils literal notranslate"><span class="pre">DOT_SAGE/pickle_jar</span></code> directory contains a bunch of
+pickled objects along with corresponding txt descriptions of them.
+Use the <a class="reference internal" href="#sage.misc.persist.unpickle_all" title="sage.misc.persist.unpickle_all"><code class="xref py py-func docutils literal notranslate"><span class="pre">unpickle_all()</span></code></a> to see if they unpickle later.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">obj</span></code> – a pickleable object</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dir</span></code> – string or <code class="docutils literal notranslate"><span class="pre">None</span></code>; if <code class="docutils literal notranslate"><span class="pre">None</span></code> then <code class="docutils literal notranslate"><span class="pre">dir</span></code> defaults to
+<code class="docutils literal notranslate"><span class="pre">DOT_SAGE/pickle_jar</span></code></p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nb">dir</span> <span class="o">=</span> <span class="n">tmp_dir</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">sage</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">persist</span><span class="o">.</span><span class="n">picklejar</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">dir</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">sage</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">persist</span><span class="o">.</span><span class="n">picklejar</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="nb">dir</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="nb">len</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="nb">dir</span><span class="p">))</span>   <span class="c1"># Two entries (sobj and txt) for each object</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--17-input--2" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">dir</span> <span class="o">=</span> <span class="n">tmp_dir</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">sage</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">persist</span><span class="o">.</span><span class="n">picklejar</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="nb">dir</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">sage</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">persist</span><span class="o">.</span><span class="n">picklejar</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="nb">dir</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="nb">dir</span><span class="p">))</span>   <span class="c1"># Two entries (sobj and txt) for each object</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.misc.persist.register_unpickle_override">
+<span class="sig-prename descclassname"><span class="pre">sage.misc.persist.</span></span><span class="sig-name descname"><span class="pre">register_unpickle_override</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">call_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/persist.pyx#L345"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.persist.register_unpickle_override" title="Link to this definition">¶</a></dt>
+<dd><p>Python pickles include the module and class name of classes.
+This means that rearranging the Sage source can invalidate old
+pickles.  To keep the old pickles working, you can call
+register_unpickle_override with an old module name and class name,
+and the Python callable (function, class with __call__ method, etc.)
+to use for unpickling.  (If this callable is a value in some module,
+you can specify the module name and class name, for the benefit of
+<a class="reference internal" href="explain_pickle.html#sage.misc.explain_pickle.explain_pickle" title="sage.misc.explain_pickle.explain_pickle"><code class="xref py py-func docutils literal notranslate"><span class="pre">explain_pickle()</span></code></a> when called with <code class="docutils literal notranslate"><span class="pre">in_current_sage=True</span></code>).)</p>
+<p>EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab">Imagine that there used to be an <code class="docutils literal notranslate"><span class="pre">old_integer</span></code> module and old
+pickles essentially trying to do the following:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">unpickle_global</span><span class="p">(</span><span class="s1">&#39;sage.rings.old_integer&#39;</span><span class="p">,</span> <span class="s1">&#39;OldInteger&#39;</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">ImportError: cannot import OldInteger from sage.rings.old_integer, call register_unpickle_override(&#39;sage.rings.old_integer&#39;, &#39;OldInteger&#39;, ...) to fix this</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--18-input--2" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">unpickle_global</span><span class="p">(</span><span class="s1">&#39;sage.rings.old_integer&#39;</span><span class="p">,</span> <span class="s1">&#39;OldInteger&#39;</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">ImportError: cannot import OldInteger from sage.rings.old_integer, call register_unpickle_override(&#39;sage.rings.old_integer&#39;, &#39;OldInteger&#39;, ...) to fix this</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">After following the advice from the error message, unpickling
+works:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.misc.persist</span> <span class="kn">import</span> <span class="n">register_unpickle_override</span>
+<span class="gp">sage:</span> <span class="n">register_unpickle_override</span><span class="p">(</span><span class="s1">&#39;sage.rings.old_integer&#39;</span><span class="p">,</span> <span class="s1">&#39;OldInteger&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">unpickle_global</span><span class="p">(</span><span class="s1">&#39;sage.rings.old_integer&#39;</span><span class="p">,</span> <span class="s1">&#39;OldInteger&#39;</span><span class="p">)</span>
+<span class="go">&lt;... &#39;sage.rings.integer.Integer&#39;&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--19-input--2" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.misc.persist</span> <span class="kn">import</span> <span class="n">register_unpickle_override</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">register_unpickle_override</span><span class="p">(</span><span class="s1">&#39;sage.rings.old_integer&#39;</span><span class="p">,</span> <span class="s1">&#39;OldInteger&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">unpickle_global</span><span class="p">(</span><span class="s1">&#39;sage.rings.old_integer&#39;</span><span class="p">,</span> <span class="s1">&#39;OldInteger&#39;</span><span class="p">)</span>
+<span class="go">&lt;... &#39;sage.rings.integer.Integer&#39;&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In many cases, unpickling problems for old pickles can be resolved with a
+simple call to <code class="docutils literal notranslate"><span class="pre">register_unpickle_override</span></code>, as in the example above and
+in many of the <code class="docutils literal notranslate"><span class="pre">sage</span></code> source files.  However, if the underlying data
+structure has changed significantly then unpickling may fail and it
+will be necessary to explicitly implement unpickling methods for the
+associated objects. The python pickle protocol is described in detail on the
+web and, in particular, in the <a class="reference external" href="https://docs.python.org/library/pickle.html#pickle-protocol">python pickling documentation</a>. For example, the
+following excerpt from this documentation shows that the unpickling of
+classes is controlled by their <code class="xref py py-meth docutils literal notranslate"><span class="pre">__setstate__()</span></code> method.</p>
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="go">object.__setstate__(state)</span>
+
+<span class="go">    Upon unpickling, if the class also defines the method :meth:`__setstate__`, it is</span>
+<span class="go">    called with the unpickled state. If there is no :meth:`__setstate__` method,</span>
+<span class="go">    the pickled state must be a dictionary and its items are assigned to the new</span>
+<span class="go">    instance&#39;s dictionary. If a class defines both :meth:`__getstate__` and</span>
+<span class="go">    :meth:`__setstate__`, the state object needn&#39;t be a dictionary and these methods</span>
+<span class="go">    can do what they want.</span>
+</pre></div>
+</div>
+<p class="with-sage-tab with-python-tab">By implementing a <code class="xref py py-meth docutils literal notranslate"><span class="pre">__setstate__()</span></code> method for a class it should be
+possible to fix any unpickling problems for the class. As an example of what
+needs to be done, we show how to unpickle a <a class="reference external" href="../../../combinat/sage/combinat/combinat.html#sage.combinat.combinat.CombinatorialObject" title="(in Combinatorics v10.6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">CombinatorialObject</span></code></a>
+object using a class which also inherits from
+<a class="reference external" href="../../../structure/sage/structure/element.html#sage.structure.element.Element" title="(in Parents and Elements v10.6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Element</span></code></a>. This exact problem often arises
+when refactoring old code into the element framework. First we create a
+pickle to play with:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.structure.element</span> <span class="kn">import</span> <span class="n">Element</span>
+<span class="gp">sage:</span> <span class="k">class</span> <span class="nc">SourPickle</span><span class="p">(</span><span class="n">CombinatorialObject</span><span class="p">):</span> <span class="k">pass</span>
+<span class="gp">sage:</span> <span class="k">class</span> <span class="nc">SweetPickle</span><span class="p">(</span><span class="n">CombinatorialObject</span><span class="p">,</span> <span class="n">Element</span><span class="p">):</span> <span class="k">pass</span>
+<span class="gp">sage:</span> <span class="kn">import</span> <span class="nn">__main__</span>
+<span class="gp">sage:</span> <span class="n">__main__</span><span class="o">.</span><span class="n">SourPickle</span> <span class="o">=</span> <span class="n">SourPickle</span>
+<span class="gp">sage:</span> <span class="n">__main__</span><span class="o">.</span><span class="n">SweetPickle</span> <span class="o">=</span> <span class="n">SweetPickle</span>  <span class="c1"># a hack to allow us to pickle command line classes</span>
+<span class="gp">sage:</span> <span class="n">gherkin</span> <span class="o">=</span> <span class="n">dumps</span><span class="p">(</span><span class="n">SourPickle</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--20-input--2" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.structure.element</span> <span class="kn">import</span> <span class="n">Element</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">SourPickle</span><span class="p">(</span><span class="n">CombinatorialObject</span><span class="p">):</span> <span class="k">pass</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">SweetPickle</span><span class="p">(</span><span class="n">CombinatorialObject</span><span class="p">,</span> <span class="n">Element</span><span class="p">):</span> <span class="k">pass</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">__main__</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">__main__</span><span class="o">.</span><span class="n">SourPickle</span> <span class="o">=</span> <span class="n">SourPickle</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">__main__</span><span class="o">.</span><span class="n">SweetPickle</span> <span class="o">=</span> <span class="n">SweetPickle</span>  <span class="c1"># a hack to allow us to pickle command line classes</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">gherkin</span> <span class="o">=</span> <span class="n">dumps</span><span class="p">(</span><span class="n">SourPickle</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Using <a class="reference internal" href="#sage.misc.persist.register_unpickle_override" title="sage.misc.persist.register_unpickle_override"><code class="xref py py-func docutils literal notranslate"><span class="pre">register_unpickle_override()</span></code></a> we try to sweeten our pickle, but
+we are unable to eat it:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.misc.persist</span> <span class="kn">import</span> <span class="n">register_unpickle_override</span>
+<span class="gp">sage:</span> <span class="n">register_unpickle_override</span><span class="p">(</span><span class="s1">&#39;__main__&#39;</span><span class="p">,</span> <span class="s1">&#39;SourPickle&#39;</span><span class="p">,</span> <span class="n">SweetPickle</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">loads</span><span class="p">(</span><span class="n">gherkin</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">KeyError: 0</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--21-input--2" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.misc.persist</span> <span class="kn">import</span> <span class="n">register_unpickle_override</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">register_unpickle_override</span><span class="p">(</span><span class="s1">&#39;__main__&#39;</span><span class="p">,</span> <span class="s1">&#39;SourPickle&#39;</span><span class="p">,</span> <span class="n">SweetPickle</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">loads</span><span class="p">(</span><span class="n">gherkin</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">KeyError: 0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">The problem is that the <code class="docutils literal notranslate"><span class="pre">SweetPickle</span></code> has inherited a
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">__setstate__()</span></code> method from
+<a class="reference external" href="../../../structure/sage/structure/element.html#sage.structure.element.Element" title="(in Parents and Elements v10.6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Element</span></code></a> which is not compatible with
+unpickling for <a class="reference external" href="../../../combinat/sage/combinat/combinat.html#sage.combinat.combinat.CombinatorialObject" title="(in Combinatorics v10.6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">CombinatorialObject</span></code></a>. We can fix this by explicitly
+defining a new <code class="xref py py-meth docutils literal notranslate"><span class="pre">__setstate__()</span></code> method:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span> <span class="nc">SweeterPickle</span><span class="p">(</span><span class="n">CombinatorialObject</span><span class="p">,</span> <span class="n">Element</span><span class="p">):</span>
+<span class="gp">....:</span>     <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+<span class="gp">....:</span>         <span class="c1"># a pickle from CombinatorialObject is just its instance</span>
+<span class="gp">....:</span>         <span class="c1"># dictionary</span>
+<span class="gp">....:</span>         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="gp">....:</span>             <span class="c1"># this is a fudge: we need an appropriate parent here</span>
+<span class="gp">....:</span>             <span class="bp">self</span><span class="o">.</span><span class="n">_set_parent</span><span class="p">(</span><span class="n">Tableaux</span><span class="p">())</span>
+<span class="gp">....:</span>             <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">=</span> <span class="n">state</span>
+<span class="gp">....:</span>         <span class="k">else</span><span class="p">:</span>
+<span class="gp">....:</span>             <span class="n">P</span><span class="p">,</span> <span class="n">D</span> <span class="o">=</span> <span class="n">state</span>
+<span class="gp">....:</span>             <span class="k">if</span> <span class="n">P</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="gp">....:</span>                 <span class="bp">self</span><span class="o">.</span><span class="n">_set_parent</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+<span class="gp">....:</span>             <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">=</span> <span class="n">D</span>
+<span class="gp">sage:</span> <span class="n">__main__</span><span class="o">.</span><span class="n">SweeterPickle</span> <span class="o">=</span> <span class="n">SweeterPickle</span>
+<span class="gp">sage:</span> <span class="n">register_unpickle_override</span><span class="p">(</span><span class="s1">&#39;__main__&#39;</span><span class="p">,</span> <span class="s1">&#39;SourPickle&#39;</span><span class="p">,</span> <span class="n">SweeterPickle</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">loads</span><span class="p">(</span><span class="n">gherkin</span><span class="p">)</span>                                                            <span class="c1"># needs sage.combinat</span>
+<span class="go">[1, 2, 3]</span>
+<span class="gp">sage:</span> <span class="n">loads</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">SweeterPickle</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])))</span>  <span class="c1"># check that pickles work for SweeterPickle</span>
+<span class="go">[1, 2, 3]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--22-input--2" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">SweeterPickle</span><span class="p">(</span><span class="n">CombinatorialObject</span><span class="p">,</span> <span class="n">Element</span><span class="p">):</span>
+<span class="gp">...</span>     <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+<span class="gp">...</span>         <span class="c1"># a pickle from CombinatorialObject is just its instance</span>
+<span class="gp">...</span>         <span class="c1"># dictionary</span>
+<span class="gp">...</span>         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="gp">...</span>             <span class="c1"># this is a fudge: we need an appropriate parent here</span>
+<span class="gp">...</span>             <span class="bp">self</span><span class="o">.</span><span class="n">_set_parent</span><span class="p">(</span><span class="n">Tableaux</span><span class="p">())</span>
+<span class="gp">...</span>             <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">=</span> <span class="n">state</span>
+<span class="gp">...</span>         <span class="k">else</span><span class="p">:</span>
+<span class="gp">...</span>             <span class="n">P</span><span class="p">,</span> <span class="n">D</span> <span class="o">=</span> <span class="n">state</span>
+<span class="gp">...</span>             <span class="k">if</span> <span class="n">P</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="gp">...</span>                 <span class="bp">self</span><span class="o">.</span><span class="n">_set_parent</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+<span class="gp">...</span>             <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">=</span> <span class="n">D</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">__main__</span><span class="o">.</span><span class="n">SweeterPickle</span> <span class="o">=</span> <span class="n">SweeterPickle</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">register_unpickle_override</span><span class="p">(</span><span class="s1">&#39;__main__&#39;</span><span class="p">,</span> <span class="s1">&#39;SourPickle&#39;</span><span class="p">,</span> <span class="n">SweeterPickle</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">loads</span><span class="p">(</span><span class="n">gherkin</span><span class="p">)</span>                                                            <span class="c1"># needs sage.combinat</span>
+<span class="go">[1, 2, 3]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">loads</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">SweeterPickle</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)])))</span>  <span class="c1"># check that pickles work for SweeterPickle</span>
+<span class="go">[1, 2, 3]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">The <code class="docutils literal notranslate"><span class="pre">state</span></code> passed to <code class="xref py py-meth docutils literal notranslate"><span class="pre">__setstate__()</span></code> will usually be something like
+the instance dictionary of the pickled object, however, with some older
+classes such as <a class="reference external" href="../../../combinat/sage/combinat/combinat.html#sage.combinat.combinat.CombinatorialObject" title="(in Combinatorics v10.6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">CombinatorialObject</span></code></a> it will be a tuple. In general,
+the <code class="docutils literal notranslate"><span class="pre">state</span></code> can be any python object.  <code class="docutils literal notranslate"><span class="pre">Sage</span></code> provides a special tool,
+<a class="reference internal" href="explain_pickle.html#sage.misc.explain_pickle.explain_pickle" title="sage.misc.explain_pickle.explain_pickle"><code class="xref py py-func docutils literal notranslate"><span class="pre">explain_pickle()</span></code></a>, which can help in figuring
+out the contents of an old pickle. Here is a second example.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span> <span class="nc">A</span><span class="p">():</span>
+<span class="gp">....:</span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="gp">....:</span>        <span class="bp">self</span><span class="o">.</span><span class="n">original_attribute</span> <span class="o">=</span> <span class="n">value</span>
+<span class="gp">....:</span>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">....:</span>        <span class="k">return</span> <span class="s1">&#39;A(</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_attribute</span>
+<span class="gp">sage:</span> <span class="k">class</span> <span class="nc">B</span><span class="p">():</span>
+<span class="gp">....:</span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="gp">....:</span>        <span class="bp">self</span><span class="o">.</span><span class="n">new_attribute</span> <span class="o">=</span> <span class="n">value</span>
+<span class="gp">....:</span>    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+<span class="gp">....:</span>        <span class="k">try</span><span class="p">:</span>
+<span class="gp">....:</span>            <span class="bp">self</span><span class="o">.</span><span class="n">new_attribute</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;new_attribute&#39;</span><span class="p">]</span>
+<span class="gp">....:</span>        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>      <span class="c1"># an old pickle</span>
+<span class="gp">....:</span>            <span class="bp">self</span><span class="o">.</span><span class="n">new_attribute</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;original_attribute&#39;</span><span class="p">]</span>
+<span class="gp">....:</span>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">....:</span>        <span class="k">return</span> <span class="s1">&#39;B(</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_attribute</span>
+<span class="gp">sage:</span> <span class="kn">import</span> <span class="nn">__main__</span>
+<span class="gp">sage:</span> <span class="c1"># a hack to allow us to pickle command line classes</span>
+<span class="gp">sage:</span> <span class="n">__main__</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">A</span>
+<span class="gp">sage:</span> <span class="n">__main__</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">B</span>
+<span class="gp">sage:</span> <span class="n">A</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">A(10)</span>
+<span class="gp">sage:</span> <span class="n">loads</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">A</span><span class="p">(</span><span class="mi">10</span><span class="p">)))</span>
+<span class="go">A(10)</span>
+<span class="gp">sage:</span> <span class="n">sage</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">explain_pickle</span><span class="o">.</span><span class="n">explain_pickle</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">A</span><span class="p">(</span><span class="mi">10</span><span class="p">)))</span>
+<span class="go">pg_A = unpickle_global(&#39;__main__&#39;, &#39;A&#39;)</span>
+<span class="go">si = unpickle_newobj(pg_A, ())</span>
+<span class="go">pg_make_integer = unpickle_global(&#39;sage.rings.integer&#39;, &#39;make_integer&#39;)</span>
+<span class="go">unpickle_build(si, {&#39;original_attribute&#39;:pg_make_integer(&#39;a&#39;)})</span>
+<span class="go">si</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.misc.persist</span> <span class="kn">import</span> <span class="n">register_unpickle_override</span>
+<span class="gp">sage:</span> <span class="n">register_unpickle_override</span><span class="p">(</span><span class="s1">&#39;__main__&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">loads</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">A</span><span class="p">(</span><span class="mi">10</span><span class="p">)))</span>
+<span class="go">B(10)</span>
+<span class="gp">sage:</span> <span class="n">loads</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">B</span><span class="p">(</span><span class="mi">10</span><span class="p">)))</span>
+<span class="go">B(10)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--23-input--2" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">A</span><span class="p">():</span>
+<span class="gp">...</span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="gp">...</span>        <span class="bp">self</span><span class="o">.</span><span class="n">original_attribute</span> <span class="o">=</span> <span class="n">value</span>
+<span class="gp">...</span>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">...</span>        <span class="k">return</span> <span class="s1">&#39;A(</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_attribute</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">B</span><span class="p">():</span>
+<span class="gp">...</span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="gp">...</span>        <span class="bp">self</span><span class="o">.</span><span class="n">new_attribute</span> <span class="o">=</span> <span class="n">value</span>
+<span class="gp">...</span>    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+<span class="gp">...</span>        <span class="k">try</span><span class="p">:</span>
+<span class="gp">...</span>            <span class="bp">self</span><span class="o">.</span><span class="n">new_attribute</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;new_attribute&#39;</span><span class="p">]</span>
+<span class="gp">...</span>        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>      <span class="c1"># an old pickle</span>
+<span class="gp">...</span>            <span class="bp">self</span><span class="o">.</span><span class="n">new_attribute</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;original_attribute&#39;</span><span class="p">]</span>
+<span class="gp">...</span>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">...</span>        <span class="k">return</span> <span class="s1">&#39;B(</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_attribute</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">__main__</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="c1"># a hack to allow us to pickle command line classes</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">__main__</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">A</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">__main__</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">B</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">A</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="go">A(10)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">loads</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">A</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">))))</span>
+<span class="go">A(10)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">sage</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">explain_pickle</span><span class="o">.</span><span class="n">explain_pickle</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">A</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">))))</span>
+<span class="go">pg_A = unpickle_global(&#39;__main__&#39;, &#39;A&#39;)</span>
+<span class="go">si = unpickle_newobj(pg_A, ())</span>
+<span class="go">pg_make_integer = unpickle_global(&#39;sage.rings.integer&#39;, &#39;make_integer&#39;)</span>
+<span class="go">unpickle_build(si, {&#39;original_attribute&#39;:pg_make_integer(&#39;a&#39;)})</span>
+<span class="go">si</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.misc.persist</span> <span class="kn">import</span> <span class="n">register_unpickle_override</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">register_unpickle_override</span><span class="p">(</span><span class="s1">&#39;__main__&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">loads</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">A</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">))))</span>
+<span class="go">B(10)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">loads</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">B</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">))))</span>
+<span class="go">B(10)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Pickling for python classes and extension classes, such as cython, is
+different – again this is discussed in the <a class="reference external" href="https://docs.python.org/library/pickle.html#pickle-protocol">python pickling
+documentation</a>. For the unpickling of extension classes you need to write
+a <code class="xref py py-meth docutils literal notranslate"><span class="pre">__reduce__()</span></code> method which typically returns a tuple <code class="docutils literal notranslate"><span class="pre">(f,</span>
+<span class="pre">args,...)</span></code> such that <code class="docutils literal notranslate"><span class="pre">f(*args)</span></code> returns (a copy of) the original object.
+The following code snippet is the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">__reduce__()</span></code> method from
+<a class="reference external" href="../../../rings_standard/sage/rings/integer.html#sage.rings.integer.Integer" title="(in Standard Commutative Rings v10.6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sage.rings.integer.Integer</span></code></a>.</p>
+<div class="highlight-cython notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="s">&#39;Including the documentation properly causes a doc-test failure so we include it as a comment:&#39;</span>
+    <span class="c">#* &#39;&#39;&#39;</span>
+    <span class="c">#* This is used when pickling integers.</span>
+    <span class="c">#*</span>
+    <span class="c">#* EXAMPLES::</span>
+    <span class="c">#*</span>
+    <span class="c">#*     sage: n = 5</span>
+    <span class="c">#*     sage: t = n.__reduce__(); t</span>
+    <span class="c">#*     (&lt;built-in function make_integer&gt;, (&#39;5&#39;,))</span>
+    <span class="c">#*     sage: t[0](*t[1])</span>
+    <span class="c">#*     5</span>
+    <span class="c">#*     sage: loads(dumps(n)) == n</span>
+    <span class="c">#*     True</span>
+    <span class="c">#* &#39;&#39;&#39;</span>
+    <span class="c"># This single line below took me HOURS to figure out.</span>
+    <span class="c"># It is the *trick* needed to pickle Cython extension types.</span>
+    <span class="c"># The trick is that you must put a pure Python function</span>
+    <span class="c"># as the first argument, and that function must return</span>
+    <span class="c"># the result of unpickling with the argument in the second</span>
+    <span class="c"># tuple as input. All kinds of problems happen</span>
+    <span class="c"># if we don&#39;t do this.</span>
+    <span class="k">return</span> <span class="n">sage</span><span class="o">.</span><span class="n">rings</span><span class="o">.</span><span class="n">integer</span><span class="o">.</span><span class="n">make_integer</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">str</span><span class="p">(</span><span class="mf">32</span><span class="p">),)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.misc.persist.save">
+<span class="sig-prename descclassname"><span class="pre">sage.misc.persist.</span></span><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/persist.pyx#L224"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.persist.save" title="Link to this definition">¶</a></dt>
+<dd><p>Save <code class="docutils literal notranslate"><span class="pre">obj</span></code> to the file with name <code class="docutils literal notranslate"><span class="pre">filename</span></code>, which will have an
+<code class="docutils literal notranslate"><span class="pre">.sobj</span></code> extension added if it doesn’t have one and if <code class="docutils literal notranslate"><span class="pre">obj</span></code>
+doesn’t have its own <code class="docutils literal notranslate"><span class="pre">save()</span></code> method, like e.g. Python tuples.</p>
+<p>For image objects and the like (which have their own <code class="docutils literal notranslate"><span class="pre">save()</span></code> method),
+you may have to specify a specific extension, e.g. <code class="docutils literal notranslate"><span class="pre">.png</span></code>, if you
+don’t want the object to be saved as a Sage object (or likewise, if
+<code class="docutils literal notranslate"><span class="pre">filename</span></code> could be interpreted as already having some extension).</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This will <em>replace</em> the contents of the file if it already exists.</p>
+</div>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="gp">sage:</span> <span class="n">d</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="o">/</span><span class="mi">2</span><span class="p">])</span>                                              <span class="c1"># needs sage.modules</span>
+<span class="gp">sage:</span> <span class="n">objfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;test.sobj&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">objfile_short</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">save</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">objfile</span><span class="p">)</span>                                                          <span class="c1"># needs sage.modules</span>
+<span class="gp">sage:</span> <span class="n">load</span><span class="p">(</span><span class="n">objfile_short</span><span class="p">)</span>                                                       <span class="c1"># needs sage.modules</span>
+<span class="go">[   1    2]</span>
+<span class="go">[   3 -5/2]</span>
+
+<span class="gp">sage:</span> <span class="c1"># needs sage.plot sage.schemes</span>
+<span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">save</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">objfile_short</span><span class="p">)</span>   <span class="c1"># saves the plot to &quot;test.sobj&quot;</span>
+<span class="gp">sage:</span> <span class="n">save</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;sage.png&quot;</span><span class="p">),</span> <span class="n">xmin</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">save</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;filename.with.some.wrong.ext&quot;</span><span class="p">))</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">ValueError: allowed file extensions for images are</span>
+<span class="go">&#39;.eps&#39;, &#39;.pdf&#39;, &#39;.pgf&#39;, &#39;.png&#39;, &#39;.ps&#39;, &#39;.sobj&#39;, &#39;.svg&#39;!</span>
+<span class="gp">sage:</span> <span class="nb">print</span><span class="p">(</span><span class="n">load</span><span class="p">(</span><span class="n">objfile</span><span class="p">))</span>
+<span class="go">Graphics object consisting of 2 graphics primitives</span>
+
+<span class="gp">sage:</span> <span class="n">save</span><span class="p">(</span><span class="s2">&quot;A python string&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">))</span>
+<span class="gp">sage:</span> <span class="n">load</span><span class="p">(</span><span class="n">objfile</span><span class="p">)</span>
+<span class="go">&#39;A python string&#39;</span>
+<span class="gp">sage:</span> <span class="n">load</span><span class="p">(</span><span class="n">objfile_short</span><span class="p">)</span>
+<span class="go">&#39;A python string&#39;</span>
+<span class="gp">sage:</span> <span class="n">d</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--24-input--2" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">d</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>                                              <span class="c1"># needs sage.modules</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">objfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;test.sobj&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">objfile_short</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">save</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">objfile</span><span class="p">)</span>                                                          <span class="c1"># needs sage.modules</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">load</span><span class="p">(</span><span class="n">objfile_short</span><span class="p">)</span>                                                       <span class="c1"># needs sage.modules</span>
+<span class="go">[   1    2]</span>
+<span class="go">[   3 -5/2]</span>
+
+<span class="gp">&gt;&gt;&gt;</span> <span class="c1"># needs sage.plot sage.schemes</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">save</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">objfile_short</span><span class="p">)</span>   <span class="c1"># saves the plot to &quot;test.sobj&quot;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">save</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;sage.png&quot;</span><span class="p">),</span> <span class="n">xmin</span><span class="o">=-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">save</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;filename.with.some.wrong.ext&quot;</span><span class="p">))</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">ValueError: allowed file extensions for images are</span>
+<span class="go">&#39;.eps&#39;, &#39;.pdf&#39;, &#39;.pgf&#39;, &#39;.png&#39;, &#39;.ps&#39;, &#39;.sobj&#39;, &#39;.svg&#39;!</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">load</span><span class="p">(</span><span class="n">objfile</span><span class="p">))</span>
+<span class="go">Graphics object consisting of 2 graphics primitives</span>
+
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">save</span><span class="p">(</span><span class="s2">&quot;A python string&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">load</span><span class="p">(</span><span class="n">objfile</span><span class="p">)</span>
+<span class="go">&#39;A python string&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">load</span><span class="p">(</span><span class="n">objfile_short</span><span class="p">)</span>
+<span class="go">&#39;A python string&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.misc.persist.unpickle_all">
+<span class="sig-prename descclassname"><span class="pre">sage.misc.persist.</span></span><span class="sig-name descname"><span class="pre">unpickle_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_test_suite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/persist.pyx#L1087"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.persist.unpickle_all" title="Link to this definition">¶</a></dt>
+<dd><p>Unpickle all <code class="docutils literal notranslate"><span class="pre">.sobj</span></code> files in a directory or tar archive.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">target</span></code> – string; the name of a directory or of a (possibly
+compressed) tar archive that contains a single directory of
+<code class="docutils literal notranslate"><span class="pre">.sobj</span></code> files.  The tar archive can be in any format that
+python’s <code class="docutils literal notranslate"><span class="pre">tarfile</span></code> module understands; for example,
+<code class="docutils literal notranslate"><span class="pre">.tar.gz</span></code> or <code class="docutils literal notranslate"><span class="pre">.tar.bz2</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">debug</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)
+whether to report a stacktrace in case of failure</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_test_suite</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)
+whether to run <code class="docutils literal notranslate"><span class="pre">TestSuite(x).run()</span></code> on the unpickled objects</p></li>
+</ul>
+<p>OUTPUT:</p>
+<p>Typically, two lines are printed: the first reporting the number
+of successfully unpickled files, and the second reporting the
+number (zero) of failures. If there are failures, however, then a
+list of failed files will be printed before either of those lines,
+and the failure count will of course be nonzero.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>You must only pass trusted data to this function, including tar
+archives. We use the “data” filter from PEP 706 if possible
+while extracting the archive, but even that is not a perfect
+solution, and it is only available since Python 3.11.4.</p>
+</div>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nb">dir</span> <span class="o">=</span> <span class="n">tmp_dir</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">sage</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">persist</span><span class="o">.</span><span class="n">picklejar</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="nb">dir</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">sage</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">persist</span><span class="o">.</span><span class="n">unpickle_all</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span>
+<span class="go">Successfully unpickled 1 objects.</span>
+<span class="go">Failed to unpickle 0 objects.</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--25-input--2" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">dir</span> <span class="o">=</span> <span class="n">tmp_dir</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">sage</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">persist</span><span class="o">.</span><span class="n">picklejar</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="nb">dir</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">sage</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">persist</span><span class="o">.</span><span class="n">unpickle_all</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span>
+<span class="go">Successfully unpickled 1 objects.</span>
+<span class="go">Failed to unpickle 0 objects.</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.misc.persist.unpickle_global">
+<span class="sig-prename descclassname"><span class="pre">sage.misc.persist.</span></span><span class="sig-name descname"><span class="pre">unpickle_global</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/persist.pyx#L532"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.persist.unpickle_global" title="Link to this definition">¶</a></dt>
+<dd><p>Given a module name and a name within that module (typically a class
+name), retrieve the corresponding object.  This normally just looks
+up the name in the module, but it can be overridden by
+register_unpickle_override.  This is used in the Sage unpickling
+mechanism, so if the Sage source code organization changes,
+register_unpickle_override can allow old pickles to continue to work.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.misc.persist</span> <span class="kn">import</span> <span class="n">unpickle_override</span><span class="p">,</span> <span class="n">register_unpickle_override</span>
+<span class="gp">sage:</span> <span class="n">unpickle_global</span><span class="p">(</span><span class="s1">&#39;sage.rings.integer&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">)</span>
+<span class="go">&lt;class &#39;sage.rings.integer.Integer&#39;&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--26-input--2" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.misc.persist</span> <span class="kn">import</span> <span class="n">unpickle_override</span><span class="p">,</span> <span class="n">register_unpickle_override</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">unpickle_global</span><span class="p">(</span><span class="s1">&#39;sage.rings.integer&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">)</span>
+<span class="go">&lt;class &#39;sage.rings.integer.Integer&#39;&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Now we horribly break the pickling system:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">register_unpickle_override</span><span class="p">(</span><span class="s1">&#39;sage.rings.integer&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">,</span> <span class="n">Rational</span><span class="p">,</span> <span class="n">call_name</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;sage.rings.rational&#39;</span><span class="p">,</span> <span class="s1">&#39;Rational&#39;</span><span class="p">))</span>
+<span class="gp">sage:</span> <span class="n">unpickle_global</span><span class="p">(</span><span class="s1">&#39;sage.rings.integer&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">)</span>
+<span class="go">&lt;class &#39;sage.rings.rational.Rational&#39;&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--27-input--2" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">register_unpickle_override</span><span class="p">(</span><span class="s1">&#39;sage.rings.integer&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">,</span> <span class="n">Rational</span><span class="p">,</span> <span class="n">call_name</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;sage.rings.rational&#39;</span><span class="p">,</span> <span class="s1">&#39;Rational&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">unpickle_global</span><span class="p">(</span><span class="s1">&#39;sage.rings.integer&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">)</span>
+<span class="go">&lt;class &#39;sage.rings.rational.Rational&#39;&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">and we reach into the internals and put it back:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--28-input--1" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">del</span> <span class="n">unpickle_override</span><span class="p">[(</span><span class="s1">&#39;sage.rings.integer&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">)]</span>
+<span class="gp">sage:</span> <span class="n">unpickle_global</span><span class="p">(</span><span class="s1">&#39;sage.rings.integer&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">)</span>
+<span class="go">&lt;class &#39;sage.rings.integer.Integer&#39;&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--28-input--2" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">del</span> <span class="n">unpickle_override</span><span class="p">[(</span><span class="s1">&#39;sage.rings.integer&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">unpickle_global</span><span class="p">(</span><span class="s1">&#39;sage.rings.integer&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">)</span>
+<span class="go">&lt;class &#39;sage.rings.integer.Integer&#39;&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">A meaningful error message with resolution instructions is displayed for
+old pickles that accidentally got broken because a class or entire module
+was moved or renamed:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">unpickle_global</span><span class="p">(</span><span class="s1">&#39;sage.all&#39;</span><span class="p">,</span> <span class="s1">&#39;some_old_class&#39;</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">ImportError: cannot import some_old_class from sage.all, call</span>
+<span class="go">register_unpickle_override(&#39;sage.all&#39;, &#39;some_old_class&#39;, ...)</span>
+<span class="go">to fix this</span>
+
+<span class="gp">sage:</span> <span class="n">unpickle_global</span><span class="p">(</span><span class="s1">&#39;sage.some_old_module&#39;</span><span class="p">,</span> <span class="s1">&#39;some_old_class&#39;</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">ImportError: cannot import some_old_class from sage.some_old_module, call</span>
+<span class="go">register_unpickle_override(&#39;sage.some_old_module&#39;, &#39;some_old_class&#39;, ...)</span>
+<span class="go">to fix this</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--29-input--2" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">unpickle_global</span><span class="p">(</span><span class="s1">&#39;sage.all&#39;</span><span class="p">,</span> <span class="s1">&#39;some_old_class&#39;</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">ImportError: cannot import some_old_class from sage.all, call</span>
+<span class="go">register_unpickle_override(&#39;sage.all&#39;, &#39;some_old_class&#39;, ...)</span>
+<span class="go">to fix this</span>
+
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">unpickle_global</span><span class="p">(</span><span class="s1">&#39;sage.some_old_module&#39;</span><span class="p">,</span> <span class="s1">&#39;some_old_class&#39;</span><span class="p">)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">ImportError: cannot import some_old_class from sage.some_old_module, call</span>
+<span class="go">register_unpickle_override(&#39;sage.some_old_module&#39;, &#39;some_old_class&#39;, ...)</span>
+<span class="go">to fix this</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="fpickle.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Function pickling</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="func_persist.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Support for persistent functions in .sage files</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2005--2025, The Sage Development Team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Object persistence</a><ul>
+<li><a class="reference internal" href="#sage.misc.persist.SagePickler"><code class="docutils literal notranslate"><span class="pre">SagePickler</span></code></a><ul>
+<li><a class="reference internal" href="#sage.misc.persist.SagePickler.dumps"><code class="docutils literal notranslate"><span class="pre">dumps()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sage.misc.persist.SageUnpickler"><code class="docutils literal notranslate"><span class="pre">SageUnpickler</span></code></a><ul>
+<li><a class="reference internal" href="#sage.misc.persist.SageUnpickler.loads"><code class="docutils literal notranslate"><span class="pre">loads()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sage.misc.persist.db"><code class="docutils literal notranslate"><span class="pre">db()</span></code></a></li>
+<li><a class="reference internal" href="#sage.misc.persist.db_save"><code class="docutils literal notranslate"><span class="pre">db_save()</span></code></a></li>
+<li><a class="reference internal" href="#sage.misc.persist.dumps"><code class="docutils literal notranslate"><span class="pre">dumps()</span></code></a></li>
+<li><a class="reference internal" href="#sage.misc.persist.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li><a class="reference internal" href="#sage.misc.persist.load_sage_element"><code class="docutils literal notranslate"><span class="pre">load_sage_element()</span></code></a></li>
+<li><a class="reference internal" href="#sage.misc.persist.load_sage_object"><code class="docutils literal notranslate"><span class="pre">load_sage_object()</span></code></a></li>
+<li><a class="reference internal" href="#sage.misc.persist.loads"><code class="docutils literal notranslate"><span class="pre">loads()</span></code></a></li>
+<li><a class="reference internal" href="#sage.misc.persist.make_None"><code class="docutils literal notranslate"><span class="pre">make_None()</span></code></a></li>
+<li><a class="reference internal" href="#sage.misc.persist.picklejar"><code class="docutils literal notranslate"><span class="pre">picklejar()</span></code></a></li>
+<li><a class="reference internal" href="#sage.misc.persist.register_unpickle_override"><code class="docutils literal notranslate"><span class="pre">register_unpickle_override()</span></code></a></li>
+<li><a class="reference internal" href="#sage.misc.persist.save"><code class="docutils literal notranslate"><span class="pre">save()</span></code></a></li>
+<li><a class="reference internal" href="#sage.misc.persist.unpickle_all"><code class="docutils literal notranslate"><span class="pre">unpickle_all()</span></code></a></li>
+<li><a class="reference internal" href="#sage.misc.persist.unpickle_global"><code class="docutils literal notranslate"><span class="pre">unpickle_global()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../%5fstatic/documentation_options.js"></script>
+    <script src="../../../%5fstatic/doctools.js"></script>
+    <script src="../../../%5fstatic/sphinx_highlight.js"></script>
+    <script src="../../../%5fstatic/scripts/furo.js"></script>
+    <script src="../../../%5fstatic/clipboard.min.js"></script>
+    <script src="../../../%5fstatic/copybutton.js"></script>
+    <script src="../../../%5fstatic/tabs.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>
+    <script defer="defer" src="/Users/mkoeppe/s/sage/sage-rebasing/local/share/mathjax/mathjax/tex-chtml.js?v=0d9741c5"></script>
+    <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>
+    </body>
+</html>

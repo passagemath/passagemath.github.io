@@ -1,0 +1,1098 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Magics for each of the Sage interfaces" href="interface_magic.html" /><link rel="prev" title="Sage’s IPython Modifications" href="interpreter.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>Sage’s IPython Extension - The Sage Command Line</title>
+      <link rel="stylesheet" type="text/css" href="../../../%5fstatic/pygments.css?v=a078f75a" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-codemirror-monokai.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-tabs.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  --color-brand-primary: #0f0fff;
+  --color-brand-content: #0f0fff;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">The Sage Command Line</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand" href="../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../%5fstatic/logo_sagemath_black.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../%5fstatic/logo_sagemath_white.svg" alt="Dark Logo"/>
+  </div>
+  
+      <span class="sidebar-brand-text">passagemath 10.6.1 Reference Manual</span>
+  
+</a><div class="select-wrapper">
+  <select id="versions-menu" onchange="changeVersion()">
+    <option value="" selected>other version</option>
+    <option value="https://doc-develop--sagemath.netlify.app">develop</option>
+  </select>
+</div><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-home">
+  <div class="sidebar-tree">
+    <ul><li class="toctree-l1">
+      <a class="reference internal" href="../../index.html">Home - The Sage Command Line</a>
+    </li></ul>
+  </div>
+</div><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../options.html">Invoking Sage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../startup.html">Sage startup scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../environ.html">Environment variables used by Sage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../environ.html#relevant-environment-variables-for-other-packages">Relevant environment variables for other packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/trace.html">Interactively tracing execution of a command</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="preparse.html">The Sage Preparser</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="load.html">Load Python, Sage, Cython, Fortran and Magma files in Sage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="attach.html">Keep track of attached files</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="display/formatter.html">IPython Displayhook Formatters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="display/pretty_print.html">The Sage pretty printer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="display/fancy_repr.html">Representations of objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="display/util.html">Utility functions for pretty-printing</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rich_output/display_manager.html">Display Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rich_output/preferences.html">Display Preferences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rich_output/pretty_print.html">The <code class="docutils literal notranslate"><span class="pre">pretty_print</span></code> command</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rich_output/buffer.html">Output Buffer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rich_output/output_basic.html">Basic Output Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rich_output/output_graphics.html">Graphics Output Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rich_output/output_graphics3d.html">Three-Dimensional Graphics Output Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rich_output/output_video.html">Video Output Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rich_output/output_catalog.html">Catalog of all available output container types.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rich_output/backend_base.html">Base Class for Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rich_output/test_backend.html">Test Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rich_output/backend_doctest.html">The backend used for doctests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rich_output/backend_ipython.html">IPython Backend for the Sage Rich Output System</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="interpreter.html">Sage’s IPython Modifications</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Sage’s IPython Extension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface_magic.html">Magics for each of the Sage interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_kernel/interact.html">Interacts for the Sage Jupyter notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_kernel/widgets.html">Widgets to be used for the Sage Jupyter notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_kernel/install.html">Installing the SageMath Jupyter Kernel and Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_kernel/kernel.html">The Sage ZMQ Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_tests.html">Tests for the IPython integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="display/jsmol_iframe.html">HTML Generator for JSmol</a></li>
+<li class="toctree-l1"><a class="reference internal" href="image.html">Sage Wrapper for Bitmap Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inputhook.html">The Sage Input Hook</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/ipython_extension.py" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/edit/main/src/sage/repl/ipython_extension.py" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="sage-s-ipython-extension">
+<span id="sage-repl-ipython-extension"></span><h1>Sage’s IPython Extension<a class="headerlink" href="#sage-s-ipython-extension" title="Link to this heading">¶</a></h1>
+<p id="module-sage.repl.ipython_extension">A Sage extension which adds sage-specific features:</p>
+<ul class="simple">
+<li><p>magics</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">%crun</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">%runfile</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">%attach</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">%display</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">%mode</span></code> (like <code class="docutils literal notranslate"><span class="pre">%maxima</span></code>, etc.)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">%%cython</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">%%fortran</span></code></p></li>
+</ul>
+</li>
+<li><p>preparsing of input</p></li>
+<li><p>loading Sage library</p></li>
+<li><p>running init.sage</p></li>
+<li><p>changing prompt to Sage prompt</p></li>
+<li><p>Display hook</p></li>
+</ul>
+<dl class="py class">
+<dt class="sig sig-object py" id="sage.repl.ipython_extension.SageCustomizations">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.repl.ipython_extension.</span></span><span class="sig-name descname"><span class="pre">SageCustomizations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/ipython_extension.py#L576"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.ipython_extension.SageCustomizations" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Initialize the Sage plugin.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.ipython_extension.SageCustomizations.all_globals">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">all_globals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/ipython_extension.py#L611"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.ipython_extension.SageCustomizations.all_globals" title="Link to this definition">¶</a></dt>
+<dd><p>Return a Python module containing all globals which should be
+made available to the user.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.ipython_extension</span> <span class="kn">import</span> <span class="n">SageCustomizations</span>
+<span class="gp">sage:</span> <span class="n">SageCustomizations</span><span class="o">.</span><span class="n">all_globals</span><span class="p">()</span>
+<span class="go">&lt;module &#39;sage.all_cmdline&#39; ...&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.ipython_extension</span> <span class="kn">import</span> <span class="n">SageCustomizations</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">SageCustomizations</span><span class="o">.</span><span class="n">all_globals</span><span class="p">()</span>
+<span class="go">&lt;module &#39;sage.all_cmdline&#39; ...&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.ipython_extension.SageCustomizations.init_environment">
+<span class="sig-name descname"><span class="pre">init_environment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/ipython_extension.py#L629"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.ipython_extension.SageCustomizations.init_environment" title="Link to this definition">¶</a></dt>
+<dd><p>Set up Sage command-line environment</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.ipython_extension.SageCustomizations.init_inspector">
+<span class="sig-name descname"><span class="pre">init_inspector</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/ipython_extension.py#L648"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.ipython_extension.SageCustomizations.init_inspector" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.ipython_extension.SageCustomizations.init_line_transforms">
+<span class="sig-name descname"><span class="pre">init_line_transforms</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/ipython_extension.py#L660"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.ipython_extension.SageCustomizations.init_line_transforms" title="Link to this definition">¶</a></dt>
+<dd><p>Set up transforms (like the preparser).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.ipython_extension.SageCustomizations.register_interface_magics">
+<span class="sig-name descname"><span class="pre">register_interface_magics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/ipython_extension.py#L604"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.ipython_extension.SageCustomizations.register_interface_magics" title="Link to this definition">¶</a></dt>
+<dd><p>Register magics for each of the Sage interfaces</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.ipython_extension.SageCustomizations.run_init">
+<span class="sig-name descname"><span class="pre">run_init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/ipython_extension.py#L638"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.ipython_extension.SageCustomizations.run_init" title="Link to this definition">¶</a></dt>
+<dd><p>Run Sage’s initial startup file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sage.repl.ipython_extension.SageJupyterCustomizations">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.repl.ipython_extension.</span></span><span class="sig-name descname"><span class="pre">SageJupyterCustomizations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/ipython_extension.py#L728"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.ipython_extension.SageJupyterCustomizations" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#sage.repl.ipython_extension.SageCustomizations" title="sage.repl.ipython_extension.SageCustomizations"><code class="xref py py-class docutils literal notranslate"><span class="pre">SageCustomizations</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.ipython_extension.SageJupyterCustomizations.all_globals">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">all_globals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/ipython_extension.py#L729"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.ipython_extension.SageJupyterCustomizations.all_globals" title="Link to this definition">¶</a></dt>
+<dd><p>Return a Python module containing all globals which should be
+made available to the user when running the Jupyter notebook.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.ipython_extension</span> <span class="kn">import</span> <span class="n">SageJupyterCustomizations</span>
+<span class="gp">sage:</span> <span class="n">SageJupyterCustomizations</span><span class="o">.</span><span class="n">all_globals</span><span class="p">()</span>
+<span class="go">&lt;module &#39;sage.repl.ipython_kernel.all_jupyter&#39; ...&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.ipython_extension</span> <span class="kn">import</span> <span class="n">SageJupyterCustomizations</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">SageJupyterCustomizations</span><span class="o">.</span><span class="n">all_globals</span><span class="p">()</span>
+<span class="go">&lt;module &#39;sage.repl.ipython_kernel.all_jupyter&#39; ...&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sage.repl.ipython_extension.SageMagics">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.repl.ipython_extension.</span></span><span class="sig-name descname"><span class="pre">SageMagics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/ipython_extension.py#L85"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.ipython_extension.SageMagics" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Magics</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.ipython_extension.SageMagics.attach">
+<span class="sig-name descname"><span class="pre">attach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/ipython_extension.py#L140"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.ipython_extension.SageMagics.attach" title="Link to this definition">¶</a></dt>
+<dd><p>Attach the code contained in the file <code class="docutils literal notranslate"><span class="pre">s</span></code>.</p>
+<p>This is designed to be used from the command line as <code class="docutils literal notranslate"><span class="pre">%attach</span>
+<span class="pre">/path/to/file</span></code>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">s</span></code> – string. The file to be attached</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>This is the same as <a class="reference internal" href="attach.html#sage.repl.attach.attach" title="sage.repl.attach.attach"><code class="xref py py-func docutils literal notranslate"><span class="pre">attach()</span></code></a>.</p>
+</div>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.interpreter</span> <span class="kn">import</span> <span class="n">get_test_shell</span>
+<span class="gp">sage:</span> <span class="n">shell</span> <span class="o">=</span> <span class="n">get_test_shell</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">NamedTemporaryFile</span> <span class="k">as</span> <span class="n">NTF</span>
+<span class="gp">sage:</span> <span class="k">with</span> <span class="n">NTF</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w+t&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.py&#39;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">....:</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;a = 2</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%a</span><span class="s1">ttach &#39;</span> <span class="o">+</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">sage:</span> <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># filesystem timestamp granularity</span>
+<span class="gp">sage:</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;a = 3</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.interpreter</span> <span class="kn">import</span> <span class="n">get_test_shell</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span> <span class="o">=</span> <span class="n">get_test_shell</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">NamedTemporaryFile</span> <span class="k">as</span> <span class="n">NTF</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">NTF</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w+t&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.py&#39;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">...</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;a = 2</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%a</span><span class="s1">ttach &#39;</span> <span class="o">+</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">sleep</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>  <span class="c1"># filesystem timestamp granularity</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;a = 3</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Note that the doctests are never really at the command prompt, so
+we call the input hook manually:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;from sage.repl.attach import reload_attached_files_if_modified&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;reload_attached_files_if_modified()&#39;</span><span class="p">)</span>
+<span class="go">### reloading attached file ... modified at ... ###</span>
+
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="go">3</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;detach(</span><span class="si">%r</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;attached_files()&#39;</span><span class="p">)</span>
+<span class="go">[]</span>
+<span class="gp">sage:</span> <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;from sage.repl.attach import reload_attached_files_if_modified&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;reload_attached_files_if_modified()&#39;</span><span class="p">)</span>
+<span class="go">### reloading attached file ... modified at ... ###</span>
+
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;detach(</span><span class="si">%r</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;attached_files()&#39;</span><span class="p">)</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.ipython_extension.SageMagics.crun">
+<span class="sig-name descname"><span class="pre">crun</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/ipython_extension.py#L88"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.ipython_extension.SageMagics.crun" title="Link to this definition">¶</a></dt>
+<dd><p>Profile C function calls.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">s</span></code> – string; Sage command to profile</p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.interpreter</span> <span class="kn">import</span> <span class="n">get_test_shell</span>
+<span class="gp">sage:</span> <span class="n">shell</span> <span class="o">=</span> <span class="n">get_test_shell</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%c</span><span class="s1">run sum(1/(1+n^2) for n in range(100))&#39;</span><span class="p">)</span>   <span class="c1"># optional - gperftools</span>
+<span class="go">PROFILE: interrupts/evictions/bytes = ...</span>
+<span class="go">Using local file ...</span>
+<span class="go">Using local file ...</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.interpreter</span> <span class="kn">import</span> <span class="n">get_test_shell</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span> <span class="o">=</span> <span class="n">get_test_shell</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%c</span><span class="s1">run sum(1/(1+n^2) for n in range(100))&#39;</span><span class="p">)</span>   <span class="c1"># optional - gperftools</span>
+<span class="go">PROFILE: interrupts/evictions/bytes = ...</span>
+<span class="go">Using local file ...</span>
+<span class="go">Using local file ...</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.ipython_extension.SageMagics.cython">
+<span class="sig-name descname"><span class="pre">cython</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/ipython_extension.py#L353"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.ipython_extension.SageMagics.cython" title="Link to this definition">¶</a></dt>
+<dd><p>Cython cell magic.</p>
+<p>This is syntactic sugar on the
+<a class="reference external" href="../../../misc/sage/misc/cython.html#sage.misc.cython.cython_compile" title="(in Utilities v10.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">cython_compile()</span></code></a> function.</p>
+<p>Note that there is also the <code class="docutils literal notranslate"><span class="pre">%%cython</span></code> cell magic provided by Cython,
+which can be loaded with <code class="docutils literal notranslate"><span class="pre">%load_ext</span> <span class="pre">cython</span></code>, see
+<a class="reference external" href="https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#compiling-with-a-jupyter-notebook">Cython documentation</a>
+for more details.
+The semantic is slightly different from the version provided by Sage.</p>
+<p>INPUT:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">line</span></code> – parsed as keyword arguments. The allowed arguments are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--verbose</span> <span class="pre">N</span></code> / <code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">N</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--compile-message</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--use-cache</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--create-local-c-file</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--annotate</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--view-annotate</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--sage-namespace</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--create-local-so-file</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--no-compile-message</span></code>, <code class="docutils literal notranslate"><span class="pre">--no-use-cache</span></code>, etc.</p></li>
+</ul>
+<p>See <a class="reference external" href="../../../misc/sage/misc/cython.html#sage.misc.cython.cython" title="(in Utilities v10.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">cython()</span></code></a> for details.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">--view-annotate</span></code> is given, the annotation is either displayed
+inline in the Sage notebook or opened in a new web browser, depending
+on whether the Sage notebook is used.</p>
+<p>You can override the selection by specifying
+<code class="docutils literal notranslate"><span class="pre">--view-annotate=webbrowser</span></code> or <code class="docutils literal notranslate"><span class="pre">--view-annotate=displayhtml</span></code>.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cell</span></code> – string; the Cython source code to process</p></li>
+</ul>
+<p>OUTPUT: none; the Cython code is compiled and loaded</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.misc.cython</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.interpreter</span> <span class="kn">import</span> <span class="n">get_test_shell</span>
+<span class="gp">sage:</span> <span class="n">shell</span> <span class="o">=</span> <span class="n">get_test_shell</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span>
+<span class="gp">....:</span><span class="w"> </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="gp">....:</span><span class="sd"> %%cython -v1 --annotate --no-sage-namespace</span>
+<span class="gp">....:</span><span class="sd"> def f():</span>
+<span class="gp">....:</span><span class="sd">     print(&#39;test&#39;)</span>
+<span class="gp">....:</span><span class="sd"> &#39;&#39;&#39;</span><span class="p">)</span>
+<span class="go">Compiling ....pyx because it changed.</span>
+<span class="go">[1/1] Cythonizing ....pyx</span>
+<span class="gp">sage:</span> <span class="n">f</span><span class="p">()</span>
+<span class="go">test</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="c1"># needs sage.misc.cython</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.interpreter</span> <span class="kn">import</span> <span class="n">get_test_shell</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span> <span class="o">=</span> <span class="n">get_test_shell</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span>
+<span class="gp">...</span><span class="w"> </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="gp">...</span><span class="sd"> %%cython -v1 --annotate --no-sage-namespace</span>
+<span class="gp">...</span><span class="sd"> def f():</span>
+<span class="gp">...</span><span class="sd">     print(&#39;test&#39;)</span>
+<span class="gp">...</span><span class="sd"> &#39;&#39;&#39;</span><span class="p">)</span>
+<span class="go">Compiling ....pyx because it changed.</span>
+<span class="go">[1/1] Cythonizing ....pyx</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="p">()</span>
+<span class="go">test</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.ipython_extension.SageMagics.display">
+<span class="sig-name descname"><span class="pre">display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/ipython_extension.py#L225"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.ipython_extension.SageMagics.display" title="Link to this definition">¶</a></dt>
+<dd><p>A magic command to switch between simple display and ASCII art display.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">args</span></code> – string.  See
+<a class="reference internal" href="rich_output/preferences.html#module-sage.repl.rich_output.preferences" title="sage.repl.rich_output.preferences"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sage.repl.rich_output.preferences</span></code></a>
+for allowed values. If the mode is <code class="docutils literal notranslate"><span class="pre">ascii_art</span></code>, it can
+optionally be followed by a width.</p></li>
+</ul>
+<p class="with-sage-tab with-python-tab">How to use: if you want to activate the ASCII art mode:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.interpreter</span> <span class="kn">import</span> <span class="n">get_test_shell</span>
+<span class="gp">sage:</span> <span class="n">shell</span> <span class="o">=</span> <span class="n">get_test_shell</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">isplay ascii_art&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--2" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.interpreter</span> <span class="kn">import</span> <span class="n">get_test_shell</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span> <span class="o">=</span> <span class="n">get_test_shell</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">isplay ascii_art&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">That means you do not have to use <a class="reference external" href="../../../misc/sage/typeset/ascii_art.html#sage.typeset.ascii_art.ascii_art" title="(in Utilities v10.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">ascii_art()</span></code></a> to get an ASCII art
+output:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s2">&quot;i = var(&#39;i&#39;)&quot;</span><span class="p">)</span>                                        <span class="c1"># needs sage.symbolic</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;sum(i^2*x^i, i, 0, 10)&#39;</span><span class="p">)</span>                              <span class="c1"># needs sage.symbolic</span>
+<span class="go">     10       9       8       7       6       5       4      3      2</span>
+<span class="go">100*x   + 81*x  + 64*x  + 49*x  + 36*x  + 25*x  + 16*x  + 9*x  + 4*x  + x</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--2" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s2">&quot;i = var(&#39;i&#39;)&quot;</span><span class="p">)</span>                                        <span class="c1"># needs sage.symbolic</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;sum(i^2*x^i, i, 0, 10)&#39;</span><span class="p">)</span>                              <span class="c1"># needs sage.symbolic</span>
+<span class="go">     10       9       8       7       6       5       4      3      2</span>
+<span class="go">100*x   + 81*x  + 64*x  + 49*x  + 36*x  + 25*x  + 16*x  + 9*x  + 4*x  + x</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Then when you want to return to ‘textual mode’:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">isplay text plain&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">isplay plain&#39;</span><span class="p">)</span>        <span class="c1"># shortcut for &quot;text plain&quot;</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;sum(i^2*x^i, i, 0, 10)&#39;</span><span class="p">)</span>                              <span class="c1"># needs sage.symbolic</span>
+<span class="go">100*x^10 + 81*x^9 + 64*x^8 + 49*x^7 + 36*x^6 + 25*x^5 + 16*x^4 + 9*x^3 + 4*x^2 + x</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--8-input--2" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">isplay text plain&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">isplay plain&#39;</span><span class="p">)</span>        <span class="c1"># shortcut for &quot;text plain&quot;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;sum(i^2*x^i, i, 0, 10)&#39;</span><span class="p">)</span>                              <span class="c1"># needs sage.symbolic</span>
+<span class="go">100*x^10 + 81*x^9 + 64*x^8 + 49*x^7 + 36*x^6 + 25*x^5 + 16*x^4 + 9*x^3 + 4*x^2 + x</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Sometime you could have to use a special output width and you
+could specify it:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">isplay ascii_art&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;StandardTableaux(4).list()&#39;</span><span class="p">)</span>                          <span class="c1"># needs sage.combinat</span>
+<span class="go">[</span>
+<span class="go">[                                                                  1  4    1  3</span>
+<span class="go">[                 1  3  4    1  2  4    1  2  3    1  3    1  2    2       2</span>
+<span class="go">[   1  2  3  4,   2      ,   3      ,   4      ,   2  4,   3  4,   3   ,   4   ,</span>
+
+<span class="go">           1 ]</span>
+<span class="go">   1  2    2 ]</span>
+<span class="go">   3       3 ]</span>
+<span class="go">   4   ,   4 ]</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">isplay ascii_art 50&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;StandardTableaux(4).list()&#39;</span><span class="p">)</span>                          <span class="c1"># needs sage.combinat</span>
+<span class="go">[</span>
+<span class="go">[</span>
+<span class="go">[                 1  3  4    1  2  4    1  2  3</span>
+<span class="go">[   1  2  3  4,   2      ,   3      ,   4      ,</span>
+
+<span class="go">                                          1 ]</span>
+<span class="go">                  1  4    1  3    1  2    2 ]</span>
+<span class="go">  1  3    1  2    2       2       3       3 ]</span>
+<span class="go">  2  4,   3  4,   3   ,   4   ,   4   ,   4 ]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--9-input--2" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">isplay ascii_art&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;StandardTableaux(4).list()&#39;</span><span class="p">)</span>                          <span class="c1"># needs sage.combinat</span>
+<span class="go">[</span>
+<span class="go">[                                                                  1  4    1  3</span>
+<span class="go">[                 1  3  4    1  2  4    1  2  3    1  3    1  2    2       2</span>
+<span class="go">[   1  2  3  4,   2      ,   3      ,   4      ,   2  4,   3  4,   3   ,   4   ,</span>
+<span class="go">&lt;BLANKLINE&gt;</span>
+<span class="go">           1 ]</span>
+<span class="go">   1  2    2 ]</span>
+<span class="go">   3       3 ]</span>
+<span class="go">   4   ,   4 ]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">isplay ascii_art 50&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;StandardTableaux(4).list()&#39;</span><span class="p">)</span>                          <span class="c1"># needs sage.combinat</span>
+<span class="go">[</span>
+<span class="go">[</span>
+<span class="go">[                 1  3  4    1  2  4    1  2  3</span>
+<span class="go">[   1  2  3  4,   2      ,   3      ,   4      ,</span>
+<span class="go">&lt;BLANKLINE&gt;</span>
+<span class="go">                                          1 ]</span>
+<span class="go">                  1  4    1  3    1  2    2 ]</span>
+<span class="go">  1  3    1  2    2       2       3       3 ]</span>
+<span class="go">  2  4,   3  4,   3   ,   4   ,   4   ,   4 ]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">As yet another option, typeset mode. This is used in the emacs
+interface:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">isplay text latex&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;1/2&#39;</span><span class="p">)</span>
+<span class="go">1/2</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--10-input--2" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">isplay text latex&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;1/2&#39;</span><span class="p">)</span>
+<span class="go">1/2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Switch back:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">isplay default&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--11-input--2" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">isplay default&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Switch graphics to default to vector or raster graphics file
+formats:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">isplay graphics vector&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--12-input--2" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">isplay graphics vector&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.ipython_extension.SageMagics.fortran">
+<span class="sig-name descname"><span class="pre">fortran</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/ipython_extension.py#L522"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.ipython_extension.SageMagics.fortran" title="Link to this definition">¶</a></dt>
+<dd><p>Fortran cell magic.</p>
+<p>This is syntactic sugar on the
+<code class="xref py py-func docutils literal notranslate"><span class="pre">fortran()</span></code> function.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">line</span></code> – ignored</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cell</span></code> – string; the Cython source code to process</p></li>
+</ul>
+<p>OUTPUT: none; the Fortran code is compiled and loaded</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs numpy</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.interpreter</span> <span class="kn">import</span> <span class="n">get_test_shell</span>
+<span class="gp">sage:</span> <span class="n">shell</span> <span class="o">=</span> <span class="n">get_test_shell</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">....:</span><span class="s1"> </span><span class="si">%%</span><span class="s1">fortran</span>
+<span class="gp">....:</span><span class="s1"> C FILE: FIB1.F</span>
+<span class="gp">....:</span><span class="s1">       SUBROUTINE FIB(A,N)</span>
+<span class="gp">....:</span><span class="s1"> C</span>
+<span class="gp">....:</span><span class="s1"> C     CALCULATE FIRST N FIBONACCI NUMBERS</span>
+<span class="gp">....:</span><span class="s1"> C</span>
+<span class="gp">....:</span><span class="s1">       INTEGER N</span>
+<span class="gp">....:</span><span class="s1">       REAL*8 A(N)</span>
+<span class="gp">....:</span><span class="s1">       DO I=1,N</span>
+<span class="gp">....:</span><span class="s1">          IF (I.EQ.1) THEN</span>
+<span class="gp">....:</span><span class="s1">             A(I) = 0.0D0</span>
+<span class="gp">....:</span><span class="s1">          ELSEIF (I.EQ.2) THEN</span>
+<span class="gp">....:</span><span class="s1">             A(I) = 1.0D0</span>
+<span class="gp">....:</span><span class="s1">          ELSE</span>
+<span class="gp">....:</span><span class="s1">             A(I) = A(I-1) + A(I-2)</span>
+<span class="gp">....:</span><span class="s1">          ENDIF</span>
+<span class="gp">....:</span><span class="s1">       ENDDO</span>
+<span class="gp">....:</span><span class="s1">       END</span>
+<span class="gp">....:</span><span class="s1"> C END FILE FIB1.F</span>
+<span class="gp">....:</span><span class="s1"> &#39;&#39;&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">fib</span>
+<span class="go">&lt;fortran ...&gt;</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span>
+<span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">fib</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">a</span>
+<span class="go">array([  0.,   1.,   1.,   2.,   3.,   5.,   8.,  13.,  21.,  34.])</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--13-input--2" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="c1"># needs numpy</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.interpreter</span> <span class="kn">import</span> <span class="n">get_test_shell</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span> <span class="o">=</span> <span class="n">get_test_shell</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">...</span><span class="s1"> </span><span class="si">%%</span><span class="s1">fortran</span>
+<span class="gp">...</span><span class="s1"> C FILE: FIB1.F</span>
+<span class="gp">...</span><span class="s1">       SUBROUTINE FIB(A,N)</span>
+<span class="gp">...</span><span class="s1"> C</span>
+<span class="gp">...</span><span class="s1"> C     CALCULATE FIRST N FIBONACCI NUMBERS</span>
+<span class="gp">...</span><span class="s1"> C</span>
+<span class="gp">...</span><span class="s1">       INTEGER N</span>
+<span class="gp">...</span><span class="s1">       REAL*8 A(N)</span>
+<span class="gp">...</span><span class="s1">       DO I=1,N</span>
+<span class="gp">...</span><span class="s1">          IF (I.EQ.1) THEN</span>
+<span class="gp">...</span><span class="s1">             A(I) = 0.0D0</span>
+<span class="gp">...</span><span class="s1">          ELSEIF (I.EQ.2) THEN</span>
+<span class="gp">...</span><span class="s1">             A(I) = 1.0D0</span>
+<span class="gp">...</span><span class="s1">          ELSE</span>
+<span class="gp">...</span><span class="s1">             A(I) = A(I-1) + A(I-2)</span>
+<span class="gp">...</span><span class="s1">          ENDIF</span>
+<span class="gp">...</span><span class="s1">       ENDDO</span>
+<span class="gp">...</span><span class="s1">       END</span>
+<span class="gp">...</span><span class="s1"> C END FILE FIB1.F</span>
+<span class="gp">...</span><span class="s1"> &#39;&#39;&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">fib</span>
+<span class="go">&lt;fortran ...&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">fib</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span>
+<span class="go">array([  0.,   1.,   1.,   2.,   3.,   5.,   8.,  13.,  21.,  34.])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.ipython_extension.SageMagics.iload">
+<span class="sig-name descname"><span class="pre">iload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/ipython_extension.py#L184"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.ipython_extension.SageMagics.iload" title="Link to this definition">¶</a></dt>
+<dd><p>A magic command to interactively load a file as in MAGMA.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">args</span></code> – string. The file to be interactively loaded</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently, this cannot be completely doctested as it
+relies on <code class="xref py py-func docutils literal notranslate"><span class="pre">raw_input()</span></code>.</p>
+</div>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">ip</span> <span class="o">=</span> <span class="n">get_ipython</span><span class="p">()</span>           <span class="c1"># not tested: works only in interactive shell</span>
+<span class="gp">sage:</span> <span class="n">ip</span><span class="o">.</span><span class="n">magic_iload</span><span class="p">(</span><span class="s1">&#39;/dev/null&#39;</span><span class="p">)</span>  <span class="c1"># not tested: works only in interactive shell</span>
+<span class="go">Interactively loading &quot;/dev/null&quot;  # not tested: works only in interactive shell</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--14-input--2" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ip</span> <span class="o">=</span> <span class="n">get_ipython</span><span class="p">()</span>           <span class="c1"># not tested: works only in interactive shell</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ip</span><span class="o">.</span><span class="n">magic_iload</span><span class="p">(</span><span class="s1">&#39;/dev/null&#39;</span><span class="p">)</span>  <span class="c1"># not tested: works only in interactive shell</span>
+<span class="go">Interactively loading &quot;/dev/null&quot;  # not tested: works only in interactive shell</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sage.repl.ipython_extension.SageMagics.magics">
+<span class="sig-name descname"><span class="pre">magics</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'cell':</span> <span class="pre">{'cython':</span> <span class="pre">'cython',</span> <span class="pre">'fortran':</span> <span class="pre">'fortran'},</span> <span class="pre">'line':</span> <span class="pre">{'attach':</span> <span class="pre">'attach',</span> <span class="pre">'crun':</span> <span class="pre">'crun',</span> <span class="pre">'display':</span> <span class="pre">'display',</span> <span class="pre">'iload':</span> <span class="pre">'iload',</span> <span class="pre">'runfile':</span> <span class="pre">'runfile'}}</span></em><a class="headerlink" href="#sage.repl.ipython_extension.SageMagics.magics" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sage.repl.ipython_extension.SageMagics.registered">
+<span class="sig-name descname"><span class="pre">registered</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#sage.repl.ipython_extension.SageMagics.registered" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.repl.ipython_extension.SageMagics.runfile">
+<span class="sig-name descname"><span class="pre">runfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/ipython_extension.py#L110"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.ipython_extension.SageMagics.runfile" title="Link to this definition">¶</a></dt>
+<dd><p>Execute the code contained in the file <code class="docutils literal notranslate"><span class="pre">s</span></code>.</p>
+<p>This is designed to be used from the command line as
+<code class="docutils literal notranslate"><span class="pre">%runfile</span> <span class="pre">/path/to/file</span></code>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">s</span></code> – string; the file to be loaded</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>This is the same as <a class="reference internal" href="load.html#sage.repl.load.load" title="sage.repl.load.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">load()</span></code></a>.</p>
+</div>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.repl.interpreter</span> <span class="kn">import</span> <span class="n">get_test_shell</span>
+<span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.misc.temporary_file</span> <span class="kn">import</span> <span class="n">tmp_dir</span>
+<span class="gp">sage:</span> <span class="n">shell</span> <span class="o">=</span> <span class="n">get_test_shell</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_dir</span><span class="p">(),</span> <span class="s1">&#39;run_cell.py&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">....:</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;a = 2</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%r</span><span class="s1">unfile &#39;</span><span class="o">+</span><span class="n">tmp</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">sage:</span> <span class="n">shell</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--15-input--2" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.repl.interpreter</span> <span class="kn">import</span> <span class="n">get_test_shell</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.misc.temporary_file</span> <span class="kn">import</span> <span class="n">tmp_dir</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span> <span class="o">=</span> <span class="n">get_test_shell</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_dir</span><span class="p">(),</span> <span class="s1">&#39;run_cell.py&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">...</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;a = 2</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%r</span><span class="s1">unfile &#39;</span><span class="o">+</span><span class="n">tmp</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shell</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.repl.ipython_extension.load_ipython_extension">
+<span class="sig-prename descclassname"><span class="pre">sage.repl.ipython_extension.</span></span><span class="sig-name descname"><span class="pre">load_ipython_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/ipython_extension.py#L745"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.ipython_extension.load_ipython_extension" title="Link to this definition">¶</a></dt>
+<dd><p>Load the extension in IPython.</p>
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="interface_magic.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Magics for each of the Sage interfaces</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="interpreter.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Sage’s IPython Modifications</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2005--2025, The Sage Development Team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Sage’s IPython Extension</a><ul>
+<li><a class="reference internal" href="#sage.repl.ipython_extension.SageCustomizations"><code class="docutils literal notranslate"><span class="pre">SageCustomizations</span></code></a><ul>
+<li><a class="reference internal" href="#sage.repl.ipython_extension.SageCustomizations.all_globals"><code class="docutils literal notranslate"><span class="pre">all_globals()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.ipython_extension.SageCustomizations.init_environment"><code class="docutils literal notranslate"><span class="pre">init_environment()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.ipython_extension.SageCustomizations.init_inspector"><code class="docutils literal notranslate"><span class="pre">init_inspector()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.ipython_extension.SageCustomizations.init_line_transforms"><code class="docutils literal notranslate"><span class="pre">init_line_transforms()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.ipython_extension.SageCustomizations.register_interface_magics"><code class="docutils literal notranslate"><span class="pre">register_interface_magics()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.ipython_extension.SageCustomizations.run_init"><code class="docutils literal notranslate"><span class="pre">run_init()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sage.repl.ipython_extension.SageJupyterCustomizations"><code class="docutils literal notranslate"><span class="pre">SageJupyterCustomizations</span></code></a><ul>
+<li><a class="reference internal" href="#sage.repl.ipython_extension.SageJupyterCustomizations.all_globals"><code class="docutils literal notranslate"><span class="pre">all_globals()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sage.repl.ipython_extension.SageMagics"><code class="docutils literal notranslate"><span class="pre">SageMagics</span></code></a><ul>
+<li><a class="reference internal" href="#sage.repl.ipython_extension.SageMagics.attach"><code class="docutils literal notranslate"><span class="pre">attach()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.ipython_extension.SageMagics.crun"><code class="docutils literal notranslate"><span class="pre">crun()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.ipython_extension.SageMagics.cython"><code class="docutils literal notranslate"><span class="pre">cython()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.ipython_extension.SageMagics.display"><code class="docutils literal notranslate"><span class="pre">display()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.ipython_extension.SageMagics.fortran"><code class="docutils literal notranslate"><span class="pre">fortran()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.ipython_extension.SageMagics.iload"><code class="docutils literal notranslate"><span class="pre">iload()</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.ipython_extension.SageMagics.magics"><code class="docutils literal notranslate"><span class="pre">magics</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.ipython_extension.SageMagics.registered"><code class="docutils literal notranslate"><span class="pre">registered</span></code></a></li>
+<li><a class="reference internal" href="#sage.repl.ipython_extension.SageMagics.runfile"><code class="docutils literal notranslate"><span class="pre">runfile()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sage.repl.ipython_extension.load_ipython_extension"><code class="docutils literal notranslate"><span class="pre">load_ipython_extension()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../%5fstatic/documentation_options.js"></script>
+    <script src="../../../%5fstatic/doctools.js"></script>
+    <script src="../../../%5fstatic/sphinx_highlight.js"></script>
+    <script src="../../../%5fstatic/scripts/furo.js"></script>
+    <script src="../../../%5fstatic/clipboard.min.js"></script>
+    <script src="../../../%5fstatic/copybutton.js"></script>
+    <script src="../../../%5fstatic/tabs.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>
+    </body>
+</html>

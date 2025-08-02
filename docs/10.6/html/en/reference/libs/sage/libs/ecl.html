@@ -1,0 +1,1528 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Sage interface to Cremona’s eclib library (also known as mwrank)" href="eclib/interface.html" /><link rel="prev" title="C/C++ Library Interfaces" href="../../index.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>Library interface to Embeddable Common Lisp (ECL) - C/C++ Library Interfaces</title>
+      <link rel="stylesheet" type="text/css" href="../../../%5fstatic/pygments.css?v=a078f75a" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-codemirror-monokai.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-tabs.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  --color-brand-primary: #0f0fff;
+  --color-brand-content: #0f0fff;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">C/C++ Library Interfaces</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand" href="../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../%5fstatic/logo_sagemath_black.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../%5fstatic/logo_sagemath_white.svg" alt="Dark Logo"/>
+  </div>
+  
+      <span class="sidebar-brand-text">passagemath 10.6.1 Reference Manual</span>
+  
+</a><div class="select-wrapper">
+  <select id="versions-menu" onchange="changeVersion()">
+    <option value="" selected>other version</option>
+    <option value="https://doc-develop--sagemath.netlify.app">develop</option>
+  </select>
+</div><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-home">
+  <div class="sidebar-tree">
+    <ul><li class="toctree-l1">
+      <a class="reference internal" href="../../index.html">Home - C/C++ Library Interfaces</a>
+    </li></ul>
+  </div>
+</div><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Library interface to Embeddable Common Lisp (ECL)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="eclib/interface.html">Sage interface to Cremona’s <code class="docutils literal notranslate"><span class="pre">eclib</span></code> library (also known as <code class="docutils literal notranslate"><span class="pre">mwrank</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eclib/mwrank.html">Cython interface to Cremona’s <code class="docutils literal notranslate"><span class="pre">eclib</span></code> library (also known as <code class="docutils literal notranslate"><span class="pre">mwrank</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eclib/mat.html">Cremona matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eclib/newforms.html">Modular symbols using eclib newforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eclib/homspace.html">Cremona modular symbols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eclib/constructor.html">Cremona modular symbols</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="flint/fmpz_poly_sage.html">FLINT fmpz_poly class wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flint/fmpq_poly_sage.html">File: sage/libs/flint/fmpq_poly_sage.pyx (starting at line 1)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flint/arith_sage.html">FLINT Arithmetic Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flint/qsieve_sage.html">Interface to FLINT’s <code class="docutils literal notranslate"><span class="pre">qsieve_factor()</span></code>. This used to interact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flint/ulong_extras_sage.html">File: sage/libs/flint/ulong_extras_sage.pyx (starting at line 1)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="giac.html">Wrappers for Giac functions</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="libecm.html">The Elliptic Curve Method for Integer Factorization (ECM)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gsl/array.html">GSL arrays</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lcalc/lcalc_Lfunction.html">Rubinstein’s lcalc library</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="singular/function.html">libSingular: Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="singular/function_factory.html">libSingular: Function Factory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="singular/singular.html">libSingular: Conversion Routines and Initialisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="singular/polynomial.html">Wrapper for Singular’s Polynomial Arithmetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="singular/option.html">libSingular: Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="singular/ring.html">Wrapper for Singular’s Rings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="singular/groebner_strategy.html">Singular’s Groebner Strategy Objects</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gap/context_managers.html">Context Managers for LibGAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gap/gap_functions.html">Common global functions defined by GAP.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gap/test_long.html">Long tests for GAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gap/util.html">Utility functions for GAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gap/libgap.html">Library Interface to GAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gap/test.html">Short tests for GAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gap/element.html">GAP element wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gap/saved_workspace.html">LibGAP Workspace Support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="linbox/linbox_flint_interface.html">Interface between flint matrices and linbox</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lrcalc/lrcalc.html">An interface to Anders Buch’s Littlewood-Richardson Calculator <code class="docutils literal notranslate"><span class="pre">lrcalc</span></code></a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="mpmath/utils.html">Utilities for Sage-mpmath interaction</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ntl/all.html">Victor Shoup’s NTL C++ Library</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pari.html">Interface between Sage and PARI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pari/convert_sage.html">Convert PARI objects to Sage types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rings/pari_ring.html">Ring of pari objects</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="symmetrica/symmetrica.html">Symmetrica library</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/edit/main/src/sage/libs/ecl.pyx" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="library-interface-to-embeddable-common-lisp-ecl">
+<span id="sage-libs-ecl"></span><h1>Library interface to Embeddable Common Lisp (ECL)<a class="headerlink" href="#library-interface-to-embeddable-common-lisp-ecl" title="Link to this heading">¶</a></h1>
+<dl class="py class" id="module-sage.libs.ecl">
+<dt class="sig sig-object py" id="sage.libs.ecl.EclListIterator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.libs.ecl.</span></span><span class="sig-name descname"><span class="pre">EclListIterator</span></span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L1242"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.EclListIterator" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Iterator object for an ECL list</p>
+<p>This class is used to implement the iterator protocol for EclObject.
+Do not instantiate this class directly but use the iterator method
+on an EclObject instead. It is an error if the EclObject is not a list.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">I</span><span class="o">=</span><span class="n">EclListIterator</span><span class="p">(</span><span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;(1 2 3)&quot;</span><span class="p">))</span>
+<span class="gp">sage:</span> <span class="nb">type</span><span class="p">(</span><span class="n">I</span><span class="p">)</span>
+<span class="go">&lt;class &#39;sage.libs.ecl.EclListIterator&#39;&gt;</span>
+<span class="gp">sage:</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">I</span><span class="p">]</span>
+<span class="go">[&lt;ECL: 1&gt;, &lt;ECL: 2&gt;, &lt;ECL: 3&gt;]</span>
+<span class="gp">sage:</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;(1 2 3)&quot;</span><span class="p">)]</span>
+<span class="go">[&lt;ECL: 1&gt;, &lt;ECL: 2&gt;, &lt;ECL: 3&gt;]</span>
+<span class="gp">sage:</span> <span class="n">EclListIterator</span><span class="p">(</span><span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">))</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">TypeError: ECL object is not iterable</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">I</span><span class="o">=</span><span class="n">EclListIterator</span><span class="p">(</span><span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;(1 2 3)&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">I</span><span class="p">)</span>
+<span class="go">&lt;class &#39;sage.libs.ecl.EclListIterator&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">I</span><span class="p">]</span>
+<span class="go">[&lt;ECL: 1&gt;, &lt;ECL: 2&gt;, &lt;ECL: 3&gt;]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;(1 2 3)&quot;</span><span class="p">)]</span>
+<span class="go">[&lt;ECL: 1&gt;, &lt;ECL: 2&gt;, &lt;ECL: 3&gt;]</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclListIterator</span><span class="p">(</span><span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">))</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">TypeError: ECL object is not iterable</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sage.libs.ecl.EclObject">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.libs.ecl.</span></span><span class="sig-name descname"><span class="pre">EclObject</span></span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L541"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.EclObject" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Python wrapper of ECL objects</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">EclObject</span></code> forms a wrapper around ECL objects. The wrapper ensures
+that the data structure pointed to is protected from garbage collection in
+ECL by installing a pointer to it from a global data structure within the
+scope of the ECL garbage collector. This pointer is destroyed upon
+destruction of the EclObject.</p>
+<p>EclObject() takes a Python object and tries to find a representation of it
+in Lisp.</p>
+<p>EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab">Python lists get mapped to LISP lists. None and Boolean values to
+appropriate values in LISP:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">([</span><span class="kc">None</span><span class="p">,</span><span class="n">true</span><span class="p">,</span><span class="n">false</span><span class="p">])</span>
+<span class="go">&lt;ECL: (NIL T NIL)&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">([</span><span class="kc">None</span><span class="p">,</span><span class="n">true</span><span class="p">,</span><span class="n">false</span><span class="p">])</span>
+<span class="go">&lt;ECL: (NIL T NIL)&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Numerical values are translated to the appropriate type in LISP:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">&lt;ECL: 1&gt;</span>
+<span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">40</span><span class="p">)</span>
+<span class="go">&lt;ECL: 10000000000000000000000000000000000000000&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">&lt;ECL: 1&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">40</span><span class="p">))</span>
+<span class="go">&lt;ECL: 10000000000000000000000000000000000000000&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Floats in Python are IEEE double, which LISP has as well. However,
+the printing of floating point types in LISP depends on settings:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">EclObject</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="mf">1.234e40</span><span class="p">))</span>
+<span class="gp">sage:</span> <span class="n">ecl_eval</span><span class="p">(</span><span class="s2">&quot;(setf *read-default-float-format* &#39;single-float)&quot;</span><span class="p">)</span>
+<span class="go">&lt;ECL: SINGLE-FLOAT&gt;</span>
+<span class="gp">sage:</span> <span class="n">a</span>
+<span class="go">&lt;ECL: 1.234d40&gt;</span>
+<span class="gp">sage:</span> <span class="n">ecl_eval</span><span class="p">(</span><span class="s2">&quot;(setf *read-default-float-format* &#39;double-float)&quot;</span><span class="p">)</span>
+<span class="go">&lt;ECL: DOUBLE-FLOAT&gt;</span>
+<span class="gp">sage:</span> <span class="n">a</span>
+<span class="go">&lt;ECL: 1.234e40&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">EclObject</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;1.234e40&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ecl_eval</span><span class="p">(</span><span class="s2">&quot;(setf *read-default-float-format* &#39;single-float)&quot;</span><span class="p">)</span>
+<span class="go">&lt;ECL: SINGLE-FLOAT&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span>
+<span class="go">&lt;ECL: 1.234d40&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ecl_eval</span><span class="p">(</span><span class="s2">&quot;(setf *read-default-float-format* &#39;double-float)&quot;</span><span class="p">)</span>
+<span class="go">&lt;ECL: DOUBLE-FLOAT&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span>
+<span class="go">&lt;ECL: 1.234e40&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Tuples are translated to dotted lists:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">(</span> <span class="p">(</span><span class="n">false</span><span class="p">,</span> <span class="n">true</span><span class="p">))</span>
+<span class="go">&lt;ECL: (NIL . T)&gt;</span>
+<span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">(</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="p">)</span>
+<span class="go">&lt;ECL: (1 2 . 3)&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">(</span> <span class="p">(</span><span class="n">false</span><span class="p">,</span> <span class="n">true</span><span class="p">))</span>
+<span class="go">&lt;ECL: (NIL . T)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">(</span> <span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="p">)</span>
+<span class="go">&lt;ECL: (1 2 . 3)&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Strings are fed to the reader, so a string normally results in a symbol:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;Symbol&quot;</span><span class="p">)</span>
+<span class="go">&lt;ECL: SYMBOL&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;Symbol&quot;</span><span class="p">)</span>
+<span class="go">&lt;ECL: SYMBOL&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">But with proper quotation one can construct a lisp string object too:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">(</span><span class="s1">&#39;&quot;Symbol&quot;&#39;</span><span class="p">)</span>
+<span class="go">&lt;ECL: &quot;Symbol&quot;&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--2" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">(</span><span class="s1">&#39;&quot;Symbol&quot;&#39;</span><span class="p">)</span>
+<span class="go">&lt;ECL: &quot;Symbol&quot;&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Or any other object that the Lisp reader can construct:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">(</span><span class="s1">&#39;#(&quot;I&quot; am &quot;just&quot; a &quot;simple&quot; vector)&#39;</span><span class="p">)</span>
+<span class="go">&lt;ECL: #(&quot;I&quot; AM &quot;just&quot; A &quot;simple&quot; VECTOR)&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--2" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">(</span><span class="s1">&#39;#(&quot;I&quot; am &quot;just&quot; a &quot;simple&quot; vector)&#39;</span><span class="p">)</span>
+<span class="go">&lt;ECL: #(&quot;I&quot; AM &quot;just&quot; A &quot;simple&quot; VECTOR)&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">By means of Lisp reader macros, you can include arbitrary objects:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">([</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;&#39;&#39;#.(make-hash-table :test #&#39;equal)&#39;&#39;&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="go">&lt;ECL: (1 2 #&lt;hash-table ...&gt; 4)&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--8-input--2" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">([</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;&#39;&#39;#.(make-hash-table :test #&#39;equal)&#39;&#39;&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">)])</span>
+<span class="go">&lt;ECL: (1 2 #&lt;hash-table ...&gt; 4)&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Using an optional argument, you can control how strings are handled:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;String&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="go">&lt;ECL: &quot;String&quot;&gt;</span>
+<span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">(</span><span class="s1">&#39;#(I may look like a vector but I am a string)&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="go">&lt;ECL: &quot;#(I may look like a vector but I am a string)&quot;&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--9-input--2" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;String&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="go">&lt;ECL: &quot;String&quot;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">(</span><span class="s1">&#39;#(I may look like a vector but I am a string)&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="go">&lt;ECL: &quot;#(I may look like a vector but I am a string)&quot;&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">This also affects strings within nested lists and tuples</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;String&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span>
+<span class="go">&lt;ECL: (1 2 &quot;String&quot; 4)&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--10-input--2" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="s2">&quot;String&quot;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">)],</span> <span class="kc">False</span><span class="p">)</span>
+<span class="go">&lt;ECL: (1 2 &quot;String&quot; 4)&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">EclObjects translate to themselves, so one can mix:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">EclObject</span><span class="p">([</span><span class="mi">3</span><span class="p">])])</span>
+<span class="go">&lt;ECL: (1 2 (3))&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--11-input--2" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">EclObject</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)])])</span>
+<span class="go">&lt;ECL: (1 2 (3))&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">Calling an EclObject translates into the appropriate LISP <code class="docutils literal notranslate"><span class="pre">apply</span></code>,
+where the argument is transformed into an EclObject itself, so one can
+flexibly apply LISP functions:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">car</span> <span class="o">=</span> <span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;car&quot;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">cdr</span> <span class="o">=</span> <span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;cdr&quot;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">car</span><span class="p">(</span><span class="n">cdr</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]))</span>
+<span class="go">&lt;ECL: 2&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--12-input--2" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">car</span> <span class="o">=</span> <span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;car&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">cdr</span> <span class="o">=</span> <span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;cdr&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">car</span><span class="p">(</span><span class="n">cdr</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)]))</span>
+<span class="go">&lt;ECL: 2&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">and even construct and evaluate arbitrary S-expressions:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nb">eval</span><span class="o">=</span><span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;eval&quot;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">quote</span><span class="o">=</span><span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;quote&quot;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="nb">eval</span><span class="p">([</span><span class="n">car</span><span class="p">,</span> <span class="p">[</span><span class="n">cdr</span><span class="p">,</span> <span class="p">[</span><span class="n">quote</span><span class="p">,[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]]]])</span>
+<span class="go">&lt;ECL: 2&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--13-input--2" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">eval</span><span class="o">=</span><span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;eval&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">quote</span><span class="o">=</span><span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;quote&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">eval</span><span class="p">([</span><span class="n">car</span><span class="p">,</span> <span class="p">[</span><span class="n">cdr</span><span class="p">,</span> <span class="p">[</span><span class="n">quote</span><span class="p">,[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)]]]])</span>
+<span class="go">&lt;ECL: 2&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.libs.ecl.EclObject.atomp">
+<span class="sig-name descname"><span class="pre">atomp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L1214"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.EclObject.atomp" title="Link to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <code class="docutils literal notranslate"><span class="pre">self</span></code> is atomic, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">([])</span><span class="o">.</span><span class="n">atomp</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">([[]])</span><span class="o">.</span><span class="n">atomp</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--14-input--2" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">([])</span><span class="o">.</span><span class="n">atomp</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">([[]])</span><span class="o">.</span><span class="n">atomp</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.libs.ecl.EclObject.caar">
+<span class="sig-name descname"><span class="pre">caar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L1044"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.EclObject.caar" title="Link to this definition">¶</a></dt>
+<dd><p>Return the caar of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">=</span><span class="n">EclObject</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]])</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">car</span><span class="p">()</span>
+<span class="go">&lt;ECL: (1 2)&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cdr</span><span class="p">()</span>
+<span class="go">&lt;ECL: ((3 4))&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">caar</span><span class="p">()</span>
+<span class="go">&lt;ECL: 1&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cadr</span><span class="p">()</span>
+<span class="go">&lt;ECL: (3 4)&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cdar</span><span class="p">()</span>
+<span class="go">&lt;ECL: (2)&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cddr</span><span class="p">()</span>
+<span class="go">&lt;ECL: NIL&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--15-input--2" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">=</span><span class="n">EclObject</span><span class="p">([[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)],[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">)]])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">car</span><span class="p">()</span>
+<span class="go">&lt;ECL: (1 2)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cdr</span><span class="p">()</span>
+<span class="go">&lt;ECL: ((3 4))&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">caar</span><span class="p">()</span>
+<span class="go">&lt;ECL: 1&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cadr</span><span class="p">()</span>
+<span class="go">&lt;ECL: (3 4)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cdar</span><span class="p">()</span>
+<span class="go">&lt;ECL: (2)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cddr</span><span class="p">()</span>
+<span class="go">&lt;ECL: NIL&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.libs.ecl.EclObject.cadr">
+<span class="sig-name descname"><span class="pre">cadr</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L1069"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.EclObject.cadr" title="Link to this definition">¶</a></dt>
+<dd><p>Return the cadr of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">=</span><span class="n">EclObject</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]])</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">car</span><span class="p">()</span>
+<span class="go">&lt;ECL: (1 2)&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cdr</span><span class="p">()</span>
+<span class="go">&lt;ECL: ((3 4))&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">caar</span><span class="p">()</span>
+<span class="go">&lt;ECL: 1&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cadr</span><span class="p">()</span>
+<span class="go">&lt;ECL: (3 4)&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cdar</span><span class="p">()</span>
+<span class="go">&lt;ECL: (2)&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cddr</span><span class="p">()</span>
+<span class="go">&lt;ECL: NIL&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--16-input--2" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">=</span><span class="n">EclObject</span><span class="p">([[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)],[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">)]])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">car</span><span class="p">()</span>
+<span class="go">&lt;ECL: (1 2)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cdr</span><span class="p">()</span>
+<span class="go">&lt;ECL: ((3 4))&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">caar</span><span class="p">()</span>
+<span class="go">&lt;ECL: 1&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cadr</span><span class="p">()</span>
+<span class="go">&lt;ECL: (3 4)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cdar</span><span class="p">()</span>
+<span class="go">&lt;ECL: (2)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cddr</span><span class="p">()</span>
+<span class="go">&lt;ECL: NIL&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.libs.ecl.EclObject.car">
+<span class="sig-name descname"><span class="pre">car</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L994"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.EclObject.car" title="Link to this definition">¶</a></dt>
+<dd><p>Return the car of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">=</span><span class="n">EclObject</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]])</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">car</span><span class="p">()</span>
+<span class="go">&lt;ECL: (1 2)&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cdr</span><span class="p">()</span>
+<span class="go">&lt;ECL: ((3 4))&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">caar</span><span class="p">()</span>
+<span class="go">&lt;ECL: 1&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cadr</span><span class="p">()</span>
+<span class="go">&lt;ECL: (3 4)&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cdar</span><span class="p">()</span>
+<span class="go">&lt;ECL: (2)&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cddr</span><span class="p">()</span>
+<span class="go">&lt;ECL: NIL&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--17-input--2" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">=</span><span class="n">EclObject</span><span class="p">([[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)],[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">)]])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">car</span><span class="p">()</span>
+<span class="go">&lt;ECL: (1 2)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cdr</span><span class="p">()</span>
+<span class="go">&lt;ECL: ((3 4))&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">caar</span><span class="p">()</span>
+<span class="go">&lt;ECL: 1&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cadr</span><span class="p">()</span>
+<span class="go">&lt;ECL: (3 4)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cdar</span><span class="p">()</span>
+<span class="go">&lt;ECL: (2)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cddr</span><span class="p">()</span>
+<span class="go">&lt;ECL: NIL&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.libs.ecl.EclObject.cdar">
+<span class="sig-name descname"><span class="pre">cdar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L1094"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.EclObject.cdar" title="Link to this definition">¶</a></dt>
+<dd><p>Return the cdar of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">=</span><span class="n">EclObject</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]])</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">car</span><span class="p">()</span>
+<span class="go">&lt;ECL: (1 2)&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cdr</span><span class="p">()</span>
+<span class="go">&lt;ECL: ((3 4))&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">caar</span><span class="p">()</span>
+<span class="go">&lt;ECL: 1&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cadr</span><span class="p">()</span>
+<span class="go">&lt;ECL: (3 4)&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cdar</span><span class="p">()</span>
+<span class="go">&lt;ECL: (2)&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cddr</span><span class="p">()</span>
+<span class="go">&lt;ECL: NIL&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--18-input--2" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">=</span><span class="n">EclObject</span><span class="p">([[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)],[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">)]])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">car</span><span class="p">()</span>
+<span class="go">&lt;ECL: (1 2)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cdr</span><span class="p">()</span>
+<span class="go">&lt;ECL: ((3 4))&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">caar</span><span class="p">()</span>
+<span class="go">&lt;ECL: 1&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cadr</span><span class="p">()</span>
+<span class="go">&lt;ECL: (3 4)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cdar</span><span class="p">()</span>
+<span class="go">&lt;ECL: (2)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cddr</span><span class="p">()</span>
+<span class="go">&lt;ECL: NIL&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.libs.ecl.EclObject.cddr">
+<span class="sig-name descname"><span class="pre">cddr</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L1119"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.EclObject.cddr" title="Link to this definition">¶</a></dt>
+<dd><p>Return the cddr of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">=</span><span class="n">EclObject</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]])</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">car</span><span class="p">()</span>
+<span class="go">&lt;ECL: (1 2)&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cdr</span><span class="p">()</span>
+<span class="go">&lt;ECL: ((3 4))&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">caar</span><span class="p">()</span>
+<span class="go">&lt;ECL: 1&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cadr</span><span class="p">()</span>
+<span class="go">&lt;ECL: (3 4)&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cdar</span><span class="p">()</span>
+<span class="go">&lt;ECL: (2)&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cddr</span><span class="p">()</span>
+<span class="go">&lt;ECL: NIL&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--19-input--2" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">=</span><span class="n">EclObject</span><span class="p">([[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)],[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">)]])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">car</span><span class="p">()</span>
+<span class="go">&lt;ECL: (1 2)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cdr</span><span class="p">()</span>
+<span class="go">&lt;ECL: ((3 4))&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">caar</span><span class="p">()</span>
+<span class="go">&lt;ECL: 1&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cadr</span><span class="p">()</span>
+<span class="go">&lt;ECL: (3 4)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cdar</span><span class="p">()</span>
+<span class="go">&lt;ECL: (2)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cddr</span><span class="p">()</span>
+<span class="go">&lt;ECL: NIL&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.libs.ecl.EclObject.cdr">
+<span class="sig-name descname"><span class="pre">cdr</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L1019"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.EclObject.cdr" title="Link to this definition">¶</a></dt>
+<dd><p>Return the cdr of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">=</span><span class="n">EclObject</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]])</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">car</span><span class="p">()</span>
+<span class="go">&lt;ECL: (1 2)&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cdr</span><span class="p">()</span>
+<span class="go">&lt;ECL: ((3 4))&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">caar</span><span class="p">()</span>
+<span class="go">&lt;ECL: 1&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cadr</span><span class="p">()</span>
+<span class="go">&lt;ECL: (3 4)&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cdar</span><span class="p">()</span>
+<span class="go">&lt;ECL: (2)&gt;</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">cddr</span><span class="p">()</span>
+<span class="go">&lt;ECL: NIL&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--20-input--2" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">=</span><span class="n">EclObject</span><span class="p">([[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)],[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">)]])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">car</span><span class="p">()</span>
+<span class="go">&lt;ECL: (1 2)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cdr</span><span class="p">()</span>
+<span class="go">&lt;ECL: ((3 4))&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">caar</span><span class="p">()</span>
+<span class="go">&lt;ECL: 1&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cadr</span><span class="p">()</span>
+<span class="go">&lt;ECL: (3 4)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cdar</span><span class="p">()</span>
+<span class="go">&lt;ECL: (2)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">cddr</span><span class="p">()</span>
+<span class="go">&lt;ECL: NIL&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.libs.ecl.EclObject.characterp">
+<span class="sig-name descname"><span class="pre">characterp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L1158"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.EclObject.characterp" title="Link to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <code class="docutils literal notranslate"><span class="pre">self</span></code> is a character, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+<p>Strings are not characters</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">(</span><span class="s1">&#39;&quot;a&quot;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">characterp</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--21-input--2" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">(</span><span class="s1">&#39;&quot;a&quot;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">characterp</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.libs.ecl.EclObject.cons">
+<span class="sig-name descname"><span class="pre">cons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L942"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.EclObject.cons" title="Link to this definition">¶</a></dt>
+<dd><p>Apply cons to <code class="docutils literal notranslate"><span class="pre">self</span></code> and argument and return the result.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">a</span><span class="o">=</span><span class="n">EclObject</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">b</span><span class="o">=</span><span class="n">EclObject</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">a</span><span class="o">.</span><span class="n">cons</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">&lt;ECL: (1 . 2)&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--22-input--2" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span><span class="o">=</span><span class="n">EclObject</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">b</span><span class="o">=</span><span class="n">EclObject</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">cons</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">&lt;ECL: (1 . 2)&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.libs.ecl.EclObject.consp">
+<span class="sig-name descname"><span class="pre">consp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L1200"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.EclObject.consp" title="Link to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <code class="docutils literal notranslate"><span class="pre">self</span></code> is a cons, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise. NIL is not a cons.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">([])</span><span class="o">.</span><span class="n">consp</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">([[]])</span><span class="o">.</span><span class="n">consp</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--23-input--2" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">([])</span><span class="o">.</span><span class="n">consp</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">([[]])</span><span class="o">.</span><span class="n">consp</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.libs.ecl.EclObject.eval">
+<span class="sig-name descname"><span class="pre">eval</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L923"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.EclObject.eval" title="Link to this definition">¶</a></dt>
+<dd><p>Evaluate object as an S-Expression.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">S</span><span class="o">=</span><span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;(+ 1 2)&quot;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">S</span>
+<span class="go">&lt;ECL: (+ 1 2)&gt;</span>
+<span class="gp">sage:</span> <span class="n">S</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="go">&lt;ECL: 3&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--24-input--2" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">S</span><span class="o">=</span><span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;(+ 1 2)&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">S</span>
+<span class="go">&lt;ECL: (+ 1 2)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">S</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="go">&lt;ECL: 3&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.libs.ecl.EclObject.fixnump">
+<span class="sig-name descname"><span class="pre">fixnump</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L1144"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.EclObject.fixnump" title="Link to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <code class="docutils literal notranslate"><span class="pre">self</span></code> is a fixnum, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">fixnump</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">200</span><span class="p">)</span><span class="o">.</span><span class="n">fixnump</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--25-input--2" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">fixnump</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">200</span><span class="p">))</span><span class="o">.</span><span class="n">fixnump</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.libs.ecl.EclObject.listp">
+<span class="sig-name descname"><span class="pre">listp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L1186"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.EclObject.listp" title="Link to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <code class="docutils literal notranslate"><span class="pre">self</span></code> is a list, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise. NIL is a list.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">([])</span><span class="o">.</span><span class="n">listp</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">([[]])</span><span class="o">.</span><span class="n">listp</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--26-input--2" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">([])</span><span class="o">.</span><span class="n">listp</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">([[]])</span><span class="o">.</span><span class="n">listp</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.libs.ecl.EclObject.nullp">
+<span class="sig-name descname"><span class="pre">nullp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L1172"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.EclObject.nullp" title="Link to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <code class="docutils literal notranslate"><span class="pre">self</span></code> is NIL, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">([])</span><span class="o">.</span><span class="n">nullp</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">([[]])</span><span class="o">.</span><span class="n">nullp</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--27-input--2" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">([])</span><span class="o">.</span><span class="n">nullp</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">([[]])</span><span class="o">.</span><span class="n">nullp</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.libs.ecl.EclObject.python">
+<span class="sig-name descname"><span class="pre">python</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L725"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.EclObject.python" title="Link to this definition">¶</a></dt>
+<dd><p>Convert an EclObject to a python object.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--28-input--1" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">EclObject</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,(</span><span class="s2">&quot;three&quot;</span><span class="p">,</span><span class="s1">&#39;&quot;four&quot;&#39;</span><span class="p">)])</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">python</span><span class="p">()</span>
+<span class="go">[1, 2, (&#39;THREE&#39;, &#39;&quot;four&quot;&#39;)]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--28-input--2" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span> <span class="o">=</span> <span class="n">EclObject</span><span class="p">([</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),(</span><span class="s2">&quot;three&quot;</span><span class="p">,</span><span class="s1">&#39;&quot;four&quot;&#39;</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">python</span><span class="p">()</span>
+<span class="go">[1, 2, (&#39;THREE&#39;, &#39;&quot;four&quot;&#39;)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.libs.ecl.EclObject.rplaca">
+<span class="sig-name descname"><span class="pre">rplaca</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L956"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.EclObject.rplaca" title="Link to this definition">¶</a></dt>
+<dd><p>Destructively replace car(self) with d.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">=</span><span class="n">EclObject</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">sage:</span> <span class="n">L</span>
+<span class="go">&lt;ECL: (1 . 2)&gt;</span>
+<span class="gp">sage:</span> <span class="n">a</span><span class="o">=</span><span class="n">EclObject</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">rplaca</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">L</span>
+<span class="go">&lt;ECL: (3 . 2)&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--29-input--2" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">=</span><span class="n">EclObject</span><span class="p">((</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span>
+<span class="go">&lt;ECL: (1 . 2)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span><span class="o">=</span><span class="n">EclObject</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">rplaca</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span>
+<span class="go">&lt;ECL: (3 . 2)&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.libs.ecl.EclObject.rplacd">
+<span class="sig-name descname"><span class="pre">rplacd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L975"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.EclObject.rplacd" title="Link to this definition">¶</a></dt>
+<dd><p>Destructively replace cdr(self) with d.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--30-input--1" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">=</span><span class="n">EclObject</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">sage:</span> <span class="n">L</span>
+<span class="go">&lt;ECL: (1 . 2)&gt;</span>
+<span class="gp">sage:</span> <span class="n">a</span><span class="o">=</span><span class="n">EclObject</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">rplacd</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">L</span>
+<span class="go">&lt;ECL: (1 . 3)&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--30-input--2" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">=</span><span class="n">EclObject</span><span class="p">((</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span>
+<span class="go">&lt;ECL: (1 . 2)&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span><span class="o">=</span><span class="n">EclObject</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="o">.</span><span class="n">rplacd</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span>
+<span class="go">&lt;ECL: (1 . 3)&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sage.libs.ecl.EclObject.symbolp">
+<span class="sig-name descname"><span class="pre">symbolp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L1228"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.EclObject.symbolp" title="Link to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <code class="docutils literal notranslate"><span class="pre">self</span></code> is a symbol, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--31-input--1" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">([])</span><span class="o">.</span><span class="n">symbolp</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">sage:</span> <span class="n">EclObject</span><span class="p">([[]])</span><span class="o">.</span><span class="n">symbolp</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--31-input--2" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">([])</span><span class="o">.</span><span class="n">symbolp</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">EclObject</span><span class="p">([[]])</span><span class="o">.</span><span class="n">symbolp</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.libs.ecl.ecl_eval">
+<span class="sig-prename descclassname"><span class="pre">sage.libs.ecl.</span></span><span class="sig-name descname"><span class="pre">ecl_eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L1335"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.ecl_eval" title="Link to this definition">¶</a></dt>
+<dd><p>Read and evaluate string in Lisp and return the result.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--32-input--1" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">ecl_eval</span><span class="p">(</span><span class="s2">&quot;(defun fibo (n)(cond((= n 0) 0)((= n 1) 1)(T (+ (fibo (- n 1)) (fibo (- n 2))))))&quot;</span><span class="p">)</span>
+<span class="go">&lt;ECL: FIBO&gt;</span>
+<span class="gp">sage:</span> <span class="n">ecl_eval</span><span class="p">(</span><span class="s2">&quot;(mapcar &#39;fibo &#39;(1 2 3 4 5 6 7))&quot;</span><span class="p">)</span>
+<span class="go">&lt;ECL: (1 1 2 3 5 8 13)&gt;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--32-input--2" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ecl_eval</span><span class="p">(</span><span class="s2">&quot;(defun fibo (n)(cond((= n 0) 0)((= n 1) 1)(T (+ (fibo (- n 1)) (fibo (- n 2))))))&quot;</span><span class="p">)</span>
+<span class="go">&lt;ECL: FIBO&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">ecl_eval</span><span class="p">(</span><span class="s2">&quot;(mapcar &#39;fibo &#39;(1 2 3 4 5 6 7))&quot;</span><span class="p">)</span>
+<span class="go">&lt;ECL: (1 1 2 3 5 8 13)&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.libs.ecl.init_ecl">
+<span class="sig-prename descclassname"><span class="pre">sage.libs.ecl.</span></span><span class="sig-name descname"><span class="pre">init_ecl</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L220"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.init_ecl" title="Link to this definition">¶</a></dt>
+<dd><p>Internal function to initialize ecl. Do not call.</p>
+<p>This function initializes the ECL library for use within Python.
+This routine should only be called once and importing the ecl library
+interface already does that, so do not call this yourself.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--33-input--1" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--33-input--2" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab">At this point, init_ecl() has run. Explicitly executing it
+gives an error:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--34-input--1" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">init_ecl</span><span class="p">()</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">RuntimeError: ECL is already initialized</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--34-input--2" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">init_ecl</span><span class="p">()</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="gp">...</span>
+<span class="go">RuntimeError: ECL is already initialized</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.libs.ecl.print_objects">
+<span class="sig-prename descclassname"><span class="pre">sage.libs.ecl.</span></span><span class="sig-name descname"><span class="pre">print_objects</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L386"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.print_objects" title="Link to this definition">¶</a></dt>
+<dd><p>Print GC-protection list.</p>
+<p>Diagnostic function. ECL objects that are bound to Python objects need to
+be protected from being garbage collected. We do this by including them
+in a doubly linked list bound to the global ECL symbol
+<em>SAGE-LIST-OF-OBJECTS</em>. Only non-immediate values get included, so
+small integers do not get linked in. This routine prints the values
+currently stored.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--35-input--1" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">a</span><span class="o">=</span><span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">b</span><span class="o">=</span><span class="n">EclObject</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">c</span><span class="o">=</span><span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">print_objects</span><span class="p">()</span> <span class="c1">#random because previous test runs can have left objects</span>
+<span class="go">NIL</span>
+<span class="go">WORLD</span>
+<span class="go">HELLO</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--35-input--2" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span><span class="o">=</span><span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">b</span><span class="o">=</span><span class="n">EclObject</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">=</span><span class="n">EclObject</span><span class="p">(</span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">print_objects</span><span class="p">()</span> <span class="c1">#random because previous test runs can have left objects</span>
+<span class="go">NIL</span>
+<span class="go">WORLD</span>
+<span class="go">HELLO</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.libs.ecl.shutdown_ecl">
+<span class="sig-prename descclassname"><span class="pre">sage.libs.ecl.</span></span><span class="sig-name descname"><span class="pre">shutdown_ecl</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L368"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.shutdown_ecl" title="Link to this definition">¶</a></dt>
+<dd><p>Shut down ecl. Do not call.</p>
+<p>Given the way that ECL is used from python, it is very difficult to ensure
+that no ECL objects exist at a particular time. Hence, destroying ECL is a
+risky proposition.</p>
+<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--36-input--1" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--1">Sage</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">sage:</span> <span class="n">shutdown_ecl</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--36-input--2" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--2">Python</label><div class="tab-content docutils container">
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.libs.ecl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">shutdown_ecl</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.libs.ecl.test_ecl_options">
+<span class="sig-prename descclassname"><span class="pre">sage.libs.ecl.</span></span><span class="sig-name descname"><span class="pre">test_ecl_options</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L140"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.test_ecl_options" title="Link to this definition">¶</a></dt>
+<dd><p>Print an overview of the ECL options.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sage.libs.ecl.test_sigint_before_ecl_sig_on">
+<span class="sig-prename descclassname"><span class="pre">sage.libs.ecl.</span></span><span class="sig-name descname"><span class="pre">test_sigint_before_ecl_sig_on</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/ecl.pyx#L116"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.ecl.test_sigint_before_ecl_sig_on" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="eclib/interface.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Sage interface to Cremona’s <code class="docutils literal notranslate"><span class="pre">eclib</span></code> library (also known as <code class="docutils literal notranslate"><span class="pre">mwrank</span></code>)</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="../../index.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Home</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2005--2025, The Sage Development Team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Library interface to Embeddable Common Lisp (ECL)</a><ul>
+<li><a class="reference internal" href="#sage.libs.ecl.EclListIterator"><code class="docutils literal notranslate"><span class="pre">EclListIterator</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.EclObject"><code class="docutils literal notranslate"><span class="pre">EclObject</span></code></a><ul>
+<li><a class="reference internal" href="#sage.libs.ecl.EclObject.atomp"><code class="docutils literal notranslate"><span class="pre">atomp()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.EclObject.caar"><code class="docutils literal notranslate"><span class="pre">caar()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.EclObject.cadr"><code class="docutils literal notranslate"><span class="pre">cadr()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.EclObject.car"><code class="docutils literal notranslate"><span class="pre">car()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.EclObject.cdar"><code class="docutils literal notranslate"><span class="pre">cdar()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.EclObject.cddr"><code class="docutils literal notranslate"><span class="pre">cddr()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.EclObject.cdr"><code class="docutils literal notranslate"><span class="pre">cdr()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.EclObject.characterp"><code class="docutils literal notranslate"><span class="pre">characterp()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.EclObject.cons"><code class="docutils literal notranslate"><span class="pre">cons()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.EclObject.consp"><code class="docutils literal notranslate"><span class="pre">consp()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.EclObject.eval"><code class="docutils literal notranslate"><span class="pre">eval()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.EclObject.fixnump"><code class="docutils literal notranslate"><span class="pre">fixnump()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.EclObject.listp"><code class="docutils literal notranslate"><span class="pre">listp()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.EclObject.nullp"><code class="docutils literal notranslate"><span class="pre">nullp()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.EclObject.python"><code class="docutils literal notranslate"><span class="pre">python()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.EclObject.rplaca"><code class="docutils literal notranslate"><span class="pre">rplaca()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.EclObject.rplacd"><code class="docutils literal notranslate"><span class="pre">rplacd()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.EclObject.symbolp"><code class="docutils literal notranslate"><span class="pre">symbolp()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sage.libs.ecl.ecl_eval"><code class="docutils literal notranslate"><span class="pre">ecl_eval()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.init_ecl"><code class="docutils literal notranslate"><span class="pre">init_ecl()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.print_objects"><code class="docutils literal notranslate"><span class="pre">print_objects()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.shutdown_ecl"><code class="docutils literal notranslate"><span class="pre">shutdown_ecl()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.test_ecl_options"><code class="docutils literal notranslate"><span class="pre">test_ecl_options()</span></code></a></li>
+<li><a class="reference internal" href="#sage.libs.ecl.test_sigint_before_ecl_sig_on"><code class="docutils literal notranslate"><span class="pre">test_sigint_before_ecl_sig_on()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../%5fstatic/documentation_options.js"></script>
+    <script src="../../../%5fstatic/doctools.js"></script>
+    <script src="../../../%5fstatic/sphinx_highlight.js"></script>
+    <script src="../../../%5fstatic/scripts/furo.js"></script>
+    <script src="../../../%5fstatic/clipboard.min.js"></script>
+    <script src="../../../%5fstatic/copybutton.js"></script>
+    <script src="../../../%5fstatic/tabs.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>
+    </body>
+</html>

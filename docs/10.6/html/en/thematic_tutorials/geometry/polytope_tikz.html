@@ -1,0 +1,598 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Steenrod Algebra Modules" href="../steenrod_algebra_modules.html" /><link rel="prev" title="Visualization of polyhedron objects in Sage" href="visualization.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>Draw polytopes in LaTeX using TikZ - Thematic Tutorials</title>
+      <link rel="stylesheet" type="text/css" href="../../%5fstatic/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/custom-furo.css?v=d2ecc25a" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/custom-jupyter-sphinx.css?v=75860c6b" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/custom-codemirror-monokai.css?v=b5588f12" />
+    <link rel="stylesheet" type="text/css" href="../../%5fstatic/custom-tabs.css?v=8a724d73" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  --color-brand-primary: #0f0fff;
+  --color-brand-content: #0f0fff;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">Thematic Tutorials</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand" href="../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../%5fstatic/logo_sagemath_black.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../%5fstatic/logo_sagemath_white.svg" alt="Dark Logo"/>
+  </div>
+  
+      <span class="sidebar-brand-text">passagemath 10.6.1 Documentation</span>
+  
+</a><div class="select-wrapper">
+  <select id="versions-menu" onchange="changeVersion()">
+    <option value="" selected>other version</option>
+    <option value="https://doc-develop--sagemath.netlify.app">develop</option>
+  </select>
+</div><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-home">
+  <div class="sidebar-tree">
+    <ul><li class="toctree-l1">
+      <a class="reference internal" href="../index.html">Home - Thematic Tutorials</a>
+    </li></ul>
+  </div>
+</div><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../toctree.html">Thematic tutorial document tree</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Thematic tutorial document tree</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../algebraic_combinatorics.html">Algebraic Combinatorics in Sage</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Algebraic Combinatorics in Sage</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../algebraic_combinatorics/walks.html">Walks in graphs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../algebraic_combinatorics/n_cube.html"><span class="math notranslate nohighlight">\(n\)</span>-Cube</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../algebraic_combinatorics/tsetlin_library.html">The Tsetlin library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../algebraic_combinatorics/rsk.html">Young’s lattice and the RSK algorithm</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../sandpile.html">Abelian Sandpile Model</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Abelian Sandpile Model</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../group_theory.html">Group Theory and Sage</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../lie.html">Lie Methods and Related Combinatorics in Sage</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Lie Methods and Related Combinatorics in Sage</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../lie/introduction.html">The Scope of this Document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/lie_basics.html">Lie Group Basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/weyl_character_ring.html">The Weyl Character Ring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/branching_rules.html">Maximal Subgroups and Branching Rules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/weyl_groups.html">Weyl Groups, Coxeter Groups and the Bruhat Order</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/crystals.html">Classical Crystals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/affine.html">Affine Root System Basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/integrable.html">Integrable Highest Weight Representations of Affine Lie algebras</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/affine_finite_crystals.html">Affine Finite Crystals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/affine_hw_crystals.html">Affine Highest Weight Crystals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/elementary_crystals.html">Elementary crystals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/infinity_crystals.html">Infinity Crystals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/iwahori_hecke_algebra.html">Iwahori Hecke Algebras</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/kazhdan_lusztig_polynomials.html">Kazhdan-Lusztig Polynomials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lie/bibliography.html">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../vector_calculus.html">Tutorial: Vector Calculus in Euclidean Spaces</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of Tutorial: Vector Calculus in Euclidean Spaces</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vector_calculus/vector_calc_cartesian.html">How to compute a gradient, a divergence or a curl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vector_calculus/vector_calc_curvilinear.html">How to perform vector calculus in curvilinear coordinates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vector_calculus/vector_calc_change.html">How to change coordinates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vector_calculus/vector_calc_advanced.html">Advanced aspects: the Euclidean space as a Riemannian manifold</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vector_calculus/vector_calc_plane.html">Vector calculus in the Euclidean plane</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../linear_programming.html">Linear Programming (Mixed Integer)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../numtheory_rsa.html">Number Theory and the RSA Public Key Cryptosystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coding_theory.html">Coding Theory in Sage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../structures_in_coding_theory.html">How to write your own classes for coding theory</a></li>
+<li class="toctree-l2 current has-children"><a class="reference internal" href="../geometry.html">Polyhedra</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Polyhedra</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="polyhedra_quicktutorial.html">A Brief Introduction to Polytopes in Sage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polyhedra_tutorial.html">A Longer Introduction to Polyhedral Computations in Sage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polyhedra_quickref.html">Quick reference for polyhedra in Sage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tips.html">Polyhedra tips and tricks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="visualization.html">Visualization of polyhedron objects in Sage</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">Draw polytopes in LaTeX using TikZ</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../steenrod_algebra_modules.html">Steenrod Algebra Modules</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of Steenrod Algebra Modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial-programming-python.html">Tutorial: Programming in Python and Sage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial-comprehensions.html">Tutorial: Comprehensions, Iterators, and Iterables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial-objects-and-classes.html">Tutorial: Objects and Classes in Python and Sage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functional_programming.html">Functional Programming for Mathematicians</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coercion_and_categories.html">How to implement new algebraic structures in Sage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial-implementing-algebraic-structures.html">Tutorial: Implementing Algebraic Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cython_interface.html">How to call a C code (or a compiled library) from Sage ?</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../numerical_sage/index.html">Numerical Computing with Sage</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of Numerical Computing with Sage</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../numerical_sage/numerical_tools.html">Numerical Tools</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of Numerical Tools</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../numerical_sage/numpy.html">NumPy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../numerical_sage/scipy.html">SciPy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../numerical_sage/cvxopt.html">Cvxopt</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../numerical_sage/using_compiled_code_iteractively.html">Using Compiled Code Interactively</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of Using Compiled Code Interactively</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../numerical_sage/f2py.html">f2py</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../numerical_sage/f2py_examples.html">More Interesting Examples with f2py</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../numerical_sage/ctypes.html">Ctypes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../numerical_sage/ctypes_examples.html">More complicated ctypes example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../numerical_sage/comparison_to_cython.html">Comparison to Cython/Pyrex</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../numerical_sage/parallel_computation.html">Parallel Computation</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of Parallel Computation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../numerical_sage/mpi4py.html">mpi4py</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../numerical_sage/parallel_laplace_solver.html">Parallel Laplace Solver</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../explicit_methods_in_number_theory/index.html">Three Lectures about Explicit Methods in Number Theory Using Sage</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of Three Lectures about Explicit Methods in Number Theory Using Sage</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../explicit_methods_in_number_theory/introduction.html">Introduction</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../explicit_methods_in_number_theory/number_fields.html">Number Fields</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle navigation of Number Fields</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/nf_introduction.html">Introduction to Number Fields</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/nf_galois_groups.html">Number Fields: Galois Groups and Class Groups</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/nf_orders.html">Orders and Relative Extensions</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../explicit_methods_in_number_theory/birds_eye_view.html">A Bird’s Eye View</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle navigation of A Bird’s Eye View</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/integer_factorization.html">Integer Factorization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/elliptic_curves.html">Elliptic Curves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/birds_other.html">The Matrix of Frobenius on Hyperelliptic Curves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/birds_other.html#modular-symbols">Modular Symbols</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/birds_other.html#enumerating-totally-real-number-fields">Enumerating Totally Real Number Fields</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/birds_other.html#bernoulli-numbers">Bernoulli Numbers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/birds_other.html#polynomial-arithmetic">Polynomial Arithmetic</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../explicit_methods_in_number_theory/modular_forms.html">Modular Forms</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle navigation of Modular Forms</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/modular_forms_and_hecke_operators.html">Modular Forms and Hecke Operators</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/modular_symbols.html">Modular Symbols</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/method_of_graphs.html">Method of Graphs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/level_one_forms.html">Level One Modular Forms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/half_integral.html">Half Integral Weight Forms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/generators_for_rings.html">Generators for Rings of Modular Forms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/l_series.html"><span class="math notranslate nohighlight">\(L\)</span>-series</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../explicit_methods_in_number_theory/modabvar.html">Modular Abelian Varieties</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../profiling.html">Profiling in Sage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sws2rst.html">Creating a Tutorial from an old Sage Worksheet (.sws)</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/blob/develop/src/doc/en/thematic_tutorials/geometry/polytope_tikz.rst" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/passagemath/passagemath/edit/develop/src/doc/en/thematic_tutorials/geometry/polytope_tikz.rst" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="draw-polytopes-in-latex-using-tikz">
+<span id="polytikz"></span><h1>Draw polytopes in LaTeX using TikZ<a class="headerlink" href="#draw-polytopes-in-latex-using-tikz" title="Link to this heading">¶</a></h1>
+<p><em>Author: Jean-Philippe Labbé &lt;<a class="reference external" href="mailto:labbe&#37;&#52;&#48;math&#46;fu-berlin&#46;de">labbe<span>&#64;</span>math<span>&#46;</span>fu-berlin<span>&#46;</span>de</a>&gt;</em></p>
+<p>It is sometimes very helpful to draw 3-dimensional polytopes in a
+paper. TikZ is a very versatile tool to draw in scientific documents
+and Sage can deal easily with 3-dimensional polytopes. Finally sagetex
+makes everything work together nicely between Sage, TikZ and
+LaTeX. Since version 6.3 of Sage, there is a function for (projection
+of) polytopes to output a TikZ picture of the polytope. Since version 9.8 of
+SageMath, the tikz output can be a <code class="docutils literal notranslate"><span class="pre">TikzPicture</span></code> object from the sage module
+<code class="docutils literal notranslate"><span class="pre">sage.misc.latex_standalone</span></code>. This short tutorial shows how it all works.</p>
+<section id="instructions">
+<h2>Instructions<a class="headerlink" href="#instructions" title="Link to this heading">¶</a></h2>
+<p>To put an image of a 3D-polytope in LaTeX using TikZ and Sage, simply follow the instructions:</p>
+<ul class="simple">
+<li><p>Install <a class="reference external" href="http://doc.sagemath.org/html/en/tutorial/sagetex.html">SageTex</a> (optional but recommended!)</p></li>
+<li><p>Put <code class="docutils literal notranslate"><span class="pre">\usepackage{tikz}</span></code> in the preamble of your article</p></li>
+<li><p>Open Sage and change the directory to your article’s by the command <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">/path/to/article</span></code></p></li>
+<li><p>Input your polytope, called P for example, to Sage</p></li>
+<li><p>Visualize the polytope P using the command <code class="docutils literal notranslate"><span class="pre">P.show(aspect_ratio=1)</span></code></p></li>
+<li><p>This will open an interactive view in your default browser, where you can rotate the polytope.</p></li>
+<li><p>Once the desired view angle is found, click on the information icon in the lower right-hand corner and select <em>Get Viewpoint</em>. This will copy a string of the form ‘[x,y,z],angle’ to your local clipboard.</p></li>
+<li><p>Go back to Sage and type <code class="docutils literal notranslate"><span class="pre">Img</span> <span class="pre">=</span> <span class="pre">P.tikz([x,y,z],angle,output_type='LatexExpr')</span></code>. You can paste the string here to save some typing.</p></li>
+<li><p><em>Img</em> now contains a Sage object of type <code class="docutils literal notranslate"><span class="pre">LatexExpr</span></code> containing the raw TikZ picture of your polytope.</p></li>
+</ul>
+<p>Alternatively, you can save the tikz image to a file, by doing</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Img</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">tikz</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">],</span> <span class="n">angle</span><span class="p">,</span> <span class="n">output_type</span><span class="o">=</span><span class="s1">&#39;TikzPicture&#39;</span><span class="p">)</span>
+<span class="n">Img</span><span class="o">.</span><span class="n">tex</span><span class="p">(</span><span class="s1">&#39;Img_poly.tex&#39;</span><span class="p">)</span>
+<span class="n">Img</span><span class="o">.</span><span class="n">tex</span><span class="p">(</span><span class="s1">&#39;Img_poly.tex&#39;</span><span class="p">,</span> <span class="n">content_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">Img</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="s1">&#39;Img_poly.pdf&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then in the pwd (present working directory of sage, the one of your article)
+you will have two files named <code class="docutils literal notranslate"><span class="pre">Img_poly.tex</span></code> and <code class="docutils literal notranslate"><span class="pre">Img_poly.pdf</span></code> containing the
+tikzpicture of the polytope <code class="docutils literal notranslate"><span class="pre">P</span></code>.</p>
+</section>
+<section id="customization">
+<h2>Customization<a class="headerlink" href="#customization" title="Link to this heading">¶</a></h2>
+<p>You can customize the polytope using the following options in the command <code class="docutils literal notranslate"><span class="pre">P.tikz()</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">scale</span></code> : positive number to scale the polytope,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">edge_color</span></code> : string (default: <code class="docutils literal notranslate"><span class="pre">blue!95!black</span></code>) representing colors which tikz recognize,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">facet_color</span></code> : string (default: <code class="docutils literal notranslate"><span class="pre">blue!95!black</span></code>) representing colors which tikz recognize,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vertex_color</span></code> : string (default: <code class="docutils literal notranslate"><span class="pre">green</span></code>) representing colors which tikz recognize,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">opacity</span></code> : real number (default: <code class="docutils literal notranslate"><span class="pre">0.8</span></code>) between 0 and 1 giving the opacity of the front facets,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">axis</span></code> : Boolean (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>) draw the axes at the origin or not.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">output_type</span></code> : string (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>) <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">'LatexExpr'</span></code> or
+<code class="docutils literal notranslate"><span class="pre">'TikzPicture'</span></code>, the type of the output. Since SageMath 9.8, the value <code class="docutils literal notranslate"><span class="pre">None</span></code> is deprecated
+as the default value will soon be changed from <code class="docutils literal notranslate"><span class="pre">'LatexExpr'</span></code> to <code class="docutils literal notranslate"><span class="pre">'TikzPicture'</span></code>.</p></li>
+</ul>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p>Let’s say you want to draw the polar dual of the following (nice!) polytope given by the following list of vertices:</p>
+<p><code class="docutils literal notranslate"><span class="pre">[[1,0,1],[1,0,0],[1,1,0],[0,0,-1],[0,1,0],[-1,0,0],[0,1,1],[0,0,1],[0,-1,0]]</span></code></p>
+<p>In Sage, you type:</p>
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="go">P = Polyhedron(vertices=[[1,0,1],[1,0,0],[1,1,0],[0,0,-1],[0,1,0],[-1,0,0],[0,1,1],[0,0,1],[0,-1,0]]).polar()</span>
+</pre></div>
+</div>
+<p>Then, you visualize the polytope by typing <code class="docutils literal notranslate"><span class="pre">P.show(aspect_ratio=1)</span></code></p>
+<p>When you found a good angle, follow the above procedure to obtain the values
+[674,108,-731] and angle=112, for example.</p>
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="go">Img = P.tikz([674,108,-731], 112, output_type=&#39;TikzPicture&#39;)</span>
+</pre></div>
+</div>
+<p>Note: the <code class="docutils literal notranslate"><span class="pre">output_type='TikzPicture'</span></code> is necessary since SagMath 9.8 to avoid
+a deprecation warning message since the default output type will soon change
+from a <code class="docutils literal notranslate"><span class="pre">LatexExpr</span></code> (Python str) to a <code class="docutils literal notranslate"><span class="pre">TikzPicture</span></code> object (allowing more
+versatility, like being able to view it directly in the Jupyter notebook).</p>
+<p>Or you may want to customize using the command</p>
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="go">Img = P.tikz([674,108,-731],112,scale=2, edge_color=&#39;orange&#39;,facet_color=&#39;red&#39;,vertex_color=&#39;blue&#39;,opacity=0.4, output_type=&#39;TikzPicture&#39;)</span>
+</pre></div>
+</div>
+<p>Further, you may want to edit deeper the style of the polytope, directly inside the tikzpicture. For example, line 6-9 in the tikzpicture reads:</p>
+<div class="highlight-latex notranslate"><div class="highlight"><pre><span></span>back/.style=<span class="nb">{</span>loosely dotted, thin<span class="nb">}</span>,
+edge/.style=<span class="nb">{</span>color=orange, thick<span class="nb">}</span>,
+facet/.style=<span class="nb">{</span>fill=red,fill opacity=0.400000<span class="nb">}</span>,
+vertex/.style=<span class="nb">{</span>inner sep=1pt,circle,draw=blue!25!black,fill=blue!75!black,thick,anchor=base<span class="nb">}</span>]
+</pre></div>
+</div>
+<p>It is also possible to replace it by the following 4 lines (and adding <code class="docutils literal notranslate"><span class="pre">\usetikzlibrary{shapes}</span></code> in the preamble)</p>
+<div class="highlight-latex notranslate"><div class="highlight"><pre><span></span>back/.style=<span class="nb">{</span>loosely dashed,line width=2pt<span class="nb">}</span>,
+edge/.style=<span class="nb">{</span>color=yellow, line width=2pt<span class="nb">}</span>,
+facet/.style=<span class="nb">{</span>fill=cyan,fill opacity=0.400000<span class="nb">}</span>,
+vertex/.style=<span class="nb">{</span>inner sep=4pt,star,star points=7,draw=blue!75!white,fill=blue!85!white,thick,anchor=base<span class="nb">}</span>]
+</pre></div>
+</div>
+<p>Finally, you may want to tweak your picture my adding labels, elements on
+vertices, edges, facets, etc.</p>
+</section>
+<section id="automatize-using-sagetex">
+<h2>Automatize using SageTex<a class="headerlink" href="#automatize-using-sagetex" title="Link to this heading">¶</a></h2>
+<p>For this you need to put</p>
+<p><code class="docutils literal notranslate"><span class="pre">\usepackage{sagetex}</span></code></p>
+<p>in the preamble of your article</p>
+<p>There are different ways to use sagetex and you may create your own. Here are
+some possibilities.</p>
+<ol class="arabic simple">
+<li><p>You can directly type in a sagestr in the article:</p></li>
+</ol>
+<div class="highlight-latex notranslate"><div class="highlight"><pre><span></span><span class="k">\sagestr</span><span class="nb">{</span>(polytopes.permutahedron(4)).tikz([4,5,6],45,scale=0.75, facet<span class="nb">_</span>color=&#39;red&#39;,vertex<span class="nb">_</span>color=&#39;yellow&#39;,opacity=0.3, output<span class="nb">_</span>type=&#39;LatexExpr&#39;)<span class="nb">}</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>You may create the following tex commands</p></li>
+</ol>
+<div class="highlight-latex notranslate"><div class="highlight"><pre><span></span><span class="k">\newcommand</span><span class="nb">{</span><span class="k">\polytopeimg</span><span class="nb">}</span>[4]<span class="nb">{</span><span class="k">\sagestr</span><span class="nb">{</span>(#1).tikz(#2,#3,#4,output<span class="nb">_</span>type=&#39;LatexExpr&#39;)<span class="nb">}}</span>
+<span class="k">\newcommand</span><span class="nb">{</span><span class="k">\polytopeimgopt</span><span class="nb">}</span>[9]<span class="nb">{</span><span class="k">\sagestr</span><span class="nb">{</span>(#1).tikz(#2,#3,#4,#5,#6,#7,#8,#9,output<span class="nb">_</span>type=&#39;LatexExpr&#39;)<span class="nb">}}</span>
+</pre></div>
+</div>
+<p>in your preamble and use them with a sagesilent in your article:</p>
+<div class="highlight-latex notranslate"><div class="highlight"><pre><span></span><span class="k">\begin</span><span class="nb">{</span>sagesilent<span class="nb">}</span>
+Polytope = polytopes.great<span class="nb">_</span>rhombicuboctahedron()
+<span class="k">\end</span><span class="nb">{</span>sagesilent<span class="nb">}</span>
+</pre></div>
+</div>
+<div class="highlight-latex notranslate"><div class="highlight"><pre><span></span><span class="k">\polytopeimg</span><span class="nb">{</span>Polytope<span class="nb">}{</span>[276,-607,-746]<span class="nb">}{</span>102<span class="nb">}{</span>1<span class="nb">}</span>
+<span class="k">\polytopeimgopt</span><span class="nb">{</span>Polytope<span class="nb">}{</span>view=[-907,379,183]<span class="nb">}{</span>angle=129<span class="nb">}{</span>scale=2<span class="nb">}{</span>edge<span class="nb">_</span>color=&#39;red&#39;<span class="nb">}{</span>facet<span class="nb">_</span>color=&#39;yellow&#39;<span class="nb">}{</span>vertex<span class="nb">_</span>color=&#39;blue&#39;<span class="nb">}{</span>opacity=0.6<span class="nb">}{</span>axis=False<span class="nb">}</span>
+</pre></div>
+</div>
+<p>Then, run pdflatex, execute Sage on the file <code class="docutils literal notranslate"><span class="pre">article_name.sagetex.sage</span></code> and run pdflatex again.</p>
+<p>For more information on SageTeX, see the tutorial <a class="reference external" href="http://doc.sagemath.org/html/en/tutorial/sagetex.html">http://doc.sagemath.org/html/en/tutorial/sagetex.html</a>.</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../steenrod_algebra_modules.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Steenrod Algebra Modules</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="visualization.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Visualization of polyhedron objects in Sage</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2005--2025, The Sage Development Team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Draw polytopes in LaTeX using TikZ</a><ul>
+<li><a class="reference internal" href="#instructions">Instructions</a></li>
+<li><a class="reference internal" href="#customization">Customization</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+<li><a class="reference internal" href="#automatize-using-sagetex">Automatize using SageTex</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../%5fstatic/documentation_options.js?v=68afb76a"></script>
+    <script src="../../%5fstatic/doctools.js?v=9bcbadda"></script>
+    <script src="../../%5fstatic/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../%5fstatic/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../../%5fstatic/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../%5fstatic/copybutton.js?v=8e571dd6"></script>
+    <script src="../../%5fstatic/tabs.js?v=3ee01567"></script>
+    <script src="../../%5fstatic/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="../../%5fstatic/jupyter-sphinx-furo.js?v=24b7fe9d"></script>
+    </body>
+</html>
