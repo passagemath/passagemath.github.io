@@ -308,49 +308,6 @@
 <p>This section is a concise overview of the Sage development process. We will see
 how to make changes to the Sage source code and record them in the Git revision
 control system.</p>
-<section id="quick-start">
-<span id="section-quick-start"></span><h2>Quick start<a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h2>
-<p>If you are in a hurry, you can skip the details and just follow these steps:</p>
-<ol class="arabic">
-<li><p>Install Git (see <a class="reference internal" href="git_setup.html#section-git-install"><span class="std std-ref">Installing Git</span></a>) and <a class="reference external" href="https://github.com/conda-forge/miniforge?tab=readme-ov-file#install">Conda</a>.</p></li>
-<li><p>Clone the Sage repository from GitHub:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>--origin<span class="w"> </span>upstream<span class="w"> </span>https://github.com/sagemath/sage.git
-</pre></div>
-</div>
-</li>
-<li><p>Change into the directory:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>sage
-</pre></div>
-</div>
-</li>
-<li><p>Create a new Conda environment:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>--file<span class="w"> </span>environment-3.12-linux.yml<span class="w"> </span>--name<span class="w"> </span>sage-dev
-<span class="gp">$ </span>conda<span class="w"> </span>activate<span class="w"> </span>sage-dev
-
-<span class="go">Replace ``environment-3.12-linux.yml`` with the appropriate file for your system.</span>
-</pre></div>
-</div>
-</li>
-<li><p>Build and install Sage:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>--no-build-isolation<span class="w"> </span>--editable<span class="w"> </span>.
-</pre></div>
-</div>
-</li>
-<li><p>Create a new branch for your changes:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>my_branch<span class="w"> </span>develop
-</pre></div>
-</div>
-</li>
-<li><p>Make your changes, and push them to your fork on GitHub:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>add<span class="w"> </span>.
-<span class="gp">$ </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Your commit message here&quot;</span>
-<span class="gp">$ </span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>my_branch
-</pre></div>
-</div>
-</li>
-<li><p>Create a pull request on GitHub to merge your changes into the Sage repository.</p></li>
-</ol>
-</section>
 <section id="checking-git">
 <span id="section-walkthrough-setup-git"></span><h2>Checking Git<a class="headerlink" href="#checking-git" title="Link to this heading">¶</a></h2>
 <p>First, open a shell (for instance, Terminal on Mac) and check that Git works:</p>
@@ -376,41 +333,8 @@ before you forget! This only needs to be done once. See
 </section>
 <section id="obtaining-the-sage-source-code">
 <span id="section-walkthrough-sage-source"></span><h2>Obtaining the Sage source code<a class="headerlink" href="#obtaining-the-sage-source-code" title="Link to this heading">¶</a></h2>
-<p>Obviously one needs the Sage source code to develop. You can download it
-from our Sage repository on GitHub:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>--origin<span class="w"> </span>upstream<span class="w"> </span>https://github.com/sagemath/sage.git
-<span class="go">Cloning into &#39;sage&#39;...</span>
-<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>sage
-</pre></div>
-</div>
-<p>This creates a directory named <code class="docutils literal notranslate"><span class="pre">sage</span></code> containing the most recent version of
-the Sage source code.</p>
-</section>
-<section id="building-sage">
-<h2>Building Sage<a class="headerlink" href="#building-sage" title="Link to this heading">¶</a></h2>
-<p>Sage is a large project with many dependencies. To build it, we
-recommend using Conda. If you don’t have Conda installed, you can install it
-by following the <a class="reference external" href="https://github.com/conda-forge/miniforge?tab=readme-ov-file#install">official instructions</a>:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>curl<span class="w"> </span>-L<span class="w"> </span>-O<span class="w"> </span><span class="s2">&quot;https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-</span><span class="k">$(</span>uname<span class="k">)</span><span class="s2">-</span><span class="k">$(</span>uname<span class="w"> </span>-m<span class="k">)</span><span class="s2">.sh&quot;</span>
-<span class="gp">$ </span>bash<span class="w"> </span>Miniforge3-<span class="k">$(</span>uname<span class="k">)</span>-<span class="k">$(</span>uname<span class="w"> </span>-m<span class="k">)</span>.sh
-</pre></div>
-</div>
-<p>Now create and activate a new conda environment with the dependencies of Sage
-and a few additional developer tools:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>--file<span class="w"> </span>environment-3.12-linux.yml<span class="w"> </span>--name<span class="w"> </span>sage-dev
-<span class="gp">$ </span>conda<span class="w"> </span>activate<span class="w"> </span>sage-dev
-</pre></div>
-</div>
-<p>Replace <code class="docutils literal notranslate"><span class="pre">environment-3.12-linux.yml</span></code> with the appropriate file for your system.
-You can find the environment files in the root directory of the Sage repository.</p>
-<p>Now you can build and install Sage::</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>--no-build-isolation<span class="w"> </span>--editable<span class="w"> </span>.
-</pre></div>
-</div>
-<p>This will install Sage in the current Conda environment.
-You can then start Sage from the command line with <code class="docutils literal notranslate"><span class="pre">sage</span></code>.</p>
-<p>For more information on building Sage we refer to the section <a class="reference external" href="../installation/meson.html">building
-from source</a> in the Sage installation guide.</p>
+<p>Obviously one needs the Sage source code to develop.
+Follow the instructions for building from source in the README.</p>
 </section>
 <section id="branching-out">
 <span id="section-walkthrough-branch"></span><h2>Branching out<a class="headerlink" href="#branching-out" title="Link to this heading">¶</a></h2>
@@ -478,10 +402,8 @@ the changes:</p>
 </section>
 <section id="testing-changes">
 <span id="section-walkthrough-testing"></span><h2>Testing changes<a class="headerlink" href="#testing-changes" title="Link to this heading">¶</a></h2>
-<p>Once you have made any changes, you of course want to try out
-your edits. All changes to Python and Cython files take effect immediately
-after restarting Sage, so there is no need to explicitly rebuild Sage.</p>
-<p>The changes can be tested by running Sage and verifying that the modifications
+<p>Once you have made any changes, you need to rebuild Sage.</p>
+<p>The changes can then be tested by running Sage and verifying that the modifications
 work as expected. For example, if you modified a function, you can call it
 directly in Sage to ensure it behaves as intended.</p>
 <p>Additionally, you can write or modify doctests in the relevant files to
@@ -611,10 +533,8 @@ creating a pull request and the review process.</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Development Walk-through</a><ul>
-<li><a class="reference internal" href="#quick-start">Quick start</a></li>
 <li><a class="reference internal" href="#checking-git">Checking Git</a></li>
 <li><a class="reference internal" href="#obtaining-the-sage-source-code">Obtaining the Sage source code</a></li>
-<li><a class="reference internal" href="#building-sage">Building Sage</a></li>
 <li><a class="reference internal" href="#branching-out">Branching out</a></li>
 <li><a class="reference internal" href="#editing-the-source-code">Editing the source code</a></li>
 <li><a class="reference internal" href="#testing-changes">Testing changes</a></li>
