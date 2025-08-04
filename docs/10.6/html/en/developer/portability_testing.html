@@ -229,7 +229,7 @@
 <li class="toctree-l1"><a class="reference internal" href="git_setup.html">Setting Up Git</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="github.html">The Sage Repository on GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">The passagemath Repository on GitHub</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflows.html">Using Git with GitHub</a></li>
 <li class="toctree-l1"><a class="reference internal" href="review.html">Reviewing Code</a></li>
 </ul>
@@ -318,20 +318,8 @@ spectrum of platforms.</p>
 <p><a class="reference external" href="https://github.com/passagemath/passagemath/actions">GitHub Actions</a> are automatically
 and constantly testing GitHub PRs to identify errors early and ensure code
 quality. In particular, Build &amp; Test workflows perform an incremental build of
-Sage and run doctests on a selection of major platforms including Ubuntu,
+passagemath and run doctests on a selection of major platforms including Ubuntu,
 macOS, and Conda.</p>
-</section>
-<section id="sage-buildbots">
-<h2>Sage buildbots<a class="headerlink" href="#sage-buildbots" title="Link to this heading">¶</a></h2>
-<p>Before a new release, the release manager runs a fleet of <a class="reference external" href="http://build.sagemath.org">buildbots</a> to make it sure that Sage builds correctly on all
-of our supported platforms.</p>
-</section>
-<section id="test-reports-on-sage-release">
-<h2>Test reports on sage-release<a class="headerlink" href="#test-reports-on-sage-release" title="Link to this heading">¶</a></h2>
-<p>Sage developers and users are encouraged to test releases that are announced on
-<a class="reference external" href="https://groups.google.com/forum/#!forum/sage-release">Sage Release</a> on their
-machines and to report the results (successes and failures) by responding to the
-announcements.</p>
 </section>
 <section id="testing-on-multiple-platforms-using-docker">
 <h2>Testing on multiple platforms using Docker<a class="headerlink" href="#testing-on-multiple-platforms-using-docker" title="Link to this heading">¶</a></h2>
@@ -353,7 +341,7 @@ Mac; but the <a class="reference external" href="https://docs.docker.com/engine/
 other platforms is identical.</p>
 <p>As an alternative, you can also run Docker in GitHub Codespaces
 (or another cloud service) using a container with the Docker-in-Docker
-feature. Sage provides a suitable dev container configuration
+feature. passagemath provides a suitable dev container configuration
 <a class="reference external" href="https://github.com/passagemath/passagemath/tree/develop/.devcontainer/tox-docker-in-docker">.devcontainer/tox-docker-in-docker</a>:</p>
 <a class="reference external image-reference" href="https://codespaces.new/passagemath/passagemath?devcontainer_path=.devcontainer%2Ftox-docker-in-docker%2Fdevcontainer.json"><img alt="https://github.com/codespaces/badge.svg" class="align-center" src="https://github.com/codespaces/badge.svg" />
 </a>
@@ -363,7 +351,7 @@ which are published via <a class="reference external" href="https://hub.docker.c
 or other container registries.  For
 example, to run the current stable (LTS) version of Ubuntu
 interactively, you can use the shell command:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage sage]$ </span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>ubuntu:latest
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost passagemath]$ </span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>ubuntu:latest
 <span class="gp">root@9f3398da43c2:/#</span>
 </pre></div>
 </div>
@@ -386,26 +374,26 @@ tags, such as <code class="docutils literal notranslate"><span class="pre">xenia
 </div>
 <p>Exiting the shell terminates the container:</p>
 <div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">root@9f3398da43c2:/# </span>^D
-<span class="gp">[mkoeppe@sage sage]$</span>
+<span class="gp">[alice@localhost passagemath]$</span>
 </pre></div>
 </div>
-<p>Let us work with a distclean Sage source tree.  If you are using git,
+<p>Let us work with a distclean passagemath source tree.  If you are using git,
 a good way to get one (without losing a precious installation in
 <code class="docutils literal notranslate"><span class="pre">SAGE_LOCAL</span></code>) is by creating a new worktree:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="go">[mkoeppe@sage sage] git worktree add worktree-ubuntu-latest</span>
-<span class="go">[mkoeppe@sage sage] cd worktree-ubuntu-latest</span>
-<span class="go">[mkoeppe@sage worktree-ubuntu-latest] ls</span>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="go">[alice@localhost passagemath] git worktree add worktree-ubuntu-latest</span>
+<span class="go">[alice@localhost passagemath] cd worktree-ubuntu-latest</span>
+<span class="go">[alice@localhost worktree-ubuntu-latest] ls</span>
 <span class="go">COPYING.txt ... Makefile ... configure.ac ... src tox.ini</span>
 </pre></div>
 </div>
 <p>This is not bootstrapped (<code class="docutils literal notranslate"><span class="pre">configure</span></code> is missing), so let’s bootstrap it:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="go">[mkoeppe@sage worktree-ubuntu-latest] make configure</span>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="go">[alice@localhost worktree-ubuntu-latest] make configure</span>
 <span class="go">...</span>
 </pre></div>
 </div>
 <p>We can start a container again with same image, <code class="docutils literal notranslate"><span class="pre">ubuntu:latest</span></code>, but
 this time let’s mount the current directory into it:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage worktree-ubuntu-latest]$ </span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--mount<span class="w"> </span><span class="nv">type</span><span class="o">=</span>bind,source<span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>,target<span class="o">=</span>/sage<span class="w"> </span>ubuntu:latest
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost worktree-ubuntu-latest]$ </span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--mount<span class="w"> </span><span class="nv">type</span><span class="o">=</span>bind,source<span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>,target<span class="o">=</span>/sage<span class="w"> </span>ubuntu:latest
 <span class="gp">root@39d693b2a75d:/# </span>mount<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>sage
 <span class="go">osxfs on /sage type fuse.osxfs (rw,nosuid,nodev,relatime,user_id=0,group_id=0,allow_other,max_read=1048576)</span>
 <span class="gp">root@39d693b2a75d:/# </span><span class="nb">cd</span><span class="w"> </span>sage
@@ -420,9 +408,9 @@ this time let’s mount the current directory into it:</p>
 </pre></div>
 </div>
 <p>As you can see above, the image <code class="docutils literal notranslate"><span class="pre">ubuntu:latest</span></code> has neither a Python nor
-a GCC installed, which are among the build prerequisites of Sage.  We
+a GCC installed, which are among the build prerequisites of passagemath.  We
 need to install them using the Linux distribution’s package manager first.</p>
-<p>Sage facilitates testing various Linux distributions on Docker as follows.</p>
+<p>passagemath facilitates testing various Linux distributions on Docker as follows.</p>
 <section id="discovering-the-system-s-package-system">
 <h3>Discovering the system’s package system<a class="headerlink" href="#discovering-the-system-s-package-system" title="Link to this heading">¶</a></h3>
 <div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">root@39d693b2a75d:/sage# </span>build/bin/sage-guess-package-system
@@ -431,7 +419,7 @@ need to install them using the Linux distribution’s package manager first.</p>
 </div>
 <p>Let’s install gcc, hoping that the Ubuntu package providing it is
 simply named <code class="docutils literal notranslate"><span class="pre">gcc</span></code>.  If we forgot what the package manager on
-Debian-derived Linux distributions is called, we can ask Sage for a
+Debian-derived Linux distributions is called, we can ask passagemath for a
 reminder:</p>
 <div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">root@39d693b2a75d:/sage# </span>build/bin/sage-print-system-package-command<span class="w"> </span>debian<span class="w"> </span>install<span class="w"> </span>gcc
 <span class="go">apt-get install gcc</span>
@@ -444,8 +432,8 @@ from the server first:</p>
 </pre></div>
 </div>
 </section>
-<section id="using-sage-s-database-of-distribution-prerequisites">
-<h3>Using Sage’s database of distribution prerequisites<a class="headerlink" href="#using-sage-s-database-of-distribution-prerequisites" title="Link to this heading">¶</a></h3>
+<section id="using-passagemath-s-database-of-distribution-prerequisites">
+<h3>Using passagemath’s database of distribution prerequisites<a class="headerlink" href="#using-passagemath-s-database-of-distribution-prerequisites" title="Link to this heading">¶</a></h3>
 <p>The source code of the Sage distribution contains a database of
 package names in various distributions’ package managers.  For
 example, the file <code class="docutils literal notranslate"><span class="pre">build/pkgs/_prereq/distros/debian.txt</span></code> contains the following</p>
@@ -487,7 +475,7 @@ on our container to install the necessary build prerequisites:</p>
 <span class="go">Done.</span>
 </pre></div>
 </div>
-<p>(The Sage <a class="reference external" href="../installation/index.html">Installation Guide</a> also
+<p>(The passagemath <a class="reference external" href="../installation/index.html">Installation Guide</a> also
 provides such command lines for some distributions; these are
 automatically generated from the database of package names.)</p>
 <p>Now we can start the build:</p>
@@ -505,9 +493,9 @@ automatically generated from the database of package names.)</p>
 </pre></div>
 </div>
 </section>
-<section id="using-sage-s-database-of-equivalent-distribution-packages">
-<span id="section-equiv-distro-packages"></span><h3>Using Sage’s database of equivalent distribution packages<a class="headerlink" href="#using-sage-s-database-of-equivalent-distribution-packages" title="Link to this heading">¶</a></h3>
-<p>At the end of the <code class="docutils literal notranslate"><span class="pre">./configure</span></code> run, Sage issued a message like the
+<section id="using-passagemath-s-database-of-equivalent-distribution-packages">
+<span id="section-equiv-distro-packages"></span><h3>Using passagemath’s database of equivalent distribution packages<a class="headerlink" href="#using-passagemath-s-database-of-equivalent-distribution-packages" title="Link to this heading">¶</a></h3>
+<p>At the end of the <code class="docutils literal notranslate"><span class="pre">./configure</span></code> run, passagemath issued a message like the
 following:</p>
 <div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="go">configure: notice: the following SPKGs did not find equivalent system packages:</span>
 <span class="go">                   boost_cropped bzip2 ... zeromq zlib</span>
@@ -519,7 +507,7 @@ following:</p>
 <span class="go">configure:   $ make reconfigure</span>
 </pre></div>
 </div>
-<p>This information comes from Sage’s database of equivalent system
+<p>This information comes from passagemath’s database of equivalent system
 packages.  For example:</p>
 <div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ls<span class="w"> </span>build/pkgs/flint/distros/
 <span class="go">alpine.txt  fedora.txt  gentoo.txt   macports.txt  opensuse.txt  void.txt</span>
@@ -551,14 +539,14 @@ system, in particular a list of installed packages and their versions.</p>
 <p>After terminating the container, the following command shows the status
 of the container you just exited:</p>
 <div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">root@39d693b2a75d:/sage# </span>^D
-<span class="gp">[mkoeppe@sage worktree-ubuntu-latest]$ </span>docker<span class="w"> </span>ps<span class="w"> </span>-a<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n3
+<span class="gp">[alice@localhost worktree-ubuntu-latest]$ </span>docker<span class="w"> </span>ps<span class="w"> </span>-a<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n3
 <span class="go">CONTAINER ID   IMAGE           COMMAND       CREATED         STATUS</span>
 <span class="go">39d693b2a75d   ubuntu:latest   &quot;/bin/bash&quot;   8 minutes ago   Exited (0) 6 seconds ago</span>
 <span class="go">9f3398da43c2   ubuntu:latest   &quot;/bin/bash&quot;   8 minutes ago   Exited (0) 8 minutes ago</span>
 </pre></div>
 </div>
 <p>We can go back to the container with the command:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage worktree-ubuntu-latest]$ </span>docker<span class="w"> </span>start<span class="w"> </span>-a<span class="w"> </span>-i<span class="w"> </span>39d693b2a75d
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost worktree-ubuntu-latest]$ </span>docker<span class="w"> </span>start<span class="w"> </span>-a<span class="w"> </span>-i<span class="w"> </span>39d693b2a75d
 <span class="gp">root@9f3398da43c2:/#</span>
 </pre></div>
 </div>
@@ -566,7 +554,7 @@ of the container you just exited:</p>
 shell prompts and in the output of <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">ps</span></code>.</p>
 <p>We can create a new image corresponding to its current state:</p>
 <div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">root@39d693b2a75d:/# </span>^D
-<span class="gp">[mkoeppe@sage worktree-ubuntu-latest]$ </span>docker<span class="w"> </span>commit<span class="w"> </span>39d693b2a75d<span class="w"> </span>ubuntu-latest-minimal-17
+<span class="gp">[alice@localhost worktree-ubuntu-latest]$ </span>docker<span class="w"> </span>commit<span class="w"> </span>39d693b2a75d<span class="w"> </span>ubuntu-latest-minimal-17
 <span class="go">sha256:4151c5ca4476660f6181cdb13923da8fe44082222b984c377fb4fd6cc05415c1</span>
 </pre></div>
 </div>
@@ -577,7 +565,7 @@ the symbolic name or the id to refer to the new image.</p>
 the one that we terminated.  Again we want to mount our worktree into
 it; otherwise, because we did not make a copy, the new container will
 have no access to the worktree:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage worktree-ubuntu-latest]$ </span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span><span class="se">\</span>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost worktree-ubuntu-latest]$ </span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--mount<span class="w"> </span><span class="nv">type</span><span class="o">=</span>bind,source<span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>,target<span class="o">=</span>/sage<span class="w"> </span>ubuntu-latest-minimal-17
 <span class="gp">root@73987568712c:/# </span><span class="nb">cd</span><span class="w"> </span>sage
 <span class="gp">root@73987568712c:/sage# </span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>gcc
@@ -585,7 +573,7 @@ have no access to the worktree:</p>
 <span class="gp">root@73987568712c:/sage# </span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>bunzip2
 <span class="go">/usr/bin/bunzip2</span>
 <span class="gp">root@73987568712c:/sage# </span>^D
-<span class="gp">[mkoeppe@sage worktree-ubuntu-latest]$</span>
+<span class="gp">[alice@localhost worktree-ubuntu-latest]$</span>
 </pre></div>
 </div>
 <p>The image <code class="docutils literal notranslate"><span class="pre">ubuntu-latest-minimal-17</span></code> can be run in as many
@@ -600,16 +588,16 @@ on their respective machines.</p>
 </section>
 <section id="generating-dockerfiles">
 <h3>Generating dockerfiles<a class="headerlink" href="#generating-dockerfiles" title="Link to this heading">¶</a></h3>
-<p>Sage also provides a script for generating a <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, which is
+<p>passagemath also provides a script for generating a <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, which is
 a recipe for automatically building a new image:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage sage]$ </span>.ci/write-dockerfile.sh<span class="w"> </span>debian<span class="w"> </span><span class="s2">&quot;:standard: :optional:&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>Dockerfile
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost passagemath]$ </span>.ci/write-dockerfile.sh<span class="w"> </span>debian<span class="w"> </span><span class="s2">&quot;:standard: :optional:&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>Dockerfile
 </pre></div>
 </div>
 <p>(The second argument is passed to <code class="docutils literal notranslate"><span class="pre">sage</span> <span class="pre">-package</span> <span class="pre">list</span></code> to find packages for the listed package types.)</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> instructs the command <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">build</span></code> to build a
 new Docker image.  Let us take a quick look at the generated file;
 this is slightly simplified:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage sage]$ </span>cat<span class="w"> </span>Dockerfile
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost passagemath]$ </span>cat<span class="w"> </span>Dockerfile
 <span class="gp"># </span>Automatically<span class="w"> </span>generated<span class="w"> </span>by<span class="w"> </span>SAGE_ROOT/.ci/write-dockerfile.sh
 <span class="gp"># </span>the<span class="w"> </span>:comments:<span class="w"> </span>separate<span class="w"> </span>the<span class="w"> </span>generated<span class="w"> </span>file<span class="w"> </span>into<span class="w"> </span>sections
 <span class="gp"># </span>to<span class="w"> </span>simplify<span class="w"> </span>writing<span class="w"> </span>scripts<span class="w"> </span>that<span class="w"> </span>customize<span class="w"> </span>this<span class="w"> </span>file
@@ -655,7 +643,7 @@ image…:</p>
 </div>
 <p>You can customize the image build process by passing build arguments to the
 command <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">build</span></code>.  For example:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage sage]$ </span>docker<span class="w"> </span>build<span class="w"> </span>.<span class="w"> </span>-f<span class="w"> </span>Dockerfile<span class="w"> </span><span class="se">\</span>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost passagemath]$ </span>docker<span class="w"> </span>build<span class="w"> </span>.<span class="w"> </span>-f<span class="w"> </span>Dockerfile<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--build-arg<span class="w"> </span><span class="nv">BASE_IMAGE</span><span class="o">=</span>ubuntu:latest<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--build-arg<span class="w"> </span><span class="nv">NUMPROC</span><span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--build-arg<span class="w"> </span><span class="nv">EXTRA_CONFIGURE_ARGS</span><span class="o">=</span><span class="s2">&quot;--with-python=/usr/bin/python3.42&quot;</span>
@@ -667,7 +655,7 @@ commands in the <code class="docutils literal notranslate"><span class="pre">Doc
 quite long.  Let us instead just do a partial build, consisting of one
 small package, by setting the arguments <code class="docutils literal notranslate"><span class="pre">TARGETS_PRE</span></code> and
 <code class="docutils literal notranslate"><span class="pre">TARGETS</span></code>.  We use a silent build (<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">V=0</span></code>):</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage sage]$ </span>docker<span class="w"> </span>build<span class="w"> </span>.<span class="w"> </span>-f<span class="w"> </span>Dockerfile<span class="w"> </span><span class="se">\</span>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost passagemath]$ </span>docker<span class="w"> </span>build<span class="w"> </span>.<span class="w"> </span>-f<span class="w"> </span>Dockerfile<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--build-arg<span class="w"> </span><span class="nv">TARGETS_PRE</span><span class="o">=</span>ratpoints<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--build-arg<span class="w"> </span><span class="nv">TARGETS</span><span class="o">=</span>ratpoints<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--build-arg<span class="w"> </span><span class="nv">USE_MAKEFLAGS</span><span class="o">=</span><span class="s2">&quot;V=0&quot;</span>
@@ -695,7 +683,7 @@ small package, by setting the arguments <code class="docutils literal notranslat
 </pre></div>
 </div>
 <p>We can now start a container using the image id shown in the last step:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage sage]$ </span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>2d06689d39fa<span class="w"> </span>bash
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost passagemath]$ </span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>2d06689d39fa<span class="w"> </span>bash
 <span class="gp">root@fab59e09a641:/sage# </span>ls<span class="w"> </span>-l<span class="w"> </span>logs/pkgs/
 <span class="go">total 236</span>
 <span class="go">-rw-r--r-- 1 root root 231169 Mar 26 22:07 config.log</span>
@@ -734,7 +722,7 @@ tree even while Docker builds are running.</p>
 <p>Let us do another partial build.  We choose a package that we suspect
 might not work on all platforms, <code class="docutils literal notranslate"><span class="pre">surf</span></code>, which was marked as
 “experimental” in 2017:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage sage]$ </span>docker<span class="w"> </span>build<span class="w"> </span>.<span class="w"> </span>-f<span class="w"> </span>Dockerfile<span class="w"> </span><span class="se">\</span>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost passagemath]$ </span>docker<span class="w"> </span>build<span class="w"> </span>.<span class="w"> </span>-f<span class="w"> </span>Dockerfile<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--build-arg<span class="w"> </span><span class="nv">BASE_IMAGE</span><span class="o">=</span>ubuntu:latest<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--build-arg<span class="w"> </span><span class="nv">NUMPROC</span><span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--build-arg<span class="w"> </span><span class="nv">TARGETS_PRE</span><span class="o">=</span>surf<span class="w"> </span><span class="se">\</span>
@@ -790,15 +778,15 @@ might not work on all platforms, <code class="docutils literal notranslate"><spa
 <p>Note that no image id is shown at the end; the build failed, and no
 image is created.  However, the container in which the last step of
 the build was attempted exists:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage sage]$ </span>docker<span class="w"> </span>ps<span class="w"> </span>-a<span class="w"> </span><span class="p">|</span>head<span class="w"> </span>-n3
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost passagemath]$ </span>docker<span class="w"> </span>ps<span class="w"> </span>-a<span class="w"> </span><span class="p">|</span>head<span class="w"> </span>-n3
 <span class="go">CONTAINER ID        IMAGE                      COMMAND                   CREATED             STATUS</span>
 <span class="go">61833bea6a6d        7b51411520c3               &quot;/bin/sh -c &#39;make SA…&quot;    9 minutes ago       Exited (2) 1 minute ago</span>
 <span class="go">73987568712c        ubuntu-latest-minimal-17   &quot;/bin/bash&quot;               24 hours ago        Exited (0) 23 hours ago</span>
 </pre></div>
 </div>
 <p>We can copy the build directory from the container for inspection:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage sage]$ </span>docker<span class="w"> </span>cp<span class="w"> </span>61833bea6a6d:/sage/local/var/tmp/sage/build<span class="w"> </span>ubuntu-build
-<span class="gp">[mkoeppe@sage sage]$ </span>ls<span class="w"> </span>ubuntu-build/surf*/src
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost passagemath]$ </span>docker<span class="w"> </span>cp<span class="w"> </span>61833bea6a6d:/sage/local/var/tmp/sage/build<span class="w"> </span>ubuntu-build
+<span class="gp">[alice@localhost passagemath]$ </span>ls<span class="w"> </span>ubuntu-build/surf*/src
 <span class="go">AUTHORS         TODO            curve           misc</span>
 <span class="go">COPYING         acinclude.m4    debug           missing</span>
 <span class="go">ChangeLog       aclocal.m4      dither          mkinstalldirs</span>
@@ -813,9 +801,9 @@ the build was attempted exists:</p>
 </div>
 <p>Alternatively, we can use <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">commit</span></code> as explained earlier to
 create an image from the container:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage sage]$ </span>docker<span class="w"> </span>commit<span class="w"> </span>61833bea6a6d
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost passagemath]$ </span>docker<span class="w"> </span>commit<span class="w"> </span>61833bea6a6d
 <span class="go">sha256:003fbd511016fe305bd8494bb1747f0fbf4cb2c788b4e755e9099d9f2014a60d</span>
-<span class="gp">[mkoeppe@sage sage]$ </span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>003fbd511<span class="w"> </span>bash
+<span class="gp">[alice@localhost passagemath]$ </span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>003fbd511<span class="w"> </span>bash
 <span class="gp">root@2d9ac65f4572:/sage# </span><span class="o">(</span><span class="nb">cd</span><span class="w"> </span>/sage/local/var/tmp/sage/build/surf*<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>/sage/sage<span class="w"> </span>--buildsh<span class="o">)</span>
 
 <span class="go">Starting subshell with Sage environment variables set.  Don&#39;t forget</span>
@@ -840,7 +828,7 @@ create an image from the container:</p>
 <span class="go">make[1]: Leaving directory &#39;/sage/local/var/tmp/sage/build/surf-1.0.6-gcc6/src&#39;</span>
 <span class="gp gp-VirtualEnv">(sage-buildsh)</span> <span class="gp">root@2d9ac65f4572:surf-1.0.6-gcc6$ </span><span class="nb">exit</span>
 <span class="gp">root@2d9ac65f4572:/sage# </span><span class="nb">exit</span>
-<span class="gp">[mkoeppe@sage sage]$</span>
+<span class="gp">[alice@localhost passagemath]$</span>
 </pre></div>
 </div>
 <p>A standard case of bitrot.</p>
@@ -851,13 +839,13 @@ create an image from the container:</p>
 is widely used for automating tests of Python projects.</p>
 <p>If you are using Docker locally, install <code class="docutils literal notranslate"><span class="pre">tox</span></code> for use with your system Python,
 for example using:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage sage]$ </span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>tox
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost passagemath]$ </span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>tox
 </pre></div>
 </div>
 <p>If you run Docker-in-Docker on GitHub Codespaces using our dev container
 configuration <a class="reference external" href="https://github.com/passagemath/passagemath/tree/develop/.devcontainer/tox-docker-in-docker">.devcontainer/tox-docker-in-docker</a>,
 <code class="docutils literal notranslate"><span class="pre">tox</span></code> is already installed.</p>
-<p>Sage provides a sophisticated tox configuration in the file
+<p>passagemath provides a sophisticated tox configuration in the file
 <a class="extlink-sage_root reference external" href="https://github.com/sagemath/sage/tree/develop/tox.ini">SAGE_ROOT/tox.ini</a> for the purpose of portability testing.</p>
 <p>A tox “environment” is identified by a symbolic name composed of
 several <a class="reference external" href="https://tox.readthedocs.io/en/latest/config.html#complex-factor-conditions">Tox “factors”</a>.</p>
@@ -887,13 +875,13 @@ distribution.  This corresponds to the packages <code class="docutils literal no
 are equivalent to standard packages of the Sage distribution, for
 which the mechanism <code class="docutils literal notranslate"><span class="pre">spkg-configure.m4</span></code> is implemented.
 This corresponds to the packages listed by:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage sage]$ </span>sage<span class="w"> </span>--package<span class="w"> </span>list<span class="w"> </span>--has-file<span class="o">=</span>spkg-configure.m4<span class="w"> </span>:standard:
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost passagemath]$ </span>sage<span class="w"> </span>--package<span class="w"> </span>list<span class="w"> </span>--has-file<span class="o">=</span>spkg-configure.m4<span class="w"> </span>:standard:
 </pre></div>
 </div>
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">maximal</span></code> does the same for all standard and optional packages.
 This corresponds to the packages listed by:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage sage]$ </span>sage<span class="w"> </span>--package<span class="w"> </span>list<span class="w"> </span>:standard:<span class="w"> </span>:optional:
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost passagemath]$ </span>sage<span class="w"> </span>--package<span class="w"> </span>list<span class="w"> </span>:standard:<span class="w"> </span>:optional:
 </pre></div>
 </div>
 </li>
@@ -907,14 +895,14 @@ order of the factors does not matter; however, for consistency and
 because the ordered name is used for caching purposes, we recommend to
 use the factors in the listed order.)</p>
 <p>To run an environment:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage sage]$ </span>tox<span class="w"> </span>-e<span class="w"> </span>docker-slackware-14.2-minimal
-<span class="gp">[mkoeppe@sage sage]$ </span>tox<span class="w"> </span>-e<span class="w"> </span>docker-ubuntu-bionic-standard
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost passagemath]$ </span>tox<span class="w"> </span>-e<span class="w"> </span>docker-slackware-14.2-minimal
+<span class="gp">[alice@localhost passagemath]$ </span>tox<span class="w"> </span>-e<span class="w"> </span>docker-ubuntu-bionic-standard
 </pre></div>
 </div>
 <p>Arbitrary extra arguments to <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">build</span></code> can be supplied through
 the environment variable <code class="docutils literal notranslate"><span class="pre">EXTRA_DOCKER_BUILD_ARGS</span></code>.  For example,
 for a non-silent build (<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">V=1</span></code>), use:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage sage]$ </span><span class="nv">EXTRA_DOCKER_BUILD_ARGS</span><span class="o">=</span><span class="s2">&quot;--build-arg USE_MAKEFLAGS=\&quot;V=1\&quot;&quot;</span><span class="w"> </span><span class="se">\</span>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost passagemath]$ </span><span class="nv">EXTRA_DOCKER_BUILD_ARGS</span><span class="o">=</span><span class="s2">&quot;--build-arg USE_MAKEFLAGS=\&quot;V=1\&quot;&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>tox<span class="w"> </span>-e<span class="w"> </span>docker-ubuntu-bionic-standard
 </pre></div>
 </div>
@@ -924,7 +912,7 @@ documentation.  If you pass positional arguments to tox (separated
 from tox options by <code class="docutils literal notranslate"><span class="pre">--</span></code>), then both <code class="docutils literal notranslate"><span class="pre">TARGETS_PRE</span></code> and <code class="docutils literal notranslate"><span class="pre">TARGETS</span></code>
 are set to these arguments.  In this way, you can build some specific
 packages instead of all of Sage, for example:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage sage]$ </span>tox<span class="w"> </span>-e<span class="w"> </span>docker-centos-8-standard<span class="w"> </span>--<span class="w"> </span>ratpoints
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost passagemath]$ </span>tox<span class="w"> </span>-e<span class="w"> </span>docker-centos-8-standard<span class="w"> </span>--<span class="w"> </span>ratpoints
 </pre></div>
 </div>
 <p>If the build succeeds, this will create a new image named
@@ -941,7 +929,7 @@ suffix <code class="docutils literal notranslate"><span class="pre">with-targets
 example, to create the images corresponding to the state of the OS
 after installing all system packages (<code class="docutils literal notranslate"><span class="pre">with-system-packages</span></code>) and
 the one just after running the <code class="docutils literal notranslate"><span class="pre">configure</span></code> script (<code class="docutils literal notranslate"><span class="pre">configured</span></code>):</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage sage]$ </span><span class="nv">DOCKER_TARGETS</span><span class="o">=</span><span class="s2">&quot;with-system-packages configured with-targets&quot;</span><span class="w"> </span><span class="se">\</span>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost passagemath]$ </span><span class="nv">DOCKER_TARGETS</span><span class="o">=</span><span class="s2">&quot;with-system-packages configured with-targets&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>tox<span class="w"> </span>-e<span class="w"> </span>docker-centos-8-standard<span class="w"> </span>--<span class="w"> </span>ratpoints
 <span class="go">...</span>
 <span class="go">Sending build context to Docker daemon ...</span>
@@ -962,7 +950,7 @@ the one just after running the <code class="docutils literal notranslate"><span 
 </pre></div>
 </div>
 <p>Let’s verify that the images are available:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage sage]$ </span>docker<span class="w"> </span>images<span class="w"> </span><span class="p">|</span><span class="w"> </span>head
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost passagemath]$ </span>docker<span class="w"> </span>images<span class="w"> </span><span class="p">|</span><span class="w"> </span>head
 <span class="go">REPOSITORY                                    TAG                               IMAGE ID</span>
 <span class="go">sage-centos-8-standard-with-targets           9.1.beta9-435-g861ba33bbc-dirty   7ecfa86fceab</span>
 <span class="go">sage-centos-8-standard-configured             9.1.beta9-435-g861ba33bbc-dirty   4314929e2b4c</span>
@@ -984,16 +972,16 @@ other prerequisites installed in your system.  See
 <code class="docutils literal notranslate"><span class="pre">build/pkgs/_bootstrap/distros/*.txt</span></code> for a list of system packages that
 provide these prerequisites.</p>
 <p>We start by creating a fresh (distclean) git worktree:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="go">[mkoeppe@sage sage] git worktree add worktree-local</span>
-<span class="go">[mkoeppe@sage sage] cd worktree-local</span>
-<span class="go">[mkoeppe@sage worktree-local] ls</span>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="go">[alice@localhost passagemath] git worktree add worktree-local</span>
+<span class="go">[alice@localhost passagemath] cd worktree-local</span>
+<span class="go">[alice@localhost worktree-local] ls</span>
 <span class="go">COPYING.txt ... Makefile ... configure.ac ... src tox.ini</span>
 </pre></div>
 </div>
 <p>Again we build only a small package.  Build targets can be passed as
 positional arguments (separated from tox options by <code class="docutils literal notranslate"><span class="pre">--</span></code>):</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="go">[mkoeppe@sage worktree-local] tox -e local-direct -- ratpoints</span>
-<span class="go">local-direct create: /Users/mkoeppe/.../worktree-local/.tox/local-direct</span>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="go">[alice@localhost worktree-local] tox -e local-direct -- ratpoints</span>
+<span class="go">local-direct create: /Users/alice/.../worktree-local/.tox/local-direct</span>
 <span class="go">local-direct run-test-pre: PYTHONHASHSEED=&#39;2211987514&#39;</span>
 <span class="go">...</span>
 <span class="go">bootstrap:48: installing src/doc/en/installation/debian.txt...</span>
@@ -1013,7 +1001,7 @@ positional arguments (separated from tox options by <code class="docutils litera
 </pre></div>
 </div>
 <p>Let’s investigate what happened here:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage worktree-local]$ </span>ls<span class="w"> </span>-la
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost worktree-local]$ </span>ls<span class="w"> </span>-la
 <span class="go">total 2576</span>
 <span class="go">drwxr-xr-x  35 mkoeppe  staff    1120 Mar 26 22:20 .</span>
 <span class="go">drwxr-xr-x  63 mkoeppe  staff    2016 Mar 27 09:35 ..</span>
@@ -1048,7 +1036,7 @@ keep the source tree clean to the extent possible. In particular:</p>
 hierarchy in a directory under the tox environment directory
 <code class="docutils literal notranslate"><span class="pre">.tox/local-direct</span></code>.  It created a symbolic link <code class="docutils literal notranslate"><span class="pre">prefix</span></code> that
 points there, for convenience:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage worktree-local]$ </span>ls<span class="w"> </span>-l<span class="w"> </span>prefix/lib/*rat*
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost worktree-local]$ </span>ls<span class="w"> </span>-l<span class="w"> </span>prefix/lib/*rat*
 <span class="go">-rw-r--r--  1 mkoeppe  staff  165968 Mar 26 20:46 prefix/lib/libratpoints.a</span>
 </pre></div>
 </div>
@@ -1088,9 +1076,9 @@ reported and fixed on a ticket.</p>
 <p>XCode on macOS does not provide the prerequisites for bootstrapping
 the Sage distribution.  A good way to install them is using the
 Homebrew package manager.</p>
-<p>In fact, Sage provides a tox environment that automatically installs
+<p>In fact, passagemath provides a tox environment that automatically installs
 an isolated copy of Homebrew with all prerequisites for bootstrapping:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage worktree-local]$ </span>tox<span class="w"> </span>-e<span class="w"> </span>local-homebrew-macos-minimal<span class="w"> </span>--<span class="w"> </span>lrslib
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost worktree-local]$ </span>tox<span class="w"> </span>-e<span class="w"> </span>local-homebrew-macos-minimal<span class="w"> </span>--<span class="w"> </span>lrslib
 <span class="go">local-homebrew-macos-minimal create: .../worktree-local/.tox/local-homebrew-macos-minimal</span>
 <span class="go">local-homebrew-macos-minimal run-test-pre: PYTHONHASHSEED=&#39;4246149402&#39;</span>
 <span class="go">...</span>
@@ -1165,7 +1153,7 @@ packages provided by python.org install themselves.</p>
 </section>
 <section id="automatic-build-testing-with-a-best-effort-isolated-installation-of-conda">
 <h3>Automatic build testing with a best-effort isolated installation of Conda<a class="headerlink" href="#automatic-build-testing-with-a-best-effort-isolated-installation-of-conda" title="Link to this heading">¶</a></h3>
-<p>Sage provides environments <code class="docutils literal notranslate"><span class="pre">local-conda-forge-standard</span></code> and
+<p>passagemath provides environments <code class="docutils literal notranslate"><span class="pre">local-conda-forge-standard</span></code> and
 <code class="docutils literal notranslate"><span class="pre">local-conda-forge-minimal</span></code> that create isolated installations of
 Miniconda in the subdirectory <code class="docutils literal notranslate"><span class="pre">conda</span></code> of the environment directory.
 They do not interact in any way with other installations of Anaconda
@@ -1196,14 +1184,14 @@ previously created tox environment, this option can save time.
 Instead of building anything with <code class="docutils literal notranslate"><span class="pre">make</span></code>, it just starts an
 interactive shell.  For example, in combination with the above
 options:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[mkoeppe@sage worktree-local]$ </span><span class="nv">SKIP_SYSTEM_PKG_INSTALL</span><span class="o">=</span>yes<span class="w"> </span><span class="nv">SKIP_BOOTSTRAP</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">SKIP_CONFIGURE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>tox<span class="w"> </span>-e<span class="w"> </span>local-homebrew-macos-minimal<span class="w"> </span>--<span class="w"> </span>bash
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@localhost worktree-local]$ </span><span class="nv">SKIP_SYSTEM_PKG_INSTALL</span><span class="o">=</span>yes<span class="w"> </span><span class="nv">SKIP_BOOTSTRAP</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">SKIP_CONFIGURE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>tox<span class="w"> </span>-e<span class="w"> </span>local-homebrew-macos-minimal<span class="w"> </span>--<span class="w"> </span>bash
 </pre></div>
 </div>
 </section>
 </section>
 <section id="automatic-testing-on-multiple-platforms-on-github-actions">
 <h2>Automatic testing on multiple platforms on GitHub Actions<a class="headerlink" href="#automatic-testing-on-multiple-platforms-on-github-actions" title="Link to this heading">¶</a></h2>
-<p>The Sage source tree includes a default configuration for GitHub
+<p>The passagemath source tree includes a default configuration for GitHub
 Actions that runs our portability tests on a multitude of platforms on
 every push of a tag (but not of a branch) to a repository for which
 GitHub Actions are enabled.</p>
@@ -1228,15 +1216,15 @@ jobs on <a class="reference external" href="https://github.com/features/packages
 “artifacts” when all jobs of the workflow have finished.  Each job
 generates one tarball.  “Annotations” highlight certain top-level
 errors or warnings issued during the build.</p>
-<p>In addition to these automatic runs in our main repository, all Sage
+<p>In addition to these automatic runs in our main repository, all
 developers can run the same tests on GitHub Actions in their personal
-forks of the Sage repository. To prepare this, <a class="reference external" href="https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#managing-github-actions-permissions-for-your-repository">enable GitHub Actions</a>
-in your fork of the Sage repository.</p>
+forks of the passagemath repository. To prepare this, <a class="reference external" href="https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#managing-github-actions-permissions-for-your-repository">enable GitHub Actions</a>
+in your fork of the passagemath repository.</p>
 <p>As usual we assume that <code class="docutils literal notranslate"><span class="pre">origin</span></code> is the name of the remote
-corresponding to your GitHub fork of the Sage repository:</p>
+corresponding to your GitHub fork of the passagemath repository:</p>
 <div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>remote<span class="w"> </span>-v<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>origin
-<span class="go">origin         https://github.com/mkoeppe/sage.git (fetch)</span>
-<span class="go">origin         https://github.com/mkoeppe/sage.git (push)</span>
+<span class="go">origin         https://github.com/alice/passagemath.git (fetch)</span>
+<span class="go">origin         https://github.com/alice/passagemath.git (push)</span>
 </pre></div>
 </div>
 <p>Then the following procedure triggers a run of tests with the default set
@@ -1327,14 +1315,14 @@ it to the command line:</p>
 <p>where you replace the token by your token, of course, and
 <code class="docutils literal notranslate"><span class="pre">YOUR-GITHUB-USERNAME</span></code> by your GitHub username.</p>
 <p>Now you can pull the image and run it:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/YOUR-GITHUB-USERNAME/sage/sage-fedora-31-standard-configured:f4bd671
-<span class="gp">$ </span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>ghcr.io/YOUR-GITHUB-USERNAME/sage/sage-fedora-31-standard-configured:f4bd671<span class="w"> </span>bash
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/YOUR-GITHUB-USERNAME/passagemath/sage-fedora-31-standard-configured:f4bd671
+<span class="gp">$ </span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>ghcr.io/YOUR-GITHUB-USERNAME/passagemath/sage-fedora-31-standard-configured:f4bd671<span class="w"> </span>bash
 </pre></div>
 </div>
 </section>
 <section id="using-our-pre-built-docker-images-published-on-ghcr-io">
 <h2>Using our pre-built Docker images published on ghcr.io<a class="headerlink" href="#using-our-pre-built-docker-images-published-on-ghcr-io" title="Link to this heading">¶</a></h2>
-<p>Our portability CI on GitHub Actions builds <a class="reference external" href="https://github.com/orgs/sagemath/packages?tab=packages&amp;q=with-targets-optional">Docker images</a>
+<p>Our portability CI on GitHub Actions builds <a class="reference external" href="https://github.com/orgs/passagemath/packages?tab=packages&amp;q=with-targets-optional">Docker images</a>
 for all tested Linux platforms (and system package configurations) and
 makes them available on <a class="reference external" href="https://github.com/features/packages">GitHub Packages</a> (ghcr.io).</p>
 <p>This makes it easy for developers to debug problems that showed up in
@@ -1366,7 +1354,7 @@ for example, the following command will work:</p>
 the results of full builds and a run of <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">ptest</span></code>. They also
 contain a copy of the source tree and the full logs of the build and
 test.</p>
-<p>Also <a class="reference external" href="https://github.com/orgs/sagemath/packages?tab=packages&amp;q=sage-debian-bullseye-standard">smaller images corresponding to earlier build stages</a>
+<p>Also <a class="reference external" href="https://github.com/orgs/passagemath/packages?tab=packages&amp;q=sage-debian-bullseye-standard">smaller images corresponding to earlier build stages</a>
 are available:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">-with-system-packages</span></code> provides a system installation with
@@ -2291,12 +2279,10 @@ tree is not configured.)</p>
             <ul>
 <li><a class="reference internal" href="#">Testing on Multiple Platforms</a><ul>
 <li><a class="reference internal" href="#testing-prs-with-github-actions">Testing PRs with GitHub Actions</a></li>
-<li><a class="reference internal" href="#sage-buildbots">Sage buildbots</a></li>
-<li><a class="reference internal" href="#test-reports-on-sage-release">Test reports on sage-release</a></li>
 <li><a class="reference internal" href="#testing-on-multiple-platforms-using-docker">Testing on multiple platforms using Docker</a><ul>
 <li><a class="reference internal" href="#discovering-the-system-s-package-system">Discovering the system’s package system</a></li>
-<li><a class="reference internal" href="#using-sage-s-database-of-distribution-prerequisites">Using Sage’s database of distribution prerequisites</a></li>
-<li><a class="reference internal" href="#using-sage-s-database-of-equivalent-distribution-packages">Using Sage’s database of equivalent distribution packages</a></li>
+<li><a class="reference internal" href="#using-passagemath-s-database-of-distribution-prerequisites">Using passagemath’s database of distribution prerequisites</a></li>
+<li><a class="reference internal" href="#using-passagemath-s-database-of-equivalent-distribution-packages">Using passagemath’s database of equivalent distribution packages</a></li>
 <li><a class="reference internal" href="#committing-a-container-to-disk">Committing a container to disk</a></li>
 <li><a class="reference internal" href="#generating-dockerfiles">Generating dockerfiles</a></li>
 <li><a class="reference internal" href="#debugging-a-portability-bug-using-docker">Debugging a portability bug using Docker</a></li>
