@@ -205,7 +205,7 @@
     <img class="sidebar-logo only-dark" src="../../../%5fstatic/logo_sagemath_white.svg" alt="Dark Logo"/>
   </div>
   
-      <span class="sidebar-brand-text">passagemath 10.6.31 Reference Manual</span>
+      <span class="sidebar-brand-text">passagemath 10.6.32 Reference Manual</span>
   
 </a><div class="select-wrapper">
   <select id="versions-menu" onchange="changeVersion()">
@@ -391,7 +391,7 @@ executed via:</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The global <code class="docutils literal notranslate"><span class="pre">load</span></code> function is <a class="reference external" href="../../../misc/sage/misc/persist.html#sage.misc.persist.load" title="(in Utilities v10.6.31)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sage.misc.persist.load()</span></code></a>,
+<p>The global <code class="docutils literal notranslate"><span class="pre">load</span></code> function is <a class="reference external" href="../../../misc/sage/misc/persist.html#sage.misc.persist.load" title="(in Utilities v10.6.32)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sage.misc.persist.load()</span></code></a>,
 which delegates to this function for code file formats.</p>
 <p><code class="docutils literal notranslate"><span class="pre">%runfile</span></code> magic can also be used, see
 <a class="reference internal" href="ipython_extension.html#sage.repl.ipython_extension.SageMagics.runfile" title="sage.repl.ipython_extension.SageMagics.runfile"><code class="xref py py-meth docutils literal notranslate"><span class="pre">runfile()</span></code></a>.</p>
@@ -415,26 +415,28 @@ command line is considered to be running in the <code class="docutils literal no
 <p class="with-sage-tab with-python-tab">Note that <code class="docutils literal notranslate"><span class="pre">.py</span></code> files are <em>not</em> preparsed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
-<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">t</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">(</span><span class="n">ext</span><span class="o">=</span><span class="s1">&#39;.py&#39;</span><span class="p">)</span>
-<span class="gp">sage:</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<span class="gp">....:</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;print((&#39;hi&#39;, 2^3)); z = -2^7&quot;</span><span class="p">)</span>
-<span class="gp">sage:</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="gp">sage:</span> <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">globals</span><span class="p">())</span>
-<span class="go">(&#39;hi&#39;, 1)</span>
-<span class="gp">sage:</span> <span class="n">z</span>
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">NamedTemporaryFile</span>
+<span class="gp">sage:</span> <span class="n">context</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="gp">sage:</span> <span class="k">with</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.py&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">....:</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;print((&#39;hi&#39;, 2^3, z)); z = -2^7&quot;</span><span class="p">)</span>
+<span class="gp">....:</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">....:</span>     <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+<span class="go">(&#39;hi&#39;, 1, 1)</span>
+<span class="gp">sage:</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]</span>
 <span class="go">-7</span>
 </pre></div>
 </div>
 </div>
 <input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">t</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">(</span><span class="n">ext</span><span class="o">=</span><span class="s1">&#39;.py&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<span class="gp">...</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;print((&#39;hi&#39;, 2^3)); z = -2^7&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">z</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">globals</span><span class="p">())</span>
-<span class="go">(&#39;hi&#39;, 1)</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">z</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">NamedTemporaryFile</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">context</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)}</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.py&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">...</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;print((&#39;hi&#39;, 2^3, z)); z = -2^7&quot;</span><span class="p">)</span>
+<span class="gp">...</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">...</span>     <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+<span class="go">(&#39;hi&#39;, 1, 1)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]</span>
 <span class="go">-7</span>
 </pre></div>
 </div>
@@ -443,26 +445,26 @@ command line is considered to be running in the <code class="docutils literal no
 <p class="with-sage-tab with-python-tab">A <code class="docutils literal notranslate"><span class="pre">.sage</span></code> file <em>is</em> preparsed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
-<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">t</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">(</span><span class="n">ext</span><span class="o">=</span><span class="s1">&#39;.sage&#39;</span><span class="p">)</span>
-<span class="gp">sage:</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<span class="gp">....:</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;print((&#39;hi&#39;, 2^3)); z = -2^7&quot;</span><span class="p">)</span>
-<span class="gp">sage:</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="gp">sage:</span> <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">globals</span><span class="p">())</span>
-<span class="go">(&#39;hi&#39;, 8)</span>
-<span class="gp">sage:</span> <span class="n">z</span>
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">context</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Integer&quot;</span><span class="p">:</span> <span class="n">Integer</span> <span class="p">}</span>
+<span class="gp">sage:</span> <span class="k">with</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.sage&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">....:</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;print((&#39;hi&#39;, 2^3, z)); z = -2^7&quot;</span><span class="p">)</span>
+<span class="gp">....:</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">....:</span>     <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+<span class="go">(&#39;hi&#39;, 8, 1)</span>
+<span class="gp">sage:</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]</span>
 <span class="go">-128</span>
 </pre></div>
 </div>
 </div>
 <input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">Python</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">t</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">(</span><span class="n">ext</span><span class="o">=</span><span class="s1">&#39;.sage&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<span class="gp">...</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;print((&#39;hi&#39;, 2^3)); z = -2^7&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">z</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">globals</span><span class="p">())</span>
-<span class="go">(&#39;hi&#39;, 8)</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">z</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">context</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;Integer&quot;</span><span class="p">:</span> <span class="n">Integer</span> <span class="p">}</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.sage&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">...</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;print((&#39;hi&#39;, 2^3, z)); z = -2^7&quot;</span><span class="p">)</span>
+<span class="gp">...</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">...</span>     <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+<span class="go">(&#39;hi&#39;, 8, 1)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]</span>
 <span class="go">-128</span>
 </pre></div>
 </div>
@@ -471,28 +473,28 @@ command line is considered to be running in the <code class="docutils literal no
 <p class="with-sage-tab with-python-tab">Cython files are <em>not</em> preparsed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
-<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">t</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">(</span><span class="n">ext</span><span class="o">=</span><span class="s1">&#39;.pyx&#39;</span><span class="p">)</span>
-<span class="gp">sage:</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<span class="gp">....:</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;print((&#39;hi&#39;, 2^3)); z = -2^7&quot;</span><span class="p">)</span>
-<span class="gp">sage:</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="gp">sage:</span> <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">globals</span><span class="p">())</span>                                         <span class="c1"># needs sage.misc.cython</span>
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">context</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="mi">1</span> <span class="p">}</span>
+<span class="gp">sage:</span> <span class="k">with</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.pyx&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">....:</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;print((&#39;hi&#39;, 2^3)); z = -2^7&quot;</span><span class="p">)</span>
+<span class="gp">....:</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">....:</span>     <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>                                         <span class="c1"># needs sage.misc.cython</span>
 <span class="go">Compiling ...</span>
 <span class="go">(&#39;hi&#39;, 1)</span>
-<span class="gp">sage:</span> <span class="n">z</span>
+<span class="gp">sage:</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]</span>
 <span class="go">-7</span>
 </pre></div>
 </div>
 </div>
 <input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">Python</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">t</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">(</span><span class="n">ext</span><span class="o">=</span><span class="s1">&#39;.pyx&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<span class="gp">...</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;print((&#39;hi&#39;, 2^3)); z = -2^7&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">z</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">globals</span><span class="p">())</span>                                         <span class="c1"># needs sage.misc.cython</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">context</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">}</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.pyx&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">...</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;print((&#39;hi&#39;, 2^3)); z = -2^7&quot;</span><span class="p">)</span>
+<span class="gp">...</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">...</span>     <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>                                         <span class="c1"># needs sage.misc.cython</span>
 <span class="go">Compiling ...</span>
 <span class="go">(&#39;hi&#39;, 1)</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">z</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]</span>
 <span class="go">-7</span>
 </pre></div>
 </div>
@@ -502,7 +504,8 @@ command line is considered to be running in the <code class="docutils literal no
 is raised:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
-<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">tmp_filename</span><span class="p">(</span><span class="n">ext</span><span class="o">=</span><span class="s1">&#39;.foo&#39;</span><span class="p">),</span> <span class="nb">globals</span><span class="p">())</span>
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">with</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.foo&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">....:</span>     <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="p">{})</span>
 <span class="go">Traceback (most recent call last):</span>
 <span class="gp">...</span>
 <span class="go">ValueError: unknown file extension &#39;.foo&#39; for load or attach (supported extensions: .py, .pyx, .sage, .spyx, .f, .f90, .m)</span>
@@ -511,7 +514,8 @@ is raised:</p>
 </div>
 <input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">Python</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">tmp_filename</span><span class="p">(</span><span class="n">ext</span><span class="o">=</span><span class="s1">&#39;.foo&#39;</span><span class="p">),</span> <span class="nb">globals</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.foo&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">...</span>     <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="p">{})</span>
 <span class="go">Traceback (most recent call last):</span>
 <span class="gp">...</span>
 <span class="go">ValueError: unknown file extension &#39;.foo&#39; for load or attach (supported extensions: .py, .pyx, .sage, .spyx, .f, .f90, .m)</span>
@@ -555,24 +559,24 @@ is raised:</p>
 is equivalent, but available at the global scope by default):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
-<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">t</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">(</span><span class="n">ext</span><span class="o">=</span><span class="s1">&#39;.py&#39;</span><span class="p">)</span>
-<span class="gp">sage:</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<span class="gp">....:</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;print(&#39;hello world&#39;)&quot;</span><span class="p">)</span>
-<span class="gp">sage:</span> <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">globals</span><span class="p">(),</span> <span class="n">attach</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">with</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.py&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">....:</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;print(&#39;hello world&#39;)&quot;</span><span class="p">)</span>
+<span class="gp">....:</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">....:</span>     <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="p">{},</span> <span class="n">attach</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">hello world</span>
-<span class="gp">sage:</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">attached_files</span><span class="p">()</span>
+<span class="gp">sage:</span> <span class="n">file</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">attached_files</span><span class="p">()</span>
 <span class="go">True</span>
 </pre></div>
 </div>
 </div>
 <input class="tab-input" id="tab-set--7-input--2" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--2">Python</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">t</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">(</span><span class="n">ext</span><span class="o">=</span><span class="s1">&#39;.py&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<span class="gp">...</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;print(&#39;hello world&#39;)&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">globals</span><span class="p">(),</span> <span class="n">attach</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.py&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">...</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;print(&#39;hello world&#39;)&quot;</span><span class="p">)</span>
+<span class="gp">...</span>     <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">...</span>     <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="p">{},</span> <span class="n">attach</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">hello world</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">attached_files</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">file</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">attached_files</span><span class="p">()</span>
 <span class="go">True</span>
 </pre></div>
 </div>
@@ -665,7 +669,7 @@ module.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sage.repl.load.load_wrap">
-<span class="sig-prename descclassname"><span class="pre">sage.repl.load.</span></span><span class="sig-name descname"><span class="pre">load_wrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attach</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/load.py#L307"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.load.load_wrap" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">sage.repl.load.</span></span><span class="sig-name descname"><span class="pre">load_wrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attach</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/load.py#L309"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.load.load_wrap" title="Link to this definition">¶</a></dt>
 <dd><p>Encode a load or attach command as valid Python code.</p>
 <p>INPUT:</p>
 <ul class="simple">
