@@ -7,7 +7,7 @@
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
         <title>Metaclasses for Cython extension types - Python technicalities</title>
-      <link rel="stylesheet" type="text/css" href="../../../%5fstatic/pygments.css?v=a078f75a" />
+      <link rel="stylesheet" type="text/css" href="../../../%5fstatic/pygments.css?v=9e535fb7" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
@@ -205,7 +205,7 @@
     <img class="sidebar-logo only-dark" src="../../../%5fstatic/logo_sagemath_white.svg" alt="Dark Logo"/>
   </div>
   
-      <span class="sidebar-brand-text">passagemath 10.6.33 Reference Manual</span>
+      <span class="sidebar-brand-text">passagemath 10.6.34 Reference Manual</span>
   
 </a><div class="select-wrapper">
   <select id="versions-menu" onchange="changeVersion()">
@@ -295,12 +295,12 @@ define a metaclass, define a method <code class="docutils literal notranslate"><
 unused argument, and turn off the Cython directive
 <code class="docutils literal notranslate"><span class="pre">always_allow_keywords</span></code>. This method should return a type to be used as
 metaclass:</p>
-<div class="highlight-cython notranslate"><div class="highlight"><pre><span></span><span class="k">cimport</span> <span class="nn">cython</span>
-<span class="k">cimport</span> <span class="nn">sage.cpython.cython_metaclass</span>
-<span class="k">cdef</span> <span class="k">class</span> <span class="nf">MyCustomType</span><span class="p">():</span>
+<div class="highlight-cython notranslate"><div class="highlight"><pre><span></span><span class="k">cimport</span><span class="w"> </span><span class="nn">cython</span>
+<span class="k">cimport</span><span class="w"> </span><span class="nn">sage.cpython.cython_metaclass</span>
+<span class="k">cdef</span><span class="w"> </span><span class="k">class</span> <span class="nf">MyCustomType</span><span class="p">():</span>
     <span class="nd">@cython</span><span class="o">.</span><span class="n">always_allow_keywords</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">__getmetaclass__</span><span class="p">(</span><span class="n">_</span><span class="p">):</span>
-        <span class="k">from</span> <span class="nn">foo</span> <span class="k">import</span> <span class="n">MyMetaclass</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__getmetaclass__</span><span class="p">(</span><span class="n">_</span><span class="p">):</span>
+        <span class="k">from</span><span class="w"> </span><span class="nn">foo</span><span class="w"> </span><span class="k">import</span> <span class="n">MyMetaclass</span>
         <span class="k">return</span> <span class="n">MyMetaclass</span>
 </pre></div>
 </div>
@@ -346,21 +346,21 @@ attributes or virtual methods.</p>
 <span class="gp">....:</span><span class="s1">                 print(&quot;Calling MyMetaclass.__init__</span><span class="si">{}</span><span class="s1">&quot;.format(args))</span>
 <span class="gp">....:</span><span class="s1">         return MyMetaclass</span>
 <span class="gp">....:</span>
-<span class="gp">....:</span> <span class="n">cdef</span> <span class="k">class</span> <span class="nc">MyDerivedType</span><span class="p">(</span><span class="n">MyCustomType</span><span class="p">):</span>
+<span class="gp">....:</span> <span class="n">cdef</span> <span class="k">class</span><span class="w"> </span><span class="nc">MyDerivedType</span><span class="p">(</span><span class="n">MyCustomType</span><span class="p">):</span>
 <span class="gp">....:</span>     <span class="k">pass</span>
 <span class="gp">....:</span> <span class="s1">&#39;&#39;&#39;)</span>
 <span class="go">Calling MyMetaclass.__init__(&lt;class &#39;...MyCustomType&#39;&gt;, None, None, None)</span>
 <span class="go">Calling MyMetaclass.__init__(&lt;class &#39;...MyDerivedType&#39;&gt;, None, None, None)</span>
 <span class="gp">sage:</span> <span class="n">MyCustomType</span><span class="o">.</span><span class="vm">__class__</span>                                                        <span class="c1"># needs sage.misc.cython</span>
 <span class="go">&lt;class &#39;...MyMetaclass&#39;&gt;</span>
-<span class="gp">sage:</span> <span class="k">class</span> <span class="nc">MyPythonType</span><span class="p">(</span><span class="n">MyDerivedType</span><span class="p">):</span>                                            <span class="c1"># needs sage.misc.cython</span>
+<span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">MyPythonType</span><span class="p">(</span><span class="n">MyDerivedType</span><span class="p">):</span>                                            <span class="c1"># needs sage.misc.cython</span>
 <span class="gp">....:</span>     <span class="k">pass</span>
 <span class="go">Calling MyMetaclass.__init__(&lt;class &#39;...MyPythonType&#39;&gt;, &#39;MyPythonType&#39;, (&lt;class &#39;...MyDerivedType&#39;&gt;,), {...})</span>
 </pre></div>
 </div>
 </div>
 <input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils container">
-<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.all</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">cython</span><span class="p">(</span>                                                                       <span class="c1"># needs sage.misc.cython</span>
 <span class="gp">...</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="gp">...</span><span class="s1"> cimport cython</span>
@@ -373,14 +373,14 @@ attributes or virtual methods.</p>
 <span class="gp">...</span><span class="s1">                 print(&quot;Calling MyMetaclass.__init__</span><span class="si">{}</span><span class="s1">&quot;.format(args))</span>
 <span class="gp">...</span><span class="s1">         return MyMetaclass</span>
 <span class="gp">....:</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">cdef</span> <span class="k">class</span> <span class="nc">MyDerivedType</span><span class="p">(</span><span class="n">MyCustomType</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">cdef</span> <span class="k">class</span><span class="w"> </span><span class="nc">MyDerivedType</span><span class="p">(</span><span class="n">MyCustomType</span><span class="p">):</span>
 <span class="gp">...</span>     <span class="k">pass</span>
 <span class="gp">...</span> <span class="s1">&#39;&#39;&#39;)</span>
 <span class="go">Calling MyMetaclass.__init__(&lt;class &#39;...MyCustomType&#39;&gt;, None, None, None)</span>
 <span class="go">Calling MyMetaclass.__init__(&lt;class &#39;...MyDerivedType&#39;&gt;, None, None, None)</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">MyCustomType</span><span class="o">.</span><span class="vm">__class__</span>                                                        <span class="c1"># needs sage.misc.cython</span>
 <span class="go">&lt;class &#39;...MyMetaclass&#39;&gt;</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">MyPythonType</span><span class="p">(</span><span class="n">MyDerivedType</span><span class="p">):</span>                                            <span class="c1"># needs sage.misc.cython</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="k">class</span><span class="w"> </span><span class="nc">MyPythonType</span><span class="p">(</span><span class="n">MyDerivedType</span><span class="p">):</span>                                            <span class="c1"># needs sage.misc.cython</span>
 <span class="gp">...</span>     <span class="k">pass</span>
 <span class="go">Calling MyMetaclass.__init__(&lt;class &#39;...MyPythonType&#39;&gt;, &#39;MyPythonType&#39;, (&lt;class &#39;...MyDerivedType&#39;&gt;,), {...})</span>
 </pre></div>
