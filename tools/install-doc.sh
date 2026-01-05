@@ -3,7 +3,7 @@ if [ $# = 0 ]; then
     echo >&2 "usage: tools/install-doc.sh .../sagemath_doc_html....whl"
     exit 1
 fi
-set -x
+set -ex
 for wheel in $*; do
     stem=${wheel%-py3-none-any.whl}
     version=${stem##*-}
