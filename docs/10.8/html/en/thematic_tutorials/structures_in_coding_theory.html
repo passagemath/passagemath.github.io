@@ -436,7 +436,7 @@ you should inherit from.</p>
 <p>We give a small example of creating a non-linear code family. Take the code
 consisting of the following <span class="math notranslate nohighlight">\(l\)</span> words:</p>
 <p><span class="math notranslate nohighlight">\(\{00 \ldots 00, 10 \ldots 00, 11 \ldots 00, \ldots , 11 \ldots 10, 11 \ldots 11 \}\)</span>.</p>
-<p class="with-sage-tab with-python-tab">Here is how we can implement it:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Here is how we can implement it:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.coding.abstract_code</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbstractCode</span>
@@ -475,6 +475,29 @@ consisting of the following <span class="math notranslate nohighlight">\(l\)</sp
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">C</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
 <span class="go">[(0, 0, 0, 0), (1, 0, 0, 0), (1, 1, 0, 0), (1, 1, 1, 0), (1, 1, 1, 1)]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.coding.abstract_code import AbstractCode
+class ExampleCodeFamily(AbstractCode):
+    def __init__(self, length):
+        super(ExampleCodeFamily, self).__init__(length)
+    def __iter__(self):
+        for i in range(self.length() + 1):
+            yield vector([1 for j in range(i)] + [0 for k in range(i, self.length())])
+    def __contains__(self, word):
+        return word in list(self)
+    def _repr_(self):
+        return &quot;Dummy code of length {}&quot;.format(self.length())
+C = ExampleCodeFamily(4) # check that this works.
+C.list()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -533,7 +556,7 @@ a default constructor which sets the <em>length</em>, the <em>base field</em>,
 the <em>default encoder</em> and the <em>default decoder</em> as class parameters.
 We also need to create the dictionary of known encoders and decoders
 for the class.</p>
-<p class="with-sage-tab with-python-tab">Let us now write the constructor for our code class,
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let us now write the constructor for our code class,
 that we store in some file called <code class="docutils literal notranslate"><span class="pre">repetition_code.py</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
@@ -563,6 +586,25 @@ that we store in some file called <code class="docutils literal notranslate"><sp
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.coding.linear_code import AbstractLinearCode
+from sage.rings.finite_rings.finite_field_constructor import FiniteField as GF
+class BinaryRepetitionCode(AbstractLinearCode):
+    _registered_encoders = {}
+    _registered_decoders = {}
+    def __init__(self, length):
+        super(BinaryRepetitionCode, self).__init__(GF(2), length,
+          &quot;RepetitionGeneratorMatrixEncoder&quot;, &quot;MajorityVoteDecoder&quot;)
+        self._dimension = 1</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>As you notice, the constructor is really simple. Most of the work is indeed
 managed by the topclass through the <code class="docutils literal notranslate"><span class="pre">super</span></code> statement.
@@ -570,7 +612,7 @@ Note that the dimension is not set by the abstract class, because for some
 code families the exact dimension is hard to compute.
 If the exact dimension is known, set it using <code class="docutils literal notranslate"><span class="pre">_dimension</span></code>
 as a class parameter.</p>
-<p class="with-sage-tab with-python-tab">We can now write representation methods for our code class:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can now write representation methods for our code class:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">def</span><span class="w"> </span><span class="nf">_repr_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -589,8 +631,22 @@ as a class parameter.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">def _repr_(self):
+    return &quot;Binary repetition code of length %s&quot; % self.length()
+def _latex_(self):
+    return &quot;\textnormal{Binary repetition code of length } %s&quot; % self.length()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We also write a method to check equality:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We also write a method to check equality:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -607,6 +663,20 @@ as a class parameter.</p>
 <span class="gp">...</span>             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">length</span><span class="p">()</span>
 <span class="gp">...</span>             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">dimension</span><span class="p">())</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">def __eq__(self, other):
+    return (isinstance(other, BinaryRepetitionCode)
+            and self.length() == other.length()
+            and self.dimension() == other.dimension())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -655,7 +725,7 @@ Let us see how to write a new encoder and a new decoder.</p>
 </section>
 <section id="iv-write-a-new-encoder-class">
 <h2><a class="toc-backref" href="#id5" role="doc-backlink">IV. Write a new encoder class</a><a class="headerlink" href="#iv-write-a-new-encoder-class" title="Link to this heading">¶</a></h2>
-<p class="with-sage-tab with-python-tab">Let us continue our example. We ask the same question as before:
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let us continue our example. We ask the same question as before:
 what do we need to describe the encoder?
 For most of the cases (this one included), we only need the associated code.
 In that case, writing the constructor is really straightforward
@@ -678,11 +748,25 @@ In that case, writing the constructor is really straightforward
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.coding.encoder import Encoder
+class BinaryRepetitionCodeGeneratorMatrixEncoder(Encoder):
+    def __init__(self, code):
+        super(BinaryRepetitionCodeGeneratorMatrixEncoder, self).__init__(code)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>Same thing as before, as an encoder always needs to know its associated code,
 the work can be done by the base class.
 Remember to inherit from <a class="reference external" href="../reference/coding/sage/coding/encoder.html#sage.coding.encoder.Encoder" title="(in Coding Theory v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sage.coding.encoder.Encoder</span></code></a>!</p>
-<p class="with-sage-tab with-python-tab">We also want to override representation methods <code class="docutils literal notranslate"><span class="pre">_repr_</span></code> and <code class="docutils literal notranslate"><span class="pre">_latex_</span></code>:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We also want to override representation methods <code class="docutils literal notranslate"><span class="pre">_repr_</span></code> and <code class="docutils literal notranslate"><span class="pre">_latex_</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">def</span><span class="w"> </span><span class="nf">_repr_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -701,8 +785,22 @@ Remember to inherit from <a class="reference external" href="../reference/coding
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">def _repr_(self):
+    return &quot;Binary repetition encoder for the %s&quot; % self.code()
+def _latex_(self):
+    return &quot;\textnormal{Binary repetition encoder for the } %s&quot; % self.code()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">And we want to have an equality check too:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">And we want to have an equality check too:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -719,6 +817,19 @@ Remember to inherit from <a class="reference external" href="../reference/coding
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">def __eq__(self, other):
+    return (isinstance(other, BinaryRepetitionCodeGeneratorMatrixEncoder)
+            and self.code() == other.code())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>As before, default getter method is provided by the topclass,
 namely <a class="reference external" href="../reference/coding/sage/coding/encoder.html#sage.coding.encoder.Encoder.code" title="(in Coding Theory v10.8.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sage.coding.encoder.Encoder.code()</span></code></a>.</p>
@@ -729,7 +840,7 @@ we have a generator matrix or not.</p>
 <h3>We have a generator matrix<a class="headerlink" href="#we-have-a-generator-matrix" title="Link to this heading">¶</a></h3>
 <p>In that case, the message space is a vector space, and it is especially easy:
 the only method you need to implement is <code class="docutils literal notranslate"><span class="pre">generator_matrix</span></code>.</p>
-<p class="with-sage-tab with-python-tab">Continuing our example, it will be:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Continuing our example, it will be:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">def</span><span class="w"> </span><span class="nf">generator_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -744,6 +855,19 @@ the only method you need to implement is <code class="docutils literal notransla
 <span class="gp">...</span>     <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="p">()</span><span class="o">.</span><span class="n">length</span><span class="p">()</span>
 <span class="gp">...</span>     <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">n</span><span class="p">,</span> <span class="p">[</span><span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">one</span><span class="p">()]</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">def generator_matrix(self):
+    n = self.code().length()
+    return Matrix(GF(2), 1, n, [GF(2).one()] * n)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -770,7 +894,7 @@ one should obviously override the default <code class="docutils literal notransl
 the message space is not a vector space). Note that the default
 implementation of <a class="reference external" href="../reference/coding/sage/coding/encoder.html#sage.coding.encoder.Encoder.unencode" title="(in Coding Theory v10.8.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sage.coding.encoder.Encoder.unencode()</span></code></a> relies on
 <code class="docutils literal notranslate"><span class="pre">unencode_nocheck</span></code>, so reimplementing the former is not necessary.</p>
-<p class="with-sage-tab with-python-tab">In our example, it is easy to create an encoder which does not need
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In our example, it is easy to create an encoder which does not need
 a generator matrix to perform the encoding and the unencoding.
 We propose the following implementation:</p>
 <div class="tab-set docutils container">
@@ -797,6 +921,22 @@ We propose the following implementation:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="k">def</span><span class="w"> </span><span class="nf">message_space</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">...</span>     <span class="k">return</span> <span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">def encode(self, message):
+    return vector(GF(2), [message] * self.code().length())
+def unencode_nocheck(self, word):
+    return word[0]
+def message_space(self):
+    return GF(2)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -839,7 +979,7 @@ and <code class="docutils literal notranslate"><span class="pre">_latex_</span><
 </section>
 <section id="v-write-a-new-decoder-class">
 <h2><a class="toc-backref" href="#id6" role="doc-backlink">V. Write a new decoder class</a><a class="headerlink" href="#v-write-a-new-decoder-class" title="Link to this heading">¶</a></h2>
-<p class="with-sage-tab with-python-tab">Let us continue by writing a decoder. As before, we need to know what is
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let us continue by writing a decoder. As before, we need to know what is
 required to describe a decoder. We need of course the associated code of
 the decoder. We also want to know which <code class="docutils literal notranslate"><span class="pre">Encoder</span></code> we should use when we
 try to recover the original message from a received word containing errors.
@@ -871,13 +1011,28 @@ and our constructor looks like that:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.coding.decoder import Decoder
+class BinaryRepetitionCodeMajorityVoteDecoder(Decoder):
+    def __init__(self, code):
+        super((BinaryRepetitionCodeMajorityVoteDecoder, self).__init__(code,
+           code.ambient_space(), &quot;RepetitionGeneratorMatrixEncoder&quot;))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>Remember to inherit from <a class="reference external" href="../reference/coding/sage/coding/decoder.html#sage.coding.decoder.Decoder" title="(in Coding Theory v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sage.coding.decoder.Decoder</span></code></a>!</p>
 <p>As <code class="docutils literal notranslate"><span class="pre">_decoder_type</span></code> is actually a class parameter, one should set it
 in the file itself, outside of any method.
 For readability, we suggest to add this statement at the bottom of the file.
 We’ll get back to this in a moment.</p>
-<p class="with-sage-tab with-python-tab">We also want to override representation methods <code class="docutils literal notranslate"><span class="pre">_repr_</span></code> and <code class="docutils literal notranslate"><span class="pre">_latex_</span></code>:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We also want to override representation methods <code class="docutils literal notranslate"><span class="pre">_repr_</span></code> and <code class="docutils literal notranslate"><span class="pre">_latex_</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">def</span><span class="w"> </span><span class="nf">_repr_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -896,8 +1051,22 @@ We’ll get back to this in a moment.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">def _repr_(self):
+    return &quot;Majority vote-based decoder for the %s&quot; % self.code()
+def _latex_(self):
+    return &quot;\textnormal{Majority vote based-decoder for the } %s&quot; % self.code()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">And we want to have an equality check too:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">And we want to have an equality check too:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -914,6 +1083,19 @@ We’ll get back to this in a moment.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">def __eq__(self, other):
+    return isinstance((other, BinaryRepetitionCodeMajorityVoteDecoder)
+          and self.code() == other.code())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>As before, default getter methods are provided by the topclass, namely
 <a class="reference external" href="../reference/coding/sage/coding/decoder.html#sage.coding.decoder.Decoder.code" title="(in Coding Theory v10.8.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sage.coding.decoder.Decoder.code()</span></code></a>,
@@ -924,7 +1106,7 @@ We’ll get back to this in a moment.</p>
 <p>There are two methods, namely
 <a class="reference external" href="../reference/coding/sage/coding/decoder.html#sage.coding.decoder.Decoder.decode_to_code" title="(in Coding Theory v10.8.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sage.coding.decoder.Decoder.decode_to_code()</span></code></a>
 and <a class="reference external" href="../reference/coding/sage/coding/decoder.html#sage.coding.decoder.Decoder.decode_to_message" title="(in Coding Theory v10.8.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sage.coding.decoder.Decoder.decode_to_message()</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">By the magic of default implementation, these two are linked, as
+<p class="with-sage-tab with-python-tab with-sage-live-tab">By the magic of default implementation, these two are linked, as
 <code class="docutils literal notranslate"><span class="pre">decode_to_message</span></code> calls first <code class="docutils literal notranslate"><span class="pre">decode_to_code</span></code> and then
 <code class="docutils literal notranslate"><span class="pre">unencode</span></code>, while <code class="docutils literal notranslate"><span class="pre">decode_to_code</span></code> calls successively
 <code class="docutils literal notranslate"><span class="pre">decode_to_message</span></code> and <code class="docutils literal notranslate"><span class="pre">encode</span></code>.
@@ -964,6 +1146,28 @@ to override <code class="docutils literal notranslate"><span class="pre">decode_
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">def decode_to_code(self, word):
+    list_word = word.list()
+    count_one = list_word.count(GF(2).one())
+    n = self.code().length()
+    length = len(list_word)
+    F = GF(2)
+    if count_one &gt; length / 2:
+        return vector(F, [F.one()] * n)
+    elif count_one &lt; length / 2:
+        return vector(F, [F.zero()] * n)
+    else:
+        raise DecodingError(&quot;impossible to find a majority&quot;)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -974,7 +1178,7 @@ it will end up stuck in an infinite loop. We added a trigger guard
 against this, so if none is overridden and one is called,
 an exception will be raised.</p>
 </div>
-<p class="with-sage-tab with-python-tab">Only one method is missing: one to provide to the user the number of
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Only one method is missing: one to provide to the user the number of
 errors our decoder can decode.
 This is the method <a class="reference external" href="../reference/coding/sage/coding/decoder.html#sage.coding.decoder.Decoder.decoding_radius" title="(in Coding Theory v10.8.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sage.coding.decoder.Decoder.decoding_radius()</span></code></a>,
 which we override:</p>
@@ -990,6 +1194,18 @@ which we override:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="k">def</span><span class="w"> </span><span class="nf">decoding_radius</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">...</span>     <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="p">()</span><span class="o">.</span><span class="n">length</span><span class="p">()</span><span class="o">-</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">//</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">def decoding_radius(self):
+    return (self.code().length()-1) // 2</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1056,7 +1272,7 @@ Well, we mandatorily need its <code class="docutils literal notranslate"><span c
 Of course, in most of the cases, the user will be able to provide some extra
 information on the channel’s behaviour.
 In our case, it will be the number of bits to flip (aka the number of errors).</p>
-<p class="with-sage-tab with-python-tab">As you might have guess, there is an abstract class to take care
+<p class="with-sage-tab with-python-tab with-sage-live-tab">As you might have guess, there is an abstract class to take care
 of the mandatory arguments!
 Plus, in our case, as this channel only works for vectors
 over <span class="math notranslate nohighlight">\(\GF{2}\)</span>, the input and output spaces are the same.
@@ -1089,9 +1305,28 @@ Let us write the constructor of our new channel class:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.coding.channel import Channel
+class BinaryStaticErrorRateChannel(Channel):
+    def __init__(self, space, number_errors):
+        if space.base_ring() is not GF(2):
+            raise ValueError(&quot;Provided space must be a vector space over GF(2)&quot;)
+        if number_errors &gt; space.dimension():
+            raise ValueErrors(&quot;number_errors cannot be bigger than input space's dimension&quot;)
+        super(BinaryStaticErrorRateChannel, self).__init__(space, space)
+        self._number_errors = number_errors</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>Remember to inherit from <a class="reference external" href="../reference/coding/sage/coding/channel.html#sage.coding.channel.Channel" title="(in Coding Theory v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sage.coding.channel.Channel</span></code></a>!</p>
-<p class="with-sage-tab with-python-tab">We also want to override representation methods <code class="docutils literal notranslate"><span class="pre">_repr_</span></code> and <code class="docutils literal notranslate"><span class="pre">_latex_</span></code>:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We also want to override representation methods <code class="docutils literal notranslate"><span class="pre">_repr_</span></code> and <code class="docutils literal notranslate"><span class="pre">_latex_</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">def</span><span class="w"> </span><span class="nf">_repr_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1116,11 +1351,27 @@ Let us write the constructor of our new channel class:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">def _repr_(self):
+    return (&quot;Binary static error rate channel creating %s errors, of input and output space %s&quot;
+            % (format_interval(no_err), self.input_space()))
+def _latex_(self):
+    return (&quot;\\textnormal{Static error rate channel creating %s errors, of input and output space %s}&quot;
+            % (format_interval(no_err), self.input_space()))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>We don’t really see any use case for equality methods
 (<code class="docutils literal notranslate"><span class="pre">__eq__</span></code> and <code class="docutils literal notranslate"><span class="pre">__ne__</span></code>) so do not provide any default implementation.
 If one needs these, one can of course override Python’s default methods.</p>
-<p class="with-sage-tab with-python-tab">We of course want getter methods.
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We of course want getter methods.
 There is a provided default implementation for <code class="docutils literal notranslate"><span class="pre">input_space</span></code> and
 <code class="docutils literal notranslate"><span class="pre">output_space</span></code>, so we only need one for <code class="docutils literal notranslate"><span class="pre">number_errors</span></code>:</p>
 <div class="tab-set docutils container">
@@ -1137,8 +1388,20 @@ There is a provided default implementation for <code class="docutils literal not
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">def number_errors(self):
+    return self._number_errors</pre>
 </div>
-<p class="with-sage-tab with-python-tab">So, now we want a method to actually add errors to words.
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">So, now we want a method to actually add errors to words.
 As it is the same thing as transmitting messages over a real-world channel,
 we propose two methods, <code class="docutils literal notranslate"><span class="pre">transmit</span></code> and <code class="docutils literal notranslate"><span class="pre">transmit_unsafe</span></code>.
 As you can guess, <code class="docutils literal notranslate"><span class="pre">transmit_unsafe</span></code> tries to transmit the message
@@ -1170,6 +1433,24 @@ So we only need to override <code class="docutils literal notranslate"><span cla
 <span class="gp">...</span>         <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">F</span><span class="o">.</span><span class="n">one</span><span class="p">()</span>
 <span class="gp">...</span>     <span class="k">return</span> <span class="n">w</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">def transmit_unsafe(self, message):
+    w = copy(message)
+    number_err = self.number_errors()
+    V = self.input_space()
+    F = GF(2)
+    for i in sample(range(V.dimension()), number_err):
+        w[i] += F.one()
+    return w</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1402,7 +1683,11 @@ derive from the one that follows.</p>
 </div>
 </section>
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>

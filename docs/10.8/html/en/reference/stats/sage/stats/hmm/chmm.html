@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -297,7 +297,7 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">normalize</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">We illustrate the primary functions with an example 2-state Gaussian HMM:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We illustrate the primary functions with an example 2-state Gaussian HMM:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">m</span> <span class="o">=</span> <span class="n">hmm</span><span class="o">.</span><span class="n">GaussianHiddenMarkovModel</span><span class="p">([[</span><span class="mf">.1</span><span class="p">,</span><span class="mf">.9</span><span class="p">],[</span><span class="mf">.5</span><span class="p">,</span><span class="mf">.5</span><span class="p">]],</span>
@@ -328,8 +328,21 @@
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">m = hmm.GaussianHiddenMarkovModel([[.1,.9],[.5,.5]],
+                                  [(1,1), (-1,1)],
+                                  [.5,.5]); m</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We query the defining transition matrix, emission parameters, and
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We query the defining transition matrix, emission parameters, and
 initial state probabilities:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
@@ -355,8 +368,21 @@ initial state probabilities:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">m.transition_matrix()
+m.emission_parameters()
+m.initial_probabilities()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We obtain a sample sequence with 10 entries in it, and compute the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We obtain a sample sequence with 10 entries in it, and compute the
 logarithm of the probability of obtaining this sequence, given the
 model:</p>
 <div class="tab-set docutils container">
@@ -401,8 +427,32 @@ model:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">obs = m.sample(5); obs  # random
+log_likelihood = m.log_likelihood(obs)
+counter = 0
+n = 0
+def add_samples(i):
+    global counter, n
+    for _ in range(i):
+        n += 1
+        obs2 = m.sample(5)
+        if all(abs(obs2[i] - obs[i]) &lt; 0.25 for i in range(5)):
+            counter += 1
+add_samples(10000)
+while abs(log_likelihood - log(counter*1.0/n/0.5^5)) &lt; 0.1:
+    add_samples(10000)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We compute the Viterbi path, and probability that the given path
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We compute the Viterbi path, and probability that the given path
 of states produced obs:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
@@ -418,8 +468,19 @@ of states produced obs:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">m.viterbi(obs)  # random</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We use the Baum-Welch iterative algorithm to find another model
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We use the Baum-Welch iterative algorithm to find another model
 for which our observation sequence is more likely:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
@@ -443,8 +504,24 @@ for which our observation sequence is more likely:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">try:
+    p, s = m.baum_welch(obs)
+    assert p &gt; log_likelihood
+    assert (1 &lt;= s &lt;= 500)
+except RuntimeError:
+    pass</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Notice that running Baum-Welch changed our model:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Notice that running Baum-Welch changed our model:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">m</span>  <span class="c1"># random</span>
@@ -473,6 +550,17 @@ for which our observation sequence is more likely:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">m  # random</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.stats.hmm.chmm.GaussianHiddenMarkovModel.baum_welch">
@@ -497,7 +585,7 @@ change emissions when updating</p></li>
 <p>OUTPUT:</p>
 <p>changes the model in place, and returns the log
 likelihood and number of iterations.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">m</span> <span class="o">=</span> <span class="n">hmm</span><span class="o">.</span><span class="n">GaussianHiddenMarkovModel</span><span class="p">([[</span><span class="mf">.1</span><span class="p">,</span><span class="mf">.9</span><span class="p">],[</span><span class="mf">.5</span><span class="p">,</span><span class="mf">.5</span><span class="p">]],</span>
@@ -542,8 +630,25 @@ likelihood and number of iterations.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">m = hmm.GaussianHiddenMarkovModel([[.1,.9],[.5,.5]],
+                                  [(1,.5), (-1,3)],
+                                  [.1,.9])
+m.log_likelihood([-2,-1,.1,0.1])
+m.baum_welch([-2,-1,.1,0.1])
+m.log_likelihood([-2,-1,.1,0.1])
+m  # rel tol 3e-14</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We illustrate bounding the standard deviation below.  Note that above we had
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We illustrate bounding the standard deviation below.  Note that above we had
 different emission parameters when the <code class="docutils literal notranslate"><span class="pre">min_sd</span></code> was the default of 0.01:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
@@ -569,8 +674,23 @@ different emission parameters when the <code class="docutils literal notranslate
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">m = hmm.GaussianHiddenMarkovModel([[.1,.9],[.5,.5]],
+                                  [(1,.5), (-1,3)],
+                                  [.1,.9])
+m.baum_welch([-2,-1,.1,0.1], min_sd=1)
+m.emission_parameters()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We watch the log likelihoods of the model converge, step by step:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We watch the log likelihoods of the model converge, step by step:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">m</span> <span class="o">=</span> <span class="n">hmm</span><span class="o">.</span><span class="n">GaussianHiddenMarkovModel</span><span class="p">([[</span><span class="mf">.1</span><span class="p">,</span><span class="mf">.9</span><span class="p">],[</span><span class="mf">.5</span><span class="p">,</span><span class="mf">.5</span><span class="p">]],</span>
@@ -603,8 +723,26 @@ different emission parameters when the <code class="docutils literal notranslate
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">m = hmm.GaussianHiddenMarkovModel([[.1,.9],[.5,.5]],
+                                  [(1,.5), (-1,3)],
+                                  [.1,.9])
+v = m.sample(10)
+l = stats.TimeSeries([m.baum_welch(v, max_iter=1)[0]
+                      for _ in range(len(v))])
+all(l[i] &lt;= l[i+1] + 0.0001 for i in range(9))
+l  # random</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We illustrate fixing emissions:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We illustrate fixing emissions:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">m</span> <span class="o">=</span> <span class="n">hmm</span><span class="o">.</span><span class="n">GaussianHiddenMarkovModel</span><span class="p">([[</span><span class="mf">.1</span><span class="p">,</span><span class="mf">.9</span><span class="p">],[</span><span class="mf">.9</span><span class="p">,</span><span class="mf">.1</span><span class="p">]],</span>
@@ -647,6 +785,27 @@ different emission parameters when the <code class="docutils literal notranslate
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">m = hmm.GaussianHiddenMarkovModel([[.1,.9],[.9,.1]],
+                                  [(1,2),(-1,.5)],
+                                  [.3,.7])
+set_random_seed(0); v = m.sample(100)
+m.baum_welch(v,fix_emissions=True)
+m.emission_parameters()
+m = hmm.GaussianHiddenMarkovModel([[.1,.9],[.9,.1]],
+                                  [(1,2),(-1,.5)],
+                                  [.3,.7])
+m.baum_welch(v)
+m.emission_parameters()  # rel tol 3e-14</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -659,7 +818,7 @@ associated to all of the states.</p>
 <p>a list <code class="docutils literal notranslate"><span class="pre">B</span></code> of pairs <code class="docutils literal notranslate"><span class="pre">B[i]</span> <span class="pre">=</span> <span class="pre">(mu,</span> <span class="pre">std)</span></code>, such that the
 distribution associated to state <span class="math notranslate nohighlight">\(i\)</span> is normal with mean
 <code class="docutils literal notranslate"><span class="pre">mu</span></code> and standard deviation <code class="docutils literal notranslate"><span class="pre">std</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">hmm</span><span class="o">.</span><span class="n">GaussianHiddenMarkovModel</span><span class="p">([[</span><span class="mf">.1</span><span class="p">,</span><span class="mf">.9</span><span class="p">],[</span><span class="mf">.5</span><span class="p">,</span><span class="mf">.5</span><span class="p">]],</span>
@@ -678,6 +837,20 @@ distribution associated to state <span class="math notranslate nohighlight">\(i\
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">M</span><span class="o">.</span><span class="n">emission_parameters</span><span class="p">()</span>
 <span class="go">[(1.0, 0.5), (-1.0, 3.0)]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = hmm.GaussianHiddenMarkovModel([[.1,.9],[.5,.5]],
+                                  [(1,.5), (-1,3)],
+                                  [.1,.9])
+M.emission_parameters()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -700,7 +873,7 @@ starting state.</p></li>
 <li><p>an <a class="reference internal" href="../intlist.html#sage.stats.intlist.IntList" title="sage.stats.intlist.IntList"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntList</span></code></a> or list of emission symbols</p></li>
 <li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeSeries</span></code> of emissions</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">m</span> <span class="o">=</span> <span class="n">hmm</span><span class="o">.</span><span class="n">GaussianHiddenMarkovModel</span><span class="p">([[</span><span class="mf">.1</span><span class="p">,</span><span class="mf">.9</span><span class="p">],[</span><span class="mf">.5</span><span class="p">,</span><span class="mf">.5</span><span class="p">]],</span>
@@ -733,8 +906,24 @@ starting state.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">m = hmm.GaussianHiddenMarkovModel([[.1,.9],[.5,.5]],
+                                  [(1,.5), (-1,3)],
+                                  [.1,.9])
+m.generate_sequence(5)  # random
+m.generate_sequence(0)
+m.generate_sequence(-1)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Verify numerically that the starting state is 0 with probability about 0.1:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Verify numerically that the starting state is 0 with probability about 0.1:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
@@ -767,8 +956,28 @@ starting state.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">counter = 0
+n = 0
+def add_samples(i):
+    global counter, n
+    for i in range(i):
+        n += 1
+        if m.generate_sequence(1)[1][0] == 0:
+            counter += 1
+add_samples(10^5)
+while abs(counter*1.0 / n - 0.1) &gt; 0.01: add_samples(10^5)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Example in which the starting state is 0 (see <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/11452">upstream Issue #11452</a>):</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Example in which the starting state is 0 (see <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/11452">upstream Issue #11452</a>):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">23</span><span class="p">);</span>  <span class="n">m</span><span class="o">.</span><span class="n">generate_sequence</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -783,8 +992,19 @@ starting state.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(23);  m.generate_sequence(2)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Force a starting state of 1 even though as we saw above it would be 0:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Force a starting state of 1 even though as we saw above it would be 0:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">23</span><span class="p">);</span>  <span class="n">m</span><span class="o">.</span><span class="n">generate_sequence</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">starting_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -797,6 +1017,17 @@ starting state.</p></li>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">23</span><span class="p">));</span>  <span class="n">m</span><span class="o">.</span><span class="n">generate_sequence</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">starting_state</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 <span class="go">([-3.1491, -1.0244], [1, 1])</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(23);  m.generate_sequence(2, starting_state=1)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -815,7 +1046,7 @@ be bigger than 1, hence the logarithm can be positive.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">obs</span></code> – sequence of observations</p></li>
 </ul>
 <p>OUTPUT: float</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">m</span> <span class="o">=</span> <span class="n">hmm</span><span class="o">.</span><span class="n">GaussianHiddenMarkovModel</span><span class="p">([[</span><span class="mf">.1</span><span class="p">,</span><span class="mf">.9</span><span class="p">],[</span><span class="mf">.5</span><span class="p">,</span><span class="mf">.5</span><span class="p">]],</span>
@@ -842,6 +1073,22 @@ be bigger than 1, hence the logarithm can be positive.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">m = hmm.GaussianHiddenMarkovModel([[.1,.9],[.5,.5]],
+                                  [(1,.5), (-1,3)],
+                                  [.1,.9])
+m.log_likelihood([1,1,1])
+s = m.sample(20)
+-80 &lt; m.log_likelihood(s) &lt; -20</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -864,7 +1111,7 @@ the Viterbi path</p></li>
 was produced by the Viterbi sequence of states</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">We find the optimal state sequence for a given model:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We find the optimal state sequence for a given model:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">m</span> <span class="o">=</span> <span class="n">hmm</span><span class="o">.</span><span class="n">GaussianHiddenMarkovModel</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">],[</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">]],</span>
@@ -885,8 +1132,22 @@ was produced by the Viterbi sequence of states</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">m = hmm.GaussianHiddenMarkovModel([[0.5,0.5],[0.5,0.5]],
+                                  [(0,1),(10,1)],
+                                  [0.5,0.5])
+m.viterbi([0,1,10,10,1])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Another example in which the most likely states change based
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Another example in which the most likely states change based
 on the last observation:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
@@ -912,6 +1173,21 @@ on the last observation:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">m = hmm.GaussianHiddenMarkovModel([[.1,.9],[.5,.5]],
+                                  [(1,.5), (-1,3)],
+                                  [.1,.9])
+m.viterbi([-2,-1,.1,0.1])
+m.viterbi([-2,-1,.1,0.3])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -934,7 +1210,7 @@ normalized to define valid probability distributions,
 e.g., the entries of <span class="math notranslate nohighlight">\(A\)</span> are made nonnegative and the rows
 sum to 1, and the probabilities in <code class="docutils literal notranslate"><span class="pre">pi</span></code> are normalized.</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">],[</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">]]</span>
@@ -965,6 +1241,19 @@ sum to 1, and the probabilities in <code class="docutils literal notranslate"><s
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = [[0.5,0.5],[0.5,0.5]]
+B = [[(0.9,(0.0,1.0)), (0.1,(1,10000))],[(1,(1,1)), (0,(0,0.1))]]
+hmm.GaussianMixtureHiddenMarkovModel(A, B, [1,0])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.stats.hmm.chmm.GaussianMixtureHiddenMarkovModel.baum_welch">
@@ -989,7 +1278,7 @@ change emissions when updating</p></li>
 <p>OUTPUT:</p>
 <p>changes the model in place, and returns the log
 likelihood and number of iterations.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">m</span> <span class="o">=</span> <span class="n">hmm</span><span class="o">.</span><span class="n">GaussianMixtureHiddenMarkovModel</span><span class="p">(</span>
@@ -1046,8 +1335,27 @@ likelihood and number of iterations.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">m = hmm.GaussianMixtureHiddenMarkovModel(
+        [[.9,.1],[.4,.6]],
+        [[(.4,(0,1)), (.6,(1,0.1))], [(1,(0,1))]],
+        [.7,.3])
+set_random_seed(0); v = m.sample(10); v
+m.log_likelihood(v)
+m.baum_welch(v)
+m.log_likelihood(v)
+m  # rel tol 6e-12</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We illustrate bounding the standard deviation below.  Note that above we had
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We illustrate bounding the standard deviation below.  Note that above we had
 different emission parameters when the min_sd was the default of 0.01:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
@@ -1077,8 +1385,24 @@ different emission parameters when the min_sd was the default of 0.01:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">m = hmm.GaussianMixtureHiddenMarkovModel(
+        [[.9,.1],[.4,.6]],
+        [[(.4,(0,1)), (.6,(1,0.1))], [(1,(0,1))]],
+        [.7,.3])
+m.baum_welch(v, min_sd=1)
+m.emission_parameters()  # rel tol 6e-12</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We illustrate fixing all emissions:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We illustrate fixing all emissions:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">m</span> <span class="o">=</span> <span class="n">hmm</span><span class="o">.</span><span class="n">GaussianMixtureHiddenMarkovModel</span><span class="p">(</span>
@@ -1109,6 +1433,23 @@ different emission parameters when the min_sd was the default of 0.01:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">m = hmm.GaussianMixtureHiddenMarkovModel(
+        [[.9,.1],[.4,.6]],
+        [[(.4,(0,1)), (.6,(1,0.1))], [(1,(0,1))]],
+        [.7,.3])
+set_random_seed(0); v = m.sample(10)
+m.baum_welch(v, fix_emissions=True)
+m.emission_parameters()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1117,7 +1458,7 @@ different emission parameters when the min_sd was the default of 0.01:</p>
 <span class="sig-name descname"><span class="pre">emission_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/stats/hmm/chmm.pyx#L1230"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.stats.hmm.chmm.GaussianMixtureHiddenMarkovModel.emission_parameters" title="Link to this definition">¶</a></dt>
 <dd><p>Return a list of all the emission distributions.</p>
 <p>OUTPUT: list of Gaussian mixtures</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">m</span> <span class="o">=</span> <span class="n">hmm</span><span class="o">.</span><span class="n">GaussianMixtureHiddenMarkovModel</span><span class="p">([[</span><span class="mf">.9</span><span class="p">,</span><span class="mf">.1</span><span class="p">],[</span><span class="mf">.4</span><span class="p">,</span><span class="mf">.6</span><span class="p">]],</span>
@@ -1138,6 +1479,20 @@ different emission parameters when the min_sd was the default of 0.01:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">m = hmm.GaussianMixtureHiddenMarkovModel([[.9,.1],[.4,.6]],
+                                         [[(.4,(0,1)), (.6,(1,0.1))], [(1,(0,1))]],
+                                         [.7,.3])
+m.emission_parameters()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1146,7 +1501,7 @@ different emission parameters when the min_sd was the default of 0.01:</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="sage.stats.hmm.chmm.unpickle_gaussian_hmm_v0">
 <span class="sig-prename descclassname"><span class="pre">sage.stats.hmm.chmm.</span></span><span class="sig-name descname"><span class="pre">unpickle_gaussian_hmm_v0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/stats/hmm/chmm.pyx#L1549"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.stats.hmm.chmm.unpickle_gaussian_hmm_v0" title="Link to this definition">¶</a></dt>
-<dd><p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<dd><p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">m</span> <span class="o">=</span> <span class="n">hmm</span><span class="o">.</span><span class="n">GaussianHiddenMarkovModel</span><span class="p">([[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)],</span> <span class="p">[</span><span class="mi">1</span><span class="p">])</span>
@@ -1173,13 +1528,25 @@ different emission parameters when the min_sd was the default of 0.01:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">m = hmm.GaussianHiddenMarkovModel([[1]], [(0,1)], [1])
+sage.stats.hmm.chmm.unpickle_gaussian_hmm_v0(m.transition_matrix(), m.emission_parameters(), m.initial_probabilities(), 'test')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sage.stats.hmm.chmm.unpickle_gaussian_hmm_v1">
 <span class="sig-prename descclassname"><span class="pre">sage.stats.hmm.chmm.</span></span><span class="sig-name descname"><span class="pre">unpickle_gaussian_hmm_v1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prob</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_out</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/stats/hmm/chmm.pyx#L1565"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.stats.hmm.chmm.unpickle_gaussian_hmm_v1" title="Link to this definition">¶</a></dt>
-<dd><p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<dd><p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">m</span> <span class="o">=</span> <span class="n">hmm</span><span class="o">.</span><span class="n">GaussianHiddenMarkovModel</span><span class="p">([[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)],</span> <span class="p">[</span><span class="mi">1</span><span class="p">])</span>
@@ -1196,13 +1563,25 @@ different emission parameters when the min_sd was the default of 0.01:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">m = hmm.GaussianHiddenMarkovModel([[1]], [(0,1)], [1])
+loads(dumps(m)) == m   # indirect test</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sage.stats.hmm.chmm.unpickle_gaussian_mixture_hmm_v1">
 <span class="sig-prename descclassname"><span class="pre">sage.stats.hmm.chmm.</span></span><span class="sig-name descname"><span class="pre">unpickle_gaussian_mixture_hmm_v1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mixture</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/stats/hmm/chmm.pyx#L1582"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.stats.hmm.chmm.unpickle_gaussian_mixture_hmm_v1" title="Link to this definition">¶</a></dt>
-<dd><p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<dd><p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">m</span> <span class="o">=</span> <span class="n">hmm</span><span class="o">.</span><span class="n">GaussianMixtureHiddenMarkovModel</span><span class="p">([[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[[(</span><span class="mf">.4</span><span class="p">,(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="p">(</span><span class="mf">.6</span><span class="p">,(</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">))]],</span> <span class="p">[</span><span class="mi">1</span><span class="p">])</span>
@@ -1219,11 +1598,27 @@ different emission parameters when the min_sd was the default of 0.01:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">m = hmm.GaussianMixtureHiddenMarkovModel([[1]], [[(.4,(0,1)), (.6,(1,0.1))]], [1])
+loads(dumps(m)) == m   # indirect test</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -1314,7 +1709,7 @@ different emission parameters when the min_sd was the default of 0.01:</p>
     <script src="../../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../../%5fstatic/copybutton.js"></script>
     <script src="../../../../%5fstatic/tabs.js"></script>
-    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

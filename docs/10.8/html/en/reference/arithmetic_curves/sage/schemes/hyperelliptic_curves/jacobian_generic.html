@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -356,7 +356,7 @@
 <dt class="sig sig-object py" id="sage.schemes.hyperelliptic_curves.jacobian_generic.HyperellipticJacobian_generic">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.schemes.hyperelliptic_curves.jacobian_generic.</span></span><span class="sig-name descname"><span class="pre">HyperellipticJacobian_generic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">C</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/schemes/hyperelliptic_curves/jacobian_generic.py#L23"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.schemes.hyperelliptic_curves.jacobian_generic.HyperellipticJacobian_generic" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="../../../../curves/sage/schemes/jacobians/abstract_jacobian.html#sage.schemes.jacobians.abstract_jacobian.Jacobian_generic" title="(in Plane and Space Curves v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Jacobian_generic</span></code></a></p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.finite_rings</span>
@@ -401,8 +401,31 @@
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.finite_rings
+FF = FiniteField(2003)
+R.&lt;x&gt; = PolynomialRing(FF)
+f = x**5 + 1184*x**3 + 1846*x**2 + 956*x + 560
+C = HyperellipticCurve(f)
+J = C.jacobian()
+a = x**2 + 376*x + 245; b = 1015*x + 1368
+X = J(FF)
+D = X([a,b])
+D
+J(0)
+D == J([a,b])
+D == D + J(0)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A more extended example, demonstrating arithmetic in J(QQ) and
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A more extended example, demonstrating arithmetic in J(QQ) and
 J(K) for a number field K/QQ.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
@@ -556,8 +579,47 @@ J(K) for a number field K/QQ.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.&lt;x&gt; = PolynomialRing(QQ)
+f = x^5 - x + 1; h = x
+C = HyperellipticCurve(f,h,'u,v'); C
+PP = C.ambient_space(); PP
+C.defining_polynomial()
+C(QQ)
+K.&lt;t&gt; = NumberField(x^2 - 2)                                              # needs sage.rings.number_field
+C(K)                                                                      # needs sage.rings.number_field
+P = C(QQ)(0,1,1); P
+P == C(0,1,1)
+C(0,1,1).parent()
+# needs sage.rings.number_field
+P1 = C(K)(P)
+P2 = C(K)([2, 4*t - 1, 1])
+P3 = C(K)([-1/2, 1/8*(7*t+2), 1])
+P1, P2, P3
+J = C.jacobian(); J
+Q = J(QQ)(P); Q
+for i in range(6): Q*i
+# needs sage.rings.number_field
+Q1 = J(K)(P1); print(&quot;%s -&gt; %s&quot;%( P1, Q1 ))
+Q2 = J(K)(P2); print(&quot;%s -&gt; %s&quot;%( P2, Q2 ))
+Q3 = J(K)(P3); print(&quot;%s -&gt; %s&quot;%( P3, Q3 ))
+R.&lt;x&gt; = PolynomialRing(K)
+Q4 = J(K)([x^2 - t, R(1)])
+for i in range(4): Q4*i
+R2 = Q2*5; R2
+R3 = Q3*5; R3
+R4 = Q4*5; R4</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Thus we find the following identity:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Thus we find the following identity:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="mi">5</span><span class="o">*</span><span class="n">Q2</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="n">Q4</span>                                                               <span class="c1"># needs sage.rings.number_field</span>
@@ -572,8 +634,19 @@ J(K) for a number field K/QQ.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">5*Q2 + 5*Q4                                                               # needs sage.rings.number_field</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Moreover the following relation holds in the 5-torsion subgroup:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Moreover the following relation holds in the 5-torsion subgroup:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Q2</span> <span class="o">+</span> <span class="n">Q4</span> <span class="o">==</span> <span class="mi">2</span><span class="o">*</span><span class="n">Q1</span>                                                           <span class="c1"># needs sage.rings.number_field</span>
@@ -588,6 +661,17 @@ J(K) for a number field K/QQ.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Q2 + Q4 == 2*Q1                                                           # needs sage.rings.number_field</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.schemes.hyperelliptic_curves.jacobian_generic.HyperellipticJacobian_generic.cardinality">
@@ -595,7 +679,7 @@ J(K) for a number field K/QQ.</p>
 <dd><p>Return the cardinality of the Jacobian.
 Use the formula in <a class="reference external" href="https://math.stackexchange.com/a/2190894">https://math.stackexchange.com/a/2190894</a>.</p>
 <p>Currently only implemented over finite fields.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">3663031</span><span class="p">)[]</span>
@@ -612,6 +696,18 @@ Use the formula in <a class="reference external" href="https://math.stackexchang
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x&gt; = GF(3663031)[]
+HyperellipticCurve(x^5 + 1758294*x^4 + 1908793*x^3 + 3033920*x^2 + 3445698*x + 3020661).jacobian().cardinality()  # needs sage.libs.ntl sage.libs.linbox</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -620,7 +716,7 @@ Use the formula in <a class="reference external" href="https://math.stackexchang
 <span class="sig-name descname"><span class="pre">dimension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/schemes/hyperelliptic_curves/jacobian_generic.py#L146"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.schemes.hyperelliptic_curves.jacobian_generic.HyperellipticJacobian_generic.dimension" title="Link to this definition">¶</a></dt>
 <dd><p>Return the dimension of this Jacobian.</p>
 <p>OUTPUT: integer</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.finite_rings</span>
@@ -645,6 +741,21 @@ Use the formula in <a class="reference external" href="https://math.stackexchang
 <span class="gp">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
 <span class="go">&lt;... &#39;sage.rings.integer.Integer&#39;&gt;</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.finite_rings
+k.&lt;a&gt; = GF(9); R.&lt;x&gt; = k[]
+HyperellipticCurve(x^3 + x - 1, x + a).jacobian().dimension()
+g = HyperellipticCurve(x^6 + x - 1, x + a).jacobian().dimension(); g
+type(g)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -673,7 +784,7 @@ exhibited by increasing <span class="math notranslate nohighlight">\(B\)</span>.
 <p>Boolean indicating whether or not the geometric endomorphism
 algebra is a field.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">This is LMFDB curve 262144.d.524288.2 which has QM. Although its
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This is LMFDB curve 262144.d.524288.2 which has QM. Although its
 Jacobian is geometrically simple, the geometric endomorphism algebra
 is not a field:</p>
 <div class="tab-set docutils container">
@@ -698,8 +809,23 @@ is not a field:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x&gt; = QQ[]
+f = x^5 + x^4 + 4*x^3 + 8*x^2 + 5*x + 1
+C = HyperellipticCurve(f)
+J = C.jacobian()
+J.geometric_endomorphism_algebra_is_field()                           # needs sage.libs.ntl sage.libs.linbox</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This is LMFDB curve 50000.a.200000.1:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This is LMFDB curve 50000.a.200000.1:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">5</span> <span class="o">+</span> <span class="mi">1</span>
@@ -718,6 +844,20 @@ is not a field:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">J</span><span class="o">.</span><span class="n">geometric_endomorphism_algebra_is_field</span><span class="p">()</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = 8*x^5 + 1
+C = HyperellipticCurve(f)
+J = C.jacobian()
+J.geometric_endomorphism_algebra_is_field()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -745,7 +885,7 @@ returning <code class="docutils literal notranslate"><span class="pre">False</sp
 <p>Boolean indicating whether or not the geometric endomorphism
 ring is isomorphic to the integer ring.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">This is LMFDB curve 603.a.603.2:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This is LMFDB curve 603.a.603.2:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
@@ -768,8 +908,23 @@ ring is isomorphic to the integer ring.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x&gt; = QQ[]
+f = 4*x^5 + x^4 - 4*x^3 + 2*x^2 + 4*x + 1
+C = HyperellipticCurve(f)
+J = C.jacobian()
+J.geometric_endomorphism_ring_is_ZZ()                                 # needs sage.libs.ntl sage.libs.linbox</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This is LMFDB curve 1152.a.147456.1 whose geometric endomorphism ring
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This is LMFDB curve 1152.a.147456.1 whose geometric endomorphism ring
 is isomorphic to the group of 2x2 matrices over <span class="math notranslate nohighlight">\(\QQ\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
@@ -791,8 +946,22 @@ is isomorphic to the group of 2x2 matrices over <span class="math notranslate no
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = x^6 - 2*x^4 + 2*x^2 - 1
+C = HyperellipticCurve(f)
+J = C.jacobian()
+J.geometric_endomorphism_ring_is_ZZ()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This is LMFDB curve 20736.k.373248.1 whose geometric endomorphism ring
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This is LMFDB curve 20736.k.373248.1 whose geometric endomorphism ring
 is isomorphic to the group of 2x2 matrices over a CM field:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
@@ -814,8 +983,22 @@ is isomorphic to the group of 2x2 matrices over a CM field:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = x^6 + 8
+C = HyperellipticCurve(f)
+J = C.jacobian()
+J.geometric_endomorphism_ring_is_ZZ()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This is LMFDB curve 708.a.181248.1:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This is LMFDB curve 708.a.181248.1:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
@@ -838,8 +1021,23 @@ is isomorphic to the group of 2x2 matrices over a CM field:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x&gt; = QQ[]
+f = -3*x^6 - 16*x^5 + 36*x^4 + 194*x^3 - 164*x^2 - 392*x - 143
+C = HyperellipticCurve(f)
+J = C.jacobian()
+J.geometric_endomorphism_ring_is_ZZ()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This is LMFDB curve 10609.a.10609.1 whose geometric endomorphism ring
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This is LMFDB curve 10609.a.10609.1 whose geometric endomorphism ring
 is an order in a real quadratic field:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
@@ -861,8 +1059,22 @@ is an order in a real quadratic field:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = x^6 + 2*x^4 + 2*x^3 + 5*x^2 + 6*x + 1
+C = HyperellipticCurve(f)
+J = C.jacobian()
+J.geometric_endomorphism_ring_is_ZZ()                                 # needs sage.groups</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This is LMFDB curve 160000.c.800000.1 whose geometric endomorphism ring
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This is LMFDB curve 160000.c.800000.1 whose geometric endomorphism ring
 is an order in a CM field:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
@@ -884,8 +1096,22 @@ is an order in a CM field:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = x^5 - 1
+C = HyperellipticCurve(f)
+J = C.jacobian()
+J.geometric_endomorphism_ring_is_ZZ()                                 # needs sage.groups</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This is LMFDB curve 262144.d.524288.2 whose geometric endomorphism ring
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This is LMFDB curve 262144.d.524288.2 whose geometric endomorphism ring
 is an order in a quaternion algebra:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
@@ -907,8 +1133,22 @@ is an order in a quaternion algebra:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = x^5 + x^4 + 4*x^3 + 8*x^2 + 5*x + 1
+C = HyperellipticCurve(f)
+J = C.jacobian()
+J.geometric_endomorphism_ring_is_ZZ()                                 # needs sage.groups</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This is LMFDB curve 578.a.2312.1 whose geometric endomorphism ring
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This is LMFDB curve 578.a.2312.1 whose geometric endomorphism ring
 is <span class="math notranslate nohighlight">\(\QQ \times \QQ\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
@@ -930,6 +1170,20 @@ is <span class="math notranslate nohighlight">\(\QQ \times \QQ\)</span>:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = 4*x^5 - 7*x^4 + 10*x^3 - 7*x^2 + 4*x
+C = HyperellipticCurve(f)
+J = C.jacobian()
+J.geometric_endomorphism_ring_is_ZZ()                                 # needs sage.groups</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -941,7 +1195,11 @@ is <span class="math notranslate nohighlight">\(\QQ \times \QQ\)</span>:</p>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -1024,7 +1282,7 @@ is <span class="math notranslate nohighlight">\(\QQ \times \QQ\)</span>:</p>
     <script src="../../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../../%5fstatic/copybutton.js"></script>
     <script src="../../../../%5fstatic/tabs.js"></script>
-    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -371,7 +371,7 @@ The wavelet transform uses <span class="math notranslate nohighlight">\(J = \log
 <span class="math notranslate nohighlight">\((s_{-1,0}, d_{0,0}, d_{1,0}, d_{1,1}, d_{2,0}, \ldots, d_{J-1,2^{J-1}-1})\)</span>
 for <span class="math notranslate nohighlight">\(d_{j,k}\)</span> the detail coefficients of level <span class="math notranslate nohighlight">\(j\)</span>.
 The centered forms align the coefficients of the sub-bands on edges.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">WaveletTransform</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span><span class="s1">&#39;daubechies&#39;</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
@@ -412,8 +412,33 @@ The centered forms align the coefficients of the sub-bands on edges.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = WaveletTransform(128,'daubechies',4)
+for i in range(1, 11):
+    a[i] = 1
+    a[128-i] = 1
+a.plot().show(ymin=0)                                                     # needs sage.plot
+a.forward_transform()
+a.plot().show()                                                           # needs sage.plot
+a = WaveletTransform(128,'haar',2)
+for i in range(1, 11): a[i] = 1; a[128-i] = 1
+a.forward_transform()
+a.plot().show(ymin=0)                                                     # needs sage.plot
+a = WaveletTransform(128,'bspline_centered',103)
+for i in range(1, 11): a[i] = 1; a[100+i] = 1
+a.forward_transform()
+a.plot().show(ymin=0)                                                     # needs sage.plot</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This example gives a simple example of wavelet compression:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This example gives a simple example of wavelet compression:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.symbolic</span>
@@ -440,6 +465,24 @@ The centered forms align the coefficients of the sub-bands on edges.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.symbolic
+a = DWT(2048,'daubechies',6)
+for i in range(2048): a[i]=float(sin((i*5/2048)**2))
+a.plot().show()                   # long time (7s on sage.math, 2011), needs sage.plot
+a.forward_transform()
+for i in range(1800): a[2048-i-1] = 0
+a.backward_transform()
+a.plot().show()                   # long time (7s on sage.math, 2011), needs sage.plot</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -449,7 +492,11 @@ The centered forms align the coefficients of the sub-bands on edges.</p>
 <dd></dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -533,7 +580,7 @@ The centered forms align the coefficients of the sub-bands on edges.</p>
     <script src="../../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../../%5fstatic/copybutton.js"></script>
     <script src="../../../../%5fstatic/tabs.js"></script>
-    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

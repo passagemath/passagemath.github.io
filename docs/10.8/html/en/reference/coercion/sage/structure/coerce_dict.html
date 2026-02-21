@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -301,7 +301,7 @@ is used for caching the parents which allow a coercion map into a fixed other
 parent (<a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/12313">upstream Issue #12313</a>).</p>
 <p>By <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/14159">upstream Issue #14159</a>, <a class="reference internal" href="#sage.structure.coerce_dict.MonoDict" title="sage.structure.coerce_dict.MonoDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">MonoDict</span></code></a> and <a class="reference internal" href="#sage.structure.coerce_dict.TripleDict" title="sage.structure.coerce_dict.TripleDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">TripleDict</span></code></a> can be optionally
 used with weak references on the values.</p>
-<p class="with-sage-tab with-python-tab">Note that this kind of dictionary is also used for caching actions and
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that this kind of dictionary is also used for caching actions and
 coerce maps. In previous versions of Sage, the cache was by strong
 references and resulted in a memory leak in the following example.
 However, this leak was fixed by <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/715">upstream Issue #715</a>, using weak references:</p>
@@ -343,6 +343,29 @@ However, this leak was fixed by <a class="extlink-issue reference external" href
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.combinat sage.modules sage.rings.finite_rings
+K.&lt;t&gt; = GF(2^55)
+for i in range(20):
+    a = K.random_element()
+    E = EllipticCurve(j=a)
+    P = E.random_point()
+    Q = 2*P
+L = [Partitions(n) for n in range(200)]  # purge strong cache in CachedRepresentation
+import gc
+n = gc.collect()
+from sage.schemes.elliptic_curves.ell_finite_field import EllipticCurve_finite_field
+LE = [x for x in gc.get_objects() if isinstance(x, EllipticCurve_finite_field)]
+len(LE)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py class">
 <dt class="sig sig-object py" id="sage.structure.coerce_dict.MonoDict">
@@ -375,7 +398,7 @@ iterable of (key, value) pairs</p></li>
 <code class="docutils literal notranslate"><span class="pre">True</span></code>, weak references to the values in this dictionary will be used,
 when possible</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.structure.coerce_dict</span><span class="w"> </span><span class="kn">import</span> <span class="n">MonoDict</span>
@@ -398,8 +421,24 @@ when possible</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.structure.coerce_dict import MonoDict
+L = MonoDict()
+a = 'a'; b = 'ab'; c = '-15'
+L[a] = 1
+L[b] = 2
+L[c] = 3</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The key is expected to be a unique object. Hence, the item stored for <code class="docutils literal notranslate"><span class="pre">c</span></code>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The key is expected to be a unique object. Hence, the item stored for <code class="docutils literal notranslate"><span class="pre">c</span></code>
 cannot be obtained by providing another equal string:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
@@ -431,8 +470,22 @@ cannot be obtained by providing another equal string:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">L[a]
+L[b]
+L[c]
+L['-15']</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Not all features of Python dictionaries are available, but iteration over
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Not all features of Python dictionaries are available, but iteration over
 the dictionary items is possible:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
@@ -476,6 +529,25 @@ the dictionary items is possible:</p>
 <span class="gp">...</span>
 <span class="go">KeyError: &#39;c&#39;</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">sorted(L.items())
+del L[c]
+sorted(L.items())
+len(L)
+for i in range(1000):
+    L[i] = i
+len(L)
+L['a']
+L['c']</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -549,7 +621,7 @@ the dictionary items is possible:</p>
 <dt class="sig sig-object py" id="sage.structure.coerce_dict.MonoDict.copy">
 <span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/structure/coerce_dict.pyx#L810"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.structure.coerce_dict.MonoDict.copy" title="Link to this definition">¶</a></dt>
 <dd><p>Return a copy of this <a class="reference internal" href="#sage.structure.coerce_dict.MonoDict" title="sage.structure.coerce_dict.MonoDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">MonoDict</span></code></a> as Python dict.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.structure.coerce_dict</span><span class="w"> </span><span class="kn">import</span> <span class="n">MonoDict</span>
@@ -570,6 +642,20 @@ the dictionary items is possible:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.structure.coerce_dict import MonoDict
+L = MonoDict()
+L[1] = 42
+L.copy()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -577,7 +663,7 @@ the dictionary items is possible:</p>
 <dt class="sig sig-object py" id="sage.structure.coerce_dict.MonoDict.items">
 <span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/structure/coerce_dict.pyx#L769"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.structure.coerce_dict.MonoDict.items" title="Link to this definition">¶</a></dt>
 <dd><p>Iterate over the <code class="docutils literal notranslate"><span class="pre">(key,</span> <span class="pre">value)</span></code> pairs of this <a class="reference internal" href="#sage.structure.coerce_dict.MonoDict" title="sage.structure.coerce_dict.MonoDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">MonoDict</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.structure.coerce_dict</span><span class="w"> </span><span class="kn">import</span> <span class="n">MonoDict</span>
@@ -604,6 +690,22 @@ the dictionary items is possible:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.structure.coerce_dict import MonoDict
+L = MonoDict()
+L[1] = None
+L[2] = True
+L.items()
+sorted(L.items())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -617,7 +719,7 @@ the dictionary items is possible:</p>
 invalid.</p>
 <p>This is of internal use only. Instances of this class will be passed as a
 callback function when creating a weak reference.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.structure.coerce_dict</span><span class="w"> </span><span class="kn">import</span> <span class="n">MonoDict</span>
@@ -650,6 +752,26 @@ callback function when creating a weak reference.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>    <span class="c1"># indirect doctest</span>
 <span class="go">0</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.structure.coerce_dict import MonoDict
+class A: pass
+a = A()
+M = MonoDict()
+M[a] = 1
+len(M)
+del a
+import gc
+n = gc.collect()
+len(M)    # indirect doctest</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -701,7 +823,7 @@ when possible</p></li>
 <p>IMPLEMENTATION:</p>
 <p>It is implemented as a hash table with open addressing, similar to python’s
 dict.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.structure.coerce_dict</span><span class="w"> </span><span class="kn">import</span> <span class="n">TripleDict</span>
@@ -778,6 +900,34 @@ dict.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.structure.coerce_dict import TripleDict
+L = TripleDict()
+a = 'a'; b = 'b'; c = 'c'
+L[a,b,c] = 1
+L[a,b,c]
+L[c,b,a] = -1
+sorted(L.items())
+del L[a,b,c]
+list(L.items())
+len(L)
+for i in range(1000):
+    L[i,i,i] = i
+len(L)
+L = TripleDict(L)
+L[c,b,a]
+L[a,b,c]
+L[a]
+L[a] = 1</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>AUTHORS:</p>
 <ul class="simple">
@@ -791,7 +941,7 @@ dict.</p>
 <dt class="sig sig-object py" id="sage.structure.coerce_dict.TripleDict.copy">
 <span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/structure/coerce_dict.pyx#L1485"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.structure.coerce_dict.TripleDict.copy" title="Link to this definition">¶</a></dt>
 <dd><p>Return a copy of this <a class="reference internal" href="#sage.structure.coerce_dict.TripleDict" title="sage.structure.coerce_dict.TripleDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">TripleDict</span></code></a> as Python dict.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.structure.coerce_dict</span><span class="w"> </span><span class="kn">import</span> <span class="n">TripleDict</span>
@@ -812,6 +962,20 @@ dict.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.structure.coerce_dict import TripleDict
+L = TripleDict()
+L[1,2,3] = 42
+L.copy()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -819,7 +983,7 @@ dict.</p>
 <dt class="sig sig-object py" id="sage.structure.coerce_dict.TripleDict.items">
 <span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/structure/coerce_dict.pyx#L1440"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.structure.coerce_dict.TripleDict.items" title="Link to this definition">¶</a></dt>
 <dd><p>Iterate over the <code class="docutils literal notranslate"><span class="pre">(key,</span> <span class="pre">value)</span></code> pairs of this <a class="reference internal" href="#sage.structure.coerce_dict.TripleDict" title="sage.structure.coerce_dict.TripleDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">TripleDict</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.structure.coerce_dict</span><span class="w"> </span><span class="kn">import</span> <span class="n">TripleDict</span>
@@ -844,6 +1008,21 @@ dict.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.structure.coerce_dict import TripleDict
+L = TripleDict()
+L[1,2,3] = None
+L.items()
+list(L.items())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -857,7 +1036,7 @@ dict.</p>
 invalid.</p>
 <p>This is of internal use only. Instances of this class will be passed as a
 callback function when creating a weak reference.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.structure.coerce_dict</span><span class="w"> </span><span class="kn">import</span> <span class="n">TripleDict</span>
@@ -896,6 +1075,28 @@ callback function when creating a weak reference.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.structure.coerce_dict import TripleDict
+class A: pass
+a = A()
+T = TripleDict()
+T[a,ZZ,None] = 1
+T[ZZ,a,1] = 2
+T[a,a,ZZ] = 3
+len(T)
+del a
+import gc
+n = gc.collect()
+len(T) # indirect doctest</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>AUTHOR:</p>
 <ul class="simple">
@@ -905,7 +1106,11 @@ callback function when creating a weak reference.</p>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -993,7 +1198,7 @@ callback function when creating a weak reference.</p>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>

@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -316,7 +316,7 @@ that <span class="math notranslate nohighlight">\(3x^5\)</span> is able to absor
 simply corresponds to addition.</p>
 <p>Essentially, absorption can be interpreted
 as the addition of “compatible” terms (partial addition).</p>
-<p class="with-sage-tab with-python-tab">We want to show step by step which terms can be absorbed
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We want to show step by step which terms can be absorbed
 by which other terms. We start by defining the necessary
 term monoids and some terms:</p>
 <div class="tab-set docutils container">
@@ -345,9 +345,27 @@ term monoids and some terms:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.term_monoid import OTermMonoid, ExactTermMonoid
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+from sage.rings.asymptotic.growth_group import GrowthGroup
+G = GrowthGroup('x^ZZ'); x = G.gen()
+OT = OTermMonoid(TermMonoid, growth_group=G, coefficient_ring=QQ)
+ET = ExactTermMonoid(TermMonoid, growth_group=G, coefficient_ring=QQ)
+ot1 = OT(x); ot2 = OT(x^2)
+et1 = ET(x^2, coefficient=2)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <ul>
-<li><p class="with-sage-tab with-python-tab">Because of the definition of <span class="math notranslate nohighlight">\(O\)</span>-terms (see
+<li><p class="with-sage-tab with-python-tab with-sage-live-tab">Because of the definition of <span class="math notranslate nohighlight">\(O\)</span>-terms (see
 <a class="extlink-wikipedia reference external" href="https://en.wikipedia.org/wiki/Big_O_notation">Wikipedia article Big_O_notation</a>), <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.OTerm" title="sage.rings.asymptotic.term_monoid.OTerm"><code class="xref py py-class docutils literal notranslate"><span class="pre">OTerm</span></code></a> are able to absorb all
 other asymptotic terms with weaker or equal growth. In our
 implementation, this means that <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.OTerm" title="sage.rings.asymptotic.term_monoid.OTerm"><code class="xref py py-class docutils literal notranslate"><span class="pre">OTerm</span></code></a> is able to absorb
@@ -384,8 +402,23 @@ element:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ot1, ot2
+ot1.can_absorb(ot2), ot2.can_absorb(ot1)
+et1
+ot1.can_absorb(et1)
+ot2.can_absorb(et1)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The result of this absorption always is the dominant
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The result of this absorption always is the dominant
 (absorbing) <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.OTerm" title="sage.rings.asymptotic.term_monoid.OTerm"><code class="xref py py-class docutils literal notranslate"><span class="pre">OTerm</span></code></a>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
@@ -409,11 +442,24 @@ element:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ot1.absorb(ot1)
+ot2.absorb(ot1)
+ot2.absorb(et1)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>These examples correspond to <span class="math notranslate nohighlight">\(O(x) + O(x) = O(x)\)</span>,
 <span class="math notranslate nohighlight">\(O(x^2) + O(x) = O(x^2)\)</span>, and <span class="math notranslate nohighlight">\(O(x^2) + 2x^2 = O(x^2)\)</span>.</p>
 </li>
-<li><p class="with-sage-tab with-python-tab"><a class="reference internal" href="#sage.rings.asymptotic.term_monoid.ExactTerm" title="sage.rings.asymptotic.term_monoid.ExactTerm"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExactTerm</span></code></a> can only absorb another
+<li><p class="with-sage-tab with-python-tab with-sage-live-tab"><a class="reference internal" href="#sage.rings.asymptotic.term_monoid.ExactTerm" title="sage.rings.asymptotic.term_monoid.ExactTerm"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExactTerm</span></code></a> can only absorb another
 <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.ExactTerm" title="sage.rings.asymptotic.term_monoid.ExactTerm"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExactTerm</span></code></a> if the growth coincides with the
 growth of this element:</p>
 <div class="tab-set docutils container">
@@ -434,8 +480,20 @@ growth of this element:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">et1.can_absorb(ET(x^2, coefficient=5))
+any(et1.can_absorb(t) for t in [ot1, ot2])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">As mentioned above, absorption directly corresponds
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">As mentioned above, absorption directly corresponds
 to addition in this case:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
@@ -451,8 +509,19 @@ to addition in this case:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">et1.absorb(ET(x^2, coefficient=5))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">When adding two exact terms, they might cancel out.
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">When adding two exact terms, they might cancel out.
 For technical reasons, <code class="docutils literal notranslate"><span class="pre">None</span></code> is returned in this
 case:</p>
 <div class="tab-set docutils container">
@@ -473,13 +542,25 @@ case:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ET(x^2, coefficient=5).can_absorb(ET(x^2, coefficient=-5))
+ET(x^2, coefficient=5).absorb(ET(x^2, coefficient=-5)) is None</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </li>
 <li><p>The abstract base terms <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.GenericTerm" title="sage.rings.asymptotic.term_monoid.GenericTerm"><code class="xref py py-class docutils literal notranslate"><span class="pre">GenericTerm</span></code></a> and
 <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.TermWithCoefficient" title="sage.rings.asymptotic.term_monoid.TermWithCoefficient"><code class="xref py py-class docutils literal notranslate"><span class="pre">TermWithCoefficient</span></code></a> can neither absorb any
 other term, nor be absorbed by any other term.</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">If <code class="docutils literal notranslate"><span class="pre">absorb</span></code> is called on a term that cannot be absorbed, an
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If <code class="docutils literal notranslate"><span class="pre">absorb</span></code> is called on a term that cannot be absorbed, an
 <a class="extlink-python reference external" href="https://docs.python.org/release/3.14.0/library/exceptions.html#exceptions.ArithmeticError">ArithmeticError</a>
 is raised:</p>
 <div class="tab-set docutils container">
@@ -500,8 +581,19 @@ is raised:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ot1.absorb(ot2)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This would only work the other way around:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This would only work the other way around:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">ot2</span><span class="o">.</span><span class="n">absorb</span><span class="p">(</span><span class="n">ot1</span><span class="p">)</span>
@@ -514,6 +606,17 @@ is raised:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">ot2</span><span class="o">.</span><span class="n">absorb</span><span class="p">(</span><span class="n">ot1</span><span class="p">)</span>
 <span class="go">O(x^2)</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ot2.absorb(ot1)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -543,7 +646,7 @@ have equal growth to be incomparable.</p>
 <h2>Various<a class="headerlink" href="#various" title="Link to this heading">¶</a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p class="with-sage-tab with-python-tab">The code for <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.BTermMonoid" title="sage.rings.asymptotic.term_monoid.BTermMonoid"><code class="xref py py-class docutils literal notranslate"><span class="pre">B-Terms</span></code></a> is experimental, so
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The code for <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.BTermMonoid" title="sage.rings.asymptotic.term_monoid.BTermMonoid"><code class="xref py py-class docutils literal notranslate"><span class="pre">B-Terms</span></code></a> is experimental, so
 a warning is thrown when a <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.BTerm" title="sage.rings.asymptotic.term_monoid.BTerm"><code class="xref py py-class docutils literal notranslate"><span class="pre">BTerm</span></code></a>
 is created for the first time in a session (see
 <a class="reference external" href="../../../../misc/sage/misc/superseded.html#sage.misc.superseded.experimental" title="(in Utilities v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sage.misc.superseded.experimental</span></code></a>).</p>
@@ -571,6 +674,19 @@ is created for the first time in a session (see
 <span class="go">It, its functionality or its interface might change without a formal deprecation.</span>
 <span class="go">See https://github.com/sagemath/sage/issues/31922 for details.</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+T = TermMonoid('B', growth_group=GrowthGroup('x^ZZ'), coefficient_ring=QQ)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -627,7 +743,7 @@ is passed to <code class="docutils literal notranslate"><span class="pre">valid_
 the asymptotic expansion are set to this number</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">We revisit the examples from the introduction:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We revisit the examples from the introduction:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.term_monoid</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultTermMonoidFactory</span> <span class="k">as</span> <span class="n">TermMonoid</span>
@@ -648,8 +764,23 @@ the asymptotic expansion are set to this number</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+from sage.rings.asymptotic.growth_group import GrowthGroup
+G = GrowthGroup('x^ZZ * y^ZZ')
+T = TermMonoid('B', growth_group=G, coefficient_ring=ZZ)
+x, y = G('x'), G('y')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This is a term bounded by <span class="math notranslate nohighlight">\(5|x|^2\)</span> for <span class="math notranslate nohighlight">\(|x| \ge 3\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This is a term bounded by <span class="math notranslate nohighlight">\(5|x|^2\)</span> for <span class="math notranslate nohighlight">\(|x| \ge 3\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">T</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="n">coefficient</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">valid_from</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">})</span>
@@ -664,8 +795,19 @@ the asymptotic expansion are set to this number</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T(x^2, coefficient=5, valid_from={'x': 3})</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This is a term bounded by <span class="math notranslate nohighlight">\(42|x|^3\)</span> for <span class="math notranslate nohighlight">\(|x| \ge 15\)</span> and <span class="math notranslate nohighlight">\(|y| \ge 15\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This is a term bounded by <span class="math notranslate nohighlight">\(42|x|^3\)</span> for <span class="math notranslate nohighlight">\(|x| \ge 15\)</span> and <span class="math notranslate nohighlight">\(|y| \ge 15\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">T</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span><span class="p">,</span> <span class="n">coefficient</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">valid_from</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">})</span>
@@ -680,8 +822,19 @@ the asymptotic expansion are set to this number</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T(x^3, coefficient=42, valid_from={'x': 15, 'y': 15})</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This is a term bounded by <span class="math notranslate nohighlight">\(42 |x|^3 |y|^2\)</span> for <span class="math notranslate nohighlight">\(|x| \ge 10\)</span> and <span class="math notranslate nohighlight">\(|y| \ge 20\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This is a term bounded by <span class="math notranslate nohighlight">\(42 |x|^3 |y|^2\)</span> for <span class="math notranslate nohighlight">\(|x| \ge 10\)</span> and <span class="math notranslate nohighlight">\(|y| \ge 20\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">T</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="n">coefficient</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">valid_from</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">})</span>
@@ -694,6 +847,17 @@ the asymptotic expansion are set to this number</p></li>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">T</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">y</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">coefficient</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">42</span><span class="p">),</span> <span class="n">valid_from</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">20</span><span class="p">)})</span>
 <span class="go">B(42*x^3*y^2, x &gt;= 10, y &gt;= 20)</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T(x^3*y^2, coefficient=42, valid_from={'x': 10, 'y': 20})</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -713,7 +877,7 @@ with weaker or equal growth.</p>
 <p>See the <a class="reference internal" href="#term-absorption"><span class="std std-ref">module description</span></a> for a
 detailed explanation of absorption.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -760,6 +924,29 @@ detailed explanation of absorption.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+BT = TermMonoid('B', GrowthGroup('x^ZZ'), QQ)
+t1 = BT(x^3, coefficient=3, valid_from={'x': 20})
+t2 = BT(x^2, coefficient=1, valid_from={'x': 10})
+t3 = BT(x^3, coefficient=10, valid_from={'x': 10})
+t1.can_absorb(t2)
+t2.can_absorb(t1)
+t1.can_absorb(t3)
+t3.can_absorb(t1)
+ET = TermMonoid('exact', GrowthGroup('x^ZZ'), QQ)
+t4 = ET(x^3, coefficient=5)
+t1.can_absorb(t4)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -769,7 +956,7 @@ detailed explanation of absorption.</p>
 <dd><p>Return a construction of this term.</p>
 <p>OUTPUT:</p>
 <p>A pair <code class="docutils literal notranslate"><span class="pre">(cls,</span> <span class="pre">kwds)</span></code> such that <code class="docutils literal notranslate"><span class="pre">cls(**kwds)</span></code> equals this term.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -810,6 +997,23 @@ detailed explanation of absorption.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import TermMonoidFactory
+TermMonoid = TermMonoidFactory('__main__.TermMonoid')
+T = TermMonoid('B', GrowthGroup('x^ZZ'), QQ)
+a = T.an_element(); a
+cls, kwds = a.construction(); cls, kwds
+cls(**kwds) == a</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -836,7 +1040,7 @@ in order to broaden the base structure. It has to be a subcategory
 of <code class="docutils literal notranslate"><span class="pre">Join</span> <span class="pre">of</span> <span class="pre">Category</span> <span class="pre">of</span> <span class="pre">monoids</span> <span class="pre">and</span> <span class="pre">Category</span> <span class="pre">of</span> <span class="pre">posets</span></code>. This
 is also the default category if <code class="docutils literal notranslate"><span class="pre">None</span></code> is specified.</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">MonomialGrowthGroup</span>
@@ -867,6 +1071,23 @@ is also the default category if <code class="docutils literal notranslate"><span
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import MonomialGrowthGroup
+from sage.rings.asymptotic.term_monoid import BTermMonoid
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+G = MonomialGrowthGroup(ZZ, 'x')
+BT = TermMonoid('B', G, QQ)
+BT
+BT is BTermMonoid(TermMonoid, G, QQ)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sage.rings.asymptotic.term_monoid.BTermMonoid.Element">
@@ -880,7 +1101,7 @@ is also the default category if <code class="docutils literal notranslate"><span
 <dd><p>Return some elements of this B-term monoid.</p>
 <p>See <a class="reference external" href="../../../../misc/sage/misc/sage_unittest.html#sage.misc.sage_unittest.TestSuite" title="(in Utilities v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TestSuite</span></code></a> for a typical use case.</p>
 <p>OUTPUT: an iterator</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">islice</span>
@@ -925,6 +1146,23 @@ is also the default category if <code class="docutils literal notranslate"><span
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from itertools import islice
+from sage.rings.asymptotic.term_monoid import TermMonoidFactory
+TermMonoid = TermMonoidFactory('__main__.TermMonoid')
+from sage.rings.asymptotic.growth_group import GrowthGroup
+G = GrowthGroup('z^QQ')
+T = TermMonoid('B', G, ZZ)
+tuple(islice(T.some_elements(), int(10)))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -950,7 +1188,7 @@ an asymptotic growth element as well as a coefficient.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">growth</span></code> – an asymptotic growth element from <code class="docutils literal notranslate"><span class="pre">parent.growth_group</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">coefficient</span></code> – an element from <code class="docutils literal notranslate"><span class="pre">parent.coefficient_ring</span></code></p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -971,8 +1209,23 @@ an asymptotic growth element as well as a coefficient.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+from sage.rings.asymptotic.term_monoid import ExactTermMonoid
+G = GrowthGroup('x^ZZ'); x = G.gen()
+ET = ExactTermMonoid(TermMonoid, G, QQ)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Asymptotic exact terms may be multiplied (with the usual rules
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Asymptotic exact terms may be multiplied (with the usual rules
 applying):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
@@ -992,8 +1245,20 @@ applying):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ET(x^2, coefficient=3) * ET(x, coefficient=-1)
+ET(x^0, coefficient=4) * ET(x^5, coefficient=2)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">They may also be multiplied with <span class="math notranslate nohighlight">\(O\)</span>-terms:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">They may also be multiplied with <span class="math notranslate nohighlight">\(O\)</span>-terms:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">OT</span> <span class="o">=</span> <span class="n">TermMonoid</span><span class="p">(</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">QQ</span><span class="p">)</span>
@@ -1010,8 +1275,20 @@ applying):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">OT = TermMonoid('O', G, QQ)
+ET(x^2, coefficient=42) * OT(x)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Absorption for asymptotic exact terms relates to addition:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Absorption for asymptotic exact terms relates to addition:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">ET</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="n">coefficient</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">can_absorb</span><span class="p">(</span><span class="n">ET</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">5</span><span class="p">,</span> <span class="n">coefficient</span><span class="o">=</span><span class="mi">12</span><span class="p">))</span>
@@ -1034,8 +1311,21 @@ applying):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ET(x^2, coefficient=5).can_absorb(ET(x^5, coefficient=12))
+ET(x^2, coefficient=5).can_absorb(ET(x^2, coefficient=1))
+ET(x^2, coefficient=5).absorb(ET(x^2, coefficient=1))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Note that, as for technical reasons, <span class="math notranslate nohighlight">\(0\)</span> is not allowed as a
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that, as for technical reasons, <span class="math notranslate nohighlight">\(0\)</span> is not allowed as a
 coefficient for an asymptotic term with coefficient. Instead <code class="docutils literal notranslate"><span class="pre">None</span></code>
 is returned if two asymptotic exact terms cancel out each other
 during absorption:</p>
@@ -1057,8 +1347,20 @@ during absorption:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ET(x^2, coefficient=42).can_absorb(ET(x^2, coefficient=-42))
+ET(x^2, coefficient=42).absorb(ET(x^2, coefficient=-42)) is None</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Exact terms can also be created by converting monomials with
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Exact terms can also be created by converting monomials with
 coefficient from the symbolic ring, or a suitable polynomial
 or power series ring:</p>
 <div class="tab-set docutils container">
@@ -1079,6 +1381,18 @@ or power series ring:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">x = var('x'); x.parent()
+ET(5*x^2)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.rings.asymptotic.term_monoid.ExactTerm.can_absorb">
@@ -1097,7 +1411,7 @@ only other exact terms with the same growth.</p>
 <p>See the <a class="reference internal" href="#term-absorption"><span class="std std-ref">module description</span></a> for a
 detailed explanation of absorption.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -1128,6 +1442,23 @@ detailed explanation of absorption.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+ET = TermMonoid('exact', GrowthGroup('x^ZZ'), ZZ)
+t1 = ET(x^21, coefficient=1); t2 = ET(x^21, coefficient=2); t3 = ET(x^42, coefficient=1)
+t1.can_absorb(t2)
+t2.can_absorb(t1)
+t1.can_absorb(t3) or t3.can_absorb(t1)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1141,7 +1472,7 @@ detailed explanation of absorption.</p>
 <p>Only <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.ExactTerm" title="sage.rings.asymptotic.term_monoid.ExactTerm"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExactTerm</span></code></a> with constant growth (<span class="math notranslate nohighlight">\(1\)</span>) are
 constant.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -1174,6 +1505,23 @@ constant.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+T = TermMonoid('exact', GrowthGroup('x^ZZ * log(x)^ZZ'), QQ)
+T('x * log(x)').is_constant()
+T('3*x').is_constant()
+T(1/2).is_constant()
+T(42).is_constant()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1182,7 +1530,7 @@ constant.</p>
 <span class="sig-name descname"><span class="pre">is_exact</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/asymptotic/term_monoid.py#L3960"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.asymptotic.term_monoid.ExactTerm.is_exact" title="Link to this definition">¶</a></dt>
 <dd><p>Return whether this term is an exact term.</p>
 <p>OUTPUT: boolean</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -1207,6 +1555,21 @@ constant.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+T = TermMonoid('exact', GrowthGroup('x^ZZ * log(x)^ZZ'), QQ)
+T('x * log(x)').is_exact()
+T('3 * x^2').is_exact()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1215,7 +1578,7 @@ constant.</p>
 <span class="sig-name descname"><span class="pre">is_little_o_of_one</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/asymptotic/term_monoid.py#L3918"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.asymptotic.term_monoid.ExactTerm.is_little_o_of_one" title="Link to this definition">¶</a></dt>
 <dd><p>Return whether this exact term is of order <span class="math notranslate nohighlight">\(o(1)\)</span>.</p>
 <p>OUTPUT: boolean</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -1244,8 +1607,24 @@ constant.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+T = TermMonoid('exact', GrowthGroup('x^ZZ'), QQ)
+T(x).is_little_o_of_one()
+T(1).is_little_o_of_one()
+T(x^(-1)).is_little_o_of_one()</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">T</span> <span class="o">=</span> <span class="n">TermMonoid</span><span class="p">(</span><span class="s1">&#39;exact&#39;</span><span class="p">,</span> <span class="n">GrowthGroup</span><span class="p">(</span><span class="s1">&#39;x^ZZ * y^ZZ&#39;</span><span class="p">),</span> <span class="n">QQ</span><span class="p">)</span>
@@ -1270,8 +1649,22 @@ constant.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T = TermMonoid('exact', GrowthGroup('x^ZZ * y^ZZ'), QQ)
+T('x * y^(-1)').is_little_o_of_one()
+T('x^(-1) * y').is_little_o_of_one()
+T('x^(-2) * y^(-3)').is_little_o_of_one()</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--28-input--1" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">T</span> <span class="o">=</span> <span class="n">TermMonoid</span><span class="p">(</span><span class="s1">&#39;exact&#39;</span><span class="p">,</span> <span class="n">GrowthGroup</span><span class="p">(</span><span class="s1">&#39;x^QQ * log(x)^QQ&#39;</span><span class="p">),</span> <span class="n">QQ</span><span class="p">)</span>
@@ -1300,6 +1693,21 @@ constant.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T = TermMonoid('exact', GrowthGroup('x^QQ * log(x)^QQ'), QQ)
+T('x * log(x)^2').is_little_o_of_one()
+T('x^2 * log(x)^(-1234)').is_little_o_of_one()
+T('x^(-1) * log(x)^4242').is_little_o_of_one()
+T('x^(-1/100) * log(x)^(1000/7)').is_little_o_of_one()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1324,7 +1732,7 @@ constant.</p>
 <p>This method returns a tuple with the summands that come from
 applying the rule <span class="math notranslate nohighlight">\(\log(x\cdot y) = \log(x) + \log(y)\)</span>.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -1353,8 +1761,24 @@ applying the rule <span class="math notranslate nohighlight">\(\log(x\cdot y) = 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+T = TermMonoid('exact', GrowthGroup('x^ZZ * log(x)^ZZ'), SR)
+T(3*x^2).log_term()
+T(x^1234).log_term()
+T(49*x^7).log_term(base=7)</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--30-input--1" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">T</span> <span class="o">=</span> <span class="n">TermMonoid</span><span class="p">(</span><span class="s1">&#39;exact&#39;</span><span class="p">,</span> <span class="n">GrowthGroup</span><span class="p">(</span><span class="s1">&#39;x^ZZ * log(x)^ZZ * y^ZZ * log(y)^ZZ&#39;</span><span class="p">),</span> <span class="n">SR</span><span class="p">)</span>
@@ -1375,6 +1799,19 @@ applying the rule <span class="math notranslate nohighlight">\(\log(x\cdot y) = 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--30-input--3" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T = TermMonoid('exact', GrowthGroup('x^ZZ * log(x)^ZZ * y^ZZ * log(y)^ZZ'), SR)
+T('x * y').log_term()
+T('4 * x * y').log_term(base=2)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -1391,7 +1828,7 @@ applying the rule <span class="math notranslate nohighlight">\(\log(x\cdot y) = 
 <li><p><code class="docutils literal notranslate"><span class="pre">base</span></code> – an element or <code class="docutils literal notranslate"><span class="pre">'e'</span></code></p></li>
 </ul>
 <p>OUTPUT: a term</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--31-input--1" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -1424,8 +1861,25 @@ applying the rule <span class="math notranslate nohighlight">\(\log(x\cdot y) = 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--31-input--3" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+T = TermMonoid('exact', GrowthGroup('QQ^x * x^ZZ * log(x)^ZZ'), QQ)
+T('x').rpow(2)
+T('log(x)').rpow('e')
+T('42*log(x)').rpow('e')
+T('3*x').rpow(2)</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--32-input--1" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">T</span><span class="p">(</span><span class="s1">&#39;3*x^2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rpow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -1452,8 +1906,19 @@ applying the rule <span class="math notranslate nohighlight">\(\log(x\cdot y) = 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--32-input--3" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T('3*x^2').rpow(2)</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--33-input--1" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">T</span> <span class="o">=</span> <span class="n">TermMonoid</span><span class="p">(</span><span class="s1">&#39;exact&#39;</span><span class="p">,</span> <span class="n">GrowthGroup</span><span class="p">(</span><span class="s1">&#39;(QQ_+)^n * n^QQ&#39;</span><span class="p">),</span> <span class="n">SR</span><span class="p">)</span>
@@ -1474,6 +1939,20 @@ applying the rule <span class="math notranslate nohighlight">\(\log(x\cdot y) = 
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">_</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span>
 <span class="go">Exact Term Monoid QQ^n * n^QQ with coefficients in Symbolic Ring</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--33-input--3" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T = TermMonoid('exact', GrowthGroup('(QQ_+)^n * n^QQ'), SR)
+n = T('n')
+n.rpow(2)
+_.parent()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1497,7 +1976,7 @@ is also the default category if <code class="docutils literal notranslate"><span
 <li><p><code class="docutils literal notranslate"><span class="pre">coefficient_ring</span></code> – the ring which contains the coefficients of
 the elements</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--34-input--1" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -1536,8 +2015,26 @@ the elements</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--34-input--3" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import ExactTermMonoid
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+G_ZZ = GrowthGroup('x^ZZ'); x_ZZ = G_ZZ.gen()
+G_QQ = GrowthGroup('x^QQ'); x_QQ = G_QQ.gen()
+ET_ZZ = ExactTermMonoid(TermMonoid, G_ZZ, ZZ); ET_ZZ
+ET_QQ = ExactTermMonoid(TermMonoid, G_QQ, QQ); ET_QQ
+ET_QQ.coerce_map_from(ET_ZZ)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Exact term monoids can also be created using the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Exact term monoids can also be created using the
 <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.TermMonoidFactory" title="sage.rings.asymptotic.term_monoid.TermMonoidFactory"><code class="xref py py-class docutils literal notranslate"><span class="pre">term</span> <span class="pre">factory</span></code></a>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--35-input--1" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--1">Sage</label><div class="tab-content docutils container">
@@ -1555,6 +2052,18 @@ the elements</p></li>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">TermMonoid</span><span class="p">(</span><span class="s1">&#39;exact&#39;</span><span class="p">,</span> <span class="n">GrowthGroup</span><span class="p">(</span><span class="s1">&#39;x^ZZ&#39;</span><span class="p">),</span> <span class="n">QQ</span><span class="p">)</span>
 <span class="go">Exact Term Monoid x^ZZ with coefficients in Rational Field</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--35-input--3" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">TermMonoid('exact', G_ZZ, ZZ) is ET_ZZ
+TermMonoid('exact', GrowthGroup('x^ZZ'), QQ)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1577,7 +2086,7 @@ several properties of asymptotic terms are handled here.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">parent</span></code> – the parent of the asymptotic term</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">growth</span></code> – an asymptotic growth element</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--36-input--1" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -1624,6 +2133,26 @@ several properties of asymptotic terms are handled here.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--36-input--3" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import GenericTermMonoid
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+G = GrowthGroup('x^ZZ'); x = G.gen()
+T = GenericTermMonoid(TermMonoid, G, QQ)
+t1 = T(x); t2 = T(x^2); (t1, t2)
+t1 * t2
+t1.can_absorb(t2)
+t1.absorb(t2)
+t1.can_absorb(t1)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.rings.asymptotic.term_monoid.GenericTerm.absorb">
@@ -1650,7 +2179,7 @@ asymptotic terms see
 the <a class="reference internal" href="#term-absorption"><span class="std std-ref">module description</span></a>.</p>
 </div>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">We want to demonstrate in which cases an asymptotic term
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We want to demonstrate in which cases an asymptotic term
 is able to absorb another term, as well as explain the output
 of this operation. We start by defining some parents and
 elements:</p>
@@ -1680,8 +2209,26 @@ elements:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--37-input--3" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+G_QQ = GrowthGroup('x^QQ'); x = G_QQ.gen()
+OT = TermMonoid('O', G_QQ, coefficient_ring=QQ)
+ET = TermMonoid('exact', G_QQ, coefficient_ring=QQ)
+ot1 = OT(x); ot2 = OT(x^2)
+et1 = ET(x, coefficient=100); et2 = ET(x^2, coefficient=2)
+et3 = ET(x^2, coefficient=1); et4 = ET(x^2, coefficient=-2)</pre>
 </div>
-<p class="with-sage-tab with-python-tab"><span class="math notranslate nohighlight">\(O\)</span>-Terms are able to absorb other <span class="math notranslate nohighlight">\(O\)</span>-terms and exact terms
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"><span class="math notranslate nohighlight">\(O\)</span>-Terms are able to absorb other <span class="math notranslate nohighlight">\(O\)</span>-terms and exact terms
 with weaker or equal growth.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--38-input--1" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--1">Sage</label><div class="tab-content docutils container">
@@ -1705,8 +2252,21 @@ with weaker or equal growth.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--38-input--3" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ot1.absorb(ot1)
+ot1.absorb(et1)
+ot1.absorb(et1) is ot1</pre>
 </div>
-<p class="with-sage-tab with-python-tab"><a class="reference internal" href="#sage.rings.asymptotic.term_monoid.ExactTerm" title="sage.rings.asymptotic.term_monoid.ExactTerm"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExactTerm</span></code></a> is able to absorb another
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"><a class="reference internal" href="#sage.rings.asymptotic.term_monoid.ExactTerm" title="sage.rings.asymptotic.term_monoid.ExactTerm"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExactTerm</span></code></a> is able to absorb another
 <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.ExactTerm" title="sage.rings.asymptotic.term_monoid.ExactTerm"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExactTerm</span></code></a> if the terms have the same growth. In this
 case, <em>absorption</em> is nothing else than an addition of the
 respective coefficients:</p>
@@ -1732,8 +2292,21 @@ respective coefficients:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--39-input--3" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">et2.absorb(et3)
+et3.absorb(et2)
+et3.absorb(et4)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Note that, for technical reasons, the coefficient <span class="math notranslate nohighlight">\(0\)</span> is not
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that, for technical reasons, the coefficient <span class="math notranslate nohighlight">\(0\)</span> is not
 allowed, and thus <code class="docutils literal notranslate"><span class="pre">None</span></code> is returned if two exact terms
 cancel each other out:</p>
 <div class="tab-set docutils container">
@@ -1750,6 +2323,18 @@ cancel each other out:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">et4</span><span class="o">.</span><span class="n">absorb</span><span class="p">(</span><span class="n">et2</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--40-input--3" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">et2.absorb(et4)
+et4.absorb(et2) is None</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1771,7 +2356,7 @@ the asymptotic term <code class="docutils literal notranslate"><span class="pre"
 <p>See the <a class="reference internal" href="#term-absorption"><span class="std std-ref">module description</span></a> for a
 detailed explanation of absorption.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--41-input--1" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenericGrowthGroup</span>
@@ -1806,6 +2391,25 @@ detailed explanation of absorption.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--41-input--3" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GenericGrowthGroup
+from sage.rings.asymptotic.term_monoid import GenericTermMonoid
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+G = GenericGrowthGroup(ZZ)
+T = GenericTermMonoid(TermMonoid, G, QQ)
+g1 = G(raw_element=21); g2 = G(raw_element=42)
+t1 = T(g1); t2 = T(g2)
+t1.can_absorb(t2)  # indirect doctest
+t2.can_absorb(t1)  # indirect doctest</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1815,7 +2419,7 @@ detailed explanation of absorption.</p>
 <dd><p>Return a construction of this term.</p>
 <p>OUTPUT:</p>
 <p>A pair <code class="docutils literal notranslate"><span class="pre">(cls,</span> <span class="pre">kwds)</span></code> such that <code class="docutils literal notranslate"><span class="pre">cls(**kwds)</span></code> equals this term.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--42-input--1" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -1850,6 +2454,22 @@ detailed explanation of absorption.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--42-input--3" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+T = TermMonoid('O', GrowthGroup('x^ZZ'), QQ)
+a = T.an_element(); a
+cls, kwds = a.construction(); cls, kwds
+cls(**kwds) == a</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -1868,7 +2488,7 @@ detailed explanation of absorption.</p>
 <p>Only <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.ExactTerm" title="sage.rings.asymptotic.term_monoid.ExactTerm"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExactTerm</span></code></a> with constant growth (<span class="math notranslate nohighlight">\(1\)</span>) are
 constant.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--43-input--1" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -1895,8 +2515,24 @@ constant.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--43-input--3" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import GenericTermMonoid
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+T = GenericTermMonoid(TermMonoid, GrowthGroup('x^ZZ * log(x)^ZZ'), QQ)
+t = T.an_element(); t
+t.is_constant()</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--44-input--1" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">T</span> <span class="o">=</span> <span class="n">TermMonoid</span><span class="p">(</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="n">GrowthGroup</span><span class="p">(</span><span class="s1">&#39;x^ZZ&#39;</span><span class="p">),</span> <span class="n">QQ</span><span class="p">)</span>
@@ -1917,6 +2553,19 @@ constant.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--44-input--3" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T = TermMonoid('O', GrowthGroup('x^ZZ'), QQ)
+T('x').is_constant()
+T(1).is_constant()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1925,7 +2574,7 @@ constant.</p>
 <span class="sig-name descname"><span class="pre">is_exact</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/asymptotic/term_monoid.py#L1082"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.asymptotic.term_monoid.GenericTerm.is_exact" title="Link to this definition">¶</a></dt>
 <dd><p>Return whether this term is an exact term.</p>
 <p>OUTPUT: boolean</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--45-input--1" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -1948,6 +2597,21 @@ constant.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--45-input--3" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import GenericTermMonoid
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+T = GenericTermMonoid(TermMonoid, GrowthGroup('x^ZZ * log(x)^ZZ'), QQ)
+T.an_element().is_exact()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1956,7 +2620,7 @@ constant.</p>
 <span class="sig-name descname"><span class="pre">is_little_o_of_one</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/asymptotic/term_monoid.py#L1099"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.asymptotic.term_monoid.GenericTerm.is_little_o_of_one" title="Link to this definition">¶</a></dt>
 <dd><p>Return whether this generic term is of order <span class="math notranslate nohighlight">\(o(1)\)</span>.</p>
 <p>OUTPUT: boolean</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--46-input--1" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -2005,6 +2669,24 @@ constant.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--46-input--3" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import (GenericTermMonoid,
+                                               TermWithCoefficientMonoid)
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+T = GenericTermMonoid(TermMonoid, GrowthGroup('x^ZZ'), QQ)
+T.an_element().is_little_o_of_one()
+T = TermWithCoefficientMonoid(TermMonoid, GrowthGroup('x^ZZ'), QQ)
+T.an_element().is_little_o_of_one()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2031,7 +2713,7 @@ constant.</p>
 See <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.ExactTerm" title="sage.rings.asymptotic.term_monoid.ExactTerm"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExactTerm</span></code></a> and <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.OTerm" title="sage.rings.asymptotic.term_monoid.OTerm"><code class="xref py py-class docutils literal notranslate"><span class="pre">OTerm</span></code></a> for a concrete
 implementation.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--47-input--1" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -2062,8 +2744,23 @@ implementation.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--47-input--3" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import GenericTermMonoid
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+T = GenericTermMonoid(TermMonoid, GrowthGroup('x^ZZ'), QQ)
+T.an_element().log_term()</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--48-input--1" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.term_monoid</span><span class="w"> </span><span class="kn">import</span> <span class="n">TermWithCoefficientMonoid</span>
@@ -2088,6 +2785,19 @@ implementation.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--48-input--3" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.term_monoid import TermWithCoefficientMonoid
+T = TermWithCoefficientMonoid(TermMonoid, GrowthGroup('x^ZZ'), QQ)
+T.an_element().log_term()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -2105,7 +2815,7 @@ implementation.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">base</span></code> – an element or <code class="docutils literal notranslate"><span class="pre">'e'</span></code></p></li>
 </ul>
 <p>OUTPUT: a term</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--49-input--1" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -2138,6 +2848,21 @@ implementation.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--49-input--3" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import GenericTermMonoid
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+T = GenericTermMonoid(TermMonoid, GrowthGroup('x^ZZ * log(x)^ZZ'), QQ)
+T.an_element().rpow('e')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2146,7 +2871,7 @@ implementation.</p>
 <span class="sig-name descname"><span class="pre">variable_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/asymptotic/term_monoid.py#L1233"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.asymptotic.term_monoid.GenericTerm.variable_names" title="Link to this definition">¶</a></dt>
 <dd><p>Return the names of the variables of this term.</p>
 <p>OUTPUT: a tuple of strings</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--50-input--1" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.term_monoid</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultTermMonoidFactory</span> <span class="k">as</span> <span class="n">TermMonoid</span>
@@ -2181,6 +2906,23 @@ implementation.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--50-input--3" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+T = TermMonoid('exact', 'QQ^m * m^QQ * log(n)^ZZ', QQ)
+T('4 * 2^m * m^4 * log(n)').variable_names()
+T('4 * 2^m * m^4').variable_names()
+T('4 * log(n)').variable_names()
+T('4 * m^3').variable_names()
+T('4 * m^0').variable_names()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2211,7 +2953,7 @@ group element, for example
 <a class="reference internal" href="growth_group.html#sage.rings.asymptotic.growth_group.MonomialGrowthElement" title="sage.rings.asymptotic.growth_group.MonomialGrowthElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">MonomialGrowthElement</span></code></a>);
 additional structure and properties are added by the classes inherited
 from <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.GenericTermMonoid" title="sage.rings.asymptotic.term_monoid.GenericTermMonoid"><code class="xref py py-class docutils literal notranslate"><span class="pre">GenericTermMonoid</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--51-input--1" name="tab-set--51" type="radio"><label class="tab-label" for="tab-set--51-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -2246,6 +2988,25 @@ from <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.Gene
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--51-input--3" name="tab-set--51" type="radio"><label class="tab-label" for="tab-set--51-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import GenericTermMonoid
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+G_x = GrowthGroup('x^ZZ'); x = G_x.gen()
+G_y = GrowthGroup('y^QQ'); y = G_y.gen()
+T_x_ZZ = GenericTermMonoid(TermMonoid, G_x, QQ)
+T_y_QQ = GenericTermMonoid(TermMonoid, G_y, QQ)
+T_x_ZZ
+T_y_QQ</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sage.rings.asymptotic.term_monoid.GenericTermMonoid.Element">
@@ -2264,7 +3025,7 @@ given parameters.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">coefficient_ring</span></code> – (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>) the new coefficient ring</p></li>
 </ul>
 <p>OUTPUT: a term monoid</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--52-input--1" name="tab-set--52" type="radio"><label class="tab-label" for="tab-set--52-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -2289,6 +3050,21 @@ given parameters.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--52-input--3" name="tab-set--52" type="radio"><label class="tab-label" for="tab-set--52-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+E = TermMonoid('exact', GrowthGroup('n^ZZ'), ZZ)
+E.change_parameter(coefficient_ring=QQ)
+E.change_parameter(growth_group=GrowthGroup('n^QQ'))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2297,7 +3073,7 @@ given parameters.</p>
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">coefficient_ring</span></span><a class="headerlink" href="#sage.rings.asymptotic.term_monoid.GenericTermMonoid.coefficient_ring" title="Link to this definition">¶</a></dt>
 <dd><p>The coefficient ring of this term monoid, i.e. the ring where
 the coefficients are from.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--53-input--1" name="tab-set--53" type="radio"><label class="tab-label" for="tab-set--53-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -2320,6 +3096,20 @@ the coefficients are from.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--53-input--3" name="tab-set--53" type="radio"><label class="tab-label" for="tab-set--53-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import GenericTermMonoid
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+GenericTermMonoid(TermMonoid, GrowthGroup('x^ZZ'), ZZ).coefficient_ring</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2333,7 +3123,7 @@ the coefficients are from.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">kwds_overrides</span></code> – dictionary</p></li>
 </ul>
 <p>OUTPUT: a term</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--54-input--1" name="tab-set--54" type="radio"><label class="tab-label" for="tab-set--54-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -2356,8 +3146,24 @@ the coefficients are from.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--54-input--3" name="tab-set--54" type="radio"><label class="tab-label" for="tab-set--54-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+G = GrowthGroup('x^ZZ')
+x = G.gen()
+T = TermMonoid('O', G, QQ)
+o = T.an_element()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We use a construction directly as input:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We use a construction directly as input:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--55-input--1" name="tab-set--55" type="radio"><label class="tab-label" for="tab-set--55-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">T</span><span class="o">.</span><span class="n">from_construction</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">construction</span><span class="p">())</span>
@@ -2372,8 +3178,19 @@ the coefficients are from.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--55-input--3" name="tab-set--55" type="radio"><label class="tab-label" for="tab-set--55-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T.from_construction(o.construction())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can override the given data:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can override the given data:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--56-input--1" name="tab-set--56" type="radio"><label class="tab-label" for="tab-set--56-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">T</span><span class="o">.</span><span class="n">from_construction</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">construction</span><span class="p">(),</span> <span class="n">growth</span><span class="o">=</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
@@ -2388,8 +3205,19 @@ the coefficients are from.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--56-input--3" name="tab-set--56" type="radio"><label class="tab-label" for="tab-set--56-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T.from_construction(o.construction(), growth=x^2)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A minimalistic example:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A minimalistic example:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--57-input--1" name="tab-set--57" type="radio"><label class="tab-label" for="tab-set--57-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">T</span><span class="o">.</span><span class="n">from_construction</span><span class="p">((</span><span class="kc">None</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;growth&#39;</span><span class="p">:</span> <span class="n">x</span><span class="p">}))</span>
@@ -2404,6 +3232,17 @@ the coefficients are from.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--57-input--3" name="tab-set--57" type="radio"><label class="tab-label" for="tab-set--57-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T.from_construction((None, {'growth': x}))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -2416,7 +3255,7 @@ the coefficients are from.</p>
 <dt class="sig sig-object py" id="sage.rings.asymptotic.term_monoid.GenericTermMonoid.growth_group">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">growth_group</span></span><a class="headerlink" href="#sage.rings.asymptotic.term_monoid.GenericTermMonoid.growth_group" title="Link to this definition">¶</a></dt>
 <dd><p>The growth group underlying this term monoid.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--58-input--1" name="tab-set--58" type="radio"><label class="tab-label" for="tab-set--58-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -2435,6 +3274,19 @@ the coefficients are from.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--58-input--3" name="tab-set--58" type="radio"><label class="tab-label" for="tab-set--58-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+TermMonoid('exact', GrowthGroup('x^ZZ'), ZZ).growth_group</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2449,7 +3301,7 @@ to) the term <code class="docutils literal notranslate"><span class="pre">right<
 <li><p><code class="docutils literal notranslate"><span class="pre">right</span></code> – an element</p></li>
 </ul>
 <p>OUTPUT: boolean</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--59-input--1" name="tab-set--59" type="radio"><label class="tab-label" for="tab-set--59-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -2478,6 +3330,23 @@ to) the term <code class="docutils literal notranslate"><span class="pre">right<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--59-input--3" name="tab-set--59" type="radio"><label class="tab-label" for="tab-set--59-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import GenericTermMonoid
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+G = GrowthGroup('x^ZZ'); x = G.gen()
+T = GenericTermMonoid(TermMonoid, G, QQ)
+t1 = T(x); t2 = T(x^2)
+T.le(t1, t2)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2487,7 +3356,7 @@ to) the term <code class="docutils literal notranslate"><span class="pre">right<
 <dd><p>Return some elements of this term monoid.</p>
 <p>See <a class="reference external" href="../../../../misc/sage/misc/sage_unittest.html#sage.misc.sage_unittest.TestSuite" title="(in Utilities v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TestSuite</span></code></a> for a typical use case.</p>
 <p>OUTPUT: an iterator</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--60-input--1" name="tab-set--60" type="radio"><label class="tab-label" for="tab-set--60-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -2508,6 +3377,20 @@ to) the term <code class="docutils literal notranslate"><span class="pre">right<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--60-input--3" name="tab-set--60" type="radio"><label class="tab-label" for="tab-set--60-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+G = GrowthGroup('x^ZZ')
+tuple(TermMonoid('O', G, QQ).some_elements())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2524,7 +3407,7 @@ more details.</p></li>
 <p>OUTPUT:</p>
 <p>A term monoid object derived from
 <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.GenericTermMonoid" title="sage.rings.asymptotic.term_monoid.GenericTermMonoid"><code class="xref py py-class docutils literal notranslate"><span class="pre">GenericTermMonoid</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--61-input--1" name="tab-set--61" type="radio"><label class="tab-label" for="tab-set--61-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -2547,6 +3430,20 @@ more details.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--61-input--3" name="tab-set--61" type="radio"><label class="tab-label" for="tab-set--61-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+E = TermMonoid('exact', GrowthGroup('x^ZZ'), ZZ); E
+E.term_monoid('O')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2554,7 +3451,7 @@ more details.</p></li>
 <dt class="sig sig-object py" id="sage.rings.asymptotic.term_monoid.GenericTermMonoid.term_monoid_factory">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">term_monoid_factory</span></span><a class="headerlink" href="#sage.rings.asymptotic.term_monoid.GenericTermMonoid.term_monoid_factory" title="Link to this definition">¶</a></dt>
 <dd><p>The term monoid factory capable of creating this term monoid.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--62-input--1" name="tab-set--62" type="radio"><label class="tab-label" for="tab-set--62-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -2587,6 +3484,22 @@ more details.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--62-input--3" name="tab-set--62" type="radio"><label class="tab-label" for="tab-set--62-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory
+DefaultTermMonoidFactory('exact', GrowthGroup('x^ZZ'), ZZ).term_monoid_factory
+from sage.rings.asymptotic.term_monoid import TermMonoidFactory
+TermMonoid = TermMonoidFactory('__main__.TermMonoid')
+TermMonoid('exact', GrowthGroup('x^ZZ'), ZZ).term_monoid_factory</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2605,7 +3518,7 @@ see <a class="extlink-wikipedia reference external" href="https://en.wikipedia.o
 <li><p><code class="docutils literal notranslate"><span class="pre">parent</span></code> – the parent of the asymptotic term</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">growth</span></code> – a growth element</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--63-input--1" name="tab-set--63" type="radio"><label class="tab-label" for="tab-set--63-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -2654,8 +3567,30 @@ see <a class="extlink-wikipedia reference external" href="https://en.wikipedia.o
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--63-input--3" name="tab-set--63" type="radio"><label class="tab-label" for="tab-set--63-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import OTermMonoid
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+G = GrowthGroup('x^ZZ'); x = G.gen()
+OT = OTermMonoid(TermMonoid, G, QQ)
+t1 = OT(x^-7); t2 = OT(x^5); t3 = OT(x^42)
+t1, t2, t3
+t1.can_absorb(t2)
+t2.can_absorb(t1)
+t2.absorb(t1)
+t1 &lt;= t2 and t2 &lt;= t3
+t3 &lt;= t1</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The conversion of growth elements also works for the creation
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The conversion of growth elements also works for the creation
 of <span class="math notranslate nohighlight">\(O\)</span>-terms:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--64-input--1" name="tab-set--64" type="radio"><label class="tab-label" for="tab-set--64-input--1">Sage</label><div class="tab-content docutils container">
@@ -2675,6 +3610,18 @@ of <span class="math notranslate nohighlight">\(O\)</span>-terms:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--64-input--3" name="tab-set--64" type="radio"><label class="tab-label" for="tab-set--64-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">x = SR('x'); x.parent()
+OT(x^17)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.rings.asymptotic.term_monoid.OTerm.can_absorb">
@@ -2692,7 +3639,7 @@ with weaker or equal growth.</p>
 <p>See the <a class="reference internal" href="#term-absorption"><span class="std std-ref">module description</span></a> for a
 detailed explanation of absorption.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--65-input--1" name="tab-set--65" type="radio"><label class="tab-label" for="tab-set--65-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -2719,6 +3666,22 @@ detailed explanation of absorption.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--65-input--3" name="tab-set--65" type="radio"><label class="tab-label" for="tab-set--65-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+OT = TermMonoid('O', GrowthGroup('x^ZZ'), QQ)
+t1 = OT(x^21); t2 = OT(x^42)
+t1.can_absorb(t2)
+t2.can_absorb(t1)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2727,7 +3690,7 @@ detailed explanation of absorption.</p>
 <span class="sig-name descname"><span class="pre">is_little_o_of_one</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/asymptotic/term_monoid.py#L2565"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.asymptotic.term_monoid.OTerm.is_little_o_of_one" title="Link to this definition">¶</a></dt>
 <dd><p>Return whether this O-term is of order <span class="math notranslate nohighlight">\(o(1)\)</span>.</p>
 <p>OUTPUT: boolean</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--66-input--1" name="tab-set--66" type="radio"><label class="tab-label" for="tab-set--66-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -2756,8 +3719,24 @@ detailed explanation of absorption.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--66-input--3" name="tab-set--66" type="radio"><label class="tab-label" for="tab-set--66-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+T = TermMonoid('O', GrowthGroup('x^ZZ'), QQ)
+T(x).is_little_o_of_one()
+T(1).is_little_o_of_one()
+T(x^(-1)).is_little_o_of_one()</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--67-input--1" name="tab-set--67" type="radio"><label class="tab-label" for="tab-set--67-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">T</span> <span class="o">=</span> <span class="n">TermMonoid</span><span class="p">(</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="n">GrowthGroup</span><span class="p">(</span><span class="s1">&#39;x^ZZ * y^ZZ&#39;</span><span class="p">),</span> <span class="n">QQ</span><span class="p">)</span>
@@ -2782,8 +3761,22 @@ detailed explanation of absorption.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--67-input--3" name="tab-set--67" type="radio"><label class="tab-label" for="tab-set--67-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T = TermMonoid('O', GrowthGroup('x^ZZ * y^ZZ'), QQ)
+T('x * y^(-1)').is_little_o_of_one()
+T('x^(-1) * y').is_little_o_of_one()
+T('x^(-2) * y^(-3)').is_little_o_of_one()</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--68-input--1" name="tab-set--68" type="radio"><label class="tab-label" for="tab-set--68-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">T</span> <span class="o">=</span> <span class="n">TermMonoid</span><span class="p">(</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="n">GrowthGroup</span><span class="p">(</span><span class="s1">&#39;x^QQ * log(x)^QQ&#39;</span><span class="p">),</span> <span class="n">QQ</span><span class="p">)</span>
@@ -2812,6 +3805,21 @@ detailed explanation of absorption.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--68-input--3" name="tab-set--68" type="radio"><label class="tab-label" for="tab-set--68-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T = TermMonoid('O', GrowthGroup('x^QQ * log(x)^QQ'), QQ)
+T('x * log(x)^2').is_little_o_of_one()
+T('x^2 * log(x)^(-1234)').is_little_o_of_one()
+T('x^(-1) * log(x)^4242').is_little_o_of_one()
+T('x^(-1/100) * log(x)^(1000/7)').is_little_o_of_one()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2836,7 +3844,7 @@ detailed explanation of absorption.</p>
 <p>This method returns a tuple with the summands that come from
 applying the rule <span class="math notranslate nohighlight">\(\log(x\cdot y) = \log(x) + \log(y)\)</span>.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--69-input--1" name="tab-set--69" type="radio"><label class="tab-label" for="tab-set--69-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -2861,8 +3869,23 @@ applying the rule <span class="math notranslate nohighlight">\(\log(x\cdot y) = 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--69-input--3" name="tab-set--69" type="radio"><label class="tab-label" for="tab-set--69-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+T = TermMonoid('O', GrowthGroup('x^ZZ * log(x)^ZZ'), QQ)
+T(x^2).log_term()
+T(x^1234).log_term()</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--70-input--1" name="tab-set--70" type="radio"><label class="tab-label" for="tab-set--70-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.term_monoid</span><span class="w"> </span><span class="kn">import</span> <span class="n">TermWithCoefficientMonoid</span>
@@ -2879,6 +3902,19 @@ applying the rule <span class="math notranslate nohighlight">\(\log(x\cdot y) = 
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">T</span><span class="p">(</span><span class="s1">&#39;x * y&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">log_term</span><span class="p">()</span>
 <span class="go">(O(log(x)), O(log(y)))</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--70-input--3" name="tab-set--70" type="radio"><label class="tab-label" for="tab-set--70-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.term_monoid import TermWithCoefficientMonoid
+T = TermMonoid('O', GrowthGroup('x^ZZ * log(x)^ZZ * y^ZZ * log(y)^ZZ'), QQ)
+T('x * y').log_term()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2902,7 +3938,7 @@ applying the rule <span class="math notranslate nohighlight">\(\log(x\cdot y) = 
 <p>For <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.OTerm" title="sage.rings.asymptotic.term_monoid.OTerm"><code class="xref py py-class docutils literal notranslate"><span class="pre">OTerm</span></code></a>, the powers can only be
 constructed for exponents <span class="math notranslate nohighlight">\(O(1)\)</span> or if <code class="docutils literal notranslate"><span class="pre">base</span></code> is <span class="math notranslate nohighlight">\(1\)</span>.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--71-input--1" name="tab-set--71" type="radio"><label class="tab-label" for="tab-set--71-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -2927,8 +3963,23 @@ constructed for exponents <span class="math notranslate nohighlight">\(O(1)\)</s
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--71-input--3" name="tab-set--71" type="radio"><label class="tab-label" for="tab-set--71-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+T = TermMonoid('O', GrowthGroup('x^ZZ * log(x)^ZZ'), QQ)
+T(1).rpow('e')
+T(1).rpow(2)</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--72-input--1" name="tab-set--72" type="radio"><label class="tab-label" for="tab-set--72-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">T</span><span class="o">.</span><span class="n">an_element</span><span class="p">()</span><span class="o">.</span><span class="n">rpow</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -2947,8 +3998,20 @@ constructed for exponents <span class="math notranslate nohighlight">\(O(1)\)</s
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--72-input--3" name="tab-set--72" type="radio"><label class="tab-label" for="tab-set--72-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T.an_element().rpow(1)
+T('x^2').rpow(1)</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--73-input--1" name="tab-set--73" type="radio"><label class="tab-label" for="tab-set--73-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">T</span><span class="o">.</span><span class="n">an_element</span><span class="p">()</span><span class="o">.</span><span class="n">rpow</span><span class="p">(</span><span class="s1">&#39;e&#39;</span><span class="p">)</span>
@@ -2979,6 +4042,18 @@ constructed for exponents <span class="math notranslate nohighlight">\(O(1)\)</s
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--73-input--3" name="tab-set--73" type="radio"><label class="tab-label" for="tab-set--73-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T.an_element().rpow('e')
+T('log(x)').rpow('e')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2997,7 +4072,7 @@ in order to broaden the base structure. It has to be a subcategory
 of <code class="docutils literal notranslate"><span class="pre">Join</span> <span class="pre">of</span> <span class="pre">Category</span> <span class="pre">of</span> <span class="pre">monoids</span> <span class="pre">and</span> <span class="pre">Category</span> <span class="pre">of</span> <span class="pre">posets</span></code>. This
 is also the default category if <code class="docutils literal notranslate"><span class="pre">None</span></code> is specified.</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--74-input--1" name="tab-set--74" type="radio"><label class="tab-label" for="tab-set--74-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -3026,8 +4101,25 @@ is also the default category if <code class="docutils literal notranslate"><span
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--74-input--3" name="tab-set--74" type="radio"><label class="tab-label" for="tab-set--74-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import OTermMonoid
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+G_x_ZZ = GrowthGroup('x^ZZ')
+G_y_QQ = GrowthGroup('y^QQ')
+OT_x_ZZ = OTermMonoid(TermMonoid, G_x_ZZ, QQ); OT_x_ZZ
+OT_y_QQ = OTermMonoid(TermMonoid, G_y_QQ, QQ); OT_y_QQ</pre>
 </div>
-<p class="with-sage-tab with-python-tab"><span class="math notranslate nohighlight">\(O\)</span>-term monoids can also be created by using the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"><span class="math notranslate nohighlight">\(O\)</span>-term monoids can also be created by using the
 <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.TermMonoidFactory" title="sage.rings.asymptotic.term_monoid.TermMonoidFactory"><code class="xref py py-class docutils literal notranslate"><span class="pre">term</span> <span class="pre">factory</span></code></a>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--75-input--1" name="tab-set--75" type="radio"><label class="tab-label" for="tab-set--75-input--1">Sage</label><div class="tab-content docutils container">
@@ -3045,6 +4137,18 @@ is also the default category if <code class="docutils literal notranslate"><span
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">TermMonoid</span><span class="p">(</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="n">GrowthGroup</span><span class="p">(</span><span class="s1">&#39;x^QQ&#39;</span><span class="p">),</span> <span class="n">QQ</span><span class="p">)</span>
 <span class="go">O-Term Monoid x^QQ with implicit coefficients in Rational Field</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--75-input--3" name="tab-set--75" type="radio"><label class="tab-label" for="tab-set--75-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">TermMonoid('O', G_x_ZZ, QQ) is OT_x_ZZ
+TermMonoid('O', GrowthGroup('x^QQ'), QQ)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3083,7 +4187,7 @@ monoid.</p></li>
 <code class="docutils literal notranslate"><span class="pre">coefficient_ring</span></code> are taken from this asymptotic ring</p></li>
 </ul>
 <p>OUTPUT: an asymptotic term monoid</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--76-input--1" name="tab-set--76" type="radio"><label class="tab-label" for="tab-set--76-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -3108,8 +4212,23 @@ monoid.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--76-input--3" name="tab-set--76" type="radio"><label class="tab-label" for="tab-set--76-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+G = GrowthGroup('x^ZZ')
+TermMonoid('O', G, QQ)
+TermMonoid('exact', G, ZZ)</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--77-input--1" name="tab-set--77" type="radio"><label class="tab-label" for="tab-set--77-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span> <span class="o">=</span> <span class="n">AsymptoticRing</span><span class="p">(</span><span class="n">growth_group</span><span class="o">=</span><span class="n">G</span><span class="p">,</span> <span class="n">coefficient_ring</span><span class="o">=</span><span class="n">QQ</span><span class="p">)</span>
@@ -3138,13 +4257,27 @@ monoid.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--77-input--3" name="tab-set--77" type="radio"><label class="tab-label" for="tab-set--77-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R = AsymptoticRing(growth_group=G, coefficient_ring=QQ)
+TermMonoid('exact', asymptotic_ring=R)
+TermMonoid('O', asymptotic_ring=R)
+TermMonoid('exact', 'QQ^m * m^QQ * log(n)^ZZ', ZZ)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.rings.asymptotic.term_monoid.TermMonoidFactory.create_key_and_extra_args">
 <span class="sig-name descname"><span class="pre">create_key_and_extra_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">term_monoid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">growth_group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coefficient_ring</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asymptotic_ring</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/asymptotic/term_monoid.py#L5060"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.asymptotic.term_monoid.TermMonoidFactory.create_key_and_extra_args" title="Link to this definition">¶</a></dt>
 <dd><p>Given the arguments and keyword, create a key that uniquely
 determines this object.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--78-input--1" name="tab-set--78" type="radio"><label class="tab-label" for="tab-set--78-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -3183,6 +4316,22 @@ determines this object.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--78-input--3" name="tab-set--78" type="radio"><label class="tab-label" for="tab-set--78-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+G = GrowthGroup('x^ZZ')
+TermMonoid.create_key_and_extra_args('O', G, QQ)
+TermMonoid.create_key_and_extra_args('exact', G, ZZ)
+TermMonoid.create_key_and_extra_args('exact', G)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -3190,7 +4339,7 @@ determines this object.</p>
 <dt class="sig sig-object py" id="sage.rings.asymptotic.term_monoid.TermMonoidFactory.create_object">
 <span class="sig-name descname"><span class="pre">create_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/asymptotic/term_monoid.py#L5134"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.asymptotic.term_monoid.TermMonoidFactory.create_object" title="Link to this definition">¶</a></dt>
 <dd><p>Create a object from the given arguments.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--79-input--1" name="tab-set--79" type="radio"><label class="tab-label" for="tab-set--79-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -3215,6 +4364,21 @@ determines this object.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--79-input--3" name="tab-set--79" type="radio"><label class="tab-label" for="tab-set--79-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+G = GrowthGroup('x^ZZ')
+TermMonoid('O', G, QQ)  # indirect doctest
+TermMonoid('exact', G, ZZ)  # indirect doctest</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -3232,7 +4396,7 @@ example, <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.
 <li><p><code class="docutils literal notranslate"><span class="pre">growth</span></code> – an asymptotic growth element of the parent’s growth group</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">coefficient</span></code> – an element of the parent’s coefficient ring</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--80-input--1" name="tab-set--80" type="radio"><label class="tab-label" for="tab-set--80-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -3265,6 +4429,24 @@ example, <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--80-input--3" name="tab-set--80" type="radio"><label class="tab-label" for="tab-set--80-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import TermWithCoefficientMonoid
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+G = GrowthGroup('x^ZZ'); x = G.gen()
+CT_ZZ = TermWithCoefficientMonoid(TermMonoid, G, ZZ)
+CT_QQ = TermWithCoefficientMonoid(TermMonoid, G, QQ)
+CT_ZZ(x^2, coefficient=5)
+CT_QQ(x^3, coefficient=3/8)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.rings.asymptotic.term_monoid.TermWithCoefficient.construction">
@@ -3272,7 +4454,7 @@ example, <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.
 <dd><p>Return a construction of this term.</p>
 <p>OUTPUT:</p>
 <p>A pair <code class="docutils literal notranslate"><span class="pre">(cls,</span> <span class="pre">kwds)</span></code> such that <code class="docutils literal notranslate"><span class="pre">cls(**kwds)</span></code> equals this term.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--81-input--1" name="tab-set--81" type="radio"><label class="tab-label" for="tab-set--81-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -3309,6 +4491,22 @@ example, <a class="reference internal" href="#sage.rings.asymptotic.term_monoid.
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--81-input--3" name="tab-set--81" type="radio"><label class="tab-label" for="tab-set--81-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+T = TermMonoid('exact', GrowthGroup('x^ZZ'), QQ)
+a = T.an_element(); a
+cls, kwds = a.construction(); cls, kwds
+cls(**kwds) == a</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -3337,7 +4535,7 @@ is also the default category if <code class="docutils literal notranslate"><span
 <li><p><code class="docutils literal notranslate"><span class="pre">coefficient_ring</span></code> – the ring which contains the
 coefficients of the elements</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--82-input--1" name="tab-set--82" type="radio"><label class="tab-label" for="tab-set--82-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -3380,6 +4578,25 @@ coefficients of the elements</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--82-input--3" name="tab-set--82" type="radio"><label class="tab-label" for="tab-set--82-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import TermWithCoefficientMonoid
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+G_ZZ = GrowthGroup('x^ZZ'); x_ZZ = G_ZZ.gen()
+G_QQ = GrowthGroup('x^QQ'); x_QQ = G_QQ.gen()
+TC_ZZ = TermWithCoefficientMonoid(TermMonoid, G_ZZ, QQ); TC_ZZ
+TC_QQ = TermWithCoefficientMonoid(TermMonoid, G_QQ, QQ); TC_QQ
+TC_ZZ == TC_QQ or TC_ZZ is TC_QQ
+TC_QQ.coerce_map_from(TC_ZZ)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sage.rings.asymptotic.term_monoid.TermWithCoefficientMonoid.Element">
@@ -3393,7 +4610,7 @@ coefficients of the elements</p></li>
 <dd><p>Return some elements of this term with coefficient monoid.</p>
 <p>See <a class="reference external" href="../../../../misc/sage/misc/sage_unittest.html#sage.misc.sage_unittest.TestSuite" title="(in Utilities v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TestSuite</span></code></a> for a typical use case.</p>
 <p>OUTPUT: an iterator</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--83-input--1" name="tab-set--83" type="radio"><label class="tab-label" for="tab-set--83-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">islice</span>
@@ -3418,6 +4635,22 @@ coefficients of the elements</p></li>
 <span class="go">(z^(1/2), z^(-1/2), -z^(1/2), z^2, -z^(-1/2), 2*z^(1/2),</span>
 <span class="go"> z^(-2), -z^2, 2*z^(-1/2), -2*z^(1/2))</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--83-input--3" name="tab-set--83" type="radio"><label class="tab-label" for="tab-set--83-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from itertools import islice
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+from sage.rings.asymptotic.growth_group import GrowthGroup
+G = GrowthGroup('z^QQ')
+T = TermMonoid('exact', G, ZZ)
+tuple(islice(T.some_elements(), int(10)))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3451,7 +4684,7 @@ detailed explanation of absorption.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">right</span></code> – an asymptotic term</p></li>
 </ul>
 <p>OUTPUT: an asymptotic term or <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--84-input--1" name="tab-set--84" type="radio"><label class="tab-label" for="tab-set--84-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -3478,8 +4711,24 @@ detailed explanation of absorption.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--84-input--3" name="tab-set--84" type="radio"><label class="tab-label" for="tab-set--84-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+from sage.rings.asymptotic.term_monoid import absorption
+T = TermMonoid('O', GrowthGroup('x^ZZ'), ZZ)
+absorption(T(x^2), T(x^3))
+absorption(T(x^3), T(x^2))</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--85-input--1" name="tab-set--85" type="radio"><label class="tab-label" for="tab-set--85-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">T</span> <span class="o">=</span> <span class="n">TermMonoid</span><span class="p">(</span><span class="s1">&#39;exact&#39;</span><span class="p">,</span> <span class="n">GrowthGroup</span><span class="p">(</span><span class="s1">&#39;x^ZZ&#39;</span><span class="p">),</span> <span class="n">ZZ</span><span class="p">)</span>
@@ -3498,6 +4747,18 @@ detailed explanation of absorption.</p>
 <span class="gp">...</span>
 <span class="go">ArithmeticError: Absorption between x^2 and x^3 is not possible.</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--85-input--3" name="tab-set--85" type="radio"><label class="tab-label" for="tab-set--85-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T = TermMonoid('exact', GrowthGroup('x^ZZ'), ZZ)
+absorption(T(x^2), T(x^3))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3521,7 +4782,7 @@ other.</p>
 <p>See the <a class="reference internal" href="#term-absorption"><span class="std std-ref">module description</span></a> for a
 detailed explanation of absorption.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--86-input--1" name="tab-set--86" type="radio"><label class="tab-label" for="tab-set--86-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.asymptotic.growth_group</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthGroup</span>
@@ -3548,11 +4809,31 @@ detailed explanation of absorption.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--86-input--3" name="tab-set--86" type="radio"><label class="tab-label" for="tab-set--86-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.asymptotic.growth_group import GrowthGroup
+from sage.rings.asymptotic.term_monoid import DefaultTermMonoidFactory as TermMonoid
+from sage.rings.asymptotic.term_monoid import can_absorb
+T = TermMonoid('O', GrowthGroup('x^ZZ'), ZZ)
+can_absorb(T(x^2), T(x^3))
+can_absorb(T(x^3), T(x^2))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -3707,7 +4988,7 @@ detailed explanation of absorption.</p>
     <script src="../../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../../%5fstatic/copybutton.js"></script>
     <script src="../../../../%5fstatic/tabs.js"></script>
-    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

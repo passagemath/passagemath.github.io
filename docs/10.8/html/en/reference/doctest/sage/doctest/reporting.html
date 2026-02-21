@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -307,7 +307,7 @@
 <span class="sig-name descname"><span class="pre">finalize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/reporting.py#L669"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.reporting.DocTestReporter.finalize" title="Link to this definition">¶</a></dt>
 <dd><p>Print out the postscript that summarizes the doctests that were run.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">First we have to set up a bunch of stuff:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">First we have to set up a bunch of stuff:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.reporting</span><span class="w"> </span><span class="kn">import</span> <span class="n">DocTestReporter</span>
@@ -342,8 +342,30 @@
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.reporting import DocTestReporter
+from sage.doctest.control import DocTestController, DocTestDefaults
+from sage.doctest.sources import FileDocTestSource, DictAsObject
+from sage.doctest.forker import SageDocTestRunner
+from sage.doctest.parsing import SageOutputChecker
+from sage.doctest.util import Timer
+import doctest
+filename = sage.doctest.reporting.__file__
+DD = DocTestDefaults()
+FDS = FileDocTestSource(filename, DD)
+DC = DocTestController(DD, [filename])
+DTR = DocTestReporter(DC)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Now we pretend to run some doctests:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Now we pretend to run some doctests:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">DTR</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="n">FDS</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Output so far...&quot;</span><span class="p">,</span> <span class="n">pid</span><span class="o">=</span><span class="mi">1234</span><span class="p">)</span>
@@ -416,8 +438,35 @@
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DTR.report(FDS, True, 0, None, &quot;Output so far...&quot;, pid=1234)
+DTR.report(FDS, False, 3, None, &quot;Output before bad exit&quot;)
+doctests, extras = FDS.create_doctests(globals())
+runner = SageDocTestRunner(
+    SageOutputChecker(), verbose=False, sage_options=DD,
+    optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS)
+t = Timer().start().stop()
+t.annotate(runner)
+DC.timer = t
+D = DictAsObject({'err':None})
+runner.update_results(D)
+DTR.report(FDS, False, 0, (sum([len(t.examples) for t in doctests]), D),
+           &quot;Good tests&quot;)
+runner.failures = 1
+runner.update_results(D)
+DTR.report(FDS, False, 0, (sum([len(t.examples) for t in doctests]), D),
+           &quot;Doctest output including the failure...&quot;)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Now we can show the output of finalize:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Now we can show the output of finalize:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">DC</span><span class="o">.</span><span class="n">sources</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span> <span class="c1"># to fool the finalize method</span>
@@ -448,8 +497,20 @@
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DC.sources = [None] * 4 # to fool the finalize method
+DTR.finalize()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If we interrupted doctests, then the number of files tested
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If we interrupted doctests, then the number of files tested
 will not match the number of sources on the controller:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
@@ -485,6 +546,18 @@ will not match the number of sources on the controller:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DC.sources = [None] * 6
+DTR.finalize()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -511,7 +584,7 @@ storing timing data</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">output</span></code> – string; printed if there was some kind of failure</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">pid</span></code> – integer (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>); the pid of the worker process</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.reporting</span><span class="w"> </span><span class="kn">import</span> <span class="n">DocTestReporter</span>
@@ -546,8 +619,30 @@ storing timing data</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.reporting import DocTestReporter
+from sage.doctest.control import DocTestController, DocTestDefaults
+from sage.doctest.sources import FileDocTestSource, DictAsObject
+from sage.doctest.forker import SageDocTestRunner
+from sage.doctest.parsing import SageOutputChecker
+from sage.doctest.util import Timer
+import doctest
+filename = sage.doctest.reporting.__file__
+DD = DocTestDefaults()
+FDS = FileDocTestSource(filename, DD)
+DC = DocTestController(DD, [filename])
+DTR = DocTestReporter(DC)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">You can report a timeout:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">You can report a timeout:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">DTR</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="n">FDS</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Output so far...&quot;</span><span class="p">,</span> <span class="n">pid</span><span class="o">=</span><span class="mi">1234</span><span class="p">)</span>
@@ -578,8 +673,20 @@ storing timing data</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DTR.report(FDS, True, 0, None, &quot;Output so far...&quot;, pid=1234)
+DTR.stats</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Or a process that returned a bad exit code:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Or a process that returned a bad exit code:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">DTR</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="n">FDS</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Output before trouble&quot;</span><span class="p">)</span>
@@ -610,8 +717,20 @@ storing timing data</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DTR.report(FDS, False, 3, None, &quot;Output before trouble&quot;)
+DTR.stats</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Or a process that segfaulted:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Or a process that segfaulted:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">signal</span><span class="w"> </span><span class="kn">import</span> <span class="n">SIGSEGV</span>
@@ -644,8 +763,21 @@ storing timing data</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from signal import SIGSEGV
+DTR.report(FDS, False, -SIGSEGV, None, &quot;Output before trouble&quot;)
+DTR.stats</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Report a timeout with results and a <code class="docutils literal notranslate"><span class="pre">SIGKILL</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Report a timeout with results and a <code class="docutils literal notranslate"><span class="pre">SIGKILL</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">signal</span><span class="w"> </span><span class="kn">import</span> <span class="n">SIGKILL</span>
@@ -678,8 +810,21 @@ storing timing data</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from signal import SIGKILL
+DTR.report(FDS, True, -SIGKILL, (1,None), &quot;Output before trouble&quot;)
+DTR.stats</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This is an internal error since results is None:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This is an internal error since results is None:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">DTR</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="n">FDS</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;All output&quot;</span><span class="p">)</span>
@@ -710,8 +855,20 @@ storing timing data</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DTR.report(FDS, False, 0, None, &quot;All output&quot;)
+DTR.stats</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Or tell the user that everything succeeded:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Or tell the user that everything succeeded:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">doctests</span><span class="p">,</span> <span class="n">extras</span> <span class="o">=</span> <span class="n">FDS</span><span class="o">.</span><span class="n">create_doctests</span><span class="p">(</span><span class="nb">globals</span><span class="p">())</span>
@@ -748,8 +905,28 @@ storing timing data</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">doctests, extras = FDS.create_doctests(globals())
+runner = SageDocTestRunner(
+    SageOutputChecker(), verbose=False, sage_options=DD,
+    optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS)
+Timer().start().stop().annotate(runner)
+D = DictAsObject({'err':None})
+runner.update_results(D)
+DTR.report(FDS, False, 0, (sum([len(t.examples) for t in doctests]), D),
+           &quot;Good tests&quot;)
+DTR.stats</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Or inform the user that some doctests failed:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Or inform the user that some doctests failed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">runner</span><span class="o">.</span><span class="n">failures</span> <span class="o">=</span> <span class="mi">1</span>
@@ -772,8 +949,22 @@ storing timing data</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">runner.failures = 1
+runner.update_results(D)
+DTR.report(FDS, False, 0, (sum([len(t.examples) for t in doctests]), D),
+           &quot;Doctest output including the failure...&quot;)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If the user has requested that we report on skipped doctests,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If the user has requested that we report on skipped doctests,
 we do so:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
@@ -815,8 +1006,26 @@ we do so:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DC.options = DocTestDefaults(show_skipped=True)
+from collections import defaultdict
+optionals = defaultdict(int)
+optionals['magma'] = 5; optionals['long time'] = 4; optionals[''] = 1; optionals['not tested'] = 2
+D = DictAsObject(dict(err=None, optionals=optionals))
+runner.failures = 0
+runner.update_results(D)
+DTR.report(FDS, False, 0, (sum([len(t.examples) for t in doctests]), D), &quot;Good tests&quot;)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Test an internal error in the reporter:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Test an internal error in the reporter:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">DTR</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -835,8 +1044,19 @@ we do so:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DTR.report(None, None, None, None, None)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The only-errors mode does not output anything on success:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The only-errors mode does not output anything on success:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">DD</span> <span class="o">=</span> <span class="n">DocTestDefaults</span><span class="p">(</span><span class="n">only_errors</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -875,8 +1095,31 @@ we do so:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DD = DocTestDefaults(only_errors=True)
+FDS = FileDocTestSource(filename, DD)
+DC = DocTestController(DD, [filename])
+DTR = DocTestReporter(DC)
+doctests, extras = FDS.create_doctests(globals())
+runner = SageDocTestRunner(
+    SageOutputChecker(), verbose=False, sage_options=DD,
+    optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS)
+Timer().start().stop().annotate(runner)
+D = DictAsObject({'err':None})
+runner.update_results(D)
+DTR.report(FDS, False, 0, (sum([len(t.examples) for t in doctests]), D),
+           &quot;Good tests&quot;)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">However, failures are still output in the errors-only mode:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">However, failures are still output in the errors-only mode:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">runner</span><span class="o">.</span><span class="n">failures</span> <span class="o">=</span> <span class="mi">1</span>
@@ -899,6 +1142,20 @@ we do so:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">runner.failures = 1
+runner.update_results(D)
+DTR.report(FDS, False, 0, (sum([len(t.examples) for t in doctests]), D),
+           &quot;Failed test&quot;)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -911,7 +1168,7 @@ we do so:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">source</span></code> – a source from <a class="reference internal" href="sources.html#module-sage.doctest.sources" title="sage.doctest.sources"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sage.doctest.sources</span></code></a></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">fail_msg</span></code> – <code class="docutils literal notranslate"><span class="pre">None</span></code> or a string</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.reporting</span><span class="w"> </span><span class="kn">import</span> <span class="n">DocTestReporter</span>
@@ -944,8 +1201,28 @@ we do so:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.reporting import DocTestReporter
+from sage.doctest.control import DocTestController, DocTestDefaults
+from sage.doctest.sources import FileDocTestSource
+from sage.doctest.forker import SageDocTestRunner
+filename = sage.doctest.reporting.__file__
+DD = DocTestDefaults()
+FDS = FileDocTestSource(filename, DD)
+DC = DocTestController(DD, [filename])
+DTR = DocTestReporter(DC)
+print(DTR.report_head(FDS))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The same with various options:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The same with various options:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">DD</span><span class="o">.</span><span class="n">long</span> <span class="o">=</span> <span class="kc">True</span>
@@ -966,6 +1243,19 @@ we do so:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DD.long = True
+print(DTR.report_head(FDS))
+print(DTR.report_head(FDS, &quot;Failed by self-sabotage&quot;))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -977,7 +1267,7 @@ we do so:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">tag</span></code> – string</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.reporting</span><span class="w"> </span><span class="kn">import</span> <span class="n">DocTestReporter</span>
@@ -998,8 +1288,23 @@ we do so:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.reporting import DocTestReporter
+from sage.doctest.control import DocTestController, DocTestDefaults
+filename = sage.doctest.reporting.__file__
+DC = DocTestController(DocTestDefaults(), [filename])
+DTR = DocTestReporter(DC)</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">DTR</span><span class="o">.</span><span class="n">were_doctests_with_optional_tag_run</span><span class="p">(</span><span class="s1">&#39;sage&#39;</span><span class="p">)</span>
@@ -1018,8 +1323,20 @@ we do so:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DTR.were_doctests_with_optional_tag_run('sage')
+DTR.were_doctests_with_optional_tag_run('nice_unavailable_package')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">When latex is available, doctests marked with optional tag
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">When latex is available, doctests marked with optional tag
 <code class="docutils literal notranslate"><span class="pre">latex</span></code> are run by default since <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/32174">upstream Issue #32174</a>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
@@ -1043,6 +1360,21 @@ we do so:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs SAGE_SRC
+filename = os.path.join(SAGE_SRC, 'sage', 'misc', 'latex.py')
+DC = DocTestController(DocTestDefaults(), [filename])
+DTR = DocTestReporter(DC)
+DTR.were_doctests_with_optional_tag_run('latex')   # optional - latex</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1052,7 +1384,7 @@ we do so:</p>
 <dt class="sig sig-object py" id="sage.doctest.reporting.signal_name">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.reporting.</span></span><span class="sig-name descname"><span class="pre">signal_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sig</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/reporting.py#L62"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.reporting.signal_name" title="Link to this definition">¶</a></dt>
 <dd><p>Return a string describing a signal number.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">signal</span><span class="w"> </span><span class="kn">import</span> <span class="n">SIGSEGV</span>
@@ -1079,11 +1411,30 @@ we do so:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from signal import SIGSEGV
+from sage.doctest.reporting import signal_name
+signal_name(SIGSEGV)
+signal_name(9)
+signal_name(12345)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -1166,7 +1517,7 @@ we do so:</p>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>

@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -415,7 +415,7 @@
 <p>By <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/11115">upstream Issue #11115</a>, cached functions and methods are now also
 available in Cython code. The following examples cover various ways
 of usage.</p>
-<p class="with-sage-tab with-python-tab">Python functions:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Python functions:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nd">@cached_function</span>
@@ -442,6 +442,23 @@ of usage.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">&#64;cached_function
+def test_pfunc(x):
+    '''
+    Some documentation
+    '''
+    return -x
+test_pfunc(5) is test_pfunc(5)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>In some cases, one would only want to keep the result in cache as long
 as there is any other reference to the result. By <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/12215">upstream Issue #12215</a>, this is
@@ -451,7 +468,7 @@ as a finite field, is only temporarily used, then it will not stay in
 cache forever. That behaviour is implemented using <code class="docutils literal notranslate"><span class="pre">weak_cached_function</span></code>,
 that behaves the same as <code class="docutils literal notranslate"><span class="pre">cached_function</span></code>, except that it uses a
 <a class="reference internal" href="weak_dict.html#sage.misc.weak_dict.CachedWeakValueDictionary" title="sage.misc.weak_dict.CachedWeakValueDictionary"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedWeakValueDictionary</span></code></a> for storing the results.</p>
-<p class="with-sage-tab with-python-tab">Cython cdef functions do not allow arbitrary decorators.
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Cython cdef functions do not allow arbitrary decorators.
 However, one can wrap a Cython function and turn it into
 a cached function, by <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/11115">upstream Issue #11115</a>. We need to provide
 the name that the wrapped method or function should have,
@@ -489,8 +506,25 @@ be used:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.misc.cython
+cython('''cpdef test_funct(x): return -x''')
+wrapped_funct = cached_function(test_funct, name='wrapped_funct')
+wrapped_funct
+wrapped_funct.__name__
+wrapped_funct(5)
+wrapped_funct(5) is wrapped_funct(5)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can proceed similarly for cached methods of Cython classes,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can proceed similarly for cached methods of Cython classes,
 provided that they allow attribute assignment or have a public
 attribute <code class="docutils literal notranslate"><span class="pre">_cached_methods</span></code> of type <code class="docutils literal notranslate"><span class="pre">&lt;dict&gt;</span></code>. Since
 <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/11115">upstream Issue #11115</a>, this is the case for all classes inheriting from
@@ -564,8 +598,39 @@ approach is still needed for cpdef methods:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.misc.cython
+cython_code = ['cpdef test_meth(self, x):',
+'    &quot;some doc for a wrapped cython method&quot;',
+'    return -x',
+'from sage.misc.cachefunc import cached_method',
+'from sage.structure.parent cimport Parent',
+'cdef class MyClass(Parent):',
+'    &#64;cached_method',
+'    def direct_method(self, x):',
+'        &quot;Some doc for direct method&quot;',
+'        return 2*x',
+'    wrapped_method = cached_method(test_meth,name=&quot;wrapped_method&quot;)']
+cython(os.linesep.join(cython_code))
+O = MyClass()
+O.direct_method
+O.wrapped_method
+O.wrapped_method.__name__
+O.wrapped_method(5)
+O.wrapped_method(5) is O.wrapped_method(5)
+O.direct_method(5)
+O.direct_method(5) is O.direct_method(5)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">By <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/11115">upstream Issue #11115</a>, even if a parent does not allow attribute
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">By <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/11115">upstream Issue #11115</a>, even if a parent does not allow attribute
 assignment, it can inherit a cached method from the parent class of a
 category (previously, the cache would have been broken):</p>
 <div class="tab-set docutils container">
@@ -626,6 +691,40 @@ category (previously, the cache would have been broken):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">cython_code = [&quot;from sage.misc.cachefunc import cached_method&quot;,
+&quot;from sage.misc.cachefunc import cached_in_parent_method&quot;,
+&quot;from sage.categories.category import Category&quot;,
+&quot;from sage.categories.objects import Objects&quot;,
+&quot;class MyCategory(Category):&quot;,
+&quot;    &#64;cached_method&quot;,
+&quot;    def super_categories(self):&quot;,
+&quot;        return [Objects()]&quot;,
+&quot;    class ElementMethods:&quot;,
+&quot;        &#64;cached_method&quot;,
+&quot;        def element_cache_test(self):&quot;,
+&quot;            return -self&quot;,
+&quot;        &#64;cached_in_parent_method&quot;,
+&quot;        def element_via_parent_test(self):&quot;,
+&quot;            return -self&quot;,
+&quot;    class ParentMethods:&quot;,
+&quot;        &#64;cached_method&quot;,
+&quot;        def one(self):&quot;,
+&quot;            return self.element_class(self,1)&quot;,
+&quot;        &#64;cached_method&quot;,
+&quot;        def invert(self, x):&quot;,
+&quot;            return -x&quot;]
+cython('\n'.join(cython_code))                                                # needs sage.misc.cython
+C = MyCategory()                                                              # needs sage.misc.cython</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>In order to keep the memory footprint of elements small, it was
 decided to not support the same freedom of using cached methods
@@ -633,7 +732,7 @@ for elements: If an instance of a class derived from
 <a class="reference external" href="../../../structure/sage/structure/element.html#sage.structure.element.Element" title="(in Parents and Elements v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Element</span></code></a> does not allow attribute
 assignment, then a cached method inherited from the category of
 its parent will break, as in the class <code class="docutils literal notranslate"><span class="pre">MyBrokenElement</span></code> below.</p>
-<p class="with-sage-tab with-python-tab">However, there is a class <a class="reference external" href="../../../structure/sage/structure/element.html#sage.structure.element.ElementWithCachedMethod" title="(in Parents and Elements v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ElementWithCachedMethod</span></code></a>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">However, there is a class <a class="reference external" href="../../../structure/sage/structure/element.html#sage.structure.element.ElementWithCachedMethod" title="(in Parents and Elements v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ElementWithCachedMethod</span></code></a>
 that has generally a slower attribute access, but fully supports
 cached methods. We remark, however, that cached methods are
 <em>much</em> faster if attribute access works. So, we expect that
@@ -727,8 +826,57 @@ hardly be used.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.misc.cython
+cython_code = [&quot;from sage.structure.element cimport Element, ElementWithCachedMethod&quot;, &quot;from cpython.object cimport PyObject_RichCompare&quot;,
+&quot;cdef class MyBrokenElement(Element):&quot;,
+&quot;    cdef public object x&quot;,
+&quot;    def __init__(self, P, x):&quot;,
+&quot;        self.x=x&quot;,
+&quot;        Element.__init__(self,P)&quot;,
+&quot;    def __neg__(self):&quot;,
+&quot;        return MyBrokenElement(self.parent(),-self.x)&quot;,
+&quot;    def _repr_(self):&quot;,
+&quot;        return '&lt;%s&gt;'%self.x&quot;,
+&quot;    def __hash__(self):&quot;,
+&quot;        return hash(self.x)&quot;,
+&quot;    cpdef _richcmp_(left, right, int op):&quot;,
+&quot;        return PyObject_RichCompare(left.x, right.x, op)&quot;,
+&quot;    def raw_test(self):&quot;,
+&quot;        return -self&quot;,
+&quot;cdef class MyElement(ElementWithCachedMethod):&quot;,
+&quot;    cdef public object x&quot;,
+&quot;    def __init__(self, P, x):&quot;,
+&quot;        self.x=x&quot;,
+&quot;        ElementWithCachedMethod.__init__(self,P)&quot;,
+&quot;    def __neg__(self):&quot;,
+&quot;        return MyElement(self.parent(),-self.x)&quot;,
+&quot;    def _repr_(self):&quot;,
+&quot;        return '&lt;%s&gt;'%self.x&quot;,
+&quot;    def __hash__(self):&quot;,
+&quot;        return hash(self.x)&quot;,
+&quot;    cpdef _richcmp_(left, right, int op):&quot;,
+&quot;        return PyObject_RichCompare(left.x, right.x, op)&quot;,
+&quot;    def raw_test(self):&quot;,
+&quot;        return -self&quot;,
+&quot;from sage.structure.parent cimport Parent&quot;,
+&quot;cdef class MyParent(Parent):&quot;,
+&quot;    Element = MyElement&quot;]
+cython('\n'.join(cython_code))
+P = MyParent(category=C)
+ebroken = MyBrokenElement(P, 5)
+e = MyElement(P, 5)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The cached methods inherited by the parent works:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The cached methods inherited by the parent works:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.misc.cython</span>
@@ -757,8 +905,23 @@ hardly be used.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.misc.cython
+P.one()
+P.one() is P.one()
+P.invert(e)
+P.invert(e) is P.invert(e)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The cached methods inherited by <code class="docutils literal notranslate"><span class="pre">MyElement</span></code> works:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The cached methods inherited by <code class="docutils literal notranslate"><span class="pre">MyElement</span></code> works:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.misc.cython</span>
@@ -787,8 +950,23 @@ hardly be used.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.misc.cython
+e.element_cache_test()
+e.element_cache_test() is e.element_cache_test()
+e.element_via_parent_test()
+e.element_via_parent_test() is e.element_via_parent_test()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The other element class can only inherit a <code class="docutils literal notranslate"><span class="pre">cached_in_parent_method</span></code>, since
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The other element class can only inherit a <code class="docutils literal notranslate"><span class="pre">cached_in_parent_method</span></code>, since
 the cache is stored in the parent. In fact, equal elements share the cache,
 even if they are of different types:</p>
 <div class="tab-set docutils container">
@@ -813,8 +991,21 @@ even if they are of different types:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">e == ebroken                                                                  # needs sage.misc.cython
+type(e) == type(ebroken)                                                      # needs sage.misc.cython
+ebroken.element_via_parent_test() is e.element_via_parent_test()              # needs sage.misc.cython</pre>
 </div>
-<p class="with-sage-tab with-python-tab">However, the cache of the other inherited method breaks, although the method
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">However, the cache of the other inherited method breaks, although the method
 as such works:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
@@ -834,8 +1025,20 @@ as such works:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ebroken.element_cache_test()                                                  # needs sage.misc.cython
+ebroken.element_cache_test() is ebroken.element_cache_test()                  # needs sage.misc.cython</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The cache can be emptied:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The cache can be emptied:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.misc.cython</span>
@@ -864,8 +1067,25 @@ as such works:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.misc.cython
+a = test_pfunc(5)
+test_pfunc.clear_cache()
+a is test_pfunc(5)
+a = P.one()
+P.one.clear_cache()
+a is P.one()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Since <code class="docutils literal notranslate"><span class="pre">e</span></code> and <code class="docutils literal notranslate"><span class="pre">ebroken</span></code> share the cache, when we empty it for one element
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Since <code class="docutils literal notranslate"><span class="pre">e</span></code> and <code class="docutils literal notranslate"><span class="pre">ebroken</span></code> share the cache, when we empty it for one element
 it is empty for the other as well:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
@@ -885,8 +1105,21 @@ it is empty for the other as well:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">b = ebroken.element_via_parent_test()                                         # needs sage.misc.cython
+e.element_via_parent_test.clear_cache()                                       # needs sage.misc.cython
+b is ebroken.element_via_parent_test()                                        # needs sage.misc.cython</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Introspection works:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Introspection works:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.misc.cython</span>
@@ -937,8 +1170,26 @@ it is empty for the other as well:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.misc.cython
+from sage.misc.edit_module import file_and_line
+from sage.misc.sageinspect import sage_getdoc, sage_getfile, sage_getsource
+print(sage_getdoc(test_pfunc))
+print(sage_getdoc(O.wrapped_method))
+print(sage_getdoc(O.direct_method))
+print(sage_getsource(O.wrapped_method))
+print(sage_getsource(O.direct_method))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">It is a very common special case to cache a method that has no
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">It is a very common special case to cache a method that has no
 arguments. In that special case, the time needed to access the cache
 can be drastically reduced by using a special implementation. The
 cached method decorator automatically determines which implementation
@@ -985,8 +1236,26 @@ ought to be chosen. A typical example is
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.&lt;a,b,c,d&gt; = QQ[]
+I = P * [a, b]
+I.gens()
+I.gens() is I.gens()
+I.groebner_basis()                                                            # needs sage.libs.singular
+I.groebner_basis() is I.groebner_basis()                                      # needs sage.libs.singular
+type(I.gens)
+type(I.groebner_basis)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">By <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/12951">upstream Issue #12951</a>, the cached_method decorator is also supported on non-c(p)def
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">By <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/12951">upstream Issue #12951</a>, the cached_method decorator is also supported on non-c(p)def
 methods of extension classes, as long as they either support attribute assignment
 or have a public attribute of type <code class="docutils literal notranslate"><span class="pre">&lt;dict&gt;</span></code> called <code class="docutils literal notranslate"><span class="pre">_cached_methods</span></code>. The
 latter is easy:</p>
@@ -1028,8 +1297,30 @@ latter is easy:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.misc.cython
+cython_code = [
+&quot;from sage.misc.cachefunc import cached_method&quot;,
+&quot;cdef class MyClass:&quot;,
+&quot;    cdef public dict _cached_methods&quot;,
+&quot;    &#64;cached_method&quot;,
+&quot;    def f(self, a, b):&quot;,
+&quot;        return a*b&quot;]
+cython(os.linesep.join(cython_code))
+P = MyClass()
+P.f(2, 3)
+P.f(2, 3) is P.f(2, 3)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Providing attribute access is a bit more tricky, since it is needed that
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Providing attribute access is a bit more tricky, since it is needed that
 an attribute inherited by the instance from its class can be overridden
 on the instance. That is why providing a <code class="docutils literal notranslate"><span class="pre">__getattr__</span></code> would not be
 enough in the following example:</p>
@@ -1091,8 +1382,40 @@ enough in the following example:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.misc.cython
+cython_code = [
+&quot;from sage.misc.cachefunc import cached_method&quot;,
+&quot;cdef class MyOtherClass:&quot;,
+&quot;    cdef dict D&quot;,
+&quot;    def __init__(self):&quot;,
+&quot;        self.D = {}&quot;,
+&quot;    def __setattr__(self, n, v):&quot;,
+&quot;        self.D[n] = v&quot;,
+&quot;    def __getattribute__(self, n):&quot;,
+&quot;        try:&quot;,
+&quot;            return self.D[n]&quot;,
+&quot;        except KeyError:&quot;,
+&quot;            pass&quot;,
+&quot;        return getattr(type(self),n).__get__(self)&quot;,
+&quot;    &#64;cached_method&quot;,
+&quot;    def f(self, a, b):&quot;,
+&quot;        return a+b&quot;]
+cython(os.linesep.join(cython_code))
+Q = MyOtherClass()
+Q.f(2, 3)
+Q.f(2, 3) is Q.f(2, 3)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Note that supporting attribute access is somehow faster than the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that supporting attribute access is somehow faster than the
 easier method:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
@@ -1112,8 +1435,20 @@ easier method:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">timeit(&quot;a = P.f(2,3)&quot;)   # random                                             # needs sage.misc.cython
+timeit(&quot;a = Q.f(2,3)&quot;)   # random                                             # needs sage.misc.cython</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Some immutable objects (such as <span class="math notranslate nohighlight">\(p\)</span>-adic numbers) cannot implement a
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Some immutable objects (such as <span class="math notranslate nohighlight">\(p\)</span>-adic numbers) cannot implement a
 reasonable hash function because their <code class="docutils literal notranslate"><span class="pre">==</span></code> operator has been
 modified to return <code class="docutils literal notranslate"><span class="pre">True</span></code> for objects which might behave differently
 in some computations:</p>
@@ -1155,8 +1490,27 @@ in some computations:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.padics
+K.&lt;a&gt; = Qq(9)
+b = a.add_bigoh(1)
+c = a + 3
+b
+c
+b == c
+b == a
+c == a</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If such objects defined a non-trivial hash function, this would break
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If such objects defined a non-trivial hash function, this would break
 caching in many places. However, such objects should still be usable
 in caches. This can be achieved by defining an appropriate method
 <code class="docutils literal notranslate"><span class="pre">_cache_key</span></code>:</p>
@@ -1202,13 +1556,32 @@ in caches. This can be achieved by defining an appropriate method
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.padics
+hash(b)
+from sage.misc.cachefunc import cached_method
+&#64;cached_method
+def f(x): return x == a
+f(b)
+f(c)  # if b and c were hashable, this would return True
+b._cache_key()
+c._cache_key()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This attribute will only be accessed if the object itself
 is not hashable.</p>
 </div>
-<p class="with-sage-tab with-python-tab">An implementation must make sure that for elements <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>,
+<p class="with-sage-tab with-python-tab with-sage-live-tab">An implementation must make sure that for elements <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>,
 if <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">!=</span> <span class="pre">b</span></code>, then also <code class="docutils literal notranslate"><span class="pre">a._cache_key()</span> <span class="pre">!=</span> <span class="pre">b._cache_key()</span></code>.
 In practice this means that the <code class="docutils literal notranslate"><span class="pre">_cache_key</span></code> should always include
 the parent as its first argument:</p>
@@ -1230,8 +1603,21 @@ the parent as its first argument:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">S.&lt;a&gt; = Qq(4)                                                                 # needs sage.rings.padics
+d = a.add_bigoh(1)                                                            # needs sage.rings.padics
+b._cache_key() == d._cache_key()  # this would be True if the parents were not included</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Note that shallow copy of mutable objects may behave unexpectedly:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that shallow copy of mutable objects may behave unexpectedly:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">Foo</span><span class="p">:</span>
@@ -1284,6 +1670,32 @@ the parent as its first argument:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class Foo:
+    &#64;cached_method
+    def f(self):
+        return self.x
+from copy import copy, deepcopy
+a = Foo()
+a.x = 1
+a.f()
+b = copy(a)
+b.x = 2
+b.f()  # incorrect!
+b.f is a.f  # this is the problem
+b = deepcopy(a)
+b.x = 2
+b.f()  # correct
+b.f is a.f</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>AUTHORS:</p>
 <ul class="simple">
@@ -1332,7 +1744,7 @@ or put <code class="docutils literal notranslate"><span class="pre">&#64;cached_
 </div>
 <p>The inputs to the function must be hashable or they must define
 <a class="reference external" href="../../../structure/sage/structure/sage_object.html#sage.structure.sage_object.SageObject._cache_key" title="(in Parents and Elements v10.8.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sage.structure.sage_object.SageObject._cache_key()</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nd">@cached_function</span>
@@ -1353,8 +1765,22 @@ or put <code class="docutils literal notranslate"><span class="pre">&#64;cached_
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">&#64;cached_function
+def mul(x, y=2):
+    return x*y
+mul(3)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We demonstrate that the result is cached, and that, moreover,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We demonstrate that the result is cached, and that, moreover,
 the cache takes into account the various ways of providing
 default arguments:</p>
 <div class="tab-set docutils container">
@@ -1375,8 +1801,20 @@ default arguments:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">mul(3) is mul(3,2)
+mul(3,y=2) is mul(3,2)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The user can clear the cache:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The user can clear the cache:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">mul</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
@@ -1395,8 +1833,21 @@ default arguments:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = mul(4)
+mul.clear_cache()
+a is mul(4)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">It is also possible to explicitly override the cache with
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">It is also possible to explicitly override the cache with
 a different value:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
@@ -1414,8 +1865,20 @@ a different value:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">mul.set_cache('foo',5)
+mul(5,2)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The parameter <code class="docutils literal notranslate"><span class="pre">key</span></code> can be used to ignore parameters for
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The parameter <code class="docutils literal notranslate"><span class="pre">key</span></code> can be used to ignore parameters for
 caching. In this example we ignore the parameter <code class="docutils literal notranslate"><span class="pre">algorithm</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
@@ -1437,6 +1900,20 @@ caching. In this example we ignore the parameter <code class="docutils literal n
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">&#64;cached_function(key=lambda x,y,algorithm: (x,y))
+def mul(x, y, algorithm='default'):
+    return x*y
+mul(1,1,algorithm='default') is mul(1,1,algorithm='algorithm') is mul(1,1) is mul(1,1,'default')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sage.misc.cachefunc.CachedFunction.cache">
@@ -1448,7 +1925,7 @@ caching. In this example we ignore the parameter <code class="docutils literal n
 <span class="sig-name descname"><span class="pre">cached</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/cachefunc.pyx#L1050"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.cachefunc.CachedFunction.cached" title="Link to this definition">¶</a></dt>
 <dd><p>Return the result from the cache if available. If the value is
 not cached, raise <a class="reference external" href="https://docs.python.org/library/exceptions.html#KeyError" title="(in Python v3.12)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nd">@cached_function</span>
@@ -1481,6 +1958,22 @@ not cached, raise <a class="reference external" href="https://docs.python.org/li
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">&#64;cached_function
+def f(x):
+    return x
+f.cached(5)
+f(5)
+f.cached(5)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1488,7 +1981,7 @@ not cached, raise <a class="reference external" href="https://docs.python.org/li
 <dt class="sig sig-object py" id="sage.misc.cachefunc.CachedFunction.clear_cache">
 <span class="sig-name descname"><span class="pre">clear_cache</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/cachefunc.pyx#L1243"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.cachefunc.CachedFunction.clear_cache" title="Link to this definition">¶</a></dt>
 <dd><p>Clear the cache dictionary.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.combinat</span>
@@ -1515,6 +2008,22 @@ not cached, raise <a class="reference external" href="https://docs.python.org/li
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.combinat
+g = CachedFunction(number_of_partitions)
+a = g(5)                                                              # needs sage.libs.flint
+g.cache                                                               # needs sage.libs.flint
+g.clear_cache()
+g.cache</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1528,7 +2037,7 @@ not cached, raise <a class="reference external" href="https://docs.python.org/li
 <span class="sig-name descname"><span class="pre">get_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/cachefunc.pyx#L1175"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.cachefunc.CachedFunction.get_key" title="Link to this definition">¶</a></dt>
 <dd><p>Return the key in the cache to be used when <code class="docutils literal notranslate"><span class="pre">args</span></code>
 and <code class="docutils literal notranslate"><span class="pre">kwds</span></code> are passed in as parameters.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nd">@cached_function</span>
@@ -1557,8 +2066,24 @@ and <code class="docutils literal notranslate"><span class="pre">kwds</span></co
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">&#64;cached_function
+def foo(x):
+    return x^2
+foo(2)
+foo.get_key(2)
+foo.get_key(x=3)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Examples for cached methods:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Examples for cached methods:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--28-input--1" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">Foo</span><span class="p">:</span>
@@ -1593,8 +2118,28 @@ and <code class="docutils literal notranslate"><span class="pre">kwds</span></co
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class Foo:
+    def __init__(self, x):
+        self._x = x
+    &#64;cached_method
+    def f(self, y, z=0):
+        return self._x * y + z
+a = Foo(2)
+z = a.f(37)
+k = a.f.get_key(37); k
+a.f.cache[k] is z</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Note that the method does not test whether there are
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that the method does not test whether there are
 too many arguments, or wrong argument names:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
@@ -1610,8 +2155,19 @@ too many arguments, or wrong argument names:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a.f.get_key(1,2,3,x=4,y=5,z=6)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">It does, however, take into account the different
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">It does, however, take into account the different
 ways of providing named arguments, possibly with a
 default value:</p>
 <div class="tab-set docutils container">
@@ -1644,6 +2200,21 @@ default value:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--30-input--3" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a.f.get_key(5)
+a.f.get_key(y=5)
+a.f.get_key(5,0)
+a.f.get_key(5,z=0)
+a.f.get_key(y=5,z=0)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1651,7 +2222,7 @@ default value:</p>
 <dt class="sig sig-object py" id="sage.misc.cachefunc.CachedFunction.is_in_cache">
 <span class="sig-name descname"><span class="pre">is_in_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/cachefunc.pyx#L1077"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.cachefunc.CachedFunction.is_in_cache" title="Link to this definition">¶</a></dt>
 <dd><p>Check if the argument list is in the cache.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--31-input--1" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">Foo</span><span class="p">:</span>
@@ -1688,6 +2259,26 @@ default value:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--31-input--3" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class Foo:
+    def __init__(self, x):
+        self._x = x
+    &#64;cached_method
+    def f(self, z, y=0):
+        return self._x*z+y
+a = Foo(2)
+a.f.is_in_cache(3)
+a.f(3)
+a.f.is_in_cache(3,y=0)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1695,7 +2286,7 @@ default value:</p>
 <dt class="sig sig-object py" id="sage.misc.cachefunc.CachedFunction.is_pickled_with_cache">
 <span class="sig-name descname"><span class="pre">is_pickled_with_cache</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/cachefunc.pyx#L869"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.cachefunc.CachedFunction.is_pickled_with_cache" title="Link to this definition">¶</a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if this cached function is pickled with the cache.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--32-input--1" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nd">@cached_function</span>
@@ -1730,6 +2321,24 @@ default value:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--32-input--3" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">&#64;cached_function
+def f(x):
+    return x
+f.is_pickled_with_cache()
+&#64;cached_function(do_pickle=True)
+def f(x):
+    return x
+f.is_pickled_with_cache()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1746,7 +2355,7 @@ the method shall be precomputed</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">num_processes</span></code> – number of processes used by
 <a class="reference external" href="../../../parallel/sage/parallel/decorate.html#sage.parallel.decorate.parallel" title="(in Parallel Computing v10.8.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">parallel()</span></code></a></p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--33-input--1" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nd">@cached_function</span>
@@ -1771,6 +2380,22 @@ the method shall be precomputed</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--33-input--3" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">&#64;cached_function
+def oddprime_factors(n):
+    l = [p for p,e in factor(n) if p != 2]
+    return len(l)
+oddprime_factors.precompute(range(1,100), 4)
+oddprime_factors.cache[(25,),()]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1780,7 +2405,7 @@ the method shall be precomputed</p></li>
 <dd><p>Set the value for those args and keyword args
 Mind the unintuitive syntax (value first).
 Any idea on how to improve that welcome!</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--34-input--1" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.combinat sage.libs.flint</span>
@@ -1809,6 +2434,23 @@ Any idea on how to improve that welcome!</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">g</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
 <span class="go">17</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--34-input--3" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.combinat sage.libs.flint
+g = CachedFunction(number_of_partitions)
+a = g(5)
+g.cache
+g.set_cache(17, 5)
+g.cache
+g(5)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1855,7 +2497,7 @@ effects). Arguments to the method must be hashable or transformed into
 something hashable using <code class="docutils literal notranslate"><span class="pre">key</span></code> or they must define
 <a class="reference external" href="../../../structure/sage/structure/sage_object.html#sage.structure.sage_object.SageObject._cache_key" title="(in Parents and Elements v10.8.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sage.structure.sage_object.SageObject._cache_key()</span></code></a>.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--35-input--1" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">Foo</span><span class="p">():</span>
@@ -1878,8 +2520,24 @@ something hashable using <code class="docutils literal notranslate"><span class=
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--35-input--3" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class Foo():
+    &#64;cached_method
+    def f(self, t, x=2):
+        print('computing')
+        return t**x
+a = Foo()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The example shows that the actual computation
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The example shows that the actual computation
 takes place only once, and that the result is
 identical for equivalent input:</p>
 <div class="tab-set docutils container">
@@ -1906,8 +2564,21 @@ identical for equivalent input:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--36-input--3" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">res = a.f(3, 2); res
+a.f(t = 3, x = 2) is res
+a.f(3) is res</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Note, however, that accessing the attribute directly will call <code class="xref py py-meth docutils literal notranslate"><span class="pre">__get__()</span></code>,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note, however, that accessing the attribute directly will call <code class="xref py py-meth docutils literal notranslate"><span class="pre">__get__()</span></code>,
 and returns a <a class="reference internal" href="#sage.misc.cachefunc.CachedMethodCaller" title="sage.misc.cachefunc.CachedMethodCaller"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedMethodCaller</span></code></a> or <a class="reference internal" href="#sage.misc.cachefunc.CachedMethodCallerNoArgs" title="sage.misc.cachefunc.CachedMethodCallerNoArgs"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedMethodCallerNoArgs</span></code></a>.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--37-input--1" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--1">Sage</label><div class="tab-content docutils container">
@@ -1931,8 +2602,22 @@ and returns a <a class="reference internal" href="#sage.misc.cachefunc.CachedMet
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--37-input--3" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.&lt;a,b,c,d&gt; = QQ[]
+I = P*[a,b]
+type(I.__class__.gens)
+type(I.__class__.__dict__[&quot;gens&quot;])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The parameter <code class="docutils literal notranslate"><span class="pre">key</span></code> can be used to pass a function which creates a
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The parameter <code class="docutils literal notranslate"><span class="pre">key</span></code> can be used to pass a function which creates a
 custom cache key for inputs. In the following example, this parameter is
 used to ignore the <code class="docutils literal notranslate"><span class="pre">algorithm</span></code> keyword for caching:</p>
 <div class="tab-set docutils container">
@@ -1959,8 +2644,24 @@ used to ignore the <code class="docutils literal notranslate"><span class="pre">
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--38-input--3" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class A():
+    def _f_normalize(self, x, algorithm): return x
+    &#64;cached_method(key=_f_normalize)
+    def f(self, x, algorithm='default'): return x
+a = A()
+a.f(1, algorithm='default') is a.f(1) is a.f(1, algorithm='algorithm')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The parameter <code class="docutils literal notranslate"><span class="pre">do_pickle</span></code> can be used to enable pickling of the cache.
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The parameter <code class="docutils literal notranslate"><span class="pre">do_pickle</span></code> can be used to enable pickling of the cache.
 Usually the cache is not stored when pickling:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--39-input--1" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--1">Sage</label><div class="tab-content docutils container">
@@ -1996,8 +2697,28 @@ Usually the cache is not stored when pickling:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--39-input--3" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class A():
+    &#64;cached_method
+    def f(self, x): return None
+import __main__
+__main__.A = A
+a = A()
+a.f(1)
+len(a.f.cache)
+b = loads(dumps(a))
+len(b.f.cache)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">When <code class="docutils literal notranslate"><span class="pre">do_pickle</span></code> is set, the pickle contains the contents of the cache:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">When <code class="docutils literal notranslate"><span class="pre">do_pickle</span></code> is set, the pickle contains the contents of the cache:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--40-input--1" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">A</span><span class="p">():</span>
@@ -2030,8 +2751,27 @@ Usually the cache is not stored when pickling:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--40-input--3" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class A():
+    &#64;cached_method(do_pickle=True)
+    def f(self, x): return None
+__main__.A = A
+a = A()
+a.f(1)
+len(a.f.cache)
+b = loads(dumps(a))
+len(b.f.cache)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Cached methods cannot be copied like usual methods, see <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/12603">upstream Issue #12603</a>.
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Cached methods cannot be copied like usual methods, see <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/12603">upstream Issue #12603</a>.
 Copying them can lead to very surprising results:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--41-input--1" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--1">Sage</label><div class="tab-content docutils container">
@@ -2075,6 +2815,28 @@ Copying them can lead to very surprising results:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--41-input--3" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class A:
+    &#64;cached_method
+    def f(self):
+        return 1
+class B:
+    g=A.f
+    def f(self):
+        return 2
+b=B()
+b.f()
+b.g()
+b.f()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2090,7 +2852,7 @@ cached method to an instance.</p>
 <a class="reference internal" href="#sage.misc.cachefunc.CachedMethodCallerNoArgs" title="sage.misc.cachefunc.CachedMethodCallerNoArgs"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedMethodCallerNoArgs</span></code></a> for methods that do not take
 arguments.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--42-input--1" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">A</span><span class="p">:</span>
@@ -2123,13 +2885,31 @@ arguments.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--42-input--3" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class A:
+   &#64;cached_method
+   def bar(self, x):
+       return x^2
+a = A()
+a.bar
+type(a.bar)
+a.bar(2) is a.bar(x=2)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.misc.cachefunc.CachedMethodCaller.cached">
 <span class="sig-name descname"><span class="pre">cached</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/cachefunc.pyx#L2000"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.cachefunc.CachedMethodCaller.cached" title="Link to this definition">¶</a></dt>
 <dd><p>Return the result from the cache if available. If the value is
 not cached, raise <a class="reference external" href="https://docs.python.org/library/exceptions.html#KeyError" title="(in Python v3.12)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--43-input--1" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">CachedMethodTest</span><span class="p">():</span>
@@ -2178,6 +2958,26 @@ not cached, raise <a class="reference external" href="https://docs.python.org/li
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--43-input--3" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class CachedMethodTest():
+    &#64;cached_method
+    def f(self, x):
+        return x
+o = CachedMethodTest()
+CachedMethodTest.f.cached(o, 5)
+o.f.cached(5)
+o.f(5)
+CachedMethodTest.f.cached(o, 5)
+o.f.cached(5)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2194,7 +2994,7 @@ the method shall be precomputed</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">num_processes</span></code> – number of processes used by
 <a class="reference external" href="../../../parallel/sage/parallel/decorate.html#sage.parallel.decorate.parallel" title="(in Parallel Computing v10.8.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">parallel()</span></code></a></p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--44-input--1" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">Foo</span><span class="p">():</span>
@@ -2229,6 +3029,25 @@ the method shall be precomputed</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--44-input--3" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class Foo():
+    &#64;cached_method
+    def f(self, i):
+        return i^2
+foo = Foo()
+foo.f(3)
+foo.f(1)
+foo.f.precompute(range(2), 2)
+foo.f.cache == {((0,), ()): 0, ((1,), ()): 1, ((3,), ()): 9}</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2248,7 +3067,7 @@ a method that does not accept arguments and may return <code class="docutils lit
 after a lengthy computation, then <code class="docutils literal notranslate"><span class="pre">&#64;cached_method</span></code> should not
 be used.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--45-input--1" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
@@ -2279,6 +3098,22 @@ be used.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--45-input--3" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.&lt;a,b,c,d&gt; = QQ[]
+I = P*[a,b]
+I.gens
+type(I.gens)
+I.gens is I.gens
+I.gens() is I.gens()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>AUTHOR:</p>
 <ul class="simple">
@@ -2288,7 +3123,7 @@ be used.</p>
 <dt class="sig sig-object py" id="sage.misc.cachefunc.CachedMethodCallerNoArgs.clear_cache">
 <span class="sig-name descname"><span class="pre">clear_cache</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/cachefunc.pyx#L2391"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.cachefunc.CachedMethodCallerNoArgs.clear_cache" title="Link to this definition">¶</a></dt>
 <dd><p>Clear the cache dictionary.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--46-input--1" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
@@ -2313,8 +3148,23 @@ be used.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--46-input--3" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.&lt;a,b,c,d&gt; = QQ[]
+I = P*[a,b]
+I.gens()
+I.gens.set_cache('bar')
+I.gens()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The cache can be emptied and thus the original value will
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The cache can be emptied and thus the original value will
 be reconstructed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--47-input--1" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--1">Sage</label><div class="tab-content docutils container">
@@ -2332,6 +3182,18 @@ be reconstructed:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--47-input--3" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">I.gens.clear_cache()
+I.gens()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2344,7 +3206,7 @@ be reconstructed:</p>
 <p>Recall that a cached method without arguments cannot cache
 the return value <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--48-input--1" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
@@ -2371,6 +3233,21 @@ the return value <code class="docutils literal notranslate"><span class="pre">No
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--48-input--3" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.&lt;x,y&gt; = QQ[]
+I = P*[x,y]
+I.gens.is_in_cache()
+I.gens()
+I.gens.is_in_cache()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2383,7 +3260,7 @@ the return value <code class="docutils literal notranslate"><span class="pre">No
 <p><code class="docutils literal notranslate"><span class="pre">None</span></code> is not suitable for a cached value. It would be
 interpreted as an empty cache, forcing a new computation.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--49-input--1" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
@@ -2408,8 +3285,23 @@ interpreted as an empty cache, forcing a new computation.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--49-input--3" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.&lt;a,b,c,d&gt; = QQ[]
+I = P*[a,b]
+I.gens()
+I.gens.set_cache('bar')
+I.gens()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The cache can be emptied and thus the original value will
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The cache can be emptied and thus the original value will
 be reconstructed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--50-input--1" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--1">Sage</label><div class="tab-content docutils container">
@@ -2427,8 +3319,20 @@ be reconstructed:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--50-input--3" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">I.gens.clear_cache()
+I.gens()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The attempt to assign <code class="docutils literal notranslate"><span class="pre">None</span></code> to the cache fails:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The attempt to assign <code class="docutils literal notranslate"><span class="pre">None</span></code> to the cache fails:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--51-input--1" name="tab-set--51" type="radio"><label class="tab-label" for="tab-set--51-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">I</span><span class="o">.</span><span class="n">gens</span><span class="o">.</span><span class="n">set_cache</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
@@ -2443,6 +3347,18 @@ be reconstructed:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">I</span><span class="o">.</span><span class="n">gens</span><span class="p">()</span>
 <span class="go">[a, b]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--51-input--3" name="tab-set--51" type="radio"><label class="tab-label" for="tab-set--51-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">I.gens.set_cache(None)
+I.gens()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2467,7 +3383,7 @@ that kills itself as soon as any attribute is requested.
 Then, the original cached attribute is reinstated. But the
 cached values are in fact saved (if <code class="docutils literal notranslate"><span class="pre">do_pickle</span></code> is set.)</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--52-input--1" name="tab-set--52" type="radio"><label class="tab-label" for="tab-set--52-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -2494,8 +3410,22 @@ cached values are in fact saved (if <code class="docutils literal notranslate"><
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--52-input--3" name="tab-set--52" type="radio"><label class="tab-label" for="tab-set--52-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x, y, z&gt; = PolynomialRing(QQ, 3)
+I = R * (x^3 + y^3 + z^3, x^4 - y^4)
+I.groebner_basis()                                                        # needs sage.libs.singular
+I.groebner_basis</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We now pickle and unpickle the ideal. The cached method
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We now pickle and unpickle the ideal. The cached method
 <code class="docutils literal notranslate"><span class="pre">groebner_basis</span></code> is replaced by a placeholder:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--53-input--1" name="tab-set--53" type="radio"><label class="tab-label" for="tab-set--53-input--1">Sage</label><div class="tab-content docutils container">
@@ -2513,8 +3443,20 @@ cached values are in fact saved (if <code class="docutils literal notranslate"><
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--53-input--3" name="tab-set--53" type="radio"><label class="tab-label" for="tab-set--53-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">J = loads(dumps(I))
+J.groebner_basis</pre>
 </div>
-<p class="with-sage-tab with-python-tab">But as soon as any other attribute is requested from the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">But as soon as any other attribute is requested from the
 placeholder, it replaces itself by the cached method, and
 the entries of the cache are actually preserved:</p>
 <div class="tab-set docutils container">
@@ -2537,6 +3479,19 @@ the entries of the cache are actually preserved:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">J</span><span class="o">.</span><span class="n">groebner_basis</span><span class="p">()</span> <span class="o">==</span> <span class="n">I</span><span class="o">.</span><span class="n">groebner_basis</span><span class="p">()</span>                                  <span class="c1"># needs sage.libs.singular</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--54-input--3" name="tab-set--54" type="radio"><label class="tab-label" for="tab-set--54-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">J.groebner_basis.is_in_cache()                                            # needs sage.libs.singular
+J.groebner_basis
+J.groebner_basis() == I.groebner_basis()                                  # needs sage.libs.singular</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2566,7 +3521,7 @@ will be created over and over again.</p>
 <p>Here, the <code class="docutils literal notranslate"><span class="pre">__get__</span></code> method will explicitly access the <code class="docutils literal notranslate"><span class="pre">__dict__</span></code>, so that
 <code class="docutils literal notranslate"><span class="pre">hash(c)</span></code> will rely on a single <a class="reference internal" href="#sage.misc.cachefunc.CachedMethodCaller" title="sage.misc.cachefunc.CachedMethodCaller"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedMethodCaller</span></code></a> stored in
 the <code class="docutils literal notranslate"><span class="pre">__dict__</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--55-input--1" name="tab-set--55" type="radio"><label class="tab-label" for="tab-set--55-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">C</span><span class="p">:</span>
@@ -2595,8 +3550,25 @@ the <code class="docutils literal notranslate"><span class="pre">__dict__</span>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--55-input--3" name="tab-set--55" type="radio"><label class="tab-label" for="tab-set--55-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class C:
+    &#64;cached_method
+    def __hash__(self):
+        print(&quot;compute hash&quot;)
+        return int(5)
+c = C()
+type(C.__hash__)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The hash is computed only once, subsequent calls will use the value from
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The hash is computed only once, subsequent calls will use the value from
 the cache. This was implemented in <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/12601">upstream Issue #12601</a>.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--56-input--1" name="tab-set--56" type="radio"><label class="tab-label" for="tab-set--56-input--1">Sage</label><div class="tab-content docutils container">
@@ -2618,6 +3590,18 @@ the cache. This was implemented in <a class="extlink-issue reference external" h
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--56-input--3" name="tab-set--56" type="radio"><label class="tab-label" for="tab-set--56-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">hash(c)       # indirect doctest
+hash(c)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2627,7 +3611,7 @@ the cache. This was implemented in <a class="extlink-issue reference external" h
 <dd><p>Bases: <a class="reference internal" href="#sage.misc.cachefunc.CachedFunction" title="sage.misc.cachefunc.CachedFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedFunction</span></code></a></p>
 <p>Works similar to CachedFunction, but instead, we keep the
 cache on disk (optionally, we keep it in memory too).</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--57-input--1" name="tab-set--57" type="radio"><label class="tab-label" for="tab-set--57-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.cachefunc</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiskCachedFunction</span>
@@ -2650,6 +3634,21 @@ cache on disk (optionally, we keep it in memory too).</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="ow">is</span> <span class="n">factor</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2775</span><span class="p">))</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--57-input--3" name="tab-set--57" type="radio"><label class="tab-label" for="tab-set--57-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.cachefunc import DiskCachedFunction
+dir = tmp_dir()
+factor = DiskCachedFunction(factor, dir, memory_cache=True)
+f = factor(2775); f
+f is factor(2775)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2688,7 +3687,7 @@ Use <strong>extreme</strong> caution if you wish to break that assumption.</p>
 <span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/cachefunc.pyx#L3540"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.cachefunc.FileCache.clear" title="Link to this definition">¶</a></dt>
 <dd><p>Clear all key, value pairs from <code class="docutils literal notranslate"><span class="pre">self</span></code> and unlink the associated files
 from the file cache.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--58-input--1" name="tab-set--58" type="radio"><label class="tab-label" for="tab-set--58-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.cachefunc</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileCache</span>
@@ -2729,6 +3728,29 @@ from the file cache.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--58-input--3" name="tab-set--58" type="radio"><label class="tab-label" for="tab-set--58-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.cachefunc import FileCache
+dir = tmp_dir()
+FC1 = FileCache(dir, memory_cache=False, prefix='foo')
+FC2 = FileCache(dir, memory_cache=False, prefix='foo')
+k1 = ((), (('a', 1),))
+t1 = randint(0, 1000)
+k2 = ((), (('b', 1),))
+t2 = randint(0, 1000)
+FC1[k1] = t1
+FC2[k2] = t2
+FC2.clear()
+k1 in FC1
+k2 in FC1</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2736,7 +3758,7 @@ from the file cache.</p>
 <dt class="sig sig-object py" id="sage.misc.cachefunc.FileCache.file_list">
 <span class="sig-name descname"><span class="pre">file_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/cachefunc.pyx#L3432"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.cachefunc.FileCache.file_list" title="Link to this definition">¶</a></dt>
 <dd><p>Return the list of files corresponding to <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--59-input--1" name="tab-set--59" type="radio"><label class="tab-label" for="tab-set--59-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.cachefunc</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileCache</span>
@@ -2773,6 +3795,23 @@ from the file cache.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--59-input--3" name="tab-set--59" type="radio"><label class="tab-label" for="tab-set--59-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.cachefunc import FileCache
+dir = tmp_dir()
+FC = FileCache(dir, memory_cache = True, prefix='t')
+FC[((),())] = 1
+FC[((1,2),())] = 2
+FC[((1,),(('a',1),))] = 3
+for f in sorted(FC.file_list()): print(f[len(dir):])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2780,7 +3819,7 @@ from the file cache.</p>
 <dt class="sig sig-object py" id="sage.misc.cachefunc.FileCache.items">
 <span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/cachefunc.pyx#L3461"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.cachefunc.FileCache.items" title="Link to this definition">¶</a></dt>
 <dd><p>Return a list of tuples <code class="docutils literal notranslate"><span class="pre">(k,v)</span></code> where <code class="docutils literal notranslate"><span class="pre">self[k]</span> <span class="pre">=</span> <span class="pre">v</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--60-input--1" name="tab-set--60" type="radio"><label class="tab-label" for="tab-set--60-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.cachefunc</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileCache</span>
@@ -2809,6 +3848,24 @@ from the file cache.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--60-input--3" name="tab-set--60" type="radio"><label class="tab-label" for="tab-set--60-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.cachefunc import FileCache
+dir = tmp_dir()
+FC = FileCache(dir, memory_cache = False)
+FC[((),())] = 1
+FC[((1,2),())] = 2
+FC[((1,),(('a',1),))] = 3
+I = FC.items()
+I.sort(); I</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2816,7 +3873,7 @@ from the file cache.</p>
 <dt class="sig sig-object py" id="sage.misc.cachefunc.FileCache.keys">
 <span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/cachefunc.pyx#L3517"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.cachefunc.FileCache.keys" title="Link to this definition">¶</a></dt>
 <dd><p>Return a list of keys <code class="docutils literal notranslate"><span class="pre">k</span></code> where <code class="docutils literal notranslate"><span class="pre">self[k]</span></code> is defined.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--61-input--1" name="tab-set--61" type="radio"><label class="tab-label" for="tab-set--61-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.cachefunc</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileCache</span>
@@ -2845,6 +3902,24 @@ from the file cache.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--61-input--3" name="tab-set--61" type="radio"><label class="tab-label" for="tab-set--61-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.cachefunc import FileCache
+dir = tmp_dir()
+FC = FileCache(dir, memory_cache = False)
+FC[((),())] = 1
+FC[((1,2),())] = 2
+FC[((1,),(('a',1),))] = 3
+K = FC.keys()
+K.sort(); K</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2852,7 +3927,7 @@ from the file cache.</p>
 <dt class="sig sig-object py" id="sage.misc.cachefunc.FileCache.values">
 <span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/cachefunc.pyx#L3479"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.cachefunc.FileCache.values" title="Link to this definition">¶</a></dt>
 <dd><p>Return a list of values that are stored in <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--62-input--1" name="tab-set--62" type="radio"><label class="tab-label" for="tab-set--62-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.cachefunc</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileCache</span>
@@ -2883,6 +3958,25 @@ from the file cache.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--62-input--3" name="tab-set--62" type="radio"><label class="tab-label" for="tab-set--62-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.cachefunc import FileCache
+dir = tmp_dir()
+FC = FileCache(dir, memory_cache = False)
+FC[((),())] = 1
+FC[((1,2),())] = 2
+FC[((1,),(('a',1),))] = 3
+FC[((),(('a',1),))] = 4
+v = FC.values()
+v.sort(); v</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2904,7 +3998,7 @@ key.</p>
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.misc.cachefunc.</span></span><span class="sig-name descname"><span class="pre">NonpicklingDict</span></span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/cachefunc.pyx#L527"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.cachefunc.NonpicklingDict" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
 <p>A special dict which does not pickle its contents.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--63-input--1" name="tab-set--63" type="radio"><label class="tab-label" for="tab-set--63-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.cachefunc</span><span class="w"> </span><span class="kn">import</span> <span class="n">NonpicklingDict</span>
@@ -2923,6 +4017,20 @@ key.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">loads</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
 <span class="go">{}</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--63-input--3" name="tab-set--63" type="radio"><label class="tab-label" for="tab-set--63-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.cachefunc import NonpicklingDict
+d = NonpicklingDict()
+d[0] = 0
+loads(dumps(d))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2945,7 +4053,7 @@ the definition of <code class="docutils literal notranslate"><span class="pre">f
 <p>As an exception meant to improve performance, the most recently
 computed values are strongly referenced. The number of strongly
 cached values can be controlled by the <code class="docutils literal notranslate"><span class="pre">cache</span></code> keyword.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--64-input--1" name="tab-set--64" type="radio"><label class="tab-label" for="tab-set--64-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.cachefunc</span><span class="w"> </span><span class="kn">import</span> <span class="n">weak_cached_function</span>
@@ -2972,8 +4080,25 @@ cached values can be controlled by the <code class="docutils literal notranslate
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--64-input--3" name="tab-set--64" type="radio"><label class="tab-label" for="tab-set--64-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.cachefunc import weak_cached_function
+class A: pass
+&#64;weak_cached_function(cache=0)
+def f():
+    print(&quot;doing a computation&quot;)
+    return A()
+a = f()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The result is cached:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The result is cached:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--65-input--1" name="tab-set--65" type="radio"><label class="tab-label" for="tab-set--65-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">b</span> <span class="o">=</span> <span class="n">f</span><span class="p">()</span>
@@ -2990,8 +4115,20 @@ cached values can be controlled by the <code class="docutils literal notranslate
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--65-input--3" name="tab-set--65" type="radio"><label class="tab-label" for="tab-set--65-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">b = f()
+a is b</pre>
 </div>
-<p class="with-sage-tab with-python-tab">However, if there are no strong references left, the result is
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">However, if there are no strong references left, the result is
 deleted, and thus a new computation takes place:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--66-input--1" name="tab-set--66" type="radio"><label class="tab-label" for="tab-set--66-input--1">Sage</label><div class="tab-content docutils container">
@@ -3011,8 +4148,21 @@ deleted, and thus a new computation takes place:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--66-input--3" name="tab-set--66" type="radio"><label class="tab-label" for="tab-set--66-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">del a
+del b
+a = f()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Above, we used the <code class="docutils literal notranslate"><span class="pre">cache=0</span></code> keyword. With a larger value, the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Above, we used the <code class="docutils literal notranslate"><span class="pre">cache=0</span></code> keyword. With a larger value, the
 most recently computed values are cached anyway, even if they are
 not referenced:</p>
 <div class="tab-set docutils container">
@@ -3055,8 +4205,27 @@ not referenced:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--67-input--3" name="tab-set--67" type="radio"><label class="tab-label" for="tab-set--67-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">&#64;weak_cached_function(cache=3)
+def f(x):
+    print(&quot;doing a computation for x={}&quot;.format(x))
+    return A()
+a = f(1); del a
+a = f(2), f(1); del a
+a = f(3), f(1); del a
+a = f(4), f(1); del a
+a = f(5), f(1); del a</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The parameter <code class="docutils literal notranslate"><span class="pre">key</span></code> can be used to ignore parameters for
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The parameter <code class="docutils literal notranslate"><span class="pre">key</span></code> can be used to ignore parameters for
 caching. In this example we ignore the parameter <code class="docutils literal notranslate"><span class="pre">algorithm</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--68-input--1" name="tab-set--68" type="radio"><label class="tab-label" for="tab-set--68-input--1">Sage</label><div class="tab-content docutils container">
@@ -3078,6 +4247,20 @@ caching. In this example we ignore the parameter <code class="docutils literal n
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--68-input--3" name="tab-set--68" type="radio"><label class="tab-label" for="tab-set--68-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">&#64;weak_cached_function(key=lambda x,algorithm: x)
+def mod_ring(x, algorithm='default'):
+    return IntegerModRing(x)
+mod_ring(1,algorithm='default') is mod_ring(1,algorithm='algorithm') is mod_ring(1) is mod_ring(1,'default')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -3090,7 +4273,7 @@ caching.</p>
 <span class="math notranslate nohighlight">\(p\)</span>-adic numbers. The difference from calling an object’s <code class="docutils literal notranslate"><span class="pre">_cache_key</span></code>
 method directly, is that it also works for tuples and unpacks them
 recursively (if necessary, i.e., if they are not hashable).</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--69-input--1" name="tab-set--69" type="radio"><label class="tab-label" for="tab-set--69-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.cachefunc</span><span class="w"> </span><span class="kn">import</span> <span class="n">cache_key</span>
@@ -3113,8 +4296,22 @@ recursively (if necessary, i.e., if they are not hashable).</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--69-input--3" name="tab-set--69" type="radio"><label class="tab-label" for="tab-set--69-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.cachefunc import cache_key
+K.&lt;u&gt; = Qq(9)                                                             # needs sage.rings.padics
+a = K(1); a                                                               # needs sage.rings.padics
+cache_key(a)                                                              # needs sage.rings.padics</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This function works if <code class="docutils literal notranslate"><span class="pre">o</span></code> is a tuple. In this case it unpacks its
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This function works if <code class="docutils literal notranslate"><span class="pre">o</span></code> is a tuple. In this case it unpacks its
 entries recursively:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--70-input--1" name="tab-set--70" type="radio"><label class="tab-label" for="tab-set--70-input--1">Sage</label><div class="tab-content docutils container">
@@ -3132,8 +4329,20 @@ entries recursively:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--70-input--3" name="tab-set--70" type="radio"><label class="tab-label" for="tab-set--70-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">o = (1, 2, (3, a))                                                        # needs sage.rings.padics
+cache_key(o)                                                              # needs sage.rings.padics</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Note that tuples are only partially unpacked if some of its entries are
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that tuples are only partially unpacked if some of its entries are
 hashable:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--71-input--1" name="tab-set--71" type="radio"><label class="tab-label" for="tab-set--71-input--1">Sage</label><div class="tab-content docutils container">
@@ -3149,6 +4358,18 @@ hashable:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">cache_key</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>                                                              <span class="c1"># needs sage.rings.padics</span>
 <span class="go">(1/2, (..., ((1,),), 0, 20))</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--71-input--3" name="tab-set--71" type="radio"><label class="tab-label" for="tab-set--71-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">o = (1/2, a)                                                              # needs sage.rings.padics
+cache_key(o)                                                              # needs sage.rings.padics</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3171,7 +4392,7 @@ hashable:</p>
 <span class="sig-prename descclassname"><span class="pre">sage.misc.cachefunc.</span></span><span class="sig-name descname"><span class="pre">cached_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_pickle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/cachefunc.pyx#L3071"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.cachefunc.cached_method" title="Link to this definition">¶</a></dt>
 <dd><p>A decorator for cached methods.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">In the following examples, one can see how a cached method works
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In the following examples, one can see how a cached method works
 in application. Below, we demonstrate what is done behind the scenes:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--72-input--1" name="tab-set--72" type="radio"><label class="tab-label" for="tab-set--72-input--1">Sage</label><div class="tab-content docutils container">
@@ -3213,8 +4434,30 @@ in application. Below, we demonstrate what is done behind the scenes:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--72-input--3" name="tab-set--72" type="radio"><label class="tab-label" for="tab-set--72-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class C:
+    &#64;cached_method
+    def __hash__(self):
+        print(&quot;compute hash&quot;)
+        return int(5)
+    &#64;cached_method
+    def f(self, x):
+        print(&quot;computing cached method&quot;)
+        return x*2
+c = C()
+type(C.__hash__)
+hash(c)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">When calling a cached method for the second time with the same arguments,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">When calling a cached method for the second time with the same arguments,
 the value is gotten from the cache, so that a new computation is not
 needed:</p>
 <div class="tab-set docutils container">
@@ -3241,8 +4484,21 @@ needed:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--73-input--3" name="tab-set--73" type="radio"><label class="tab-label" for="tab-set--73-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">hash(c)
+c.f(4)
+c.f(4) is c.f(4)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Different instances have distinct caches:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Different instances have distinct caches:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--74-input--1" name="tab-set--74" type="radio"><label class="tab-label" for="tab-set--74-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">d</span> <span class="o">=</span> <span class="n">C</span><span class="p">()</span>
@@ -3273,8 +4529,23 @@ needed:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--74-input--3" name="tab-set--74" type="radio"><label class="tab-label" for="tab-set--74-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">d = C()
+d.f(4) is c.f(4)
+d.f.clear_cache()
+c.f(4)
+d.f(4)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Using cached methods for the hash and other special methods was
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Using cached methods for the hash and other special methods was
 implemented in <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/12601">upstream Issue #12601</a>, by means of <a class="reference internal" href="#sage.misc.cachefunc.CachedSpecialMethod" title="sage.misc.cachefunc.CachedSpecialMethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedSpecialMethod</span></code></a>. We
 show that it is used behind the scenes:</p>
 <div class="tab-set docutils container">
@@ -3295,8 +4566,20 @@ show that it is used behind the scenes:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--75-input--3" name="tab-set--75" type="radio"><label class="tab-label" for="tab-set--75-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">cached_method(c.__hash__)
+cached_method(c.f)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The parameter <code class="docutils literal notranslate"><span class="pre">do_pickle</span></code> can be used if the contents of the cache should be
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The parameter <code class="docutils literal notranslate"><span class="pre">do_pickle</span></code> can be used if the contents of the cache should be
 stored in a pickle of the cached method. This can be dangerous with special
 methods such as <code class="docutils literal notranslate"><span class="pre">__hash__</span></code>:</p>
 <div class="tab-set docutils container">
@@ -3333,8 +4616,28 @@ methods such as <code class="docutils literal notranslate"><span class="pre">__h
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--76-input--3" name="tab-set--76" type="radio"><label class="tab-label" for="tab-set--76-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class C:
+    &#64;cached_method(do_pickle=True)
+    def __hash__(self):
+        return id(self)
+import __main__
+__main__.C = C
+c = C()
+hash(c)  # random output
+d = loads(dumps(c))
+hash(d) == hash(c)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">However, the contents of a method’s cache are not pickled unless <code class="docutils literal notranslate"><span class="pre">do_pickle</span></code>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">However, the contents of a method’s cache are not pickled unless <code class="docutils literal notranslate"><span class="pre">do_pickle</span></code>
 is set:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--77-input--1" name="tab-set--77" type="radio"><label class="tab-label" for="tab-set--77-input--1">Sage</label><div class="tab-content docutils container">
@@ -3368,6 +4671,25 @@ is set:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--77-input--3" name="tab-set--77" type="radio"><label class="tab-label" for="tab-set--77-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class C:
+    &#64;cached_method
+    def __hash__(self):
+        return id(self)
+__main__.C = C
+c = C()
+hash(c)  # random output
+d = loads(dumps(c))
+hash(d) == hash(c)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -3379,7 +4701,7 @@ is set:</p>
 get confused with the key of a hashable object. Therefore, such keys
 include <code class="docutils literal notranslate"><span class="pre">unhashable_key</span></code> which acts as a unique marker which is
 certainly not stored in the dictionary otherwise.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--78-input--1" name="tab-set--78" type="radio"><label class="tab-label" for="tab-set--78-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.cachefunc</span><span class="w"> </span><span class="kn">import</span> <span class="n">dict_key</span>
@@ -3402,6 +4724,20 @@ certainly not stored in the dictionary otherwise.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--78-input--3" name="tab-set--78" type="radio"><label class="tab-label" for="tab-set--78-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.cachefunc import dict_key
+dict_key(42)
+K.&lt;u&gt; = Qq(9)                                                             # needs sage.rings.padics
+dict_key(u)                                                               # needs sage.rings.padics</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -3410,7 +4746,7 @@ certainly not stored in the dictionary otherwise.</p>
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.misc.cachefunc.</span></span><span class="sig-name descname"><span class="pre">disk_cached_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/cachefunc.pyx#L3742"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.cachefunc.disk_cached_function" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Decorator for <a class="reference internal" href="#sage.misc.cachefunc.DiskCachedFunction" title="sage.misc.cachefunc.DiskCachedFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiskCachedFunction</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--79-input--1" name="tab-set--79" type="radio"><label class="tab-label" for="tab-set--79-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nb">dir</span> <span class="o">=</span> <span class="n">tmp_dir</span><span class="p">()</span>
@@ -3445,6 +4781,25 @@ certainly not stored in the dictionary otherwise.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--79-input--3" name="tab-set--79" type="radio"><label class="tab-label" for="tab-set--79-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">dir = tmp_dir()
+&#64;disk_cached_function(dir)
+def foo(x): return next_prime(2^x)%x
+x = foo(200); x                                                           # needs sage.libs.pari
+&#64;disk_cached_function(dir)
+def foo(x): return 1/x
+foo(200)                                                                  # needs sage.libs.pari
+foo.clear_cache()
+foo(200)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -3455,7 +4810,11 @@ certainly not stored in the dictionary otherwise.</p>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -3577,7 +4936,7 @@ certainly not stored in the dictionary otherwise.</p>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

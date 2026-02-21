@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -420,7 +420,7 @@ will evaluate to the contents of the pickle.  Ideally, the combination
 of <a class="reference internal" href="#sage.misc.explain_pickle.explain_pickle" title="sage.misc.explain_pickle.explain_pickle"><code class="xref py py-func docutils literal notranslate"><span class="pre">explain_pickle()</span></code></a> to produce Sage code and <a class="reference internal" href="sage_eval.html#sage.misc.sage_eval.sage_eval" title="sage.misc.sage_eval.sage_eval"><code class="xref py py-func docutils literal notranslate"><span class="pre">sage_eval()</span></code></a> to evaluate the code
 would be a 100% compatible implementation of cPickle’s unpickler; this
 is almost the case now.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">explain_pickle</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="mi">12345</span><span class="p">))</span>
@@ -455,13 +455,26 @@ is almost the case now.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">explain_pickle(dumps(12345))
+explain_pickle(dumps(polygen(QQ)))
+sage_eval(explain_pickle(dumps(polygen(QQ)))) == polygen(QQ)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>By default (as above) the code produced contains calls to several
 utility functions (<a class="reference internal" href="persist.html#sage.misc.persist.unpickle_global" title="sage.misc.persist.unpickle_global"><code class="xref py py-func docutils literal notranslate"><span class="pre">unpickle_global()</span></code></a>, etc.); this is done so that the
 code is truly equivalent to the pickle.  If the pickle can be loaded
 into a future version of Sage, then the code that <a class="reference internal" href="#sage.misc.explain_pickle.explain_pickle" title="sage.misc.explain_pickle.explain_pickle"><code class="xref py py-func docutils literal notranslate"><span class="pre">explain_pickle()</span></code></a>
 produces today should work in that future Sage as well.</p>
-<p class="with-sage-tab with-python-tab">It is also possible to produce simpler code, that is tied to the current
+<p class="with-sage-tab with-python-tab with-sage-live-tab">It is also possible to produce simpler code, that is tied to the current
 version of Sage; here are the above two examples again:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
@@ -487,6 +500,18 @@ version of Sage; here are the above two examples again:</p>
 <span class="go">from sage.rings.rational import make_rational</span>
 <span class="go">Polynomial_rational_flint(unpickle_PolynomialRing(RationalField(), (&#39;x&#39;,), None, False), [make_rational(&#39;0&#39;), make_rational(&#39;1&#39;)], False, True)</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">explain_pickle(dumps(12345), in_current_sage=True)
+explain_pickle(dumps(polygen(QQ)), in_current_sage=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -885,7 +910,7 @@ directly constructing values.</p>
 <span class="sig-name descname"><span class="pre">check_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/explain_pickle.py#L486"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.explain_pickle.PickleExplainer.check_value" title="Link to this definition">¶</a></dt>
 <dd><p>Check that the given value is either a <a class="reference internal" href="sage_input.html#sage.misc.sage_input.SageInputExpression" title="sage.misc.sage_input.SageInputExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">SageInputExpression</span></code></a> or a
 <a class="reference internal" href="#sage.misc.explain_pickle.PickleObject" title="sage.misc.explain_pickle.PickleObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PickleObject</span></code></a>. Used for internal sanity checking.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.explain_pickle</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -914,6 +939,22 @@ directly constructing values.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.explain_pickle import *
+from sage.misc.sage_input import SageInputBuilder
+sib = SageInputBuilder()
+pe = PickleExplainer(sib, in_current_sage=True, default_assumptions=False, pedantic=True)
+pe.check_value(7)
+pe.check_value(sib(7))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -922,7 +963,7 @@ directly constructing values.</p>
 <span class="sig-name descname"><span class="pre">is_mutable_pickle_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/explain_pickle.py#L627"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.explain_pickle.PickleExplainer.is_mutable_pickle_object" title="Link to this definition">¶</a></dt>
 <dd><p>Test whether a <a class="reference internal" href="#sage.misc.explain_pickle.PickleObject" title="sage.misc.explain_pickle.PickleObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PickleObject</span></code></a> is mutable (has never been converted
 to a <a class="reference internal" href="sage_input.html#sage.misc.sage_input.SageInputExpression" title="sage.misc.sage_input.SageInputExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">SageInputExpression</span></code></a>).</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.explain_pickle</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -957,6 +998,25 @@ to a <a class="reference internal" href="sage_input.html#sage.misc.sage_input.Sa
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.explain_pickle import *
+from sage.misc.sage_input import SageInputBuilder
+sib = SageInputBuilder()
+pe = PickleExplainer(sib, in_current_sage=True,
+                     default_assumptions=False, pedantic=True)
+v = PickleObject(1, sib(1))
+pe.is_mutable_pickle_object(v)
+sib(v)
+pe.is_mutable_pickle_object(v)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -964,7 +1024,7 @@ to a <a class="reference internal" href="sage_input.html#sage.misc.sage_input.Sa
 <dt class="sig sig-object py" id="sage.misc.explain_pickle.PickleExplainer.pop">
 <span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/explain_pickle.py#L542"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.explain_pickle.PickleExplainer.pop" title="Link to this definition">¶</a></dt>
 <dd><p>Pop a value from the virtual machine’s stack, and return it.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.explain_pickle</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -989,6 +1049,22 @@ to a <a class="reference internal" href="sage_input.html#sage.misc.sage_input.Sa
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.explain_pickle import *
+from sage.misc.sage_input import SageInputBuilder
+sib = SageInputBuilder()
+pe = PickleExplainer(sib, in_current_sage=True, default_assumptions=False, pedantic=True)
+pe.push(sib(7))
+pe.pop()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -997,7 +1073,7 @@ to a <a class="reference internal" href="sage_input.html#sage.misc.sage_input.Sa
 <span class="sig-name descname"><span class="pre">pop_to_mark</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/explain_pickle.py#L578"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.explain_pickle.PickleExplainer.pop_to_mark" title="Link to this definition">¶</a></dt>
 <dd><p>Pop all values down to the ‘mark’ from the virtual machine’s stack,
 and return the values as a list.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.explain_pickle</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -1026,6 +1102,24 @@ and return the values as a list.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.explain_pickle import *
+from sage.misc.sage_input import SageInputBuilder
+sib = SageInputBuilder()
+pe = PickleExplainer(sib, in_current_sage=True, default_assumptions=False, pedantic=True)
+pe.push_mark()
+pe.push(sib(7))
+pe.push(sib('hello'))
+pe.pop_to_mark()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1033,7 +1127,7 @@ and return the values as a list.</p>
 <dt class="sig sig-object py" id="sage.misc.explain_pickle.PickleExplainer.push">
 <span class="sig-name descname"><span class="pre">push</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/explain_pickle.py#L505"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.explain_pickle.PickleExplainer.push" title="Link to this definition">¶</a></dt>
 <dd><p>Push a value onto the virtual machine’s stack.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.explain_pickle</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -1058,6 +1152,22 @@ and return the values as a list.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.explain_pickle import *
+from sage.misc.sage_input import SageInputBuilder
+sib = SageInputBuilder()
+pe = PickleExplainer(sib, in_current_sage=True, default_assumptions=False, pedantic=True)
+pe.push(sib(7))
+pe.stack[-1]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1066,7 +1176,7 @@ and return the values as a list.</p>
 <span class="sig-name descname"><span class="pre">push_and_share</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/explain_pickle.py#L522"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.explain_pickle.PickleExplainer.push_and_share" title="Link to this definition">¶</a></dt>
 <dd><p>Push a value onto the virtual machine’s stack; also mark it as shared
 for <a class="reference internal" href="sage_input.html#sage.misc.sage_input.sage_input" title="sage.misc.sage_input.sage_input"><code class="xref py py-func docutils literal notranslate"><span class="pre">sage_input()</span></code></a> if we are in pedantic mode.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.explain_pickle</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -1095,6 +1205,23 @@ for <a class="reference internal" href="sage_input.html#sage.misc.sage_input.sag
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.explain_pickle import *
+from sage.misc.sage_input import SageInputBuilder
+sib = SageInputBuilder()
+pe = PickleExplainer(sib, in_current_sage=True, default_assumptions=False, pedantic=True)
+pe.push_and_share(sib(7))
+pe.stack[-1]
+pe.stack[-1]._sie_share</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1102,7 +1229,7 @@ for <a class="reference internal" href="sage_input.html#sage.misc.sage_input.sag
 <dt class="sig sig-object py" id="sage.misc.explain_pickle.PickleExplainer.push_mark">
 <span class="sig-name descname"><span class="pre">push_mark</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/explain_pickle.py#L560"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.explain_pickle.PickleExplainer.push_mark" title="Link to this definition">¶</a></dt>
 <dd><p>Push a ‘mark’ onto the virtual machine’s stack.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.explain_pickle</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -1131,6 +1258,23 @@ for <a class="reference internal" href="sage_input.html#sage.misc.sage_input.sag
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.explain_pickle import *
+from sage.misc.sage_input import SageInputBuilder
+sib = SageInputBuilder()
+pe = PickleExplainer(sib, in_current_sage=True, default_assumptions=False, pedantic=True)
+pe.push_mark()
+pe.stack[-1]
+pe.stack[-1] is the_mark</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1141,7 +1285,7 @@ for <a class="reference internal" href="sage_input.html#sage.misc.sage_input.sag
 in this virtual machine.  Once a STOP has been executed, return
 the result (a <a class="reference internal" href="sage_input.html#sage.misc.sage_input.SageInputExpression" title="sage.misc.sage_input.SageInputExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">SageInputExpression</span></code></a> representing code which, when
 evaluated, will give the value of the pickle).</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.explain_pickle</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -1164,6 +1308,21 @@ evaluated, will give the value of the pickle).</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.explain_pickle import *
+from sage.misc.sage_input import SageInputBuilder
+sib = SageInputBuilder()
+pe = PickleExplainer(sib, in_current_sage=True, default_assumptions=False, pedantic=True)
+sib(pe.run_pickle('T\5\0\0\0hello.'))  # py2</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1171,7 +1330,7 @@ evaluated, will give the value of the pickle).</p>
 <dt class="sig sig-object py" id="sage.misc.explain_pickle.PickleExplainer.share">
 <span class="sig-name descname"><span class="pre">share</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/explain_pickle.py#L604"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.explain_pickle.PickleExplainer.share" title="Link to this definition">¶</a></dt>
 <dd><p>Mark a <a class="reference internal" href="sage_input.html#sage.misc.sage_input.sage_input" title="sage.misc.sage_input.sage_input"><code class="xref py py-func docutils literal notranslate"><span class="pre">sage_input()</span></code></a> value as shared, if we are in pedantic mode.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.explain_pickle</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -1204,6 +1363,25 @@ evaluated, will give the value of the pickle).</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">_sie_share</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.explain_pickle import *
+from sage.misc.sage_input import SageInputBuilder
+sib = SageInputBuilder()
+pe = PickleExplainer(sib, in_current_sage=True,
+                     default_assumptions=False, pedantic=True)
+v = sib(7)
+v._sie_share
+pe.share(v)
+v._sie_share</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1250,7 +1428,7 @@ Used for testing <a class="reference internal" href="#sage.misc.explain_pickle.e
 <dt class="sig sig-object py" id="sage.misc.explain_pickle.TestAppendList.append">
 <span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/explain_pickle.py#L2810"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.explain_pickle.TestAppendList.append" title="Link to this definition">¶</a></dt>
 <dd><p>A deliberately broken append method.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.explain_pickle</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -1273,8 +1451,21 @@ Used for testing <a class="reference internal" href="#sage.misc.explain_pickle.e
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.explain_pickle import *
+v = TestAppendList()
+v.append(7)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can still append by directly using the list method:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can still append by directly using the list method:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nb">list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
@@ -1291,6 +1482,18 @@ Used for testing <a class="reference internal" href="#sage.misc.explain_pickle.e
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">list.append(v, 7)
+v</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1298,7 +1501,7 @@ Used for testing <a class="reference internal" href="#sage.misc.explain_pickle.e
 <dt class="sig sig-object py" id="sage.misc.explain_pickle.TestAppendList.extend">
 <span class="sig-name descname"><span class="pre">extend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/explain_pickle.py#L2831"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.explain_pickle.TestAppendList.extend" title="Link to this definition">¶</a></dt>
 <dd><p>A deliberately broken extend method.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.explain_pickle</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -1321,8 +1524,21 @@ Used for testing <a class="reference internal" href="#sage.misc.explain_pickle.e
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.explain_pickle import *
+v = TestAppendList()
+v.extend([3,1,4,1,5,9])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can still extend by directly using the list method:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can still extend by directly using the list method:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nb">list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">))</span>
@@ -1337,6 +1553,18 @@ Used for testing <a class="reference internal" href="#sage.misc.explain_pickle.e
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">v</span>
 <span class="go">[3, 1, 4, 1, 5, 9]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">list.extend(v, (3,1,4,1,5,9))
+v</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1374,7 +1602,7 @@ behavior.  Used for testing <a class="reference internal" href="#sage.misc.expla
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A featureless new-style class which has a name that’s not a legal
 Python identifier.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.explain_pickle</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -1397,6 +1625,20 @@ Python identifier.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.explain_pickle import *
+globals()['funny$name'] = TestGlobalFunnyName # see comment at end of file
+TestGlobalFunnyName.__name__
+globals()['funny$name'] is TestGlobalFunnyName</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1407,7 +1649,7 @@ Python identifier.</p>
 <p>A featureless new-style class.  When you try to unpickle an instance
 of <a class="reference internal" href="#sage.misc.explain_pickle.TestGlobalOldName" title="sage.misc.explain_pickle.TestGlobalOldName"><code class="xref py py-class docutils literal notranslate"><span class="pre">TestGlobalOldName</span></code></a>, it is redirected to create an instance of this
 class instead.  Used for testing <a class="reference internal" href="#sage.misc.explain_pickle.explain_pickle" title="sage.misc.explain_pickle.explain_pickle"><code class="xref py py-func docutils literal notranslate"><span class="pre">explain_pickle()</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.explain_pickle</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -1424,6 +1666,18 @@ class instead.  Used for testing <a class="reference internal" href="#sage.misc.
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.explain_pickle import *
+loads(dumps(TestGlobalOldName()))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1434,7 +1688,7 @@ class instead.  Used for testing <a class="reference internal" href="#sage.misc.
 <p>A featureless new-style class.  When you try to unpickle an instance
 of this class, it is redirected to create a <a class="reference internal" href="#sage.misc.explain_pickle.TestGlobalNewName" title="sage.misc.explain_pickle.TestGlobalNewName"><code class="xref py py-class docutils literal notranslate"><span class="pre">TestGlobalNewName</span></code></a> instead.
 Used for testing <a class="reference internal" href="#sage.misc.explain_pickle.explain_pickle" title="sage.misc.explain_pickle.explain_pickle"><code class="xref py py-func docutils literal notranslate"><span class="pre">explain_pickle()</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.explain_pickle</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -1449,6 +1703,18 @@ Used for testing <a class="reference internal" href="#sage.misc.explain_pickle.e
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">loads</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">TestGlobalOldName</span><span class="p">()))</span>
 <span class="go">TestGlobalNewName</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.explain_pickle import *
+loads(dumps(TestGlobalOldName()))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1492,7 +1758,7 @@ object with cPickle, and compare all three results.</p>
 before evaluating the pickles; this is to allow for tests where
 the unpickling prints messages (to verify that the same operations
 occur in all cases).</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.explain_pickle</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -1529,6 +1795,18 @@ occur in all cases).</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.explain_pickle import *
+check_pickle(['a'])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1563,7 +1841,7 @@ cPickle (it may have more, for immutable objects)</p></li>
 </ul>
 <p>Exactly one of <code class="docutils literal notranslate"><span class="pre">pickle</span></code> (a string containing a pickle) or
 <code class="docutils literal notranslate"><span class="pre">file</span></code> (the filename of a pickle) must be provided.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">explain_pickle</span><span class="p">(</span><span class="n">dumps</span><span class="p">({(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">):</span> <span class="p">[</span><span class="mi">1</span><span class="n">r</span><span class="p">,</span> <span class="mi">2</span><span class="n">r</span><span class="p">]}))</span>
@@ -1628,6 +1906,27 @@ cPickle (it may have more, for immutable objects)</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">explain_pickle(dumps({('a', 'b'): [1r, 2r]}))
+explain_pickle(dumps(RR(pi)), in_current_sage=True)                       # needs sage.symbolic
+s = 'hi'
+explain_pickle(dumps((s, s)))
+explain_pickle(dumps((s, s)), pedantic=True)
+explain_pickle(dumps(5r))
+explain_pickle(dumps(5r), preparse=False)
+explain_pickle(dumps(5r), preparse=None)
+explain_pickle(dumps(22/7))
+explain_pickle(dumps(22/7), in_current_sage=True)
+explain_pickle(dumps(22/7), default_assumptions=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1637,7 +1936,7 @@ cPickle (it may have more, for immutable objects)</p></li>
 <dd><p>This is a helper function for <a class="reference internal" href="#sage.misc.explain_pickle.explain_pickle" title="sage.misc.explain_pickle.explain_pickle"><code class="xref py py-func docutils literal notranslate"><span class="pre">explain_pickle()</span></code></a>.  It takes a decompressed
 pickle string as input; other than that, its options are all the same
 as <a class="reference internal" href="#sage.misc.explain_pickle.explain_pickle" title="sage.misc.explain_pickle.explain_pickle"><code class="xref py py-func docutils literal notranslate"><span class="pre">explain_pickle()</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">sage</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">explain_pickle</span><span class="o">.</span><span class="n">explain_pickle_string</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="s2">&quot;Hello, world&quot;</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
@@ -1652,6 +1951,17 @@ as <a class="reference internal" href="#sage.misc.explain_pickle.explain_pickle"
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">sage.misc.explain_pickle.explain_pickle_string(dumps(&quot;Hello, world&quot;, compress=False))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>(See the documentation for <a class="reference internal" href="#sage.misc.explain_pickle.explain_pickle" title="sage.misc.explain_pickle.explain_pickle"><code class="xref py py-func docutils literal notranslate"><span class="pre">explain_pickle()</span></code></a> for many more examples.)</p>
 </dd></dl>
@@ -1661,7 +1971,7 @@ as <a class="reference internal" href="#sage.misc.explain_pickle.explain_pickle"
 <span class="sig-prename descclassname"><span class="pre">sage.misc.explain_pickle.</span></span><span class="sig-name descname"><span class="pre">name_is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/explain_pickle.py#L301"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.explain_pickle.name_is_valid" title="Link to this definition">¶</a></dt>
 <dd><p>Test whether a string is a valid Python identifier.  (We use a
 conservative test, that only allows ASCII identifiers.)</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.explain_pickle</span><span class="w"> </span><span class="kn">import</span> <span class="n">name_is_valid</span>
@@ -1686,6 +1996,20 @@ conservative test, that only allows ASCII identifiers.)</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.explain_pickle import name_is_valid
+name_is_valid('fred')
+name_is_valid('Yes!ValidName')
+name_is_valid('_happy_1234')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1695,7 +2019,7 @@ conservative test, that only allows ASCII identifiers.)</p>
 <dd><p>Given a list (or list-like object) and a sequence of values, appends the
 values to the end of the list.  This is careful to do so using the
 exact same technique that cPickle would use.  Used by <a class="reference internal" href="#sage.misc.explain_pickle.explain_pickle" title="sage.misc.explain_pickle.explain_pickle"><code class="xref py py-func docutils literal notranslate"><span class="pre">explain_pickle()</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">v</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1714,6 +2038,19 @@ exact same technique that cPickle would use.  Used by <a class="reference intern
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">v = []
+unpickle_appends(v, (1, 2, 3))
+v</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1721,7 +2058,7 @@ exact same technique that cPickle would use.  Used by <a class="reference intern
 <dt class="sig sig-object py" id="sage.misc.explain_pickle.unpickle_build">
 <span class="sig-prename descclassname"><span class="pre">sage.misc.explain_pickle.</span></span><span class="sig-name descname"><span class="pre">unpickle_build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/explain_pickle.py#L2429"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.explain_pickle.unpickle_build" title="Link to this definition">¶</a></dt>
 <dd><p>Set the state of an object.  Used by <a class="reference internal" href="#sage.misc.explain_pickle.explain_pickle" title="sage.misc.explain_pickle.explain_pickle"><code class="xref py py-func docutils literal notranslate"><span class="pre">explain_pickle()</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.explain_pickle</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -1742,6 +2079,20 @@ exact same technique that cPickle would use.  Used by <a class="reference intern
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.explain_pickle import *
+v = EmptyNewstyleClass()
+unpickle_build(v, {'hello': 42})
+v.hello</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1750,7 +2101,7 @@ exact same technique that cPickle would use.  Used by <a class="reference intern
 <span class="sig-prename descclassname"><span class="pre">sage.misc.explain_pickle.</span></span><span class="sig-name descname"><span class="pre">unpickle_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/explain_pickle.py#L2500"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.explain_pickle.unpickle_extension" title="Link to this definition">¶</a></dt>
 <dd><p>Take an integer index and return the extension object with that
 index.  Used by <a class="reference internal" href="#sage.misc.explain_pickle.explain_pickle" title="sage.misc.explain_pickle.explain_pickle"><code class="xref py py-func docutils literal notranslate"><span class="pre">explain_pickle()</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">copyreg</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -1771,6 +2122,20 @@ index.  Used by <a class="reference internal" href="#sage.misc.explain_pickle.ex
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from copyreg import *
+add_extension('sage.misc.explain_pickle', 'EmptyNewstyleClass', 42)
+unpickle_extension(42)
+remove_extension('sage.misc.explain_pickle', 'EmptyNewstyleClass', 42)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1779,7 +2144,7 @@ index.  Used by <a class="reference internal" href="#sage.misc.explain_pickle.ex
 <span class="sig-prename descclassname"><span class="pre">sage.misc.explain_pickle.</span></span><span class="sig-name descname"><span class="pre">unpickle_instantiate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/explain_pickle.py#L2463"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.explain_pickle.unpickle_instantiate" title="Link to this definition">¶</a></dt>
 <dd><p>Instantiate a new object of class <code class="docutils literal notranslate"><span class="pre">fn</span></code> with arguments <code class="docutils literal notranslate"><span class="pre">args</span></code>.  Almost always
 equivalent to <code class="docutils literal notranslate"><span class="pre">fn(*args)</span></code>.  Used by <a class="reference internal" href="#sage.misc.explain_pickle.explain_pickle" title="sage.misc.explain_pickle.explain_pickle"><code class="xref py py-func docutils literal notranslate"><span class="pre">explain_pickle()</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">unpickle_instantiate</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;42&#39;</span><span class="p">,))</span>
@@ -1794,6 +2159,17 @@ equivalent to <code class="docutils literal notranslate"><span class="pre">fn(*a
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">unpickle_instantiate(Integer, ('42',))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1802,7 +2178,7 @@ equivalent to <code class="docutils literal notranslate"><span class="pre">fn(*a
 <span class="sig-prename descclassname"><span class="pre">sage.misc.explain_pickle.</span></span><span class="sig-name descname"><span class="pre">unpickle_newobj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">klass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/explain_pickle.py#L2383"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.explain_pickle.unpickle_newobj" title="Link to this definition">¶</a></dt>
 <dd><p>Create a new object; this corresponds to the C code
 <code class="docutils literal notranslate"><span class="pre">klass-&gt;tp_new(klass,</span> <span class="pre">args,</span> <span class="pre">NULL)</span></code>.  Used by <a class="reference internal" href="#sage.misc.explain_pickle.explain_pickle" title="sage.misc.explain_pickle.explain_pickle"><code class="xref py py-func docutils literal notranslate"><span class="pre">explain_pickle()</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">unpickle_newobj</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],))</span>
@@ -1817,6 +2193,17 @@ equivalent to <code class="docutils literal notranslate"><span class="pre">fn(*a
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">unpickle_newobj(tuple, ([1, 2, 3],))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1826,7 +2213,7 @@ equivalent to <code class="docutils literal notranslate"><span class="pre">fn(*a
 <dd><p>Take an integer index and return the persistent object with that
 index; works by calling whatever callable is stored in
 <code class="docutils literal notranslate"><span class="pre">unpickle_persistent_loader</span></code>.  Used by <a class="reference internal" href="#sage.misc.explain_pickle.explain_pickle" title="sage.misc.explain_pickle.explain_pickle"><code class="xref py py-func docutils literal notranslate"><span class="pre">explain_pickle()</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">import</span><span class="w"> </span><span class="nn">sage.misc.explain_pickle</span>
@@ -1845,11 +2232,28 @@ index; works by calling whatever callable is stored in
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">import sage.misc.explain_pickle
+sage.misc.explain_pickle.unpickle_persistent_loader = lambda n: n+7
+unpickle_persistent(35)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -2017,7 +2421,7 @@ index; works by calling whatever callable is stored in
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>

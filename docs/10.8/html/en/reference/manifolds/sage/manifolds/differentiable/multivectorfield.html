@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -463,7 +463,7 @@ multivector field; if none is provided, the LaTeX symbol is set to
 <code class="docutils literal notranslate"><span class="pre">name</span></code></p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Multivector field of degree 2 on a non-parallelizable 2-dimensional
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Multivector field of degree 2 on a non-parallelizable 2-dimensional
 manifold:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
@@ -509,8 +509,31 @@ manifold:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(2, 'M')
+U = M.open_subset('U') ; V = M.open_subset('V')
+M.declare_union(U,V)   # M is the union of U and V
+c_xy.&lt;x,y&gt; = U.chart() ; c_uv.&lt;u,v&gt; = V.chart()
+xy_to_uv = c_xy.transition_map(c_uv, (x+y, x-y),
+                        intersection_name='W',
+                        restrictions1= x&gt;0, restrictions2= u+v&gt;0)
+uv_to_xy = xy_to_uv.inverse()
+W = U.intersection(V)
+eU = c_xy.frame() ; eV = c_uv.frame()
+a = M.multivector_field(2, name='a') ; a
+a.parent()
+a.degree()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Setting the components of <code class="docutils literal notranslate"><span class="pre">a</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Setting the components of <code class="docutils literal notranslate"><span class="pre">a</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span><span class="p">[</span><span class="n">eU</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span>
@@ -533,8 +556,22 @@ manifold:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a[eU,0,1] = x*y^2 + 2*x
+a.add_comp_by_continuation(eV, W, c_uv)
+a.display(eU)
+a.display(eV)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">It is also possible to set the components while defining the 2-vector field
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">It is also possible to set the components while defining the 2-vector field
 definition, via a dictionary whose keys are the vector frames:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
@@ -556,8 +593,22 @@ definition, via a dictionary whose keys are the vector frames:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a1 = M.multivector_field(2, {eU: [[0, x*y^2 + 2*x],
+                                  [-x*y^2 - 2*x, 0]]}, name='a')
+a1.add_comp_by_continuation(eV, W, c_uv)
+a1 == a</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The exterior product of two vector fields is a 2-vector field:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The exterior product of two vector fields is a 2-vector field:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">vector_field</span><span class="p">({</span><span class="n">eU</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">]},</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
@@ -588,8 +639,25 @@ definition, via a dictionary whose keys are the vector frames:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = M.vector_field({eU: [-y, x]}, name='a')
+a.add_comp_by_continuation(eV, W, c_uv)
+b = M.vector_field({eU: [1+x*y, x^2]}, name='b')
+b.add_comp_by_continuation(eV, W, c_uv)
+s = a.wedge(b) ; s
+s.display(eU)
+s.display(eV)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Multiplying a 2-vector field by a scalar field results in another
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Multiplying a 2-vector field by a scalar field results in another
 2-vector field:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
@@ -615,6 +683,20 @@ definition, via a dictionary whose keys are the vector frames:</p>
 <span class="go">f*(a∧b) = (1/2*u^5 - 1/2*u^3*v^2 - 1/2*u^2*v^3 + u^3 + 1/2*(u^4 + 2*u^2)*v)</span>
 <span class="go">  ∂/∂u∧∂/∂v</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = M.scalar_field({c_xy: (x+y)^2, c_uv: u^2}, name='f')
+s = f*s ; s
+s.display(eU)
+s.display(eV)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -685,7 +767,7 @@ Schouten-Nijenhuis bracket <span class="math notranslate nohighlight">\([a,b]\)<
 <code class="docutils literal notranslate"><span class="pre">other</span></code></p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Bracket of two vector fields on the 2-sphere:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Bracket of two vector fields on the 2-sphere:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;S^2&#39;</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># the sphere S^2</span>
@@ -734,8 +816,35 @@ Schouten-Nijenhuis bracket <span class="math notranslate nohighlight">\([a,b]\)<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(2, 'S^2', start_index=1) # the sphere S^2
+U = M.open_subset('U') ; V = M.open_subset('V')
+M.declare_union(U,V)   # S^2 is the union of U and V
+c_xy.&lt;x,y&gt; = U.chart() # stereographic coord. North
+c_uv.&lt;u,v&gt; = V.chart() # stereographic coord. South
+xy_to_uv = c_xy.transition_map(c_uv, (x/(x^2+y^2), y/(x^2+y^2)),
+               intersection_name='W', restrictions1= x^2+y^2!=0,
+               restrictions2= u^2+v^2!=0)
+uv_to_xy = xy_to_uv.inverse()
+W = U.intersection(V) # The complement of the two poles
+e_xy = c_xy.frame() ; e_uv = c_uv.frame()
+a = M.vector_field({e_xy: [y, x]}, name='a')
+a.add_comp_by_continuation(e_uv, W, c_uv)
+b = M.vector_field({e_xy: [x*y, x-y]}, name='b')
+b.add_comp_by_continuation(e_uv, W, c_uv)
+s = a.bracket(b); s
+s.display(e_xy)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">For two vector fields, the bracket coincides with the Lie derivative:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">For two vector fields, the bracket coincides with the Lie derivative:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">lie_derivative</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -750,8 +859,19 @@ Schouten-Nijenhuis bracket <span class="math notranslate nohighlight">\([a,b]\)<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s == b.lie_derivative(a)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Schouten-Nijenhuis bracket of a 2-vector field and a 1-vector field:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Schouten-Nijenhuis bracket of a 2-vector field and a 1-vector field:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">wedge</span><span class="p">(</span><span class="n">b</span><span class="p">);</span> <span class="n">c</span>
@@ -778,8 +898,21 @@ Schouten-Nijenhuis bracket <span class="math notranslate nohighlight">\([a,b]\)<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">c = a.wedge(b); c
+s = c.bracket(a); s
+s.display(e_xy)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Since <span class="math notranslate nohighlight">\(a\)</span> is a vector field, we have in this case:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Since <span class="math notranslate nohighlight">\(a\)</span> is a vector field, we have in this case:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">==</span> <span class="o">-</span> <span class="n">c</span><span class="o">.</span><span class="n">lie_derivative</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -792,6 +925,17 @@ Schouten-Nijenhuis bracket <span class="math notranslate nohighlight">\([a,b]\)<
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">==</span> <span class="o">-</span> <span class="n">c</span><span class="o">.</span><span class="n">lie_derivative</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s == - c.lie_derivative(a)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -807,7 +951,7 @@ of standards identities involving the Schouten-Nijenhuis bracket</p>
 <span class="sig-name descname"><span class="pre">degree</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/manifolds/differentiable/multivectorfield.py#L244"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.manifolds.differentiable.multivectorfield.MultivectorField.degree" title="Link to this definition">¶</a></dt>
 <dd><p>Return the degree of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
 <p>OUTPUT: integer <span class="math notranslate nohighlight">\(p\)</span> such that <code class="docutils literal notranslate"><span class="pre">self</span></code> is a <span class="math notranslate nohighlight">\(p\)</span>-vector field</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">)</span>
@@ -834,6 +978,21 @@ of standards identities involving the Schouten-Nijenhuis bracket</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">b</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
 <span class="go">1</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(3, 'M')
+a = M.multivector_field(2); a
+a.degree()
+b = M.vector_field(); b
+b.degree()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -881,7 +1040,7 @@ for the interior product of a differential form with a multivector
 field</p>
 </div>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Interior product of a vector field (<span class="math notranslate nohighlight">\(p=1\)</span>) with a 2-form (<span class="math notranslate nohighlight">\(q=2\)</span>) on the
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Interior product of a vector field (<span class="math notranslate nohighlight">\(p=1\)</span>) with a 2-form (<span class="math notranslate nohighlight">\(q=2\)</span>) on the
 2-sphere:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
@@ -953,8 +1112,40 @@ field</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(2, 'S^2', start_index=1) # the sphere S^2
+U = M.open_subset('U') ; V = M.open_subset('V')
+M.declare_union(U,V)   # S^2 is the union of U and V
+c_xy.&lt;x,y&gt; = U.chart() # stereographic coord. North
+c_uv.&lt;u,v&gt; = V.chart() # stereographic coord. South
+xy_to_uv = c_xy.transition_map(c_uv, (x/(x^2+y^2), y/(x^2+y^2)),
+               intersection_name='W', restrictions1= x^2+y^2!=0,
+               restrictions2= u^2+v^2!=0)
+uv_to_xy = xy_to_uv.inverse()
+W = U.intersection(V) # The complement of the two poles
+e_xy = c_xy.frame() ; e_uv = c_uv.frame()
+a = M.vector_field({e_xy: [-y, x]}, name='a')
+a.add_comp_by_continuation(e_uv, W, c_uv)
+b = M.diff_form(2, name='b')
+b[e_xy,1,2] = 4/(x^2+y^2+1)^2   # the standard area 2-form
+b.add_comp_by_continuation(e_uv, W, c_uv)
+b.display(e_xy)
+b.display(e_uv)
+s = a.interior_product(b); s
+s.display(e_xy)
+s.display(e_uv)
+s == a.contract(b)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Example with <span class="math notranslate nohighlight">\(p=2\)</span> and <span class="math notranslate nohighlight">\(q=2\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Example with <span class="math notranslate nohighlight">\(p=2\)</span> and <span class="math notranslate nohighlight">\(q=2\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">multivector_field</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
@@ -991,8 +1182,25 @@ field</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = M.multivector_field(2, name='a')
+a[e_xy,1,2] = x*y
+a.add_comp_by_continuation(e_uv, W, c_uv)
+a.display(e_xy)
+a.display(e_uv)
+s = a.interior_product(b); s
+s.display()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Some checks:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Some checks:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">==</span> <span class="n">a</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -1015,6 +1223,19 @@ field</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s == a.contract(0, 1, b, 0, 1)
+s.restrict(U) == 2 * a[[e_xy,1,2]] * b[[e_xy,1,2]]
+s.restrict(V) == 2 * a[[e_uv,1,2]] * b[[e_uv,1,2]]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1032,7 +1253,7 @@ field</p>
 product <code class="docutils literal notranslate"><span class="pre">self</span> <span class="pre">∧</span> <span class="pre">other</span></code></p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Exterior product of two vector fields on the 2-sphere:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Exterior product of two vector fields on the 2-sphere:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;S^2&#39;</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># the sphere S^2</span>
@@ -1087,6 +1308,34 @@ product <code class="docutils literal notranslate"><span class="pre">self</span>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(2, 'S^2', start_index=1) # the sphere S^2
+U = M.open_subset('U') ; V = M.open_subset('V')
+M.declare_union(U,V)   # S^2 is the union of U and V
+c_xy.&lt;x,y&gt; = U.chart() # stereographic coord. North
+c_uv.&lt;u,v&gt; = V.chart() # stereographic coord. South
+xy_to_uv = c_xy.transition_map(c_uv, (x/(x^2+y^2), y/(x^2+y^2)),
+               intersection_name='W', restrictions1= x^2+y^2!=0,
+               restrictions2= u^2+v^2!=0)
+uv_to_xy = xy_to_uv.inverse()
+W = U.intersection(V) # The complement of the two poles
+e_xy = c_xy.frame() ; e_uv = c_uv.frame()
+a = M.vector_field({e_xy: [y, x]}, name='a')
+a.add_comp_by_continuation(e_uv, W, c_uv)
+b = M.vector_field({e_xy: [x^2 + y^2, y]}, name='b')
+b.add_comp_by_continuation(e_uv, W, c_uv)
+c = a.wedge(b); c
+c.display(e_xy)
+c.display(e_uv)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1135,7 +1384,7 @@ multivector field; if none is provided, the LaTeX symbol is set to
 <code class="docutils literal notranslate"><span class="pre">name</span></code></p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">A 2-vector field on a 4-dimensional manifold:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A 2-vector field on a 4-dimensional manifold:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">)</span>
@@ -1160,8 +1409,22 @@ multivector field; if none is provided, the LaTeX symbol is set to
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(4, 'M')
+c_txyz.&lt;t,x,y,z&gt; = M.chart()
+a = M.multivector_field(2, name='a') ; a
+a.parent()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A multivector field is a tensor field of purely contravariant type:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A multivector field is a tensor field of purely contravariant type:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span><span class="o">.</span><span class="n">tensor_type</span><span class="p">()</span>
@@ -1176,8 +1439,19 @@ multivector field; if none is provided, the LaTeX symbol is set to
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a.tensor_type()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">It is antisymmetric, its components being
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">It is antisymmetric, its components being
 <a class="reference external" href="../../../../tensor_free_modules/sage/tensor/modules/comp.html#sage.tensor.modules.comp.CompFullyAntiSym" title="(in Tensors on free modules of finite rank v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompFullyAntiSym</span></code></a>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
@@ -1209,8 +1483,23 @@ multivector field; if none is provided, the LaTeX symbol is set to
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a.symmetries()
+a[0,1] = 2*x
+a[1,0]
+a.comp()
+type(a.comp())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Setting a component with repeated indices to a nonzero value results in
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Setting a component with repeated indices to a nonzero value results in
 an error:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
@@ -1236,8 +1525,21 @@ an error:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a[1,1] = 3
+a[1,1] = 0  # OK, albeit useless
+a[1,2] = 3  # OK</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The expansion of a multivector field with respect to a given frame is
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The expansion of a multivector field with respect to a given frame is
 displayed via the method
 <a class="reference external" href="../../../../tensor_free_modules/sage/tensor/modules/alternating_contr_tensor.html#sage.tensor.modules.alternating_contr_tensor.AlternatingContrTensor.display" title="(in Tensors on free modules of finite rank v10.8.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">display()</span></code></a>:</p>
 <div class="tab-set docutils container">
@@ -1260,8 +1562,20 @@ displayed via the method
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a.display() # expansion w.r.t. the default frame
+latex(a.display()) # output for the notebook</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Multivector fields can be added or subtracted:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Multivector fields can be added or subtracted:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">b</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">multivector_field</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -1292,8 +1606,24 @@ displayed via the method
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">b = M.multivector_field(2)
+b[0,1], b[0,2], b[0,3] = y, 2, x+z
+s = a + b ; s
+s.display()
+s = a - b ; s
+s.display()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">An example of 3-vector field in <span class="math notranslate nohighlight">\(\RR^3\)</span> with Cartesian coordinates:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">An example of 3-vector field in <span class="math notranslate nohighlight">\(\RR^3\)</span> with Cartesian coordinates:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;R3&#39;</span><span class="p">,</span> <span class="n">latex_name</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\RR^3&#39;</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -1324,8 +1654,24 @@ displayed via the method
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(3, 'R3', latex_name=r'\RR^3', start_index=1)
+c_cart.&lt;x,y,z&gt; = M.chart()
+a = M.multivector_field(3, name='a')
+a[1,2,3] = x^2+y^2+z^2  # the only independent component
+a[:] # all the components are set from the previous line:
+a.display()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Spherical components from the tensorial change-of-frame formula:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Spherical components from the tensorial change-of-frame formula:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">c_spher</span><span class="o">.&lt;</span><span class="n">r</span><span class="p">,</span><span class="n">th</span><span class="p">,</span><span class="n">ph</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">chart</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;r:[0,+oo) th:[0,pi]:\theta ph:[0,2*pi):\phi&#39;</span><span class="p">)</span>
@@ -1380,8 +1726,27 @@ displayed via the method
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">c_spher.&lt;r,th,ph&gt; = M.chart(r'r:[0,+oo) th:[0,pi]:\theta ph:[0,2*pi):\phi')
+spher_to_cart = c_spher.transition_map(c_cart,
+               [r*sin(th)*cos(ph), r*sin(th)*sin(ph), r*cos(th)])
+cart_to_spher = spher_to_cart.set_inverse(sqrt(x^2+y^2+z^2),
+                             atan2(sqrt(x^2+y^2),z), atan2(y, x))
+a.comp(c_spher.frame()) # computation of components w.r.t. spherical frame
+a.comp(c_spher.frame())[1,2,3, c_spher]
+a.display(c_spher.frame())
+a.display(c_spher.frame(), c_spher)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">As a shortcut of the above command, on can pass just the chart <code class="docutils literal notranslate"><span class="pre">c_spher</span></code>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">As a shortcut of the above command, on can pass just the chart <code class="docutils literal notranslate"><span class="pre">c_spher</span></code>
 to <code class="docutils literal notranslate"><span class="pre">display</span></code>, the vector frame being then assumed to be the coordinate
 frame associated with the chart:</p>
 <div class="tab-set docutils container">
@@ -1398,8 +1763,19 @@ frame associated with the chart:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a.display(c_spher)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The exterior product of two multivector fields is performed via the method
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The exterior product of two multivector fields is performed via the method
 <a class="reference external" href="../../../../tensor_free_modules/sage/tensor/modules/alternating_contr_tensor.html#sage.tensor.modules.alternating_contr_tensor.AlternatingContrTensor.wedge" title="(in Tensors on free modules of finite rank v10.8.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wedge()</span></code></a>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
@@ -1425,8 +1801,22 @@ frame associated with the chart:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = M.vector_field([x*y, -z*x, y], name='A')
+b = M.vector_field([y, z+y, x^2-z^2], name='B')
+ab = a.wedge(b) ; ab
+ab.display()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Let us check the formula relating the exterior product to the tensor
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let us check the formula relating the exterior product to the tensor
 product for vector fields:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
@@ -1442,8 +1832,19 @@ product for vector fields:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a.wedge(b) == a*b - b*a</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The tensor product of a vector field and a 2-vector field is not a 3-vector
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The tensor product of a vector field and a 2-vector field is not a 3-vector
 field but a tensor field of type <span class="math notranslate nohighlight">\((3,0)\)</span> with less symmetries:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
@@ -1465,8 +1866,20 @@ field but a tensor field of type <span class="math notranslate nohighlight">\((3
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">c = a*ab ; c
+c.symmetries()  # the antisymmetry is only w.r.t. the last 2 arguments:</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The Lie derivative of a 2-vector field is a 2-vector field:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The Lie derivative of a 2-vector field is a 2-vector field:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">ab</span><span class="o">.</span><span class="n">lie_der</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -1479,6 +1892,17 @@ field but a tensor field of type <span class="math notranslate nohighlight">\((3
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">ab</span><span class="o">.</span><span class="n">lie_der</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 <span class="go">2-vector field on the 3-dimensional differentiable manifold R3</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ab.lie_der(a)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1549,7 +1973,7 @@ Schouten-Nijenhuis bracket <span class="math notranslate nohighlight">\([a,b]\)<
 <code class="docutils literal notranslate"><span class="pre">other</span></code></p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Let us consider two vector fields on a 3-dimensional manifold:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let us consider two vector fields on a 3-dimensional manifold:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">)</span>
@@ -1568,8 +1992,22 @@ Schouten-Nijenhuis bracket <span class="math notranslate nohighlight">\([a,b]\)<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(3, 'M')
+X.&lt;x,y,z&gt; = M.chart()
+a = M.vector_field([x*y+z, x+y-z, z-2*x+y], name='a')
+b = M.vector_field([y+2*z-x, x^2-y+z, z-x], name='b')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">and form their Schouten-Nijenhuis bracket:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">and form their Schouten-Nijenhuis bracket:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--28-input--1" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">bracket</span><span class="p">(</span><span class="n">b</span><span class="p">);</span> <span class="n">s</span>
@@ -1592,8 +2030,20 @@ Schouten-Nijenhuis bracket <span class="math notranslate nohighlight">\([a,b]\)<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s = a.bracket(b); s
+s.display()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Check that <span class="math notranslate nohighlight">\([a,b]\)</span> is actually the Lie bracket:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Check that <span class="math notranslate nohighlight">\([a,b]\)</span> is actually the Lie bracket:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">scalar_field</span><span class="p">({</span><span class="n">X</span><span class="p">:</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">*</span><span class="n">z</span><span class="p">},</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;f&#39;</span><span class="p">)</span>
@@ -1610,8 +2060,20 @@ Schouten-Nijenhuis bracket <span class="math notranslate nohighlight">\([a,b]\)<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = M.scalar_field({X: x+y*z}, name='f')
+s(f) == a(b(f)) - b(a(f))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Check that <span class="math notranslate nohighlight">\([a,b]\)</span> coincides with the Lie derivative of <span class="math notranslate nohighlight">\(b\)</span> along <span class="math notranslate nohighlight">\(a\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Check that <span class="math notranslate nohighlight">\([a,b]\)</span> coincides with the Lie derivative of <span class="math notranslate nohighlight">\(b\)</span> along <span class="math notranslate nohighlight">\(a\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--30-input--1" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">lie_derivative</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -1626,8 +2088,19 @@ Schouten-Nijenhuis bracket <span class="math notranslate nohighlight">\([a,b]\)<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--30-input--3" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s == b.lie_derivative(a)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Schouten-Nijenhuis bracket for <span class="math notranslate nohighlight">\(p=0\)</span> and <span class="math notranslate nohighlight">\(q=1\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Schouten-Nijenhuis bracket for <span class="math notranslate nohighlight">\(p=0\)</span> and <span class="math notranslate nohighlight">\(q=1\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--31-input--1" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">bracket</span><span class="p">(</span><span class="n">a</span><span class="p">);</span> <span class="n">s</span>
@@ -1648,8 +2121,20 @@ Schouten-Nijenhuis bracket <span class="math notranslate nohighlight">\([a,b]\)<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--31-input--3" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s = f.bracket(a); s
+s.display()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Check that <span class="math notranslate nohighlight">\([f,a] = - \iota_{\mathrm{d}f} a = - \mathrm{d}f(a)\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Check that <span class="math notranslate nohighlight">\([f,a] = - \iota_{\mathrm{d}f} a = - \mathrm{d}f(a)\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--32-input--1" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">==</span> <span class="o">-</span> <span class="n">f</span><span class="o">.</span><span class="n">differential</span><span class="p">()(</span><span class="n">a</span><span class="p">)</span>
@@ -1664,8 +2149,19 @@ Schouten-Nijenhuis bracket <span class="math notranslate nohighlight">\([a,b]\)<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--32-input--3" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s == - f.differential()(a)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Schouten-Nijenhuis bracket for <span class="math notranslate nohighlight">\(p=0\)</span> and <span class="math notranslate nohighlight">\(q=2\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Schouten-Nijenhuis bracket for <span class="math notranslate nohighlight">\(p=0\)</span> and <span class="math notranslate nohighlight">\(q=2\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--33-input--1" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">c</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">multivector_field</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;c&#39;</span><span class="p">)</span>
@@ -1690,8 +2186,22 @@ Schouten-Nijenhuis bracket <span class="math notranslate nohighlight">\([a,b]\)<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--33-input--3" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">c = M.multivector_field(2, name='c')
+c[0,1], c[0,2], c[1,2] = x+z+1, x*y+z, x-y
+s = f.bracket(c); s
+s.display()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Check that <span class="math notranslate nohighlight">\([f,c] = - \iota_{\mathrm{d}f} c\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Check that <span class="math notranslate nohighlight">\([f,c] = - \iota_{\mathrm{d}f} c\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--34-input--1" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">==</span> <span class="o">-</span> <span class="n">f</span><span class="o">.</span><span class="n">differential</span><span class="p">()</span><span class="o">.</span><span class="n">interior_product</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
@@ -1706,8 +2216,19 @@ Schouten-Nijenhuis bracket <span class="math notranslate nohighlight">\([a,b]\)<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--34-input--3" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s == - f.differential().interior_product(c)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Schouten-Nijenhuis bracket for <span class="math notranslate nohighlight">\(p=1\)</span> and <span class="math notranslate nohighlight">\(q=2\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Schouten-Nijenhuis bracket for <span class="math notranslate nohighlight">\(p=1\)</span> and <span class="math notranslate nohighlight">\(q=2\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--35-input--1" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">bracket</span><span class="p">(</span><span class="n">c</span><span class="p">);</span> <span class="n">s</span>
@@ -1730,8 +2251,20 @@ Schouten-Nijenhuis bracket <span class="math notranslate nohighlight">\([a,b]\)<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--35-input--3" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s = a.bracket(c); s
+s.display()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Again, since <span class="math notranslate nohighlight">\(a\)</span> is a vector field, the Schouten-Nijenhuis bracket
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Again, since <span class="math notranslate nohighlight">\(a\)</span> is a vector field, the Schouten-Nijenhuis bracket
 coincides with the Lie derivative:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--36-input--1" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--1">Sage</label><div class="tab-content docutils container">
@@ -1747,8 +2280,19 @@ coincides with the Lie derivative:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--36-input--3" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s == c.lie_derivative(a)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Schouten-Nijenhuis bracket for <span class="math notranslate nohighlight">\(p=2\)</span> and <span class="math notranslate nohighlight">\(q=2\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Schouten-Nijenhuis bracket for <span class="math notranslate nohighlight">\(p=2\)</span> and <span class="math notranslate nohighlight">\(q=2\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--37-input--1" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">d</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">multivector_field</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">)</span>
@@ -1771,8 +2315,22 @@ coincides with the Lie derivative:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--37-input--3" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">d = M.multivector_field(2, name='d')
+d[0,1], d[0,2], d[1,2] = x-y^2, x+z, z-x-1
+s = c.bracket(d); s
+s.display()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Let us check the component formula (with respect to the manifold’s
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let us check the component formula (with respect to the manifold’s
 default coordinate chart, i.e. <code class="docutils literal notranslate"><span class="pre">X</span></code>) for <span class="math notranslate nohighlight">\(p=q=2\)</span>, taking into
 account the tensor antisymmetries:</p>
 <div class="tab-set docutils container">
@@ -1795,8 +2353,22 @@ account the tensor antisymmetries:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--38-input--3" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s[0,1,2] == - sum(c[i,0]*d[1,2].diff(i)
+                + c[i,1]*d[2,0].diff(i) + c[i,2]*d[0,1].diff(i)
+                + d[i,0]*c[1,2].diff(i) + d[i,1]*c[2,0].diff(i)
+                + d[i,2]*c[0,1].diff(i) for i in M.irange())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Schouten-Nijenhuis bracket for <span class="math notranslate nohighlight">\(p=1\)</span> and <span class="math notranslate nohighlight">\(q=3\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Schouten-Nijenhuis bracket for <span class="math notranslate nohighlight">\(p=1\)</span> and <span class="math notranslate nohighlight">\(q=3\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--39-input--1" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">e</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">multivector_field</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;e&#39;</span><span class="p">)</span>
@@ -1821,8 +2393,22 @@ account the tensor antisymmetries:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--39-input--3" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">e = M.multivector_field(3, name='e')
+e[0,1,2] = x+y*z+1
+s = a.bracket(e); s
+s.display()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Again, since <span class="math notranslate nohighlight">\(p=1\)</span>, the bracket coincides with the Lie derivative:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Again, since <span class="math notranslate nohighlight">\(p=1\)</span>, the bracket coincides with the Lie derivative:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--40-input--1" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">==</span> <span class="n">e</span><span class="o">.</span><span class="n">lie_derivative</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -1837,8 +2423,19 @@ account the tensor antisymmetries:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--40-input--3" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s == e.lie_derivative(a)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Schouten-Nijenhuis bracket for <span class="math notranslate nohighlight">\(p=2\)</span> and <span class="math notranslate nohighlight">\(q=3\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Schouten-Nijenhuis bracket for <span class="math notranslate nohighlight">\(p=2\)</span> and <span class="math notranslate nohighlight">\(q=3\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--41-input--1" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">bracket</span><span class="p">(</span><span class="n">e</span><span class="p">);</span> <span class="n">s</span>
@@ -1853,8 +2450,19 @@ account the tensor antisymmetries:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--41-input--3" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s = c.bracket(e); s</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Since on a 3-dimensional manifold, any 4-vector field is zero, we have:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Since on a 3-dimensional manifold, any 4-vector field is zero, we have:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--42-input--1" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
@@ -1869,8 +2477,19 @@ account the tensor antisymmetries:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--42-input--3" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s.display()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Let us check the graded commutation law
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let us check the graded commutation law
 <span class="math notranslate nohighlight">\([a,b] = -(-1)^{(p-1)(q-1)} [b,a]\)</span> for various values of <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(q\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--43-input--1" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--1">Sage</label><div class="tab-content docutils container">
@@ -1902,8 +2521,23 @@ account the tensor antisymmetries:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--43-input--3" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f.bracket(a) == - a.bracket(f)  # p=0 and q=1
+f.bracket(c) == c.bracket(f)    # p=0 and q=2
+a.bracket(b) == - b.bracket(a)  # p=1 and q=1
+a.bracket(c) == - c.bracket(a)  # p=1 and q=2
+c.bracket(d) == d.bracket(c)    # p=2 and q=2</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Let us check the graded Leibniz rule for <span class="math notranslate nohighlight">\(p=1\)</span> and <span class="math notranslate nohighlight">\(q=1\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let us check the graded Leibniz rule for <span class="math notranslate nohighlight">\(p=1\)</span> and <span class="math notranslate nohighlight">\(q=1\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--44-input--1" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span><span class="o">.</span><span class="n">bracket</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">wedge</span><span class="p">(</span><span class="n">c</span><span class="p">))</span> <span class="o">==</span> <span class="n">a</span><span class="o">.</span><span class="n">bracket</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">wedge</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">wedge</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">bracket</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>  <span class="c1"># long time</span>
@@ -1918,8 +2552,19 @@ account the tensor antisymmetries:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--44-input--3" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a.bracket(b.wedge(c)) == a.bracket(b).wedge(c) + b.wedge(a.bracket(c))  # long time</pre>
 </div>
-<p class="with-sage-tab with-python-tab">as well as for <span class="math notranslate nohighlight">\(p=2\)</span> and <span class="math notranslate nohighlight">\(q=1\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">as well as for <span class="math notranslate nohighlight">\(p=2\)</span> and <span class="math notranslate nohighlight">\(q=1\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--45-input--1" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">c</span><span class="o">.</span><span class="n">bracket</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">wedge</span><span class="p">(</span><span class="n">b</span><span class="p">))</span> <span class="o">==</span> <span class="n">c</span><span class="o">.</span><span class="n">bracket</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">wedge</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">wedge</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">bracket</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>  <span class="c1"># long time</span>
@@ -1934,8 +2579,19 @@ account the tensor antisymmetries:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--45-input--3" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">c.bracket(a.wedge(b)) == c.bracket(a).wedge(b) - a.wedge(c.bracket(b))  # long time</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Finally let us check the graded Jacobi identity for <span class="math notranslate nohighlight">\(p=1\)</span>, <span class="math notranslate nohighlight">\(q=1\)</span> and
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Finally let us check the graded Jacobi identity for <span class="math notranslate nohighlight">\(p=1\)</span>, <span class="math notranslate nohighlight">\(q=1\)</span> and
 <span class="math notranslate nohighlight">\(r=2\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--46-input--1" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--1">Sage</label><div class="tab-content docutils container">
@@ -1959,8 +2615,23 @@ account the tensor antisymmetries:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--46-input--3" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># long time
+a_bc = a.bracket(b.bracket(c))
+b_ca = b.bracket(c.bracket(a))
+c_ab = c.bracket(a.bracket(b))
+a_bc + b_ca + c_ab == 0</pre>
 </div>
-<p class="with-sage-tab with-python-tab">as well as for <span class="math notranslate nohighlight">\(p=1\)</span>, <span class="math notranslate nohighlight">\(q=2\)</span> and <span class="math notranslate nohighlight">\(r=2\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">as well as for <span class="math notranslate nohighlight">\(p=1\)</span>, <span class="math notranslate nohighlight">\(q=2\)</span> and <span class="math notranslate nohighlight">\(r=2\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--47-input--1" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># long time</span>
@@ -1981,6 +2652,21 @@ account the tensor antisymmetries:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">a_cd</span> <span class="o">+</span> <span class="n">c_da</span> <span class="o">-</span> <span class="n">d_ac</span> <span class="o">==</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--47-input--3" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># long time
+a_cd = a.bracket(c.bracket(d))
+c_da = c.bracket(d.bracket(a))
+d_ac = d.bracket(a.bracket(c))
+a_cd + c_da - d_ac == 0</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2028,7 +2714,7 @@ for the interior product of a differential form with a
 multivector field</p>
 </div>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Interior product with <span class="math notranslate nohighlight">\(p=1\)</span> and <span class="math notranslate nohighlight">\(q=1\)</span> on 4-dimensional manifold:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Interior product with <span class="math notranslate nohighlight">\(p=1\)</span> and <span class="math notranslate nohighlight">\(q=1\)</span> on 4-dimensional manifold:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--48-input--1" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">)</span>
@@ -2059,8 +2745,24 @@ multivector field</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--48-input--3" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(4, 'M')
+X.&lt;t,x,y,z&gt; = M.chart()
+a = M.vector_field([x, 1+t^2, x*z, y-3], name='a')
+b = M.one_form([-z^2, 2, x, x-y], name='b')
+s = a.interior_product(b); s
+s.display()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In this case, we have <span class="math notranslate nohighlight">\(\iota_a b = a^i b_i = a(b) = b(a)\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In this case, we have <span class="math notranslate nohighlight">\(\iota_a b = a^i b_i = a(b) = b(a)\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--49-input--1" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nb">all</span><span class="p">([</span><span class="n">s</span> <span class="o">==</span> <span class="n">a</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="n">b</span><span class="p">),</span> <span class="n">s</span> <span class="o">==</span> <span class="n">a</span><span class="p">(</span><span class="n">b</span><span class="p">),</span> <span class="n">s</span> <span class="o">==</span> <span class="n">b</span><span class="p">(</span><span class="n">a</span><span class="p">)])</span>
@@ -2075,8 +2777,19 @@ multivector field</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--49-input--3" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">all([s == a.contract(b), s == a(b), s == b(a)])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Case <span class="math notranslate nohighlight">\(p=1\)</span> and <span class="math notranslate nohighlight">\(q=3\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Case <span class="math notranslate nohighlight">\(p=1\)</span> and <span class="math notranslate nohighlight">\(q=3\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--50-input--1" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">c</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">diff_form</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;c&#39;</span><span class="p">)</span>
@@ -2113,8 +2826,24 @@ multivector field</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--50-input--3" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">c = M.diff_form(3, name='c')
+c[0,1,2], c[0,1,3] = x*y - z, -3*t
+c[0,2,3], c[1,2,3] = t+x, y
+s = a.interior_product(c); s
+s.display()
+s == a.contract(c)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Case <span class="math notranslate nohighlight">\(p=2\)</span> and <span class="math notranslate nohighlight">\(q=3\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Case <span class="math notranslate nohighlight">\(p=2\)</span> and <span class="math notranslate nohighlight">\(q=3\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--51-input--1" name="tab-set--51" type="radio"><label class="tab-label" for="tab-set--51-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">d</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">multivector_field</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">)</span>
@@ -2149,6 +2878,22 @@ multivector field</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--51-input--3" name="tab-set--51" type="radio"><label class="tab-label" for="tab-set--51-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">d = M.multivector_field(2, name='d')
+d[0,1], d[0,2], d[0,3] = t-x, 2*z, y-1
+d[1,2], d[1,3], d[2,3] = z, y+t, 4
+s = d.interior_product(c); s
+s.display()
+s == d.contract(0, 1, c, 0, 1)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2166,7 +2911,7 @@ multivector field</p>
 exterior product <code class="docutils literal notranslate"><span class="pre">self</span> <span class="pre">∧</span> <span class="pre">other</span></code></p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Exterior product of a vector field and a 2-vector field on a
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Exterior product of a vector field and a 2-vector field on a
 3-dimensional manifold:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--52-input--1" name="tab-set--52" type="radio"><label class="tab-label" for="tab-set--52-input--1">Sage</label><div class="tab-content docutils container">
@@ -2204,8 +2949,27 @@ exterior product <code class="docutils literal notranslate"><span class="pre">se
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--52-input--3" name="tab-set--52" type="radio"><label class="tab-label" for="tab-set--52-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(3, 'M', start_index=1)
+X.&lt;x,y,z&gt; = M.chart()
+a = M.vector_field([2, 1+x, y*z], name='a')
+b = M.multivector_field(2, name='b')
+b[1,2], b[1,3], b[2,3] = y^2, z+x, z^2
+a.display()
+b.display()
+s = a.wedge(b); s
+s.display()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Check:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Check:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--53-input--1" name="tab-set--53" type="radio"><label class="tab-label" for="tab-set--53-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">b</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
@@ -2220,8 +2984,19 @@ exterior product <code class="docutils literal notranslate"><span class="pre">se
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--53-input--3" name="tab-set--53" type="radio"><label class="tab-label" for="tab-set--53-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s[1,2,3] == a[1]*b[2,3] + a[2]*b[3,1] + a[3]*b[1,2]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Exterior product with a scalar field:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Exterior product with a scalar field:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--54-input--1" name="tab-set--54" type="radio"><label class="tab-label" for="tab-set--54-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">scalar_field</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;f&#39;</span><span class="p">)</span>
@@ -2250,13 +3025,32 @@ exterior product <code class="docutils literal notranslate"><span class="pre">se
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--54-input--3" name="tab-set--54" type="radio"><label class="tab-label" for="tab-set--54-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = M.scalar_field(x, name='f')
+s = b.wedge(f); s
+s.display()
+s == f*b
+s == f.wedge(b)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -2344,7 +3138,7 @@ exterior product <code class="docutils literal notranslate"><span class="pre">se
     <script src="../../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../../%5fstatic/copybutton.js"></script>
     <script src="../../../../%5fstatic/tabs.js"></script>
-    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

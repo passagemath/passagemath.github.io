@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -423,7 +423,7 @@ but it does not prevent its values from garbage collection. Hence, it stores
 the values by weak references with callback functions: The callback function
 deletes a key-value pair from the dictionary, as soon as the value becomes
 subject to garbage collection.</p>
-<p class="with-sage-tab with-python-tab">However, a problem arises if hash and comparison of the key depend on the
+<p class="with-sage-tab with-python-tab with-sage-live-tab">However, a problem arises if hash and comparison of the key depend on the
 value that is being garbage collected:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
@@ -475,9 +475,37 @@ value that is being garbage collected:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">import weakref
+class Vals(): pass
+class Keys:
+    def __init__(self, val):
+        self.val = weakref.ref(val)
+    def __hash__(self):
+        return hash(self.val())
+    def __eq__(self, other):
+        return self.val() == other.val()
+    def __ne__(self, other):
+        return self.val() != other.val()
+ValList = [Vals() for _ in range(10)]
+D = weakref.WeakValueDictionary()
+for v in ValList:
+    D[Keys(v)] = v
+len(D)
+del ValList, v
+len(D) &gt; 1</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>Hence, the defunct items have not been removed from the dictionary.</p>
-<p class="with-sage-tab with-python-tab">Therefore, Sage provides an alternative implementation
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Therefore, Sage provides an alternative implementation
 <a class="reference internal" href="#sage.misc.weak_dict.WeakValueDictionary" title="sage.misc.weak_dict.WeakValueDictionary"><code class="xref py py-class docutils literal notranslate"><span class="pre">sage.misc.weak_dict.WeakValueDictionary</span></code></a>, using a callback that
 removes the defunct item not based on hash and equality check of the key (this
 is what fails in the example above), but based on comparison by identity. This
@@ -521,8 +549,28 @@ no error messages, and the items get correctly removed:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ValList = [Vals() for _ in range(10)]
+import sage.misc.weak_dict
+D = sage.misc.weak_dict.WeakValueDictionary()
+for v in ValList:
+    D[Keys(v)] = v
+len(D)
+del ValList
+len(D)
+del v
+len(D)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Another problem arises when iterating over the items of a dictionary: If
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Another problem arises when iterating over the items of a dictionary: If
 garbage collection occurs during iteration, then the content of the dictionary
 changes, and the iteration breaks for <a class="reference external" href="https://docs.python.org/library/weakref.html#weakref.WeakValueDictionary" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">weakref.WeakValueDictionary</span></code></a>:</p>
 <div class="tab-set docutils container">
@@ -555,6 +603,25 @@ changes, and the iteration breaks for <a class="reference external" href="https:
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class Cycle:
+    def __init__(self):
+        self.selfref = self
+C = [Cycle() for n in range(10)]
+D = weakref.WeakValueDictionary(enumerate(C))
+import gc
+gc.disable()
+del C[:5]
+len(D)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>With <a class="reference internal" href="#sage.misc.weak_dict.WeakValueDictionary" title="sage.misc.weak_dict.WeakValueDictionary"><code class="xref py py-class docutils literal notranslate"><span class="pre">WeakValueDictionary</span></code></a>, the behaviour is
 safer. Note that iteration over a WeakValueDictionary is non-deterministic,
@@ -572,7 +639,7 @@ additionally adds strong references to the most recently added values.
 This ensures that values will not be immediately deleted after adding
 them to the dictionary. This is mostly useful to implement cached
 functions.</p>
-<p class="with-sage-tab with-python-tab">Note that Sage’s weak value dictionary is actually an instance of
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that Sage’s weak value dictionary is actually an instance of
 <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, in contrast to <a class="reference external" href="https://docs.python.org/library/weakref.html#module-weakref" title="(in Python v3.12)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">weakref</span></code></a>’s weak value dictionary:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
@@ -592,6 +659,18 @@ functions.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">issubclass(weakref.WeakValueDictionary, dict)
+issubclass(sage.misc.weak_dict.WeakValueDictionary, dict)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>See <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/13394">upstream Issue #13394</a> for a discussion of some of the design considerations.</p>
 <dl class="py class">
@@ -604,7 +683,7 @@ where significant performance losses can occur if a value is deleted
 too early, but where keeping a value alive too long does not hurt
 much. This is typically the case with cached functions.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">We illustrate the difference between <a class="reference internal" href="#sage.misc.weak_dict.WeakValueDictionary" title="sage.misc.weak_dict.WeakValueDictionary"><code class="xref py py-class docutils literal notranslate"><span class="pre">WeakValueDictionary</span></code></a>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We illustrate the difference between <a class="reference internal" href="#sage.misc.weak_dict.WeakValueDictionary" title="sage.misc.weak_dict.WeakValueDictionary"><code class="xref py py-class docutils literal notranslate"><span class="pre">WeakValueDictionary</span></code></a>
 and <a class="reference internal" href="#sage.misc.weak_dict.CachedWeakValueDictionary" title="sage.misc.weak_dict.CachedWeakValueDictionary"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedWeakValueDictionary</span></code></a>. An item is removed from a
 <a class="reference internal" href="#sage.misc.weak_dict.WeakValueDictionary" title="sage.misc.weak_dict.WeakValueDictionary"><code class="xref py py-class docutils literal notranslate"><span class="pre">WeakValueDictionary</span></code></a> as soon as there are no references to
 it:</p>
@@ -638,8 +717,26 @@ it:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.weak_dict import WeakValueDictionary
+D = WeakValueDictionary()
+class Test(): pass
+tmp = Test()
+D[0] = tmp
+0 in D
+del tmp
+0 in D</pre>
 </div>
-<p class="with-sage-tab with-python-tab">So, if you have a cached function repeatedly creating the same
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">So, if you have a cached function repeatedly creating the same
 temporary object and deleting it (in a helper function called from
 a loop for example), this caching will not help at all. With
 <a class="reference internal" href="#sage.misc.weak_dict.CachedWeakValueDictionary" title="sage.misc.weak_dict.CachedWeakValueDictionary"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedWeakValueDictionary</span></code></a>, the most recently added values
@@ -691,6 +788,27 @@ anyway:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.weak_dict import CachedWeakValueDictionary
+D = CachedWeakValueDictionary(cache=4)
+class Test(): pass
+tmp = Test()
+D[0] = tmp
+0 in D
+del tmp
+0 in D
+for i in range(5):
+    D[1] = Test()
+    print(0 in D)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -702,7 +820,7 @@ anyway:</p>
 a weak reference becomes invalid.</p>
 <p>This is of internal use only. Instances of this class will be passed as a
 callback function when creating a weak reference.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.weak_dict</span><span class="w"> </span><span class="kn">import</span> <span class="n">WeakValueDictionary</span>
@@ -727,6 +845,22 @@ callback function when creating a weak reference.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
 <span class="go">0</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.weak_dict import WeakValueDictionary
+v = frozenset([1])
+D = WeakValueDictionary({1 : v})
+len(D)
+del v
+len(D)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -755,7 +889,7 @@ need to compute the hash or compare the dictionary keys. This is why
 the example below would not work with
 <a class="reference external" href="https://docs.python.org/library/weakref.html#weakref.WeakValueDictionary" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">weakref.WeakValueDictionary</span></code></a>, but does work with
 <a class="reference internal" href="#sage.misc.weak_dict.WeakValueDictionary" title="sage.misc.weak_dict.WeakValueDictionary"><code class="xref py py-class docutils literal notranslate"><span class="pre">sage.misc.weak_dict.WeakValueDictionary</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">import</span><span class="w"> </span><span class="nn">weakref</span>
@@ -814,13 +948,44 @@ the example below would not work with
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">import weakref
+class Vals(): pass
+class Keys:
+    def __init__(self, val):
+        self.val = weakref.ref(val)
+    def __hash__(self):
+        return hash(self.val())
+    def __eq__(self, other):
+        return self.val() == other.val()
+    def __ne__(self, other):
+        return self.val() != other.val()
+ValList = [Vals() for _ in range(10)]
+import sage.misc.weak_dict
+D = sage.misc.weak_dict.WeakValueDictionary()
+for v in ValList:
+    D[Keys(v)] = v
+len(D)
+del ValList
+len(D)
+del v
+len(D)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.misc.weak_dict.WeakValueDictionary.get">
 <span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/weak_dict.pyx#L632"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.weak_dict.WeakValueDictionary.get" title="Link to this definition">¶</a></dt>
 <dd><p>Return the stored value for a key, or a default value for unknown keys.</p>
 <p>The default value defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">import</span><span class="w"> </span><span class="nn">sage.misc.weak_dict</span>
@@ -861,6 +1026,25 @@ the example below would not work with
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">import sage.misc.weak_dict
+# needs sage.libs.pari
+L = [GF(p) for p in prime_range(10^3)]
+D = sage.misc.weak_dict.WeakValueDictionary(enumerate(L))
+100 in D
+200 in D
+D.get(100, &quot;not found&quot;)
+D.get(200, &quot;not found&quot;)
+D.get(200) is None</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -873,7 +1057,7 @@ the example below would not work with
 <p>Iteration is unsafe, if the length of the dictionary changes
 during the iteration! This can also happen by garbage collection.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">import</span><span class="w"> </span><span class="nn">sage.misc.weak_dict</span>
@@ -942,8 +1126,47 @@ during the iteration! This can also happen by garbage collection.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">import sage.misc.weak_dict
+class Vals:
+    def __init__(self, n):
+        self.n = n
+    def __repr__(self):
+        return &quot;&lt;%s&gt;&quot; % self.n
+    def __lt__(self, other):
+        return self.n &lt; other.n
+    def __eq__(self, other):
+        return self.n == other.n
+    def __ne__(self, other):
+        return self.val() != other.val()
+class Keys():
+    def __init__(self, n):
+        self.n = n
+    def __hash__(self):
+        if self.n % 2:
+            return int(5)
+        return int(3)
+    def __repr__(self):
+        return &quot;[%s]&quot; % self.n
+    def __lt__(self, other):
+        return self.n &lt; other.n
+    def __eq__(self, other):
+        return self.n == other.n
+    def __ne__(self, other):
+        return self.val() != other.val()
+L = [(Keys(n), Vals(n)) for n in range(10)]
+D = sage.misc.weak_dict.WeakValueDictionary(L)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We remove one dictionary item directly. Another item is removed by
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We remove one dictionary item directly. Another item is removed by
 means of garbage collection. By consequence, there remain eight
 items in the dictionary:</p>
 <div class="tab-set docutils container">
@@ -980,6 +1203,20 @@ items in the dictionary:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">del D[Keys(2)]
+del L[5]
+for k,v in sorted(D.items()):
+    print(&quot;{} {}&quot;.format(k, v))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -987,7 +1224,7 @@ items in the dictionary:</p>
 <dt class="sig sig-object py" id="sage.misc.weak_dict.WeakValueDictionary.items_list">
 <span class="sig-name descname"><span class="pre">items_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/weak_dict.pyx#L973"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.weak_dict.WeakValueDictionary.items_list" title="Link to this definition">¶</a></dt>
 <dd><p>The key-value pairs of this dictionary.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">import</span><span class="w"> </span><span class="nn">sage.misc.weak_dict</span>
@@ -1056,8 +1293,47 @@ items in the dictionary:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">import sage.misc.weak_dict
+class Vals:
+    def __init__(self, n):
+        self.n = n
+    def __repr__(self):
+        return &quot;&lt;%s&gt;&quot; % self.n
+    def __lt__(self, other):
+        return self.n &lt; other.n
+    def __eq__(self, other):
+        return self.n == other.n
+    def __ne__(self, other):
+        return self.val() != other.val()
+class Keys():
+    def __init__(self, n):
+        self.n = n
+    def __hash__(self):
+        if self.n % 2:
+            return int(5)
+        return int(3)
+    def __repr__(self):
+        return &quot;[%s]&quot; % self.n
+    def __lt__(self, other):
+        return self.n &lt; other.n
+    def __eq__(self, other):
+        return self.n == other.n
+    def __ne__(self, other):
+        return self.val() != other.val()
+L = [(Keys(n), Vals(n)) for n in range(10)]
+D = sage.misc.weak_dict.WeakValueDictionary(L)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We remove one dictionary item directly. Another item is removed by
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We remove one dictionary item directly. Another item is removed by
 means of garbage collection. By consequence, there remain eight
 items in the dictionary:</p>
 <div class="tab-set docutils container">
@@ -1092,6 +1368,19 @@ items in the dictionary:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">del D[Keys(2)]
+del L[5]
+sorted(D.items())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1099,7 +1388,7 @@ items in the dictionary:</p>
 <dt class="sig sig-object py" id="sage.misc.weak_dict.WeakValueDictionary.keys">
 <span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/weak_dict.pyx#L795"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.weak_dict.WeakValueDictionary.keys" title="Link to this definition">¶</a></dt>
 <dd><p>The list of keys.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">import</span><span class="w"> </span><span class="nn">sage.misc.weak_dict</span>
@@ -1120,8 +1409,23 @@ items in the dictionary:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">import sage.misc.weak_dict
+class Vals(): pass
+L = [Vals() for _ in range(10)]
+D = sage.misc.weak_dict.WeakValueDictionary(enumerate(L))
+del L[4]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">One item got deleted from the list <code class="docutils literal notranslate"><span class="pre">L</span></code> and hence the corresponding
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">One item got deleted from the list <code class="docutils literal notranslate"><span class="pre">L</span></code> and hence the corresponding
 item in the dictionary got deleted as well. Therefore, the
 corresponding key 4 is missing in the list of keys:</p>
 <div class="tab-set docutils container">
@@ -1138,6 +1442,17 @@ corresponding key 4 is missing in the list of keys:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">sorted(D.keys())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1145,7 +1460,7 @@ corresponding key 4 is missing in the list of keys:</p>
 <dt class="sig sig-object py" id="sage.misc.weak_dict.WeakValueDictionary.pop">
 <span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/weak_dict.pyx#L558"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.weak_dict.WeakValueDictionary.pop" title="Link to this definition">¶</a></dt>
 <dd><p>Return the value for a given key, and delete it from the dictionary.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">import</span><span class="w"> </span><span class="nn">sage.misc.weak_dict</span>
@@ -1186,6 +1501,24 @@ corresponding key 4 is missing in the list of keys:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">import sage.misc.weak_dict
+# needs sage.libs.pari
+L = [GF(p) for p in prime_range(10^3)]
+D = sage.misc.weak_dict.WeakValueDictionary(enumerate(L))
+20 in D
+D.pop(20)
+20 in D
+D.pop(20)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1193,7 +1526,7 @@ corresponding key 4 is missing in the list of keys:</p>
 <dt class="sig sig-object py" id="sage.misc.weak_dict.WeakValueDictionary.popitem">
 <span class="sig-name descname"><span class="pre">popitem</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/weak_dict.pyx#L603"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.weak_dict.WeakValueDictionary.popitem" title="Link to this definition">¶</a></dt>
 <dd><p>Return and delete some item from the dictionary.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">import</span><span class="w"> </span><span class="nn">sage.misc.weak_dict</span>
@@ -1210,8 +1543,21 @@ corresponding key 4 is missing in the list of keys:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">import sage.misc.weak_dict
+D = sage.misc.weak_dict.WeakValueDictionary()
+D[1] = ZZ</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The dictionary only contains a single item, hence, it is clear which
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The dictionary only contains a single item, hence, it is clear which
 one will be returned:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
@@ -1227,8 +1573,19 @@ one will be returned:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D.popitem()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Now, the dictionary is empty, and hence the next attempt to pop an
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Now, the dictionary is empty, and hence the next attempt to pop an
 item will fail with a <a class="reference external" href="https://docs.python.org/library/exceptions.html#KeyError" title="(in Python v3.12)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
@@ -1248,6 +1605,17 @@ item will fail with a <a class="reference external" href="https://docs.python.or
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D.popitem()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1256,7 +1624,7 @@ item will fail with a <a class="reference external" href="https://docs.python.or
 <span class="sig-name descname"><span class="pre">setdefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/weak_dict.pyx#L423"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.weak_dict.WeakValueDictionary.setdefault" title="Link to this definition">¶</a></dt>
 <dd><p>Return the stored value for a given key; return and store a default
 value if no previous value is stored.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">import</span><span class="w"> </span><span class="nn">sage.misc.weak_dict</span>
@@ -1281,8 +1649,23 @@ value if no previous value is stored.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">import sage.misc.weak_dict
+# needs sage.libs.pari
+L = [(p, GF(p)) for p in prime_range(10)]
+D = sage.misc.weak_dict.WeakValueDictionary(L)
+len(D)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The value for an existing key is returned and not overridden:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The value for an existing key is returned and not overridden:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.pari</span>
@@ -1303,8 +1686,21 @@ value if no previous value is stored.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.pari
+D.setdefault(5, ZZ)
+D[5]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">For a non-existing key, the default value is stored and returned:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">For a non-existing key, the default value is stored and returned:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.pari</span>
@@ -1337,6 +1733,22 @@ value if no previous value is stored.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.pari
+4 in D
+D.setdefault(4, ZZ)
+4 in D
+D[4]
+len(D)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1349,7 +1761,7 @@ value if no previous value is stored.</p>
 <p>Iteration is unsafe, if the length of the dictionary changes
 during the iteration! This can also happen by garbage collection.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">import</span><span class="w"> </span><span class="nn">sage.misc.weak_dict</span>
@@ -1388,8 +1800,32 @@ during the iteration! This can also happen by garbage collection.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">import sage.misc.weak_dict
+class Vals:
+    def __init__(self, n):
+        self.n = n
+    def __repr__(self):
+        return &quot;&lt;%s&gt;&quot; % self.n
+    def __lt__(self, other):
+        return self.n &lt; other.n
+    def __eq__(self, other):
+        return self.n == other.n
+    def __ne__(self, other):
+        return self.val() != other.val()
+L = [Vals(n) for n in range(10)]
+D = sage.misc.weak_dict.WeakValueDictionary(enumerate(L))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We delete one item from <code class="docutils literal notranslate"><span class="pre">D</span></code> and we delete one item from the list
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We delete one item from <code class="docutils literal notranslate"><span class="pre">D</span></code> and we delete one item from the list
 <code class="docutils literal notranslate"><span class="pre">L</span></code>. The latter implies that the corresponding item from <code class="docutils literal notranslate"><span class="pre">D</span></code> gets
 deleted as well. Hence, there remain eight values:</p>
 <div class="tab-set docutils container">
@@ -1426,6 +1862,20 @@ deleted as well. Hence, there remain eight values:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">del D[2]
+del L[5]
+for v in sorted(D.values()):
+    print(v)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1433,7 +1883,7 @@ deleted as well. Hence, there remain eight values:</p>
 <dt class="sig sig-object py" id="sage.misc.weak_dict.WeakValueDictionary.values_list">
 <span class="sig-name descname"><span class="pre">values_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/weak_dict.pyx#L871"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.weak_dict.WeakValueDictionary.values_list" title="Link to this definition">¶</a></dt>
 <dd><p>Return the list of values.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">import</span><span class="w"> </span><span class="nn">sage.misc.weak_dict</span>
@@ -1472,8 +1922,32 @@ deleted as well. Hence, there remain eight values:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">import sage.misc.weak_dict
+class Vals:
+    def __init__(self, n):
+        self.n = n
+    def __repr__(self):
+        return &quot;&lt;%s&gt;&quot; % self.n
+    def __lt__(self, other):
+        return self.n &lt; other.n
+    def __eq__(self, other):
+        return self.n == other.n
+    def __ne__(self, other):
+        return self.val() != other.val()
+L = [Vals(n) for n in range(10)]
+D = sage.misc.weak_dict.WeakValueDictionary(enumerate(L))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We delete one item from <code class="docutils literal notranslate"><span class="pre">D</span></code> and we delete one item from the list
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We delete one item from <code class="docutils literal notranslate"><span class="pre">D</span></code> and we delete one item from the list
 <code class="docutils literal notranslate"><span class="pre">L</span></code>. The latter implies that the corresponding item from <code class="docutils literal notranslate"><span class="pre">D</span></code> gets
 deleted as well. Hence, there remain eight values:</p>
 <div class="tab-set docutils container">
@@ -1494,13 +1968,30 @@ deleted as well. Hence, there remain eight values:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">del D[2]
+del L[5]
+sorted(D.values_list())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -1589,7 +2080,7 @@ deleted as well. Hence, there remain eight values:</p>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>

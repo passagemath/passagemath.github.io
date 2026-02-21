@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -316,7 +316,7 @@ for a thorough study of DES. Its goal is as a teaching tool in the same
 spirit as Phan’s
 <a class="reference internal" href="miniaes.html#module-sage.crypto.block_cipher.miniaes" title="sage.crypto.block_cipher.miniaes"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Mini-AES</span></code></a> <a class="reference internal" href="../../../../references/index.html#pha2002" id="id2"><span>[Pha2002]</span></a>.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Encrypt a random block of 8-bit plaintext using a random key, decrypt
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Encrypt a random block of 8-bit plaintext using a random key, decrypt
 the ciphertext, and compare the result with the original plaintext:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
@@ -348,8 +348,26 @@ the ciphertext, and compare the result with the original plaintext:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.crypto.block_cipher.sdes import SimplifiedDES
+sdes = SimplifiedDES(); sdes
+bin = BinaryStrings()
+P = [bin(str(randint(0, 1))) for i in range(8)]
+K = sdes.random_key()
+C = sdes.encrypt(P, K)
+plaintxt = sdes.decrypt(C, K)
+plaintxt == P</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can also encrypt binary strings that are larger than 8 bits in length.
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can also encrypt binary strings that are larger than 8 bits in length.
 However, the number of bits in that binary string must be positive
 and a multiple of 8:</p>
 <div class="tab-set docutils container">
@@ -384,6 +402,25 @@ and a multiple of 8:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.crypto.block_cipher.sdes import SimplifiedDES
+sdes = SimplifiedDES()
+bin = BinaryStrings()
+P = bin.encoding(&quot;Encrypt this using S-DES!&quot;)
+Mod(len(P), 8) == 0
+K = sdes.list_to_string(sdes.random_key())
+C = sdes(P, K, algorithm='encrypt')
+plaintxt = sdes(C, K, algorithm='decrypt')
+plaintxt == P</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.crypto.block_cipher.sdes.SimplifiedDES.block_length">
@@ -394,7 +431,7 @@ Schaefer’s S-DES is a block of 10 bits.</p>
 <ul class="simple">
 <li><p>The block (or key) length in number of bits.</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.crypto.block_cipher.sdes</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimplifiedDES</span>
@@ -411,6 +448,19 @@ Schaefer’s S-DES is a block of 10 bits.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">sdes</span><span class="o">.</span><span class="n">block_length</span><span class="p">()</span>
 <span class="go">10</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.crypto.block_cipher.sdes import SimplifiedDES
+sdes = SimplifiedDES()
+sdes.block_length()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -438,7 +488,7 @@ run the output through <span class="math notranslate nohighlight">\(P^{-1}\)</sp
 <p>The 8-bit plaintext corresponding to <code class="docutils literal notranslate"><span class="pre">C</span></code>, obtained using the
 key <code class="docutils literal notranslate"><span class="pre">K</span></code>.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Decrypt an 8-bit ciphertext block:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Decrypt an 8-bit ciphertext block:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.crypto.block_cipher.sdes</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimplifiedDES</span>
@@ -461,8 +511,23 @@ key <code class="docutils literal notranslate"><span class="pre">K</span></code>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.crypto.block_cipher.sdes import SimplifiedDES
+sdes = SimplifiedDES()
+C = [0, 1, 0, 1, 0, 1, 0, 1]
+K = [1, 0, 1, 0, 0, 0, 0, 0, 1, 0]
+sdes.decrypt(C, K)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can also work with strings of bits:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can also work with strings of bits:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">C</span> <span class="o">=</span> <span class="s2">&quot;01010101&quot;</span>
@@ -479,6 +544,19 @@ key <code class="docutils literal notranslate"><span class="pre">K</span></code>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">sdes</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">sdes</span><span class="o">.</span><span class="n">string_to_list</span><span class="p">(</span><span class="n">C</span><span class="p">),</span> <span class="n">sdes</span><span class="o">.</span><span class="n">string_to_list</span><span class="p">(</span><span class="n">K</span><span class="p">))</span>
 <span class="go">[0, 0, 0, 1, 0, 1, 0, 1]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C = &quot;01010101&quot;
+K = &quot;1010000010&quot;
+sdes.decrypt(sdes.string_to_list(C), sdes.string_to_list(K))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -506,7 +584,7 @@ run the output through <span class="math notranslate nohighlight">\(P^{-1}\)</sp
 <p>The 8-bit ciphertext corresponding to <code class="docutils literal notranslate"><span class="pre">P</span></code>, obtained using the
 key <code class="docutils literal notranslate"><span class="pre">K</span></code>.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Encrypt an 8-bit plaintext block:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Encrypt an 8-bit plaintext block:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.crypto.block_cipher.sdes</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimplifiedDES</span>
@@ -529,8 +607,23 @@ key <code class="docutils literal notranslate"><span class="pre">K</span></code>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.crypto.block_cipher.sdes import SimplifiedDES
+sdes = SimplifiedDES()
+P = [0, 1, 0, 1, 0, 1, 0, 1]
+K = [1, 0, 1, 0, 0, 0, 0, 0, 1, 0]
+sdes.encrypt(P, K)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can also work with strings of bits:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can also work with strings of bits:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="s2">&quot;01010101&quot;</span>
@@ -547,6 +640,19 @@ key <code class="docutils literal notranslate"><span class="pre">K</span></code>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">sdes</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">sdes</span><span class="o">.</span><span class="n">string_to_list</span><span class="p">(</span><span class="n">P</span><span class="p">),</span> <span class="n">sdes</span><span class="o">.</span><span class="n">string_to_list</span><span class="p">(</span><span class="n">K</span><span class="p">))</span>
 <span class="go">[1, 1, 0, 0, 0, 0, 0, 1]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = &quot;01010101&quot;
+K = &quot;1010000010&quot;
+sdes.encrypt(sdes.string_to_list(P), sdes.string_to_list(K))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -580,7 +686,7 @@ permutation <span class="math notranslate nohighlight">\(P\)</span>.</p></li>
 <p>The initial permutation of <code class="docutils literal notranslate"><span class="pre">B</span></code> if <code class="docutils literal notranslate"><span class="pre">inverse=False</span></code>, or the
 inverse permutation of <code class="docutils literal notranslate"><span class="pre">B</span></code> if <code class="docutils literal notranslate"><span class="pre">inverse=True</span></code>.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">The initial permutation of a list of 8 bits:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The initial permutation of a list of 8 bits:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.crypto.block_cipher.sdes</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimplifiedDES</span>
@@ -601,8 +707,22 @@ inverse permutation of <code class="docutils literal notranslate"><span class="p
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.crypto.block_cipher.sdes import SimplifiedDES
+sdes = SimplifiedDES()
+B = [1, 0, 1, 1, 0, 1, 0, 0]
+P = sdes.initial_permutation(B); P</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Recovering the original list of 8 bits from the permutation:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Recovering the original list of 8 bits from the permutation:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Pinv</span> <span class="o">=</span> <span class="n">sdes</span><span class="o">.</span><span class="n">initial_permutation</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -621,8 +741,20 @@ inverse permutation of <code class="docutils literal notranslate"><span class="p
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Pinv = sdes.initial_permutation(P, inverse=True)
+Pinv; B</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can also work with a string of bits:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can also work with a string of bits:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">S</span> <span class="o">=</span> <span class="s2">&quot;10110100&quot;</span>
@@ -643,6 +775,20 @@ inverse permutation of <code class="docutils literal notranslate"><span class="p
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">sdes</span><span class="o">.</span><span class="n">initial_permutation</span><span class="p">(</span><span class="n">sdes</span><span class="o">.</span><span class="n">string_to_list</span><span class="p">(</span><span class="s2">&quot;01111000&quot;</span><span class="p">),</span> <span class="n">inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">[1, 0, 1, 1, 0, 1, 0, 0]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">S = &quot;10110100&quot;
+L = sdes.string_to_list(S)
+P = sdes.initial_permutation(L); P
+sdes.initial_permutation(sdes.string_to_list(&quot;01111000&quot;), inverse=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -677,7 +823,7 @@ are defined for this circular left shift operation.</p></li>
 </ul>
 <p>OUTPUT: the circular left shift of each half of <code class="docutils literal notranslate"><span class="pre">B</span></code></p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Circular left shift by 1 position of a 10-bit string:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Circular left shift by 1 position of a 10-bit string:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.crypto.block_cipher.sdes</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimplifiedDES</span>
@@ -702,8 +848,23 @@ are defined for this circular left shift operation.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.crypto.block_cipher.sdes import SimplifiedDES
+sdes = SimplifiedDES()
+B = [1, 0, 0, 0, 0, 0, 1, 1, 0, 0]
+sdes.left_shift(B)
+sdes.left_shift([1, 0, 1, 0, 0, 0, 0, 0, 1, 0])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Circular left shift by 2 positions of a 10-bit string:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Circular left shift by 2 positions of a 10-bit string:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
@@ -720,8 +881,20 @@ are defined for this circular left shift operation.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">B = [0, 0, 0, 0, 1, 1, 1, 0, 0, 0]
+sdes.left_shift(B, n=2)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Here we work with a string of bits:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Here we work with a string of bits:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">S</span> <span class="o">=</span> <span class="s2">&quot;1000001100&quot;</span>
@@ -744,6 +917,20 @@ are defined for this circular left shift operation.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">S = &quot;1000001100&quot;
+L = sdes.string_to_list(S)
+sdes.left_shift(L)
+sdes.left_shift(sdes.string_to_list(&quot;1010000010&quot;), n=2)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -757,7 +944,7 @@ are defined for this circular left shift operation.</p></li>
 </ul>
 <p>OUTPUT: the binary string representation of <code class="docutils literal notranslate"><span class="pre">B</span></code></p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">A binary string representation of a list of bits:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A binary string representation of a list of bits:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.crypto.block_cipher.sdes</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimplifiedDES</span>
@@ -776,6 +963,20 @@ are defined for this circular left shift operation.</p></li>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">sdes</span><span class="o">.</span><span class="n">list_to_string</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
 <span class="go">0000110100</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.crypto.block_cipher.sdes import SimplifiedDES
+sdes = SimplifiedDES()
+L = [0, 0, 0, 0, 1, 1, 0, 1, 0, 0]
+sdes.list_to_string(L)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -800,7 +1001,7 @@ are defined for this circular left shift operation.</p></li>
 </ul>
 <p>OUTPUT: a permutation of <code class="docutils literal notranslate"><span class="pre">B</span></code></p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Permute a 10-bit string:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Permute a 10-bit string:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.crypto.block_cipher.sdes</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimplifiedDES</span>
@@ -829,8 +1030,24 @@ are defined for this circular left shift operation.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.crypto.block_cipher.sdes import SimplifiedDES
+sdes = SimplifiedDES()
+B = [1, 1, 0, 0, 1, 0, 0, 1, 0, 1]
+sdes.permutation10(B)
+sdes.permutation10([0, 1, 1, 0, 1, 0, 0, 1, 0, 1])
+sdes.permutation10([1, 0, 1, 0, 0, 0, 0, 0, 1, 0])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Here we work with a string of bits:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Here we work with a string of bits:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">S</span> <span class="o">=</span> <span class="s2">&quot;1100100101&quot;</span>
@@ -853,6 +1070,20 @@ are defined for this circular left shift operation.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">S = &quot;1100100101&quot;
+L = sdes.string_to_list(S)
+sdes.permutation10(L)
+sdes.permutation10(sdes.string_to_list(&quot;0110100101&quot;))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -873,7 +1104,7 @@ are defined for this circular left shift operation.</p></li>
 </ul>
 <p>OUTPUT: a permutation of <code class="docutils literal notranslate"><span class="pre">B</span></code></p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Permute a 4-bit string:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Permute a 4-bit string:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.crypto.block_cipher.sdes</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimplifiedDES</span>
@@ -898,8 +1129,23 @@ are defined for this circular left shift operation.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.crypto.block_cipher.sdes import SimplifiedDES
+sdes = SimplifiedDES()
+B = [1, 1, 0, 0]
+sdes.permutation4(B)
+sdes.permutation4([0, 1, 0, 1])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can also work with a string of bits:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can also work with a string of bits:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">S</span> <span class="o">=</span> <span class="s2">&quot;1100&quot;</span>
@@ -920,6 +1166,20 @@ are defined for this circular left shift operation.</p></li>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">sdes</span><span class="o">.</span><span class="n">permutation4</span><span class="p">(</span><span class="n">sdes</span><span class="o">.</span><span class="n">string_to_list</span><span class="p">(</span><span class="s2">&quot;0101&quot;</span><span class="p">))</span>
 <span class="go">[1, 1, 0, 0]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">S = &quot;1100&quot;
+L = sdes.string_to_list(S)
+sdes.permutation4(L)
+sdes.permutation4(sdes.string_to_list(&quot;0101&quot;))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -945,7 +1205,7 @@ those 10 bits and permutes those 8 bits:</p>
 </ul>
 <p>OUTPUT: pick out 8 of the 10 bits of <code class="docutils literal notranslate"><span class="pre">B</span></code> and permute those 8 bits</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Permute a 10-bit string:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Permute a 10-bit string:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.crypto.block_cipher.sdes</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimplifiedDES</span>
@@ -974,8 +1234,24 @@ those 10 bits and permutes those 8 bits:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.crypto.block_cipher.sdes import SimplifiedDES
+sdes = SimplifiedDES()
+B = [1, 1, 0, 0, 1, 0, 0, 1, 0, 1]
+sdes.permutation8(B)
+sdes.permutation8([0, 1, 1, 0, 1, 0, 0, 1, 0, 1])
+sdes.permutation8([0, 0, 0, 0, 1, 1, 1, 0, 0, 0])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can also work with a string of bits:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can also work with a string of bits:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">S</span> <span class="o">=</span> <span class="s2">&quot;1100100101&quot;</span>
@@ -996,6 +1272,20 @@ those 10 bits and permutes those 8 bits:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">sdes</span><span class="o">.</span><span class="n">permutation8</span><span class="p">(</span><span class="n">sdes</span><span class="o">.</span><span class="n">string_to_list</span><span class="p">(</span><span class="s2">&quot;0110100101&quot;</span><span class="p">))</span>
 <span class="go">[0, 1, 0, 0, 1, 1, 1, 0]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">S = &quot;1100100101&quot;
+L = sdes.string_to_list(S)
+sdes.permutation8(L)
+sdes.permutation8(sdes.string_to_list(&quot;0110100101&quot;))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1095,7 +1385,7 @@ follows:</p>
 </ul>
 <p>OUTPUT: the result of applying the function <span class="math notranslate nohighlight">\(\Pi_F\)</span> to <code class="docutils literal notranslate"><span class="pre">B</span></code></p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Applying the function <span class="math notranslate nohighlight">\(\Pi_F\)</span> to an 8-bit block and an 8-bit subkey:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Applying the function <span class="math notranslate nohighlight">\(\Pi_F\)</span> to an 8-bit block and an 8-bit subkey:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.crypto.block_cipher.sdes</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimplifiedDES</span>
@@ -1118,8 +1408,23 @@ follows:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.crypto.block_cipher.sdes import SimplifiedDES
+sdes = SimplifiedDES()
+B = [1, 0, 1, 1, 1, 1, 0, 1]
+K = [1, 1, 0, 1, 0, 1, 0, 1]
+sdes.permute_substitute(B, K)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can also work with strings of bits:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can also work with strings of bits:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">B</span> <span class="o">=</span> <span class="s2">&quot;10111101&quot;</span>
@@ -1140,6 +1445,20 @@ follows:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">B = &quot;10111101&quot;
+K = &quot;11010101&quot;
+B = sdes.string_to_list(B); K = sdes.string_to_list(K)
+sdes.permute_substitute(B, K)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1148,7 +1467,7 @@ follows:</p>
 <span class="sig-name descname"><span class="pre">random_key</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/crypto/block_cipher/sdes.py#L1268"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.crypto.block_cipher.sdes.SimplifiedDES.random_key" title="Link to this definition">¶</a></dt>
 <dd><p>Return a random 10-bit key.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">The size of each key is the same as the block size:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The size of each key is the same as the block size:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.crypto.block_cipher.sdes</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimplifiedDES</span>
@@ -1169,6 +1488,20 @@ follows:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.crypto.block_cipher.sdes import SimplifiedDES
+sdes = SimplifiedDES()
+key = sdes.random_key()
+len(key) == sdes.block_length()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1176,7 +1509,7 @@ follows:</p>
 <dt class="sig sig-object py" id="sage.crypto.block_cipher.sdes.SimplifiedDES.sbox">
 <span class="sig-name descname"><span class="pre">sbox</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/crypto/block_cipher/sdes.py#L1286"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.crypto.block_cipher.sdes.SimplifiedDES.sbox" title="Link to this definition">¶</a></dt>
 <dd><p>Return the S-boxes of simplified DES.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.crypto.block_cipher.sdes</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimplifiedDES</span>
@@ -1199,6 +1532,20 @@ follows:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.crypto.block_cipher.sdes import SimplifiedDES
+sdes = SimplifiedDES()
+sbox = sdes.sbox()
+sbox[0]; sbox[1]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1212,7 +1559,7 @@ follows:</p>
 </ul>
 <p>OUTPUT: list representation of the string <code class="docutils literal notranslate"><span class="pre">S</span></code></p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">A list representation of a string of bits:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A list representation of a string of bits:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.crypto.block_cipher.sdes</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimplifiedDES</span>
@@ -1233,6 +1580,20 @@ follows:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.crypto.block_cipher.sdes import SimplifiedDES
+sdes = SimplifiedDES()
+S = &quot;0101010110&quot;
+sdes.string_to_list(S)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1250,7 +1611,7 @@ for each secret key in Schaefer’s S-DES.</p></li>
 </ul>
 <p>OUTPUT: the <span class="math notranslate nohighlight">\(n\)</span>-th subkey based on the secret key <code class="docutils literal notranslate"><span class="pre">K</span></code></p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Obtain the first subkey from a secret key:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Obtain the first subkey from a secret key:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.crypto.block_cipher.sdes</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimplifiedDES</span>
@@ -1271,8 +1632,22 @@ for each secret key in Schaefer’s S-DES.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.crypto.block_cipher.sdes import SimplifiedDES
+sdes = SimplifiedDES()
+key = [1, 0, 1, 0, 0, 0, 0, 0, 1, 0]
+sdes.subkey(key, n=1)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Obtain the second subkey from a secret key:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Obtain the second subkey from a secret key:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">key</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
@@ -1289,8 +1664,20 @@ for each secret key in Schaefer’s S-DES.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">key = [1, 0, 1, 0, 0, 0, 0, 0, 1, 0]
+sdes.subkey(key, n=2)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can also work with strings of bits:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can also work with strings of bits:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">K</span> <span class="o">=</span> <span class="s2">&quot;1010010010&quot;</span>
@@ -1311,6 +1698,20 @@ for each secret key in Schaefer’s S-DES.</p></li>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">sdes</span><span class="o">.</span><span class="n">subkey</span><span class="p">(</span><span class="n">sdes</span><span class="o">.</span><span class="n">string_to_list</span><span class="p">(</span><span class="s2">&quot;0010010011&quot;</span><span class="p">),</span> <span class="n">n</span><span class="o">=</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <span class="go">[0, 1, 1, 0, 1, 0, 1, 0]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">K = &quot;1010010010&quot;
+L = sdes.string_to_list(K)
+sdes.subkey(L, n=1)
+sdes.subkey(sdes.string_to_list(&quot;0010010011&quot;), n=2)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1336,7 +1737,7 @@ switch function <span class="math notranslate nohighlight">\(\sigma\)</span> is 
 <p>A block of the same dimension, but in which the first 4 bits from
 <code class="docutils literal notranslate"><span class="pre">B</span></code> has been switched for the last 4 bits in <code class="docutils literal notranslate"><span class="pre">B</span></code>.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Interchange the first 4 bits with the last 4 bits:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Interchange the first 4 bits with the last 4 bits:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--28-input--1" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.crypto.block_cipher.sdes</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimplifiedDES</span>
@@ -1361,8 +1762,23 @@ switch function <span class="math notranslate nohighlight">\(\sigma\)</span> is 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.crypto.block_cipher.sdes import SimplifiedDES
+sdes = SimplifiedDES()
+B = [1, 1, 1, 0, 1, 0, 0, 0]
+sdes.switch(B)
+sdes.switch([1, 1, 1, 1, 0, 0, 0, 0])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can also work with a string of bits:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can also work with a string of bits:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">S</span> <span class="o">=</span> <span class="s2">&quot;11101000&quot;</span>
@@ -1385,13 +1801,31 @@ switch function <span class="math notranslate nohighlight">\(\sigma\)</span> is 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">S = &quot;11101000&quot;
+L = sdes.string_to_list(S)
+sdes.switch(L)
+sdes.switch(sdes.string_to_list(&quot;11110000&quot;))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -1484,7 +1918,7 @@ switch function <span class="math notranslate nohighlight">\(\sigma\)</span> is 
     <script src="../../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../../%5fstatic/copybutton.js"></script>
     <script src="../../../../%5fstatic/tabs.js"></script>
-    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

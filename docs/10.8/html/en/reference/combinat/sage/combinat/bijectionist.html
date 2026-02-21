@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -752,7 +752,7 @@ Rubey (2020-2022): Initial version</p></li>
 </div></blockquote>
 <p>Moreover, let <span class="math notranslate nohighlight">\(rot\)</span> be action of rotation on a permutation, i.e., the
 conjugation with the long cycle.</p>
-<p class="with-sage-tab with-python-tab">It is known that there must exist a statistic <span class="math notranslate nohighlight">\(s\)</span> on permutations,
+<p class="with-sage-tab with-python-tab with-sage-live-tab">It is known that there must exist a statistic <span class="math notranslate nohighlight">\(s\)</span> on permutations,
 which is equidistributed with <span class="math notranslate nohighlight">\(llis\)</span> but additionally invariant under
 <span class="math notranslate nohighlight">\(rot\)</span>.  However, at least very small cases do not contradict the
 possibility that one can even find a statistic <span class="math notranslate nohighlight">\(s\)</span>, invariant under
@@ -924,8 +924,37 @@ check this for permutations of size at most <span class="math notranslate nohigh
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">N = 3
+A = B = [pi for n in range(N+1) for pi in Permutations(n)]
+def alpha1(p): return len(p.weak_excedences())
+def alpha2(p): return len(p.fixed_points())
+def beta1(p): return len(p.descents(final_descent=True)) if p else 0
+def beta2(p): return len([e for e, f in zip(p, p[1:]+[0]) if e == f+1])
+tau = Permutation.longest_increasing_subsequence_length
+def rotate_permutation(p):
+    cycle = Permutation(tuple(range(1, len(p)+1)))
+    return Permutation([cycle.inverse()(p(cycle(i))) for i in range(1, len(p)+1)])
+bij = Bijectionist(A, B, tau)
+bij.set_statistics((len, len), (alpha1, beta1), (alpha2, beta2))
+a, b = bij.statistics_table()
+table(a, header_row=True, frame=True)
+table(b, header_row=True, frame=True)
+from sage.combinat.cyclic_sieving_phenomenon import orbit_decomposition
+bij.set_constant_blocks(orbit_decomposition(A, rotate_permutation))
+bij.constant_blocks()
+next(bij.solutions_iterator())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">On the other hand, we can check that there is no rotation invariant
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">On the other hand, we can check that there is no rotation invariant
 statistic on non-crossing set partitions which is equidistributed
 with the Strahler number on ordered trees:</p>
 <div class="tab-set docutils container">
@@ -946,8 +975,22 @@ with the Strahler number on ordered trees:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">N = 8
+A = [SetPartition(d.to_noncrossing_partition()) for n in range(N) for d in DyckWords(n)]
+B = [t for n in range(1, N+1) for t in OrderedTrees(n)]
+def theta(m): return SetPartition([[i % m.size() + 1 for i in b] for b in m])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Code for the Strahler number can be obtained from FindStat.  The
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Code for the Strahler number can be obtained from FindStat.  The
 following code is equivalent to <code class="docutils literal notranslate"><span class="pre">tau</span> <span class="pre">=</span> <span class="pre">findstat(397)</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
@@ -991,8 +1034,33 @@ following code is equivalent to <code class="docutils literal notranslate"><span
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">def tau(T):
+    if len(T) == 0:
+        return 1
+    else:
+        l = [tau(S) for S in T]
+        m = max(l)
+        if l.count(m) == 1:
+            return m
+        else:
+            return m+1
+bij = Bijectionist(A, B, tau)
+bij.set_statistics((lambda a: a.size(), lambda b: b.number_of_nodes()-1))
+from sage.combinat.cyclic_sieving_phenomenon import orbit_decomposition
+bij.set_constant_blocks(orbit_decomposition(A, theta))
+list(bij.solutions_iterator())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Next we demonstrate how to search for a bijection.  To do so, we identify <span class="math notranslate nohighlight">\(s\)</span>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Next we demonstrate how to search for a bijection.  To do so, we identify <span class="math notranslate nohighlight">\(s\)</span>
 and <span class="math notranslate nohighlight">\(S\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
@@ -1076,8 +1144,29 @@ and <span class="math notranslate nohighlight">\(S\)</span>:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">N = 4
+A = [dyck_word for n in range(1, N) for dyck_word in DyckWords(n)]
+B = [binary_tree for n in range(1, N) for binary_tree in BinaryTrees(n)]
+concat_path = lambda D1, D2: DyckWord(list(D1) + list(D2))
+concat_tree = lambda B1, B2: concat_path(B1.to_dyck_word(),
+                                         B2.to_dyck_word()).to_binary_tree()
+bij = Bijectionist(A, B)
+bij.set_intertwining_relations((2, concat_path, concat_tree))
+bij.set_statistics((lambda d: d.semilength(), lambda t: t.number_of_nodes()))
+for D in sorted(bij.minimal_subdistributions_iterator(), key=lambda x: (len(x[0][0]), x)):
+    ascii_art(D)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The output is in a form suitable for FindStat:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The output is in a form suitable for FindStat:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">findmap</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">bij</span><span class="o">.</span><span class="n">minimal_subdistributions_iterator</span><span class="p">()))</span>            <span class="c1"># optional -- internet</span>
@@ -1094,6 +1183,17 @@ and <span class="math notranslate nohighlight">\(S\)</span>:</p>
 <span class="go">1: Mp00061oMp00023 (quality [100])</span>
 <span class="go">2: Mp00018oMp00140 (quality [100])</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">findmap(list(bij.minimal_subdistributions_iterator()))            # optional -- internet</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1197,7 +1297,7 @@ compute the coarsest possible partition</p></li>
 computationally expensive, but may speed up generating
 solutions.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">]</span>
@@ -1224,6 +1324,21 @@ solutions.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = B = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+bij = Bijectionist(A, B, lambda x: 0)
+bij.set_constant_blocks([[&quot;a&quot;, &quot;b&quot;]])
+bij.constant_blocks()
+bij.constant_blocks(singletons=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1243,7 +1358,7 @@ find all solutions, use
 <a class="reference internal" href="#sage.combinat.bijectionist.Bijectionist.minimal_subdistributions_iterator" title="sage.combinat.bijectionist.Bijectionist.minimal_subdistributions_iterator"><code class="xref py py-meth docutils literal notranslate"><span class="pre">minimal_subdistributions_iterator()</span></code></a>, which is,
 however, computationally more expensive.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="n">permutation</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">permutation</span> <span class="ow">in</span> <span class="n">Permutations</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
@@ -1270,8 +1385,24 @@ however, computationally more expensive.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = B = [permutation for n in range(3) for permutation in Permutations(n)]
+bij = Bijectionist(A, B, len)
+bij.set_statistics((len, len))
+for sol in bij.solutions_iterator():
+    print(sol)
+sorted(bij.minimal_subdistributions_blocks_iterator())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Another example:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Another example:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">A</span> <span class="o">=</span> <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="n">dyck_word</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">dyck_word</span> <span class="ow">in</span> <span class="n">DyckWords</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
@@ -1308,8 +1439,26 @@ however, computationally more expensive.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">N = 2; A = B = [dyck_word for n in range(N+1) for dyck_word in DyckWords(n)]
+def tau(D): return D.number_of_touch_points()
+bij = Bijectionist(A, B, tau)
+bij.set_statistics((lambda d: d.semilength(), lambda d: d.semilength()))
+for solution in sorted(list(bij.solutions_iterator()), key=lambda d: tuple(sorted(d.items()))):
+    print(solution)
+for subdistribution in sorted(bij.minimal_subdistributions_blocks_iterator()):
+    print(subdistribution)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">An example with two elements of the same block in a subdistribution:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">An example with two elements of the same block in a subdistribution:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">]</span>
@@ -1338,8 +1487,25 @@ however, computationally more expensive.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = B = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;]
+tau = {&quot;a&quot;: 1, &quot;b&quot;: 1, &quot;c&quot;: 2, &quot;d&quot;: 2, &quot;e&quot;: 3}.get
+bij = Bijectionist(A, B, tau)
+bij.set_constant_blocks([[&quot;a&quot;, &quot;b&quot;]])
+bij.set_value_restrictions((&quot;a&quot;, [1, 2]))
+bij.constant_blocks(optimal=True)
+list(bij.minimal_subdistributions_blocks_iterator())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">An example with overlapping minimal subdistributions:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">An example with overlapping minimal subdistributions:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">]</span>
@@ -1376,8 +1542,25 @@ however, computationally more expensive.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = B = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;]
+tau = {&quot;a&quot;: 1, &quot;b&quot;: 1, &quot;c&quot;: 2, &quot;d&quot;: 2, &quot;e&quot;: 3}.get
+bij = Bijectionist(A, B, tau)
+bij.set_distributions(([&quot;a&quot;, &quot;b&quot;], [1, 2]), ([&quot;a&quot;, &quot;c&quot;, &quot;d&quot;], [1, 2, 3]))
+sorted(bij.solutions_iterator(), key=lambda d: tuple(sorted(d.items())))
+bij.constant_blocks(optimal=True)
+list(bij.minimal_subdistributions_blocks_iterator())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Fedor Petrov’s example from <a class="reference external" href="https://mathoverflow.net/q/424187">https://mathoverflow.net/q/424187</a>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Fedor Petrov’s example from <a class="reference external" href="https://mathoverflow.net/q/424187">https://mathoverflow.net/q/424187</a>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;d&quot;</span><span class="p">]</span>
@@ -1436,8 +1619,26 @@ however, computationally more expensive.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = B = [&quot;a&quot;+str(i) for i in range(1, 9)] + [&quot;b&quot;+str(i) for i in range(3, 9)] + [&quot;d&quot;]
+tau = {b: 0 if i &lt; 10 else 1 for i, b in enumerate(B)}.get
+bij = Bijectionist(A, B, tau)
+bij.set_constant_blocks([[&quot;a&quot;+str(i), &quot;b&quot;+str(i)] for i in range(1, 9) if &quot;b&quot;+str(i) in A])
+d = [0]*8+[1]*4
+bij.set_distributions((A[:8] + A[8+2:-1], d), (A[:8] + A[8:-3], d))
+sorted([s[a] for a in A] for s in bij.solutions_iterator())
+sorted(bij.minimal_subdistributions_blocks_iterator())        # random</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The following solution is not found, because it happens to
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The following solution is not found, because it happens to
 have the same support as the other:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
@@ -1459,8 +1660,21 @@ have the same support as the other:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D = set(A).difference(['b7', 'b8', 'd'])
+sorted(a.replace(&quot;b&quot;, &quot;a&quot;) for a in D)
+set(tuple(sorted(s[a] for a in D)) for s in bij.solutions_iterator())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">But it is, by design, included here:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">But it is, by design, included here:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">D</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">bij</span><span class="o">.</span><span class="n">minimal_subdistributions_iterator</span><span class="p">()]</span>
@@ -1475,6 +1689,17 @@ have the same support as the other:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">sorted(D) in [d for d, _ in bij.minimal_subdistributions_iterator()]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1484,7 +1709,7 @@ have the same support as the other:</p>
 <dd><p>Return all minimal subsets <span class="math notranslate nohighlight">\(\tilde A\)</span> of <span class="math notranslate nohighlight">\(A\)</span>
 together with submultisets <span class="math notranslate nohighlight">\(\tilde Z\)</span> with <span class="math notranslate nohighlight">\(s(\tilde A) =
 \tilde Z\)</span> as multisets.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="n">permutation</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">permutation</span> <span class="ow">in</span> <span class="n">Permutations</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
@@ -1511,8 +1736,24 @@ together with submultisets <span class="math notranslate nohighlight">\(\tilde Z
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = B = [permutation for n in range(3) for permutation in Permutations(n)]
+bij = Bijectionist(A, B, len)
+bij.set_statistics((len, len))
+for sol in bij.solutions_iterator():
+    print(sol)
+sorted(bij.minimal_subdistributions_iterator())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Another example:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Another example:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">A</span> <span class="o">=</span> <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="n">dyck_word</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">dyck_word</span> <span class="ow">in</span> <span class="n">DyckWords</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
@@ -1549,8 +1790,26 @@ together with submultisets <span class="math notranslate nohighlight">\(\tilde Z
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">N = 2; A = B = [dyck_word for n in range(N+1) for dyck_word in DyckWords(n)]
+def tau(D): return D.number_of_touch_points()
+bij = Bijectionist(A, B, tau)
+bij.set_statistics((lambda d: d.semilength(), lambda d: d.semilength()))
+for solution in sorted(list(bij.solutions_iterator()), key=lambda d: tuple(sorted(d.items()))):
+    print(solution)
+for subdistribution in sorted(bij.minimal_subdistributions_iterator()):
+    print(subdistribution)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">An example with two elements of the same block in a subdistribution:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">An example with two elements of the same block in a subdistribution:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">]</span>
@@ -1579,6 +1838,23 @@ together with submultisets <span class="math notranslate nohighlight">\(\tilde Z
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = B = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;]
+tau = {&quot;a&quot;: 1, &quot;b&quot;: 1, &quot;c&quot;: 2, &quot;d&quot;: 2, &quot;e&quot;: 3}.get
+bij = Bijectionist(A, B, tau)
+bij.set_constant_blocks([[&quot;a&quot;, &quot;b&quot;]])
+bij.set_value_restrictions((&quot;a&quot;, [1, 2]))
+bij.constant_blocks(optimal=True)
+list(bij.minimal_subdistributions_iterator())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1605,7 +1881,7 @@ may be computationally expensive.</p>
 not update the internal dictionary, because this would
 interfere with the variables of the MILP.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">]</span>
@@ -1632,8 +1908,24 @@ interfere with the variables of the MILP.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = B = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;]
+tau = {&quot;a&quot;: 1, &quot;b&quot;: 1, &quot;c&quot;: 1, &quot;d&quot;: 2}.get
+bij = Bijectionist(A, B, tau)
+bij.set_constant_blocks([[&quot;a&quot;, &quot;b&quot;]])
+bij.possible_values(A)
+bij.possible_values(A, optimal=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The internal dictionary is not updated:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The internal dictionary is not updated:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">bij</span><span class="o">.</span><span class="n">possible_values</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
@@ -1646,6 +1938,17 @@ interfere with the variables of the MILP.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">bij</span><span class="o">.</span><span class="n">possible_values</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
 <span class="go">{&#39;a&#39;: {1, 2}, &#39;b&#39;: {1, 2}, &#39;c&#39;: {1, 2}, &#39;d&#39;: {1, 2}}</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">bij.possible_values(A)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1671,7 +1974,7 @@ on <span class="math notranslate nohighlight">\(A\)</span>.  This can be achieve
 <li><p><code class="docutils literal notranslate"><span class="pre">P</span></code> – set partition of <span class="math notranslate nohighlight">\(A\)</span>, singletons may be omitted</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Initially the partitions are set to singleton blocks.  The
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Initially the partitions are set to singleton blocks.  The
 current partition can be reviewed using
 <a class="reference internal" href="#sage.combinat.bijectionist.Bijectionist.constant_blocks" title="sage.combinat.bijectionist.Bijectionist.constant_blocks"><code class="xref py py-meth docutils literal notranslate"><span class="pre">constant_blocks()</span></code></a>:</p>
 <div class="tab-set docutils container">
@@ -1700,8 +2003,23 @@ current partition can be reviewed using
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = B = 'abcd'
+bij = Bijectionist(A, B, lambda x: B.index(x) % 2)
+bij.constant_blocks()
+bij.set_constant_blocks([['a', 'c']])
+bij.constant_blocks()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We now add a map that combines some blocks:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We now add a map that combines some blocks:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">def</span><span class="w"> </span><span class="nf">pi</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span> <span class="k">return</span> <span class="s1">&#39;abcdefgh&#39;</span><span class="p">[</span><span class="n">A</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span> <span class="o">+</span> <span class="n">A</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">p2</span><span class="p">)]</span>
@@ -1726,8 +2044,23 @@ current partition can be reviewed using
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">def pi(p1, p2): return 'abcdefgh'[A.index(p1) + A.index(p2)]
+def rho(s1, s2): return (s1 + s2) % 2
+bij.set_intertwining_relations((2, pi, rho))
+list(bij.solutions_iterator())
+bij.constant_blocks()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Setting constant blocks overrides any previous assignment:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Setting constant blocks overrides any previous assignment:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">bij</span><span class="o">.</span><span class="n">set_constant_blocks</span><span class="p">([[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">]])</span>
@@ -1744,8 +2077,20 @@ current partition can be reviewed using
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">bij.set_constant_blocks([['a', 'b']])
+bij.constant_blocks()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If there is no solution, and the coarsest partition is
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If there is no solution, and the coarsest partition is
 requested, an error is raised:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
@@ -1763,6 +2108,17 @@ requested, an error is raised:</p>
 <span class="gp">...</span>
 <span class="go">StopIteration</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">bij.constant_blocks(optimal=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1795,7 +2151,7 @@ not have to be disjoint.</p>
 </div>
 <p>where <span class="math notranslate nohighlight">\(p(a)\)</span> is the block containing <span class="math notranslate nohighlight">\(a\)</span>, for each given
 distribution as a vector equation to the MILP.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="n">permutation</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">permutation</span> <span class="ow">in</span> <span class="n">Permutations</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
@@ -1846,8 +2202,27 @@ distribution as a vector equation to the MILP.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = B = [permutation for n in range(4) for permutation in Permutations(n)]
+tau = Permutation.longest_increasing_subsequence_length
+bij = Bijectionist(A, B, tau)
+bij.set_statistics((len, len))
+bij.set_distributions(([Permutation([1, 2, 3]), Permutation([1, 3, 2])], [1, 3]))
+for sol in sorted(list(bij.solutions_iterator()), key=lambda d: tuple(sorted(d.items()))):
+    print(sol)
+bij.constant_blocks(optimal=True)
+sorted(bij.minimal_subdistributions_blocks_iterator(), key=lambda d: (len(d[0]), d[0]))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We may also specify multiple, possibly overlapping distributions:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We may also specify multiple, possibly overlapping distributions:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">bij</span><span class="o">.</span><span class="n">set_distributions</span><span class="p">(([</span><span class="n">Permutation</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]),</span> <span class="n">Permutation</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">])],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]),</span>
@@ -1890,6 +2265,23 @@ distribution as a vector equation to the MILP.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">bij.set_distributions(([Permutation([1, 2, 3]), Permutation([1, 3, 2])], [1, 3]),
+                      ([Permutation([1, 3, 2]), Permutation([3, 2, 1]),
+                       Permutation([2, 1, 3])], [1, 2, 2]))
+for sol in sorted(list(bij.solutions_iterator()), key=lambda d: tuple(sorted(d.items()))):
+    print(sol)
+bij.constant_blocks(optimal=True)
+sorted(bij.minimal_subdistributions_blocks_iterator(), key=lambda d: (len(d[0]), d[0]))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1902,7 +2294,7 @@ constant.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">Q</span></code> – set partition of <code class="docutils literal notranslate"><span class="pre">A</span></code></p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
@@ -1921,6 +2313,20 @@ constant.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">bij</span><span class="o">.</span><span class="n">solutions_iterator</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">())))</span>
 <span class="go">[{1: 0, 2: 2, 3: 1}, {1: 2, 2: 0, 3: 1}]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = B = [1,2,3]
+bij = Bijectionist(A, B, lambda b: b % 3)
+bij.set_homomesic([[1,2], [3]])
+sorted(bij.solutions_iterator(), key=lambda d: tuple(sorted(d.items())))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1969,7 +2375,7 @@ p_i\)</span> for all <span class="math notranslate nohighlight">\(i\)</span> and
 <p>Note that <span class="math notranslate nohighlight">\(z\)</span> must be a possible value of <span class="math notranslate nohighlight">\(p\)</span> and each <span class="math notranslate nohighlight">\(z_i\)</span>
 must be a possible value of <span class="math notranslate nohighlight">\(p_i\)</span>.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">We can concatenate two permutations by increasing the values
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can concatenate two permutations by increasing the values
 of the second permutation by the length of the first
 permutation:</p>
 <div class="tab-set docutils container">
@@ -1984,8 +2390,19 @@ permutation:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">def concat(p1, p2): return Permutation(p1 + [i + len(p1) for i in p2])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We may be interested in statistics on permutations which are
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We may be interested in statistics on permutations which are
 equidistributed with the number of fixed points, such that
 concatenating permutations corresponds to adding statistic
 values:</p>
@@ -2033,8 +2450,26 @@ values:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = B = [permutation for n in range(4) for permutation in Permutations(n)]
+bij = Bijectionist(A, B, Permutation.number_of_fixed_points)
+bij.set_statistics((len, len))
+for solution in sorted(list(bij.solutions_iterator()), key=lambda d: tuple(sorted(d.items()))):
+    print(solution)
+bij.set_intertwining_relations((2, concat, lambda x, y: x + y))
+for solution in sorted(list(bij.solutions_iterator()), key=lambda d: tuple(sorted(d.items()))):
+    print(solution)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The domain of the composition may be restricted.  E.g., if we
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The domain of the composition may be restricted.  E.g., if we
 concatenate only permutations starting with a 1, we obtain
 fewer forced elements:</p>
 <div class="tab-set docutils container">
@@ -2075,8 +2510,22 @@ fewer forced elements:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">in_domain = lambda p1, p2: (not p1 or p1(1) == 1) and (not p2 or p2(1) == 1)
+bij.set_intertwining_relations((2, concat, lambda x, y: x + y, in_domain))
+for solution in sorted(list(bij.solutions_iterator()), key=lambda d: tuple(sorted(d.items()))):
+    print(solution)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can also restrict according to several composition
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can also restrict according to several composition
 functions.  For example, we may additionally concatenate
 permutations by incrementing the elements of the first:</p>
 <div class="tab-set docutils container">
@@ -2103,8 +2552,22 @@ permutations by incrementing the elements of the first:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">skew_concat = lambda p1, p2: Permutation([i + len(p2) for i in p1] + list(p2))
+bij.set_intertwining_relations((2, skew_concat, lambda x, y: x + y))
+for solution in sorted(list(bij.solutions_iterator()), key=lambda d: tuple(sorted(d.items()))):
+    print(solution)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">However, this yields no solution:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">However, this yields no solution:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">bij</span><span class="o">.</span><span class="n">set_intertwining_relations</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="n">concat</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">skew_concat</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">))</span>
@@ -2119,6 +2582,18 @@ permutations by incrementing the elements of the first:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">bij</span><span class="o">.</span><span class="n">solutions_iterator</span><span class="p">())</span>
 <span class="go">[]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">bij.set_intertwining_relations((2, concat, lambda x, y: x + y), (2, skew_concat, lambda x, y: x + y))
+list(bij.solutions_iterator())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2142,7 +2617,7 @@ A\to Z\)</span> and <span class="math notranslate nohighlight">\(\psi: Z\to A\)<
 <p>for <span class="math notranslate nohighlight">\(a\in A\)</span> and <span class="math notranslate nohighlight">\(z\in Z\)</span> to the MILP, where <span class="math notranslate nohighlight">\(\phi:A\to Z\)</span>
 and <span class="math notranslate nohighlight">\(\psi:Z\to A\)</span>.  Note that, in particular, <span class="math notranslate nohighlight">\(\phi\)</span> must be
 constant on blocks.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--30-input--1" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">B</span> <span class="o">=</span> <span class="n">DyckWords</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -2201,6 +2676,22 @@ constant on blocks.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--30-input--3" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = B = DyckWords(3)
+bij = Bijectionist(A, B)
+bij.set_statistics((lambda D: D.number_of_touch_points(), lambda D: D.number_of_initial_rises()))
+ascii_art(sorted(bij.minimal_subdistributions_iterator()))
+bij.set_quadratic_relation((lambda D: D, lambda D: D))
+ascii_art(sorted(bij.minimal_subdistributions_iterator()))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2235,7 +2726,7 @@ equidistributed, an error is raised.</p>
 </div>
 <p>as a matrix equation to the MILP.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">We look for bijections <span class="math notranslate nohighlight">\(S\)</span> on permutations such that the
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We look for bijections <span class="math notranslate nohighlight">\(S\)</span> on permutations such that the
 number of weak exceedences of <span class="math notranslate nohighlight">\(S(\pi)\)</span> equals the number of
 descents of <span class="math notranslate nohighlight">\(\pi\)</span>, and statistics <span class="math notranslate nohighlight">\(s\)</span>, such that the number
 of fixed points of <span class="math notranslate nohighlight">\(S(\pi)\)</span> equals <span class="math notranslate nohighlight">\(s(\pi)\)</span>:</p>
@@ -2295,8 +2786,31 @@ of fixed points of <span class="math notranslate nohighlight">\(S(\pi)\)</span> 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--31-input--3" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">N = 4; A = B = [permutation for n in range(N) for permutation in Permutations(n)]
+def wex(p): return len(p.weak_excedences())
+def fix(p): return len(p.fixed_points())
+def des(p): return len(p.descents(final_descent=True)) if p else 0
+def adj(p): return len([e for e, f in zip(p, p[1:]+[0]) if e == f+1])
+bij = Bijectionist(A, B, fix)
+bij.set_statistics((wex, des), (len, len))
+for solution in sorted(list(bij.solutions_iterator()), key=lambda d: tuple(sorted(d.items()))):
+    print(solution)
+bij = Bijectionist(A, B, fix)
+bij.set_statistics((wex, des), (fix, adj), (len, len))
+for solution in sorted(list(bij.solutions_iterator()), key=lambda d: tuple(sorted(d.items()))):
+    print(solution)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Calling this with non-equidistributed statistics yields an error:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Calling this with non-equidistributed statistics yields an error:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--32-input--1" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">bij</span> <span class="o">=</span> <span class="n">Bijectionist</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">fix</span><span class="p">)</span>
@@ -2315,6 +2829,18 @@ of fixed points of <span class="math notranslate nohighlight">\(S(\pi)\)</span> 
 <span class="gp">...</span>
 <span class="go">ValueError: statistics alpha and beta are not equidistributed</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--32-input--3" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">bij = Bijectionist(A, B, fix)
+bij.set_statistics((wex, fix))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2336,7 +2862,7 @@ of fixed points of <span class="math notranslate nohighlight">\(S(\pi)\)</span> 
 Z\subseteq Z)\)</span></p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">We may want to restrict the value of a given element to a
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We may want to restrict the value of a given element to a
 single or multiple values.  We do not require that the
 specified values are in the image of <span class="math notranslate nohighlight">\(\tau\)</span>.  In some
 cases, the restriction may not be able to provide a better
@@ -2417,6 +2943,24 @@ solution, as for size 3 in the following example.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--33-input--3" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = B = [permutation for n in range(4) for permutation in Permutations(n)]
+tau = Permutation.longest_increasing_subsequence_length
+bij = Bijectionist(A, B, tau)
+bij.set_statistics((len, len))
+bij.set_value_restrictions((Permutation([1, 2]), [1]),
+                           (Permutation([3, 2, 1]), [2, 3, 4]))
+for sol in sorted(bij.solutions_iterator(), key=lambda d: sorted(d.items())):
+    print(sol)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>However, an error occurs if the set of possible values is
 empty.  In this example, the image of <span class="math notranslate nohighlight">\(\tau\)</span> under any
@@ -2489,7 +3033,7 @@ block <span class="math notranslate nohighlight">\(p\)</span> in the set of elem
 <div class="math notranslate nohighlight">
 \[\sum_p r_p x_{p, z} = d_z.\]</div>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--34-input--1" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">B</span> <span class="o">=</span> <span class="s1">&#39;abc&#39;</span>
@@ -2524,8 +3068,24 @@ block <span class="math notranslate nohighlight">\(p\)</span> in the set of elem
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--34-input--3" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = B = 'abc'
+bij = Bijectionist(A, B, lambda x: B.index(x) % 2, solver='GLPK')
+next(bij.solutions_iterator())
+list(bij.solutions_iterator())
+N = 4
+A = B = [permutation for n in range(N) for permutation in Permutations(n)]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Let <span class="math notranslate nohighlight">\(\tau\)</span> be the number of non-left-to-right-maxima of a
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let <span class="math notranslate nohighlight">\(\tau\)</span> be the number of non-left-to-right-maxima of a
 permutation:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--35-input--1" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--1">Sage</label><div class="tab-content docutils container">
@@ -2555,8 +3115,27 @@ permutation:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--35-input--3" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">def tau(pi):
+   pi = list(pi)
+   i = count = 0
+   for j in range(len(pi)):
+       if pi[j] &gt; i:
+           i = pi[j]
+       else:
+           count += 1
+   return count</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We look for a statistic which is constant on conjugacy classes:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We look for a statistic which is constant on conjugacy classes:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--36-input--1" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">Permutations</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">conjugacy_classes</span><span class="p">()]</span>
@@ -2585,8 +3164,24 @@ permutation:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--36-input--3" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = [list(a) for n in range(N) for a in Permutations(n).conjugacy_classes()]
+bij = Bijectionist(A, B, tau, solver='GLPK')
+bij.set_statistics((len, len))
+bij.set_constant_blocks(P)
+for solution in bij.solutions_iterator():
+    print(solution)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Changing or re-setting problem parameters clears the internal
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Changing or re-setting problem parameters clears the internal
 cache.  Setting the verbosity prints the MILP which is solved.:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--37-input--1" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--1">Sage</label><div class="tab-content docutils container">
@@ -2770,6 +3365,20 @@ cache.  Setting the verbosity prints the MILP which is solved.:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--37-input--3" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_verbose(2)
+bij.set_constant_blocks(P)
+_ = list(bij.solutions_iterator())
+set_verbose(0)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2781,7 +3390,7 @@ preimages in <span class="math notranslate nohighlight">\(A\)</span> and <span c
 <p>This is a (computationally) fast way to obtain a first
 impression which objects in <span class="math notranslate nohighlight">\(A\)</span> should be mapped to which
 objects in <span class="math notranslate nohighlight">\(B\)</span>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--38-input--1" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="n">permutation</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">permutation</span> <span class="ow">in</span> <span class="n">Permutations</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
@@ -2826,6 +3435,25 @@ objects in <span class="math notranslate nohighlight">\(B\)</span>.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--38-input--3" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = B = [permutation for n in range(4) for permutation in Permutations(n)]
+tau = Permutation.longest_increasing_subsequence_length
+def wex(p): return len(p.weak_excedences())
+def fix(p): return len(p.fixed_points())
+def des(p): return len(p.descents(final_descent=True)) if p else 0
+def adj(p): return len([e for e, f in zip(p, p[1:]+[0]) if e == f+1])
+bij = Bijectionist(A, B, tau)
+bij.set_statistics((len, len), (wex, des), (fix, adj))
+table([[key, AB[0], AB[1]] for key, AB in bij.statistics_fibers().items()])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2849,7 +3477,7 @@ values of <span class="math notranslate nohighlight">\(\alpha\)</span></p></li>
 <li><p>the second contains the elements of <span class="math notranslate nohighlight">\(B\)</span> together with the
 values of <span class="math notranslate nohighlight">\(\tau\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span></p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--39-input--1" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="n">permutation</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">permutation</span> <span class="ow">in</span> <span class="n">Permutations</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
@@ -2974,13 +3602,38 @@ values of <span class="math notranslate nohighlight">\(\tau\)</span> and <span c
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--39-input--3" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = B = [permutation for n in range(4) for permutation in Permutations(n)]
+tau = Permutation.longest_increasing_subsequence_length
+def wex(p): return len(p.weak_excedences())
+def fix(p): return len(p.fixed_points())
+def des(p): return len(p.descents(final_descent=True)) if p else 0
+def adj(p): return len([e for e, f in zip(p, p[1:]+[0]) if e == f+1])
+bij = Bijectionist(A, B, tau)
+bij.set_statistics((wex, des), (fix, adj))
+a, b = bij.statistics_table()
+table(a, header_row=True, frame=True)
+table(b, header_row=True, frame=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -3075,7 +3728,7 @@ values of <span class="math notranslate nohighlight">\(\tau\)</span> and <span c
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

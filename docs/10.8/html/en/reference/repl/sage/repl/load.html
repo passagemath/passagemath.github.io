@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -332,7 +332,7 @@ extensions <code class="docutils literal notranslate"><span class="pre">.py</spa
 <li><p><code class="docutils literal notranslate"><span class="pre">filename</span></code> – string or <a class="reference external" href="https://docs.python.org/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a> object</p></li>
 </ul>
 <p>OUTPUT: boolean</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">is_loadable_filename</span><span class="p">(</span><span class="s1">&#39;foo.bar&#39;</span><span class="p">)</span>
@@ -369,6 +369,23 @@ extensions <code class="docutils literal notranslate"><span class="pre">.py</spa
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">is_loadable_filename</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;foo.py&#39;</span><span class="p">))</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">sage.repl.load.is_loadable_filename('foo.bar')
+sage.repl.load.is_loadable_filename('foo.c')
+sage.repl.load.is_loadable_filename('foo.sage')
+sage.repl.load.is_loadable_filename('FOO.F90')
+sage.repl.load.is_loadable_filename('foo.m')
+from pathlib import Path
+sage.repl.load.is_loadable_filename(Path('foo.py'))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -411,7 +428,7 @@ will run whatever code is inside an</p>
 <p>section, as the condition on <code class="docutils literal notranslate"><span class="pre">__name__</span></code> will hold true (code run from the
 command line is considered to be running in the <code class="docutils literal notranslate"><span class="pre">__main__</span></code> module.)</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Note that <code class="docutils literal notranslate"><span class="pre">.py</span></code> files are <em>not</em> preparsed:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that <code class="docutils literal notranslate"><span class="pre">.py</span></code> files are <em>not</em> preparsed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">tempfile</span><span class="w"> </span><span class="kn">import</span> <span class="n">NamedTemporaryFile</span>
@@ -440,8 +457,25 @@ command line is considered to be running in the <code class="docutils literal no
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from tempfile import NamedTemporaryFile
+context = { &quot;z&quot;: 1}
+with NamedTemporaryFile(mode='w', suffix='.py') as file:
+    _ = file.write(&quot;print(('hi', 2^3, z)); z = -2^7&quot;)
+    _ = file.seek(0)
+    sage.repl.load.load(file.name, context)
+context[&quot;z&quot;]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A <code class="docutils literal notranslate"><span class="pre">.sage</span></code> file <em>is</em> preparsed:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A <code class="docutils literal notranslate"><span class="pre">.sage</span></code> file <em>is</em> preparsed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">context</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Integer&quot;</span><span class="p">:</span> <span class="n">Integer</span> <span class="p">}</span>
@@ -468,8 +502,24 @@ command line is considered to be running in the <code class="docutils literal no
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">context = { &quot;z&quot;: 1, &quot;Integer&quot;: Integer }
+with NamedTemporaryFile(mode='w', suffix='.sage') as file:
+    _ = file.write(&quot;print(('hi', 2^3, z)); z = -2^7&quot;)
+    _ = file.seek(0)
+    sage.repl.load.load(file.name, context)
+context[&quot;z&quot;]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Cython files are <em>not</em> preparsed:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Cython files are <em>not</em> preparsed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">context</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="mi">1</span> <span class="p">}</span>
@@ -498,8 +548,24 @@ command line is considered to be running in the <code class="docutils literal no
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">context = { &quot;z&quot;: 1 }
+with NamedTemporaryFile(mode='w', suffix='.pyx') as file:                 # needs sage.misc.cython
+    _ = file.write(&quot;print(('hi', 2^3)); z = -2^7&quot;)
+    _ = file.seek(0)
+    sage.repl.load.load(file.name, context)
+context[&quot;z&quot;]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If the file is not a Cython, Python, or Sage file, a <a class="reference external" href="https://docs.python.org/library/exceptions.html#ValueError" title="(in Python v3.12)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If the file is not a Cython, Python, or Sage file, a <a class="reference external" href="https://docs.python.org/library/exceptions.html#ValueError" title="(in Python v3.12)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>
 is raised:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
@@ -521,8 +587,20 @@ is raised:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">with NamedTemporaryFile(mode='w', suffix='.foo') as file:
+    sage.repl.load.load(file.name, {})</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We load a file given at a remote URL (not tested for security reasons):</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We load a file given at a remote URL (not tested for security reasons):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;https://www.sagemath.org/files/loadtest.py&#39;</span><span class="p">,</span> <span class="nb">globals</span><span class="p">())</span>  <span class="c1"># not tested</span>
@@ -539,8 +617,19 @@ is raised:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">sage.repl.load.load('https://www.sagemath.org/files/loadtest.py', globals())  # not tested</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can load files using secure http (https):</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can load files using secure http (https):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/sagemath/sage-patchbot/3.0.0/sage_patchbot/util.py&#39;</span><span class="p">,</span> <span class="nb">globals</span><span class="p">())</span>  <span class="c1"># optional - internet</span>
@@ -553,8 +642,19 @@ is raised:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">sage.repl.load.load('https://raw.githubusercontent.com/sagemath/sage-patchbot/3.0.0/sage_patchbot/util.py', globals())  # optional - internet</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We attach a file (note that <a class="reference internal" href="attach.html#sage.repl.attach.attach" title="sage.repl.attach.attach"><code class="xref py py-func docutils literal notranslate"><span class="pre">attach()</span></code></a>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We attach a file (note that <a class="reference internal" href="attach.html#sage.repl.attach.attach" title="sage.repl.attach.attach"><code class="xref py py-func docutils literal notranslate"><span class="pre">attach()</span></code></a>
 is equivalent, but available at the global scope by default):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
@@ -580,8 +680,23 @@ is equivalent, but available at the global scope by default):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">with NamedTemporaryFile(mode='w', suffix='.py') as file:
+    _ = file.write(&quot;print('hello world')&quot;)
+    _ = file.seek(0)
+    sage.repl.load.load(file.name, {}, attach=True)
+file.name in attached_files()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">You cannot attach remote URLs (yet):</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">You cannot attach remote URLs (yet):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;https://www.sagemath.org/files/loadtest.py&#39;</span><span class="p">,</span> <span class="nb">globals</span><span class="p">(),</span> <span class="n">attach</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># optional - internet</span>
@@ -600,8 +715,19 @@ is equivalent, but available at the global scope by default):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">sage.repl.load.load('https://www.sagemath.org/files/loadtest.py', globals(), attach=True)  # optional - internet</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The default search path for loading and attaching files is the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The default search path for loading and attaching files is the
 current working directory, i.e., <code class="docutils literal notranslate"><span class="pre">'.'</span></code>.  But you can modify the
 path with <a class="reference internal" href="attach.html#sage.repl.attach.load_attach_path" title="sage.repl.attach.load_attach_path"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_attach_path()</span></code></a>:</p>
 <div class="tab-set docutils container">
@@ -638,6 +764,27 @@ path with <a class="reference internal" href="attach.html#sage.repl.attach.load_
 <span class="go">111</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">attach</span><span class="o">.</span><span class="n">reset</span><span class="p">();</span> <span class="n">reset_load_attach_path</span><span class="p">()</span> <span class="c1"># clean up</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">import tempfile
+sage.repl.attach.reset(); reset_load_attach_path()
+load_attach_path()
+with tempfile.TemporaryDirectory() as t_dir:
+    fname = 'test.py'
+    fullpath = os.path.join(t_dir, fname)
+    with open(fullpath, 'w') as f:
+        _ = f.write(&quot;print(37 * 3)&quot;)
+    load_attach_path(t_dir, replace=True)
+    attach(fname)
+sage.repl.attach.reset(); reset_load_attach_path() # clean up</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -678,7 +825,7 @@ to the load or attach command</p></li>
 <code class="docutils literal notranslate"><span class="pre">filename</span></code>, instead of loading it</p></li>
 </ul>
 <p>OUTPUT: string</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">sage</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">load_wrap</span><span class="p">(</span><span class="s1">&#39;foo.py&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
@@ -703,11 +850,29 @@ to the load or attach command</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">sage.repl.load.load_wrap('foo.py', True)
+sage.repl.load.load_wrap('foo.sage')
+m = sage.repl.load.base64.b64decode(&quot;Zm9vLnNhZ2U=&quot;)
+m == b'foo.sage'</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -786,7 +951,7 @@ to the load or attach command</p></li>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

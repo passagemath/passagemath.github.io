@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -428,7 +428,7 @@ Then we will describe the library API, for people writing Sage
 library code that uses random numbers.</p>
 <section id="command-line-oriented-api">
 <h2>Command line oriented API<a class="headerlink" href="#command-line-oriented-api" title="Link to this heading">¶</a></h2>
-<p class="with-sage-tab with-python-tab">We’ll start with the simplest usage: setting fixed random number seeds
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We’ll start with the simplest usage: setting fixed random number seeds
 and showing that these lead to reproducible results.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
@@ -466,6 +466,29 @@ and showing that these lead to reproducible results.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">K.&lt;x&gt; = QQ[]
+G = PermutationGroup([[(1,2,3),(4,5)], [(1,2)]])
+rgp = Gp()
+def gap_randstring(n):
+    current_randstate().set_seed_libgap()
+    return libgap(n).SCRRandomString()
+def rtest():
+    current_randstate().set_seed_gp(rgp)
+    return (ZZ.random_element(1000), RR.random_element(),
+            K.random_element(), G.random_element(),
+            gap_randstring(5),
+            rgp.random(), ntl.ZZ_random(99999),
+            random())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>The above test shows the results of six different random number
 generators, in three different processes.  The random elements from
@@ -477,7 +500,7 @@ The random number from <code class="docutils literal notranslate"><span class="p
 <code class="docutils literal notranslate"><span class="pre">ZZ_random</span></code> uses a separate NTL random number generator in the main
 Sage process.  And <code class="docutils literal notranslate"><span class="pre">random()</span></code> is from a Python <a class="reference external" href="https://docs.python.org/library/random.html#random.Random" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">random.Random</span></code></a>
 object.</p>
-<p class="with-sage-tab with-python-tab">Here we see that setting the random number seed really does make the
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Here we see that setting the random number seed really does make the
 results of these random number generators reproducible.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
@@ -525,8 +548,30 @@ results of these random number generators reproducible.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(0)
+print(rtest())
+set_random_seed(1)
+print(rtest())
+set_random_seed(2)
+print(rtest())
+set_random_seed(0)
+print(rtest())
+set_random_seed(1)
+print(rtest())
+set_random_seed(2)
+print(rtest())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Once we’ve set the random number seed, we can check what seed was used.
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Once we’ve set the random number seed, we can check what seed was used.
 (This is not the current random number state; it does not change when
 random numbers are generated.)</p>
 <div class="tab-set docutils container">
@@ -553,6 +598,20 @@ random numbers are generated.)</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(12345)
+initial_seed()
+print(rtest())
+initial_seed()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>If <a class="reference internal" href="#sage.misc.randstate.set_random_seed" title="sage.misc.randstate.set_random_seed"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_random_seed()</span></code></a> is called with no arguments, then a new
 seed is automatically selected.  On operating systems that support it,
@@ -560,7 +619,7 @@ the new seed comes from <a class="reference external" href="https://docs.python.
 a truly random (not pseudo-random), cryptographically secure number.
 (Whether it is actually cryptographically secure depends on operating
 system details that are outside the control of Sage.)</p>
-<p class="with-sage-tab with-python-tab">If <a class="reference external" href="https://docs.python.org/library/os.html#os.urandom" title="(in Python v3.12)"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.urandom()</span></code></a> is not supported, then the new seed comes
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If <a class="reference external" href="https://docs.python.org/library/os.html#os.urandom" title="(in Python v3.12)"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.urandom()</span></code></a> is not supported, then the new seed comes
 from the current time, which is definitely not cryptographically
 secure.</p>
 <div class="tab-set docutils container">
@@ -581,8 +640,21 @@ secure.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed()
+r = rtest()
+r         # random</pre>
 </div>
-<p class="with-sage-tab with-python-tab">After setting a new random number seed with <a class="reference internal" href="#sage.misc.randstate.set_random_seed" title="sage.misc.randstate.set_random_seed"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_random_seed()</span></code></a>,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">After setting a new random number seed with <a class="reference internal" href="#sage.misc.randstate.set_random_seed" title="sage.misc.randstate.set_random_seed"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_random_seed()</span></code></a>,
 we can use <a class="reference internal" href="#sage.misc.randstate.initial_seed" title="sage.misc.randstate.initial_seed"><code class="xref py py-func docutils literal notranslate"><span class="pre">initial_seed()</span></code></a> to see what seed was automatically
 selected, and call <a class="reference internal" href="#sage.misc.randstate.set_random_seed" title="sage.misc.randstate.set_random_seed"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_random_seed()</span></code></a> to restart the same
 random number sequence.</p>
@@ -610,6 +682,21 @@ random number sequence.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s = initial_seed()
+s         # random
+set_random_seed(s)
+r2 = rtest()
+r == r2</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>Whenever Sage starts, <a class="reference internal" href="#sage.misc.randstate.set_random_seed" title="sage.misc.randstate.set_random_seed"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_random_seed()</span></code></a> is called just before
 command line interaction starts; so every Sage run starts with a
@@ -618,7 +705,7 @@ different random number seed.  This seed can be recovered with
 seed with <a class="reference internal" href="#sage.misc.randstate.set_random_seed" title="sage.misc.randstate.set_random_seed"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_random_seed()</span></code></a>), so that the results of this run
 can be reproduced in another run; or this automatically selected seed
 can be overridden with, for instance, <code class="docutils literal notranslate"><span class="pre">set_random_seed(0)</span></code>.</p>
-<p class="with-sage-tab with-python-tab">We can demonstrate this startup behavior by running a new instance of
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can demonstrate this startup behavior by running a new instance of
 Sage as a subprocess.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
@@ -650,8 +737,25 @@ Sage as a subprocess.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">subsage = Sage()
+s = ZZ(subsage('initial_seed()'))
+r = ZZ(subsage('ZZ.random_element(2^200)'))
+s         # random
+r         # random
+set_random_seed(s)
+r == ZZ.random_element(2^200)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Note that wrappers of all the random number generation methods from
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that wrappers of all the random number generation methods from
 Python’s <a class="reference external" href="https://docs.python.org/library/random.html#module-random" title="(in Python v3.12)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">random</span></code></a> module are available at the Sage command
 line, and these wrappers are properly affected by <a class="reference internal" href="#sage.misc.randstate.set_random_seed" title="sage.misc.randstate.set_random_seed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_random_seed()</span></code></a>.</p>
 <div class="tab-set docutils container">
@@ -680,6 +784,22 @@ line, and these wrappers are properly affected by <a class="reference internal" 
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">random</span><span class="p">(),</span> <span class="n">getrandbits</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">20</span><span class="p">)),</span> <span class="n">uniform</span><span class="p">(</span><span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;5.0&#39;</span><span class="p">),</span> <span class="n">RealNumber</span><span class="p">(</span><span class="s1">&#39;10.0&#39;</span><span class="p">)),</span> <span class="n">normalvariate</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 <span class="go">(0.111439293741037, 539332, 8.26785106378383, 1.3893337539828183)</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(0)
+random(), getrandbits(20), uniform(5.0, 10.0), normalvariate(0, 1)
+set_random_seed(1)
+random(), getrandbits(20), uniform(5.0, 10.0), normalvariate(0, 1)
+set_random_seed(0)
+random(), getrandbits(20), uniform(5.0, 10.0), normalvariate(0, 1)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -737,7 +857,7 @@ number sequence at all; we will call this property “isolation.”  We
 achieve isolation for most, but not all, of the random number generators
 in Sage (we fail for generators, such as NTL, that do not provide an API
 to retrieve the current random number state).</p>
-<p class="with-sage-tab with-python-tab">We’ll demonstrate isolation.  First, we show the sequence of random numbers
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We’ll demonstrate isolation.  First, we show the sequence of random numbers
 that you get without intervening <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">seed</span></code>.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
@@ -759,8 +879,21 @@ that you get without intervening <code class="docutils literal notranslate"><spa
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(0)
+r1 = rtest(); print(r1)
+r2 = rtest(); print(r2)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We get slightly different results with an intervening <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">seed</span></code>.</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We get slightly different results with an intervening <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">seed</span></code>.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -789,11 +922,26 @@ that you get without intervening <code class="docutils literal notranslate"><spa
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(0)
+r1 == rtest()
+with seed(1): rtest()
+r2m = rtest(); r2m
+r2m == r2</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>We can see that <code class="docutils literal notranslate"><span class="pre">r2</span></code> and <code class="docutils literal notranslate"><span class="pre">r2m</span></code> are the same except for the
 call to <code class="xref py py-func docutils literal notranslate"><span class="pre">ntl.ZZ_random()</span></code>, which produces different results
 with and without the <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">seed</span></code>.</p>
-<p class="with-sage-tab with-python-tab">However, we do still get a partial form of isolation, even in this
+<p class="with-sage-tab with-python-tab with-sage-live-tab">However, we do still get a partial form of isolation, even in this
 case, as we see in this example:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
@@ -823,6 +971,22 @@ case, as we see in this example:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">r2m</span> <span class="o">==</span> <span class="n">rtest</span><span class="p">()</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(0)
+r1 == rtest()
+with seed(1):
+    print(rtest())
+    print(rtest())
+r2m == rtest()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -984,7 +1148,7 @@ don’t cache it globally or in a class.  (Such caching would break
 <span class="sig-prename descclassname"><span class="pre">sage.misc.randstate.</span></span><span class="sig-name descname"><span class="pre">benchmark_libc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/randstate.pyx#L1047"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.randstate.benchmark_libc" title="Link to this definition">¶</a></dt>
 <dd><p>This function was used to test whether moving from libc to GMP’s
 Mersenne Twister for random numbers would be a significant slowdown.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.randstate</span><span class="w"> </span><span class="kn">import</span> <span class="n">benchmark_libc</span><span class="p">,</span> <span class="n">benchmark_mt</span>
@@ -1005,6 +1169,19 @@ Mersenne Twister for random numbers would be a significant slowdown.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.randstate import benchmark_libc, benchmark_mt
+timeit('benchmark_libc()')  # random
+timeit('benchmark_mt()')    # random</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1013,7 +1190,7 @@ Mersenne Twister for random numbers would be a significant slowdown.</p>
 <span class="sig-prename descclassname"><span class="pre">sage.misc.randstate.</span></span><span class="sig-name descname"><span class="pre">benchmark_mt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/randstate.pyx#L1064"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.randstate.benchmark_mt" title="Link to this definition">¶</a></dt>
 <dd><p>This function was used to test whether moving from libc to GMP’s
 Mersenne Twister for random numbers would be a significant slowdown.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.randstate</span><span class="w"> </span><span class="kn">import</span> <span class="n">benchmark_libc</span><span class="p">,</span> <span class="n">benchmark_mt</span>
@@ -1034,6 +1211,19 @@ Mersenne Twister for random numbers would be a significant slowdown.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.randstate import benchmark_libc, benchmark_mt
+timeit('benchmark_libc()')  # random
+timeit('benchmark_mt()')    # random</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1041,7 +1231,7 @@ Mersenne Twister for random numbers would be a significant slowdown.</p>
 <dt class="sig sig-object py" id="sage.misc.randstate.current_randstate">
 <span class="sig-prename descclassname"><span class="pre">sage.misc.randstate.</span></span><span class="sig-name descname"><span class="pre">current_randstate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/randstate.pyx#L463"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.randstate.current_randstate" title="Link to this definition">¶</a></dt>
 <dd><p>Return the current random number state.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -1062,6 +1252,19 @@ Mersenne Twister for random numbers would be a significant slowdown.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(0)
+current_randstate()
+current_randstate().python_random().random()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1069,7 +1272,7 @@ Mersenne Twister for random numbers would be a significant slowdown.</p>
 <dt class="sig sig-object py" id="sage.misc.randstate.initial_seed">
 <span class="sig-prename descclassname"><span class="pre">sage.misc.randstate.</span></span><span class="sig-name descname"><span class="pre">initial_seed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/randstate.pyx#L1025"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.randstate.initial_seed" title="Link to this definition">¶</a></dt>
 <dd><p>Return the initial seed used to create the current <a class="reference internal" href="#sage.misc.randstate.randstate" title="sage.misc.randstate.randstate"><code class="xref py py-class docutils literal notranslate"><span class="pre">randstate</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
@@ -1086,8 +1289,20 @@ Mersenne Twister for random numbers would be a significant slowdown.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(42)
+initial_seed()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If you set a random seed (by failing to specify the seed), this is how
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If you set a random seed (by failing to specify the seed), this is how
 you retrieve the seed actually chosen by Sage.  This can also be
 used to retrieve the seed chosen for a new Sage run (if the user
 has not used <code class="docutils literal notranslate"><span class="pre">set_random_seed()</span></code>).</p>
@@ -1107,6 +1322,18 @@ has not used <code class="docutils literal notranslate"><span class="pre">set_ra
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed()
+initial_seed()          # random</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1115,7 +1342,7 @@ has not used <code class="docutils literal notranslate"><span class="pre">set_ra
 <span class="sig-prename descclassname"><span class="pre">sage.misc.randstate.</span></span><span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/randstate.pyx#L1010"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.randstate.random" title="Link to this definition">¶</a></dt>
 <dd><p>Return a 31-bit random number.  Intended as a drop-in replacement for
 the libc <a class="reference internal" href="#sage.misc.randstate.random" title="sage.misc.randstate.random"><code class="xref py py-func docutils literal notranslate"><span class="pre">random()</span></code></a> function.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">31</span><span class="p">)</span>
@@ -1134,6 +1361,19 @@ the libc <a class="reference internal" href="#sage.misc.randstate.random" title=
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(31)
+from sage.misc.randstate import random
+random()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1150,7 +1390,7 @@ information on random numbers in Sage.</p>
 <dd><p>When called on the current <a class="reference internal" href="#sage.misc.randstate.randstate" title="sage.misc.randstate.randstate"><code class="xref py py-class docutils literal notranslate"><span class="pre">randstate</span></code></a>, returns a 128-bit
 <a class="reference external" href="../../../rings_standard/sage/rings/integer_ring.html#module-sage.rings.integer_ring" title="(in Reference Manual v10.8.1)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Integer</span></code></a> suitable for seeding another
 random number generator.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">1414</span><span class="p">)</span>
@@ -1167,6 +1407,18 @@ random number generator.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(1414)
+current_randstate().ZZ_seed()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1174,7 +1426,7 @@ random number generator.</p>
 <dt class="sig sig-object py" id="sage.misc.randstate.randstate.c_rand_double">
 <span class="sig-name descname"><span class="pre">c_rand_double</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/randstate.pyx#L884"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.randstate.randstate.c_rand_double" title="Link to this definition">¶</a></dt>
 <dd><p>Return a random floating-point number between 0 and 1.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">2718281828</span><span class="p">)</span>
@@ -1191,6 +1443,18 @@ random number generator.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(2718281828)
+current_randstate().c_rand_double()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1202,7 +1466,7 @@ use only; instead of calling <code class="docutils literal notranslate"><span cl
 it is equivalent (but probably faster) to call the
 <a class="reference internal" href="#sage.misc.randstate.random" title="sage.misc.randstate.random"><code class="xref py py-meth docutils literal notranslate"><span class="pre">random</span></code></a> method of this
 <a class="reference internal" href="#sage.misc.randstate.randstate" title="sage.misc.randstate.randstate"><code class="xref py py-class docutils literal notranslate"><span class="pre">randstate</span></code></a> class.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">1207</span><span class="p">)</span>
@@ -1219,8 +1483,20 @@ it is equivalent (but probably faster) to call the
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(1207)
+current_randstate().c_random()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We verify the equivalence mentioned above.</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We verify the equivalence mentioned above.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.randstate</span><span class="w"> </span><span class="kn">import</span> <span class="n">random</span>
@@ -1239,6 +1515,19 @@ it is equivalent (but probably faster) to call the
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.randstate import random
+set_random_seed(1207)
+random()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1247,7 +1536,7 @@ it is equivalent (but probably faster) to call the
 <span class="sig-name descname"><span class="pre">long_seed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/misc/randstate.pyx#L645"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.misc.randstate.randstate.long_seed" title="Link to this definition">¶</a></dt>
 <dd><p>When called on the current <a class="reference internal" href="#sage.misc.randstate.randstate" title="sage.misc.randstate.randstate"><code class="xref py py-class docutils literal notranslate"><span class="pre">randstate</span></code></a>, returns a 128-bit
 Python long suitable for seeding another random number generator.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">1618</span><span class="p">)</span>
@@ -1262,6 +1551,18 @@ Python long suitable for seeding another random number generator.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">current_randstate</span><span class="p">()</span><span class="o">.</span><span class="n">long_seed</span><span class="p">()</span>
 <span class="go">256056279774514099508607350947089272595</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(1618)
+current_randstate().long_seed()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1286,7 +1587,7 @@ is used.</p></li>
 instance with upon creation; if not specified it is seeded using
 <code class="docutils literal notranslate"><span class="pre">ZZ.random_element(1</span> <span class="pre">&lt;&lt;</span> <span class="pre">128)</span></code>.</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
@@ -1309,6 +1610,20 @@ instance with upon creation; if not specified it is seeded using
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(5)
+rnd = current_randstate().python_random()
+rnd.random()
+rnd.randrange(1000)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1318,7 +1633,7 @@ instance with upon creation; if not specified it is seeded using
 <dd><p>Return the initial seed of a <a class="reference internal" href="#sage.misc.randstate.randstate" title="sage.misc.randstate.randstate"><code class="xref py py-class docutils literal notranslate"><span class="pre">randstate</span></code></a> object.  (This is not
 the current state; it does not change when you get random
 numbers.)</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -1347,6 +1662,22 @@ numbers.)</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(0)
+from sage.misc.randstate import randstate
+r = randstate(314159)
+r.seed()
+r.python_random().random()
+r.seed()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1356,7 +1687,7 @@ numbers.)</p>
 <dd><p>Check to see if <code class="docutils literal notranslate"><span class="pre">self</span></code> was the most recent <a class="reference internal" href="#sage.misc.randstate.randstate" title="sage.misc.randstate.randstate"><code class="xref py py-class docutils literal notranslate"><span class="pre">randstate</span></code></a>
 to seed the GAP random number generator.  If not, seeds
 the generator.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">99900000999</span><span class="p">)</span>
@@ -1381,6 +1712,20 @@ the generator.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(99900000999)
+current_randstate().set_seed_gap()
+gap.Random(1, 10^50)
+gap(35).SCRRandomString()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1391,7 +1736,7 @@ the generator.</p>
 to seed the random number generator in the given instance
 of gp.  (If no instance is given, uses the one in
 <a class="reference external" href="../../../interfaces/sage/interfaces/gp.html#sage.interfaces.gp.Gp" title="(in Interpreter Interfaces v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">gp</span></code></a>.)  If not, seeds the generator.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">987654321</span><span class="p">)</span>
@@ -1410,6 +1755,19 @@ of gp.  (If no instance is given, uses the one in
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(987654321)
+current_randstate().set_seed_gp()
+gp.random()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1424,7 +1782,7 @@ and the random number sequences it produces are not portable
 across operating systems.)</p>
 <p>If the argument <code class="docutils literal notranslate"><span class="pre">force</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, seeds the generator
 unconditionally.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.randstate</span><span class="w"> </span><span class="kn">import</span> <span class="n">_doctest_libc_random</span>
@@ -1445,6 +1803,20 @@ unconditionally.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.randstate import _doctest_libc_random
+set_random_seed(0xBAD)
+current_randstate().set_seed_libc(False)
+_doctest_libc_random()   # random</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1454,7 +1826,7 @@ unconditionally.</p>
 <dd><p>Check to see if <code class="docutils literal notranslate"><span class="pre">self</span></code> was the most recent <a class="reference internal" href="#sage.misc.randstate.randstate" title="sage.misc.randstate.randstate"><code class="xref py py-class docutils literal notranslate"><span class="pre">randstate</span></code></a>
 to seed the GAP random number generator.  If not, seeds
 the generator.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">99900000999</span><span class="p">)</span>
@@ -1479,6 +1851,20 @@ the generator.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(99900000999)
+current_randstate().set_seed_libgap()
+libgap.Random(1, 10^50)
+libgap(35).SCRRandomString()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1489,7 +1875,7 @@ the generator.</p>
 to seed the NTL random number generator.  If not, seeds
 the generator.  If the argument <code class="docutils literal notranslate"><span class="pre">force</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>,
 seeds the generator unconditionally.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">2008</span><span class="p">)</span>
@@ -1502,8 +1888,19 @@ seeds the generator unconditionally.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(2008)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This call is actually redundant; <code class="xref py py-func docutils literal notranslate"><span class="pre">ntl.ZZ_random()</span></code> will
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This call is actually redundant; <code class="xref py py-func docutils literal notranslate"><span class="pre">ntl.ZZ_random()</span></code> will
 seed the generator itself.  However, we put the call in
 to make the coverage tester happy.</p>
 <div class="tab-set docutils container">
@@ -1522,6 +1919,18 @@ to make the coverage tester happy.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">current_randstate().set_seed_ntl(False)
+ntl.ZZ_random(10^40)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1537,7 +1946,7 @@ generator.</p>
 changed a lot.  the seed output by getrand() is now a
 vector of integers.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">5551212</span><span class="p">)</span>
@@ -1554,6 +1963,19 @@ vector of integers.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">pari</span><span class="o">.</span><span class="n">getrand</span><span class="p">()</span><span class="o">.</span><span class="n">type</span><span class="p">()</span>
 <span class="go">&#39;t_INT&#39;</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(5551212)
+current_randstate().set_seed_pari()
+pari.getrand().type()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1581,7 +2003,7 @@ information on random numbers in Sage.</p>
 this from library code; instead, use <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">seed(s):</span></code>.</p>
 <p>Note that setting the random number seed to 0 is much faster than
 using any other number.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--30-input--1" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">set_random_seed</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
@@ -1598,11 +2020,27 @@ using any other number.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--30-input--3" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">set_random_seed(5)
+initial_seed()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -1703,7 +2141,7 @@ using any other number.</p>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>

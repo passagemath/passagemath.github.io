@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -709,7 +709,7 @@ of the Young subgroup <span class="math notranslate nohighlight">\(S_{\lambda}\)
 and Procesi, this <span class="math notranslate nohighlight">\(S_n\)</span>-representation is isomorphic to <span class="math notranslate nohighlight">\(R_{\lambda}\)</span>.
 Moreover, the graded Frobenius image is known to be a modified
 Hall-Littlewood polynomial.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">SGA</span> <span class="o">=</span> <span class="n">SymmetricGroupAlgebra</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
@@ -736,8 +736,23 @@ Hall-Littlewood polynomial.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">SGA = SymmetricGroupAlgebra(QQ, 7)
+GP421 = SGA.garsia_procesi_module([4, 2, 1])
+GP421.dimension()
+v = GP421.an_element(); v
+SGA.an_element() * v</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We verify the result is a modified Hall-Littlewood polynomial by using
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We verify the result is a modified Hall-Littlewood polynomial by using
 the <span class="math notranslate nohighlight">\(Q'\)</span> Hall-Littlewood polynomials, replacing <span class="math notranslate nohighlight">\(q \mapsto q^{-1}\)</span> and
 multiplying by the smallest power of <span class="math notranslate nohighlight">\(q\)</span> so the coefficients are again
 polynomials:</p>
@@ -777,8 +792,25 @@ polynomials:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">GP421.graded_frobenius_image()
+R.&lt;q&gt; = QQ[]
+Sym = SymmetricFunctions(R)
+s = Sym.s()
+Qp = Sym.hall_littlewood(q).Qp()
+mHL = s(Qp[4,2,1]); mHL
+mHL.map_coefficients(lambda c: R(q^4*c(q^-1)))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We show that the maximal degree component corresponds to the Yamanouchi
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We show that the maximal degree component corresponds to the Yamanouchi
 words of content <span class="math notranslate nohighlight">\(\lambda\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
@@ -802,6 +834,21 @@ words of content <span class="math notranslate nohighlight">\(\lambda\)</span>:<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">B = GP421.graded_decomposition(4).basis()
+top_deg = [Word([i+1 for i in b.lift().lift().exponents()[0]]) for b in B]
+yamanouchi = [P.to_packed_word() for P in OrderedSetPartitions(range(7), [4, 2, 1])
+              if P.to_packed_word().reversal().is_yamanouchi()]
+set(top_deg) == set(yamanouchi)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py class">
 <dt class="sig sig-object py" id="sage.combinat.symmetric_group_representations.GarsiaProcesiModule.Element">
@@ -811,7 +858,7 @@ words of content <span class="math notranslate nohighlight">\(\lambda\)</span>:<
 <dt class="sig sig-object py" id="sage.combinat.symmetric_group_representations.GarsiaProcesiModule.Element.degree">
 <span class="sig-name descname"><span class="pre">degree</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/symmetric_group_representations.py#L1772"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.symmetric_group_representations.GarsiaProcesiModule.Element.degree" title="Link to this definition">¶</a></dt>
 <dd><p>Return the degree of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">SGA</span> <span class="o">=</span> <span class="n">SymmetricGroupAlgebra</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
@@ -848,6 +895,22 @@ words of content <span class="math notranslate nohighlight">\(\lambda\)</span>:<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">SGA = SymmetricGroupAlgebra(GF(3), 4)
+GP22 = SGA.garsia_procesi_module([2, 2])
+for b in GP22.basis():
+    print(b, b.degree())
+v = sum(GP22.basis())
+v.degree()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -856,7 +919,7 @@ words of content <span class="math notranslate nohighlight">\(\lambda\)</span>:<
 <span class="sig-name descname"><span class="pre">homogeneous_degree</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/symmetric_group_representations.py#L1794"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.symmetric_group_representations.GarsiaProcesiModule.Element.homogeneous_degree" title="Link to this definition">¶</a></dt>
 <dd><p>Return the (homogeneous) degree of <code class="docutils literal notranslate"><span class="pre">self</span></code> if homogeneous
 otherwise raise an error.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">SGA</span> <span class="o">=</span> <span class="n">SymmetricGroupAlgebra</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
@@ -895,6 +958,22 @@ otherwise raise an error.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">SGA = SymmetricGroupAlgebra(GF(2), 4)
+GP31 = SGA.garsia_procesi_module([3, 1])
+for b in GP31.basis():
+    print(b, b.homogeneous_degree())
+v = sum(GP31.basis()); v
+v.homogeneous_degree()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -902,7 +981,7 @@ otherwise raise an error.</p>
 <dt class="sig sig-object py" id="sage.combinat.symmetric_group_representations.GarsiaProcesiModule.Element.monomial_coefficients">
 <span class="sig-name descname"><span class="pre">monomial_coefficients</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/symmetric_group_representations.py#L1755"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.symmetric_group_representations.GarsiaProcesiModule.Element.monomial_coefficients" title="Link to this definition">¶</a></dt>
 <dd><p>Return the monomial coefficients of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">SGA</span> <span class="o">=</span> <span class="n">SymmetricGroupAlgebra</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
@@ -925,6 +1004,20 @@ otherwise raise an error.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">SGA = SymmetricGroupAlgebra(GF(3), 4)
+GP31 = SGA.garsia_procesi_module([3, 1])
+v = GP31.an_element(); v
+v.monomial_coefficients()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -932,7 +1025,7 @@ otherwise raise an error.</p>
 <dt class="sig sig-object py" id="sage.combinat.symmetric_group_representations.GarsiaProcesiModule.Element.to_vector">
 <span class="sig-name descname"><span class="pre">to_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/symmetric_group_representations.py#L1734"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.symmetric_group_representations.GarsiaProcesiModule.Element.to_vector" title="Link to this definition">¶</a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">self</span></code> as a (dense) free module vector.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">SGA</span> <span class="o">=</span> <span class="n">SymmetricGroupAlgebra</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
@@ -955,6 +1048,20 @@ otherwise raise an error.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">SGA = SymmetricGroupAlgebra(GF(3), 4)
+GP22 = SGA.garsia_procesi_module([2, 2])
+v = GP22.an_element(); v
+v.to_vector()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -964,7 +1071,7 @@ otherwise raise an error.</p>
 <dt class="sig sig-object py" id="sage.combinat.symmetric_group_representations.GarsiaProcesiModule.basis">
 <span class="sig-name descname"><span class="pre">basis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/symmetric_group_representations.py#L1467"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.symmetric_group_representations.GarsiaProcesiModule.basis" title="Link to this definition">¶</a></dt>
 <dd><p>Return a basis of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">SGA</span> <span class="o">=</span> <span class="n">SymmetricGroupAlgebra</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
@@ -983,6 +1090,19 @@ otherwise raise an error.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">SGA = SymmetricGroupAlgebra(QQ, 4)
+GP = SGA.garsia_procesi_module([2, 2])
+GP.basis()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -993,7 +1113,7 @@ otherwise raise an error.</p>
 <p>The graded Frobenius character of the Garsia-Procesi module
 <span class="math notranslate nohighlight">\(R_{\lambda}\)</span> is given by the modified Hall-Littlewood polynomial
 <span class="math notranslate nohighlight">\(\widetilde{H}_{\lambda'}(x; q)\)</span>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">SGA</span> <span class="o">=</span> <span class="n">SymmetricGroupAlgebra</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
@@ -1034,6 +1154,24 @@ otherwise raise an error.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">SGA = SymmetricGroupAlgebra(QQ, 5)
+Sym = SymmetricFunctions(QQ)
+s = Sym.s()
+Qp = Sym.hall_littlewood(1).Qp()
+for la in Partitions(5):
+    print(SGA.garsia_procesi_module(la).dimension(),
+          sum(c * StandardTableaux(la).cardinality()
+              for la, c in s(Qp[la])))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1041,7 +1179,7 @@ otherwise raise an error.</p>
 <dt class="sig sig-object py" id="sage.combinat.symmetric_group_representations.GarsiaProcesiModule.get_order">
 <span class="sig-name descname"><span class="pre">get_order</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/symmetric_group_representations.py#L1453"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.symmetric_group_representations.GarsiaProcesiModule.get_order" title="Link to this definition">¶</a></dt>
 <dd><p>Return the order of the elements in the basis.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">SGA</span> <span class="o">=</span> <span class="n">SymmetricGroupAlgebra</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
@@ -1060,6 +1198,19 @@ otherwise raise an error.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">SGA = SymmetricGroupAlgebra(QQ, 4)
+GP = SGA.garsia_procesi_module([2, 2])
+GP.get_order()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1067,7 +1218,7 @@ otherwise raise an error.</p>
 <dt class="sig sig-object py" id="sage.combinat.symmetric_group_representations.GarsiaProcesiModule.graded_brauer_character">
 <span class="sig-name descname"><span class="pre">graded_brauer_character</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/symmetric_group_representations.py#L1685"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.symmetric_group_representations.GarsiaProcesiModule.graded_brauer_character" title="Link to this definition">¶</a></dt>
 <dd><p>Return the graded Brauer character of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">SGA</span> <span class="o">=</span> <span class="n">SymmetricGroupAlgebra</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">5</span><span class="p">)</span>
@@ -1086,6 +1237,19 @@ otherwise raise an error.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">SGA = SymmetricGroupAlgebra(GF(2), 5)
+GP311 = SGA.garsia_procesi_module([3, 1, 1])
+GP311.graded_brauer_character()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1093,7 +1257,7 @@ otherwise raise an error.</p>
 <dt class="sig sig-object py" id="sage.combinat.symmetric_group_representations.GarsiaProcesiModule.graded_character">
 <span class="sig-name descname"><span class="pre">graded_character</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/symmetric_group_representations.py#L1567"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.symmetric_group_representations.GarsiaProcesiModule.graded_character" title="Link to this definition">¶</a></dt>
 <dd><p>Return the graded character of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">SGA</span> <span class="o">=</span> <span class="n">SymmetricGroupAlgebra</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
@@ -1124,6 +1288,22 @@ otherwise raise an error.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">SGA = SymmetricGroupAlgebra(QQ, 5)
+GP = SGA.garsia_procesi_module([2, 2, 1])
+gchi = GP.graded_character(); gchi
+R.&lt;q&gt; = QQ[]
+gchi == sum(q^d * D.character()
+            for d, D in GP.graded_decomposition().items())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1136,7 +1316,7 @@ representations given by a fixed grading.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">k</span></code> – (optional) integer; if given, return the <span class="math notranslate nohighlight">\(k\)</span>-th graded part</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">SGA</span> <span class="o">=</span> <span class="n">SymmetricGroupAlgebra</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">5</span><span class="p">)</span>
@@ -1169,6 +1349,21 @@ representations given by a fixed grading.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">SGA = SymmetricGroupAlgebra(GF(2), 5)
+GP32 = SGA.garsia_procesi_module([3, 2])
+decomp = GP32.graded_decomposition(); decomp
+decomp[2] is GP32.graded_decomposition(2)
+GP32.graded_decomposition(10)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1180,7 +1375,7 @@ representations given by a fixed grading.</p>
 of each graded component, which is known to result in the modified
 Hall-Littlewood polynomial <span class="math notranslate nohighlight">\(\widetilde{H}_{\lambda}(x; q)\)</span>.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">We verify that the result is the modified Hall-Littlewood polynomial
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We verify that the result is the modified Hall-Littlewood polynomial
 for <span class="math notranslate nohighlight">\(n = 5\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
@@ -1210,6 +1405,25 @@ for <span class="math notranslate nohighlight">\(n = 5\)</span>:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;q&gt; = QQ[]
+Sym = SymmetricFunctions(R)
+s = Sym.s()
+Qp = Sym.hall_littlewood(q).Qp()
+SGA = SymmetricGroupAlgebra(QQ, 5)
+for la in Partitions(5):
+    f = SGA.garsia_procesi_module(la).graded_frobenius_image()
+    d = f[la].degree()
+    assert f.map_coefficients(lambda c: R(c(~q)*q^d)) == s(Qp[la])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1218,7 +1432,7 @@ for <span class="math notranslate nohighlight">\(n = 5\)</span>:</p>
 <span class="sig-name descname"><span class="pre">graded_representation_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/symmetric_group_representations.py#L1648"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.symmetric_group_representations.GarsiaProcesiModule.graded_representation_matrix" title="Link to this definition">¶</a></dt>
 <dd><p>Return the matrix corresponding to the left action of the symmetric
 group (algebra) element <code class="docutils literal notranslate"><span class="pre">elt</span></code> on <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">SGA</span> <span class="o">=</span> <span class="n">SymmetricGroupAlgebra</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
@@ -1275,6 +1489,24 @@ group (algebra) element <code class="docutils literal notranslate"><span class="
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">SGA = SymmetricGroupAlgebra(GF(3), 3)
+GP = SGA.garsia_procesi_module([1, 1, 1])
+elt = SGA.an_element(); elt
+X = GP.graded_representation_matrix(elt); X
+X.parent()
+R.&lt;q&gt; = GF(3)[]
+t = R.quotient([q^2+2*q+1]).gen()
+GP.graded_representation_matrix(elt, t)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1282,7 +1514,7 @@ group (algebra) element <code class="docutils literal notranslate"><span class="
 <dt class="sig sig-object py" id="sage.combinat.symmetric_group_representations.GarsiaProcesiModule.one_basis">
 <span class="sig-name descname"><span class="pre">one_basis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/symmetric_group_representations.py#L1483"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.symmetric_group_representations.GarsiaProcesiModule.one_basis" title="Link to this definition">¶</a></dt>
 <dd><p>Return the index of the basis element <span class="math notranslate nohighlight">\(1\)</span>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">SGA</span> <span class="o">=</span> <span class="n">SymmetricGroupAlgebra</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
@@ -1299,6 +1531,19 @@ group (algebra) element <code class="docutils literal notranslate"><span class="
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">GP</span><span class="o">.</span><span class="n">one_basis</span><span class="p">()</span>
 <span class="go">5</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">SGA = SymmetricGroupAlgebra(QQ, 4)
+GP = SGA.garsia_procesi_module([2, 2])
+GP.one_basis()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1319,7 +1564,7 @@ irreducible representation.</p>
 <p class="admonition-title">Note</p>
 <p>This method caches the results.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">spc</span> <span class="o">=</span> <span class="n">SymmetricGroupRepresentation</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;specht&#39;</span><span class="p">)</span>
@@ -1348,6 +1593,19 @@ irreducible representation.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">spc = SymmetricGroupRepresentation([3,1], 'specht')
+spc.representation_matrix(Permutation([2,1,3,4]))
+spc.representation_matrix(Permutation([3,2,1,4]))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1359,7 +1617,7 @@ permutation otherwise.</p>
 <p>This is the scalar product of a vertex <code class="docutils literal notranslate"><span class="pre">u</span></code> of the underlying
 Yang-Baxter graph with the vertex <code class="docutils literal notranslate"><span class="pre">v</span></code> in the ‘dual’ Yang-Baxter
 graph.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">spc</span> <span class="o">=</span> <span class="n">SymmetricGroupRepresentation</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;specht&#39;</span><span class="p">)</span>
@@ -1380,6 +1638,19 @@ graph.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">spc = SymmetricGroupRepresentation([3,2], 'specht')
+spc.scalar_product((1,0,2,1,0),(0,3,0,3,0))
+spc.scalar_product((1,0,2,1,0),(3,0,0,3,0))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1390,7 +1661,7 @@ graph.</p>
 <p>The entries are given by the scalar products of <code class="docutils literal notranslate"><span class="pre">u</span></code> and
 <code class="docutils literal notranslate"><span class="pre">permutation.action(v)</span></code>, where <code class="docutils literal notranslate"><span class="pre">u</span></code> is a vertex in the underlying
 Yang-Baxter graph and <code class="docutils literal notranslate"><span class="pre">v</span></code> is a vertex in the dual graph.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">spc</span> <span class="o">=</span> <span class="n">SymmetricGroupRepresentation</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;specht&#39;</span><span class="p">)</span>
@@ -1409,6 +1680,18 @@ Yang-Baxter graph and <code class="docutils literal notranslate"><span class="pr
 <span class="go">[ 0 -1  0]</span>
 <span class="go">[ 0  0  1]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">spc = SymmetricGroupRepresentation([3,1], 'specht')
+spc.scalar_product_matrix()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1449,7 +1732,7 @@ Yang-Baxter graph and <code class="docutils literal notranslate"><span class="pr
 representation matrices that are computed are cached</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Young’s orthogonal representation: the matrices are orthogonal.</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Young’s orthogonal representation: the matrices are orthogonal.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">orth</span> <span class="o">=</span> <span class="n">SymmetricGroupRepresentation</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;orthogonal&quot;</span><span class="p">);</span> <span class="n">orth</span>            <span class="c1"># needs sage.symbolic</span>
@@ -1468,8 +1751,20 @@ representation matrices that are computed are cached</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">orth = SymmetricGroupRepresentation([2,1], &quot;orthogonal&quot;); orth            # needs sage.symbolic
+all(a*a.transpose() == a.parent().identity_matrix() for a in orth)        # needs sage.symbolic</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.symbolic</span>
@@ -1522,8 +1817,23 @@ representation matrices that are computed are cached</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.symbolic
+orth = SymmetricGroupRepresentation([3,2], &quot;orthogonal&quot;); orth
+orth([2,1,3,4,5])
+orth([1,3,2,4,5])
+orth([1,2,4,3,5])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The Specht representation:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The Specht representation:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">spc</span> <span class="o">=</span> <span class="n">SymmetricGroupRepresentation</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;specht&quot;</span><span class="p">)</span>
@@ -1576,8 +1886,23 @@ representation matrices that are computed are cached</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">spc = SymmetricGroupRepresentation([3,2], &quot;specht&quot;)
+spc.scalar_product_matrix(Permutation([1,2,3,4,5]))
+spc.scalar_product_matrix(Permutation([5,4,3,2,1]))
+spc([5,4,3,2,1])
+spc.verify_representation()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The unitary representation:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The unitary representation:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">unitary</span> <span class="o">=</span> <span class="n">SymmetricGroupRepresentation</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;unitary&quot;</span><span class="p">);</span> <span class="n">unitary</span>         <span class="c1"># needs sage.symbolic</span>
@@ -1622,8 +1947,25 @@ representation matrices that are computed are cached</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">unitary = SymmetricGroupRepresentation([3,1], &quot;unitary&quot;); unitary         # needs sage.symbolic
+# needs sage.rings.finite_rings
+unitary_GF49 = SymmetricGroupRepresentation([3,1], &quot;unitary&quot;, ring=GF(7**2))
+unitary_GF49
+unitary_GF49([2,1,3,4])
+unitary_GF49([3,2,1,4])
+unitary_GF49.verify_representation()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">By default, any representation matrices that are computed are cached:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">By default, any representation matrices that are computed are cached:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">spc</span> <span class="o">=</span> <span class="n">SymmetricGroupRepresentation</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;specht&quot;</span><span class="p">)</span>
@@ -1660,8 +2002,21 @@ representation matrices that are computed are cached</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">spc = SymmetricGroupRepresentation([3,2], &quot;specht&quot;)
+spc([5,4,3,2,1])
+spc._cache__representation_matrix</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This can be turned off with the keyword <code class="docutils literal notranslate"><span class="pre">cache_matrices</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This can be turned off with the keyword <code class="docutils literal notranslate"><span class="pre">cache_matrices</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">spc</span> <span class="o">=</span> <span class="n">SymmetricGroupRepresentation</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;specht&quot;</span><span class="p">,</span> <span class="n">cache_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -1688,6 +2043,19 @@ representation matrices that are computed are cached</p></li>
 <span class="gp">&gt;&gt;&gt;</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">spc</span><span class="p">,</span> <span class="s1">&#39;_cache__representation_matrix&#39;</span><span class="p">)</span>
 <span class="go">False</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">spc = SymmetricGroupRepresentation([3,2], &quot;specht&quot;, cache_matrices=False)
+spc([5,4,3,2,1])
+hasattr(spc, '_cache__representation_matrix')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1720,7 +2088,7 @@ representation matrices that are computed are cached</p></li>
 <span class="sig-name descname"><span class="pre">to_character</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/symmetric_group_representations.py#L465"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.symmetric_group_representations.SymmetricGroupRepresentation_generic_class.to_character" title="Link to this definition">¶</a></dt>
 <dd><p>Return the character of the representation.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">The trivial character:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The trivial character:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">rho</span> <span class="o">=</span> <span class="n">SymmetricGroupRepresentation</span><span class="p">([</span><span class="mi">3</span><span class="p">])</span>
@@ -1745,8 +2113,22 @@ representation matrices that are computed are cached</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">rho = SymmetricGroupRepresentation([3])
+chi = rho.to_character(); chi
+chi.values()
+all(chi(g) == 1 for g in SymmetricGroup(3))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The sign character:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The sign character:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">rho</span> <span class="o">=</span> <span class="n">SymmetricGroupRepresentation</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
@@ -1771,8 +2153,22 @@ representation matrices that are computed are cached</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">rho = SymmetricGroupRepresentation([1,1,1])
+chi = rho.to_character(); chi
+chi.values()
+all(chi(g) == g.sign() for g in SymmetricGroup(3))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The defining representation:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The defining representation:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">triv</span> <span class="o">=</span> <span class="n">SymmetricGroupRepresentation</span><span class="p">([</span><span class="mi">4</span><span class="p">])</span>
@@ -1797,6 +2193,21 @@ representation matrices that are computed are cached</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">triv = SymmetricGroupRepresentation([4])
+hook = SymmetricGroupRepresentation([3,1])
+def_rep = lambda p : triv(p).block_sum(hook(p)).trace()
+list(map(def_rep, Permutations(4)))
+[p.to_matrix().trace() for p in Permutations(4)]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1806,7 +2217,7 @@ representation matrices that are computed are cached</p></li>
 <dd><p>Verify the representation.</p>
 <p>This tests that the images of the simple transpositions are
 involutions and tests that the braid relations hold.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--28-input--1" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">spc</span> <span class="o">=</span> <span class="n">SymmetricGroupRepresentation</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
@@ -1827,6 +2238,20 @@ involutions and tests that the braid relations hold.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">spc</span><span class="o">.</span><span class="n">verify_representation</span><span class="p">()</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">spc = SymmetricGroupRepresentation([1,1,1])
+spc.verify_representation()
+spc = SymmetricGroupRepresentation([4,2,1])
+spc.verify_representation()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1854,7 +2279,7 @@ involutions and tests that the braid relations hold.</p>
 representation matrices that are computed are cached</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Young’s orthogonal representation: the matrices are orthogonal.</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Young’s orthogonal representation: the matrices are orthogonal.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">orth</span> <span class="o">=</span> <span class="n">SymmetricGroupRepresentations</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;orthogonal&quot;</span><span class="p">);</span> <span class="n">orth</span>               <span class="c1"># needs sage.symbolic</span>
@@ -1883,8 +2308,21 @@ representation matrices that are computed are cached</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">orth = SymmetricGroupRepresentations(3, &quot;orthogonal&quot;); orth               # needs sage.symbolic
+orth.list()                                                               # needs sage.symbolic
+orth([2,1])([1,2,3])                                                      # needs sage.symbolic</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Young’s seminormal representation.</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Young’s seminormal representation.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--30-input--1" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">snorm</span> <span class="o">=</span> <span class="n">SymmetricGroupRepresentations</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;seminormal&quot;</span><span class="p">);</span> <span class="n">snorm</span>
@@ -1907,8 +2345,21 @@ representation matrices that are computed are cached</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--30-input--3" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">snorm = SymmetricGroupRepresentations(3, &quot;seminormal&quot;); snorm
+sgn = snorm([1,1,1]); sgn
+list(map(sgn, Permutations(3)))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The Specht Representation.</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The Specht Representation.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--31-input--1" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">spc</span> <span class="o">=</span> <span class="n">SymmetricGroupRepresentations</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;specht&quot;</span><span class="p">);</span> <span class="n">spc</span>
@@ -1935,8 +2386,20 @@ representation matrices that are computed are cached</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--31-input--3" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">spc = SymmetricGroupRepresentations(5, &quot;specht&quot;); spc
+spc([3,2])([5,4,3,2,1])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The unitary representation.</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The unitary representation.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--32-input--1" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">unitary</span> <span class="o">=</span> <span class="n">SymmetricGroupRepresentations</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;unitary&quot;</span><span class="p">);</span> <span class="n">unitary</span>            <span class="c1"># needs sage.symbolic</span>
@@ -1975,6 +2438,21 @@ representation matrices that are computed are cached</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--32-input--3" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">unitary = SymmetricGroupRepresentations(3, &quot;unitary&quot;); unitary            # needs sage.symbolic
+# needs sage.rings.finite_rings
+unitary_GF49 = SymmetricGroupRepresentations(4, &quot;unitary&quot;, ring=GF(7**2)); unitary_GF49
+unitary_GF49([3,1])([2,1,3,4])
+unitary_GF49([3,1])([3,2,1,4])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1996,7 +2474,7 @@ representations of the symmetric group.</p>
 <dt class="sig sig-object py" id="sage.combinat.symmetric_group_representations.SymmetricGroupRepresentations_class.cardinality">
 <span class="sig-name descname"><span class="pre">cardinality</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/symmetric_group_representations.py#L549"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.symmetric_group_representations.SymmetricGroupRepresentations_class.cardinality" title="Link to this definition">¶</a></dt>
 <dd><p>Return the cardinality of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--33-input--1" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">sp</span> <span class="o">=</span> <span class="n">SymmetricGroupRepresentations</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;specht&quot;</span><span class="p">)</span>
@@ -2011,6 +2489,18 @@ representations of the symmetric group.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">sp</span><span class="o">.</span><span class="n">cardinality</span><span class="p">()</span>
 <span class="go">5</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--33-input--3" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">sp = SymmetricGroupRepresentations(4, &quot;specht&quot;)
+sp.cardinality()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2039,7 +2529,7 @@ irreducible representation.</p>
 <p class="admonition-title">Note</p>
 <p>This method caches the results.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--34-input--1" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.finite_rings</span>
@@ -2074,6 +2564,22 @@ irreducible representation.</p>
 <span class="gp">...</span>                            <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">Permutations</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">4</span><span class="p">))])</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--34-input--3" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.finite_rings
+unitary_specht = SymmetricGroupRepresentation([3,1], 'unitary', ring=GF(7**2))
+unitary_specht.representation_matrix(Permutation([2,1,3,4]))
+unitary_specht.representation_matrix(Permutation([3,2,1,4]))
+all(A * A.H == 1 for A in [unitary_specht.representation_matrix(g)
+                           for g in Permutations(4)])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2114,7 +2620,7 @@ irreducible representation.</p>
 <dt class="sig sig-object py" id="sage.combinat.symmetric_group_representations.YoungRepresentation_generic.representation_matrix">
 <span class="sig-name descname"><span class="pre">representation_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">permutation</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/symmetric_group_representations.py#L741"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.symmetric_group_representations.YoungRepresentation_generic.representation_matrix" title="Link to this definition">¶</a></dt>
 <dd><p>Return the matrix representing <code class="docutils literal notranslate"><span class="pre">permutation</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--35-input--1" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">orth</span> <span class="o">=</span> <span class="n">SymmetricGroupRepresentation</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;orthogonal&quot;</span><span class="p">)</span>              <span class="c1"># needs sage.symbolic</span>
@@ -2139,8 +2645,21 @@ irreducible representation.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--35-input--3" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">orth = SymmetricGroupRepresentation([2,1], &quot;orthogonal&quot;)              # needs sage.symbolic
+orth.representation_matrix(Permutation([2,1,3]))                      # needs sage.symbolic
+orth.representation_matrix(Permutation([1,3,2]))                      # needs sage.symbolic</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--36-input--1" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">norm</span> <span class="o">=</span> <span class="n">SymmetricGroupRepresentation</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;seminormal&quot;</span><span class="p">)</span>
@@ -2169,6 +2688,21 @@ irreducible representation.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--36-input--3" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">norm = SymmetricGroupRepresentation([2,1], &quot;seminormal&quot;)
+p = PermutationGroupElement([2,1,3])
+norm.representation_matrix(p)
+p = PermutationGroupElement([1,3,2])
+norm.representation_matrix(p)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2177,7 +2711,7 @@ irreducible representation.</p>
 <span class="sig-name descname"><span class="pre">representation_matrix_for_simple_transposition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/symmetric_group_representations.py#L654"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.symmetric_group_representations.YoungRepresentation_generic.representation_matrix_for_simple_transposition" title="Link to this definition">¶</a></dt>
 <dd><p>Return the matrix representing the transposition that swaps <code class="docutils literal notranslate"><span class="pre">i</span></code> and
 <code class="docutils literal notranslate"><span class="pre">i+1</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--37-input--1" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">orth</span> <span class="o">=</span> <span class="n">SymmetricGroupRepresentation</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;orthogonal&quot;</span><span class="p">)</span>              <span class="c1"># needs sage.symbolic</span>
@@ -2218,6 +2752,22 @@ irreducible representation.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--37-input--3" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">orth = SymmetricGroupRepresentation([2,1], &quot;orthogonal&quot;)              # needs sage.symbolic
+orth.representation_matrix_for_simple_transposition(1)                # needs sage.symbolic
+orth.representation_matrix_for_simple_transposition(2)                # needs sage.symbolic
+norm = SymmetricGroupRepresentation([2,1], &quot;seminormal&quot;)
+norm.representation_matrix_for_simple_transposition(1)
+norm.representation_matrix_for_simple_transposition(2)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2251,7 +2801,7 @@ irreducible representation.</p>
 <dt class="sig sig-object py" id="sage.combinat.symmetric_group_representations.partition_to_vector_of_contents">
 <span class="sig-prename descclassname"><span class="pre">sage.combinat.symmetric_group_representations.</span></span><span class="sig-name descname"><span class="pre">partition_to_vector_of_contents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">partition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/symmetric_group_representations.py#L1248"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.symmetric_group_representations.partition_to_vector_of_contents" title="Link to this definition">¶</a></dt>
 <dd><p>Return the “vector of contents” associated to <code class="docutils literal notranslate"><span class="pre">partition</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--38-input--1" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.combinat.symmetric_group_representations</span><span class="w"> </span><span class="kn">import</span> <span class="n">partition_to_vector_of_contents</span>
@@ -2268,11 +2818,27 @@ irreducible representation.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--38-input--3" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.combinat.symmetric_group_representations import partition_to_vector_of_contents
+partition_to_vector_of_contents([3,2])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -2411,7 +2977,7 @@ irreducible representation.</p>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -318,7 +318,7 @@ twosided ideals.</p></li>
 </ul>
 <div class="admonition-todo admonition" id="id1">
 <p class="admonition-title">Todo</p>
-<p class="with-sage-tab with-python-tab">The following skipped tests should be removed once <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/13999">upstream Issue #13999</a> is fixed:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The following skipped tests should be removed once <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/13999">upstream Issue #13999</a> is fixed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">TestSuite</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">skip</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;_test_nonzero_equal&#39;</span><span class="p">,</span> <span class="s1">&#39;_test_elements&#39;</span><span class="p">,</span> <span class="s1">&#39;_test_zero&#39;</span><span class="p">])</span>
@@ -331,9 +331,20 @@ twosided ideals.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">TestSuite(S).run(skip=['_test_nonzero_equal', '_test_elements', '_test_zero'])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
 </div>
 </div>
-<p class="with-sage-tab with-python-tab">In <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/11068">upstream Issue #11068</a>, non-commutative quotient rings <span class="math notranslate nohighlight">\(R/I\)</span> were
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/11068">upstream Issue #11068</a>, non-commutative quotient rings <span class="math notranslate nohighlight">\(R/I\)</span> were
 implemented.  The only requirement is that the two-sided ideal <span class="math notranslate nohighlight">\(I\)</span>
 provides a <code class="docutils literal notranslate"><span class="pre">reduce</span></code> method so that <code class="docutils literal notranslate"><span class="pre">I.reduce(x)</span></code> is the normal
 form of an element <span class="math notranslate nohighlight">\(x\)</span> with respect to <span class="math notranslate nohighlight">\(I\)</span> (i.e., we have
@@ -381,8 +392,30 @@ form of an element <span class="math notranslate nohighlight">\(x\)</span> with 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.noncommutative_ideals import Ideal_nc
+from itertools import product
+class PowerIdeal(Ideal_nc):
+    def __init__(self, R, n):
+        self._power = n
+        self._power = n
+        Ideal_nc.__init__(self, R, [R.prod(m) for m in product(R.gens(), repeat=n)])
+    def reduce(self, x):
+        R = self.ring()
+        return add([c*R(m) for m,c in x if len(m)&lt;self._power],R(0))
+F.&lt;x,y,z&gt; = FreeAlgebra(QQ, 3)                                                # needs sage.combinat sage.modules
+I3 = PowerIdeal(F,3); I3                                                      # needs sage.combinat sage.modules</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Free algebras have a custom quotient method that serves at creating
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Free algebras have a custom quotient method that serves at creating
 finite dimensional quotients defined by multiplication matrices. We
 are bypassing it, so that we obtain the default quotient:</p>
 <div class="tab-set docutils container">
@@ -417,8 +450,23 @@ are bypassing it, so that we obtain the default quotient:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.combinat sage.modules
+Q3.&lt;a,b,c&gt; = F.quotient(I3)
+Q3
+(a+b+2)^4
+Q3.is_commutative()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Even though <span class="math notranslate nohighlight">\(Q_3\)</span> is not commutative, there is commutativity for
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Even though <span class="math notranslate nohighlight">\(Q_3\)</span> is not commutative, there is commutativity for
 products of degree three:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
@@ -434,8 +482,19 @@ products of degree three:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a*(b*c)-(b*c)*a==F.zero()                                                     # needs sage.combinat sage.modules</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If we quotient out all terms of degree two then of course the resulting
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If we quotient out all terms of degree two then of course the resulting
 quotient ring is commutative:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
@@ -465,8 +524,23 @@ quotient ring is commutative:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.combinat sage.modules
+I2 = PowerIdeal(F,2); I2
+Q2.&lt;a,b,c&gt; = F.quotient(I2)
+Q2.is_commutative()
+(a+b+2)^4</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Since <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/7797">upstream Issue #7797</a>, there is an implementation of free algebras
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Since <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/7797">upstream Issue #7797</a>, there is an implementation of free algebras
 based on Singular’s implementation of the Letterplace Algebra. Our
 letterplace wrapper allows to provide the above toy example more
 easily:</p>
@@ -512,6 +586,25 @@ easily:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.combinat sage.libs.singular sage.modules
+from itertools import product
+F.&lt;x,y,z&gt; = FreeAlgebra(QQ, implementation='letterplace')
+Q3 = F.quo(F*[F.prod(m) for m in product(F.gens(), repeat=3)]*F)
+Q3
+Q3.0*Q3.1 - Q3.1*Q3.0
+Q3.0*(Q3.1*Q3.2) - (Q3.1*Q3.2)*Q3.0
+Q2 = F.quo(F*[F.prod(m) for m in product(F.gens(), repeat=2)]*F)
+Q2.is_commutative()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py function">
 <dt class="sig sig-object py" id="sage.rings.quotient_ring.QuotientRing">
@@ -536,7 +629,7 @@ of elements <span class="math notranslate nohighlight">\(x\in R\)</span>. In oth
 <code class="docutils literal notranslate"><span class="pre">I.reduce(x)==I.reduce(y)</span></code> <span class="math notranslate nohighlight">\(\iff x-y \in I\)</span>, and
 <code class="docutils literal notranslate"><span class="pre">x-I.reduce(x)</span> <span class="pre">in</span> <span class="pre">I</span></code>, for all <span class="math notranslate nohighlight">\(x,y\in R\)</span>.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Some simple quotient rings with the integers:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Some simple quotient rings with the integers:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span> <span class="o">=</span> <span class="n">QuotientRing</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="mi">7</span><span class="o">*</span><span class="n">ZZ</span><span class="p">);</span> <span class="n">R</span>
@@ -563,8 +656,21 @@ of elements <span class="math notranslate nohighlight">\(x\in R\)</span>. In oth
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R = QuotientRing(ZZ, 7*ZZ); R
+R.gens()
+1*R(3); 6*R(3); 7*R(3)</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">S</span> <span class="o">=</span> <span class="n">QuotientRing</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span><span class="n">ZZ</span><span class="o">.</span><span class="n">ideal</span><span class="p">(</span><span class="mi">8</span><span class="p">));</span> <span class="n">S</span>
@@ -583,8 +689,20 @@ of elements <span class="math notranslate nohighlight">\(x\in R\)</span>. In oth
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">S = QuotientRing(ZZ,ZZ.ideal(8)); S
+2*S(4)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">With polynomial rings (note that the variable name of the quotient
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">With polynomial rings (note that the variable name of the quotient
 ring can be specified as shown below):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
@@ -624,8 +742,24 @@ ring can be specified as shown below):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.pari
+P.&lt;x&gt; = QQ[]
+R.&lt;xx&gt; = QuotientRing(P, P.ideal(x^2 + 1))
+R
+R.gens(); R.gen()
+for n in range(4): xx^n</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.pari</span>
@@ -660,8 +794,24 @@ ring can be specified as shown below):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.pari
+P.&lt;x&gt; = QQ[]
+S = QuotientRing(P, P.ideal(x^2 - 2))
+S
+xbar = S.gen(); S.gen()
+for n in range(3): xbar^n</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Sage coerces objects into ideals when possible:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Sage coerces objects into ideals when possible:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
@@ -680,8 +830,20 @@ ring can be specified as shown below):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.&lt;x&gt; = QQ[]
+R = QuotientRing(P, x^2 + 1); R                                           # needs sage.libs.pari</pre>
 </div>
-<p class="with-sage-tab with-python-tab">By Noether’s homomorphism theorems, the quotient of a quotient ring
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">By Noether’s homomorphism theorems, the quotient of a quotient ring
 of <span class="math notranslate nohighlight">\(R\)</span> is just the quotient of <span class="math notranslate nohighlight">\(R\)</span> by the sum of the ideals. In this
 example, we end up modding out the ideal <span class="math notranslate nohighlight">\((x)\)</span> from the ring
 <span class="math notranslate nohighlight">\(\QQ[x,y]\)</span>:</p>
@@ -727,6 +889,23 @@ example, we end up modding out the ideal <span class="math notranslate nohighlig
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.pari sage.libs.singular
+R.&lt;x,y&gt; = PolynomialRing(QQ, 2)
+S.&lt;a,b&gt; = QuotientRing(R, R.ideal(1 + y^2))
+T.&lt;c,d&gt; = QuotientRing(S, S.ideal(a))
+T
+R.gens(); S.gens(); T.gens()
+for n in range(4): d^n</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -735,7 +914,7 @@ example, we end up modding out the ideal <span class="math notranslate nohighlig
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.rings.quotient_ring.</span></span><span class="sig-name descname"><span class="pre">QuotientRingIdeal_generic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ring</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coerce</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/quotient_ring.py#L1517"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.quotient_ring.QuotientRingIdeal_generic" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="ideal.html#sage.rings.ideal.Ideal_generic" title="sage.rings.ideal.Ideal_generic"><code class="xref py py-class docutils literal notranslate"><span class="pre">Ideal_generic</span></code></a></p>
 <p>Specialized class for quotient-ring ideals.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Zmod</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span><span class="o">.</span><span class="n">ideal</span><span class="p">([</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">])</span>
@@ -750,12 +929,23 @@ example, we end up modding out the ideal <span class="math notranslate nohighlig
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Zmod(9).ideal([-6,9])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.rings.quotient_ring.QuotientRingIdeal_generic.radical">
 <span class="sig-name descname"><span class="pre">radical</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/quotient_ring.py#L1579"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.quotient_ring.QuotientRingIdeal_generic.radical" title="Link to this definition">¶</a></dt>
 <dd><p>Return the radical of this ideal.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Zmod</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span><span class="o">.</span><span class="n">ideal</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">radical</span><span class="p">()</span>
@@ -770,6 +960,17 @@ example, we end up modding out the ideal <span class="math notranslate nohighlig
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Zmod(16).ideal(4).radical()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -780,7 +981,7 @@ example, we end up modding out the ideal <span class="math notranslate nohighlig
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.rings.quotient_ring.</span></span><span class="sig-name descname"><span class="pre">QuotientRingIdeal_principal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ring</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coerce</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/quotient_ring.py#L1591"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.quotient_ring.QuotientRingIdeal_principal" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="ideal.html#sage.rings.ideal.Ideal_principal" title="sage.rings.ideal.Ideal_principal"><code class="xref py py-class docutils literal notranslate"><span class="pre">Ideal_principal</span></code></a>, <a class="reference internal" href="#sage.rings.quotient_ring.QuotientRingIdeal_generic" title="sage.rings.quotient_ring.QuotientRingIdeal_generic"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuotientRingIdeal_generic</span></code></a></p>
 <p>Specialized class for principal quotient-ring ideals.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Zmod</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span><span class="o">.</span><span class="n">ideal</span><span class="p">(</span><span class="o">-</span><span class="mi">33</span><span class="p">)</span>
@@ -795,6 +996,17 @@ example, we end up modding out the ideal <span class="math notranslate nohighlig
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Zmod(9).ideal(-33)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -803,7 +1015,7 @@ example, we end up modding out the ideal <span class="math notranslate nohighlig
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.rings.quotient_ring.</span></span><span class="sig-name descname"><span class="pre">QuotientRing_generic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">I</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/quotient_ring.py#L1400"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.quotient_ring.QuotientRing_generic" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#sage.rings.quotient_ring.QuotientRing_nc" title="sage.rings.quotient_ring.QuotientRing_nc"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuotientRing_nc</span></code></a>, <a class="reference internal" href="ring.html#sage.rings.ring.CommutativeRing" title="sage.rings.ring.CommutativeRing"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommutativeRing</span></code></a></p>
 <p>Create a quotient ring of a <em>commutative</em> ring <span class="math notranslate nohighlight">\(R\)</span> by the ideal <span class="math notranslate nohighlight">\(I\)</span>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">ZZ</span><span class="p">)</span>
@@ -824,6 +1036,19 @@ example, we end up modding out the ideal <span class="math notranslate nohighlig
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x&gt; = PolynomialRing(ZZ)
+I = R.ideal([4 + 3*x + x^2, 1 + x^2])
+S = R.quotient_ring(I); S</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -835,7 +1060,7 @@ example, we end up modding out the ideal <span class="math notranslate nohighlig
 <p>This class is for rings that are not in the category
 <code class="docutils literal notranslate"><span class="pre">Rings().Commutative()</span></code>.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Here is a quotient of a free algebra by a twosided homogeneous ideal:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Here is a quotient of a free algebra by a twosided homogeneous ideal:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.combinat sage.libs.singular sage.modules</span>
@@ -866,8 +1091,24 @@ example, we end up modding out the ideal <span class="math notranslate nohighlig
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.combinat sage.libs.singular sage.modules
+F.&lt;x,y,z&gt; = FreeAlgebra(QQ, implementation='letterplace')
+I = F * [x*y + y*z, x^2 + x*y - y*x - y^2]*F
+Q.&lt;a,b,c&gt; = F.quo(I); Q
+a*b
+a^3</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A quotient of a quotient is just the quotient of the original top
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A quotient of a quotient is just the quotient of the original top
 ring by the sum of two ideals:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
@@ -899,11 +1140,26 @@ ring by the sum of two ideals:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.combinat sage.libs.singular sage.modules
+J = Q * [a^3 - b^3] * Q
+R.&lt;i,j,k&gt; = Q.quo(J); R
+i^3
+j^3</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>For rings that <em>do</em> inherit from <a class="reference internal" href="ring.html#sage.rings.ring.CommutativeRing" title="sage.rings.ring.CommutativeRing"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommutativeRing</span></code></a>,
 we provide a subclass <a class="reference internal" href="#sage.rings.quotient_ring.QuotientRing_generic" title="sage.rings.quotient_ring.QuotientRing_generic"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuotientRing_generic</span></code></a>, for backwards
 compatibility.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
@@ -924,8 +1180,21 @@ compatibility.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x&gt; = PolynomialRing(ZZ,'x')
+I = R.ideal([4 + 3*x + x^2, 1 + x^2])
+S = R.quotient_ring(I); S</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">QQ</span><span class="p">)</span>
@@ -948,8 +1217,22 @@ compatibility.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x,y&gt; = PolynomialRing(QQ)
+S.&lt;a,b&gt; = R.quo(x^2 + y^2)                                                # needs sage.libs.singular
+a^2 + b^2 == 0                                                            # needs sage.libs.singular
+S(0) == a^2 + b^2                                                         # needs sage.libs.singular</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Again, a quotient of a quotient is just the quotient of the original top
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Again, a quotient of a quotient is just the quotient of the original top
 ring by the sum of two ideals.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
@@ -979,6 +1262,22 @@ ring by the sum of two ideals.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.singular
+R.&lt;x,y&gt; = PolynomialRing(QQ, 2)
+S.&lt;a,b&gt; = R.quo(1 + y^2)
+T.&lt;c,d&gt; = S.quo(a)
+T
+T.gens()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sage.rings.quotient_ring.QuotientRing_nc.Element">
@@ -1000,7 +1299,7 @@ ring by the sum of two ideals.</p>
 <p class="admonition-title">Todo</p>
 <p>Not yet implemented!</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Q</span> <span class="o">=</span> <span class="n">QuotientRing</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span><span class="mi">7</span><span class="o">*</span><span class="n">ZZ</span><span class="p">)</span>
@@ -1021,6 +1320,18 @@ ring by the sum of two ideals.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Q = QuotientRing(ZZ,7*ZZ)
+Q.characteristic()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1028,7 +1339,7 @@ ring by the sum of two ideals.</p>
 <dt class="sig sig-object py" id="sage.rings.quotient_ring.QuotientRing_nc.construction">
 <span class="sig-name descname"><span class="pre">construction</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/quotient_ring.py#L521"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.quotient_ring.QuotientRing_nc.construction" title="Link to this definition">¶</a></dt>
 <dd><p>Return the functorial construction of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
@@ -1063,6 +1374,24 @@ ring by the sum of two ideals.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x&gt; = PolynomialRing(ZZ,'x')
+I = R.ideal([4 + 3*x + x^2, 1 + x^2])
+R.quotient_ring(I).construction()
+# needs sage.combinat sage.libs.singular sage.modules
+F.&lt;x,y,z&gt; = FreeAlgebra(QQ, implementation='letterplace')
+I = F * [x*y + y*z, x^2 + x*y - y*x - y^2] * F
+Q = F.quo(I)
+Q.construction()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1070,7 +1399,7 @@ ring by the sum of two ideals.</p>
 <dt class="sig sig-object py" id="sage.rings.quotient_ring.QuotientRing_nc.cover">
 <span class="sig-name descname"><span class="pre">cover</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/quotient_ring.py#L652"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.quotient_ring.QuotientRing_nc.cover" title="Link to this definition">¶</a></dt>
 <dd><p>The covering ring homomorphism <span class="math notranslate nohighlight">\(R \to R/I\)</span>, equipped with a section.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span> <span class="o">=</span> <span class="n">ZZ</span><span class="o">.</span><span class="n">quo</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">ZZ</span><span class="p">)</span>
@@ -1101,8 +1430,23 @@ ring by the sum of two ideals.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R = ZZ.quo(3 * ZZ)
+pi = R.cover()
+pi
+pi(5)
+l = pi.lift()</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.singular</span>
@@ -1147,6 +1491,25 @@ ring by the sum of two ideals.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.singular
+R.&lt;x,y&gt;  = PolynomialRing(QQ)
+Q = R.quo((x^2, y^2))
+pi = Q.cover()
+pi(x^3 + y)
+l = pi.lift(x + y^3)
+l
+l = pi.lift(); l
+l(x + y^3)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1155,7 +1518,7 @@ ring by the sum of two ideals.</p>
 <span class="sig-name descname"><span class="pre">cover_ring</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/quotient_ring.py#L965"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.quotient_ring.QuotientRing_nc.cover_ring" title="Link to this definition">¶</a></dt>
 <dd><p>Return the cover ring of the quotient ring: that is, the original
 ring <span class="math notranslate nohighlight">\(R\)</span> from which we modded out an ideal, <span class="math notranslate nohighlight">\(I\)</span>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Q</span> <span class="o">=</span> <span class="n">QuotientRing</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="mi">7</span> <span class="o">*</span> <span class="n">ZZ</span><span class="p">)</span>
@@ -1172,8 +1535,20 @@ ring <span class="math notranslate nohighlight">\(R\)</span> from which we modde
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Q = QuotientRing(ZZ, 7 * ZZ)
+Q.cover_ring()</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
@@ -1192,6 +1567,19 @@ ring <span class="math notranslate nohighlight">\(R\)</span> from which we modde
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.&lt;x&gt; = QQ[]
+Q = QuotientRing(P, x^2 + 1)                                          # needs sage.libs.pari
+Q.cover_ring()                                                        # needs sage.libs.pari</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1200,7 +1588,7 @@ ring <span class="math notranslate nohighlight">\(R\)</span> from which we modde
 <span class="sig-name descname"><span class="pre">defining_ideal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/quotient_ring.py#L835"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.quotient_ring.QuotientRing_nc.defining_ideal" title="Link to this definition">¶</a></dt>
 <dd><p>Return the ideal generating this quotient ring.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">In the integers:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In the integers:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Q</span> <span class="o">=</span> <span class="n">QuotientRing</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span><span class="mi">7</span><span class="o">*</span><span class="n">ZZ</span><span class="p">)</span>
@@ -1217,8 +1605,20 @@ ring <span class="math notranslate nohighlight">\(R\)</span> from which we modde
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Q = QuotientRing(ZZ,7*ZZ)
+Q.defining_ideal()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">An example involving a quotient of a quotient. By Noether’s
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">An example involving a quotient of a quotient. By Noether’s
 homomorphism theorems, this is actually a quotient by a sum of two
 ideals:</p>
 <div class="tab-set docutils container">
@@ -1247,6 +1647,22 @@ ideals:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.singular
+R.&lt;x,y&gt; = PolynomialRing(QQ, 2)
+S.&lt;a,b&gt; = QuotientRing(R, R.ideal(1 + y^2))
+T.&lt;c,d&gt; = QuotientRing(S, S.ideal(a))
+S.defining_ideal()
+T.defining_ideal()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1254,7 +1670,7 @@ ideals:</p>
 <dt class="sig sig-object py" id="sage.rings.quotient_ring.QuotientRing_nc.gen">
 <span class="sig-name descname"><span class="pre">gen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/quotient_ring.py#L1221"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.quotient_ring.QuotientRing_nc.gen" title="Link to this definition">¶</a></dt>
 <dd><p>Return the <span class="math notranslate nohighlight">\(i\)</span>-th generator for this quotient ring.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span> <span class="o">=</span> <span class="n">QuotientRing</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="mi">7</span><span class="o">*</span><span class="n">ZZ</span><span class="p">)</span>
@@ -1271,8 +1687,20 @@ ideals:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R = QuotientRing(ZZ, 7*ZZ)
+R.gen(0)</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--30-input--1" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.singular</span>
@@ -1315,6 +1743,24 @@ ideals:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--30-input--3" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.singular
+R.&lt;x,y&gt; = PolynomialRing(QQ,2)
+S.&lt;a,b&gt; = QuotientRing(R, R.ideal(1 + y^2))
+T.&lt;c,d&gt; = QuotientRing(S, S.ideal(a))
+T
+R.gen(0); R.gen(1)
+S.gen(0); S.gen(1)
+T.gen(0); T.gen(1)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1322,7 +1768,7 @@ ideals:</p>
 <dt class="sig sig-object py" id="sage.rings.quotient_ring.QuotientRing_nc.gens">
 <span class="sig-name descname"><span class="pre">gens</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/quotient_ring.py#L1252"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.quotient_ring.QuotientRing_nc.gens" title="Link to this definition">¶</a></dt>
 <dd><p>Return a tuple containing generators of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--31-input--1" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.singular</span>
@@ -1343,6 +1789,20 @@ ideals:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--31-input--3" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.singular
+R.&lt;x,y&gt; = PolynomialRing(QQ)
+S = R.quotient_ring(x^2 + y^2)
+S.gens()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1350,7 +1810,7 @@ ideals:</p>
 <dt class="sig sig-object py" id="sage.rings.quotient_ring.QuotientRing_nc.ideal">
 <span class="sig-name descname"><span class="pre">ideal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">gens</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/quotient_ring.py#L988"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.quotient_ring.QuotientRing_nc.ideal" title="Link to this definition">¶</a></dt>
 <dd><p>Return the ideal of <code class="docutils literal notranslate"><span class="pre">self</span></code> with the given generators.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--32-input--1" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">QQ</span><span class="p">)</span>
@@ -1377,6 +1837,20 @@ ideals:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--32-input--3" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x,y&gt; = PolynomialRing(QQ)
+S = R.quotient_ring(x^2 + y^2)
+S.ideal()                                                             # needs sage.libs.singular
+S.ideal(x + y + 1)                                                    # needs sage.libs.singular</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1396,7 +1870,7 @@ infinite, a <a class="reference external" href="https://docs.python.org/library/
 <li><p>Simon King (2011-03-23): See <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/7797">upstream Issue #7797</a>.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Any quotient of a commutative ring is commutative:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Any quotient of a commutative ring is commutative:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--33-input--1" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
@@ -1413,8 +1887,20 @@ infinite, a <a class="reference external" href="https://docs.python.org/library/
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--33-input--3" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.&lt;a,b,c&gt; = QQ[]
+P.quo(P.random_element()).is_commutative()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The non-commutative case is more interesting:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The non-commutative case is more interesting:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--34-input--1" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.combinat sage.libs.singular sage.modules</span>
@@ -1441,8 +1927,24 @@ infinite, a <a class="reference external" href="https://docs.python.org/library/
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--34-input--3" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.combinat sage.libs.singular sage.modules
+F.&lt;x,y,z&gt; = FreeAlgebra(QQ, implementation='letterplace')
+I = F * [x*y + y*z, x^2 + x*y - y*x - y^2] * F
+Q = F.quo(I)
+Q.is_commutative()
+Q.1*Q.2 == Q.2*Q.1</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In the next example, the generators apparently commute:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In the next example, the generators apparently commute:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--35-input--1" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.combinat sage.libs.singular sage.modules</span>
@@ -1461,6 +1963,20 @@ infinite, a <a class="reference external" href="https://docs.python.org/library/
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span><span class="o">.</span><span class="n">is_commutative</span><span class="p">()</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--35-input--3" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.combinat sage.libs.singular sage.modules
+J = F * [x*y - y*x, x*z - z*x, y*z - z*y, x^3 - y^3] * F
+R = F.quo(J)
+R.is_commutative()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1482,7 +1998,7 @@ raise a <a class="reference external" href="https://docs.python.org/library/exce
 definitely an integral domain.  If the function returns <code class="docutils literal notranslate"><span class="pre">False</span></code>,
 then either <code class="docutils literal notranslate"><span class="pre">self</span></code> is not an integral domain or it was unable to
 determine whether or not <code class="docutils literal notranslate"><span class="pre">self</span></code> is an integral domain.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--36-input--1" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
@@ -1523,6 +2039,24 @@ determine whether or not <code class="docutils literal notranslate"><span class=
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--36-input--3" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x,y&gt; = QQ[]
+R.quo(x^2 - y).is_integral_domain()                                   # needs sage.libs.singular
+R.quo(x^2 - y^2).is_integral_domain()                                 # needs sage.libs.singular
+R.quo(x^2 - y^2).is_integral_domain(proof=False)                      # needs sage.libs.singular
+R.&lt;a,b,c&gt; = ZZ[]
+Q = R.quotient_ring([a, b])
+Q.is_integral_domain()
+Q.is_integral_domain(proof=False)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1530,7 +2064,7 @@ determine whether or not <code class="docutils literal notranslate"><span class=
 <dt class="sig sig-object py" id="sage.rings.quotient_ring.QuotientRing_nc.is_noetherian">
 <span class="sig-name descname"><span class="pre">is_noetherian</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/quotient_ring.py#L928"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.quotient_ring.QuotientRing_nc.is_noetherian" title="Link to this definition">¶</a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if this ring is Noetherian.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--37-input--1" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span> <span class="o">=</span> <span class="n">QuotientRing</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="mi">102</span> <span class="o">*</span> <span class="n">ZZ</span><span class="p">)</span>
@@ -1557,8 +2091,23 @@ determine whether or not <code class="docutils literal notranslate"><span class=
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--37-input--3" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R = QuotientRing(ZZ, 102 * ZZ)
+R.is_noetherian()
+P.&lt;x&gt; = QQ[]
+R = QuotientRing(P, x^2 + 1)                                          # needs sage.libs.pari
+R.is_noetherian()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If the cover ring of <code class="docutils literal notranslate"><span class="pre">self</span></code> is not Noetherian, we currently
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If the cover ring of <code class="docutils literal notranslate"><span class="pre">self</span></code> is not Noetherian, we currently
 have no way of testing whether <code class="docutils literal notranslate"><span class="pre">self</span></code> is Noetherian, so we
 raise an error:</p>
 <div class="tab-set docutils container">
@@ -1591,6 +2140,22 @@ raise an error:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--38-input--3" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.modules
+R.&lt;x&gt; = InfinitePolynomialRing(QQ)
+R.is_noetherian()
+I = R.ideal([x[1]^2, x[2]])
+S = R.quotient(I)
+S.is_noetherian()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1606,7 +2171,7 @@ the image of an element <span class="math notranslate nohighlight">\(x\)</span> 
 backwards compatibility, we let <code class="docutils literal notranslate"><span class="pre">Q.lift()</span></code> return the
 lifting map.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--39-input--1" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
@@ -1637,6 +2202,20 @@ lifting map.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--39-input--3" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x,y&gt; = PolynomialRing(QQ, 2)
+S = R.quotient(x^2 + y^2)
+S.lift()                                                              # needs sage.libs.singular
+S.lift(S.0) == x                                                      # needs sage.libs.singular</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1644,7 +2223,7 @@ lifting map.</p>
 <dt class="sig sig-object py" id="sage.rings.quotient_ring.QuotientRing_nc.lifting_map">
 <span class="sig-name descname"><span class="pre">lifting_map</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/quotient_ring.py#L700"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.quotient_ring.QuotientRing_nc.lifting_map" title="Link to this definition">¶</a></dt>
 <dd><p>Return the lifting map to the cover.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--40-input--1" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.singular</span>
@@ -1693,8 +2272,25 @@ lifting map.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--40-input--3" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.singular
+R.&lt;x,y&gt; = PolynomialRing(QQ, 2)
+S = R.quotient(x^2 + y^2)
+pi = S.cover(); pi
+L = S.lifting_map(); L
+L(S.0)
+L(S.1)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Note that some reduction may be applied so that the lift of a
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that some reduction may be applied so that the lift of a
 reduction need not equal the original element:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--41-input--1" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--1">Sage</label><div class="tab-content docutils container">
@@ -1718,8 +2314,21 @@ reduction need not equal the original element:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--41-input--3" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">z = pi(x^3 + 2*y^2); z                                                # needs sage.libs.singular
+L(z)                                                                  # needs sage.libs.singular
+L(z) == x^3 + 2*y^2                                                   # needs sage.libs.singular</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Test that there also is a lift for rings that are no
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Test that there also is a lift for rings that are no
 instances of <a class="reference internal" href="ring.html#sage.rings.ring.Ring" title="sage.rings.ring.Ring"><code class="xref py py-class docutils literal notranslate"><span class="pre">Ring</span></code></a> (see <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/11068">upstream Issue #11068</a>):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--42-input--1" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--1">Sage</label><div class="tab-content docutils container">
@@ -1767,6 +2376,21 @@ instances of <a class="reference internal" href="ring.html#sage.rings.ring.Ring"
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--42-input--3" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.modules
+MS = MatrixSpace(GF(5), 2, 2)
+I = MS * [MS.0*MS.1, MS.2 + MS.3] * MS
+Q = MS.quo(I)
+Q.lift()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1782,7 +2406,7 @@ fact that this is true for all rings, is there a way to “knock it
 off” of the generators list if a generator of some original ring is
 modded out?</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--43-input--1" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span> <span class="o">=</span> <span class="n">QuotientRing</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="mi">7</span><span class="o">*</span><span class="n">ZZ</span><span class="p">)</span>
@@ -1801,8 +2425,20 @@ modded out?</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--43-input--3" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R = QuotientRing(ZZ, 7*ZZ)
+R.gens(); R.ngens()</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--44-input--1" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.singular</span>
@@ -1843,6 +2479,23 @@ modded out?</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--44-input--3" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.singular
+R.&lt;x,y&gt; = PolynomialRing(QQ,2)
+S.&lt;a,b&gt; = QuotientRing(R, R.ideal(1 + y^2))
+T.&lt;c,d&gt; = QuotientRing(S, S.ideal(a))
+T
+R.gens(); S.gens(); T.gens()
+R.ngens(); S.ngens(); T.ngens()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1852,7 +2505,7 @@ modded out?</p>
 <dd><p>Return a random element of this quotient ring obtained by
 sampling a random element of the cover ring and reducing
 it modulo the defining ideal.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--45-input--1" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
@@ -1871,6 +2524,19 @@ it modulo the defining ideal.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--45-input--3" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x,y&gt; = QQ[]
+S = R.quotient([x^3, y^2])
+S.random_element()  # random                                          # needs sage.libs.singular</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1883,7 +2549,7 @@ it modulo the defining ideal.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">x</span></code> – an element of the cover ring</p></li>
 </ul>
 <p>OUTPUT: the image of the given element in <code class="docutils literal notranslate"><span class="pre">self</span></code></p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--46-input--1" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
@@ -1902,6 +2568,19 @@ it modulo the defining ideal.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--46-input--3" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x,y&gt; = PolynomialRing(QQ, 2)
+S = R.quotient(x^2 + y^2)
+S.retract((x+y)^2)                                                    # needs sage.libs.singular</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1909,7 +2588,7 @@ it modulo the defining ideal.</p>
 <dt class="sig sig-object py" id="sage.rings.quotient_ring.QuotientRing_nc.term_order">
 <span class="sig-name descname"><span class="pre">term_order</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/quotient_ring.py#L1361"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.quotient_ring.QuotientRing_nc.term_order" title="Link to this definition">¶</a></dt>
 <dd><p>Return the term order of this ring.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--47-input--1" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">QQ</span><span class="p">)</span>
@@ -1930,6 +2609,20 @@ it modulo the defining ideal.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--47-input--3" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.&lt;a,b,c&gt; = PolynomialRing(QQ)
+I = Ideal([a^2 - a, b^2 - b, c^2 - c])
+Q = P.quotient(I)
+Q.term_order()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1939,7 +2632,7 @@ it modulo the defining ideal.</p>
 <dt class="sig sig-object py" id="sage.rings.quotient_ring.is_QuotientRing">
 <span class="sig-prename descclassname"><span class="pre">sage.rings.quotient_ring.</span></span><span class="sig-name descname"><span class="pre">is_QuotientRing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/quotient_ring.py#L347"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.quotient_ring.is_QuotientRing" title="Link to this definition">¶</a></dt>
 <dd><p>Test whether or not <code class="docutils literal notranslate"><span class="pre">x</span></code> inherits from <a class="reference internal" href="#sage.rings.quotient_ring.QuotientRing_nc" title="sage.rings.quotient_ring.QuotientRing_nc"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuotientRing_nc</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--48-input--1" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.quotient_ring</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_QuotientRing</span>
@@ -1974,8 +2667,24 @@ it modulo the defining ideal.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--48-input--3" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.quotient_ring import is_QuotientRing
+R.&lt;x&gt; = PolynomialRing(ZZ,'x')
+I = R.ideal([4 + 3*x + x^2, 1 + x^2])
+S = R.quotient_ring(I)
+is_QuotientRing(S)
+is_QuotientRing(R)</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--49-input--1" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.combinat sage.libs.singular sage.modules</span>
@@ -2002,11 +2711,31 @@ it modulo the defining ideal.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--49-input--3" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.combinat sage.libs.singular sage.modules
+F.&lt;x,y,z&gt; = FreeAlgebra(QQ, implementation='letterplace')
+I = F * [x*y + y*z, x^2 + x*y - y*x - y^2] * F
+Q = F.quo(I)
+is_QuotientRing(Q)
+is_QuotientRing(F)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -2112,7 +2841,7 @@ it modulo the defining ideal.</p>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -341,7 +341,7 @@ options in the most ‘natural’ python-ic way. Users who do not wish to
 deal with Singular functions directly usually do not have to worry
 about this interface or Singular options in general since this is
 taken care of by higher level functions.</p>
-<p class="with-sage-tab with-python-tab">We compute a Groebner basis for Cyclic-5 in two different contexts:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We compute a Groebner basis for Cyclic-5 in two different contexts:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">e</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">127</span><span class="p">))</span>
@@ -360,8 +360,22 @@ taken care of by higher level functions.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.&lt;a,b,c,d,e&gt; = PolynomialRing(GF(127))
+I = sage.rings.ideal.Cyclic(P)
+import sage.libs.singular.function_factory
+std = sage.libs.singular.function_factory.ff.std</pre>
 </div>
-<p class="with-sage-tab with-python-tab">By default, tail reductions are performed:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">By default, tail reductions are performed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.libs.singular.option</span><span class="w"> </span><span class="kn">import</span> <span class="n">opt</span><span class="p">,</span> <span class="n">opt_ctx</span>
@@ -382,8 +396,21 @@ taken care of by higher level functions.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.libs.singular.option import opt, opt_ctx
+opt['red_tail']
+red = std(I)[-1]; red</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If we don’t want this, we can create an option context, which disables
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If we don’t want this, we can create an option context, which disables
 this:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
@@ -405,8 +432,21 @@ this:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">with opt_ctx(red_tail=False, red_sb=False):
+   notred = std(I)[-1]; notred
+len(list(red)) &lt; len(list(notred))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">However, this does not affect the global state:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">However, this does not affect the global state:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">opt</span><span class="p">[</span><span class="s1">&#39;red_tail&#39;</span><span class="p">]</span>
@@ -421,8 +461,19 @@ this:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">opt['red_tail']</pre>
 </div>
-<p class="with-sage-tab with-python-tab">On the other hand, any assignment to an option object will immediately
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">On the other hand, any assignment to an option object will immediately
 change the global state:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
@@ -446,8 +497,22 @@ change the global state:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">opt['red_tail'] = False
+opt['red_tail']
+opt['red_tail'] = True
+opt['red_tail']</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Assigning values within an option context, only affects this context:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Assigning values within an option context, only affects this context:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">with</span> <span class="n">opt_ctx</span><span class="p">:</span>
@@ -468,8 +533,21 @@ change the global state:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">with opt_ctx:
+   opt['red_tail'] = False
+opt['red_tail']</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Option contexts can also be safely stacked:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Option contexts can also be safely stacked:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">with</span> <span class="n">opt_ctx</span><span class="p">:</span>
@@ -502,8 +580,25 @@ change the global state:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">with opt_ctx:
+    opt['red_tail'] = False
+    print(opt)
+    with opt_ctx:
+        opt['red_through'] = False
+        print(opt)
+print(opt)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Furthermore, the integer valued options <code class="docutils literal notranslate"><span class="pre">deg_bound</span></code> and
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Furthermore, the integer valued options <code class="docutils literal notranslate"><span class="pre">deg_bound</span></code> and
 <code class="docutils literal notranslate"><span class="pre">mult_bound</span></code> can be used:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
@@ -531,8 +626,24 @@ change the global state:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x,y&gt; = QQ[]
+I = R*[x^3+y^2,x^2*y+1]
+opt['deg_bound'] = 2
+std(I)
+opt['deg_bound'] = 0
+std(I)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The same interface is available for verbosity options:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The same interface is available for verbosity options:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.libs.singular.option</span><span class="w"> </span><span class="kn">import</span> <span class="n">opt_verb</span>
@@ -551,6 +662,20 @@ change the global state:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">opt</span><span class="o">.</span><span class="n">reset_default</span><span class="p">()</span>  <span class="c1"># needed to avoid side effects</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">opt_verb</span><span class="o">.</span><span class="n">reset_default</span><span class="p">()</span>  <span class="c1"># needed to avoid side effects</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.libs.singular.option import opt_verb
+opt_verb['not_warn_sb']
+opt.reset_default()  # needed to avoid side effects
+opt_verb.reset_default()  # needed to avoid side effects</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -630,7 +755,7 @@ is stopped if the ideal is zero-dimensional in a ring with local
 ordering and its multiplicity is lower than <code class="docutils literal notranslate"><span class="pre">mult_bound</span></code>.
 Reset this bound by setting <code class="docutils literal notranslate"><span class="pre">mult_bound</span></code> to 0.</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.libs.singular.option</span><span class="w"> </span><span class="kn">import</span> <span class="n">LibSingularOptions</span>
@@ -649,8 +774,21 @@ Reset this bound by setting <code class="docutils literal notranslate"><span cla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.libs.singular.option import LibSingularOptions
+libsingular_options = LibSingularOptions()
+libsingular_options</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Here we demonstrate the intended way of using libSingular options:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Here we demonstrate the intended way of using libSingular options:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
@@ -673,8 +811,22 @@ Reset this bound by setting <code class="docutils literal notranslate"><span cla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x,y&gt; = QQ[]
+I = R*[x^3+y^2,x^2*y+1]
+I.groebner_basis(deg_bound=2)
+I.groebner_basis()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The option <code class="docutils literal notranslate"><span class="pre">mult_bound</span></code> is only relevant in the local case:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The option <code class="docutils literal notranslate"><span class="pre">mult_bound</span></code> is only relevant in the local case:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.libs.singular.option</span><span class="w"> </span><span class="kn">import</span> <span class="n">opt</span>
@@ -705,12 +857,29 @@ Reset this bound by setting <code class="docutils literal notranslate"><span cla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.libs.singular.option import opt
+Rlocal.&lt;x,y,z&gt; = PolynomialRing(QQ, order='ds')
+x^2&lt;x
+J = [x^7+y^7+z^6,x^6+y^8+z^7,x^7+y^5+z^8, x^2*y^3+y^2*z^3+x^3*z^2,x^3*y^2+y^3*z^2+x^2*z^3]*Rlocal
+J.groebner_basis(mult_bound=100)
+opt['red_tail'] = True # the previous commands reset opt['red_tail'] to False
+J.groebner_basis()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.libs.singular.option.LibSingularOptions.reset_default">
 <span class="sig-name descname"><span class="pre">reset_default</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/singular/option.pyx#L445"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.singular.option.LibSingularOptions.reset_default" title="Link to this definition">¶</a></dt>
 <dd><p>Reset libSingular’s default options.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.libs.singular.option</span><span class="w"> </span><span class="kn">import</span> <span class="n">opt</span>
@@ -753,6 +922,26 @@ Reset this bound by setting <code class="docutils literal notranslate"><span cla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.libs.singular.option import opt
+opt['red_tail']
+opt['red_tail'] = False
+opt['red_tail']
+opt['deg_bound']
+opt['deg_bound'] = 2
+opt['deg_bound']
+opt.reset_default()
+opt['red_tail']
+opt['deg_bound']</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -764,7 +953,7 @@ Reset this bound by setting <code class="docutils literal notranslate"><span cla
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Option context</p>
 <p>This object localizes changes to options.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.libs.singular.option</span><span class="w"> </span><span class="kn">import</span> <span class="n">opt</span><span class="p">,</span> <span class="n">opt_ctx</span>
@@ -781,8 +970,20 @@ Reset this bound by setting <code class="docutils literal notranslate"><span cla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.libs.singular.option import opt, opt_ctx
+opt</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">with</span> <span class="n">opt_ctx</span><span class="p">(</span><span class="n">redTail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -811,6 +1012,21 @@ Reset this bound by setting <code class="docutils literal notranslate"><span cla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">with opt_ctx(redTail=False):
+    print(opt)
+    with opt_ctx(redThrough=False):
+        print(opt)
+print(opt)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sage.libs.singular.option.LibSingularOptionsContext.opt">
@@ -827,7 +1043,7 @@ Reset this bound by setting <code class="docutils literal notranslate"><span cla
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.libs.singular.option.LibSingularOptions_abstract.load">
 <span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/singular/option.pyx#L269"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.singular.option.LibSingularOptions_abstract.load" title="Link to this definition">¶</a></dt>
-<dd><p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<dd><p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.libs.singular.option</span><span class="w"> </span><span class="kn">import</span> <span class="n">opt</span> <span class="k">as</span> <span class="n">sopt</span>
@@ -856,6 +1072,22 @@ Reset this bound by setting <code class="docutils literal notranslate"><span cla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.libs.singular.option import opt as sopt
+bck = sopt.save(); hex(bck[0]), bck[1], bck[2]
+sopt['redTail'] = False
+hex(int(sopt))
+sopt.load(bck)
+sopt['redTail']</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -863,7 +1095,7 @@ Reset this bound by setting <code class="docutils literal notranslate"><span cla
 <dt class="sig sig-object py" id="sage.libs.singular.option.LibSingularOptions_abstract.save">
 <span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/singular/option.pyx#L242"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.singular.option.LibSingularOptions_abstract.save" title="Link to this definition">¶</a></dt>
 <dd><p>Return a triple of integers that allow reconstruction of the options.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.libs.singular.option</span><span class="w"> </span><span class="kn">import</span> <span class="n">opt</span>
@@ -910,6 +1142,28 @@ Reset this bound by setting <code class="docutils literal notranslate"><span cla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.libs.singular.option import opt
+opt['deg_bound']
+opt['red_tail']
+s = opt.save()
+opt['deg_bound'] = 2
+opt['red_tail'] = False
+opt['deg_bound']
+opt['red_tail']
+opt.load(s)
+opt['deg_bound']
+opt['red_tail']
+opt.reset_default()  # needed to avoid side effects</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -944,7 +1198,7 @@ Should usually not be used.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">cancelunit</span></code> – avoids to divide polynomials by non-constant
 units in <code class="docutils literal notranslate"><span class="pre">std</span></code> in the local case. Should usually not be used</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.libs.singular.option</span><span class="w"> </span><span class="kn">import</span> <span class="n">LibSingularVerboseOptions</span>
@@ -963,12 +1217,25 @@ units in <code class="docutils literal notranslate"><span class="pre">std</span>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.libs.singular.option import LibSingularVerboseOptions
+libsingular_verbose = LibSingularVerboseOptions()
+libsingular_verbose</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.libs.singular.option.LibSingularVerboseOptions.reset_default">
 <span class="sig-name descname"><span class="pre">reset_default</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/libs/singular/option.pyx#L539"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.libs.singular.option.LibSingularVerboseOptions.reset_default" title="Link to this definition">¶</a></dt>
 <dd><p>Return to libSingular’s default verbosity options.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.libs.singular.option</span><span class="w"> </span><span class="kn">import</span> <span class="n">opt_verb</span>
@@ -997,13 +1264,33 @@ units in <code class="docutils literal notranslate"><span class="pre">std</span>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.libs.singular.option import opt_verb
+opt_verb['not_warn_sb']
+opt_verb['not_warn_sb'] = True
+opt_verb['not_warn_sb']
+opt_verb.reset_default()
+opt_verb['not_warn_sb']</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -1095,7 +1382,7 @@ units in <code class="docutils literal notranslate"><span class="pre">std</span>
     <script src="../../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../../%5fstatic/copybutton.js"></script>
     <script src="../../../../%5fstatic/tabs.js"></script>
-    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../../../../%5fstatic/jupyter-sphinx-furo.js"></script>

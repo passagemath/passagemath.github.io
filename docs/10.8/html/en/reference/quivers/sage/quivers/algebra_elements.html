@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -295,7 +295,7 @@ orders. Monomial orders that are not degree orders are not
 supported.</p>
 </div>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">After creating a path algebra and getting hold of its generators, one can
+<p class="with-sage-tab with-python-tab with-sage-live-tab">After creating a path algebra and getting hold of its generators, one can
 create elements just as usual:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
@@ -319,8 +319,22 @@ create elements just as usual:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = DiGraph({0:{1:['a'], 2:['b']}, 1:{0:['c'], 1:['d']}, 2:{0:['e'],2:['f']}}).path_semigroup().algebra(ZZ)
+A.inject_variables()
+x = a+2*b+3*c+5*e_0+3*e_2
+x</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The path algebra decomposes as a direct sum according to start- and endpoints:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The path algebra decomposes as a direct sum according to start- and endpoints:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">x</span><span class="o">.</span><span class="n">sort_by_vertices</span><span class="p">()</span>
@@ -359,8 +373,20 @@ create elements just as usual:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">x.sort_by_vertices()
+(x^3+x^2).sort_by_vertices()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">For a consistency test, we create a path algebra that is isomorphic to a
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">For a consistency test, we create a path algebra that is isomorphic to a
 free associative algebra, and compare arithmetic with two other
 implementations of free algebras (note that the letterplace implementation
 only allows weighted homogeneous elements):</p>
@@ -404,8 +430,30 @@ only allows weighted homogeneous elements):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.combinat
+F.&lt;x,y,z&gt; = FreeAlgebra(GF(25,'t'))
+pF = x+y*z*x+2*y-z+1
+pF2 = x^4+x*y*x*z+2*z^2*x*y
+P = DiGraph({1:{1:['x','y','z']}}).path_semigroup().algebra(GF(25,'t'))
+pP = sage_eval('x+y*z*x+2*y-z+1', P.gens_dict())
+pP^5+3*pP^3 == sage_eval(repr(pF^5+3*pF^3), P.gens_dict())
+L.&lt;x,y,z&gt; = FreeAlgebra(GF(25,'t'), implementation='letterplace')
+pL2 = x^4+x*y*x*z+2*z^2*x*y
+pP2 = sage_eval('x^4+x*y*x*z+2*z^2*x*y', P.gens_dict())
+pP2^7 == sage_eval(repr(pF2^7), P.gens_dict())
+pP2^7 == sage_eval(repr(pL2^7), P.gens_dict())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">When the Cython implementation of path algebra elements was
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">When the Cython implementation of path algebra elements was
 introduced, it was faster than both the default implementation and
 the letterplace implementation of free algebras. The following
 timings where obtained with a 32-bit operating system; using 64-bit
@@ -444,6 +492,22 @@ about 20%:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># not tested
+timeit('pF^5+3*pF^3')
+timeit('pP^5+3*pP^3')
+timeit('pF2^7')
+timeit('pL2^7')
+timeit('pP2^7')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>So, if one is merely interested in basic arithmetic operations for
 free associative algebras, it could make sense to model the free
@@ -462,7 +526,7 @@ letterplace implementation currently is the only option.</p>
 <p>OUTPUT:</p>
 <p>The coefficient of the given semigroup element in <code class="docutils literal notranslate"><span class="pre">self</span></code>, or zero if
 it does not appear.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">DiGraph</span><span class="p">({</span><span class="mi">1</span><span class="p">:{</span><span class="mi">1</span><span class="p">:[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;z&#39;</span><span class="p">]}})</span><span class="o">.</span><span class="n">path_semigroup</span><span class="p">()</span><span class="o">.</span><span class="n">algebra</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="s1">&#39;t&#39;</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;degrevlex&#39;</span><span class="p">)</span>
@@ -493,6 +557,22 @@ it does not appear.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = DiGraph({1:{1:['x','y','z']}}).path_semigroup().algebra(GF(25,'t'), order='degrevlex')
+P.inject_variables()
+p = (x+2*z+1)^3
+p
+p.coefficient(sage_eval('x*x*z', P.semigroup().gens_dict()))
+p.coefficient(sage_eval('z*x*x*x', P.semigroup().gens_dict()))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -508,7 +588,7 @@ order given by the monomial order, since the terms are first ordered
 according to initial and terminal vertices, before applying the
 monomial order of the path algebra.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">DiGraph</span><span class="p">({</span><span class="mi">1</span><span class="p">:{</span><span class="mi">1</span><span class="p">:[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;z&#39;</span><span class="p">]}})</span><span class="o">.</span><span class="n">path_semigroup</span><span class="p">()</span><span class="o">.</span><span class="n">algebra</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="s1">&#39;t&#39;</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;degrevlex&#39;</span><span class="p">)</span>
@@ -535,6 +615,21 @@ monomial order of the path algebra.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = DiGraph({1:{1:['x','y','z']}}).path_semigroup().algebra(GF(25,'t'), order='degrevlex')
+P.inject_variables()
+p = (x+2*z+1)^3
+p
+p.coefficients()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -543,7 +638,7 @@ monomial order of the path algebra.</p>
 <span class="sig-name descname"><span class="pre">degree</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/quivers/algebra_elements.pyx#L336"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.quivers.algebra_elements.PathAlgebraElement.degree" title="Link to this definition">¶</a></dt>
 <dd><p>Return the degree, provided the element is homogeneous.</p>
 <p>An error is raised if the element is not homogeneous.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">DiGraph</span><span class="p">({</span><span class="mi">1</span><span class="p">:{</span><span class="mi">1</span><span class="p">:[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;z&#39;</span><span class="p">]}})</span><span class="o">.</span><span class="n">path_semigroup</span><span class="p">()</span><span class="o">.</span><span class="n">algebra</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="s1">&#39;t&#39;</span><span class="p">))</span>
@@ -576,6 +671,22 @@ monomial order of the path algebra.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = DiGraph({1:{1:['x','y','z']}}).path_semigroup().algebra(GF(25,'t'))
+P.inject_variables()
+q = (x+y+2*z)^3
+q.degree()
+p = (x+2*z+1)^3
+p.degree()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -583,7 +694,7 @@ monomial order of the path algebra.</p>
 <dt class="sig sig-object py" id="sage.quivers.algebra_elements.PathAlgebraElement.is_homogeneous">
 <span class="sig-name descname"><span class="pre">is_homogeneous</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/quivers/algebra_elements.pyx#L375"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.quivers.algebra_elements.PathAlgebraElement.is_homogeneous" title="Link to this definition">¶</a></dt>
 <dd><p>Tell whether this element is homogeneous.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">DiGraph</span><span class="p">({</span><span class="mi">1</span><span class="p">:{</span><span class="mi">1</span><span class="p">:[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;z&#39;</span><span class="p">]}})</span><span class="o">.</span><span class="n">path_semigroup</span><span class="p">()</span><span class="o">.</span><span class="n">algebra</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="s1">&#39;t&#39;</span><span class="p">))</span>
@@ -612,6 +723,22 @@ monomial order of the path algebra.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = DiGraph({1:{1:['x','y','z']}}).path_semigroup().algebra(GF(25,'t'))
+P.inject_variables()
+q = (x+y+2*z)^3
+q.is_homogeneous()
+p = (x+2*z+1)^3
+p.is_homogeneous()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -620,7 +747,7 @@ monomial order of the path algebra.</p>
 <span class="sig-name descname"><span class="pre">monomial_coefficients</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/quivers/algebra_elements.pyx#L408"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.quivers.algebra_elements.PathAlgebraElement.monomial_coefficients" title="Link to this definition">¶</a></dt>
 <dd><p>Return the dictionary keyed by the monomials appearing
 in this element, the values being the coefficients.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">DiGraph</span><span class="p">({</span><span class="mi">1</span><span class="p">:{</span><span class="mi">1</span><span class="p">:[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;z&#39;</span><span class="p">]}})</span><span class="o">.</span><span class="n">path_semigroup</span><span class="p">()</span><span class="o">.</span><span class="n">algebra</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="s1">&#39;t&#39;</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;degrevlex&#39;</span><span class="p">)</span>
@@ -671,8 +798,22 @@ in this element, the values being the coefficients.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = DiGraph({1:{1:['x','y','z']}}).path_semigroup().algebra(GF(25,'t'), order='degrevlex')
+P.inject_variables()
+p = (x+2*z+1)^3
+sorted(p.monomial_coefficients().items())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Note that the dictionary can be fed to the algebra, to reconstruct the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that the dictionary can be fed to the algebra, to reconstruct the
 element:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
@@ -686,6 +827,17 @@ element:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">monomial_coefficients</span><span class="p">())</span> <span class="o">==</span> <span class="n">p</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P(p.monomial_coefficients()) == p</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -709,7 +861,7 @@ semigroup, but of the algebra.</p>
 <p class="admonition-title">See also</p>
 <p><a class="reference internal" href="#sage.quivers.algebra_elements.PathAlgebraElement.support" title="sage.quivers.algebra_elements.PathAlgebraElement.support"><code class="xref py py-meth docutils literal notranslate"><span class="pre">support()</span></code></a></p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">DiGraph</span><span class="p">({</span><span class="mi">1</span><span class="p">:{</span><span class="mi">1</span><span class="p">:[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;z&#39;</span><span class="p">]}})</span><span class="o">.</span><span class="n">path_semigroup</span><span class="p">()</span><span class="o">.</span><span class="n">algebra</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="s1">&#39;t&#39;</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;degrevlex&#39;</span><span class="p">)</span>
@@ -768,6 +920,22 @@ semigroup, but of the algebra.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = DiGraph({1:{1:['x','y','z']}}).path_semigroup().algebra(GF(25,'t'), order='degrevlex')
+P.inject_variables()
+p = (x+2*z+1)^3
+p
+p.monomials()
+p.monomials()[1].parent() is P</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -777,7 +945,7 @@ semigroup, but of the algebra.</p>
 <dd><p>Return a list of triples <code class="docutils literal notranslate"><span class="pre">(element,</span> <span class="pre">v1,</span> <span class="pre">v2)</span></code>, where <code class="docutils literal notranslate"><span class="pre">element</span></code> is
 an element whose monomials all have initial vertex <code class="docutils literal notranslate"><span class="pre">v1</span></code> and terminal
 vertex <code class="docutils literal notranslate"><span class="pre">v2</span></code>, so that the sum of elements is <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A1</span> <span class="o">=</span> <span class="n">DiGraph</span><span class="p">({</span><span class="mi">0</span><span class="p">:{</span><span class="mi">1</span><span class="p">:[</span><span class="s1">&#39;a&#39;</span><span class="p">],</span> <span class="mi">2</span><span class="p">:[</span><span class="s1">&#39;b&#39;</span><span class="p">]},</span> <span class="mi">1</span><span class="p">:{</span><span class="mi">0</span><span class="p">:[</span><span class="s1">&#39;c&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">:[</span><span class="s1">&#39;d&#39;</span><span class="p">]},</span> <span class="mi">2</span><span class="p">:{</span><span class="mi">0</span><span class="p">:[</span><span class="s1">&#39;e&#39;</span><span class="p">],</span><span class="mi">2</span><span class="p">:[</span><span class="s1">&#39;f&#39;</span><span class="p">]}})</span><span class="o">.</span><span class="n">path_semigroup</span><span class="p">()</span><span class="o">.</span><span class="n">algebra</span><span class="p">(</span><span class="n">ZZ</span><span class="o">.</span><span class="n">quo</span><span class="p">(</span><span class="mi">15</span><span class="p">))</span>
@@ -814,6 +982,24 @@ vertex <code class="docutils literal notranslate"><span class="pre">v2</span></c
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A1 = DiGraph({0:{1:['a'], 2:['b']}, 1:{0:['c'], 1:['d']}, 2:{0:['e'],2:['f']}}).path_semigroup().algebra(ZZ.quo(15))
+A1.inject_variables()
+x = (b*e*b*e+4*b+e_0)^2
+y = (a*c*b+1)^3
+x.sort_by_vertices()
+sum(c[0] for c in x.sort_by_vertices()) == x
+y.sort_by_vertices()
+sum(c[0] for c in y.sort_by_vertices()) == y</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -833,7 +1019,7 @@ applying the monomial order of the path algebra.</p>
 <p class="admonition-title">See also</p>
 <p><a class="reference internal" href="#sage.quivers.algebra_elements.PathAlgebraElement.monomials" title="sage.quivers.algebra_elements.PathAlgebraElement.monomials"><code class="xref py py-meth docutils literal notranslate"><span class="pre">monomials()</span></code></a></p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">DiGraph</span><span class="p">({</span><span class="mi">1</span><span class="p">:{</span><span class="mi">1</span><span class="p">:[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;z&#39;</span><span class="p">]}})</span><span class="o">.</span><span class="n">path_semigroup</span><span class="p">()</span><span class="o">.</span><span class="n">algebra</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="s1">&#39;t&#39;</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;degrevlex&#39;</span><span class="p">)</span>
@@ -892,6 +1078,22 @@ applying the monomial order of the path algebra.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = DiGraph({1:{1:['x','y','z']}}).path_semigroup().algebra(GF(25,'t'), order='degrevlex')
+P.inject_variables()
+p = (x+2*z+1)^3
+p
+p.support()
+p.support()[1].parent() is P.semigroup()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -900,7 +1102,7 @@ applying the monomial order of the path algebra.</p>
 <span class="sig-name descname"><span class="pre">support_of_term</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/quivers/algebra_elements.pyx#L662"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.quivers.algebra_elements.PathAlgebraElement.support_of_term" title="Link to this definition">¶</a></dt>
 <dd><p>If <code class="docutils literal notranslate"><span class="pre">self</span></code> consists of a single term, return the corresponding
 element of the underlying path semigroup.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">DiGraph</span><span class="p">({</span><span class="mi">0</span><span class="p">:{</span><span class="mi">1</span><span class="p">:[</span><span class="s1">&#39;a&#39;</span><span class="p">],</span> <span class="mi">2</span><span class="p">:[</span><span class="s1">&#39;b&#39;</span><span class="p">]},</span> <span class="mi">1</span><span class="p">:{</span><span class="mi">0</span><span class="p">:[</span><span class="s1">&#39;c&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">:[</span><span class="s1">&#39;d&#39;</span><span class="p">]},</span> <span class="mi">2</span><span class="p">:{</span><span class="mi">0</span><span class="p">:[</span><span class="s1">&#39;e&#39;</span><span class="p">],</span><span class="mi">2</span><span class="p">:[</span><span class="s1">&#39;f&#39;</span><span class="p">]}})</span><span class="o">.</span><span class="n">path_semigroup</span><span class="p">()</span><span class="o">.</span><span class="n">algebra</span><span class="p">(</span><span class="n">ZZ</span><span class="p">)</span>
@@ -935,6 +1137,22 @@ element of the underlying path semigroup.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = DiGraph({0:{1:['a'], 2:['b']}, 1:{0:['c'], 1:['d']}, 2:{0:['e'],2:['f']}}).path_semigroup().algebra(ZZ)
+A.inject_variables()
+x = 4*a*d*c*b*e
+x.support_of_term()
+x.support_of_term().parent() is A.semigroup()
+(x + f).support_of_term()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -950,7 +1168,7 @@ order given by the monomial order, since the terms are first
 ordered according to initial and terminal vertices, before
 applying the monomial order of the path algebra.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">DiGraph</span><span class="p">({</span><span class="mi">1</span><span class="p">:{</span><span class="mi">1</span><span class="p">:[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;z&#39;</span><span class="p">]}})</span><span class="o">.</span><span class="n">path_semigroup</span><span class="p">()</span><span class="o">.</span><span class="n">algebra</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="s1">&#39;t&#39;</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;degrevlex&#39;</span><span class="p">)</span>
@@ -1005,6 +1223,21 @@ applying the monomial order of the path algebra.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = DiGraph({1:{1:['x','y','z']}}).path_semigroup().algebra(GF(25,'t'), order='degrevlex')
+P.inject_variables()
+p = (x+2*z+1)^3
+p
+p.terms()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1014,7 +1247,7 @@ applying the monomial order of the path algebra.</p>
 <dt class="sig sig-object py" id="sage.quivers.algebra_elements.path_algebra_element_unpickle">
 <span class="sig-prename descclassname"><span class="pre">sage.quivers.algebra_elements.</span></span><span class="sig-name descname"><span class="pre">path_algebra_element_unpickle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/quivers/algebra_elements.pyx#L1396"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.quivers.algebra_elements.path_algebra_element_unpickle" title="Link to this definition">¶</a></dt>
 <dd><p>Auxiliary function for unpickling.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">DiGraph</span><span class="p">({</span><span class="mi">0</span><span class="p">:{</span><span class="mi">1</span><span class="p">:[</span><span class="s1">&#39;a&#39;</span><span class="p">],</span> <span class="mi">2</span><span class="p">:[</span><span class="s1">&#39;b&#39;</span><span class="p">]},</span> <span class="mi">1</span><span class="p">:{</span><span class="mi">0</span><span class="p">:[</span><span class="s1">&#39;c&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">:[</span><span class="s1">&#39;d&#39;</span><span class="p">]},</span> <span class="mi">2</span><span class="p">:{</span><span class="mi">0</span><span class="p">:[</span><span class="s1">&#39;e&#39;</span><span class="p">],</span><span class="mi">2</span><span class="p">:[</span><span class="s1">&#39;f&#39;</span><span class="p">]}})</span><span class="o">.</span><span class="n">path_semigroup</span><span class="p">()</span><span class="o">.</span><span class="n">algebra</span><span class="p">(</span><span class="n">ZZ</span><span class="o">.</span><span class="n">quo</span><span class="p">(</span><span class="mi">15</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;negdeglex&#39;</span><span class="p">)</span>
@@ -1037,11 +1270,29 @@ applying the monomial order of the path algebra.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = DiGraph({0:{1:['a'], 2:['b']}, 1:{0:['c'], 1:['d']}, 2:{0:['e'],2:['f']}}).path_semigroup().algebra(ZZ.quo(15), order='negdeglex')
+A.inject_variables()
+X = a+2*b+3*c+5*e_0+3*e_2
+loads(dumps(X)) == X    # indirect doctest</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -1130,7 +1381,7 @@ applying the monomial order of the path algebra.</p>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>

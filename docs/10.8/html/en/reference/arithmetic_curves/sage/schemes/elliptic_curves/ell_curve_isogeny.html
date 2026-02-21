@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -359,7 +359,7 @@ schemes and the kernel is a finite subgroup scheme of <span class="math notransl
 subscheme can either be given by a list of generators, which have to
 be torsion points, or by a polynomial in the coordinate <span class="math notranslate nohighlight">\(x\)</span> of the
 Weierstrass equation of <span class="math notranslate nohighlight">\(E_1\)</span>.</p>
-<p class="with-sage-tab with-python-tab">The usual way to create and work with isogenies is illustrated with
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The usual way to create and work with isogenies is illustrated with
 the following example:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
@@ -407,6 +407,25 @@ the following example:</p>
 <span class="go"> (x^9*y - 5*x^8*y - x^7*y + x^5*y - x^4*y</span>
 <span class="go">   - 5*x^3*y - 5*x^2*y - 2*x*y - 5*y)/(x^9 - 5*x^8 + 4*x^6 - 3*x^4 + 2*x^3))</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">k = GF(11)
+E = EllipticCurve(k, [1,1])
+Q = E(6,5)
+phi = E.isogeny(Q)
+phi
+P = E(4,5)
+phi(P)
+phi.codomain()
+phi.rational_maps()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -504,7 +523,7 @@ curve, assuming one exists over this field.</p></li>
 Setting this to <code class="docutils literal notranslate"><span class="pre">False</span></code> can lead to significant speedups.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">A simple example of creating an isogeny of a field of small
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A simple example of creating an isogeny of a field of small
 characteristic:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
@@ -542,8 +561,24 @@ characteristic:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">E = EllipticCurve(GF(7), [0,0,0,1,0])
+phi = EllipticCurveIsogeny(E, E((0,0)) ); phi
+phi.degree() == 2
+phi.kernel_polynomial()
+phi.rational_maps()
+phi == loads(dumps(phi))          # known bug</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A more complicated example of a characteristic-2 field:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A more complicated example of a characteristic-2 field:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.finite_rings</span>
@@ -620,8 +655,36 @@ characteristic:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.finite_rings
+E = EllipticCurve(GF(2^4,'alpha'), [0,0,1,0,1])
+P = E((1,1))
+phi_v = EllipticCurveIsogeny(E, P); phi_v
+phi_ker_poly = phi_v.kernel_polynomial()
+phi_ker_poly
+phi_k = EllipticCurveIsogeny(E, phi_ker_poly)
+phi_k == phi_v
+phi_k.rational_maps()
+phi_v.rational_maps()
+phi_k.degree() == phi_v.degree() == 3
+phi_k.is_separable()
+phi_v(E(0))
+alpha = E.base_field().gen()
+Q = E((0, alpha*(alpha + 1)))
+phi_v(Q)
+phi_v(P) == phi_k(P)
+phi_k(P) == phi_v.codomain()(0)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can create an isogeny whose kernel equals the full 2-torsion:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can create an isogeny whose kernel equals the full 2-torsion:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.finite_rings</span>
@@ -668,8 +731,27 @@ characteristic:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.finite_rings
+E = EllipticCurve(GF((3,2)), [0,0,0,1,1])
+ker_poly = E.division_polynomial(2)
+phi = EllipticCurveIsogeny(E, ker_poly); phi
+P1,P2,P3 = filter(bool, E(0).division_points(2))
+phi(P1)
+phi(P2)
+phi(P3)
+phi.degree()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can also create trivial isogenies with the trivial kernel:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can also create trivial isogenies with the trivial kernel:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">17</span><span class="p">),</span> <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
@@ -738,8 +820,32 @@ characteristic:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">E = EllipticCurve(GF(17), [11, 11, 4, 12, 10])
+phi_v = EllipticCurveIsogeny(E, E(0))
+phi_v.degree()
+phi_v.rational_maps()
+E == phi_v.codomain()
+P = E.random_point()
+phi_v(P) == P
+E = EllipticCurve(GF(31), [23, 1, 22, 7, 18])
+phi_k = EllipticCurveIsogeny(E, [1]); phi_k
+phi_k.degree()
+phi_k.rational_maps()
+phi_k.codomain() == E
+phi_k.kernel_polynomial()
+P = E.random_point(); P == phi_k(P)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Vélu and Kohel also work in characteristic <span class="math notranslate nohighlight">\(0\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Vélu and Kohel also work in characteristic <span class="math notranslate nohighlight">\(0\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
@@ -798,8 +904,30 @@ characteristic:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">E = EllipticCurve(QQ, [0,0,0,3,4])
+P_list = E.torsion_points()
+phi = EllipticCurveIsogeny(E, P_list); phi
+P = E((0,2))
+phi(P)
+phi_ker_poly = phi.kernel_polynomial()
+phi_ker_poly
+phi_k = EllipticCurveIsogeny(E, phi_ker_poly); phi_k
+phi_k(P) == phi(P)
+phi_k == phi
+phi_k.degree()
+phi_k.is_separable()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A more complicated example over the rationals (of odd degree):</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A more complicated example over the rationals (of odd degree):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s1">&#39;11a1&#39;</span><span class="p">)</span>
@@ -852,8 +980,28 @@ characteristic:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">E = EllipticCurve('11a1')
+P_list = E.torsion_points()
+phi_v = EllipticCurveIsogeny(E, P_list); phi_v
+P = E((16,-61))
+phi_v(P)
+ker_poly = phi_v.kernel_polynomial(); ker_poly
+phi_k = EllipticCurveIsogeny(E, ker_poly); phi_k
+phi_k == phi_v
+phi_v(P) == phi_k(P)
+phi_k.is_separable()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can also do this same example over the number field defined by
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can also do this same example over the number field defined by
 the irreducible two-torsion polynomial of <span class="math notranslate nohighlight">\(E\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
@@ -935,8 +1083,36 @@ the irreducible two-torsion polynomial of <span class="math notranslate nohighli
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.number_field
+E = EllipticCurve('11a1')
+P_list = E.torsion_points()
+x = polygen(ZZ, 'x')
+K.&lt;alpha&gt; = NumberField(x^3 - 2* x^2 - 40*x - 158)
+EK = E.change_ring(K)
+P_list = [EK(P) for P in P_list]
+phi_v = EllipticCurveIsogeny(EK, P_list); phi_v
+P = EK((alpha/2,-1/2))
+phi_v(P)
+ker_poly = phi_v.kernel_polynomial()
+ker_poly
+phi_k = EllipticCurveIsogeny(EK, ker_poly); phi_k
+phi_v == phi_k
+phi_k(P) == phi_v(P)
+phi_k == phi_v
+phi_k.degree()
+phi_v.is_separable()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The following example shows how to specify an isogeny from domain
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The following example shows how to specify an isogeny from domain
 and codomain:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
@@ -974,8 +1150,26 @@ and codomain:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">E = EllipticCurve('11a1')
+R.&lt;x&gt; = QQ[]
+f = x^2 - 21*x + 80
+phi = E.isogeny(f)
+E2 = phi.codomain()
+phi_s = EllipticCurveIsogeny(E, None, E2, 5); phi_s
+phi_s == phi
+phi_s.rational_maps() == phi.rational_maps()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">However, only cyclic normalized isogenies can be constructed this way.
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">However, only cyclic normalized isogenies can be constructed this way.
 The non-cyclic multiplication-by-<span class="math notranslate nohighlight">\(3\)</span> isogeny won’t be found:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
@@ -995,8 +1189,19 @@ The non-cyclic multiplication-by-<span class="math notranslate nohighlight">\(3\
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">E.isogeny(None, codomain=E, degree=9)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Non-normalized isogeny also won’t be found:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Non-normalized isogeny also won’t be found:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E2</span><span class="o">.</span><span class="n">isogeny</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">codomain</span><span class="o">=</span><span class="n">E</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
@@ -1029,8 +1234,21 @@ The non-cyclic multiplication-by-<span class="math notranslate nohighlight">\(3\
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">E2.isogeny(None, codomain=E, degree=5)
+phihat = phi.dual(); phihat
+phihat.is_normalized()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Here an example of a construction of a endomorphisms with cyclic
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Here an example of a construction of a endomorphisms with cyclic
 kernel on a CM-curve:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
@@ -1068,6 +1286,26 @@ kernel on a CM-curve:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.number_field
+K.&lt;i&gt; = NumberField(x^2 + 1)
+E = EllipticCurve(K, [1,0])
+RK.&lt;X&gt; = K[]
+f = X^2 - 2/5*i + 1/5
+phi= E.isogeny(f)
+isom = phi.codomain().isomorphism_to(E)
+phi = isom * phi
+phi.codomain() == phi.domain()
+phi.rational_maps()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.schemes.elliptic_curves.ell_curve_isogeny.EllipticCurveIsogeny.dual">
@@ -1082,7 +1320,7 @@ compositions <span class="math notranslate nohighlight">\(\hat\varphi\circ\varph
 <span class="math notranslate nohighlight">\(\varphi\circ\hat\varphi\)</span> are the multiplication-by-<span class="math notranslate nohighlight">\(n\)</span>
 maps on <span class="math notranslate nohighlight">\(E\)</span> and <span class="math notranslate nohighlight">\(E'\)</span>, respectively.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s1">&#39;11a1&#39;</span><span class="p">)</span>
@@ -1187,8 +1425,54 @@ maps on <span class="math notranslate nohighlight">\(E\)</span> and <span class=
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">E = EllipticCurve('11a1')
+R.&lt;x&gt; = QQ[]
+f = x^2 - 21*x + 80
+phi = EllipticCurveIsogeny(E, f)
+phi_hat = phi.dual()
+phi_hat.domain() == phi.codomain()
+phi_hat.codomain() == phi.domain()
+X, Y = phi.rational_maps()
+(Xhat, Yhat) = phi_hat.rational_maps()
+Xm = Xhat.subs(x=X, y=Y)
+Ym = Yhat.subs(x=X, y=Y)
+(Xm, Ym) == E.multiplication_by_m(5)
+E = EllipticCurve(GF(37), [0,0,0,1,8])
+R.&lt;x&gt; = GF(37)[]
+f = x^3 + x^2 + 28*x + 33
+phi = EllipticCurveIsogeny(E, f)
+phi_hat = phi.dual()
+phi_hat.codomain() == phi.domain()
+phi_hat.domain() == phi.codomain()
+X, Y = phi.rational_maps()
+(Xhat, Yhat) = phi_hat.rational_maps()
+Xm = Xhat.subs(x=X, y=Y)
+Ym = Yhat.subs(x=X, y=Y)
+(Xm, Ym) == E.multiplication_by_m(7)
+E = EllipticCurve(GF(31), [0,0,0,1,8])
+R.&lt;x&gt; = GF(31)[]
+f = x^2 + 17*x + 29
+phi = EllipticCurveIsogeny(E, f)
+phi_hat = phi.dual()
+phi_hat.codomain() == phi.domain()
+phi_hat.domain() == phi.codomain()
+X, Y = phi.rational_maps()
+(Xhat, Yhat) = phi_hat.rational_maps()
+Xm = Xhat.subs(x=X, y=Y)
+Ym = Yhat.subs(x=X, y=Y)
+(Xm, Ym) == E.multiplication_by_m(5)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Inseparable duals should be computed correctly:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Inseparable duals should be computed correctly:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.finite_rings</span>
@@ -1229,8 +1513,23 @@ maps on <span class="math notranslate nohighlight">\(E\)</span> and <span class=
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.finite_rings
+z2 = GF(71^2).gen()
+E = EllipticCurve(j=57*z2+51)
+E.isogeny(3*E.lift_x(0)).dual()
+E.isogeny(E.lift_x(0)).dual()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">…even if pre- or post-isomorphisms are present:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">…even if pre- or post-isomorphisms are present:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.finite_rings</span>
@@ -1271,6 +1570,23 @@ maps on <span class="math notranslate nohighlight">\(E\)</span> and <span class=
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.finite_rings
+from sage.schemes.elliptic_curves.weierstrass_morphism import WeierstrassIsomorphism
+phi = E.isogeny(E.lift_x(0))
+pre = ~WeierstrassIsomorphism(phi.domain(), (z2,2,3,4))
+post = WeierstrassIsomorphism(phi.codomain(), (5,6,7,8))
+phi = post * phi * pre
+phi.dual()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1286,7 +1602,7 @@ this method always returns one.</p>
 <dt class="sig sig-object py" id="sage.schemes.elliptic_curves.ell_curve_isogeny.EllipticCurveIsogeny.kernel_polynomial">
 <span class="sig-name descname"><span class="pre">kernel_polynomial</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/schemes/elliptic_curves/ell_curve_isogeny.py#L2910"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.schemes.elliptic_curves.ell_curve_isogeny.EllipticCurveIsogeny.kernel_polynomial" title="Link to this definition">¶</a></dt>
 <dd><p>Return the kernel polynomial of this isogeny.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
@@ -1335,6 +1651,28 @@ this method always returns one.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">E = EllipticCurve(QQ, [0,0,0,2,0])
+phi = EllipticCurveIsogeny(E, E((0,0)))
+phi.kernel_polynomial()
+E = EllipticCurve('11a1')
+phi = EllipticCurveIsogeny(E, E.torsion_points())
+phi.kernel_polynomial()
+E = EllipticCurve(GF(17), [1,-1,1,-1,1])
+phi = EllipticCurveIsogeny(E, [1])
+phi.kernel_polynomial()
+E = EllipticCurve(GF(31), [0,0,0,3,0])
+phi = EllipticCurveIsogeny(E, [0,3,0,1])
+phi.kernel_polynomial()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1350,7 +1688,7 @@ though the first only involves <span class="math notranslate nohighlight">\(x\)<
 <span class="math notranslate nohighlight">\(x\)</span>-coordinate function as a rational function in <span class="math notranslate nohighlight">\(F(x)\)</span>,
 use <a class="reference internal" href="#sage.schemes.elliptic_curves.ell_curve_isogeny.EllipticCurveIsogeny.x_rational_map" title="sage.schemes.elliptic_curves.ell_curve_isogeny.EllipticCurveIsogeny.x_rational_map"><code class="xref py py-meth docutils literal notranslate"><span class="pre">x_rational_map()</span></code></a>.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
@@ -1379,6 +1717,22 @@ use <a class="reference internal" href="#sage.schemes.elliptic_curves.ell_curve_
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">E = EllipticCurve(QQ, [0,2,0,1,-1])
+phi = EllipticCurveIsogeny(E, [1])
+phi.rational_maps()
+E = EllipticCurve(GF(17), [0,0,0,3,0])
+phi = EllipticCurveIsogeny(E, E((0,0)))
+phi.rational_maps()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1392,7 +1746,7 @@ such that <span class="math notranslate nohighlight">\(\varphi^* \omega_2 = u \o
 <span class="math notranslate nohighlight">\(\varphi: E_1\to E_2\)</span> is this isogeny and <span class="math notranslate nohighlight">\(\omega_i\)</span> are
 the standard Weierstrass differentials on <span class="math notranslate nohighlight">\(E_i\)</span> defined by
 <span class="math notranslate nohighlight">\(\mathrm dx/(2y+a_1x+a_3)\)</span>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.finite_rings</span>
@@ -1421,6 +1775,22 @@ the standard Weierstrass differentials on <span class="math notranslate nohighli
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.finite_rings
+E = EllipticCurve(GF(257^2), [0,1])
+phi = E.isogeny(E.lift_x(240))
+phi.degree()
+phi.scaling_factor()
+phi.dual().scaling_factor()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>ALGORITHM: The “inner” isogeny is normalized by construction,
 so we only need to account for the scaling factors of a pre-
@@ -1439,7 +1809,7 @@ base field.  To obtain both coordinate functions as
 elements of the function field <span class="math notranslate nohighlight">\(F(x,y)\)</span> in two variables,
 use <a class="reference internal" href="#sage.schemes.elliptic_curves.ell_curve_isogeny.EllipticCurveIsogeny.rational_maps" title="sage.schemes.elliptic_curves.ell_curve_isogeny.EllipticCurveIsogeny.rational_maps"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rational_maps()</span></code></a>.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
@@ -1468,6 +1838,22 @@ use <a class="reference internal" href="#sage.schemes.elliptic_curves.ell_curve_
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">E = EllipticCurve(QQ, [0,2,0,1,-1])
+phi = EllipticCurveIsogeny(E, [1])
+phi.x_rational_map()
+E = EllipticCurve(GF(17), [0,0,0,3,0])
+phi = EllipticCurveIsogeny(E, E((0,0)))
+phi.x_rational_map()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1488,7 +1874,7 @@ Vélu/Kohel/etc. formulas).</p>
 <span class="math notranslate nohighlight">\([a_1,a_2,a_3,a_4-5v,a_6-(a_1^2+4a_2)v-7w]\)</span> where
 <span class="math notranslate nohighlight">\(E = [a_1,a_2,a_3,a_4,a_6]\)</span>.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">This formula is used by every invocation of the
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This formula is used by every invocation of the
 <a class="reference internal" href="#sage.schemes.elliptic_curves.ell_curve_isogeny.EllipticCurveIsogeny" title="sage.schemes.elliptic_curves.ell_curve_isogeny.EllipticCurveIsogeny"><code class="xref py py-class docutils literal notranslate"><span class="pre">EllipticCurveIsogeny</span></code></a> constructor:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
@@ -1520,6 +1906,23 @@ Vélu/Kohel/etc. formulas).</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">E = EllipticCurve(GF(19), [1,2,3,4,5])
+phi = EllipticCurveIsogeny(E, E((1,2)) )
+phi.codomain()
+from sage.schemes.elliptic_curves.ell_curve_isogeny import compute_codomain_formula
+v = phi._EllipticCurveIsogeny__v
+w = phi._EllipticCurveIsogeny__w
+compute_codomain_formula(E, v, w) == phi.codomain()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1536,7 +1939,7 @@ list of its coefficients</p></li>
 </ul>
 <p>OUTPUT: elliptic curve; the codomain elliptic curve of the isogeny
 defined by <code class="docutils literal notranslate"><span class="pre">kernel</span></code></p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.schemes.elliptic_curves.ell_curve_isogeny</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_codomain_kohel</span>
@@ -1593,6 +1996,30 @@ defined by <code class="docutils literal notranslate"><span class="pre">kernel</
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.schemes.elliptic_curves.ell_curve_isogeny import compute_codomain_kohel
+E = EllipticCurve(GF(19), [1,2,3,4,5])
+phi = EllipticCurveIsogeny(E, [9,1])
+phi.codomain() == isogeny_codomain_from_kernel(E, [9,1])
+compute_codomain_kohel(E, [9,1])
+R.&lt;x&gt; = GF(19)[]
+E = EllipticCurve(GF(19), [18,17,16,15,14])
+phi = EllipticCurveIsogeny(E, x^3 + 14*x^2 + 3*x + 11)
+phi.codomain() == isogeny_codomain_from_kernel(E, x^3 + 14*x^2 + 3*x + 11)
+compute_codomain_kohel(E, x^3 + 14*x^2 + 3*x + 11)
+E = EllipticCurve(GF(19), [1,2,3,4,5])
+phi = EllipticCurveIsogeny(E, x^3 + 7*x^2 + 15*x + 12)
+isogeny_codomain_from_kernel(E, x^3 + 7*x^2 + 15*x + 12) == phi.codomain()
+compute_codomain_kohel(E, x^3 + 7*x^2 + 15*x + 12)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>ALGORITHM:</p>
 <p>This function uses the formulas of Section 2.4 of <a class="reference internal" href="../../../../references/index.html#koh1996" id="id1"><span>[Koh1996]</span></a>.</p>
@@ -1628,7 +2055,7 @@ to <code class="docutils literal notranslate"><span class="pre">E2</span></code>
 <li><p><code class="docutils literal notranslate"><span class="pre">post_isomorphism</span></code> is a normalized isomorphism from
 <code class="docutils literal notranslate"><span class="pre">intermediate_codomain</span></code> to <code class="docutils literal notranslate"><span class="pre">E2</span></code>.</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.schemes.elliptic_curves.ell_curve_isogeny</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_intermediate_curves</span>
@@ -1713,6 +2140,28 @@ to <code class="docutils literal notranslate"><span class="pre">E2</span></code>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.schemes.elliptic_curves.ell_curve_isogeny import compute_intermediate_curves
+E = EllipticCurve(GF(83), [1,0,1,1,0])
+R.&lt;x&gt; = GF(83)[]; f = x + 24
+phi = EllipticCurveIsogeny(E, f)
+E2 = phi.codomain()
+compute_intermediate_curves(E, E2)
+# needs sage.rings.number_field
+R.&lt;x&gt; = QQ[]
+K.&lt;i&gt; = NumberField(x^2 + 1)
+E = EllipticCurve(K, [0,0,0,1,0])
+E2 = EllipticCurve(K, [0,0,0,16,0])
+compute_intermediate_curves(E, E2)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1724,7 +2173,7 @@ of degree <code class="docutils literal notranslate"><span class="pre">l</span><
 <p>Both curves must be given in short Weierstrass form, and the
 characteristic must be either <span class="math notranslate nohighlight">\(0\)</span> or no smaller than <span class="math notranslate nohighlight">\(4l+4\)</span>.</p>
 <p>ALGORITHM: <a class="reference internal" href="../../../../references/index.html#bmss2006" id="id2"><span>[BMSS2006]</span></a>, algorithm <em>fastElkies’</em>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.schemes.elliptic_curves.ell_curve_isogeny</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_isogeny_bmss</span>
@@ -1743,6 +2192,20 @@ characteristic must be either <span class="math notranslate nohighlight">\(0\)</
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">compute_isogeny_bmss</span><span class="p">(</span><span class="n">E1</span><span class="p">,</span> <span class="n">E2</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">13</span><span class="p">))</span>
 <span class="go">x^6 + 139*x^5 + 73*x^4 + 139*x^3 + 120*x^2 + 88*x</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.schemes.elliptic_curves.ell_curve_isogeny import compute_isogeny_bmss
+E1 = EllipticCurve(GF(167), [153, 112])
+E2 = EllipticCurve(GF(167), [56, 40])
+compute_isogeny_bmss(E1, E2, 13)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1769,7 +2232,7 @@ isogeny of degree <code class="docutils literal notranslate"><span class="pre">e
 isogeny from <code class="docutils literal notranslate"><span class="pre">E1</span></code> to <code class="docutils literal notranslate"><span class="pre">E2</span></code>, a <a class="reference external" href="https://docs.python.org/library/exceptions.html#ValueError" title="(in Python v3.12)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> will be
 raised.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.schemes.elliptic_curves.ell_curve_isogeny</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_isogeny_kernel_polynomial</span>
@@ -1818,6 +2281,30 @@ raised.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.schemes.elliptic_curves.ell_curve_isogeny import compute_isogeny_kernel_polynomial
+E = EllipticCurve(GF(37), [0,0,0,1,8])
+R.&lt;x&gt; = GF(37)[]
+f = (x + 14) * (x + 30)
+phi = EllipticCurveIsogeny(E, f)
+E2 = phi.codomain()
+compute_isogeny_kernel_polynomial(E, E2, 5)
+f
+# needs sage.rings.number_field
+R.&lt;x&gt; = QQ[]
+K.&lt;i&gt; = NumberField(x^2 + 1)
+E = EllipticCurve(K, [0,0,0,1,0])
+E2 = EllipticCurve(K, [0,0,0,16,0])
+compute_isogeny_kernel_polynomial(E, E2, 4)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1848,7 +2335,7 @@ of <a class="reference internal" href="../../../../references/index.html#bmss200
 correct version (with slightly different notation) can be found
 in <a class="reference internal" href="../../../../references/index.html#mo2009" id="id5"><span>[Mo2009]</span></a>.  The algorithm originates in <a class="reference internal" href="../../../../references/index.html#sta1973" id="id6"><span>[Sta1973]</span></a>.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.schemes.elliptic_curves.ell_curve_isogeny</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_isogeny_stark</span><span class="p">,</span> <span class="n">compute_sequence_of_maps</span>
@@ -1913,6 +2400,36 @@ in <a class="reference internal" href="../../../../references/index.html#mo2009"
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.schemes.elliptic_curves.ell_curve_isogeny import compute_isogeny_stark, compute_sequence_of_maps
+E = EllipticCurve(GF(97), [1,0,1,1,0])
+R.&lt;x&gt; = GF(97)[]; f = x^5 + 27*x^4 + 61*x^3 + 58*x^2 + 28*x + 21
+phi = EllipticCurveIsogeny(E, f)
+E2 = phi.codomain()
+isom1, isom2, E1pr, E2pr, ker_poly = compute_sequence_of_maps(E, E2, 11)
+compute_isogeny_stark(E1pr, E2pr, 11)
+E = EllipticCurve(GF(37), [0,0,0,1,8])
+R.&lt;x&gt; = GF(37)[]
+f = (x + 14) * (x + 30)
+phi = EllipticCurveIsogeny(E, f)
+E2 = phi.codomain()
+compute_isogeny_stark(E, E2, 5)
+f**2
+E = EllipticCurve(QQ, [0,0,0,1,0])
+R.&lt;x&gt; = QQ[]
+f = x
+phi = EllipticCurveIsogeny(E, f)
+E2 = phi.codomain()
+compute_isogeny_stark(E, E2, 2)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1939,7 +2456,7 @@ isomorphic to <code class="docutils literal notranslate"><span class="pre">E2</s
 <li><p><code class="docutils literal notranslate"><span class="pre">ker_poly</span></code> is the kernel polynomial of an <code class="docutils literal notranslate"><span class="pre">ell</span></code>-isogeny from
 <code class="docutils literal notranslate"><span class="pre">E1pr</span></code> to <code class="docutils literal notranslate"><span class="pre">E2pr</span></code>.</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.schemes.elliptic_curves.ell_curve_isogeny</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_sequence_of_maps</span>
@@ -2068,6 +2585,32 @@ isomorphic to <code class="docutils literal notranslate"><span class="pre">E2</s
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.schemes.elliptic_curves.ell_curve_isogeny import compute_sequence_of_maps
+E = EllipticCurve('11a1')
+R.&lt;x&gt; = QQ[]; f = x^2 - 21*x + 80
+phi = EllipticCurveIsogeny(E, f)
+E2 = phi.codomain()
+compute_sequence_of_maps(E, E2, 5)
+# needs sage.rings.number_field
+K.&lt;i&gt; = NumberField(x^2 + 1)
+E = EllipticCurve(K, [0,0,0,1,0])
+E2 = EllipticCurve(K, [0,0,0,16,0])
+compute_sequence_of_maps(E, E2, 4)
+E = EllipticCurve(GF(97), [1,0,1,1,0])
+R.&lt;x&gt; = GF(97)[]; f = x^5 + 27*x^4 + 61*x^3 + 58*x^2 + 28*x + 21
+phi = EllipticCurveIsogeny(E, f)
+E2 = phi.codomain()
+compute_sequence_of_maps(E, E2, 11)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2083,7 +2626,7 @@ degree exactly divisible by <span class="math notranslate nohighlight">\(2\)</sp
 </ul>
 <p>OUTPUT: Vélu’s isogeny parameters <span class="math notranslate nohighlight">\((v,w)\)</span>.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">This function will be implicitly called by the following example:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This function will be implicitly called by the following example:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">19</span><span class="p">),</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
@@ -2120,6 +2663,23 @@ degree exactly divisible by <span class="math notranslate nohighlight">\(2\)</sp
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">E = EllipticCurve(GF(19), [1,2,3,4,5])
+phi = EllipticCurveIsogeny(E, [9,1]); phi
+from sage.schemes.elliptic_curves.ell_curve_isogeny import compute_vw_kohel_even_deg1
+a1,a2,a3,a4,a6 = E.a_invariants()
+x0 = -9
+y0 = -(a1*x0 + a3)/2
+compute_vw_kohel_even_deg1(x0, y0, a1, a2, a4)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2136,7 +2696,7 @@ polynomial of <span class="math notranslate nohighlight">\(E\)</span></p></li>
 </ul>
 <p>OUTPUT: Vélu’s isogeny parameters <span class="math notranslate nohighlight">\((v,w)\)</span>.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">This function will be implicitly called by the following example:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This function will be implicitly called by the following example:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">19</span><span class="p">),</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
@@ -2173,6 +2733,23 @@ polynomial of <span class="math notranslate nohighlight">\(E\)</span></p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">E = EllipticCurve(GF(19), [1,2,3,4,5])
+R.&lt;x&gt; = GF(19)[]
+phi = EllipticCurveIsogeny(E, x^3 + 7*x^2 + 15*x + 12); phi
+from sage.schemes.elliptic_curves.ell_curve_isogeny import compute_vw_kohel_even_deg3
+b2,b4 = E.b2(), E.b4()
+s1, s2, s3 = -7, 15, -12
+compute_vw_kohel_even_deg3(b2, b4, s1, s2, s3)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2190,7 +2767,7 @@ of <span class="math notranslate nohighlight">\(x\)</span> in the kernel polynom
 </ul>
 <p>OUTPUT: Vélu’s isogeny parameters <span class="math notranslate nohighlight">\((v,w)\)</span></p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">This function will be implicitly called by the following example:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This function will be implicitly called by the following example:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--28-input--1" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">19</span><span class="p">),</span> <span class="p">[</span><span class="mi">18</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">14</span><span class="p">])</span>
@@ -2227,6 +2804,23 @@ of <span class="math notranslate nohighlight">\(x\)</span> in the kernel polynom
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">E = EllipticCurve(GF(19), [18,17,16,15,14])
+R.&lt;x&gt; = GF(19)[]
+phi = EllipticCurveIsogeny(E, x^3 + 14*x^2 + 3*x + 11); phi
+from sage.schemes.elliptic_curves.ell_curve_isogeny import compute_vw_kohel_odd
+b2,b4,b6 = E.b2(), E.b4(), E.b6()
+s1,s2,s3 = -14,3,-11
+compute_vw_kohel_odd(b2,b4,b6,s1,s2,s3,3)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2244,7 +2838,7 @@ have an <span class="math notranslate nohighlight">\(l\)</span>-isogeny between 
 <p>A square matrix with entries <span class="math notranslate nohighlight">\(1\)</span> on the diagonal, and in
 general the <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(j\)</span> entry is <span class="math notranslate nohighlight">\(d&gt;0\)</span> if <span class="math notranslate nohighlight">\(d\)</span> is the minimal degree
 of an isogeny from the <span class="math notranslate nohighlight">\(i\)</span>-th to the <span class="math notranslate nohighlight">\(j\)</span>-th curve.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
@@ -2287,6 +2881,20 @@ of an isogeny from the <span class="math notranslate nohighlight">\(i\)</span>-t
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Matrix([[0, 2, 3, 3, 0, 0], [2, 0, 0, 0, 3, 3], [3, 0, 0, 0, 2, 0],
+            [3, 0, 0, 0, 0, 2], [0, 3, 2, 0, 0, 0], [0, 3, 0, 2, 0, 0]]); M
+from sage.schemes.elliptic_curves.ell_curve_isogeny import fill_isogeny_matrix
+fill_isogeny_matrix(M)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2306,7 +2914,7 @@ univariate polynomial or a coefficient list)</p>
 </ul>
 <p>OUTPUT: elliptic curve) The codomain of the separable normalized isogeny
 defined by this kernel.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--30-input--1" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.schemes.elliptic_curves.ell_curve_isogeny</span><span class="w"> </span><span class="kn">import</span> <span class="n">isogeny_codomain_from_kernel</span>
@@ -2361,6 +2969,28 @@ defined by this kernel.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--30-input--3" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.schemes.elliptic_curves.ell_curve_isogeny import isogeny_codomain_from_kernel
+E = EllipticCurve(GF(7), [1,0,1,0,1])
+R.&lt;x&gt; = GF(7)[]
+isogeny_codomain_from_kernel(E, [4,1])
+(EllipticCurveIsogeny(E, [4,1]).codomain()
+ == isogeny_codomain_from_kernel(E, [4,1]))
+isogeny_codomain_from_kernel(E, x^3 + x^2 + 4*x + 3)
+isogeny_codomain_from_kernel(E, x^3 + 2*x^2 + 4*x + 3)
+# needs sage.rings.finite_rings
+E = EllipticCurve(GF(19), [1,2,3,4,5])
+kernel_list = [E((15,10)), E((10,3)), E((6,5))]
+isogeny_codomain_from_kernel(E, kernel_list)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2376,7 +3006,7 @@ polynomial of <span class="math notranslate nohighlight">\(E\)</span>.</p>
 </ul>
 <p>OUTPUT: polynomial; the <span class="math notranslate nohighlight">\(\gcd\)</span> of <code class="docutils literal notranslate"><span class="pre">psi</span></code> and the 2-torsion polynomial of <code class="docutils literal notranslate"><span class="pre">E</span></code></p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Every function that computes the kernel polynomial via Kohel’s
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Every function that computes the kernel polynomial via Kohel’s
 formulas will call this function:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--31-input--1" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--1">Sage</label><div class="tab-content docutils container">
@@ -2404,6 +3034,22 @@ formulas will call this function:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--31-input--3" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">E = EllipticCurve(GF(19), [1,2,3,4,5])
+R.&lt;x&gt; = GF(19)[]
+phi = EllipticCurveIsogeny(E, x + 13)
+isogeny_codomain_from_kernel(E, x + 13) == phi.codomain()
+from sage.schemes.elliptic_curves.ell_curve_isogeny import two_torsion_part
+two_torsion_part(E, x + 13)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2418,7 +3064,7 @@ formulas will call this function:</p>
 <p>OUTPUT:</p>
 <p>A square symmetric matrix obtained from <code class="docutils literal notranslate"><span class="pre">M</span></code> by
 replacing non-prime entries with <span class="math notranslate nohighlight">\(0\)</span>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--32-input--1" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
@@ -2479,11 +3125,31 @@ replacing non-prime entries with <span class="math notranslate nohighlight">\(0\
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--32-input--3" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Matrix([[0, 2, 3, 3, 0, 0], [2, 0, 0, 0, 3, 3], [3, 0, 0, 0, 2, 0],
+            [3, 0, 0, 0, 0, 2], [0, 3, 2, 0, 0, 0], [0, 3, 0, 2, 0, 0]]); M
+from sage.schemes.elliptic_curves.ell_curve_isogeny import fill_isogeny_matrix, unfill_isogeny_matrix
+M1 = fill_isogeny_matrix(M); M1
+unfill_isogeny_matrix(M1)
+unfill_isogeny_matrix(M1) == M</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -2581,7 +3247,7 @@ replacing non-prime entries with <span class="math notranslate nohighlight">\(0\
     <script src="../../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../../%5fstatic/copybutton.js"></script>
     <script src="../../../../%5fstatic/tabs.js"></script>
-    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

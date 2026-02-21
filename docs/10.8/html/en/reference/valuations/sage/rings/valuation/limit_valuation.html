@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -303,7 +303,7 @@ resulting valuations on quotients.</p>
 <li><p>Julian Rüth (2016-10-19): initial version</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">In this function field, the unique place of <code class="docutils literal notranslate"><span class="pre">K</span></code> which corresponds to the zero
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In this function field, the unique place of <code class="docutils literal notranslate"><span class="pre">K</span></code> which corresponds to the zero
 point has two extensions to <code class="docutils literal notranslate"><span class="pre">L</span></code>. The valuations corresponding to these
 extensions can only be approximated:</p>
 <div class="tab-set docutils container">
@@ -332,8 +332,24 @@ extensions can only be approximated:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.function_field
+K.&lt;x&gt; = FunctionField(QQ)
+R.&lt;y&gt; = K[]
+L.&lt;y&gt; = K.extension(y^2 - x)
+v = K.valuation(1)
+w = v.extensions(L); w                                                        # needs sage.geometry.polyhedron</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The same phenomenon can be observed for valuations on number fields:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The same phenomenon can be observed for valuations on number fields:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.number_field</span>
@@ -360,10 +376,26 @@ extensions can only be approximated:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.number_field
+K = QQ
+R.&lt;t&gt; = K[]
+L.&lt;t&gt; = K.extension(t^2 + 1)
+v = QQ.valuation(5)
+w = v.extensions(L); w                                                        # needs sage.geometry.polyhedron</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p class="with-sage-tab with-python-tab">We often rely on approximations of valuations even if we could represent the
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We often rely on approximations of valuations even if we could represent the
 valuation without using a limit. This is done to improve performance as many
 computations already can be done correctly with an approximation:</p>
 <div class="tab-set docutils container">
@@ -398,6 +430,24 @@ computations already can be done correctly with an approximation:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.geometry.polyhedron sage.rings.function_field
+K.&lt;x&gt; = FunctionField(QQ)
+R.&lt;y&gt; = K[]
+L.&lt;y&gt; = K.extension(y^2 - x)
+v = K.valuation(1/x)
+w = v.extension(L); w
+w._base_valuation._base_valuation._improve_approximation()
+w._base_valuation._base_valuation._approximation</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </div>
 <p>REFERENCES:</p>
@@ -417,7 +467,7 @@ uniquely augmented (possibly only in the limit) to a pseudo-valuation
 that sends <code class="docutils literal notranslate"><span class="pre">G</span></code> to infinity.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">G</span></code> – a squarefree polynomial in the domain of <code class="docutils literal notranslate"><span class="pre">base_valuation</span></code></p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
@@ -438,13 +488,27 @@ that sends <code class="docutils literal notranslate"><span class="pre">G</span>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x&gt; = QQ[]
+v = GaussValuation(R, QQ.valuation(2))
+w = valuations.LimitValuation(v, x)
+w(x)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.rings.valuation.limit_valuation.LimitValuationFactory.create_key">
 <span class="sig-name descname"><span class="pre">create_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_valuation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">G</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/valuation/limit_valuation.py#L111"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.valuation.limit_valuation.LimitValuationFactory.create_key" title="Link to this definition">¶</a></dt>
 <dd><p>Create a key from the parameters of this valuation.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Note that this does not normalize <code class="docutils literal notranslate"><span class="pre">base_valuation</span></code> in any way. It is
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that this does not normalize <code class="docutils literal notranslate"><span class="pre">base_valuation</span></code> in any way. It is
 easily possible to create the same limit in two different ways:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
@@ -470,6 +534,22 @@ easily possible to create the same limit in two different ways:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x&gt; = QQ[]
+v = GaussValuation(R, QQ.valuation(2))
+w = valuations.LimitValuation(v, x)  # indirect doctest
+v = v.augmentation(x, infinity)
+u = valuations.LimitValuation(v, x)
+u == w</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>The point here is that this is not meant to be invoked from user code.
 But mostly from other factories which have made sure that the
@@ -480,7 +560,7 @@ parameters are normalized already.</p>
 <dt class="sig sig-object py" id="sage.rings.valuation.limit_valuation.LimitValuationFactory.create_object">
 <span class="sig-name descname"><span class="pre">create_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/valuation/limit_valuation.py#L136"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.valuation.limit_valuation.LimitValuationFactory.create_object" title="Link to this definition">¶</a></dt>
 <dd><p>Create an object from <code class="docutils literal notranslate"><span class="pre">key</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
@@ -497,6 +577,19 @@ parameters are normalized already.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x&gt; = QQ[]
+v = GaussValuation(R, QQ.valuation(2))
+w = valuations.LimitValuation(v, x^2 + 1)  # indirect doctest</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -509,7 +602,7 @@ parameters are normalized already.</p>
 <p>Base class for limit valuations.</p>
 <p>A limit valuation is realized as an approximation of a valuation and means
 to improve that approximation when necessary.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.function_field</span>
@@ -536,8 +629,25 @@ to improve that approximation when necessary.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.function_field
+K.&lt;x&gt; = FunctionField(QQ)
+R.&lt;y&gt; = K[]
+L.&lt;y&gt; = K.extension(y^2 - x)
+v = K.valuation(0)
+w = v.extension(L)                                                        # needs sage.geometry.polyhedron
+w._base_valuation                                                         # needs sage.geometry.polyhedron sage.rings.function_field</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The currently used approximation can be found in the <code class="docutils literal notranslate"><span class="pre">_approximation</span></code>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The currently used approximation can be found in the <code class="docutils literal notranslate"><span class="pre">_approximation</span></code>
 field:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
@@ -553,6 +663,17 @@ field:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">w._base_valuation._approximation                                          # needs sage.geometry.polyhedron sage.rings.function_field</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.rings.valuation.limit_valuation.LimitValuation_generic.reduce">
@@ -565,7 +686,7 @@ valuation</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">check</span></code> – whether or not to check that <code class="docutils literal notranslate"><span class="pre">f</span></code> has nonnegative
 valuation (default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.function_field</span>
@@ -592,6 +713,23 @@ valuation (default: <code class="docutils literal notranslate"><span class="pre"
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.function_field
+K.&lt;x&gt; = FunctionField(QQ)
+R.&lt;y&gt; = K[]
+L.&lt;y&gt; = K.extension(y^2 - (x - 1))
+v = K.valuation(0)
+w = v.extension(L)
+w.reduce(y)  # indirect doctest</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -608,7 +746,7 @@ which sends a square-free polynomial <span class="math notranslate nohighlight">
 augmentation that sends <span class="math notranslate nohighlight">\(G\)</span> to infinity and whose uniformizer must be a
 uniformizer of the limit and whose residue field must contain the residue
 field of the limit.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.geometry.polyhedron sage.rings.number_field</span>
@@ -631,6 +769,21 @@ field of the limit.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.geometry.polyhedron sage.rings.number_field
+R.&lt;x&gt; = QQ[]
+K.&lt;i&gt; = QQ.extension(x^2 + 1)
+v = K.valuation(2)
+u = v._base_valuation; u</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.rings.valuation.limit_valuation.MacLaneLimitValuation.element_with_valuation">
@@ -642,7 +795,7 @@ field of the limit.</p>
 <dt class="sig sig-object py" id="sage.rings.valuation.limit_valuation.MacLaneLimitValuation.extensions">
 <span class="sig-name descname"><span class="pre">extensions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ring</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/valuation/limit_valuation.py#L399"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.valuation.limit_valuation.MacLaneLimitValuation.extensions" title="Link to this definition">¶</a></dt>
 <dd><p>Return the extensions of this valuation to <code class="docutils literal notranslate"><span class="pre">ring</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.geometry.polyhedron sage.rings.number_field</span>
@@ -663,6 +816,20 @@ field of the limit.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.geometry.polyhedron sage.rings.number_field
+v = GaussianIntegers().valuation(2)
+u = v._base_valuation
+u.extensions(QQ['x'])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -671,7 +838,7 @@ field of the limit.</p>
 <span class="sig-name descname"><span class="pre">is_negative_pseudo_valuation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/valuation/limit_valuation.py#L928"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.valuation.limit_valuation.MacLaneLimitValuation.is_negative_pseudo_valuation" title="Link to this definition">¶</a></dt>
 <dd><p>Return whether this valuation attains <span class="math notranslate nohighlight">\(-\infty\)</span>.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">For a Mac Lane limit valuation, this is never the case, so this
+<p class="with-sage-tab with-python-tab with-sage-live-tab">For a Mac Lane limit valuation, this is never the case, so this
 method always returns <code class="docutils literal notranslate"><span class="pre">False</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
@@ -699,6 +866,23 @@ method always returns <code class="docutils literal notranslate"><span class="pr
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.geometry.polyhedron sage.rings.number_field
+K = QQ
+R.&lt;t&gt; = K[]
+L.&lt;t&gt; = K.extension(t^2 + 1)
+v = QQ.valuation(2)
+u = v.extension(L)
+u.is_negative_pseudo_valuation()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -707,7 +891,7 @@ method always returns <code class="docutils literal notranslate"><span class="pr
 <span class="sig-name descname"><span class="pre">lift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">F</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/valuation/limit_valuation.py#L424"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.valuation.limit_valuation.MacLaneLimitValuation.lift" title="Link to this definition">¶</a></dt>
 <dd><p>Return a lift of <code class="docutils literal notranslate"><span class="pre">F</span></code> from the <a class="reference internal" href="valuation_space.html#sage.rings.valuation.valuation_space.DiscretePseudoValuationSpace.ElementMethods.residue_ring" title="sage.rings.valuation.valuation_space.DiscretePseudoValuationSpace.ElementMethods.residue_ring"><code class="xref py py-meth docutils literal notranslate"><span class="pre">residue_ring()</span></code></a> to the domain of
 this valuation.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.geometry.polyhedron sage.rings.function_field</span>
@@ -740,6 +924,24 @@ this valuation.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.geometry.polyhedron sage.rings.function_field
+K.&lt;x&gt; = FunctionField(QQ)
+R.&lt;y&gt; = K[]
+L.&lt;y&gt; = K.extension(y^4 - x^2 - 2*x - 1)
+v = K.valuation(1)
+w = v.extensions(L)[1]; w
+s = w.reduce(y); s
+w.lift(s)  # indirect doctest</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -749,7 +951,7 @@ this valuation.</p>
 <dd><p>Return a lower bound of this valuation at <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
 <p>Use this method to get an approximation of the valuation of <code class="docutils literal notranslate"><span class="pre">x</span></code>
 when speed is more important than accuracy.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.geometry.polyhedron sage.rings.number_field</span>
@@ -780,6 +982,24 @@ when speed is more important than accuracy.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.geometry.polyhedron sage.rings.number_field
+K = QQ
+R.&lt;t&gt; = K[]
+L.&lt;t&gt; = K.extension(t^2 + 1)
+v = QQ.valuation(2)
+u = v.extension(L)
+u.lower_bound(1024*t + 1024)
+u(1024*t + 1024)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -787,7 +1007,7 @@ when speed is more important than accuracy.</p>
 <dt class="sig sig-object py" id="sage.rings.valuation.limit_valuation.MacLaneLimitValuation.residue_ring">
 <span class="sig-name descname"><span class="pre">residue_ring</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/valuation/limit_valuation.py#L644"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.valuation.limit_valuation.MacLaneLimitValuation.residue_ring" title="Link to this definition">¶</a></dt>
 <dd><p>Return the residue ring of this valuation, which is always a field.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.geometry.polyhedron sage.rings.number_field</span>
@@ -814,6 +1034,23 @@ when speed is more important than accuracy.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.geometry.polyhedron sage.rings.number_field
+K = QQ
+R.&lt;t&gt; = K[]
+L.&lt;t&gt; = K.extension(t^2 + 1)
+v = QQ.valuation(2)
+w = v.extension(L)
+w.residue_ring()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -821,7 +1058,7 @@ when speed is more important than accuracy.</p>
 <dt class="sig sig-object py" id="sage.rings.valuation.limit_valuation.MacLaneLimitValuation.restriction">
 <span class="sig-name descname"><span class="pre">restriction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ring</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/valuation/limit_valuation.py#L713"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.valuation.limit_valuation.MacLaneLimitValuation.restriction" title="Link to this definition">¶</a></dt>
 <dd><p>Return the restriction of this valuation to <code class="docutils literal notranslate"><span class="pre">ring</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.geometry.polyhedron sage.rings.number_field</span>
@@ -848,6 +1085,23 @@ when speed is more important than accuracy.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.geometry.polyhedron sage.rings.number_field
+K = QQ
+R.&lt;t&gt; = K[]
+L.&lt;t&gt; = K.extension(t^2 + 1)
+v = QQ.valuation(2)
+w = v.extension(L)
+w._base_valuation.restriction(K)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -858,7 +1112,7 @@ when speed is more important than accuracy.</p>
 <p>Produce an element which differs from <code class="docutils literal notranslate"><span class="pre">f</span></code> by an element of valuation
 strictly greater than the valuation of <code class="docutils literal notranslate"><span class="pre">f</span></code> (or strictly greater than
 <code class="docutils literal notranslate"><span class="pre">error</span></code> if set.)</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.geometry.polyhedron sage.rings.number_field</span>
@@ -885,6 +1139,23 @@ strictly greater than the valuation of <code class="docutils literal notranslate
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.geometry.polyhedron sage.rings.number_field
+K = QQ
+R.&lt;t&gt; = K[]
+L.&lt;t&gt; = K.extension(t^2 + 1)
+v = QQ.valuation(2)
+u = v.extension(L)
+u.simplify(t + 1024, force=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -892,7 +1163,7 @@ strictly greater than the valuation of <code class="docutils literal notranslate
 <dt class="sig sig-object py" id="sage.rings.valuation.limit_valuation.MacLaneLimitValuation.uniformizer">
 <span class="sig-name descname"><span class="pre">uniformizer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/valuation/limit_valuation.py#L446"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.valuation.limit_valuation.MacLaneLimitValuation.uniformizer" title="Link to this definition">¶</a></dt>
 <dd><p>Return a uniformizing element for this valuation.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.geometry.polyhedron sage.rings.function_field</span>
@@ -919,6 +1190,23 @@ strictly greater than the valuation of <code class="docutils literal notranslate
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.geometry.polyhedron sage.rings.function_field
+K.&lt;x&gt; = FunctionField(QQ)
+R.&lt;y&gt; = K[]
+L.&lt;y&gt; = K.extension(y^2 - x)
+v = K.valuation(0)
+w = v.extension(L)
+w.uniformizer()  # indirect doctest</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -928,7 +1216,7 @@ strictly greater than the valuation of <code class="docutils literal notranslate
 <dd><p>Return an upper bound of this valuation at <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
 <p>Use this method to get an approximation of the valuation of <code class="docutils literal notranslate"><span class="pre">x</span></code>
 when speed is more important than accuracy.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.geometry.polyhedron sage.rings.number_field</span>
@@ -959,6 +1247,24 @@ when speed is more important than accuracy.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.geometry.polyhedron sage.rings.number_field
+K = QQ
+R.&lt;t&gt; = K[]
+L.&lt;t&gt; = K.extension(t^2 + 1)
+v = QQ.valuation(2)
+u = v.extension(L)
+u.upper_bound(1024*t + 1024)
+u(1024*t + 1024)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -971,7 +1277,11 @@ when speed is more important than accuracy.</p>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -1069,7 +1379,7 @@ when speed is more important than accuracy.</p>
     <script src="../../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../../%5fstatic/copybutton.js"></script>
     <script src="../../../../%5fstatic/tabs.js"></script>
-    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

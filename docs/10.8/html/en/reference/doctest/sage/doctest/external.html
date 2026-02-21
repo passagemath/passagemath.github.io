@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -296,7 +296,7 @@ external software otherwise. See <a class="extlink-issue reference external" hre
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>This class keeps the set of available software whose availability is detected lazily
 from the list of external software.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">external_software</span><span class="p">,</span> <span class="n">available_software</span>
@@ -353,6 +353,20 @@ from the list of external software.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import external_software, available_software
+external_software
+'internet' in available_software # random, optional - internet
+available_software.issuperset(set(['internet','latex'])) # random, optional - internet latex</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.doctest.external.AvailableSoftware.detectable">
@@ -364,7 +378,7 @@ from the list of external software.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.AvailableSoftware.hidden">
 <span class="sig-name descname"><span class="pre">hidden</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L541"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.AvailableSoftware.hidden" title="Link to this definition">¶</a></dt>
 <dd><p>Return the list of detected hidden external software.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs conway_polynomials database_cremona_mini_ellcurve database_ellcurves database_graphs</span>
@@ -401,6 +415,25 @@ from the list of external software.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs conway_polynomials database_cremona_mini_ellcurve database_ellcurves database_graphs
+from sage.doctest.external import available_software
+from sage.features.databases import all_features
+for f in all_features():
+   f.hide()
+   if f._spkg_type() == 'standard':
+        test = f.name in available_software
+   f.unhide()
+sorted(available_software.hidden())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -408,7 +441,7 @@ from the list of external software.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.AvailableSoftware.issuperset">
 <span class="sig-name descname"><span class="pre">issuperset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L507"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.AvailableSoftware.issuperset" title="Link to this definition">¶</a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <code class="docutils literal notranslate"><span class="pre">other</span></code> is a subset of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">available_software</span>
@@ -425,6 +458,18 @@ from the list of external software.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import available_software
+available_software.issuperset(set(['internet','latex','magma'])) # random, optional - internet latex magma</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -432,7 +477,7 @@ from the list of external software.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.AvailableSoftware.seen">
 <span class="sig-name descname"><span class="pre">seen</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L527"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.AvailableSoftware.seen" title="Link to this definition">¶</a></dt>
 <dd><p>Return the list of detected external software.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">available_software</span>
@@ -449,6 +494,18 @@ from the list of external software.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import available_software
+available_software.seen() # random</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -462,7 +519,7 @@ from the list of external software.</p>
 <p class="admonition-title">See also</p>
 <p><a class="reference external" href="../../../spkg/sage/features/all.html#sage.features.all.all_features" title="(in Packages and Features v10.8.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sage.features.all.all_features()</span></code></a></p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">external_features</span>
@@ -479,6 +536,18 @@ from the list of external software.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import external_features
+next(external_features())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -486,7 +555,7 @@ from the list of external software.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.has_4ti2">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_4ti2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L353"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_4ti2" title="Link to this definition">¶</a></dt>
 <dd><p>Test if the 4ti2 package is available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_4ti2</span>
@@ -503,6 +572,18 @@ from the list of external software.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_4ti2
+has_4ti2()   # optional -- 4ti2</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -510,7 +591,7 @@ from the list of external software.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.has_cplex">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_cplex</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L240"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_cplex" title="Link to this definition">¶</a></dt>
 <dd><p>Test if CPLEX is available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_cplex</span>
@@ -527,6 +608,18 @@ from the list of external software.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_cplex
+has_cplex() # random, optional - CPLEX</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -534,7 +627,7 @@ from the list of external software.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.has_dvipng">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_dvipng</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L310"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_dvipng" title="Link to this definition">¶</a></dt>
 <dd><p>Test if dvipng is available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_dvipng</span>
@@ -551,6 +644,18 @@ from the list of external software.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_dvipng
+has_dvipng() # optional -- dvipng</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -558,7 +663,7 @@ from the list of external software.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.has_ffmpeg">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_ffmpeg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L282"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_ffmpeg" title="Link to this definition">¶</a></dt>
 <dd><p>Test if ffmpeg is available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_ffmpeg</span>
@@ -575,6 +680,18 @@ from the list of external software.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_ffmpeg
+has_ffmpeg()      # optional -- ffmpeg</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -582,7 +699,7 @@ from the list of external software.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.has_graphviz">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_graphviz</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L268"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_graphviz" title="Link to this definition">¶</a></dt>
 <dd><p>Test if graphviz (dot, twopi, neato) are available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_graphviz</span>
@@ -599,6 +716,18 @@ from the list of external software.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_graphviz
+has_graphviz()   # optional -- graphviz</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -606,7 +735,7 @@ from the list of external software.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.has_gurobi">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_gurobi</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L254"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_gurobi" title="Link to this definition">¶</a></dt>
 <dd><p>Test if Gurobi is available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_gurobi</span>
@@ -623,6 +752,18 @@ from the list of external software.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_gurobi
+has_gurobi() # random, optional - Gurobi</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -630,7 +771,7 @@ from the list of external software.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.has_imagemagick">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_imagemagick</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L296"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_imagemagick" title="Link to this definition">¶</a></dt>
 <dd><p>Test if ImageMagick (command magick or convert) is available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_imagemagick</span>
@@ -647,6 +788,18 @@ from the list of external software.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_imagemagick
+has_imagemagick() # optional -- imagemagick</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -656,7 +809,7 @@ from the list of external software.</p>
 <dd><p>Test if Internet is available.</p>
 <p>Failure of connecting to the site “<a class="reference external" href="https://www.sagemath.org">https://www.sagemath.org</a>” within a second
 is regarded as internet being not available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_internet</span>
@@ -673,6 +826,18 @@ is regarded as internet being not available.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_internet
+has_internet()  # random, optional -- internet</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -680,7 +845,7 @@ is regarded as internet being not available.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.has_latex">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_latex</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L68"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_latex" title="Link to this definition">¶</a></dt>
 <dd><p>Test if Latex is available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_latex</span>
@@ -697,6 +862,18 @@ is regarded as internet being not available.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_latex
+has_latex() # optional - latex</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -704,7 +881,7 @@ is regarded as internet being not available.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.has_lualatex">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_lualatex</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L110"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_lualatex" title="Link to this definition">¶</a></dt>
 <dd><p>Test if lualatex is available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_lualatex</span>
@@ -721,6 +898,18 @@ is regarded as internet being not available.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_lualatex
+has_lualatex()   # optional - lualatex</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -728,7 +917,7 @@ is regarded as internet being not available.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.has_macaulay2">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_macaulay2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L180"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_macaulay2" title="Link to this definition">¶</a></dt>
 <dd><p>Test if Macaulay2 is available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_macaulay2</span>
@@ -745,6 +934,18 @@ is regarded as internet being not available.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_macaulay2
+has_macaulay2() # random, optional - macaulay2</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -752,7 +953,7 @@ is regarded as internet being not available.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.has_magma">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_magma</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L124"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_magma" title="Link to this definition">¶</a></dt>
 <dd><p>Test if Magma is available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_magma</span>
@@ -769,6 +970,18 @@ is regarded as internet being not available.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_magma
+has_magma() # random, optional - magma</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -776,7 +989,7 @@ is regarded as internet being not available.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.has_maple">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_maple</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L166"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_maple" title="Link to this definition">¶</a></dt>
 <dd><p>Test if Maple is available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_maple</span>
@@ -793,6 +1006,18 @@ is regarded as internet being not available.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_maple
+has_maple() # random, optional - maple</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -800,7 +1025,7 @@ is regarded as internet being not available.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.has_mathematica">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_mathematica</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L152"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_mathematica" title="Link to this definition">¶</a></dt>
 <dd><p>Test if Mathematica is available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_mathematica</span>
@@ -817,6 +1042,18 @@ is regarded as internet being not available.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_mathematica
+has_mathematica() # random, optional - mathematica</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -824,7 +1061,7 @@ is regarded as internet being not available.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.has_matlab">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_matlab</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L138"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_matlab" title="Link to this definition">¶</a></dt>
 <dd><p>Test if Matlab is available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_matlab</span>
@@ -841,6 +1078,18 @@ is regarded as internet being not available.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_matlab
+has_matlab() # random, optional - matlab</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -848,7 +1097,7 @@ is regarded as internet being not available.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.has_octave">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_octave</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L194"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_octave" title="Link to this definition">¶</a></dt>
 <dd><p>Test if Octave is available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_octave</span>
@@ -865,6 +1114,18 @@ is regarded as internet being not available.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_octave
+has_octave() # random, optional - octave</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -872,7 +1133,7 @@ is regarded as internet being not available.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.has_pandoc">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_pandoc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L208"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_pandoc" title="Link to this definition">¶</a></dt>
 <dd><p>Test if pandoc is available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_pandoc</span>
@@ -889,6 +1150,18 @@ is regarded as internet being not available.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_pandoc
+has_pandoc()      # optional -- pandoc</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -896,7 +1169,7 @@ is regarded as internet being not available.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.has_pdf2svg">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_pdf2svg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L324"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_pdf2svg" title="Link to this definition">¶</a></dt>
 <dd><p>Test if pdf2svg is available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_pdf2svg</span>
@@ -913,6 +1186,18 @@ is regarded as internet being not available.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_pdf2svg
+has_pdf2svg() # optional -- pdf2svg</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -920,7 +1205,7 @@ is regarded as internet being not available.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.has_pdflatex">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_pdflatex</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L96"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_pdflatex" title="Link to this definition">¶</a></dt>
 <dd><p>Test if pdflatex is available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_pdflatex</span>
@@ -937,6 +1222,18 @@ is regarded as internet being not available.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_pdflatex
+has_pdflatex()   # optional - pdflatex</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -945,7 +1242,7 @@ is regarded as internet being not available.</p>
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_rubiks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L338"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_rubiks" title="Link to this definition">¶</a></dt>
 <dd><p>Test if the rubiks package (<code class="docutils literal notranslate"><span class="pre">cu2</span></code>, <code class="docutils literal notranslate"><span class="pre">cubex</span></code>, <code class="docutils literal notranslate"><span class="pre">dikcube</span></code>,
 <code class="docutils literal notranslate"><span class="pre">mcube</span></code>, <code class="docutils literal notranslate"><span class="pre">optimal</span></code>, and <code class="docutils literal notranslate"><span class="pre">size222</span></code>) is available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_rubiks</span>
@@ -962,6 +1259,18 @@ is regarded as internet being not available.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_rubiks
+has_rubiks()   # optional -- rubiks</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -969,7 +1278,7 @@ is regarded as internet being not available.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.has_scilab">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_scilab</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L222"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_scilab" title="Link to this definition">¶</a></dt>
 <dd><p>Test if Scilab is available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_scilab</span>
@@ -986,6 +1295,18 @@ is regarded as internet being not available.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_scilab
+has_scilab() # random, optional - scilab</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -993,7 +1314,7 @@ is regarded as internet being not available.</p>
 <dt class="sig sig-object py" id="sage.doctest.external.has_xelatex">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.external.</span></span><span class="sig-name descname"><span class="pre">has_xelatex</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/external.py#L82"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.external.has_xelatex" title="Link to this definition">¶</a></dt>
 <dd><p>Test if xelatex is available.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.external</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_xelatex</span>
@@ -1010,11 +1331,27 @@ is regarded as internet being not available.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.external import has_xelatex
+has_xelatex()   # optional - xelatex</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -1119,7 +1456,7 @@ is regarded as internet being not available.</p>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>

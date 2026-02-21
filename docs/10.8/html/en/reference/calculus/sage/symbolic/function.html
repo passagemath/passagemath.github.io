@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -370,7 +370,7 @@ by differentiation.</p></li>
 functions interactively through the <code class="docutils literal notranslate"><span class="pre">function()</span></code> factory, see
 <a class="reference internal" href="function_factory.html"><span class="doc">Factory for symbolic functions</span></a>.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">The simplest example is a function returning nothing, it practically behaves
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The simplest example is a function returning nothing, it practically behaves
 like a symbol. Setting <code class="docutils literal notranslate"><span class="pre">nargs=0</span></code> allows any number of arguments:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
@@ -404,8 +404,27 @@ like a symbol. Setting <code class="docutils literal notranslate"><span class="p
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.symbolic.function import BuiltinFunction
+class Test1(BuiltinFunction):
+    def __init__(self):
+        BuiltinFunction.__init__(self, 'test', nargs=0)
+    def _eval_(self, *args):
+        pass
+f = Test1()
+f()                                                                           # needs sage.symbolic
+f(1,2,3)*f(1,2,3)                                                             # needs sage.symbolic</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In the following the <code class="docutils literal notranslate"><span class="pre">sin</span></code> function of <code class="docutils literal notranslate"><span class="pre">CBF(0)</span></code> is called because with
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In the following the <code class="docutils literal notranslate"><span class="pre">sin</span></code> function of <code class="docutils literal notranslate"><span class="pre">CBF(0)</span></code> is called because with
 floating point arguments the <code class="docutils literal notranslate"><span class="pre">CBF</span></code> element’s <code class="docutils literal notranslate"><span class="pre">my_sin()</span></code> member function
 is attempted, and after that <code class="docutils literal notranslate"><span class="pre">sin()</span></code> which succeeds:</p>
 <div class="tab-set docutils container">
@@ -466,6 +485,31 @@ is attempted, and after that <code class="docutils literal notranslate"><span cl
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class Test2(BuiltinFunction):
+    def __init__(self):
+        BuiltinFunction.__init__(self, 'my_sin', alt_name='sin',
+                                 latex_name=r'\SIN', nargs=1)
+    def _eval_(self, x):
+        return 5
+    def _evalf_(self, x, **kwds):
+        return 3.5
+f = Test2()
+f(0)
+f(0, hold=True)                                                               # needs sage.symbolic
+f(0, hold=True).n()                                                           # needs sage.rings.real_mpfr
+f(CBF(0))                                                                     # needs sage.libs.flint
+latex(f(0, hold=True))                                                        # needs sage.symbolic
+f(1,2)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py class">
 <dt class="sig sig-object py" id="sage.symbolic.function.BuiltinFunction">
@@ -494,7 +538,7 @@ subclasses <a class="reference internal" href="#sage.symbolic.function.BuiltinFu
 <dt class="sig sig-object py" id="sage.symbolic.function.Function.default_variable">
 <span class="sig-name descname"><span class="pre">default_variable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/symbolic/function.pyx#L616"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.symbolic.function.Function.default_variable" title="Link to this definition">¶</a></dt>
 <dd><p>Return a default variable.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">sin</span><span class="o">.</span><span class="n">default_variable</span><span class="p">()</span>                                                <span class="c1"># needs sage.symbolic</span>
@@ -509,6 +553,17 @@ subclasses <a class="reference internal" href="#sage.symbolic.function.BuiltinFu
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">sin.default_variable()                                                # needs sage.symbolic</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -516,7 +571,7 @@ subclasses <a class="reference internal" href="#sage.symbolic.function.BuiltinFu
 <dt class="sig sig-object py" id="sage.symbolic.function.Function.name">
 <span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/symbolic/function.pyx#L574"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.symbolic.function.Function.name" title="Link to this definition">¶</a></dt>
 <dd><p>Return the name of this function.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">foo</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>                                        <span class="c1"># needs sage.symbolic</span>
@@ -533,6 +588,18 @@ subclasses <a class="reference internal" href="#sage.symbolic.function.BuiltinFu
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">foo = function(&quot;foo&quot;, nargs=2)                                        # needs sage.symbolic
+foo.name()                                                            # needs sage.symbolic</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -540,7 +607,7 @@ subclasses <a class="reference internal" href="#sage.symbolic.function.BuiltinFu
 <dt class="sig sig-object py" id="sage.symbolic.function.Function.number_of_arguments">
 <span class="sig-name descname"><span class="pre">number_of_arguments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/symbolic/function.pyx#L586"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.symbolic.function.Function.number_of_arguments" title="Link to this definition">¶</a></dt>
 <dd><p>Return the number of arguments that this function takes.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.symbolic</span>
@@ -571,6 +638,21 @@ subclasses <a class="reference internal" href="#sage.symbolic.function.BuiltinFu
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.symbolic
+foo = function(&quot;foo&quot;, nargs=2)
+foo.number_of_arguments()
+foo(x, x)
+foo(x)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -578,7 +660,7 @@ subclasses <a class="reference internal" href="#sage.symbolic.function.BuiltinFu
 <dt class="sig sig-object py" id="sage.symbolic.function.Function.variables">
 <span class="sig-name descname"><span class="pre">variables</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/symbolic/function.pyx#L605"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.symbolic.function.Function.variables" title="Link to this definition">¶</a></dt>
 <dd><p>Return the variables (of which there are none) present in this function.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">sin</span><span class="o">.</span><span class="n">variables</span><span class="p">()</span>
@@ -591,6 +673,17 @@ subclasses <a class="reference internal" href="#sage.symbolic.function.BuiltinFu
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">sin</span><span class="o">.</span><span class="n">variables</span><span class="p">()</span>
 <span class="go">()</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">sin.variables()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -624,7 +717,7 @@ hash the custom methods, so subclasses must be defined in Python not Cython.</p>
 <dd><p>Return a pickled version of the function <code class="docutils literal notranslate"><span class="pre">f</span></code>.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">f</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>, just return <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
 <p>This is a wrapper around <a class="reference external" href="../../../misc/sage/misc/fpickle.html#sage.misc.fpickle.pickle_function" title="(in Utilities v10.8.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pickle_function()</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.symbolic.function</span><span class="w"> </span><span class="kn">import</span> <span class="n">pickle_wrapper</span>
@@ -647,6 +740,20 @@ hash the custom methods, so subclasses must be defined in Python not Cython.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.symbolic.function import pickle_wrapper
+def f(x): return x*x
+isinstance(pickle_wrapper(f), bytes)
+pickle_wrapper(None) is None</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -656,7 +763,7 @@ hash the custom methods, so subclasses must be defined in Python not Cython.</p>
 <dd><p>Return a unpickled version of the function defined by <code class="docutils literal notranslate"><span class="pre">p</span></code>.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">p</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>, just return <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
 <p>This is a wrapper around <a class="reference external" href="../../../misc/sage/misc/fpickle.html#sage.misc.fpickle.unpickle_function" title="(in Utilities v10.8.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">unpickle_function()</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.symbolic.function</span><span class="w"> </span><span class="kn">import</span> <span class="n">pickle_wrapper</span><span class="p">,</span> <span class="n">unpickle_wrapper</span>
@@ -683,11 +790,31 @@ hash the custom methods, so subclasses must be defined in Python not Cython.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.symbolic.function import pickle_wrapper, unpickle_wrapper
+def f(x): return x*x
+s = pickle_wrapper(f)
+g = unpickle_wrapper(s)
+g(2)
+unpickle_wrapper(None) is None</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -774,7 +901,7 @@ hash the custom methods, so subclasses must be defined in Python not Cython.</p>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>

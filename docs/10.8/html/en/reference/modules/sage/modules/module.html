@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -355,7 +355,7 @@
 <li><p>Julian Rueth (2014-05-10): category parameter for Module, doc cleanup</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">A minimal example of a module:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A minimal example of a module:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.structure.richcmp</span><span class="w"> </span><span class="kn">import</span> <span class="n">richcmp</span>
@@ -438,6 +438,48 @@
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.structure.richcmp import richcmp
+class MyElement(sage.structure.element.ModuleElement):
+    def __init__(self, parent, x):
+        self.x = x
+        sage.structure.element.ModuleElement.__init__(self, parent=parent)
+    def _lmul_(self, c):
+        return self.parent()(c*self.x)
+    def _add_(self, other):
+        return self.parent()(self.x + other.x)
+    def _richcmp_(self, other, op):
+        return richcmp(self.x, other.x, op)
+    def __hash__(self):
+        return hash(self.x)
+    def _repr_(self):
+        return repr(self.x)
+from sage.modules.module import Module
+class MyModule(Module):
+    Element = MyElement
+    def _element_constructor_(self, x):
+        if isinstance(x, MyElement): x = x.x
+        return self.element_class(self, self.base_ring()(x))
+    def __eq__(self, other):
+        if not isinstance(other, MyModule): return False
+        return self.base_ring() == other.base_ring()
+    def __hash__(self):
+        return hash(self.base_ring())
+M = MyModule(QQ)
+M(1)
+import __main__
+__main__.MyModule = MyModule
+__main__.MyElement = MyElement
+TestSuite(M).run()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py class">
 <dt class="sig sig-object py" id="sage.modules.module.Module">
@@ -452,7 +494,7 @@ module. If <code class="docutils literal notranslate"><span class="pre">None</sp
 spaces over <code class="docutils literal notranslate"><span class="pre">base</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">names</span></code> – names of generators</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.modules.module</span><span class="w"> </span><span class="kn">import</span> <span class="n">Module</span>
@@ -475,8 +517,22 @@ spaces over <code class="docutils literal notranslate"><span class="pre">base</s
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.modules.module import Module
+M = Module(ZZ)
+M.base_ring()
+M.category()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Normally the category is set to the category of modules over <code class="docutils literal notranslate"><span class="pre">base</span></code>. If
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Normally the category is set to the category of modules over <code class="docutils literal notranslate"><span class="pre">base</span></code>. If
 <code class="docutils literal notranslate"><span class="pre">base</span></code> is a field, then the category is the category of vector spaces
 over <code class="docutils literal notranslate"><span class="pre">base</span></code>:</p>
 <div class="tab-set docutils container">
@@ -495,8 +551,20 @@ over <code class="docutils literal notranslate"><span class="pre">base</span></c
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M_QQ = Module(QQ)
+M_QQ.category()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The <code class="docutils literal notranslate"><span class="pre">category</span></code> parameter can be used to set a more specific category:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The <code class="docutils literal notranslate"><span class="pre">category</span></code> parameter can be used to set a more specific category:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">N</span> <span class="o">=</span> <span class="n">Module</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">FiniteDimensionalModulesWithBasis</span><span class="p">(</span><span class="n">ZZ</span><span class="p">))</span>
@@ -513,6 +581,18 @@ over <code class="docutils literal notranslate"><span class="pre">base</span></c
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">N = Module(ZZ, category=FiniteDimensionalModulesWithBasis(ZZ))
+N.category()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.modules.module.Module.base_extend">
@@ -525,7 +605,7 @@ from the base ring of <code class="docutils literal notranslate"><span class="pr
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">R</span></code> – ring</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">V</span> <span class="o">=</span> <span class="n">ZZ</span><span class="o">^</span><span class="mi">7</span>                                                              <span class="c1"># needs sage.modules</span>
@@ -542,6 +622,18 @@ from the base ring of <code class="docutils literal notranslate"><span class="pr
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">V = ZZ^7                                                              # needs sage.modules
+V.base_extend(QQ)                                                     # needs sage.modules</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -549,7 +641,7 @@ from the base ring of <code class="docutils literal notranslate"><span class="pr
 <dt class="sig sig-object py" id="sage.modules.module.Module.change_ring">
 <span class="sig-name descname"><span class="pre">change_ring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/modules/module.pyx#L182"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.modules.module.Module.change_ring" title="Link to this definition">¶</a></dt>
 <dd><p>Return the base change of <code class="docutils literal notranslate"><span class="pre">self</span></code> to <span class="math notranslate nohighlight">\(R\)</span>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.modular.modform.space</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModularFormsSpace</span>              <span class="c1"># needs sage.modular</span>
@@ -572,6 +664,19 @@ from the base ring of <code class="docutils literal notranslate"><span class="pr
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.modular.modform.space import ModularFormsSpace              # needs sage.modular
+ModularFormsSpace(Gamma0(11), 2,                                      # needs sage.modular sage.rings.finite_rings
+                  DirichletGroup(1)[0], QQ).change_ring(GF(7))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -579,7 +684,7 @@ from the base ring of <code class="docutils literal notranslate"><span class="pr
 <dt class="sig sig-object py" id="sage.modules.module.Module.endomorphism_ring">
 <span class="sig-name descname"><span class="pre">endomorphism_ring</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/modules/module.pyx#L251"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.modules.module.Module.endomorphism_ring" title="Link to this definition">¶</a></dt>
 <dd><p>Return the endomorphism ring of this module in its category.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.modules.module</span><span class="w"> </span><span class="kn">import</span> <span class="n">Module</span>
@@ -604,6 +709,19 @@ from the base ring of <code class="docutils literal notranslate"><span class="pr
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.modules.module import Module
+M = Module(ZZ)
+M.endomorphism_ring()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -617,7 +735,7 @@ from the base ring of <code class="docutils literal notranslate"><span class="pr
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">x</span></code> – anything</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.modules.module</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_Module</span>
@@ -648,6 +766,20 @@ from the base ring of <code class="docutils literal notranslate"><span class="pr
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.modules.module import is_Module
+is_Module(10)
+M = FreeModule(RationalField(),30)                                        # needs sage.modules
+is_Module(M)                                                              # needs sage.modules</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -659,7 +791,7 @@ from the base ring of <code class="docutils literal notranslate"><span class="pr
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">x</span></code> – anything</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.modules</span>
@@ -706,11 +838,32 @@ from the base ring of <code class="docutils literal notranslate"><span class="pr
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.modules
+from sage.modules.module import is_Module, is_VectorSpace
+M = FreeModule(RationalField(),30)
+is_VectorSpace(M)
+M = FreeModule(IntegerRing(),30)
+is_Module(M)
+is_VectorSpace(M)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -793,7 +946,7 @@ from the base ring of <code class="docutils literal notranslate"><span class="pr
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -287,7 +287,7 @@ Wrappers, proxies and mockups are typical examples of fixtures.</p>
 <li><p>Martin von Gagern (2015-01-02): Factor out TracerHelper and reproducible_repr</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">You can use <a class="reference internal" href="#sage.doctest.fixtures.trace_method" title="sage.doctest.fixtures.trace_method"><code class="xref py py-func docutils literal notranslate"><span class="pre">trace_method()</span></code></a> to see how a method
+<p class="with-sage-tab with-python-tab with-sage-live-tab">You can use <a class="reference internal" href="#sage.doctest.fixtures.trace_method" title="sage.doctest.fixtures.trace_method"><code class="xref py py-func docutils literal notranslate"><span class="pre">trace_method()</span></code></a> to see how a method
 communicates with its surroundings:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
@@ -331,6 +331,26 @@ communicates with its surroundings:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class Foo():
+    def f(self):
+        self.y = self.g(self.x)
+    def g(self, arg):
+        return arg + 1
+foo = Foo()
+foo.x = 3
+from sage.doctest.fixtures import trace_method
+trace_method(foo, &quot;f&quot;)
+foo.f()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py class">
 <dt class="sig sig-object py" id="sage.doctest.fixtures.AttributeAccessTracerHelper">
@@ -347,7 +367,7 @@ helps avoiding complicated attribute access syntax.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">prefix</span></code> – (default: <code class="docutils literal notranslate"><span class="pre">&quot;</span>&#160; <span class="pre">&quot;</span></code>) string to prepend to each printed output</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">reads</span></code> – (default: <code class="docutils literal notranslate"><span class="pre">True</span></code>) whether to trace read access as well</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">Foo</span><span class="p">():</span>
@@ -388,6 +408,25 @@ helps avoiding complicated attribute access syntax.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class Foo():
+    def f(self, *args):
+        return self.x*self.x
+foo = Foo()
+from sage.doctest.fixtures import AttributeAccessTracerHelper
+pat = AttributeAccessTracerHelper(foo)
+pat.set(&quot;x&quot;, 2)
+pat.get(&quot;x&quot;)
+pat.get(&quot;f&quot;)(3)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.doctest.fixtures.AttributeAccessTracerHelper.get">
@@ -398,7 +437,7 @@ contained in the dictionary of the object itself but instead
 inherited from some class) then it is replaced by a wrapper
 function to report arguments and return value.
 Otherwise an attribute read access is reported.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">Foo</span><span class="p">():</span>
@@ -437,6 +476,25 @@ Otherwise an attribute read access is reported.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class Foo():
+    def f(self, *args):
+        return self.x*self.x
+foo = Foo()
+foo.x = 2
+from sage.doctest.fixtures import AttributeAccessTracerHelper
+pat = AttributeAccessTracerHelper(foo)
+pat.get(&quot;x&quot;)
+pat.get(&quot;f&quot;)(3)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -445,7 +503,7 @@ Otherwise an attribute read access is reported.</p>
 <span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/fixtures.py#L226"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.fixtures.AttributeAccessTracerHelper.set" title="Link to this definition">¶</a></dt>
 <dd><p>Write an attribute to the wrapped delegate object.</p>
 <p>The name and new value are also reported in the output.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">Foo</span><span class="p">():</span>
@@ -476,6 +534,23 @@ Otherwise an attribute read access is reported.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class Foo():
+    pass
+foo = Foo()
+from sage.doctest.fixtures import AttributeAccessTracerHelper
+pat = AttributeAccessTracerHelper(foo)
+pat.set(&quot;x&quot;, 2)
+foo.x</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -498,7 +573,7 @@ string to prepend to each printed output</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">reads</span></code> – (default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)
 whether to trace read access as well</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">Foo</span><span class="p">():</span>
@@ -539,6 +614,25 @@ whether to trace read access as well</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class Foo():
+    def f(self, *args):
+        return self.x*self.x
+foo = Foo()
+from sage.doctest.fixtures import AttributeAccessTracerProxy
+pat = AttributeAccessTracerProxy(foo)
+pat.x = 2
+pat.x
+pat.f(3)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.doctest.fixtures.AttributeAccessTracerProxy.__getattribute__">
@@ -549,7 +643,7 @@ contained in the dictionary of the object itself but instead
 inherited from some class) then it is replaced by a wrapper
 function to report arguments and return value.
 Otherwise an attribute read access is reported.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">Foo</span><span class="p">():</span>
@@ -588,6 +682,25 @@ Otherwise an attribute read access is reported.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class Foo():
+    def f(self, *args):
+        return self.x*self.x
+foo = Foo()
+foo.x = 2
+from sage.doctest.fixtures import AttributeAccessTracerProxy
+pat = AttributeAccessTracerProxy(foo)
+pat.x
+pat.f(3)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -596,7 +709,7 @@ Otherwise an attribute read access is reported.</p>
 <span class="sig-name descname"><span class="pre">__setattr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/fixtures.py#L326"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.fixtures.AttributeAccessTracerProxy.__setattr__" title="Link to this definition">¶</a></dt>
 <dd><p>Write an attribute to the wrapped delegate object.</p>
 <p>The name and new value are also reported in the output.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">Foo</span><span class="p">():</span>
@@ -625,6 +738,23 @@ Otherwise an attribute read access is reported.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">foo</span><span class="o">.</span><span class="n">x</span>
 <span class="go">2</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class Foo():
+    pass
+foo = Foo()
+from sage.doctest.fixtures import AttributeAccessTracerProxy
+pat = AttributeAccessTracerProxy(foo)
+pat.x = 2
+foo.x</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -663,7 +793,7 @@ mentioned in an example case below.</p>
 <p>A string representation of that object, similar to what <code class="docutils literal notranslate"><span class="pre">repr</span></code>
 returns but for certain cases with more guarantees to ensure
 exactly the same result for semantically equivalent objects.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># not tested (test fails because of deprecation warning)</span>
@@ -698,6 +828,23 @@ exactly the same result for semantically equivalent objects.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># not tested (test fails because of deprecation warning)
+from sage.doctest.fixtures import reproducible_repr
+print(reproducible_repr(set([&quot;a&quot;, &quot;c&quot;, &quot;b&quot;, &quot;d&quot;])))
+print(reproducible_repr(frozenset([&quot;a&quot;, &quot;c&quot;, &quot;b&quot;, &quot;d&quot;])))
+print(reproducible_repr([1, frozenset(&quot;cab&quot;), set(&quot;bar&quot;), 0]))
+print(reproducible_repr({3.0: &quot;three&quot;, &quot;2&quot;: &quot;two&quot;, 1: &quot;one&quot;}))            # needs sage.rings.real_mpfr
+print(reproducible_repr(&quot;foo\nbar&quot;))  # demonstrate default case</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -717,7 +864,7 @@ string to prepend to each printed output</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">reads</span></code> – (default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)
 whether to trace read access as well</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">Foo</span><span class="p">():</span>
@@ -776,11 +923,37 @@ whether to trace read access as well</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class Foo():
+    def f(self, arg=None):
+        self.y = self.g(self.x)
+        if arg: return arg*arg
+    def g(self, arg):
+        return arg + 1
+foo = Foo()
+foo.x = 3
+from sage.doctest.fixtures import trace_method
+trace_method(foo, &quot;f&quot;)
+foo.f()
+foo.f(3)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -859,7 +1032,7 @@ whether to trace read access as well</p></li>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>

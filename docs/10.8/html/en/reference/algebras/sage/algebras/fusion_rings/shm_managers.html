@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -484,7 +484,7 @@ with each monomial in each entry having at most 254
 nonzero terms. On average, each of the <code class="docutils literal notranslate"><span class="pre">max_terms</span></code> monomials
 can have at most 30 terms.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.algebras.fusion_rings.shm_managers</span><span class="w"> </span><span class="kn">import</span> <span class="n">FvarsHandler</span>
@@ -533,6 +533,32 @@ can have at most 30 terms.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.algebras.fusion_rings.shm_managers import FvarsHandler
+# Create shared data structure
+f = FusionRing(&quot;A2&quot;, 1).get_fmatrix(inject_variables=True, new=True)
+f.start_worker_pool()
+n_proc = f.pool._processes
+pids_name = f._pid_list.shm.name
+fvars = FvarsHandler(8, f._field, f._idx_to_sextuple, use_mp=n_proc, pids_name=pids_name)
+# In the same shell or in a different shell, attach to fvars
+name = fvars.shm.name
+fvars2 = FvarsHandler(8, f._field, f._idx_to_sextuple, name=name , use_mp=n_proc, pids_name=pids_name)
+from sage.algebras.fusion_rings.poly_tup_engine import poly_to_tup
+rhs = tuple((exp, tuple(c._coefficients())) for exp, c in poly_to_tup(fx5**5))
+fvars[f2, f1, f2, f2, f0, f0] = rhs
+f._tup_to_fpoly(fvars2[f2, f1, f2, f2, f0, f0])
+fvars.shm.unlink()
+f.shutdown_worker_pool()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.algebras.fusion_rings.shm_managers.FvarsHandler.items">
@@ -541,7 +567,7 @@ can have at most 30 terms.</p>
 were a Python dict.</p>
 <p>As in a Python dict, the key-value pairs are yielded in no particular
 order.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">FusionRing</span><span class="p">(</span><span class="s2">&quot;G2&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">get_fmatrix</span><span class="p">(</span><span class="n">inject_variables</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -570,6 +596,22 @@ order.</p>
 <span class="gp">....:</span>
 <span class="go">fx4</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = FusionRing(&quot;G2&quot;, 1).get_fmatrix(inject_variables=True, new=True)
+from sage.algebras.fusion_rings.shm_managers import FvarsHandler
+shared_fvars = FvarsHandler(5, f._field, f._idx_to_sextuple, init_data=f._fvars)
+for sextuple, fvar in shared_fvars.items():
+    if sextuple == (f1, f1, f1, f1, f1, f1):
+        f._tup_to_fpoly(fvar)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -625,7 +667,7 @@ known squares for initialization, e.g., from a solver checkpoint</p></li>
 <p>This structure <em>cannot</em> modify an entry that
 has already been set.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.algebras.fusion_rings.shm_managers</span><span class="w"> </span><span class="kn">import</span> <span class="n">KSHandler</span>
@@ -678,12 +720,38 @@ has already been set.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.algebras.fusion_rings.shm_managers import KSHandler
+# Create shared data structure
+f = FusionRing(&quot;A1&quot;, 2).get_fmatrix(inject_variables=True, new=True)
+n = f._poly_ring.ngens()
+f.start_worker_pool()
+ks = KSHandler(n, f._field, use_mp=True)
+# In the same shell or in a different shell, attach to fvars
+name = ks.shm.name
+ks2 = KSHandler(n, f._field, name=name, use_mp=True)
+from sage.algebras.fusion_rings.poly_tup_engine import poly_to_tup
+eqns = [fx1**2 - 4, fx3**2 + f._field.gen()**4 - 1/19*f._field.gen()**2]
+ks.update([poly_to_tup(p) for p in eqns])
+for idx, sq in ks.items():
+    print(&quot;Index: {}, square: {}&quot;.format(idx, sq))
+ks.shm.unlink()
+f.shutdown_worker_pool()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.algebras.fusion_rings.shm_managers.KSHandler.items">
 <span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/algebras/fusion_rings/shm_managers.pyx#L321"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.algebras.fusion_rings.shm_managers.KSHandler.items" title="Link to this definition">¶</a></dt>
 <dd><p>Iterate through existing entries using Python dict-style syntax.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">FusionRing</span><span class="p">(</span><span class="s2">&quot;A3&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">get_fmatrix</span><span class="p">()</span>
@@ -724,6 +792,22 @@ has already been set.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = FusionRing(&quot;A3&quot;, 1).get_fmatrix()
+f._reset_solver_state()
+f.get_orthogonality_constraints(output=False)
+f._ks.update(f.ideal_basis)
+for idx, sq in f._ks.items():
+    print(&quot;Index: {}, sq: {}&quot;.format(idx, sq))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -738,7 +822,7 @@ has already been set.</p>
 <dd><p>Update <code class="docutils literal notranslate"><span class="pre">self</span></code>’s <code class="docutils literal notranslate"><span class="pre">shared_memory</span></code>-backed dictionary of known
 squares. Keys are variable indices and corresponding values
 are the squares.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">FusionRing</span><span class="p">(</span><span class="s2">&quot;B5&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">get_fmatrix</span><span class="p">()</span>
@@ -819,6 +903,25 @@ are the squares.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = FusionRing(&quot;B5&quot;, 1).get_fmatrix()
+f._reset_solver_state()
+for idx, sq in f._ks.items():
+    k
+f.get_orthogonality_constraints()
+f.get_orthogonality_constraints(output=False)
+f._ks.update(f.ideal_basis)
+for idx, sq in f._ks.items():
+    print(idx, &quot;--&gt;&quot;, sq)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -841,7 +944,11 @@ are the squares.</p>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -929,7 +1036,7 @@ are the squares.</p>
     <script src="../../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../../%5fstatic/copybutton.js"></script>
     <script src="../../../../%5fstatic/tabs.js"></script>
-    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -432,7 +432,7 @@ super class constructor, etc.</p>
 <p>Technically, a <a class="reference internal" href="#sage.misc.lazy_attribute.lazy_attribute" title="sage.misc.lazy_attribute.lazy_attribute"><code class="xref py py-class docutils literal notranslate"><span class="pre">lazy_attribute</span></code></a> is a non-data descriptor (see
 Invoking Descriptors in the Python reference manual).</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">We create a class whose instances have a lazy attribute <code class="docutils literal notranslate"><span class="pre">x</span></code>:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We create a class whose instances have a lazy attribute <code class="docutils literal notranslate"><span class="pre">x</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">A</span><span class="p">():</span>
@@ -461,8 +461,25 @@ Invoking Descriptors in the Python reference manual).</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class A():
+    def __init__(self):
+        self.a=2 # just to have some data to calculate from
+    &#64;lazy_attribute
+    def x(self):
+        print(&quot;calculating x in A&quot;)
+        return self.a + 1</pre>
 </div>
-<p class="with-sage-tab with-python-tab">For an instance <code class="docutils literal notranslate"><span class="pre">a</span></code> of <code class="docutils literal notranslate"><span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">a.x</span></code> is calculated the first time it
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">For an instance <code class="docutils literal notranslate"><span class="pre">a</span></code> of <code class="docutils literal notranslate"><span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">a.x</span></code> is calculated the first time it
 is accessed, and then stored as a usual attribute:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
@@ -486,9 +503,22 @@ is accessed, and then stored as a usual attribute:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = A()
+a.x
+a.x</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p class="rubric">Implementation details</p>
-<p class="with-sage-tab with-python-tab">We redo the same example, but opening the hood to see what happens to
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We redo the same example, but opening the hood to see what happens to
 the internal dictionary of the object:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
@@ -524,11 +554,27 @@ the internal dictionary of the object:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = A()
+a.__dict__
+a.x
+a.__dict__
+a.x
+timeit('a.x') # random</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>This shows that, after the first calculation, the attribute <code class="docutils literal notranslate"><span class="pre">x</span></code>
 becomes a usual attribute; in particular, there is no time penalty
 to access it.</p>
-<p class="with-sage-tab with-python-tab">A lazy attribute may be set as usual, even before its first access,
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A lazy attribute may be set as usual, even before its first access,
 in which case the lazy calculation is completely ignored:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
@@ -552,8 +598,22 @@ in which case the lazy calculation is completely ignored:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = A()
+a.x = 4
+a.x
+a.__dict__</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Class binding results in the lazy attribute itself:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Class binding results in the lazy attribute itself:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span><span class="o">.</span><span class="n">x</span>
@@ -568,9 +628,20 @@ in which case the lazy calculation is completely ignored:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A.x</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p class="rubric">Conditional definitions</p>
-<p class="with-sage-tab with-python-tab">The function calculating the attribute may return NotImplemented
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The function calculating the attribute may return NotImplemented
 to declare that, after all, it is not able to do it. In that case,
 the attribute lookup proceeds in the super class hierarchy:</p>
 <div class="tab-set docutils container">
@@ -623,9 +694,33 @@ the attribute lookup proceeds in the super class hierarchy:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class B(A):
+    &#64;lazy_attribute
+    def x(self):
+        if hasattr(self, &quot;y&quot;):
+            print(&quot;calculating x from y in B&quot;)
+            return self.y
+        else:
+            print(&quot;y not there; B does not define x&quot;)
+            return NotImplemented
+b = B()
+b.x
+b = B()
+b.y = 1
+b.x</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p class="rubric">Attribute existence testing</p>
-<p class="with-sage-tab with-python-tab">Testing for the existence of an attribute with hasattr currently
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Testing for the existence of an attribute with hasattr currently
 always triggers its full calculation, which may not be desirable
 when the calculation is expensive:</p>
 <div class="tab-set docutils container">
@@ -646,8 +741,20 @@ when the calculation is expensive:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = A()
+hasattr(a, &quot;x&quot;)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">It would be great if we could take over the control somehow, if at
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">It would be great if we could take over the control somehow, if at
 all possible without a special implementation of hasattr, so as to
 allow for something like:</p>
 <div class="tab-set docutils container">
@@ -696,8 +803,31 @@ allow for something like:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class A ():
+    &#64;lazy_attribute
+    def x(self, existence_only=False):
+        if existence_only:
+            print(&quot;testing for x existence&quot;)
+            return True
+        else:
+            print(&quot;calculating x in A&quot;)
+            return 3
+a = A()
+hasattr(a, &quot;x&quot;) # todo: not implemented
+a.x
+a.x</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Here is a full featured example, with both conditional definition
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Here is a full featured example, with both conditional definition
 and existence testing:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
@@ -771,11 +901,41 @@ and existence testing:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class B(A):
+    &#64;lazy_attribute
+    def x(self, existence_only=False):
+        if hasattr(self, &quot;y&quot;):
+            if existence_only:
+                print(&quot;testing for x existence in B&quot;)
+                return True
+            else:
+                print(&quot;calculating x from y in B&quot;)
+                return self.y
+        else:
+            print(&quot;y not there; B does not define x&quot;)
+            return NotImplemented
+b = B()
+hasattr(b, &quot;x&quot;) # todo: not implemented
+b.x
+b = B()
+b.y = 1
+hasattr(b, &quot;x&quot;) # todo: not implemented
+b.x</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p class="rubric">lazy attributes and introspection</p>
 <div class="admonition-todo admonition" id="id1">
 <p class="admonition-title">Todo</p>
-<p class="with-sage-tab with-python-tab">Make the following work nicely:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Make the following work nicely:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">b</span><span class="o">.</span><span class="n">x</span><span class="err">?</span>                <span class="c1"># todo: not implemented</span>
@@ -790,13 +950,25 @@ and existence testing:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">b.x?                # todo: not implemented
+b.x??               # todo: not implemented</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </div>
 <p>Right now, the first one includes the doc of this class, and the
 second one brings up the code of this class, both being not very
 useful.</p>
 <p class="rubric">Lazy attributes and Cython</p>
-<p class="with-sage-tab with-python-tab">This attempts to check that lazy attributes work with built-in
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This attempts to check that lazy attributes work with built-in
 functions like cpdef methods:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
@@ -822,8 +994,23 @@ functions like cpdef methods:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class A:
+    def __len__(x):
+        return int(5)
+    len = lazy_attribute(len)
+A().len</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Since <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/11115">upstream Issue #11115</a>, extension classes derived from
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Since <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/11115">upstream Issue #11115</a>, extension classes derived from
 <a class="reference external" href="../../../structure/sage/structure/parent.html#sage.structure.parent.Parent" title="(in Parents and Elements v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parent</span></code></a> can inherit a lazy attribute,
 such as <code class="docutils literal notranslate"><span class="pre">element_class</span></code>:</p>
 <div class="tab-set docutils container">
@@ -854,9 +1041,27 @@ such as <code class="docutils literal notranslate"><span class="pre">element_cla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">cython_code = [&quot;from sage.structure.parent cimport Parent&quot;,
+&quot;from sage.structure.element cimport Element&quot;,
+&quot;cdef class MyElement(Element): pass&quot;,
+&quot;cdef class MyParent(Parent):&quot;,
+&quot;    Element = MyElement&quot;]
+cython('\n'.join(cython_code))                                            # needs sage.misc.cython
+P = MyParent(category=Rings())                                            # needs sage.misc.cython
+P.element_class    # indirect doctest                                     # needs sage.misc.cython</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p class="rubric">About descriptor specifications</p>
-<p class="with-sage-tab with-python-tab">The specifications of descriptors (see 3.4.2.3 Invoking
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The specifications of descriptors (see 3.4.2.3 Invoking
 Descriptors in the Python reference manual) are incomplete
 w.r.t. inheritance, and maybe even ill-implemented. We illustrate
 this on a simple class hierarchy, with an instrumented descriptor:</p>
@@ -888,8 +1093,26 @@ this on a simple class hierarchy, with an instrumented descriptor:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class descriptor():
+    def __get__(self, obj, cls):
+        print(cls)
+        return 1
+class A():
+    x = descriptor()
+class B(A):
+    pass</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This is fine:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This is fine:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span><span class="o">.</span><span class="n">x</span>
@@ -906,8 +1129,19 @@ this on a simple class hierarchy, with an instrumented descriptor:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A.x</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The behaviour for the following case is not specified (see Instance Binding)
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The behaviour for the following case is not specified (see Instance Binding)
 when <code class="docutils literal notranslate"><span class="pre">x</span></code> is not in the dictionary of <code class="docutils literal notranslate"><span class="pre">B</span></code> but in that of some super
 category:</p>
 <div class="tab-set docutils container">
@@ -926,9 +1160,20 @@ category:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">B().x</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>It would seem more natural (and practical!) to get <code class="docutils literal notranslate"><span class="pre">A</span></code> rather than <code class="docutils literal notranslate"><span class="pre">B</span></code>.</p>
-<p class="with-sage-tab with-python-tab">From the specifications for Super Binding, it would be expected to
+<p class="with-sage-tab with-python-tab with-sage-live-tab">From the specifications for Super Binding, it would be expected to
 get <code class="docutils literal notranslate"><span class="pre">A</span></code> and not <code class="docutils literal notranslate"><span class="pre">B</span></code> as cls parameter:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
@@ -946,8 +1191,19 @@ get <code class="docutils literal notranslate"><span class="pre">A</span></code>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">super(B, B()).x</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Due to this, the natural implementation runs into an infinite loop
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Due to this, the natural implementation runs into an infinite loop
 in the following example:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
@@ -1009,8 +1265,40 @@ in the following example:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class A():
+    &#64;lazy_attribute
+    def unimplemented_A(self):
+        return NotImplemented
+    &#64;lazy_attribute
+    def unimplemented_AB(self):
+        return NotImplemented
+    &#64;lazy_attribute
+    def unimplemented_B_implemented_A(self):
+        return 1
+class B(A):
+    &#64;lazy_attribute
+    def unimplemented_B(self):
+        return NotImplemented
+    &#64;lazy_attribute
+    def unimplemented_AB(self):
+        return NotImplemented
+    &#64;lazy_attribute
+    def unimplemented_B_implemented_A(self):
+        return NotImplemented
+class C(B):
+    pass</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This is the simplest case where, without workaround, we get an
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This is the simplest case where, without workaround, we get an
 infinite loop:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
@@ -1026,10 +1314,21 @@ infinite loop:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">hasattr(B(), &quot;unimplemented_A&quot;) # todo: not implemented</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition-todo admonition" id="id2">
 <p class="admonition-title">Todo</p>
-<p class="with-sage-tab with-python-tab">Improve the error message:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Improve the error message:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">B</span><span class="p">()</span><span class="o">.</span><span class="n">unimplemented_A</span> <span class="c1"># todo: not implemented</span>
@@ -1048,9 +1347,20 @@ infinite loop:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">B().unimplemented_A # todo: not implemented</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
 </div>
 </div>
-<p class="with-sage-tab with-python-tab">We now make some systematic checks:</p>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We now make some systematic checks:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">B</span><span class="p">()</span><span class="o">.</span><span class="n">unimplemented_A</span>
@@ -1119,6 +1429,24 @@ infinite loop:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">B().unimplemented_A
+B().unimplemented_B
+B().unimplemented_AB
+B().unimplemented_B_implemented_A
+C().unimplemented_A()
+C().unimplemented_B()
+C().unimplemented_AB()
+C().unimplemented_B_implemented_A # todo: not implemented</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1130,7 +1458,7 @@ infinite loop:</p>
 except that, instead of being computed when the class is constructed, it
 is computed on the fly the first time it is accessed, either through the
 class itself or through one of its objects.</p>
-<p class="with-sage-tab with-python-tab">This is very similar to <a class="reference internal" href="#sage.misc.lazy_attribute.lazy_attribute" title="sage.misc.lazy_attribute.lazy_attribute"><code class="xref py py-class docutils literal notranslate"><span class="pre">lazy_attribute</span></code></a> except that the attribute
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This is very similar to <a class="reference internal" href="#sage.misc.lazy_attribute.lazy_attribute" title="sage.misc.lazy_attribute.lazy_attribute"><code class="xref py py-class docutils literal notranslate"><span class="pre">lazy_attribute</span></code></a> except that the attribute
 is a class attribute. More precisely, once computed, the lazy class
 attribute is stored in the class rather than in the object. The lazy class
 attribute is only computed once for all the objects:</p>
@@ -1164,8 +1492,25 @@ attribute is only computed once for all the objects:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class Cl():
+    &#64;lazy_class_attribute
+    def x(cls):
+         print(&quot;computing x&quot;)
+         return 1
+Cl.x
+Cl.x</pre>
 </div>
-<p class="with-sage-tab with-python-tab">As for a any usual class attribute it is also possible to access it from
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">As for a any usual class attribute it is also possible to access it from
 an object:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
@@ -1183,8 +1528,20 @@ an object:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">b = Cl()
+b.x</pre>
 </div>
-<p class="with-sage-tab with-python-tab">First access from an object also properly triggers the computation:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">First access from an object also properly triggers the computation:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">Cl1</span><span class="p">():</span>
@@ -1215,10 +1572,27 @@ an object:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class Cl1():
+    &#64;lazy_class_attribute
+    def x(cls):
+         print(&quot;computing x&quot;)
+         return 1
+Cl1().x
+Cl1().x</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p class="with-sage-tab with-python-tab">The behavior of lazy class attributes with respect to inheritance is
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The behavior of lazy class attributes with respect to inheritance is
 not specified. It currently depends on the evaluation order:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
@@ -1282,12 +1656,42 @@ not specified. It currently depends on the evaluation order:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class A():
+    &#64;lazy_class_attribute
+    def x(cls):
+         print(&quot;computing x&quot;)
+         return str(cls)
+    &#64;lazy_class_attribute
+    def y(cls):
+         print(&quot;computing y&quot;)
+         return str(cls)
+class B(A):
+    pass
+A.x
+B.x
+B.y
+A.y
+B.y</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -1364,7 +1768,7 @@ not specified. It currently depends on the evaluation order:</p>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>

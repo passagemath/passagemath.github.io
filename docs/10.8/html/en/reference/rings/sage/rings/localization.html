@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -313,7 +313,7 @@ to extend a given integral domain such that it contains the inverses
 of a finite set of elements but should allow non injective homomorphic
 images this construction will be needed. See the example on
 Ariki-Koike algebras below for such an application.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.modules</span>
@@ -354,8 +354,27 @@ Ariki-Koike algebras below for such an application.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.modules
+LZ = Localization(ZZ, (5,11))
+m = matrix(LZ, [[5, 7], [0,11]])
+m.parent()
+~m      # parent of inverse is different: see documentation of m.__invert__
+_.parent()
+mi = matrix(LZ, ~m)
+mi.parent()
+mi == ~m</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The next example defines the most general ring containing the coefficients of the irreducible
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The next example defines the most general ring containing the coefficients of the irreducible
 representations of the Ariki-Koike algebra corresponding to the three colored permutations on
 three elements:</p>
 <div class="tab-set docutils container">
@@ -388,8 +407,25 @@ three elements:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;u0, u1, u2, q&gt; = ZZ[]
+u = [u0, u1, u2]
+S = Set(u)
+I = S.cartesian_product(S)
+add_units = u + [q, q + 1] + [ui - uj for ui, uj in I if ui != uj]
+add_units += [q*ui - uj for ui, uj in I if ui != uj]
+L = R.localization(tuple(add_units)); L                                       # needs sage.libs.pari</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Define the representation matrices (of one of the three dimensional irreducible representations):</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Define the representation matrices (of one of the three dimensional irreducible representations):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.pari sage.modules</span>
@@ -420,8 +456,27 @@ three elements:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.pari sage.modules
+m1 = matrix(L, [[u1, 0, 0], [0, u0, 0], [0, 0, u0]])
+m2 = matrix(L, [[(u0*q - u0)/(u0 - u1), (u0*q - u1)/(u0 - u1), 0],
+                [(-u1*q + u0)/(u0 - u1), (-u1*q + u1)/(u0 - u1), 0],
+                [0, 0, -1]])
+m3 = matrix(L, [[-1, 0, 0],
+                [0, u0*(1 - q)/(u1*q - u0), q*(u1 - u0)/(u1*q - u0)],
+                [0, (u1*q^2 - u0)/(u1*q - u0), (u1*q^ 2 - u1*q)/(u1*q - u0)]])
+m1.base_ring() == L</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Check relations of the Ariki-Koike algebra:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Check relations of the Ariki-Koike algebra:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.pari sage.modules</span>
@@ -470,8 +525,28 @@ three elements:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.pari sage.modules
+m1*m2*m1*m2 == m2*m1*m2*m1
+m2*m3*m2 == m3*m2*m3
+m1*m3 == m3*m1
+m1**3 - (u0+u1+u2)*m1**2 + (u0*u1+u0*u2+u1*u2)*m1 - u0*u1*u2 == 0
+m2**2 - (q-1)*m2 - q == 0
+m3**2 - (q-1)*m3 - q == 0
+~m1 in m1.parent()
+~m2 in m2.parent()
+~m3 in m3.parent()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Obtain specializations in positive characteristic:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Obtain specializations in positive characteristic:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.pari sage.modules</span>
@@ -534,8 +609,25 @@ three elements:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.pari sage.modules
+Fp = GF(17)
+f = L.hom((3,5,7,11), codomain=Fp); f
+mFp1 = matrix({k: f(v) for k, v in m1.dict().items()}); mFp1
+mFp1.base_ring()
+mFp2 = matrix({k: f(v) for k, v in m2.dict().items()}); mFp2
+mFp3 = matrix({k: f(v) for k, v in m3.dict().items()}); mFp3</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Obtain specializations in characteristic 0:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Obtain specializations in characteristic 0:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.pari</span>
@@ -644,6 +736,30 @@ three elements:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.pari
+fQ = L.hom((3,5,7,11), codomain=QQ); fQ
+# needs sage.libs.pari sage.modules sage.rings.finite_rings
+mQ1 = matrix({k: fQ(v) for k, v in m1.dict().items()}); mQ1
+mQ1.base_ring()
+mQ2 = matrix({k: fQ(v) for k, v in m2.dict().items()}); mQ2
+mQ3 = matrix({k: fQ(v) for k, v in m3.dict().items()}); mQ3
+# needs sage.libs.pari sage.libs.singular
+S.&lt;x, y, z, t&gt; = QQ[]
+T = S.quo(x + y + z)
+F = T.fraction_field()
+fF = L.hom((x, y, z, t), codomain=F); fF
+mF1 = matrix({k: fF(v) for k, v in m1.dict().items()}); mF1                   # needs sage.modules
+mF1.base_ring() == F                                                          # needs sage.modules</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>AUTHORS:</p>
 <ul class="simple">
@@ -686,7 +802,7 @@ is thrown if <code class="docutils literal notranslate"><span class="pre">self</
 <ul class="simple">
 <li><p><a class="extlink-wikipedia reference external" href="https://en.wikipedia.org/wiki/Ring_(mathematics)#Localization">Wikipedia article Ring_(mathematics)#Localization</a></p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">Localization</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
@@ -805,6 +921,41 @@ is thrown if <code class="docutils literal notranslate"><span class="pre">self</
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">L = Localization(ZZ, (3,5))
+1/45 in L
+1/43 in L
+Localization(L, (7,11))
+_.is_subring(QQ)
+L(~7)
+Localization(Zp(7), (3, 5))                                               # needs sage.rings.padics
+# needs sage.libs.pari
+R.&lt;x&gt; = ZZ[]
+L = R.localization(x**2 + 1)
+s = (x+5)/(x**2+1)
+s in L
+t = (x+5)/(x**2+2)
+t in L
+L(t)
+L(s) in R
+y = L(x)
+g = L(s)
+g.parent()
+f = (y+5)/(y**2+1); f
+f == g
+(y+5)/(y**2+2)
+Lau.&lt;u, v&gt; = LaurentPolynomialRing(ZZ)                                    # needs sage.modules
+LauL = Lau.localization(u + 1)                                            # needs sage.modules
+LauL(~u).parent()                                                         # needs sage.modules</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>More examples will be shown typing <code class="docutils literal notranslate"><span class="pre">sage.rings.localization?</span></code></p>
 <dl class="py attribute">
@@ -817,7 +968,7 @@ is thrown if <code class="docutils literal notranslate"><span class="pre">self</
 <dt class="sig sig-object py" id="sage.rings.localization.Localization.characteristic">
 <span class="sig-name descname"><span class="pre">characteristic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/localization.py#L984"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.localization.Localization.characteristic" title="Link to this definition">¶</a></dt>
 <dd><p>Return the characteristic of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.pari</span>
@@ -838,6 +989,20 @@ is thrown if <code class="docutils literal notranslate"><span class="pre">self</
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.pari
+R.&lt;a&gt; = GF(5)[]
+L = R.localization((a**2 - 3, a))
+L.characteristic()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -845,7 +1010,7 @@ is thrown if <code class="docutils literal notranslate"><span class="pre">self</
 <dt class="sig sig-object py" id="sage.rings.localization.Localization.fraction_field">
 <span class="sig-name descname"><span class="pre">fraction_field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/localization.py#L968"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.localization.Localization.fraction_field" title="Link to this definition">¶</a></dt>
 <dd><p>Return the fraction field of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.pari</span>
@@ -870,6 +1035,21 @@ is thrown if <code class="docutils literal notranslate"><span class="pre">self</
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.pari
+R.&lt;a&gt; = GF(5)[]
+L = Localization(R, (a**2 - 3, a))
+L.fraction_field()
+L.is_subring(_)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -878,7 +1058,7 @@ is thrown if <code class="docutils literal notranslate"><span class="pre">self</
 <span class="sig-name descname"><span class="pre">gen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/localization.py#L826"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.localization.Localization.gen" title="Link to this definition">¶</a></dt>
 <dd><p>Return the <code class="docutils literal notranslate"><span class="pre">i</span></code>-th generator of <code class="docutils literal notranslate"><span class="pre">self</span></code> which is
 the <code class="docutils literal notranslate"><span class="pre">i</span></code>-th generator of the base ring.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">ZZ</span><span class="p">[]</span>
@@ -901,6 +1081,19 @@ the <code class="docutils literal notranslate"><span class="pre">i</span></code>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x, y&gt; = ZZ[]
+R.localization((x**2 + 1, y - 1)).gen(0)                              # needs sage.libs.pari
+ZZ.localization(2).gen(0)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -909,7 +1102,7 @@ the <code class="docutils literal notranslate"><span class="pre">i</span></code>
 <span class="sig-name descname"><span class="pre">gens</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/localization.py#L842"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.localization.Localization.gens" title="Link to this definition">¶</a></dt>
 <dd><p>Return a tuple whose entries are the generators for this
 object, in order.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">ZZ</span><span class="p">[]</span>
@@ -932,6 +1125,19 @@ object, in order.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x, y&gt; = ZZ[]
+Localization(R, (x**2 + 1, y - 1)).gens()                             # needs sage.libs.pari
+Localization(ZZ, 2).gens()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -949,7 +1155,7 @@ unknown cases</p></li>
 correct but the method might throw an error.  Otherwise, if it is set
 to <code class="docutils literal notranslate"><span class="pre">False</span></code>, the method returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if it can establish that
 <code class="docutils literal notranslate"><span class="pre">self</span></code> is a field and <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span> <span class="o">=</span> <span class="n">ZZ</span><span class="o">.</span><span class="n">localization</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
@@ -966,6 +1172,18 @@ to <code class="docutils literal notranslate"><span class="pre">False</span></co
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R = ZZ.localization((2, 3))
+R.is_field()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -977,7 +1195,7 @@ to <code class="docutils literal notranslate"><span class="pre">False</span></co
 and localization at a finite set of elements the spectrum of <code class="docutils literal notranslate"><span class="pre">self</span></code>
 is open in the irreducible spectrum of its base ring.
 Therefore, by density we may take the dimension from there.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span> <span class="o">=</span> <span class="n">ZZ</span><span class="o">.</span><span class="n">localization</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
@@ -994,6 +1212,18 @@ Therefore, by density we may take the dimension from there.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R = ZZ.localization((2, 3))
+R.krull_dimension()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1002,7 +1232,7 @@ Therefore, by density we may take the dimension from there.</p>
 <span class="sig-name descname"><span class="pre">ngens</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/localization.py#L810"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.localization.Localization.ngens" title="Link to this definition">¶</a></dt>
 <dd><p>Return the number of generators of <code class="docutils literal notranslate"><span class="pre">self</span></code>
 according to the same method for the base ring.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">ZZ</span><span class="p">[]</span>
@@ -1025,6 +1255,19 @@ according to the same method for the base ring.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x, y&gt; = ZZ[]
+Localization(R, (x**2 + 1, y - 1)).ngens()                            # needs sage.libs.pari
+Localization(ZZ, 2).ngens()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1041,7 +1284,7 @@ according to the same method for the base ring.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">x</span></code> – instance of <code class="xref py py-class docutils literal notranslate"><span class="pre">FractionFieldElement</span></code> whose parent is the
 fraction field of the parent’s base ring</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.pari</span>
@@ -1070,12 +1313,28 @@ fraction field of the parent’s base ring</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.pari
+from sage.rings.localization import LocalizationElement
+P.&lt;x,y,z&gt; = GF(5)[]
+L = P.localization((x, y*z - x))
+LocalizationElement(L, 4/(y*z-x)**2)
+_.parent()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.rings.localization.LocalizationElement.denominator">
 <span class="sig-name descname"><span class="pre">denominator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/localization.py#L447"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.localization.LocalizationElement.denominator" title="Link to this definition">¶</a></dt>
 <dd><p>Return the denominator of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">Localization</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
@@ -1092,6 +1351,18 @@ fraction field of the parent’s base ring</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">L = Localization(ZZ, (3,5))
+L(7/15).denominator()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1104,7 +1375,7 @@ fraction field of the parent’s base ring</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">proof</span></code> – (optional) if given it is passed to the
 corresponding method of the numerator of <code class="docutils literal notranslate"><span class="pre">self</span></code></p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[</span><span class="s1">&#39;x, y&#39;</span><span class="p">]</span>
@@ -1127,6 +1398,21 @@ corresponding method of the numerator of <code class="docutils literal notransla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.&lt;X, Y&gt; = QQ['x, y']
+L = P.localization(X - Y)
+x, y = L.gens()                                                       # needs sage.libs.singular
+p = (x^2 - y^2)/(x-y)^2                                               # needs sage.libs.singular
+p.factor()                                                            # needs sage.libs.singular</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1134,7 +1420,7 @@ corresponding method of the numerator of <code class="docutils literal notransla
 <dt class="sig sig-object py" id="sage.rings.localization.LocalizationElement.inverse_of_unit">
 <span class="sig-name descname"><span class="pre">inverse_of_unit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/localization.py#L477"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.localization.LocalizationElement.inverse_of_unit" title="Link to this definition">¶</a></dt>
 <dd><p>Return the inverse of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.&lt;</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">ZZ</span><span class="p">[]</span>
@@ -1157,6 +1443,20 @@ corresponding method of the numerator of <code class="docutils literal notransla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.&lt;x,y,z&gt; = ZZ[]
+L = Localization(P, x*y*z)
+L(x*y*z).inverse_of_unit()                                            # needs sage.libs.singular
+L(z).inverse_of_unit()                                                # needs sage.libs.singular</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1164,7 +1464,7 @@ corresponding method of the numerator of <code class="docutils literal notransla
 <dt class="sig sig-object py" id="sage.rings.localization.LocalizationElement.is_unit">
 <span class="sig-name descname"><span class="pre">is_unit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/localization.py#L459"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.localization.LocalizationElement.is_unit" title="Link to this definition">¶</a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <code class="docutils literal notranslate"><span class="pre">self</span></code> is a unit.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.pari sage.singular</span>
@@ -1193,6 +1493,22 @@ corresponding method of the numerator of <code class="docutils literal notransla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.pari sage.singular
+P.&lt;x,y,z&gt; = QQ[]
+L = P.localization((x, y*z))
+L(y*z).is_unit()
+L(z).is_unit()
+L(x*y*z).is_unit()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1200,7 +1516,7 @@ corresponding method of the numerator of <code class="docutils literal notransla
 <dt class="sig sig-object py" id="sage.rings.localization.LocalizationElement.numerator">
 <span class="sig-name descname"><span class="pre">numerator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/localization.py#L435"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.localization.LocalizationElement.numerator" title="Link to this definition">¶</a></dt>
 <dd><p>Return the numerator of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">ZZ</span><span class="o">.</span><span class="n">localization</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
@@ -1215,6 +1531,18 @@ corresponding method of the numerator of <code class="docutils literal notransla
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="o">/</span><span class="n">Integer</span><span class="p">(</span><span class="mi">15</span><span class="p">))</span><span class="o">.</span><span class="n">numerator</span><span class="p">()</span>
 <span class="go">7</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">L = ZZ.localization((3,5))
+L(7/15).numerator()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1236,7 +1564,7 @@ corresponding method of the numerator of <code class="docutils literal notransla
 is thrown if no normalization was possible</p></li>
 </ul>
 <p>OUTPUT: list of all prime factors of the elements of the given list</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.localization</span><span class="w"> </span><span class="kn">import</span> <span class="n">normalize_extra_units</span>
@@ -1293,11 +1621,40 @@ is thrown if no normalization was possible</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.localization import normalize_extra_units
+normalize_extra_units(ZZ, [3, -15, 45, 9, 2, 50])
+P.&lt;x,y,z&gt; = ZZ[]
+normalize_extra_units(P,                                                  # needs sage.libs.pari
+                      [3*x, z*y**2, 2*z, 18*(x*y*z)**2, x*z, 6*x*z, 5])
+P.&lt;x,y,z&gt; = QQ[]
+normalize_extra_units(P,                                                  # needs sage.libs.pari
+                      [3*x, z*y**2, 2*z, 18*(x*y*z)**2, x*z, 6*x*z, 5])
+# needs sage.libs.singular
+R.&lt;x, y&gt; = ZZ[]
+Q.&lt;a, b&gt; = R.quo(x**2 - 5)
+p = b**2 - 5
+p == (b-a)*(b+a)
+normalize_extra_units(Q, [p])                                             # needs sage.libs.pari
+normalize_extra_units(Q, [p], warning=False)                              # needs sage.libs.pari</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -1392,7 +1749,7 @@ is thrown if no normalization was possible</p></li>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

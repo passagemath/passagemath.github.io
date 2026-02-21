@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -370,7 +370,7 @@ providing a more direct and efficient connection to Maxima’s core functionalit
 The Pexpect interface defined here is isolated from the ECL-based interface:
 it communicates with Maxima via a subprocess and text-based interaction, and is
 primarily intended for interactive use.</p>
-<p class="with-sage-tab with-python-tab">This is the interface used by the maxima object:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This is the interface used by the maxima object:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.interfaces.maxima</span><span class="w"> </span><span class="kn">import</span> <span class="n">maxima</span>
@@ -387,10 +387,22 @@ primarily intended for interactive use.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.interfaces.maxima import maxima
+type(maxima)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>If the string “error” (case insensitive) occurs in the output of
 anything from Maxima, a <a class="reference external" href="https://docs.python.org/library/exceptions.html#RuntimeError" title="(in Python v3.12)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a> exception is raised.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES: We evaluate a very simple expression in Maxima.</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES: We evaluate a very simple expression in Maxima.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">maxima</span><span class="p">(</span><span class="s1">&#39;3 * 5&#39;</span><span class="p">)</span>
@@ -405,8 +417,19 @@ anything from Maxima, a <a class="reference external" href="https://docs.python.
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">maxima('3 * 5')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We factor <span class="math notranslate nohighlight">\(x^5 - y^5\)</span> in Maxima in several different ways.
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We factor <span class="math notranslate nohighlight">\(x^5 - y^5\)</span> in Maxima in several different ways.
 The first way yields a Maxima object.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
@@ -440,8 +463,26 @@ The first way yields a Maxima object.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.interfaces.maxima import maxima
+x,y = SR.var('x,y')
+F = maxima.factor('x^5 - y^5')
+F # not tested - depends on maxima version
+actual = F.sage()
+expected = -(y-x)*(y^4+x*y^3+x^2*y^2+x^3*y+x^4)
+bool(actual == expected)
+type(F)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Note that Maxima objects can also be displayed using “ASCII art”;
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that Maxima objects can also be displayed using “ASCII art”;
 to see a normal linear representation of any Maxima object x. Just
 use the print command: use <code class="docutils literal notranslate"><span class="pre">str(x)</span></code>.</p>
 <div class="tab-set docutils container">
@@ -460,8 +501,19 @@ use the print command: use <code class="docutils literal notranslate"><span clas
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">print(F)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">You can always use <code class="docutils literal notranslate"><span class="pre">repr(x)</span></code> to obtain the linear
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">You can always use <code class="docutils literal notranslate"><span class="pre">repr(x)</span></code> to obtain the linear
 representation of an object. This can be useful for moving maxima
 data to other systems.</p>
 <div class="tab-set docutils container">
@@ -486,8 +538,22 @@ data to other systems.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.interfaces.maxima import maxima
+F = maxima('x * y')
+repr(F)
+F.str()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The <code class="docutils literal notranslate"><span class="pre">maxima.eval</span></code> command evaluates an expression in
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The <code class="docutils literal notranslate"><span class="pre">maxima.eval</span></code> command evaluates an expression in
 maxima and returns the result as a <em>string</em> not a maxima object.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
@@ -503,8 +569,19 @@ maxima and returns the result as a <em>string</em> not a maxima object.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">print(maxima.eval('factor(x^5 - 1)'))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can create the polynomial <span class="math notranslate nohighlight">\(f\)</span> as a Maxima polynomial,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can create the polynomial <span class="math notranslate nohighlight">\(f\)</span> as a Maxima polynomial,
 then call the factor method on it. Notice that the notation
 <code class="docutils literal notranslate"><span class="pre">f.factor()</span></code> is consistent with how the rest of Sage
 works.</p>
@@ -530,8 +607,22 @@ works.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.interfaces.maxima import maxima
+f = maxima('x^5 + y^5')
+f^2
+f.factor()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Control-C interruption works well with the maxima interface,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Control-C interruption works well with the maxima interface,
 because of the excellent implementation of maxima. For example, try
 the following sum but with a much bigger range, and hit control-C.</p>
 <div class="tab-set docutils container">
@@ -548,10 +639,21 @@ the following sum but with a much bigger range, and hit control-C.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">maxima('sum(1/x^2, x, 1, 10)')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <section id="tutorial">
 <h2>Tutorial<a class="headerlink" href="#tutorial" title="Link to this heading">¶</a></h2>
-<p class="with-sage-tab with-python-tab">We follow the tutorial at
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We follow the tutorial at
 <a class="reference external" href="http://maxima.sourceforge.net/docs/intromax/intromax.html">http://maxima.sourceforge.net/docs/intromax/intromax.html</a>.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
@@ -569,8 +671,20 @@ the following sum but with a much bigger range, and hit control-C.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.interfaces.maxima import maxima
+maxima('1/100 + 1/101')</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">maxima</span><span class="p">(</span><span class="s1">&#39;(1 + sqrt(2))^5&#39;</span><span class="p">);</span> <span class="n">a</span>
@@ -589,8 +703,20 @@ the following sum but with a much bigger range, and hit control-C.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = maxima('(1 + sqrt(2))^5'); a
+a.expand()</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">maxima</span><span class="p">(</span><span class="s1">&#39;(1 + sqrt(2))^5&#39;</span><span class="p">)</span>
@@ -611,8 +737,21 @@ the following sum but with a much bigger range, and hit control-C.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = maxima('(1 + sqrt(2))^5')
+float(a)
+a.numer()</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">maxima</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s1">&#39;fpprec : 100&#39;</span><span class="p">)</span>
@@ -631,8 +770,20 @@ the following sum but with a much bigger range, and hit control-C.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">maxima.eval('fpprec : 100')
+a.bfloat()</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">maxima</span><span class="p">(</span><span class="s1">&#39;100!&#39;</span><span class="p">)</span>
@@ -647,8 +798,19 @@ the following sum but with a much bigger range, and hit control-C.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">maxima('100!')</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">maxima</span><span class="p">(</span><span class="s1">&#39;(x + 3*y + x^2*y)^3&#39;</span><span class="p">)</span>
@@ -679,8 +841,24 @@ the following sum but with a much bigger range, and hit control-C.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = maxima('(x + 3*y + x^2*y)^3')
+f.expand()
+f.subst('x=5/z')
+g = f.subst('x=5/z')
+h = g.ratsimp(); h
+h.factor()</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">eqn</span> <span class="o">=</span> <span class="n">maxima</span><span class="p">([</span><span class="s1">&#39;a+b*c=1&#39;</span><span class="p">,</span> <span class="s1">&#39;b-a*c=0&#39;</span><span class="p">,</span> <span class="s1">&#39;a+b=5&#39;</span><span class="p">])</span>
@@ -697,8 +875,20 @@ the following sum but with a much bigger range, and hit control-C.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">eqn = maxima(['a+b*c=1', 'b-a*c=0', 'a+b=5'])
+s = eqn.solve('[a,b,c]'); s</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Here is an example of solving an algebraic equation:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Here is an example of solving an algebraic equation:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.interfaces.maxima</span><span class="w"> </span><span class="kn">import</span> <span class="n">maxima</span>
@@ -719,8 +909,21 @@ the following sum but with a much bigger range, and hit control-C.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.interfaces.maxima import maxima
+maxima('x^2+y^2=1').solve('y')
+maxima('x^2 + y^2 = (x^2 - y^2)/sqrt(x^2 + y^2)').solve('y')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">You can even nicely typeset the solution in latex:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">You can even nicely typeset the solution in latex:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">latex</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
@@ -735,8 +938,19 @@ the following sum but with a much bigger range, and hit control-C.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">latex(s)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">To have the above appear onscreen via <code class="docutils literal notranslate"><span class="pre">xdvi</span></code>, type
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">To have the above appear onscreen via <code class="docutils literal notranslate"><span class="pre">xdvi</span></code>, type
 <code class="docutils literal notranslate"><span class="pre">view(s)</span></code>. (TODO: For OS X should create pdf output
 and use preview instead?)</p>
 <div class="tab-set docutils container">
@@ -769,8 +983,24 @@ and use preview instead?)</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">e = maxima('sin(u + v) * cos(u)^3'); e
+f = e.trigexpand(); f
+f.trigreduce()
+w = maxima('3 + k*%i')
+f = w^2 + maxima('%e')^w
+f.realpart()</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">maxima</span><span class="p">(</span><span class="s1">&#39;x^3 * </span><span class="si">%e</span><span class="s1">^(k*x) * sin(w*x)&#39;</span><span class="p">);</span> <span class="n">f</span>
@@ -793,8 +1023,21 @@ and use preview instead?)</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = maxima('x^3 * %e^(k*x) * sin(w*x)'); f
+f.diff('x')
+f.integrate('x')</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">maxima</span><span class="p">(</span><span class="s1">&#39;1/x^2&#39;</span><span class="p">)</span>
@@ -817,8 +1060,22 @@ and use preview instead?)</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = maxima('1/x^2')
+f.integrate('x', 1, 'inf')
+g = maxima('f/sinh(k*x)^4')
+g.taylor('x', 0, 3)</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">maxima</span><span class="o">.</span><span class="n">taylor</span><span class="p">(</span><span class="s1">&#39;asin(x)&#39;</span><span class="p">,</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
@@ -833,11 +1090,22 @@ and use preview instead?)</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">maxima.taylor('asin(x)','x',0, 10)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </section>
 <section id="examples-involving-matrices">
 <h2>Examples involving matrices<a class="headerlink" href="#examples-involving-matrices" title="Link to this heading">¶</a></h2>
-<p class="with-sage-tab with-python-tab">We illustrate computing with the matrix whose <span class="math notranslate nohighlight">\(i,j\)</span> entry
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We illustrate computing with the matrix whose <span class="math notranslate nohighlight">\(i,j\)</span> entry
 is <span class="math notranslate nohighlight">\(i/j\)</span>, for <span class="math notranslate nohighlight">\(i,j=1,\ldots,4\)</span>.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
@@ -871,8 +1139,24 @@ is <span class="math notranslate nohighlight">\(i/j\)</span>, for <span class="m
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = maxima.eval('f[i,j] := i/j')
+A = maxima('genmatrix(f,4,4)'); A
+A.determinant()
+A.echelon()
+A.eigenvalues()
+A.eigenvectors()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can also compute the echelon form in Sage:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can also compute the echelon form in Sage:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">B</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span>
@@ -899,11 +1183,24 @@ is <span class="math notranslate nohighlight">\(i/j\)</span>, for <span class="m
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">B = matrix(QQ, A)
+B.echelon_form()
+B.charpoly('x').factor()                                                      # needs sage.libs.pari</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </section>
 <section id="laplace-transforms">
 <h2>Laplace Transforms<a class="headerlink" href="#laplace-transforms" title="Link to this heading">¶</a></h2>
-<p class="with-sage-tab with-python-tab">We illustrate Laplace transforms:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We illustrate Laplace transforms:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">_</span> <span class="o">=</span> <span class="n">maxima</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;f(t) := t*sin(t)&quot;</span><span class="p">)</span>
@@ -920,8 +1217,20 @@ is <span class="math notranslate nohighlight">\(i/j\)</span>, for <span class="m
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">_ = maxima.eval(&quot;f(t) := t*sin(t)&quot;)
+maxima(&quot;laplace(f(t),t,s)&quot;)</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">maxima</span><span class="p">(</span><span class="s2">&quot;laplace(delta(t-3),t,s)&quot;</span><span class="p">)</span> <span class="c1">#Dirac delta function</span>
@@ -936,8 +1245,19 @@ is <span class="math notranslate nohighlight">\(i/j\)</span>, for <span class="m
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">maxima(&quot;laplace(delta(t-3),t,s)&quot;) #Dirac delta function</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">_</span> <span class="o">=</span> <span class="n">maxima</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;f(t) := exp(t)*sin(t)&quot;</span><span class="p">)</span>
@@ -954,8 +1274,20 @@ is <span class="math notranslate nohighlight">\(i/j\)</span>, for <span class="m
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">_ = maxima.eval(&quot;f(t) := exp(t)*sin(t)&quot;)
+maxima(&quot;laplace(f(t),t,s)&quot;)</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">_</span> <span class="o">=</span> <span class="n">maxima</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;f(t) := t^5*exp(t)*sin(t)&quot;</span><span class="p">)</span>
@@ -984,8 +1316,21 @@ is <span class="math notranslate nohighlight">\(i/j\)</span>, for <span class="m
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">_ = maxima.eval(&quot;f(t) := t^5*exp(t)*sin(t)&quot;)
+maxima(&quot;laplace(f(t),t,s)&quot;)
+print(maxima(&quot;laplace(f(t),t,s)&quot;))</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">maxima</span><span class="p">(</span><span class="s2">&quot;laplace(diff(x(t),t),t,s)&quot;</span><span class="p">)</span>
@@ -1000,8 +1345,19 @@ is <span class="math notranslate nohighlight">\(i/j\)</span>, for <span class="m
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">maxima(&quot;laplace(diff(x(t),t),t,s)&quot;)</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--28-input--1" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">maxima</span><span class="p">(</span><span class="s2">&quot;laplace(diff(x(t),t,2),t,s)&quot;</span><span class="p">)</span>
@@ -1016,8 +1372,19 @@ is <span class="math notranslate nohighlight">\(i/j\)</span>, for <span class="m
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">maxima(&quot;laplace(diff(x(t),t,2),t,s)&quot;)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">It is difficult to read some of these without the 2d
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">It is difficult to read some of these without the 2d
 representation:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
@@ -1041,6 +1408,17 @@ representation:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">print(maxima(&quot;laplace(diff(x(t),t,2),t,s)&quot;)) # not tested - depends on maxima version</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>Even better, use
 <code class="docutils literal notranslate"><span class="pre">view(maxima(&quot;laplace(diff(x(t),t,2),t,s)&quot;))</span></code> to see
@@ -1048,7 +1426,7 @@ a typeset version.</p>
 </section>
 <section id="continued-fractions">
 <h2>Continued Fractions<a class="headerlink" href="#continued-fractions" title="Link to this heading">¶</a></h2>
-<p class="with-sage-tab with-python-tab">A continued fraction <span class="math notranslate nohighlight">\(a + 1/(b + 1/(c + \cdots))\)</span> is
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A continued fraction <span class="math notranslate nohighlight">\(a + 1/(b + 1/(c + \cdots))\)</span> is
 represented in maxima by the list <span class="math notranslate nohighlight">\([a, b, c, \ldots]\)</span>.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--30-input--1" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--1">Sage</label><div class="tab-content docutils container">
@@ -1068,6 +1446,18 @@ represented in maxima by the list <span class="math notranslate nohighlight">\([
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--30-input--3" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">maxima(&quot;cf((1 + sqrt(5))/2)&quot;)
+maxima(&quot;cf ((1 + sqrt(341))/2)&quot;)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </section>
 <section id="special-examples">
@@ -1075,7 +1465,7 @@ represented in maxima by the list <span class="math notranslate nohighlight">\([
 <p>In this section we illustrate calculations that would be awkward to
 do (as far as I know) in non-symbolic computer algebra systems like
 MAGMA or GAP.</p>
-<p class="with-sage-tab with-python-tab">We compute the gcd of <span class="math notranslate nohighlight">\(2x^{n+4} - x^{n+2}\)</span> and
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We compute the gcd of <span class="math notranslate nohighlight">\(2x^{n+4} - x^{n+2}\)</span> and
 <span class="math notranslate nohighlight">\(4x^{n+1} + 3x^n\)</span> for arbitrary <span class="math notranslate nohighlight">\(n\)</span>.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--31-input--1" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--1">Sage</label><div class="tab-content docutils container">
@@ -1095,8 +1485,21 @@ MAGMA or GAP.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--31-input--3" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = maxima('2*x^(n+4) - x^(n+2)')
+g = maxima('4*x^(n+1) + 3*x^n')
+f.gcd(g)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">You can plot 3d graphs (via gnuplot):</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">You can plot 3d graphs (via gnuplot):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--32-input--1" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">maxima</span><span class="p">(</span><span class="s1">&#39;plot3d(x^2-y^2, [x,-2,2], [y,-2,2], [grid,12,12])&#39;</span><span class="p">)</span>  <span class="c1"># not tested</span>
@@ -1111,8 +1514,19 @@ MAGMA or GAP.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--32-input--3" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">maxima('plot3d(x^2-y^2, [x,-2,2], [y,-2,2], [grid,12,12])')  # not tested</pre>
 </div>
-<p class="with-sage-tab with-python-tab">You can formally evaluate sums (note the <code class="docutils literal notranslate"><span class="pre">nusum</span></code>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">You can formally evaluate sums (note the <code class="docutils literal notranslate"><span class="pre">nusum</span></code>
 command):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--33-input--1" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--1">Sage</label><div class="tab-content docutils container">
@@ -1138,8 +1552,20 @@ command):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--33-input--3" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">S = maxima('nusum(exp(1+2*i/n),i,1,n)')
+print(S)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We formally compute the limit as <span class="math notranslate nohighlight">\(n\to\infty\)</span> of
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We formally compute the limit as <span class="math notranslate nohighlight">\(n\to\infty\)</span> of
 <span class="math notranslate nohighlight">\(2S/n\)</span> as follows:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--34-input--1" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--1">Sage</label><div class="tab-content docutils container">
@@ -1157,11 +1583,23 @@ command):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--34-input--3" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T = S*maxima('2/n')
+T.tlimit('n','inf')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </section>
 <section id="miscellaneous">
 <h2>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Link to this heading">¶</a></h2>
-<p class="with-sage-tab with-python-tab">Obtaining digits of <span class="math notranslate nohighlight">\(\pi\)</span>:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Obtaining digits of <span class="math notranslate nohighlight">\(\pi\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--35-input--1" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">maxima</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s1">&#39;fpprec : 100&#39;</span><span class="p">)</span>
@@ -1180,8 +1618,20 @@ command):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--35-input--3" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">maxima.eval('fpprec : 100')
+maxima(pi).bfloat()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Defining functions in maxima:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Defining functions in maxima:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--36-input--1" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">maxima</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s1">&#39;fun[a] := a^2&#39;</span><span class="p">)</span>
@@ -1200,6 +1650,18 @@ command):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--36-input--3" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">maxima.eval('fun[a] := a^2')
+maxima('fun[10]')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </section>
 <section id="interactivity">
@@ -1214,7 +1676,7 @@ problem is <code class="docutils literal notranslate"><span class="pre">maxima.e
 </section>
 <section id="latex-output">
 <h2>Latex Output<a class="headerlink" href="#latex-output" title="Link to this heading">¶</a></h2>
-<p class="with-sage-tab with-python-tab">To TeX a maxima object do this:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">To TeX a maxima object do this:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--37-input--1" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.interfaces.maxima</span><span class="w"> </span><span class="kn">import</span> <span class="n">maxima</span>
@@ -1231,8 +1693,20 @@ problem is <code class="docutils literal notranslate"><span class="pre">maxima.e
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--37-input--3" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.interfaces.maxima import maxima
+latex(maxima('sin(u) + sinh(v^2)'))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Here’s another example:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Here’s another example:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--38-input--1" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.interfaces.maxima</span><span class="w"> </span><span class="kn">import</span> <span class="n">maxima</span>
@@ -1249,6 +1723,19 @@ problem is <code class="docutils literal notranslate"><span class="pre">maxima.e
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">latex</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
 <span class="go">-...{{i\,e^{3\,i\,x}}\over{6}}...-{{i\,e^{i\,x}}\over{2}}+c</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--38-input--3" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.interfaces.maxima import maxima
+g = maxima('exp(3*%i*x)/(6*%i) + exp(%i*x)/(2*%i) + c')
+latex(g)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1276,6 +1763,18 @@ not recommended.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--39-input--3" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">t = '&quot;%s&quot;'%10^10000   # ten thousand character string.
+a = maxima(t)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </section>
 <dl class="py class">
@@ -1283,7 +1782,7 @@ not recommended.</p>
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.interfaces.maxima.</span></span><span class="sig-name descname"><span class="pre">Maxima</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script_subdirectory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/interfaces/maxima.py#L533"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.interfaces.maxima.Maxima" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="maxima_abstract.html#sage.interfaces.maxima_abstract.MaximaAbstract" title="sage.interfaces.maxima_abstract.MaximaAbstract"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaximaAbstract</span></code></a>, <a class="reference internal" href="expect.html#sage.interfaces.expect.Expect" title="sage.interfaces.expect.Expect"><code class="xref py py-class docutils literal notranslate"><span class="pre">Expect</span></code></a></p>
 <p>Interface to the Maxima interpreter.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--40-input--1" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.interfaces.maxima</span><span class="w"> </span><span class="kn">import</span> <span class="n">maxima</span><span class="p">,</span> <span class="n">Maxima</span>
@@ -1302,12 +1801,25 @@ not recommended.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--40-input--3" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.interfaces.maxima import maxima, Maxima
+m = Maxima()
+m == maxima</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.interfaces.maxima.Maxima.clear">
 <span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/interfaces/maxima.py#L1063"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.interfaces.maxima.Maxima.clear" title="Link to this definition">¶</a></dt>
 <dd><p>Clear the variable named var.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--41-input--1" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">maxima</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;xxxxx&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">)</span>
@@ -1330,6 +1842,20 @@ not recommended.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--41-input--3" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">maxima.set('xxxxx', '2')
+maxima.get('xxxxx')
+maxima.clear('xxxxx')
+maxima.get('xxxxx')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1337,7 +1863,7 @@ not recommended.</p>
 <dt class="sig sig-object py" id="sage.interfaces.maxima.Maxima.get">
 <span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/interfaces/maxima.py#L1081"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.interfaces.maxima.Maxima.get" title="Link to this definition">¶</a></dt>
 <dd><p>Get the string value of the variable var.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--42-input--1" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">maxima</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;xxxxx&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">)</span>
@@ -1354,6 +1880,18 @@ not recommended.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--42-input--3" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">maxima.set('xxxxx', '2')
+maxima.get('xxxxx')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1365,7 +1903,7 @@ not recommended.</p>
 <p class="admonition-title">Note</p>
 <p>The output of this command is very raw - not pretty.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--43-input--1" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">maxima</span><span class="o">.</span><span class="n">lisp</span><span class="p">(</span><span class="s2">&quot;(+ 2 17)&quot;</span><span class="p">)</span>   <span class="c1"># random formatted output</span>
@@ -1384,6 +1922,17 @@ not recommended.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--43-input--3" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">maxima.lisp(&quot;(+ 2 17)&quot;)   # random formatted output</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1396,7 +1945,7 @@ not recommended.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">var</span></code> – string</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">value</span></code> – string</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--44-input--1" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">maxima</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;xxxxx&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">)</span>
@@ -1413,6 +1962,18 @@ not recommended.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--44-input--3" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">maxima.set('xxxxx', '2')
+maxima.get('xxxxx')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1422,7 +1983,7 @@ not recommended.</p>
 <dd><p><a class="reference external" href="http://maxima.sourceforge.net/docs/manual/maxima_10.html">http://maxima.sourceforge.net/docs/manual/maxima_10.html</a>
 make_random_state (n) returns a new random state object created from an
 integer seed value equal to n modulo 2^32. n may be negative.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--45-input--1" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.interfaces.maxima</span><span class="w"> </span><span class="kn">import</span> <span class="n">Maxima</span>
@@ -1445,6 +2006,20 @@ integer seed value equal to n modulo 2^32. n may be negative.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--45-input--3" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.interfaces.maxima import Maxima
+m = Maxima()
+m.set_seed(1)
+[m.random(100) for i in range(5)]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1456,7 +2031,7 @@ integer seed value equal to n modulo 2^32. n may be negative.</p>
 <dd><p>Bases: <a class="reference internal" href="maxima_abstract.html#sage.interfaces.maxima_abstract.MaximaAbstractElement" title="sage.interfaces.maxima_abstract.MaximaAbstractElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaximaAbstractElement</span></code></a>, <a class="reference internal" href="expect.html#sage.interfaces.expect.ExpectElement" title="sage.interfaces.expect.ExpectElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExpectElement</span></code></a></p>
 <p>Element of Maxima through Pexpect interface.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Elements of this class should not be created directly.
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Elements of this class should not be created directly.
 The targeted parent should be used instead:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--46-input--1" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--1">Sage</label><div class="tab-content docutils container">
@@ -1476,12 +2051,24 @@ The targeted parent should be used instead:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--46-input--3" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">maxima(3)
+maxima(cos(x)+e^234)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.interfaces.maxima.MaximaElement.display2d">
 <span class="sig-name descname"><span class="pre">display2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onscreen</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/interfaces/maxima.py#L1199"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.interfaces.maxima.MaximaElement.display2d" title="Link to this definition">¶</a></dt>
 <dd><p>Return the 2d string representation of this Maxima object.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--47-input--1" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">F</span> <span class="o">=</span> <span class="n">maxima</span><span class="p">(</span><span class="s1">&#39;x^5 - y^5&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">factor</span><span class="p">()</span>
@@ -1500,6 +2087,18 @@ The targeted parent should be used instead:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--47-input--3" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">F = maxima('x^5 - y^5').factor()
+F.display2d()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1511,7 +2110,7 @@ The targeted parent should be used instead:</p>
 <dd><p>Bases: <a class="reference internal" href="#sage.interfaces.maxima.MaximaElement" title="sage.interfaces.maxima.MaximaElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaximaElement</span></code></a>, <a class="reference internal" href="maxima_abstract.html#sage.interfaces.maxima_abstract.MaximaAbstractElementFunction" title="sage.interfaces.maxima_abstract.MaximaAbstractElementFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaximaAbstractElementFunction</span></code></a></p>
 <p>Maxima user-defined functions.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Elements of this class should not be created directly.
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Elements of this class should not be created directly.
 The method <code class="docutils literal notranslate"><span class="pre">function</span></code> of the targeted parent should be used instead:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--48-input--1" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--1">Sage</label><div class="tab-content docutils container">
@@ -1527,6 +2126,17 @@ The method <code class="docutils literal notranslate"><span class="pre">function
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--48-input--3" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">maxima.function('x,y','h(x)*y')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1534,7 +2144,7 @@ The method <code class="docutils literal notranslate"><span class="pre">function
 <dt class="sig sig-object py" id="sage.interfaces.maxima.reduce_load_Maxima">
 <span class="sig-prename descclassname"><span class="pre">sage.interfaces.maxima.</span></span><span class="sig-name descname"><span class="pre">reduce_load_Maxima</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/interfaces/maxima.py#L1280"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.interfaces.maxima.reduce_load_Maxima" title="Link to this definition">¶</a></dt>
 <dd><p>Unpickle a Maxima Pexpect interface.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--49-input--1" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.interfaces.maxima</span><span class="w"> </span><span class="kn">import</span> <span class="n">reduce_load_Maxima</span>
@@ -1551,6 +2161,18 @@ The method <code class="docutils literal notranslate"><span class="pre">function
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--49-input--3" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.interfaces.maxima import reduce_load_Maxima
+reduce_load_Maxima()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1558,7 +2180,7 @@ The method <code class="docutils literal notranslate"><span class="pre">function
 <dt class="sig sig-object py" id="sage.interfaces.maxima.reduce_load_Maxima_function">
 <span class="sig-prename descclassname"><span class="pre">sage.interfaces.maxima.</span></span><span class="sig-name descname"><span class="pre">reduce_load_Maxima_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latex</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/interfaces/maxima.py#L1294"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.interfaces.maxima.reduce_load_Maxima_function" title="Link to this definition">¶</a></dt>
 <dd><p>Unpickle a Maxima function.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--50-input--1" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.interfaces.maxima</span><span class="w"> </span><span class="kn">import</span> <span class="n">reduce_load_Maxima_function</span>
@@ -1581,11 +2203,30 @@ The method <code class="docutils literal notranslate"><span class="pre">function
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--50-input--3" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.interfaces.maxima import reduce_load_Maxima_function
+f = maxima.function('x,y','sin(x+y)')
+_,args = f.__reduce__()
+g = reduce_load_Maxima_function(*args)
+g == f</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -1684,7 +2325,7 @@ The method <code class="docutils literal notranslate"><span class="pre">function
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

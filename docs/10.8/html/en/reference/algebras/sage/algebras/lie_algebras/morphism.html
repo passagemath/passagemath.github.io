@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -443,7 +443,7 @@ not be a morphism in the category of Lie algebras over
 the base ring.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">check</span></code> – whether to run checks on the validity of the defining data</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">LieAlgebra</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="s1">&#39;x,y,z&#39;</span><span class="p">)</span>
@@ -474,8 +474,22 @@ the base ring.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">L = LieAlgebra(QQ, 'x,y,z')
+Lyn = L.Lyndon()
+H = L.Hall()
+phi = Lyn.coerce_map_from(H); phi</pre>
 </div>
-<p class="with-sage-tab with-python-tab">You can provide a base map, creating a semilinear map that (sometimes)
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">You can provide a base map, creating a semilinear map that (sometimes)
 preserves the Lie bracket:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
@@ -511,8 +525,27 @@ preserves the Lie bracket:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x&gt; = ZZ[]
+K.&lt;i&gt; = NumberField(x^2 + 1)
+cc = K.hom([-i])
+L.&lt;X,Y,Z,W&gt; = LieAlgebra(K, {('X','Y'): {'Z':1}, ('X','Z'): {'W':1}})
+M.&lt;A,B,C,D&gt; = LieAlgebra(K, {('A','B'): {'C':1}, ('A','C'): {'D':1}})
+phi = L.morphism({X:A, Y:B, Z:C, W:D}, base_map=cc)
+phi(X)
+phi(i*X)
+all(phi(x.bracket(y)) == phi(x).bracket(phi(y)) for x,y in cartesian_product_iterator([[X,Y,Z,W],[X,Y,Z,W]]))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Note that the Lie bracket should still be preserved, even though the map is no longer linear
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that the Lie bracket should still be preserved, even though the map is no longer linear
 over the base ring:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
@@ -538,13 +571,28 @@ over the base ring:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">L.&lt;X,Y,Z,W&gt; = LieAlgebra(K, {('X','Y'): {'Z':i}, ('X','Z'): {'W':1}})
+M.&lt;A,B,C,D&gt; = LieAlgebra(K, {('A','B'): {'C':-i}, ('A','C'): {'D':1}})
+phi = L.morphism({X:A, Y:B, Z:C, W:D}, base_map=cc)
+phi(X.bracket(Y))
+phi(X).bracket(phi(Y))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.algebras.lie_algebras.morphism.LieAlgebraHomomorphism_im_gens.base_map">
 <span class="sig-name descname"><span class="pre">base_map</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/algebras/lie_algebras/morphism.py#L162"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.algebras.lie_algebras.morphism.LieAlgebraHomomorphism_im_gens.base_map" title="Link to this definition">¶</a></dt>
 <dd><p>Return the map on the base ring that is part of the defining
 data for this morphism.  May return <code class="docutils literal notranslate"><span class="pre">None</span></code> if a coercion is used.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.number_field</span>
@@ -583,6 +631,26 @@ data for this morphism.  May return <code class="docutils literal notranslate"><
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.number_field
+R.&lt;x&gt; = ZZ[]
+K.&lt;i&gt; = NumberField(x^2 + 1)
+cc = K.hom([-i])
+L.&lt;X,Y,Z,W&gt; = LieAlgebra(K, {('X','Y'): {'Z':1}, ('X','Z'): {'W':1}})
+M.&lt;A,B&gt; = LieAlgebra(K, abelian=True)
+phi = L.morphism({X: A, Y: B}, base_map=cc)
+phi(X)
+phi(i*X)
+phi.base_map()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -594,7 +662,7 @@ data for this morphism.  May return <code class="docutils literal notranslate"><
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">list</span></code> – a copy of the list of gens (it is safe to change this)</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">LieAlgebra</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="s1">&#39;x,y,z&#39;</span><span class="p">)</span>
@@ -617,6 +685,21 @@ data for this morphism.  May return <code class="docutils literal notranslate"><
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">L = LieAlgebra(QQ, 'x,y,z')
+Lyn = L.Lyndon()
+H = L.Hall()
+f = Lyn.coerce_map_from(H)
+f.im_gens()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -636,7 +719,7 @@ have coercions of the morphisms.</p>
 <dt class="sig sig-object py" id="sage.algebras.lie_algebras.morphism.LieAlgebraHomset.zero">
 <span class="sig-name descname"><span class="pre">zero</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/algebras/lie_algebras/morphism.py#L346"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.algebras.lie_algebras.morphism.LieAlgebraHomset.zero" title="Link to this definition">¶</a></dt>
 <dd><p>Return the zero morphism.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">LieAlgebra</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="s1">&#39;x,y,z&#39;</span><span class="p">)</span>
@@ -661,6 +744,21 @@ have coercions of the morphisms.</p>
 <span class="go">  From: Free Lie algebra generated by (x, y, z) over Rational Field in the Lyndon basis</span>
 <span class="go">  To:   Free Lie algebra generated by (x, y, z) over Rational Field in the Hall basis</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">L = LieAlgebra(QQ, 'x,y,z')
+Lyn = L.Lyndon()
+H = L.Hall()
+HS = Hom(Lyn, H)
+HS.zero()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -694,7 +792,7 @@ values  on the Lie brackets implied by <code class="docutils literal notranslate
 not be checked for contradictory values</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">A reflection of one horizontal vector in the Heisenberg algebra:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A reflection of one horizontal vector in the Heisenberg algebra:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">L</span><span class="o">.&lt;</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">LieAlgebra</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="p">{(</span><span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="s1">&#39;Y&#39;</span><span class="p">):</span> <span class="p">{</span><span class="s1">&#39;Z&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">}})</span>
@@ -717,8 +815,20 @@ not be checked for contradictory values</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">L.&lt;X,Y,Z&gt; = LieAlgebra(QQ, {('X','Y'): {'Z':1}})
+phi = L.morphism({X:-X, Y:Y}); phi</pre>
 </div>
-<p class="with-sage-tab with-python-tab">There is no Lie algebra morphism that reflects one horizontal vector,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">There is no Lie algebra morphism that reflects one horizontal vector,
 but not the vertical one:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
@@ -740,8 +850,19 @@ but not the vertical one:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">L.morphism({X:-X, Y:Y, Z:Z})</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Checking for mistakes can be disabled, which can produce
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Checking for mistakes can be disabled, which can produce
 invalid results:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
@@ -767,8 +888,20 @@ invalid results:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">phi = L.morphism({X:-X, Y:Y, Z:Z}, check=False); phi
+L[phi(X), phi(Y)] == phi(L[X,Y])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The set of keys must generate the Lie algebra:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The set of keys must generate the Lie algebra:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">L</span><span class="o">.</span><span class="n">morphism</span><span class="p">({</span><span class="n">X</span><span class="p">:</span> <span class="n">X</span><span class="p">})</span>
@@ -789,8 +922,19 @@ invalid results:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">L.morphism({X: X})</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Over non-fields, generating subsets are more restricted:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Over non-fields, generating subsets are more restricted:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">L</span><span class="o">.&lt;</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">LieAlgebra</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="p">{(</span><span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="s1">&#39;Y&#39;</span><span class="p">):</span> <span class="p">{</span><span class="s1">&#39;Z&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">}})</span>
@@ -813,8 +957,20 @@ invalid results:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">L.&lt;X,Y,Z&gt; = LieAlgebra(ZZ, {('X','Y'): {'Z':2}})
+L.morphism({X: X, Y: Y})</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The generators do not have to correspond to the defined generating
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The generators do not have to correspond to the defined generating
 set of the domain:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
@@ -868,8 +1024,27 @@ set of the domain:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">L.&lt;X,Y,Z,W&gt; = LieAlgebra(QQ, {('X','Y'): {'Z':1}, ('X','Z'): {'W':1}})
+K.&lt;A,B,C&gt; = LieAlgebra(QQ, {('A','B'): {'C':2}})
+phi = L.morphism({X+2*Y: A, X-Y: B}); phi
+phi(X+2*Y)
+phi(X)
+phi(W)
+phi(Z)
+all(K[phi(p), phi(q)] == phi(L[p,q])
+    for p in L.basis() for q in L.basis())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A quotient type Lie algebra morphism:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A quotient type Lie algebra morphism:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">K</span><span class="o">.&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">LieAlgebra</span><span class="p">(</span><span class="n">SR</span><span class="p">,</span> <span class="n">abelian</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>                                    <span class="c1"># needs sage.symbolic</span>
@@ -898,11 +1073,27 @@ set of the domain:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">K.&lt;A,B&gt; = LieAlgebra(SR, abelian=True)                                    # needs sage.symbolic
+L.morphism({X: A, Y: B})                                                  # needs sage.symbolic</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -987,7 +1178,7 @@ set of the domain:</p>
     <script src="../../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../../%5fstatic/copybutton.js"></script>
     <script src="../../../../%5fstatic/tabs.js"></script>
-    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -492,7 +492,7 @@ tables, much like a hash table (such as a Python dictionary), a
 <code class="docutils literal notranslate"><span class="pre">SQLDatabase</span></code> may not be what you are looking for. The strength of
 <code class="docutils literal notranslate"><span class="pre">SQLDatabases</span></code> is in queries, searches through the database with
 complicated criteria.</p>
-<p class="with-sage-tab with-python-tab">For example, we create a new database for storing isomorphism classes
+<p class="with-sage-tab with-python-tab with-sage-live-tab">For example, we create a new database for storing isomorphism classes
 of simple graphs:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
@@ -506,8 +506,19 @@ of simple graphs:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D = SQLDatabase()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In order to generate representatives for the classes, we will import a
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In order to generate representatives for the classes, we will import a
 function which generates all labeled graphs (noting that this is not
 the optimal way):</p>
 <div class="tab-set docutils container">
@@ -524,8 +535,20 @@ the optimal way):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.graphs
+from sage.groups.perm_gps.partn_ref.refinement_graphs import all_labeled_graphs</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We will need a table in the database in which to store the graphs, and
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We will need a table in the database in which to store the graphs, and
 we specify its structure with a Python dictionary, each of whose keys
 is the name of a column:</p>
 <div class="tab-set docutils container">
@@ -550,8 +573,24 @@ is the name of a column:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from collections import OrderedDict
+table_skeleton = OrderedDict([
+('graph6',{'sql':'TEXT', 'index':True, 'primary_key':True}),
+('vertices', {'sql':'INTEGER'}),
+('edges', {'sql':'INTEGER'})
+])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Then we create the table:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Then we create the table:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">D</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">&#39;simon&#39;</span><span class="p">,</span> <span class="n">table_skeleton</span><span class="p">)</span>
@@ -570,8 +609,20 @@ is the name of a column:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D.create_table('simon', table_skeleton)
+D.show('simon')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Now that we have the table, we will begin to populate the table with
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Now that we have the table, we will begin to populate the table with
 rows. First, add the graph on zero vertices.:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
@@ -597,8 +648,22 @@ rows. First, add the graph on zero vertices.:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.graphs
+G = Graph()
+D.add_row('simon',(G.graph6_string(), 0, 0))
+D.show('simon')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Next, add the graph on one vertex.:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Next, add the graph on one vertex.:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.graphs</span>
@@ -627,8 +692,22 @@ rows. First, add the graph on zero vertices.:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.graphs
+G.add_vertex()
+D.add_row('simon',(G.graph6_string(), 1, 0))
+D.show('simon')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Say we want a database of graphs on four or less vertices:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Say we want a database of graphs on four or less vertices:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.graphs</span>
@@ -701,8 +780,28 @@ rows. First, add the graph on zero vertices.:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.graphs
+labels = {}
+for i in range(2, 5):
+    labels[i] = []
+    for g in all_labeled_graphs(i):
+        g = g.canonical_label(algorithm='sage')
+        if g not in labels[i]:
+            labels[i].append(g)
+            D.add_row('simon', (g.graph6_string(), g.order(), g.size()))
+D.show('simon')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can then query the database – let’s ask for all the graphs on four
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can then query the database – let’s ask for all the graphs on four
 vertices with three edges. We do so by creating two queries and asking
 for rows that satisfy them both:</p>
 <div class="tab-set docutils container">
@@ -731,10 +830,26 @@ for rows that satisfy them both:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.graphs
+Q = SQLQuery(D, {'table_name':'simon', 'display_cols':['graph6'], 'expression':['vertices','=',4]})
+Q2 = SQLQuery(D, {'table_name':'simon', 'display_cols':['graph6'], 'expression':['edges','=',3]})
+Q = Q.intersect(Q2)
+len(Q.query_results())
+Q.query_results() # random</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>NOTE: The values of <code class="docutils literal notranslate"><span class="pre">display_cols</span></code> are always concatenated in
 intersections and unions.</p>
-<p class="with-sage-tab with-python-tab">Of course, we can save the database to file. Here we use a
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Of course, we can save the database to file. Here we use a
 temporary directory that we clean up afterwards:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
@@ -754,8 +869,22 @@ temporary directory that we clean up afterwards:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">import tempfile
+d = tempfile.TemporaryDirectory()
+dbpath = os.path.join(d.name, 'simon.db')
+D.save(dbpath)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Now the database’s hard link is to this file, and not the temporary db
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Now the database’s hard link is to this file, and not the temporary db
 file. For example, let’s say we open the same file with another class
 instance. We can load the file as an immutable database:</p>
 <div class="tab-set docutils container">
@@ -824,8 +953,22 @@ instance. We can load the file as an immutable database:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.graphs
+E = SQLDatabase(dbpath)
+E.show('simon')
+E.drop_table('simon')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Call <code class="docutils literal notranslate"><span class="pre">cleanup()</span></code> on the temporary directory to, well, clean it up:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Call <code class="docutils literal notranslate"><span class="pre">cleanup()</span></code> on the temporary directory to, well, clean it up:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">d</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
@@ -836,6 +979,17 @@ instance. We can load the file as an immutable database:</p>
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.all</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">d.cleanup()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -876,7 +1030,7 @@ unique</p></li>
 </div></blockquote>
 </li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
@@ -943,6 +1097,22 @@ unique</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from collections import OrderedDict
+MonicPolys = SQLDatabase()
+MonicPolys.create_table('simon', OrderedDict([('n', {'sql':'INTEGER', 'index':True})]))
+for n in range(20): MonicPolys.add_row('simon', (n,))
+MonicPolys.add_column('simon', 'n_squared', {'sql':'INTEGER', 'index':False}, 0)
+MonicPolys.show('simon')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -958,7 +1128,7 @@ unique</p></li>
 <dd><p>Add the row described by <code class="docutils literal notranslate"><span class="pre">values</span></code> to the table <code class="docutils literal notranslate"><span class="pre">table_name</span></code>. Values
 should be a tuple, of same length and order as columns in given table.</p>
 <p>NOTE:</p>
-<p class="with-sage-tab with-python-tab">If <code class="docutils literal notranslate"><span class="pre">values</span></code> is of length one, be sure to specify that it is a tuple of
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If <code class="docutils literal notranslate"><span class="pre">values</span></code> is of length one, be sure to specify that it is a tuple of
 length one, by using a comma, e.g.:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
@@ -972,8 +1142,19 @@ length one, by using a comma, e.g.:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">values = (6,)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">DB</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -996,6 +1177,21 @@ length one, by using a comma, e.g.:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DB = SQLDatabase()
+DB.create_table('simon',{'a1':{'sql':'bool'}, 'b2':{'sql':'int'}})
+DB.add_row('simon',(0,1))
+cur = DB.get_cursor()
+(cur.execute('select * from simon')).fetchall()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1009,7 +1205,7 @@ length one, by using a comma, e.g.:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">entry_order</span></code> – an ordered list or tuple overrides normal order
 with user defined order</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">DB</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -1034,6 +1230,22 @@ with user defined order</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DB = SQLDatabase()
+DB.create_table('simon',{'a1':{'sql':'bool'}, 'b2':{'sql':'int'}})
+DB.add_rows('simon',[(0,0),(1,1),(1,2)])
+DB.add_rows('simon',[(0,0),(4,0),(5,1)], ['b2','a1'])
+cur = DB.get_cursor()
+(cur.execute('select * from simon')).fetchall()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1041,7 +1253,7 @@ with user defined order</p></li>
 <dt class="sig sig-object py" id="sage.databases.sql_db.SQLDatabase.commit">
 <span class="sig-name descname"><span class="pre">commit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/databases/sql_db.py#L2213"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.databases.sql_db.SQLDatabase.commit" title="Link to this definition">¶</a></dt>
 <dd><p>Commit changes to file.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">DB</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -1066,6 +1278,24 @@ with user defined order</p></li>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">DB</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">DB</span><span class="o">.</span><span class="n">vacuum</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DB = SQLDatabase()
+DB.create_table('simon',{'a1':{'sql':'bool'}, 'b2':{'sql':'int'}})
+DB.add_row('simon',(0,1))
+DB.add_data('simon',[(0,0),(1,1),(1,2)])
+DB.add_data('simon',[(0,0),(4,0),(5,1)], ['b2','a1'])
+DB.drop_column('simon','b2')
+DB.commit()
+DB.vacuum()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1113,7 +1343,7 @@ unique</p></li>
 <p>NOTE:</p>
 <p>Some SQL features, such as automatically incrementing primary key,
 require the full word <code class="docutils literal notranslate"><span class="pre">'INTEGER'</span></code>, not just <code class="docutils literal notranslate"><span class="pre">'INT'</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
@@ -1146,6 +1376,25 @@ require the full word <code class="docutils literal notranslate"><span class="pr
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from collections import OrderedDict
+D = SQLDatabase()
+table_skeleton = OrderedDict([
+('graph6', {'sql':'TEXT', 'index':True, 'primary_key':True}),
+('vertices', {'sql':'INTEGER'}),
+('edges', {'sql':'INTEGER'})
+])
+D.create_table('simon', table_skeleton)
+D.show('simon')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1166,7 +1415,7 @@ below).</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">query</span></code> – a <code class="docutils literal notranslate"><span class="pre">SQLQuery</span></code> (Delete the rows returned when query is
 run)</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
@@ -1223,6 +1472,27 @@ run)</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from collections import OrderedDict
+DB = SQLDatabase()
+DB.create_table('lucy', OrderedDict([
+('id', {'sql':'INTEGER', 'primary_key':True, 'index':True}),
+('a1', {'sql':'bool'}),
+('b2', {'sql':'int'})]))
+DB.add_rows('lucy', [(0,1,1),(1,1,4),(2,0,7),(3,1,384), (4,1,978932)],['id','a1','b2'])
+DB.show('lucy')
+Q = SQLQuery(DB, {'table_name':'lucy', 'display_cols':['id','a1','b2'], 'expression':['id','&gt;=',3]})
+DB.delete_rows(Q)
+DB.show('lucy')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1230,7 +1500,7 @@ run)</p></li>
 <dt class="sig sig-object py" id="sage.databases.sql_db.SQLDatabase.drop_column">
 <span class="sig-name descname"><span class="pre">drop_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/databases/sql_db.py#L1689"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.databases.sql_db.SQLDatabase.drop_column" title="Link to this definition">¶</a></dt>
 <dd><p>Drop the column <code class="docutils literal notranslate"><span class="pre">col_name</span></code> from table <code class="docutils literal notranslate"><span class="pre">table_name</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">MonicPolys</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -1297,6 +1567,22 @@ run)</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">MonicPolys = SQLDatabase()
+MonicPolys.create_table('simon', {'n':{'sql':'INTEGER', 'index':True}})
+for n in range(20): MonicPolys.add_row('simon', (n,))
+MonicPolys.add_column('simon', 'n_squared', {'sql':'INTEGER'}, 0)
+MonicPolys.drop_column('simon', 'n_squared')
+MonicPolys.show('simon')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1304,7 +1590,7 @@ run)</p></li>
 <dt class="sig sig-object py" id="sage.databases.sql_db.SQLDatabase.drop_data_from_table">
 <span class="sig-name descname"><span class="pre">drop_data_from_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/databases/sql_db.py#L1801"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.databases.sql_db.SQLDatabase.drop_data_from_table" title="Link to this definition">¶</a></dt>
 <dd><p>Remove all rows from <code class="docutils literal notranslate"><span class="pre">table_name</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -1337,6 +1623,22 @@ run)</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D = SQLDatabase()
+D.create_table('simon',{'col1':{'sql':'INTEGER'}})
+D.add_row('simon',(9,))
+D.show('simon')
+D.drop_data_from_table('simon')
+D.show('simon')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1345,7 +1647,7 @@ run)</p></li>
 <span class="sig-name descname"><span class="pre">drop_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/databases/sql_db.py#L1873"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.databases.sql_db.SQLDatabase.drop_index" title="Link to this definition">¶</a></dt>
 <dd><p>Set the column <code class="docutils literal notranslate"><span class="pre">index_name</span></code> in table <code class="docutils literal notranslate"><span class="pre">table_name</span></code> to not be an
 index. See <code class="docutils literal notranslate"><span class="pre">make_index()</span></code></p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">MonicPolys</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -1380,6 +1682,20 @@ index. See <code class="docutils literal notranslate"><span class="pre">make_ind
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">MonicPolys = SQLDatabase()
+MonicPolys.create_table('simon', {'n':{'sql':'INTEGER', 'index':True}, 'n2':{'sql':'INTEGER'}})
+MonicPolys.drop_index('simon', 'n')
+MonicPolys.get_skeleton()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1395,7 +1711,7 @@ objects.</p>
 <p>NOTE:</p>
 <p>This function only changes the column to be non-primary, it does not
 delete it.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">MonicPolys</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -1432,6 +1748,21 @@ delete it.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">MonicPolys = SQLDatabase()
+MonicPolys.create_table('simon', {'n':{'sql':'INTEGER', 'index':True}, 'n2':{'sql':'INTEGER'}})
+MonicPolys.make_primary_key('simon', 'n2')
+MonicPolys.drop_primary_key('simon', 'n2')
+MonicPolys.get_skeleton()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1443,7 +1774,7 @@ delete it.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">table_name</span></code> – string</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -1470,6 +1801,21 @@ delete it.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D = SQLDatabase()
+D.create_table('simon',{'col1':{'sql':'INTEGER'}})
+D.show('simon')
+D.drop_table('simon')
+D.get_skeleton()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1481,7 +1827,7 @@ values.</p>
 <p>NOTE:</p>
 <p>This function only removes the requirement for entries in <code class="docutils literal notranslate"><span class="pre">col_name</span></code>
 to be unique, it does not delete it.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">MonicPolys</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -1518,6 +1864,21 @@ to be unique, it does not delete it.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">MonicPolys = SQLDatabase()
+MonicPolys.create_table('simon', {'n':{'sql':'INTEGER', 'index':True}, 'n2':{'sql':'INTEGER'}})
+MonicPolys.make_unique('simon', 'n2')
+MonicPolys.drop_unique('simon', 'n2')
+MonicPolys.get_skeleton()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1528,7 +1889,7 @@ to be unique, it does not delete it.</p>
 <p>You most likely want <code class="docutils literal notranslate"><span class="pre">get_cursor()</span></code> instead, which is used for
 executing sqlite commands on the database.</p>
 <p>Recommended for more advanced users only.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">(</span><span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1583,6 +1944,25 @@ executing sqlite commands on the database.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D = SQLDatabase(read_only=True)
+con = D.get_connection()
+con = D.get_connection(True)
+D.ignore_warnings = True
+con = D.get_connection()
+t = con.execute('CREATE TABLE simon(n INTEGER, n2 INTEGER)')
+for n in range(10):
+  t = con.execute('INSERT INTO simon VALUES(%d,%d)'%(n,n^2))
+D.show('simon')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1593,7 +1973,7 @@ executing sqlite commands on the database.</p>
 <p>A cursor is an input from which you can execute sqlite commands on the
 database.</p>
 <p>Recommended for more advanced users only.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">DB</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -1618,6 +1998,23 @@ database.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="p">(</span><span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;select * from simon&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
 <span class="go">[(0, 1), (0, 0), (1, 1), (1, 2), (0, 0), (0, 4), (1, 5)]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DB = SQLDatabase()
+DB.create_table('simon',{'a1':{'sql':'bool'}, 'b2':{'sql':'int'}})
+DB.add_row('simon',(0,1))
+DB.add_rows('simon',[(0,0),(1,1),(1,2)])
+DB.add_rows('simon',[(0,0),(4,0),(5,1)], ['b2','a1'])
+cur = DB.get_cursor()
+(cur.execute('select * from simon')).fetchall()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1649,7 +2046,7 @@ database, in the following format:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">check</span></code> – if <code class="docutils literal notranslate"><span class="pre">True</span></code>, checks to make sure the database’s actual
 structure matches the skeleton on record</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.graphs graph_database</span>
@@ -1684,6 +2081,19 @@ structure matches the skeleton on record</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.graphs graph_database
+GDB = GraphDatabase()
+GDB.get_skeleton()             # slightly random output</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1699,7 +2109,7 @@ that is, a column set up to do quick searches on.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">unique</span></code> – requires that there are no multiple entries in the
 column, makes searching faster</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">MonicPolys</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -1734,6 +2144,20 @@ column, makes searching faster</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">MonicPolys = SQLDatabase()
+MonicPolys.create_table('simon', {'n':{'sql':'INTEGER', 'index':True}, 'n2':{'sql':'INTEGER'}})
+MonicPolys.make_index('n2','simon')
+MonicPolys.get_skeleton()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1748,7 +2172,7 @@ objects.</p>
 <p>NOTE:</p>
 <p>Some SQL features, such as automatically incrementing primary key,
 require the full word <code class="docutils literal notranslate"><span class="pre">'INTEGER'</span></code>, not just <code class="docutils literal notranslate"><span class="pre">'INT'</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--28-input--1" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">MonicPolys</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -1783,6 +2207,20 @@ require the full word <code class="docutils literal notranslate"><span class="pr
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">MonicPolys = SQLDatabase()
+MonicPolys.create_table('simon', {'n':{'sql':'INTEGER', 'index':True}, 'n2':{'sql':'INTEGER'}})
+MonicPolys.make_primary_key('simon', 'n2')
+MonicPolys.get_skeleton()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1794,7 +2232,7 @@ values.</p>
 <p>NOTE:</p>
 <p>This function only adds the requirement for entries in <code class="docutils literal notranslate"><span class="pre">col_name</span></code> to
 be unique, it does not change the values.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">MonicPolys</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -1829,6 +2267,20 @@ be unique, it does not change the values.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">MonicPolys = SQLDatabase()
+MonicPolys.create_table('simon', {'n':{'sql':'INTEGER', 'index':True}, 'n2':{'sql':'INTEGER'}})
+MonicPolys.make_unique('simon', 'n2')
+MonicPolys.get_skeleton()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1838,7 +2290,7 @@ be unique, it does not change the values.</p>
 <dd><p>Create a <code class="docutils literal notranslate"><span class="pre">SQLQuery</span></code> on this database.</p>
 <p>For full class details,
 type <code class="docutils literal notranslate"><span class="pre">SQLQuery?</span></code> and press <kbd class="kbd docutils literal notranslate">Shift</kbd> + <kbd class="kbd docutils literal notranslate">Enter</kbd>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--30-input--1" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -1873,6 +2325,24 @@ type <code class="docutils literal notranslate"><span class="pre">SQLQuery?</spa
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--30-input--3" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D = SQLDatabase()
+D.create_table('simon', {'wolf':{'sql':'BOOLEAN'}, 'tag':{'sql':'INTEGER'}})
+q = D.query({'table_name':'simon', 'display_cols':['tag'], 'expression':['wolf','=',1]})
+q.get_query_string()
+q.__param_tuple__
+q = D.query(query_string='SELECT tag FROM simon WHERE wolf=?',param_tuple=(1,))
+q.get_query_string()
+q.__param_tuple__</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1880,7 +2350,7 @@ type <code class="docutils literal notranslate"><span class="pre">SQLQuery?</spa
 <dt class="sig sig-object py" id="sage.databases.sql_db.SQLDatabase.rename_table">
 <span class="sig-name descname"><span class="pre">rename_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/databases/sql_db.py#L1737"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.databases.sql_db.SQLDatabase.rename_table" title="Link to this definition">¶</a></dt>
 <dd><p>Rename the table <code class="docutils literal notranslate"><span class="pre">table_name</span></code> to <code class="docutils literal notranslate"><span class="pre">new_name</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--31-input--1" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -1917,6 +2387,22 @@ type <code class="docutils literal notranslate"><span class="pre">SQLQuery?</spa
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--31-input--3" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D = SQLDatabase()
+D.create_table('simon',{'col1':{'sql':'INTEGER'}})
+D.show('simon')
+D.rename_table('simon', 'lucy')
+D.show('simon')
+D.show('lucy')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1924,7 +2410,7 @@ type <code class="docutils literal notranslate"><span class="pre">SQLQuery?</spa
 <dt class="sig sig-object py" id="sage.databases.sql_db.SQLDatabase.save">
 <span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/databases/sql_db.py#L1200"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.databases.sql_db.SQLDatabase.save" title="Link to this definition">¶</a></dt>
 <dd><p>Save the database to the specified location.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--32-input--1" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">MonicPolys</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -1997,6 +2483,25 @@ type <code class="docutils literal notranslate"><span class="pre">SQLQuery?</spa
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--32-input--3" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">MonicPolys = SQLDatabase()
+MonicPolys.create_table('simon', {'n':{'sql':'INTEGER', 'index':True}})
+for n in range(20): MonicPolys.add_row('simon', (n,))
+import tempfile
+with tempfile.TemporaryDirectory() as d:
+    dbpath = os.path.join(d, &quot;sage.db&quot;)
+    MonicPolys.save(dbpath)
+    N = SQLDatabase(dbpath)
+    N.show('simon')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2004,7 +2509,7 @@ type <code class="docutils literal notranslate"><span class="pre">SQLQuery?</spa
 <dt class="sig sig-object py" id="sage.databases.sql_db.SQLDatabase.show">
 <span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/databases/sql_db.py#L1315"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.databases.sql_db.SQLDatabase.show" title="Link to this definition">¶</a></dt>
 <dd><p>Show an entire table from the database.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--33-input--1" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">DB</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -2033,6 +2538,20 @@ type <code class="docutils literal notranslate"><span class="pre">SQLQuery?</spa
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--33-input--3" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DB = SQLDatabase()
+DB.create_table('simon',{'a1':{'sql':'bool'}, 'b2':{'sql':'int'}})
+DB.add_data('simon',[(0,0),(1,1),(1,2)])
+DB.show('simon')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2041,7 +2560,7 @@ type <code class="docutils literal notranslate"><span class="pre">SQLQuery?</spa
 <span class="sig-name descname"><span class="pre">vacuum</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/databases/sql_db.py#L2195"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.databases.sql_db.SQLDatabase.vacuum" title="Link to this definition">¶</a></dt>
 <dd><p>Clean the extra hard disk space used up by a database that has
 recently shrunk.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--34-input--1" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">DB</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -2066,6 +2585,24 @@ recently shrunk.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">DB</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">DB</span><span class="o">.</span><span class="n">vacuum</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--34-input--3" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DB = SQLDatabase()
+DB.create_table('simon',{'a1':{'sql':'bool'}, 'b2':{'sql':'int'}})
+DB.add_row('simon',(0,1))
+DB.add_data('simon',[(0,0),(1,1),(1,2)])
+DB.add_data('simon',[(0,0),(4,0),(5,1)], ['b2','a1'])
+DB.drop_column('simon','b2')
+DB.commit()
+DB.vacuum()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2096,7 +2633,7 @@ need to do something like: ‘“value”’.</p>
 </dl>
 <p>See the documentation of <code class="docutils literal notranslate"><span class="pre">SQLDatabase</span></code> for an introduction to using
 SQLite in Sage.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--35-input--1" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -2125,8 +2662,23 @@ SQLite in Sage.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--35-input--3" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D = SQLDatabase()
+D.create_table('simon',{'a1':{'sql':'bool', 'primary_key':False}, 'b2':{'sql':'int'}})
+D.add_data('simon',[(0,0),(1,2),(2,4)])
+r = SQLQuery(D, {'table_name':'simon', 'display_cols':['a1'], 'expression':['b2','&lt;=', 3]})
+r.show()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Test that <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/27562">upstream Issue #27562</a> is fixed:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Test that <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/27562">upstream Issue #27562</a> is fixed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--36-input--1" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -2165,12 +2717,27 @@ SQLite in Sage.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--36-input--3" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D = SQLDatabase()
+r = SQLQuery(D, {'table_name':'simon', 'display_cols':['a1'], 'expression':['b2','&lt;=', 3]})
+D.create_table('simon',{'a1':{'sql':'bool', 'primary_key':False}, 'b2':{'sql':'int'}})
+D.create_table('simon',{'a1':{'sql':'bool', 'primary_key':False}, 'b2':{'sql':'int'}})
+SQLQuery(D, {'table_name':'simon', 'display_cols':['a1'], 'expression':['c1','&gt;',2]})</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.databases.sql_db.SQLQuery.get_query_string">
 <span class="sig-name descname"><span class="pre">get_query_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/databases/sql_db.py#L552"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.databases.sql_db.SQLQuery.get_query_string" title="Link to this definition">¶</a></dt>
 <dd><p>Return a copy of the query string.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--37-input--1" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.graphs graph_database</span>
@@ -2201,6 +2768,23 @@ SQLite in Sage.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--37-input--3" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.graphs graph_database
+G = GraphDatabase()
+q = 'SELECT graph_id,graph6,num_vertices,num_edges FROM graph_data WHERE graph_id&lt;=(?) AND num_vertices=(?)'
+param = (22,5)
+SQLQuery(G,q,param).get_query_string()
+r = 'SELECT graph6 FROM graph_data WHERE num_vertices&lt;=3'
+SQLQuery(G,r).get_query_string()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2226,7 +2810,7 @@ those previously joined in either query). Structure is given by:</p>
 <code class="docutils literal notranslate"><span class="pre">join_table.corr_base_col1</span> <span class="pre">=</span> <span class="pre">join_table1.col1</span></code></p>
 </li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--38-input--1" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">DB</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -2283,6 +2867,30 @@ those previously joined in either query). Structure is given by:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--38-input--3" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DB = SQLDatabase()
+DB.create_table('simon',{'a1':{'sql':'bool'}, 'b2':{'sql':'int'}})
+DB.create_table('lucy',{'a1':{'sql':'bool'}, 'b2':{'sql':'int'}})
+DB.add_data('simon', [(0,5),(1,4)])
+DB.add_data('lucy', [(1,1),(1,4)])
+q = SQLQuery(DB, {'table_name':'lucy', 'display_cols':['b2'], 'expression':['a1','=',1]})
+r = SQLQuery(DB, {'table_name':'simon', 'display_cols':['a1'], 'expression':['b2','&lt;=', 6]})
+s = q.intersect(r, 'simon', {'lucy':('a1','a1')})
+s.get_query_string()
+s.query_results()
+s = q.intersect(r)
+s.__query_string__ == q.__query_string__
+q.intersect(r, 'simon', {'lucy':('a1','a1')}, True)
+q.__query_string__ == s.__query_string__</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2291,7 +2899,7 @@ those previously joined in either query). Structure is given by:</p>
 <span class="sig-name descname"><span class="pre">query_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/databases/sql_db.py#L598"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.databases.sql_db.SQLQuery.query_results" title="Link to this definition">¶</a></dt>
 <dd><p>Run the query by executing the <code class="docutils literal notranslate"><span class="pre">__query_string__</span></code>. Return the
 results of the query in a list.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--39-input--1" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.graphs graph_database</span>
@@ -2324,6 +2932,24 @@ results of the query in a list.</p>
 <span class="go">[(&#39;C?&#39;,), (&#39;C@&#39;,), (&#39;CB&#39;,), (&#39;CK&#39;,), (&#39;CF&#39;,), (&#39;CJ&#39;,),</span>
 <span class="go"> (&#39;CL&#39;,), (&#39;CN&#39;,), (&#39;C]&#39;,), (&#39;C^&#39;,), (&#39;C~&#39;,)]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--39-input--3" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.graphs graph_database
+G = GraphDatabase()
+q = 'SELECT graph_id,graph6,num_vertices,num_edges FROM graph_data WHERE graph_id&lt;=(?) AND num_vertices=(?)'
+param = (22,5)
+Q = SQLQuery(G,q,param)
+Q.query_results()
+R = SQLQuery(G,{'table_name':'graph_data', 'display_cols':['graph6'], 'expression':['num_vertices','=',4]})
+R.query_results()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2359,7 +2985,7 @@ headers. The dictionary format is:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">id_col</span></code> – reference to a column that can be used as an object
 identifier for each row</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--40-input--1" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">DB</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -2434,6 +3060,29 @@ identifier for each row</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--40-input--3" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DB = SQLDatabase()
+DB.create_table('simon',{'a1':{'sql':'bool', 'primary_key':False}, 'b2':{'sql':'int'}})
+DB.add_data('simon',[(0,0),(1,1),(1,2)])
+r = SQLQuery(DB, {'table_name':'simon', 'display_cols':['a1'], 'expression':['b2','&lt;=', 6]})
+r.show()
+# needs sage.graphs graph_database
+D = GraphDatabase()
+from sage.graphs.graph_database import valid_kwds, data_to_degseq
+relabel = {}
+for col in valid_kwds:
+    relabel[col] = ' '.join([word.capitalize() for word in col.split('_')])
+q = GraphQuery(display_cols=['graph6','degree_sequence'], num_vertices=4)
+SQLQuery.show(q, format_cols={'degree_sequence':(lambda x,y: data_to_degseq(x,y))}, relabel_cols=relabel, id_col='graph6')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2459,7 +3108,7 @@ those previously joined in either query). Structure is given by:</p>
 <code class="docutils literal notranslate"><span class="pre">join_table.corr_base_col1=join_table1.col1</span></code></p>
 </li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--41-input--1" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">DB</span> <span class="o">=</span> <span class="n">SQLDatabase</span><span class="p">()</span>
@@ -2496,6 +3145,26 @@ those previously joined in either query). Structure is given by:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--41-input--3" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DB = SQLDatabase()
+DB.create_table('simon',{'a1':{'sql':'bool'}, 'b2':{'sql':'int'}})
+DB.create_table('lucy',{'a1':{'sql':'bool'}, 'b2':{'sql':'int'}})
+DB.add_data('simon', [(0,5),(1,4)])
+DB.add_data('lucy', [(1,1),(1,4)])
+q = SQLQuery(DB, {'table_name':'lucy', 'display_cols':['b2'], 'expression':['a1','=',1]})
+r = SQLQuery(DB, {'table_name':'simon', 'display_cols':['a1'], 'expression':['b2','&lt;=', 6]})
+s = q.union(r, 'simon', {'lucy':('a1','a1')})
+s.get_query_string()
+s.query_results()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2523,7 +3192,7 @@ column:</p>
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="go">{&#39;table1&#39;:{&#39;col1&#39;:{&#39;primary_key&#39;:False, &#39;unique&#39;: True, &#39;index&#39;:True, &#39;sql&#39;:&#39;REAL&#39;}}}</span>
 </pre></div>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--42-input--1" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.graphs graph_database</span>
@@ -2544,6 +3213,20 @@ column:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--42-input--3" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.graphs graph_database
+G = SQLDatabase(GraphDatabase().__dblocation__, False)
+from sage.databases.sql_db import construct_skeleton
+sorted(construct_skeleton(G))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2561,7 +3244,7 @@ parameter <code class="docutils literal notranslate"><span class="pre">expr</spa
 <ul class="simple">
 <li><p><a class="reference internal" href="../../../references/index.html#ha2005" id="id1"><span>[Ha2005]</span></a></p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--43-input--1" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.databases.sql_db</span><span class="w"> </span><span class="kn">import</span> <span class="n">regexp</span>
@@ -2586,6 +3269,20 @@ parameter <code class="docutils literal notranslate"><span class="pre">expr</spa
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--43-input--3" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.databases.sql_db import regexp
+regexp('.s.*','cs')
+regexp('.s.*','ccs')
+regexp('.s.*','cscccc')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2597,7 +3294,7 @@ default values filled in. Proper format:</p>
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="go">{&#39;primary_key&#39;:False, &#39;index&#39;:False, &#39;unique&#39;: False, &#39;sql&#39;:&#39;REAL&#39;}</span>
 </pre></div>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--44-input--1" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.databases.sql_db</span><span class="w"> </span><span class="kn">import</span> <span class="n">verify_column</span>
@@ -2630,6 +3327,22 @@ default values filled in. Proper format:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--44-input--3" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.databases.sql_db import verify_column
+col = {'sql':'BOOLEAN'}
+verify_column(col)
+col = {'primary_key':True, 'sql':'INTEGER'}
+verify_column(col)
+verify_column({})</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2650,7 +3363,7 @@ Legal operators include the following strings:</p>
 <li><p>‘is null’</p></li>
 <li><p>‘is not null’</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--45-input--1" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.databases.sql_db</span><span class="w"> </span><span class="kn">import</span> <span class="n">verify_operator</span>
@@ -2683,6 +3396,21 @@ Legal operators include the following strings:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--45-input--3" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.databases.sql_db import verify_operator
+verify_operator('&lt;=')
+verify_operator('regexp')
+verify_operator('is null')
+verify_operator('not_an_operator')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2690,7 +3418,7 @@ Legal operators include the following strings:</p>
 <dt class="sig sig-object py" id="sage.databases.sql_db.verify_type">
 <span class="sig-prename descclassname"><span class="pre">sage.databases.sql_db.</span></span><span class="sig-name descname"><span class="pre">verify_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/databases/sql_db.py#L131"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.databases.sql_db.verify_type" title="Link to this definition">¶</a></dt>
 <dd><p>Verify that the specified <code class="docutils literal notranslate"><span class="pre">type</span></code> is one of the allowed strings.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--46-input--1" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.databases.sql_db</span><span class="w"> </span><span class="kn">import</span> <span class="n">verify_type</span>
@@ -2719,11 +3447,29 @@ Legal operators include the following strings:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--46-input--3" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.databases.sql_db import verify_type
+verify_type('INT')
+verify_type('int')
+verify_type('float')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -2838,7 +3584,7 @@ Legal operators include the following strings:</p>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>

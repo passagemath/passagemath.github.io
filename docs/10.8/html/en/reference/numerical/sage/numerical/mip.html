@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -357,7 +357,7 @@ is a pure constraint satisfaction problem, specify it as <code class="docutils l
 <li><p><a class="reference internal" href="#sage.numerical.mip.MixedIntegerLinearProgram.solve" title="sage.numerical.mip.MixedIntegerLinearProgram.solve"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Solve</span></code></a> it and print the solution.</p></li>
 </ol>
 </div></blockquote>
-<p class="with-sage-tab with-python-tab">The following example shows all these steps:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The following example shows all these steps:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">maximization</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -428,8 +428,30 @@ is a pure constraint satisfaction problem, specify it as <code class="docutils l
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(maximization=False, solver='GLPK')
+w = p.new_variable(integer=True, nonnegative=True, name='w')
+p.add_constraint(w[0] + w[1] + w[2] - 14*w[3] == 0)
+p.add_constraint(w[1] + 2*w[2] - 8*w[3] == 0)
+p.add_constraint(2*w[2] - 3*w[3] == 0)
+p.add_constraint(w[0] - w[1] - w[2] &gt;= 0)
+p.add_constraint(w[3] &gt;= 1)
+p.set_objective(w[3])
+p.show()
+print('Objective Value: {}'.format(p.solve()))
+for i, v in sorted(p.get_values(w, convert=ZZ, tolerance=1e-3).items()):
+    print(f'w_{i} = {v}')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If your problem is already in the standard form, for example:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If your problem is already in the standard form, for example:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]])</span>
@@ -446,8 +468,21 @@ is a pure constraint satisfaction problem, specify it as <code class="docutils l
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = matrix([[1, 2], [3, 5]])
+b = vector([7, 11])
+c = vector([5, 9])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">You can add the constraint by treating the variable dictionary as a vector:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">You can add the constraint by treating the variable dictionary as a vector:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">maximization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -496,8 +531,26 @@ is a pure constraint satisfaction problem, specify it as <code class="docutils l
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(maximization=True, solver='GLPK')
+w = p.new_variable(integer=True, name='w')
+p.add_constraint(A * w &lt;= b)
+p.set_objective((c.row() * w)[0])
+p.show()
+print('Objective Value: {}'.format(p.solve()))
+for i, v in sorted(p.get_values(w, convert=ZZ, tolerance=1e-3).items()):
+    print(f'w_{i} = {v}')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Different backends compute with different base fields, for example:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Different backends compute with different base fields, for example:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -534,6 +587,24 @@ is a pure constraint satisfaction problem, specify it as <code class="docutils l
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+p.base_ring()
+x = p.new_variable(real=True, nonnegative=True)
+0.5 + 3/2*x[1]
+p = MixedIntegerLinearProgram(solver='ppl')
+p.base_ring()
+x = p.new_variable(nonnegative=True)
+0.5 + 3/2*x[1]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </section>
 <section id="more-about-mip-variables">
@@ -547,7 +618,7 @@ from the arbitrary keys indexing the components of <a class="reference internal"
 objects to the backend variables (indexed by nonnegative integers).
 Backend variables are created when a component of a <a class="reference internal" href="#sage.numerical.mip.MIPVariable" title="sage.numerical.mip.MIPVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">MIPVariable</span></code></a>
 is accessed.</p>
-<p class="with-sage-tab with-python-tab">To make your code more readable, you can construct one or several
+<p class="with-sage-tab with-python-tab with-sage-live-tab">To make your code more readable, you can construct one or several
 <a class="reference internal" href="#sage.numerical.mip.MIPVariable" title="sage.numerical.mip.MIPVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">MIPVariable</span></code></a> objects that can be arbitrarily named and
 indexed. This can be done by calling <code class="xref py py-meth docutils literal notranslate"><span class="pre">new_variable()</span></code> several times,
 or by the following special syntax:</p>
@@ -571,8 +642,21 @@ or by the following special syntax:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">mip.&lt;a,b&gt; = MixedIntegerLinearProgram(solver='GLPK')
+a
+5 + a[1] + 2*b[3]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Indices can be any object, not necessarily integers. Multi-indices are
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Indices can be any object, not necessarily integers. Multi-indices are
 also allowed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
@@ -606,6 +690,19 @@ also allowed:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a[4, 'string', QQ]
+a[4, 'string', QQ] - 7*b[2]
+mip.show()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>Upper/lower bounds on a variable can be specified either as separate constraints
 (see <a class="reference internal" href="#sage.numerical.mip.MixedIntegerLinearProgram.add_constraint" title="sage.numerical.mip.MixedIntegerLinearProgram.add_constraint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_constraint</span></code></a>) or
@@ -615,7 +712,7 @@ respectively.</p>
 </section>
 <section id="the-default-mip-variable">
 <h2>The default MIP variable<a class="headerlink" href="#the-default-mip-variable" title="Link to this heading">¶</a></h2>
-<p class="with-sage-tab with-python-tab">As a special shortcut, it is not necessary to call <code class="xref py py-meth docutils literal notranslate"><span class="pre">new_variable()</span></code>.
+<p class="with-sage-tab with-python-tab with-sage-live-tab">As a special shortcut, it is not necessary to call <code class="xref py py-meth docutils literal notranslate"><span class="pre">new_variable()</span></code>.
 A <a class="reference internal" href="#sage.numerical.mip.MixedIntegerLinearProgram" title="sage.numerical.mip.MixedIntegerLinearProgram"><code class="xref py py-class docutils literal notranslate"><span class="pre">MixedIntegerLinearProgram</span></code></a> has a default <a class="reference internal" href="#sage.numerical.mip.MIPVariable" title="sage.numerical.mip.MIPVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">MIPVariable</span></code></a>,
 whose components are obtained by using the syntax <code class="docutils literal notranslate"><span class="pre">mip[key]</span></code>, where
 <span class="math notranslate nohighlight">\(key\)</span> is an arbitrary key:</p>
@@ -633,6 +730,18 @@ whose components are obtained by using the syntax <code class="docutils literal 
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="n">mip</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span> <span class="o">+</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">mip</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">7</span><span class="p">)]</span>
 <span class="go">5 + x_0 + 2*x_1</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">mip = MixedIntegerLinearProgram(solver='GLPK')
+5 + mip[2] + 2*mip[7]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -767,7 +876,7 @@ also implements the <a class="reference internal" href="#sage.numerical.mip.MIPS
 <em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.numerical.mip.</span></span><span class="sig-name descname"><span class="pre">MIPSolverException</span></span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/mip.pyx#L3174"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.mip.MIPSolverException" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/exceptions.html#RuntimeError" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></a></p>
 <p>Exception raised when the solver fails.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.mip</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIPSolverException</span>
@@ -788,6 +897,20 @@ also implements the <a class="reference internal" href="#sage.numerical.mip.MIPS
 <span class="gp">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 <span class="go">Error</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.mip import MIPSolverException
+e = MIPSolverException(&quot;Error&quot;)
+e
+print(e)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -811,7 +934,7 @@ also implements the <a class="reference internal" href="#sage.numerical.mip.MIPS
 instance <code class="docutils literal notranslate"><span class="pre">mip</span></code>.</p>
 <p>For this to make sense, <code class="docutils literal notranslate"><span class="pre">mip</span></code> should have been obtained as a copy of
 <code class="docutils literal notranslate"><span class="pre">self.mip()</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -880,6 +1003,33 @@ instance <code class="docutils literal notranslate"><span class="pre">mip</span>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+pv = p.new_variable(nonnegative=True)
+pv[0]
+q = copy(p)
+qv = pv.copy_for_mip(q)
+pv[77]
+p.number_of_variables()
+q.number_of_variables()
+qv[33]
+p.number_of_variables()
+q.number_of_variables()
+p = MixedIntegerLinearProgram(solver='GLPK')
+pv = p.new_variable(indices=[3, 7])
+q = copy(p)
+qv = pv.copy_for_mip(q)
+qv[3]
+qv[5]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -887,7 +1037,7 @@ instance <code class="docutils literal notranslate"><span class="pre">mip</span>
 <dt class="sig sig-object py" id="sage.numerical.mip.MIPVariable.items">
 <span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/mip.pyx#L3574"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.mip.MIPVariable.items" title="Link to this definition">¶</a></dt>
 <dd><p>Return the pairs (keys, value) contained in the dictionary.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -908,6 +1058,20 @@ instance <code class="docutils literal notranslate"><span class="pre">mip</span>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+v = p.new_variable(nonnegative=True)
+p.set_objective(v[0] + v[1])
+sorted(v.items())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -915,7 +1079,7 @@ instance <code class="docutils literal notranslate"><span class="pre">mip</span>
 <dt class="sig sig-object py" id="sage.numerical.mip.MIPVariable.keys">
 <span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/mip.pyx#L3560"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.mip.MIPVariable.keys" title="Link to this definition">¶</a></dt>
 <dd><p>Return the keys already defined in the dictionary.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -936,6 +1100,20 @@ instance <code class="docutils literal notranslate"><span class="pre">mip</span>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+v = p.new_variable(nonnegative=True)
+p.set_objective(v[0] + v[1])
+sorted(v.keys())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -943,7 +1121,7 @@ instance <code class="docutils literal notranslate"><span class="pre">mip</span>
 <dt class="sig sig-object py" id="sage.numerical.mip.MIPVariable.mip">
 <span class="sig-name descname"><span class="pre">mip</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/mip.pyx#L3602"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.mip.MIPVariable.mip" title="Link to this definition">¶</a></dt>
 <dd><p>Return the <a class="reference internal" href="#sage.numerical.mip.MixedIntegerLinearProgram" title="sage.numerical.mip.MixedIntegerLinearProgram"><code class="xref py py-class docutils literal notranslate"><span class="pre">MixedIntegerLinearProgram</span></code></a> in which <code class="docutils literal notranslate"><span class="pre">self</span></code> is a variable.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -962,6 +1140,19 @@ instance <code class="docutils literal notranslate"><span class="pre">mip</span>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+v = p.new_variable(nonnegative=True)
+p == v.mip()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -974,7 +1165,7 @@ instance <code class="docutils literal notranslate"><span class="pre">mip</span>
 <li><p><code class="docutils literal notranslate"><span class="pre">max</span></code> – an upper bound, or <code class="docutils literal notranslate"><span class="pre">None</span></code> to mean that the variable is
 unbounded</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -1003,6 +1194,23 @@ unbounded</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+v = p.new_variable(real=True, nonnegative=True)
+p.get_max(v)
+p.get_max(v[0])
+p.set_max(v,4)
+p.get_max(v)
+p.get_max(v[0])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1015,7 +1223,7 @@ unbounded</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">min</span></code> – a lower bound, or <code class="docutils literal notranslate"><span class="pre">None</span></code> to mean that the variable is
 unbounded</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -1048,6 +1256,23 @@ unbounded</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+v = p.new_variable(real=True, nonnegative=True)
+p.get_min(v)
+p.get_min(v[0])
+p.set_min(v,4)
+p.get_min(v)
+p.get_min(v[0])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1055,7 +1280,7 @@ unbounded</p></li>
 <dt class="sig sig-object py" id="sage.numerical.mip.MIPVariable.values">
 <span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/mip.pyx#L3588"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.mip.MIPVariable.values" title="Link to this definition">¶</a></dt>
 <dd><p>Return the symbolic variables associated to the current dictionary.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -1074,6 +1299,20 @@ unbounded</p></li>
 <span class="gp">&gt;&gt;&gt;</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
 <span class="go">[x_0, x_1]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+v = p.new_variable(nonnegative=True)
+p.set_objective(v[0] + v[1])
+sorted(v.values(), key=str)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1145,7 +1384,7 @@ used.</p></li>
 </ul>
 </div>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Computation of a maximum stable set in Petersen’s graph:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Computation of a maximum stable set in Petersen’s graph:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.graphs</span>
@@ -1172,6 +1411,24 @@ used.</p></li>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">objective_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">4.0</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.graphs
+g = graphs.PetersenGraph()
+p = MixedIntegerLinearProgram(maximization=True, solver='GLPK')
+b = p.new_variable(binary=True)
+p.set_objective(sum([b[v] for v in g]))
+for (u,v) in g.edges(sort=False, labels=None):
+    p.add_constraint(b[u] + b[v], max=1)
+p.solve(objective_only=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1233,7 +1490,7 @@ otherwise.</p>
 <span class="go">  y is Real (min = 0, max = None)</span>
 </pre></div>
 </div>
-<p class="with-sage-tab with-python-tab">It can be solved as follows:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">It can be solved as follows:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">maximization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -1258,10 +1515,26 @@ otherwise.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(maximization=True, solver='GLPK')
+x = p.new_variable(nonnegative=True)
+p.set_objective(x[0] + 5*x[1])
+p.add_constraint(x[0] + 0.2*x[1], max=4)
+p.add_constraint(1.5*x[0] + 3*x[1], max=4)
+p.solve()     # rel tol 1e-15</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>There are two different ways to add the constraint
 <code class="docutils literal notranslate"><span class="pre">x[5]</span> <span class="pre">+</span> <span class="pre">3*x[7]</span> <span class="pre">&lt;=</span> <span class="pre">x[6]</span> <span class="pre">+</span> <span class="pre">3</span></code> to a <code class="docutils literal notranslate"><span class="pre">MixedIntegerLinearProgram</span></code>.</p>
-<p class="with-sage-tab with-python-tab">The first one consists in giving <code class="docutils literal notranslate"><span class="pre">add_constraint</span></code> this
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The first one consists in giving <code class="docutils literal notranslate"><span class="pre">add_constraint</span></code> this
 very expression:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
@@ -1275,8 +1548,19 @@ very expression:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p.add_constraint(x[5] + 3*x[7] &lt;= x[6] + 3)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The second (slightly more efficient) one is to use the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The second (slightly more efficient) one is to use the
 arguments <code class="docutils literal notranslate"><span class="pre">min</span></code> or <code class="docutils literal notranslate"><span class="pre">max</span></code>, which can only be numerical
 values:</p>
 <div class="tab-set docutils container">
@@ -1291,8 +1575,19 @@ values:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p.add_constraint(x[5] + 3*x[7] - x[6], max=3)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">One can also define double-bounds or equality using symbols
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">One can also define double-bounds or equality using symbols
 <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code> and <code class="docutils literal notranslate"><span class="pre">==</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
@@ -1308,8 +1603,20 @@ values:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p.add_constraint(x[5] + 3*x[7] == x[6] + 3)
+p.add_constraint(x[5] + 3*x[7] &lt;= x[6] + 3 &lt;= x[8] + 27)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Using this notation, the previous program can be written as:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Using this notation, the previous program can be written as:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">maximization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -1334,8 +1641,24 @@ values:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(maximization=True, solver='GLPK')
+x = p.new_variable(nonnegative=True)
+p.set_objective(x[0] + 5*x[1])
+p.add_constraint(x[0] + 0.2*x[1] &lt;= 4)
+p.add_constraint(1.5*x[0] + 3*x[1] &lt;= 4)
+p.solve()     # rel tol 1e-15</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The two constraints can also be combined into a single
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The two constraints can also be combined into a single
 vector-valued constraint:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
@@ -1363,8 +1686,24 @@ vector-valued constraint:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(maximization=True, solver='GLPK')
+x = p.new_variable(nonnegative=True)
+p.set_objective(x[0] + 5*x[1])
+f_vec = vector([1, 1.5]) * x[0] + vector([0.2, 3]) * x[1];  f_vec
+p.add_constraint(f_vec, max=vector([4, 4]))
+p.solve()     # rel tol 1e-15</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Instead of specifying the maximum in the optional <code class="docutils literal notranslate"><span class="pre">max</span></code>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Instead of specifying the maximum in the optional <code class="docutils literal notranslate"><span class="pre">max</span></code>
 argument, we can also use (in)equality notation for
 vector-valued linear functions:</p>
 <div class="tab-set docutils container">
@@ -1393,8 +1732,24 @@ vector-valued linear functions:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f_vec &lt;= 4    # constant rhs becomes vector
+p = MixedIntegerLinearProgram(maximization=True, solver='GLPK')
+x = p.new_variable(nonnegative=True)
+p.set_objective(x[0] + 5*x[1])
+p.add_constraint(f_vec &lt;= 4)
+p.solve()     # rel tol 1e-15</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Finally, one can use the matrix * <a class="reference internal" href="#sage.numerical.mip.MIPVariable" title="sage.numerical.mip.MIPVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">MIPVariable</span></code></a>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Finally, one can use the matrix * <a class="reference internal" href="#sage.numerical.mip.MIPVariable" title="sage.numerical.mip.MIPVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">MIPVariable</span></code></a>
 notation to write vector-valued linear functions:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
@@ -1424,6 +1779,22 @@ notation to write vector-valued linear functions:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">m = matrix([[1.0, 0.2], [1.5, 3.0]]);  m
+p = MixedIntegerLinearProgram(maximization=True, solver='GLPK')
+x = p.new_variable(nonnegative=True)
+p.set_objective(x[0] + 5*x[1])
+p.add_constraint(m * x &lt;= 4)
+p.solve()     # rel tol 1e-15</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1432,7 +1803,7 @@ notation to write vector-valued linear functions:</p>
 <span class="sig-name descname"><span class="pre">base_ring</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/mip.pyx#L673"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.mip.MixedIntegerLinearProgram.base_ring" title="Link to this definition">¶</a></dt>
 <dd><p>Return the base ring.</p>
 <p>OUTPUT: a ring. The coefficients that the chosen solver supports</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -1475,6 +1846,27 @@ notation to write vector-valued linear functions:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+p.base_ring()
+p = MixedIntegerLinearProgram(solver='ppl')
+p.base_ring()
+from sage.rings.qqbar import AA                                       # needs sage.rings.number_field
+p = MixedIntegerLinearProgram(solver='InteractiveLP', base_ring=AA)   # needs sage.rings.number_field
+p.base_ring()                                                         # needs sage.rings.number_field
+# needs sage.groups sage.rings.number_field
+d = polytopes.dodecahedron()
+p = MixedIntegerLinearProgram(base_ring=d.base_ring())
+p.base_ring()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1492,7 +1884,7 @@ manually or after a time limit (cf <a class="reference internal" href="#sage.num
 <p class="admonition-title">Note</p>
 <p>Has no meaning unless <code class="docutils literal notranslate"><span class="pre">solve</span></code> has been called before.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.graphs</span>
@@ -1529,6 +1921,27 @@ manually or after a time limit (cf <a class="reference internal" href="#sage.num
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.graphs
+g = graphs.CubeGraph(9)
+p = MixedIntegerLinearProgram(solver='GLPK')
+p.solver_parameter(&quot;mip_gap_tolerance&quot;,100)
+b = p.new_variable(binary=True)
+p.set_objective(p.sum(b[v] for v in g))
+for v in g:
+    p.add_constraint(b[v] + p.sum(b[u] for u in g.neighbors(v)) &lt;= 1)
+p.add_constraint(b[v] == 1)  # Force an easy non-0 solution
+p.solve() # rel tol 100
+p.best_known_objective_bound()  # random</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1559,7 +1972,7 @@ corresponding linear function is the one associating to variable
 others.</p>
 <p><code class="docutils literal notranslate"><span class="pre">lower_bound</span></code> and <code class="docutils literal notranslate"><span class="pre">upper_bound</span></code> are numerical values.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">First, let us define a small LP:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">First, let us define a small LP:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -1576,8 +1989,21 @@ others.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+p.add_constraint(p[0] - p[2], min=1, max=4)
+p.add_constraint(p[0] - 2*p[1], min=1)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">To obtain the list of all constraints:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">To obtain the list of all constraints:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span><span class="o">.</span><span class="n">constraints</span><span class="p">()</span>          <span class="c1"># not tested</span>
@@ -1592,8 +2018,19 @@ others.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p.constraints()          # not tested</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Or constraint <span class="math notranslate nohighlight">\(0\)</span> only:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Or constraint <span class="math notranslate nohighlight">\(0\)</span> only:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--28-input--1" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span><span class="o">.</span><span class="n">constraints</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>         <span class="c1"># not tested</span>
@@ -1608,8 +2045,19 @@ others.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p.constraints(0)         # not tested</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A list of constraints containing only <span class="math notranslate nohighlight">\(1\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A list of constraints containing only <span class="math notranslate nohighlight">\(1\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span><span class="o">.</span><span class="n">constraints</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>       <span class="c1"># not tested</span>
@@ -1624,6 +2072,17 @@ others.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p.constraints([1])       # not tested</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1631,7 +2090,7 @@ others.</p>
 <dt class="sig sig-object py" id="sage.numerical.mip.MixedIntegerLinearProgram.default_variable">
 <span class="sig-name descname"><span class="pre">default_variable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/mip.pyx#L850"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.mip.MixedIntegerLinearProgram.default_variable" title="Link to this definition">¶</a></dt>
 <dd><p>Return the default <a class="reference internal" href="#sage.numerical.mip.MIPVariable" title="sage.numerical.mip.MIPVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">MIPVariable</span></code></a> of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--30-input--1" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -1648,6 +2107,18 @@ others.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--30-input--3" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+p.default_variable()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1658,7 +2129,7 @@ others.</p>
 <p>This might be useful when access to additional functions provided by
 the backend is needed.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">This example uses the simplex algorithm and prints information:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This example uses the simplex algorithm and prints information:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--31-input--1" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -1701,6 +2172,26 @@ the backend is needed.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--31-input--3" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+x, y = p[0], p[1]
+p.add_constraint(2*x + 3*y, max=6)
+p.add_constraint(3*x + 2*y, max=6)
+p.set_objective(x + y + 7)
+b = p.get_backend()
+b.solver_parameter(&quot;simplex_or_intopt&quot;, &quot;simplex_only&quot;)
+b.solver_parameter(&quot;verbosity_simplex&quot;, &quot;GLP_MSG_ALL&quot;)
+ans = p.solve()
+ans # rel tol 1e-5</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1715,7 +2206,7 @@ the backend is needed.</p>
 <p>OUTPUT:</p>
 <p>Maximum value of the variable, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if the variable has no upper
 bound.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--32-input--1" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -1740,6 +2231,22 @@ bound.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--32-input--3" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+v = p.new_variable(nonnegative=True)
+p.set_objective(v[1])
+p.get_max(v[1])
+p.set_max(v[1],6)
+p.get_max(v[1])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1754,7 +2261,7 @@ bound.</p>
 <p>OUTPUT:</p>
 <p>Minimum value of the variable, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if the variable has no lower
 bound.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--33-input--1" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -1785,6 +2292,24 @@ bound.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--33-input--3" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+v = p.new_variable(nonnegative=True)
+p.set_objective(v[1])
+p.get_min(v[1])
+p.set_min(v[1],6)
+p.get_min(v[1])
+p.set_min(v[1], None)
+p.get_min(v[1])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1796,7 +2321,7 @@ bound.</p>
 <p class="admonition-title">Note</p>
 <p>Behaviour is undefined unless <code class="docutils literal notranslate"><span class="pre">solve</span></code> has been called before.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--34-input--1" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -1825,6 +2350,23 @@ bound.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--34-input--3" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+x, y = p[0], p[1]
+p.add_constraint(2*x + 3*y, max=6)
+p.add_constraint(3*x + 2*y, max=6)
+p.set_objective(x + y + 7)
+p.solve()  # rel tol 1e-5
+p.get_objective_value()  # rel tol 1e-5</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1844,7 +2386,7 @@ maximization problem, the value is computed by <span class="math notranslate noh
 <p class="admonition-title">Note</p>
 <p>Has no meaning unless <code class="docutils literal notranslate"><span class="pre">solve</span></code> has been called before.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--35-input--1" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.graphs</span>
@@ -1879,6 +2421,27 @@ maximization problem, the value is computed by <span class="math notranslate noh
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">get_relative_objective_gap</span><span class="p">()</span>  <span class="c1"># random</span>
 <span class="go">46.99999999999999</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--35-input--3" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.graphs
+g = graphs.CubeGraph(9)
+p = MixedIntegerLinearProgram(solver='GLPK')
+p.solver_parameter(&quot;mip_gap_tolerance&quot;,100)
+b = p.new_variable(binary=True)
+p.set_objective(p.sum(b[v] for v in g))
+for v in g:
+    p.add_constraint(b[v] + p.sum(b[u] for u in g.neighbors(v)) &lt;= 1)
+p.add_constraint(b[v] == 1)  # Force an easy non-0 solution
+p.solve() # rel tol 100
+p.get_relative_objective_gap()  # random</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1939,7 +2502,7 @@ both the model and the solver.</p>
 <p>The arguments <code class="docutils literal notranslate"><span class="pre">convert</span></code> and <code class="docutils literal notranslate"><span class="pre">tolerance</span></code> facilitate writing
 correct code.  See examples below.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--36-input--1" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -1964,8 +2527,24 @@ correct code.  See examples below.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--36-input--3" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+x = p.new_variable(nonnegative=True)
+y = p.new_variable(nonnegative=True)
+p.set_objective(x[3] + 3*y[2,9] + x[5])
+p.add_constraint(x[3] + y[2,9] + 2*x[5], max=2)
+p.solve()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">To return the value of <code class="docutils literal notranslate"><span class="pre">y[2,9]</span></code> in the optimal solution:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">To return the value of <code class="docutils literal notranslate"><span class="pre">y[2,9]</span></code> in the optimal solution:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--37-input--1" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span><span class="o">.</span><span class="n">get_values</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">9</span><span class="p">])</span>
@@ -1984,8 +2563,20 @@ correct code.  See examples below.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--37-input--3" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p.get_values(y[2,9])
+type(_)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">To convert the value to the <a class="reference internal" href="#sage.numerical.mip.MixedIntegerLinearProgram.base_ring" title="sage.numerical.mip.MixedIntegerLinearProgram.base_ring"><code class="xref py py-meth docutils literal notranslate"><span class="pre">base_ring()</span></code></a>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">To convert the value to the <a class="reference internal" href="#sage.numerical.mip.MixedIntegerLinearProgram.base_ring" title="sage.numerical.mip.MixedIntegerLinearProgram.base_ring"><code class="xref py py-meth docutils literal notranslate"><span class="pre">base_ring()</span></code></a>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--38-input--1" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span><span class="o">.</span><span class="n">get_values</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">9</span><span class="p">],</span> <span class="n">convert</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -2004,8 +2595,20 @@ correct code.  See examples below.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--38-input--3" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p.get_values(y[2,9], convert=True)
+_.parent()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">To get a dictionary identical to <code class="docutils literal notranslate"><span class="pre">x</span></code> containing the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">To get a dictionary identical to <code class="docutils literal notranslate"><span class="pre">x</span></code> containing the
 values for the corresponding variables in the optimal solution:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--39-input--1" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--1">Sage</label><div class="tab-content docutils container">
@@ -2023,8 +2626,20 @@ values for the corresponding variables in the optimal solution:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--39-input--3" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">x_sol = p.get_values(x)
+sorted(x_sol)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Obviously, it also works with variables of higher dimension:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Obviously, it also works with variables of higher dimension:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--40-input--1" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">y_sol</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_values</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
@@ -2037,8 +2652,19 @@ values for the corresponding variables in the optimal solution:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--40-input--3" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">y_sol = p.get_values(y)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We could also have tried</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We could also have tried</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--41-input--1" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="p">[</span><span class="n">x_sol</span><span class="p">,</span> <span class="n">y_sol</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_values</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
@@ -2051,8 +2677,19 @@ values for the corresponding variables in the optimal solution:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--41-input--3" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">[x_sol, y_sol] = p.get_values(x, y)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Or:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Or:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--42-input--1" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="p">[</span><span class="n">x_sol</span><span class="p">,</span> <span class="n">y_sol</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_values</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
@@ -2065,8 +2702,19 @@ values for the corresponding variables in the optimal solution:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--42-input--3" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">[x_sol, y_sol] = p.get_values([x, y])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Using <code class="docutils literal notranslate"><span class="pre">convert</span></code> and <code class="docutils literal notranslate"><span class="pre">tolerance</span></code>.  First, a binary knapsack:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Using <code class="docutils literal notranslate"><span class="pre">convert</span></code> and <code class="docutils literal notranslate"><span class="pre">tolerance</span></code>.  First, a binary knapsack:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--43-input--1" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -2109,8 +2757,28 @@ values for the corresponding variables in the optimal solution:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--43-input--3" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+x = p.new_variable(binary=True)
+p.set_objective(3*x[1] + 4*x[2] + 5*x[3])
+p.add_constraint(2*x[1] + 3*x[2] + 4*x[3] &lt;= 6)
+p.solve()
+x_opt = p.get_values(x); x_opt
+type(x_opt[1])
+x_opt_ZZ = p.get_values(x, convert=True, tolerance=1e-6); x_opt_ZZ
+x_opt_ZZ[1].parent()
+x_opt_bool = p.get_values(x, convert=bool, tolerance=1e-6); x_opt_bool</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Thanks to total unimodularity, single-commodity network flow problems
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Thanks to total unimodularity, single-commodity network flow problems
 with integer capacities and integer supplies/demands have integer vertex
 solutions.  Hence the integrality of solutions is mathematically
 guaranteed in an optimal solution if we use the simplex algorithm.  A
@@ -2153,6 +2821,26 @@ operation, we should use <code class="docutils literal notranslate"><span class=
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--44-input--3" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK', maximization=False)
+x = p.new_variable(nonnegative=True)
+x.set_max(1)
+p.add_constraint(x['sa'] + x['sb'] == 1)
+p.add_constraint(x['sa'] + x['ba'] - x['ab'] - x['at'] == 0)
+p.add_constraint(x['sb'] + x['ab'] - x['ba'] - x['bt'] == 0)
+p.set_objective(10*x['sa'] + 10*x['bt'])
+p.solve()
+x_opt = p.get_values(x); x_opt
+x_opt_ZZ = p.get_values(x, convert=ZZ, tolerance=1e-6); x_opt_ZZ</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2172,7 +2860,7 @@ operation, we should use <code class="docutils literal notranslate"><span class=
 <a class="reference internal" href="#sage.numerical.mip.MixedIntegerLinearProgram" title="sage.numerical.mip.MixedIntegerLinearProgram"><code class="xref py py-class docutils literal notranslate"><span class="pre">MixedIntegerLinearProgram</span></code></a>, and a list of basic
 variables (the basis) if standard form is chosen (by default), otherwise <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
 <p>All variables must have 0 as lower bound and no upper bound.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--45-input--1" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">],</span> <span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -2231,6 +2919,33 @@ variables (the basis) if standard form is chosen (by default), otherwise <code c
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--45-input--3" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(names=['m'], solver='GLPK')
+x = p.new_variable(nonnegative=True)
+y = p.new_variable(nonnegative=True, name='n')
+v = p.new_variable(nonnegative=True)
+p.add_constraint(x[0] + x[1] - 7*y[0] + v[0] &lt;= 2, name='K')
+p.add_constraint(x[1] + 2*y[0] - v[0] &lt;= 3)
+p.add_constraint(5*x[0] + y[0] &lt;= 21, name='L')
+p.set_objective(2*x[0] + 3*x[1] + 4*y[0] + 5*v[0])
+lp, basis = p.interactive_lp_problem()
+basis
+lp.constraint_coefficients()
+lp.b()
+lp.objective_coefficients()
+lp.decision_variables()
+view(lp) #not tested
+d = lp.dictionary(*basis)
+view(d) #not tested</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2244,7 +2959,7 @@ default.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">e</span></code> – a variable (not a <code class="docutils literal notranslate"><span class="pre">MIPVariable</span></code>, but one of its elements)</p></li>
 </ul>
 <p>OUTPUT: <code class="docutils literal notranslate"><span class="pre">True</span></code> if the variable <code class="docutils literal notranslate"><span class="pre">e</span></code> is binary; <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--46-input--1" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -2271,6 +2986,22 @@ default.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--46-input--3" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+v = p.new_variable(nonnegative=True)
+p.set_objective(v[1])
+p.is_binary(v[1])
+p.set_binary(v[1])
+p.is_binary(v[1])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2284,7 +3015,7 @@ default.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">e</span></code> – a variable (not a <code class="docutils literal notranslate"><span class="pre">MIPVariable</span></code>, but one of its elements)</p></li>
 </ul>
 <p>OUTPUT: <code class="docutils literal notranslate"><span class="pre">True</span></code> if the variable <code class="docutils literal notranslate"><span class="pre">e</span></code> is an integer; <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--47-input--1" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -2311,6 +3042,22 @@ default.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--47-input--3" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+v = p.new_variable(nonnegative=True)
+p.set_objective(v[1])
+p.is_integer(v[1])
+p.set_integer(v[1])
+p.is_integer(v[1])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2323,7 +3070,7 @@ default.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">e</span></code> – a variable (not a <code class="docutils literal notranslate"><span class="pre">MIPVariable</span></code>, but one of its elements)</p></li>
 </ul>
 <p>OUTPUT: <code class="docutils literal notranslate"><span class="pre">True</span></code> if the variable is real; <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--48-input--1" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -2356,6 +3103,24 @@ default.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--48-input--3" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+v = p.new_variable(nonnegative=True)
+p.set_objective(v[1])
+p.is_real(v[1])
+p.set_binary(v[1])
+p.is_real(v[1])
+p.set_real(v[1])
+p.is_real(v[1])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2365,7 +3130,7 @@ default.</p>
 <dd><p>Return the parent for all linear constraints.</p>
 <p>See <a class="reference internal" href="linear_functions.html#module-sage.numerical.linear_functions" title="sage.numerical.linear_functions"><code class="xref py py-mod docutils literal notranslate"><span class="pre">linear_functions</span></code></a> for more
 details.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--49-input--1" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -2382,6 +3147,18 @@ details.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--49-input--3" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+p.linear_constraints_parent()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2389,7 +3166,7 @@ details.</p>
 <dt class="sig sig-object py" id="sage.numerical.mip.MixedIntegerLinearProgram.linear_functions_parent">
 <span class="sig-name descname"><span class="pre">linear_functions_parent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/mip.pyx#L480"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.mip.MixedIntegerLinearProgram.linear_functions_parent" title="Link to this definition">¶</a></dt>
 <dd><p>Return the parent for all linear functions.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--50-input--1" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -2406,6 +3183,18 @@ details.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--50-input--3" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+p.linear_functions_parent()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2413,7 +3202,7 @@ details.</p>
 <dt class="sig sig-object py" id="sage.numerical.mip.MixedIntegerLinearProgram.new_variable">
 <span class="sig-name descname"><span class="pre">new_variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">real</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">binary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">integer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonnegative</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/mip.pyx#L718"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.mip.MixedIntegerLinearProgram.new_variable" title="Link to this definition">¶</a></dt>
 <dd><p>Return a new <a class="reference internal" href="#sage.numerical.mip.MIPVariable" title="sage.numerical.mip.MIPVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">MIPVariable</span></code></a> instance.</p>
-<p class="with-sage-tab with-python-tab">A new variable <code class="docutils literal notranslate"><span class="pre">x</span></code> is defined by:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A new variable <code class="docutils literal notranslate"><span class="pre">x</span></code> is defined by:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--51-input--1" name="tab-set--51" type="radio"><label class="tab-label" for="tab-set--51-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -2426,6 +3215,18 @@ details.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">new_variable</span><span class="p">(</span><span class="n">nonnegative</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--51-input--3" name="tab-set--51" type="radio"><label class="tab-label" for="tab-set--51-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+x = p.new_variable(nonnegative=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2463,7 +3264,7 @@ on access</p></li>
 <p>OUTPUT:</p>
 <p>A new instance of <a class="reference internal" href="#sage.numerical.mip.MIPVariable" title="sage.numerical.mip.MIPVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">MIPVariable</span></code></a> associated to the
 current <a class="reference internal" href="#sage.numerical.mip.MixedIntegerLinearProgram" title="sage.numerical.mip.MixedIntegerLinearProgram"><code class="xref py py-class docutils literal notranslate"><span class="pre">MixedIntegerLinearProgram</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--52-input--1" name="tab-set--52" type="radio"><label class="tab-label" for="tab-set--52-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -2484,8 +3285,21 @@ current <a class="reference internal" href="#sage.numerical.mip.MixedIntegerLine
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--52-input--3" name="tab-set--52" type="radio"><label class="tab-label" for="tab-set--52-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+x = p.new_variable(); x
+x0 = x[0]; x0</pre>
 </div>
-<p class="with-sage-tab with-python-tab">By default, variables are unbounded:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">By default, variables are unbounded:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--53-input--1" name="tab-set--53" type="radio"><label class="tab-label" for="tab-set--53-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_min</span><span class="p">(</span><span class="n">x0</span><span class="p">))</span>
@@ -2504,8 +3318,20 @@ current <a class="reference internal" href="#sage.numerical.mip.MixedIntegerLine
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--53-input--3" name="tab-set--53" type="radio"><label class="tab-label" for="tab-set--53-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">print(p.get_min(x0))
+print(p.get_max(x0))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">To define two dictionaries of variables, the first being
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">To define two dictionaries of variables, the first being
 of real type, and the second of integer type</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--54-input--1" name="tab-set--54" type="radio"><label class="tab-label" for="tab-set--54-input--1">Sage</label><div class="tab-content docutils container">
@@ -2531,8 +3357,23 @@ of real type, and the second of integer type</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--54-input--3" name="tab-set--54" type="radio"><label class="tab-label" for="tab-set--54-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">x = p.new_variable(real=True, nonnegative=True)
+y = p.new_variable(integer=True, nonnegative=True)
+p.add_constraint(x[2] + y[3,5], max=2)
+p.is_integer(x[2])
+p.is_integer(y[3,5])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">An exception is raised when two types are supplied</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">An exception is raised when two types are supplied</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--55-input--1" name="tab-set--55" type="radio"><label class="tab-label" for="tab-set--55-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">z</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">new_variable</span><span class="p">(</span><span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">integer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -2551,8 +3392,19 @@ of real type, and the second of integer type</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--55-input--3" name="tab-set--55" type="radio"><label class="tab-label" for="tab-set--55-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">z = p.new_variable(real=True, integer=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Unbounded variables:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Unbounded variables:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--56-input--1" name="tab-set--56" type="radio"><label class="tab-label" for="tab-set--56-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -2591,8 +3443,24 @@ of real type, and the second of integer type</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--56-input--3" name="tab-set--56" type="radio"><label class="tab-label" for="tab-set--56-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+x = p.new_variable(real=True)
+y = p.new_variable(integer=True)
+p.add_constraint(x[0] + x[3] &lt;= 8)
+p.add_constraint(y[0] &gt;= y[1])
+p.show()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">On the Sage command line, generator syntax is accepted as a
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">On the Sage command line, generator syntax is accepted as a
 shorthand for generating new variables with default settings:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--57-input--1" name="tab-set--57" type="radio"><label class="tab-label" for="tab-set--57-input--1">Sage</label><div class="tab-content docutils container">
@@ -2622,6 +3490,19 @@ shorthand for generating new variables with default settings:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--57-input--3" name="tab-set--57" type="radio"><label class="tab-label" for="tab-set--57-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">mip.&lt;x, y, z&gt; = MixedIntegerLinearProgram(solver='GLPK')
+mip.add_constraint(x[0] + y[1] + z[2] &lt;= 10)
+mip.show()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2629,7 +3510,7 @@ shorthand for generating new variables with default settings:</p>
 <dt class="sig sig-object py" id="sage.numerical.mip.MixedIntegerLinearProgram.number_of_constraints">
 <span class="sig-name descname"><span class="pre">number_of_constraints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/mip.pyx#L893"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.mip.MixedIntegerLinearProgram.number_of_constraints" title="Link to this definition">¶</a></dt>
 <dd><p>Return the number of constraints assigned so far.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--58-input--1" name="tab-set--58" type="radio"><label class="tab-label" for="tab-set--58-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -2650,6 +3531,20 @@ shorthand for generating new variables with default settings:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--58-input--3" name="tab-set--58" type="radio"><label class="tab-label" for="tab-set--58-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+p.add_constraint(p[0] - p[2], min=1, max=4)
+p.add_constraint(p[0] - 2*p[1], min=1)
+p.number_of_constraints()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2663,7 +3558,7 @@ can be seen below: Gurobi converts double inequalities,
 i.e. inequalities like <span class="math notranslate nohighlight">\(m &lt;= c^T x &lt;= M\)</span>, with <span class="math notranslate nohighlight">\(m&lt;M\)</span>, into
 equations, by adding extra variables: <span class="math notranslate nohighlight">\(c^T x + y = M\)</span>, <span class="math notranslate nohighlight">\(0 &lt;= y
 &lt;= M-m\)</span>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--59-input--1" name="tab-set--59" type="radio"><label class="tab-label" for="tab-set--59-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -2704,6 +3599,27 @@ equations, by adding extra variables: <span class="math notranslate nohighlight"
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--59-input--3" name="tab-set--59" type="radio"><label class="tab-label" for="tab-set--59-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+p.add_constraint(p[0] - p[2], max=4)
+p.number_of_variables()
+p.add_constraint(p[0] - 2*p[1], min=1)
+p.number_of_variables()
+p = MixedIntegerLinearProgram(solver='glpk')
+p.add_constraint(p[0] - p[2], min=1, max=4)
+p.number_of_variables()
+p = MixedIntegerLinearProgram(solver='gurobi')   # optional - Gurobi
+p.add_constraint(p[0] - p[2], min=1, max=4)      # optional - Gurobi
+p.number_of_variables()                          # optional - Gurobi</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2735,7 +3651,7 @@ polyhedron, or on the output of <a class="reference internal" href="#sage.numeri
 with a <a class="reference external" href="../../../discrete_geometry/sage/geometry/polyhedron/constructor.html#sage.geometry.polyhedron.constructor.Polyhedron" title="(in Combinatorial and Discrete Geometry v10.8.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">Polyhedron()</span></code></a> object.</p>
 </div>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">A LP on two variables:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A LP on two variables:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--60-input--1" name="tab-set--60" type="radio"><label class="tab-label" for="tab-set--60-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -2756,8 +3672,22 @@ with a <a class="reference external" href="../../../discrete_geometry/sage/geome
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--60-input--3" name="tab-set--60" type="radio"><label class="tab-label" for="tab-set--60-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+p.add_constraint(0 &lt;= 2*p['x'] + p['y'] &lt;= 1)
+p.add_constraint(0 &lt;= 3*p['y'] + p['x'] &lt;= 2)
+P = p.polyhedron(); P                         # needs cddexec</pre>
 </div>
-<p class="with-sage-tab with-python-tab">3-D Polyhedron:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">3-D Polyhedron:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--61-input--1" name="tab-set--61" type="radio"><label class="tab-label" for="tab-set--61-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -2780,8 +3710,23 @@ with a <a class="reference external" href="../../../discrete_geometry/sage/geome
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--61-input--3" name="tab-set--61" type="radio"><label class="tab-label" for="tab-set--61-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+p.add_constraint(0 &lt;= 2*p['x'] + p['y'] + 3*p['z'] &lt;= 1)
+p.add_constraint(0 &lt;= 2*p['y'] + p['z'] + 3*p['x'] &lt;= 1)
+p.add_constraint(0 &lt;= 2*p['z'] + p['x'] + 3*p['y'] &lt;= 1)
+P = p.polyhedron(); P                         # needs cddexec</pre>
 </div>
-<p class="with-sage-tab with-python-tab">An empty polyhedron:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">An empty polyhedron:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--62-input--1" name="tab-set--62" type="radio"><label class="tab-label" for="tab-set--62-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -2806,8 +3751,24 @@ with a <a class="reference external" href="../../../discrete_geometry/sage/geome
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--62-input--3" name="tab-set--62" type="radio"><label class="tab-label" for="tab-set--62-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+v = p.new_variable(nonnegative=True)
+p.add_constraint(2*v['x'] + v['y'] + 3*v['z'] &lt;= 1)
+p.add_constraint(2*v['y'] + v['z'] + 3*v['x'] &lt;= 1)
+p.add_constraint(2*v['z'] + v['x'] + 3*v['y'] &gt;= 2)
+P = p.polyhedron(); P                         # needs cddexec</pre>
 </div>
-<p class="with-sage-tab with-python-tab">An unbounded polyhedron:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">An unbounded polyhedron:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--63-input--1" name="tab-set--63" type="radio"><label class="tab-label" for="tab-set--63-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -2826,8 +3787,21 @@ with a <a class="reference external" href="../../../discrete_geometry/sage/geome
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--63-input--3" name="tab-set--63" type="radio"><label class="tab-label" for="tab-set--63-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+p.add_constraint(2*p['x'] + p['y'] - p['z'] &lt;= 1)
+P = p.polyhedron(); P                         # needs cddexec</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A square (see <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/14395">upstream Issue #14395</a>)</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A square (see <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/14395">upstream Issue #14395</a>)</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--64-input--1" name="tab-set--64" type="radio"><label class="tab-label" for="tab-set--64-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -2854,8 +3828,25 @@ with a <a class="reference external" href="../../../discrete_geometry/sage/geome
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--64-input--3" name="tab-set--64" type="radio"><label class="tab-label" for="tab-set--64-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+x,y = p['x'], p['y']
+p.add_constraint(x &lt;= 1)
+p.add_constraint(x &gt;= -1)
+p.add_constraint(y &lt;= 1)
+p.add_constraint(y &gt;= -1)
+p.polyhedron()                                # needs cddexec</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can also use a backend that supports exact arithmetic:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can also use a backend that supports exact arithmetic:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--65-input--1" name="tab-set--65" type="radio"><label class="tab-label" for="tab-set--65-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;PPL&#39;</span><span class="p">)</span>
@@ -2882,6 +3873,23 @@ with a <a class="reference external" href="../../../discrete_geometry/sage/geome
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--65-input--3" name="tab-set--65" type="radio"><label class="tab-label" for="tab-set--65-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='PPL')
+x,y = p['x'], p['y']
+p.add_constraint(x &lt;= 1)
+p.add_constraint(x &gt;= -1)
+p.add_constraint(y &lt;= 1)
+p.add_constraint(y &gt;= -1)
+p.polyhedron()                                # needs cddexec</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2893,7 +3901,7 @@ with a <a class="reference external" href="../../../discrete_geometry/sage/geome
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">i</span></code> – index of the constraint to remove</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--66-input--1" name="tab-set--66" type="radio"><label class="tab-label" for="tab-set--66-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -2942,6 +3950,25 @@ with a <a class="reference external" href="../../../discrete_geometry/sage/geome
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--66-input--3" name="tab-set--66" type="radio"><label class="tab-label" for="tab-set--66-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+x, y = p[0], p[1]
+p.add_constraint(x + y, max=10)
+p.add_constraint(x - y, max=0)
+p.add_constraint(x, max=4)
+p.show()
+p.remove_constraint(1)
+p.show()
+p.number_of_constraints()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2953,7 +3980,7 @@ with a <a class="reference external" href="../../../discrete_geometry/sage/geome
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">constraints</span></code> – an iterable containing the indices of the rows to remove</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--67-input--1" name="tab-set--67" type="radio"><label class="tab-label" for="tab-set--67-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -3000,8 +4027,27 @@ with a <a class="reference external" href="../../../discrete_geometry/sage/geome
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--67-input--3" name="tab-set--67" type="radio"><label class="tab-label" for="tab-set--67-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+x, y = p[0], p[1]
+p.add_constraint(x + y, max=10)
+p.add_constraint(x - y, max=0)
+p.add_constraint(x, max=4)
+p.show()
+p.remove_constraints([0, 1])
+p.show()
+p.number_of_constraints()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">When checking for redundant constraints, make sure you remove only
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">When checking for redundant constraints, make sure you remove only
 the constraints that were actually added. Problems could arise if
 you have a function that builds lps non-interactively, but it fails
 to check whether adding a constraint actually increases the number of
@@ -3047,8 +4093,28 @@ are not actually there:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--68-input--3" name="tab-set--68" type="radio"><label class="tab-label" for="tab-set--68-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(check_redundant=True, solver='GLPK')
+x, y = p[0], p[1]
+p.add_constraint(x + y, max=10)
+for each in range(10):
+    p.add_constraint(x - y, max=10)
+p.add_constraint(x, max=4)
+p.number_of_constraints()
+p.remove_constraints(range(1, 9))
+p.remove_constraint(1)
+p.number_of_constraints()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We should now be able to add the old constraint back in:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We should now be able to add the old constraint back in:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--69-input--1" name="tab-set--69" type="radio"><label class="tab-label" for="tab-set--69-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
@@ -3067,6 +4133,19 @@ are not actually there:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--69-input--3" name="tab-set--69" type="radio"><label class="tab-label" for="tab-set--69-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">for each in range(10):
+    p.add_constraint(x - y, max=10)
+p.number_of_constraints()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -3079,7 +4158,7 @@ are not actually there:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">ee</span></code> – an instance of <code class="docutils literal notranslate"><span class="pre">MIPVariable</span></code> or one of
 its elements</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--70-input--1" name="tab-set--70" type="radio"><label class="tab-label" for="tab-set--70-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -3094,8 +4173,20 @@ its elements</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--70-input--3" name="tab-set--70" type="radio"><label class="tab-label" for="tab-set--70-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+x = p.new_variable(nonnegative=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">With the following instruction, all the variables
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">With the following instruction, all the variables
 from x will be binary:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--71-input--1" name="tab-set--71" type="radio"><label class="tab-label" for="tab-set--71-input--1">Sage</label><div class="tab-content docutils container">
@@ -3113,8 +4204,21 @@ from x will be binary:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--71-input--3" name="tab-set--71" type="radio"><label class="tab-label" for="tab-set--71-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p.set_binary(x)
+p.set_objective(x[0] + x[1])
+p.add_constraint(-3*x[0] + 2*x[1], max=2)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">It is still possible, though, to set one of these
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">It is still possible, though, to set one of these
 variables as integer while keeping the others as they are:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--72-input--1" name="tab-set--72" type="radio"><label class="tab-label" for="tab-set--72-input--1">Sage</label><div class="tab-content docutils container">
@@ -3126,6 +4230,17 @@ variables as integer while keeping the others as they are:</p>
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.all</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">set_integer</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)])</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--72-input--3" name="tab-set--72" type="radio"><label class="tab-label" for="tab-set--72-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p.set_integer(x[3])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3140,7 +4255,7 @@ variables as integer while keeping the others as they are:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">ee</span></code> – an instance of <code class="docutils literal notranslate"><span class="pre">MIPVariable</span></code> or one of
 its elements</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--73-input--1" name="tab-set--73" type="radio"><label class="tab-label" for="tab-set--73-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -3155,8 +4270,20 @@ its elements</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--73-input--3" name="tab-set--73" type="radio"><label class="tab-label" for="tab-set--73-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+x = p.new_variable(nonnegative=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">With the following instruction, all the variables
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">With the following instruction, all the variables
 from x will be integers:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--74-input--1" name="tab-set--74" type="radio"><label class="tab-label" for="tab-set--74-input--1">Sage</label><div class="tab-content docutils container">
@@ -3174,8 +4301,21 @@ from x will be integers:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--74-input--3" name="tab-set--74" type="radio"><label class="tab-label" for="tab-set--74-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p.set_integer(x)
+p.set_objective(x[0] + x[1])
+p.add_constraint(-3*x[0] + 2*x[1], max=2)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">It is still possible, though, to set one of these
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">It is still possible, though, to set one of these
 variables as binary while keeping the others as they are:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--75-input--1" name="tab-set--75" type="radio"><label class="tab-label" for="tab-set--75-input--1">Sage</label><div class="tab-content docutils container">
@@ -3187,6 +4327,17 @@ variables as binary while keeping the others as they are:</p>
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.all</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">set_binary</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)])</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--75-input--3" name="tab-set--75" type="radio"><label class="tab-label" for="tab-set--75-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p.set_binary(x[3])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3202,7 +4353,7 @@ variables as binary while keeping the others as they are:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">max</span></code> – the maximum value the variable can take; when
 <code class="docutils literal notranslate"><span class="pre">max=None</span></code>, the variable has no upper bound</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--76-input--1" name="tab-set--76" type="radio"><label class="tab-label" for="tab-set--76-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -3227,8 +4378,24 @@ variables as binary while keeping the others as they are:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--76-input--3" name="tab-set--76" type="radio"><label class="tab-label" for="tab-set--76-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+v = p.new_variable(nonnegative=True)
+p.set_objective(v[1])
+p.get_max(v[1])
+p.set_max(v[1],6)
+p.get_max(v[1])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">With a <a class="reference internal" href="#sage.numerical.mip.MIPVariable" title="sage.numerical.mip.MIPVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">MIPVariable</span></code></a> as an argument:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">With a <a class="reference internal" href="#sage.numerical.mip.MIPVariable" title="sage.numerical.mip.MIPVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">MIPVariable</span></code></a> as an argument:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--77-input--1" name="tab-set--77" type="radio"><label class="tab-label" for="tab-set--77-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">vv</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">new_variable</span><span class="p">(</span><span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -3255,6 +4422,22 @@ variables as binary while keeping the others as they are:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--77-input--3" name="tab-set--77" type="radio"><label class="tab-label" for="tab-set--77-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">vv = p.new_variable(real=True)
+p.get_max(vv)
+p.get_max(vv[0])
+p.set_max(vv,5)
+p.get_max(vv[0])
+p.get_max(vv[9])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -3274,7 +4457,7 @@ variables as binary while keeping the others as they are:</p>
 <li><p><a class="reference internal" href="#sage.numerical.mip.MixedIntegerLinearProgram.get_min" title="sage.numerical.mip.MixedIntegerLinearProgram.get_min"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_min()</span></code></a> – get the minimum value of a variable</p></li>
 </ul>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--78-input--1" name="tab-set--78" type="radio"><label class="tab-label" for="tab-set--78-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -3305,8 +4488,26 @@ variables as binary while keeping the others as they are:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--78-input--3" name="tab-set--78" type="radio"><label class="tab-label" for="tab-set--78-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+v = p.new_variable(nonnegative=True)
+p.set_objective(v[1])
+p.get_min(v[1])
+p.set_min(v[1],6)
+p.get_min(v[1])
+p.set_min(v[1], None)
+p.get_min(v[1])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">With a <a class="reference internal" href="#sage.numerical.mip.MIPVariable" title="sage.numerical.mip.MIPVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">MIPVariable</span></code></a> as an argument:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">With a <a class="reference internal" href="#sage.numerical.mip.MIPVariable" title="sage.numerical.mip.MIPVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">MIPVariable</span></code></a> as an argument:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--79-input--1" name="tab-set--79" type="radio"><label class="tab-label" for="tab-set--79-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">vv</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">new_variable</span><span class="p">(</span><span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -3331,6 +4532,22 @@ variables as binary while keeping the others as they are:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">get_min</span><span class="p">(</span><span class="n">vv</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">9</span><span class="p">)])</span>
 <span class="go">5.0</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--79-input--3" name="tab-set--79" type="radio"><label class="tab-label" for="tab-set--79-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">vv = p.new_variable(real=True)
+p.get_min(vv)
+p.get_min(vv[0])
+p.set_min(vv,5)
+p.get_min(vv[0])
+p.get_min(vv[9])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3358,7 +4575,7 @@ looking for a feasible solution )</p></li>
 <span class="go">  y is Real (min = 0, max = None)</span>
 </pre></div>
 </div>
-<p class="with-sage-tab with-python-tab">This linear program can be solved as follows:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This linear program can be solved as follows:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--80-input--1" name="tab-set--80" type="radio"><label class="tab-label" for="tab-set--80-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">maximization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -3387,6 +4604,24 @@ looking for a feasible solution )</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--80-input--3" name="tab-set--80" type="radio"><label class="tab-label" for="tab-set--80-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(maximization=True, solver='GLPK')
+x = p.new_variable(nonnegative=True)
+p.set_objective(x[1] + 5*x[2])
+p.add_constraint(x[1] + 2/10*x[2], max=4)
+p.add_constraint(1.5*x[1] + 3*x[2], max=4)
+round(p.solve(),5)
+p.set_objective(None)
+_ = p.solve()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -3399,7 +4634,7 @@ looking for a feasible solution )</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> – string representing the name of the
 <code class="docutils literal notranslate"><span class="pre">MixedIntegerLinearProgram</span></code></p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--81-input--1" name="tab-set--81" type="radio"><label class="tab-label" for="tab-set--81-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -3418,6 +4653,19 @@ looking for a feasible solution )</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--81-input--3" name="tab-set--81" type="radio"><label class="tab-label" for="tab-set--81-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+p.set_problem_name(&quot;Test program&quot;)
+p</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -3430,7 +4678,7 @@ looking for a feasible solution )</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ee</span></code> – an instance of <code class="docutils literal notranslate"><span class="pre">MIPVariable</span></code> or one of
 its elements</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--82-input--1" name="tab-set--82" type="radio"><label class="tab-label" for="tab-set--82-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -3443,6 +4691,18 @@ its elements</p></li>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">new_variable</span><span class="p">(</span><span class="n">nonnegative</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--82-input--3" name="tab-set--82" type="radio"><label class="tab-label" for="tab-set--82-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+x = p.new_variable(nonnegative=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3466,7 +4726,7 @@ from x will be real:</p>
 <dd><p>Displays the <code class="docutils literal notranslate"><span class="pre">MixedIntegerLinearProgram</span></code> in a human-readable
 way.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">When constraints and variables have names</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">When constraints and variables have names</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--83-input--1" name="tab-set--83" type="radio"><label class="tab-label" for="tab-set--83-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -3501,8 +4761,23 @@ way.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--83-input--3" name="tab-set--83" type="radio"><label class="tab-label" for="tab-set--83-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+x = p.new_variable(name='Hey')
+p.set_objective(x[1] + x[2])
+p.add_constraint(-3*x[1] + 2*x[2], max=2, name='Constraint_1')
+p.show()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Without any names</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Without any names</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--84-input--1" name="tab-set--84" type="radio"><label class="tab-label" for="tab-set--84-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -3537,8 +4812,23 @@ way.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--84-input--3" name="tab-set--84" type="radio"><label class="tab-label" for="tab-set--84-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+x = p.new_variable(nonnegative=True)
+p.set_objective(x[1] + x[2])
+p.add_constraint(-3*x[1] + 2*x[2], max=2)
+p.show()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">With <span class="math notranslate nohighlight">\(\QQ\)</span> coefficients:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">With <span class="math notranslate nohighlight">\(\QQ\)</span> coefficients:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--85-input--1" name="tab-set--85" type="radio"><label class="tab-label" for="tab-set--85-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;ppl&#39;</span><span class="p">)</span>
@@ -3573,8 +4863,23 @@ way.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--85-input--3" name="tab-set--85" type="radio"><label class="tab-label" for="tab-set--85-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='ppl')
+x = p.new_variable(nonnegative=True)
+p.set_objective(x[1] + 1/2*x[2])
+p.add_constraint(-3/5*x[1] + 2/7*x[2], max=2/5)
+p.show()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">With a constant term in the objective:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">With a constant term in the objective:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--86-input--1" name="tab-set--86" type="radio"><label class="tab-label" for="tab-set--86-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;ppl&#39;</span><span class="p">)</span>
@@ -3601,6 +4906,20 @@ way.</p>
 <span class="go">Variables:</span>
 <span class="go">  x_0 is a continuous variable (min=0, max=+oo)</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--86-input--3" name="tab-set--86" type="radio"><label class="tab-label" for="tab-set--86-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='ppl')
+x = p.new_variable(nonnegative=True)
+p.set_objective(x[0] + 42)
+p.show()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3669,7 +4988,7 @@ variable. See <a class="reference internal" href="#sage.numerical.mip.MixedInteg
 <span class="go">   4.0</span>
 </pre></div>
 </div>
-<p class="with-sage-tab with-python-tab">Constraints in the objective function are respected:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Constraints in the objective function are respected:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--87-input--1" name="tab-set--87" type="radio"><label class="tab-label" for="tab-set--87-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -3696,6 +5015,23 @@ variable. See <a class="reference internal" href="#sage.numerical.mip.MixedInteg
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--87-input--3" name="tab-set--87" type="radio"><label class="tab-label" for="tab-set--87-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+x, y = p[0], p[1]
+p.add_constraint(2*x + 3*y, max=6)
+p.add_constraint(3*x + 2*y, max=6)
+p.set_objective(x + y + 7)
+p.set_integer(x); p.set_integer(y)
+p.solve()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -3707,7 +5043,7 @@ variable. See <a class="reference internal" href="#sage.numerical.mip.MixedInteg
 meaning heavily depends on the solver used.</p>
 <p>(If you do not know which solver you are using, then you use GLPK).</p>
 <p>Aliases:</p>
-<p class="with-sage-tab with-python-tab">Very common parameters have aliases making them solver-independent. For
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Very common parameters have aliases making them solver-independent. For
 example, the following:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--88-input--1" name="tab-set--88" type="radio"><label class="tab-label" for="tab-set--88-input--1">Sage</label><div class="tab-content docutils container">
@@ -3723,6 +5059,18 @@ example, the following:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--88-input--3" name="tab-set--88" type="radio"><label class="tab-label" for="tab-set--88-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+p.solver_parameter(&quot;timelimit&quot;, 60)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>Sets the solver to stop its computations after 60 seconds, and works
 with GLPK, CPLEX , SCIP, and Gurobi.</p>
@@ -3732,7 +5080,7 @@ with GLPK, CPLEX , SCIP, and Gurobi.</p>
 computation (measured in seconds)</p></li>
 </ul>
 </div></blockquote>
-<p class="with-sage-tab with-python-tab">Another example is the <code class="docutils literal notranslate"><span class="pre">'logfile'</span></code> parameter, which is used to specify
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Another example is the <code class="docutils literal notranslate"><span class="pre">'logfile'</span></code> parameter, which is used to specify
 the file in which computation logs are recorded. By default, the logs
 are not recorded, and we can disable this feature providing an empty
 filename. This is currently working with CPLEX and Gurobi:</p>
@@ -3766,6 +5114,23 @@ filename. This is currently working with CPLEX and Gurobi:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--89-input--3" name="tab-set--89" type="radio"><label class="tab-label" for="tab-set--89-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># optional - cplex
+p = MixedIntegerLinearProgram(solver='CPLEX')
+p.solver_parameter(&quot;logfile&quot;)
+p.solver_parameter(&quot;logfile&quot;, &quot;/dev/null&quot;)
+p.solver_parameter(&quot;logfile&quot;)
+p.solver_parameter(&quot;logfile&quot;, '')
+p.solver_parameter(&quot;logfile&quot;)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>Solver-specific parameters:</p>
 <blockquote>
@@ -3776,7 +5141,7 @@ optimization methods. For details, see the documentation of
 <a class="reference internal" href="backends/glpk_backend.html#sage.numerical.backends.glpk_backend.GLPKBackend.solver_parameter" title="sage.numerical.backends.glpk_backend.GLPKBackend.solver_parameter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">GLPKBackend.solver_parameter</span></code></a>.</p></li>
 <li><p>CPLEX’s parameters are identified by a string. Their
 list is available <a class="reference external" href="http://publib.boulder.ibm.com/infocenter/odmeinfo/v3r4/index.jsp?topic=/ilog.odms.ide.odme.help/Content/Optimization/Documentation/ODME/_pubskel/ODME_pubskels/startall_ODME34_Eclipse1590.html">on ILOG’s website</a>.</p>
-<p class="with-sage-tab with-python-tab">The command</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The command</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--90-input--1" name="tab-set--90" type="radio"><label class="tab-label" for="tab-set--90-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;CPLEX&#39;</span><span class="p">)</span>   <span class="c1"># optional - CPLEX</span>
@@ -3789,6 +5154,18 @@ list is available <a class="reference external" href="http://publib.boulder.ibm.
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;CPLEX&#39;</span><span class="p">)</span>   <span class="c1"># optional - CPLEX</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">solver_parameter</span><span class="p">(</span><span class="s2">&quot;CPX_PARAM_TILIM&quot;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">60</span><span class="p">))</span>       <span class="c1"># optional - CPLEX</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--90-input--3" name="tab-set--90" type="radio"><label class="tab-label" for="tab-set--90-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='CPLEX')   # optional - CPLEX
+p.solver_parameter(&quot;CPX_PARAM_TILIM&quot;, 60)       # optional - CPLEX</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3808,7 +5185,7 @@ method. Their list is available on Gurobi’s website
 <li><p><code class="docutils literal notranslate"><span class="pre">value</span></code> – the parameter’s value if it is to be defined,
 or <code class="docutils literal notranslate"><span class="pre">None</span></code> (default) to obtain its current value</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--91-input--1" name="tab-set--91" type="radio"><label class="tab-label" for="tab-set--91-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -3825,6 +5202,19 @@ or <code class="docutils literal notranslate"><span class="pre">None</span></cod
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">solver_parameter</span><span class="p">(</span><span class="s2">&quot;timelimit&quot;</span><span class="p">)</span>
 <span class="go">60.0</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--91-input--3" name="tab-set--91" type="radio"><label class="tab-label" for="tab-set--91-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+p.solver_parameter(&quot;timelimit&quot;, 60)
+p.solver_parameter(&quot;timelimit&quot;)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3846,7 +5236,7 @@ or <code class="docutils literal notranslate"><span class="pre">None</span></cod
 <p>The use of the regular <code class="docutils literal notranslate"><span class="pre">sum</span></code> function is not recommended
 as it is much less efficient than this one</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--92-input--1" name="tab-set--92" type="radio"><label class="tab-label" for="tab-set--92-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -3861,8 +5251,20 @@ as it is much less efficient than this one</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--92-input--3" name="tab-set--92" type="radio"><label class="tab-label" for="tab-set--92-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+v = p.new_variable(nonnegative=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The following command:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The following command:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--93-input--1" name="tab-set--93" type="radio"><label class="tab-label" for="tab-set--93-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">90</span><span class="p">))</span>
@@ -3875,8 +5277,19 @@ as it is much less efficient than this one</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--93-input--3" name="tab-set--93" type="radio"><label class="tab-label" for="tab-set--93-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s = p.sum(v[i] for i in range(90))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">is much more efficient than:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">is much more efficient than:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--94-input--1" name="tab-set--94" type="radio"><label class="tab-label" for="tab-set--94-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">90</span><span class="p">))</span>
@@ -3887,6 +5300,17 @@ as it is much less efficient than this one</p>
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.all</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">90</span><span class="p">)))</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--94-input--3" name="tab-set--94" type="radio"><label class="tab-label" for="tab-set--94-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s = sum(v[i] for i in range(90))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3902,7 +5326,7 @@ as it is much less efficient than this one</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">filename</span></code> – the file in which you want the problem
 to be written</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--95-input--1" name="tab-set--95" type="radio"><label class="tab-label" for="tab-set--95-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -3931,6 +5355,23 @@ to be written</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--95-input--3" name="tab-set--95" type="radio"><label class="tab-label" for="tab-set--95-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+x = p.new_variable(nonnegative=True)
+p.set_objective(x[1] + x[2])
+p.add_constraint(-3*x[1] + 2*x[2], max=2)
+import tempfile
+with tempfile.NamedTemporaryFile(suffix='.lp') as f:
+    p.write_lp(f.name)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>For more information about the LP file format :
 <a class="reference external" href="http://lpsolve.sourceforge.net/5.5/lp-format.htm">http://lpsolve.sourceforge.net/5.5/lp-format.htm</a></p>
@@ -3954,7 +5395,7 @@ to be written</p></li>
 </div></blockquote>
 </li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--96-input--1" name="tab-set--96" type="radio"><label class="tab-label" for="tab-set--96-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;GLPK&#39;</span><span class="p">)</span>
@@ -3983,6 +5424,23 @@ to be written</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--96-input--3" name="tab-set--96" type="radio"><label class="tab-label" for="tab-set--96-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='GLPK')
+x = p.new_variable(nonnegative=True)
+p.set_objective(x[1] + x[2])
+p.add_constraint(-3*x[1] + 2*x[2], max=2, name='OneConstraint')
+import tempfile
+with tempfile.NamedTemporaryFile(suffix='.mps') as f:
+    p.write_mps(f.name)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>For information about the MPS file format, see
 <a class="extlink-wikipedia reference external" href="https://en.wikipedia.org/wiki/MPS_(format)">Wikipedia article MPS_(format)</a></p>
@@ -3991,7 +5449,11 @@ to be written</p></li>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -4121,7 +5583,7 @@ to be written</p></li>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

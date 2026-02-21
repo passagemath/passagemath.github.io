@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -349,7 +349,7 @@ is a pure constraint satisfaction problem, specify it as <code class="docutils l
 <li><p><a class="reference internal" href="#sage.numerical.sdp.SemidefiniteProgram.solve" title="sage.numerical.sdp.SemidefiniteProgram.solve"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Solve</span></code></a> it and print the solution.</p></li>
 </ol>
 </div></blockquote>
-<p class="with-sage-tab with-python-tab">The following example shows all these steps:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The following example shows all these steps:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">()</span>
@@ -430,8 +430,38 @@ is a pure constraint satisfaction problem, specify it as <code class="docutils l
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram()
+x = p.new_variable()
+p.set_objective(x[1] - x[0])
+a1 = matrix([[1, 2.], [2., 3.]])
+a2 = matrix([[3, 4.], [4., 5.]])
+a3 = matrix([[5, 6.], [6., 7.]])
+b1 = matrix([[1, 1.], [1., 1.]])
+b2 = matrix([[2, 2.], [2., 2.]])
+b3 = matrix([[3, 3.], [3., 3.]])
+c1 = matrix([[1.0, 0],[0,0]],sparse=True)
+c2 = matrix([[0.0, 0],[0,1]],sparse=True)
+p.add_constraint(a1*x[0] + a2*x[1] &lt;= a3)
+p.add_constraint(b1*x[0] + b2*x[1] &lt;= b3)
+p.add_constraint(c1*x[0] + c2*x[1] &gt;= matrix.zero(2,2,sparse=True))
+# needs cvxopt
+p.solver_parameter(&quot;show_progress&quot;, True)
+opt = p.solve()
+print('Objective Value: {}'.format(N(opt,3)))
+[N(x, 3) for x in sorted(p.get_values(x).values())]
+p.show()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Most solvers, e.g. the default Sage SDP solver CVXOPT, solve simultaneously the pair
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Most solvers, e.g. the default Sage SDP solver CVXOPT, solve simultaneously the pair
 of primal and dual problems. Thus we can get the optimizer <span class="math notranslate nohighlight">\(X\)</span> of the dual problem
 as follows, as diagonal blocks, one per each constraint, via <a class="reference internal" href="#sage.numerical.sdp.SemidefiniteProgram.dual_variable" title="sage.numerical.sdp.SemidefiniteProgram.dual_variable"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dual_variable()</span></code></a>.
 E.g.:</p>
@@ -451,8 +481,19 @@ E.g.:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p.dual_variable(1)  # rel tol 2e-03                                           # needs cvxopt</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can see that the optimal value of the dual is equal (up to numerical noise) to <span class="math notranslate nohighlight">\(opt\)</span>.:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can see that the optimal value of the dual is equal (up to numerical noise) to <span class="math notranslate nohighlight">\(opt\)</span>.:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">opt</span> <span class="o">-</span> <span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">dual_variable</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">*</span><span class="n">a3</span><span class="p">)</span><span class="o">.</span><span class="n">trace</span><span class="p">()</span>  <span class="c1"># tol 8e-08                           # needs cvxopt</span>
@@ -469,8 +510,20 @@ E.g.:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">opt - ((p.dual_variable(0)*a3).trace()  # tol 8e-08                           # needs cvxopt
+       + (p.dual_variable(1)*b3).trace())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Dual variable blocks at optimality are orthogonal to “slack variables”, that is,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Dual variable blocks at optimality are orthogonal to “slack variables”, that is,
 matrices <span class="math notranslate nohighlight">\(C-\sum_k x_k A_k\)</span>, cf. (Primal problem) above, available via
 <a class="reference internal" href="#sage.numerical.sdp.SemidefiniteProgram.slack" title="sage.numerical.sdp.SemidefiniteProgram.slack"><code class="xref py py-meth docutils literal notranslate"><span class="pre">slack()</span></code></a>. E.g.:</p>
 <div class="tab-set docutils container">
@@ -487,8 +540,19 @@ matrices <span class="math notranslate nohighlight">\(C-\sum_k x_k A_k\)</span>,
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">(p.slack(0)*p.dual_variable(0)).trace()  # tol 2e-07                          # needs cvxopt</pre>
 </div>
-<p class="with-sage-tab with-python-tab">More interesting example, the <a class="reference external" href="../../../graphs/sage/graphs/lovasz_theta.html#sage.graphs.lovasz_theta.lovasz_theta" title="(in Graph Theory v10.8.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">Lovasz</span> <span class="pre">theta</span></code></a> of the 7-gon:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">More interesting example, the <a class="reference external" href="../../../graphs/sage/graphs/lovasz_theta.html#sage.graphs.lovasz_theta.lovasz_theta" title="(in Graph Theory v10.8.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">Lovasz</span> <span class="pre">theta</span></code></a> of the 7-gon:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.graphs</span>
@@ -517,8 +581,26 @@ matrices <span class="math notranslate nohighlight">\(C-\sum_k x_k A_k\)</span>,
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.graphs
+c = graphs.CycleGraph(7)
+c2 = c.distance_graph(2).adjacency_matrix()
+c3 = c.distance_graph(3).adjacency_matrix()
+p.&lt;y&gt; = SemidefiniteProgram()
+p.add_constraint((1/7)*matrix.identity(7)&gt;=-y[0]*c2-y[1]*c3)
+p.set_objective(y[0]*(c2**2).trace()+y[1]*(c3**2).trace())
+x = p.solve(); x + 1                                                          # needs cvxopt</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Unlike in the previous example, the slack variable is very far from 0:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Unlike in the previous example, the slack variable is very far from 0:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span><span class="o">.</span><span class="n">slack</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">trace</span><span class="p">()</span>   <span class="c1"># tol 1e-14                                              # needs cvxopt sage.graphs</span>
@@ -533,8 +615,19 @@ matrices <span class="math notranslate nohighlight">\(C-\sum_k x_k A_k\)</span>,
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p.slack(0).trace()   # tol 1e-14                                              # needs cvxopt sage.graphs</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The default CVXOPT backend computes with the Real Double Field, for example:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The default CVXOPT backend computes with the Real Double Field, for example:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs cvxopt</span>
@@ -559,8 +652,23 @@ matrices <span class="math notranslate nohighlight">\(C-\sum_k x_k A_k\)</span>,
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs cvxopt
+p = SemidefiniteProgram(solver='cvxopt')
+p.base_ring()
+x = p.new_variable()
+0.5 + 3/2*x[1]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">For representing an SDP with exact data, there is another backend:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">For representing an SDP with exact data, there is another backend:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.matrix_sdp_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">MatrixSDPBackend</span>
@@ -585,10 +693,25 @@ matrices <span class="math notranslate nohighlight">\(C-\sum_k x_k A_k\)</span>,
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.matrix_sdp_backend import MatrixSDPBackend
+p = SemidefiniteProgram(solver=MatrixSDPBackend, base_ring=QQ)
+p.base_ring()
+x = p.new_variable()
+1/2 + 3/2 * x[1]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <section id="linear-variables-and-expressions">
 <h2>Linear Variables and Expressions<a class="headerlink" href="#linear-variables-and-expressions" title="Link to this heading">¶</a></h2>
-<p class="with-sage-tab with-python-tab">To make your code more readable, you can construct
+<p class="with-sage-tab with-python-tab with-sage-live-tab">To make your code more readable, you can construct
 <a class="reference internal" href="#sage.numerical.sdp.SDPVariable" title="sage.numerical.sdp.SDPVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">SDPVariable</span></code></a> objects that can be arbitrarily named and
 indexed. Internally, this is then translated back to the <span class="math notranslate nohighlight">\(x_i\)</span>
 variables. For example:</p>
@@ -612,8 +735,21 @@ variables. For example:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">sdp.&lt;a,b&gt; = SemidefiniteProgram()
+a
+5 + a[1] + 2*b[3]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Indices can be any object, not necessarily integers. Multi-indices are
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Indices can be any object, not necessarily integers. Multi-indices are
 also allowed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
@@ -643,6 +779,19 @@ also allowed:</p>
 <span class="go">Variables:</span>
 <span class="go">  a[1],  b[3],  a[(4, &#39;string&#39;, Rational Field)],  b[2]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a[4, 'string', QQ]
+a[4, 'string', QQ] - 7*b[2]
+sdp.show()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -728,7 +877,7 @@ also implements the <a class="reference internal" href="#sage.numerical.sdp.SDPS
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/exceptions.html#RuntimeError" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></a></p>
 <p>Exception raised when the solver fails.</p>
 <p><code class="docutils literal notranslate"><span class="pre">SDPSolverException</span></code> is the exception raised when the solver fails.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.sdp</span><span class="w"> </span><span class="kn">import</span> <span class="n">SDPSolverException</span>
@@ -743,6 +892,18 @@ also implements the <a class="reference internal" href="#sage.numerical.sdp.SDPS
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">SDPSolverException</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">)</span>
 <span class="go">SDPSolverException(&#39;Error&#39;...)</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.sdp import SDPSolverException
+SDPSolverException(&quot;Error&quot;)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -763,7 +924,7 @@ also implements the <a class="reference internal" href="#sage.numerical.sdp.SDPS
 <dt class="sig sig-object py" id="sage.numerical.sdp.SDPVariable.items">
 <span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/sdp.pyx#L1291"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.sdp.SDPVariable.items" title="Link to this definition">¶</a></dt>
 <dd><p>Return the pairs (keys,value) contained in the dictionary.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">()</span>
@@ -784,6 +945,20 @@ also implements the <a class="reference internal" href="#sage.numerical.sdp.SDPS
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram()
+v = p.new_variable()
+p.set_objective(v[0] + v[1])
+sorted(v.items())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -791,7 +966,7 @@ also implements the <a class="reference internal" href="#sage.numerical.sdp.SDPS
 <dt class="sig sig-object py" id="sage.numerical.sdp.SDPVariable.keys">
 <span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/sdp.pyx#L1277"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.sdp.SDPVariable.keys" title="Link to this definition">¶</a></dt>
 <dd><p>Return the keys already defined in the dictionary.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">()</span>
@@ -812,6 +987,20 @@ also implements the <a class="reference internal" href="#sage.numerical.sdp.SDPS
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram()
+v = p.new_variable()
+p.set_objective(v[0] + v[1])
+sorted(v.keys())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -819,7 +1008,7 @@ also implements the <a class="reference internal" href="#sage.numerical.sdp.SDPS
 <dt class="sig sig-object py" id="sage.numerical.sdp.SDPVariable.values">
 <span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/sdp.pyx#L1305"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.sdp.SDPVariable.values" title="Link to this definition">¶</a></dt>
 <dd><p>Return the symbolic variables associated to the current dictionary.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">()</span>
@@ -838,6 +1027,20 @@ also implements the <a class="reference internal" href="#sage.numerical.sdp.SDPS
 <span class="gp">&gt;&gt;&gt;</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
 <span class="go">[x_0, x_1]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram()
+v = p.new_variable()
+p.set_objective(v[0] + v[1])
+sorted(v.values(), key=str)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -902,7 +1105,7 @@ defined as a minimization.</p></li>
 </ul>
 </div>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Computation of a basic Semidefinite Program:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Computation of a basic Semidefinite Program:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">(</span><span class="n">maximization</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -939,6 +1142,28 @@ defined as a minimization.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram(maximization=False)
+x = p.new_variable()
+p.set_objective(x[0] - x[1])
+a1 = matrix([[1, 2.], [2., 3.]])
+a2 = matrix([[3, 4.], [4., 5.]])
+a3 = matrix([[5, 6.], [6., 7.]])
+b1 = matrix([[1, 1.], [1., 1.]])
+b2 = matrix([[2, 2.], [2., 2.]])
+b3 = matrix([[3, 3.], [3., 3.]])
+p.add_constraint(a1*x[0] + a2*x[1] &lt;= a3)
+p.add_constraint(b1*x[0] + b2*x[1] &lt;= b3)
+N(p.solve(), 2)                                                          # needs cvxopt</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.numerical.sdp.SemidefiniteProgram.add_constraint">
@@ -968,7 +1193,7 @@ case, arguments <code class="docutils literal notranslate"><span class="pre">min
     \left( \begin{array}{cc} 1 &amp; -1  \\ -1 &amp; 1  \end{array} \right)
 \end{aligned}\end{split}\]</div>
 </div>
-<p class="with-sage-tab with-python-tab">This SDP can be solved as follows:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This SDP can be solved as follows:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">(</span><span class="n">maximization</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -997,8 +1222,26 @@ case, arguments <code class="docutils literal notranslate"><span class="pre">min
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram(maximization=True)
+x = p.new_variable()
+p.set_objective(x[1] + 5*x[2])
+a1 = matrix([[1,2],[2,3]])
+a2 = matrix([[1,1],[1,1]])
+a3 = matrix([[1,-1],[-1,1]])
+p.add_constraint(a1*x[1] + a2*x[2] &lt;= a3)
+N(p.solve(), digits=3)                                                # needs cvxopt</pre>
 </div>
-<p class="with-sage-tab with-python-tab">One can also define double-bounds or equality using the symbol
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">One can also define double-bounds or equality using the symbol
 <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code> or <code class="docutils literal notranslate"><span class="pre">==</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
@@ -1028,6 +1271,24 @@ case, arguments <code class="docutils literal notranslate"><span class="pre">min
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram(maximization=True)
+x = p.new_variable()
+p.set_objective(x[1] + 5*x[2])
+a1 = matrix([[1,2],[2,3]])
+a2 = matrix([[1,1],[1,1]])
+a3 = matrix([[1,-1],[-1,1]])
+p.add_constraint(a3 &gt;= a1*x[1] + a2*x[2])
+N(p.solve(), digits=3)                                                # needs cvxopt</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1036,7 +1297,7 @@ case, arguments <code class="docutils literal notranslate"><span class="pre">min
 <span class="sig-name descname"><span class="pre">base_ring</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/sdp.pyx#L449"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.sdp.SemidefiniteProgram.base_ring" title="Link to this definition">¶</a></dt>
 <dd><p>Return the base ring.</p>
 <p>OUTPUT: a ring. The coefficients that the chosen solver supports</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;cvxopt&#39;</span><span class="p">)</span>
@@ -1051,6 +1312,18 @@ case, arguments <code class="docutils literal notranslate"><span class="pre">min
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">base_ring</span><span class="p">()</span>
 <span class="go">Real Double Field</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram(solver='cvxopt')
+p.base_ring()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1068,7 +1341,7 @@ undefined.</p>
 </ul>
 <p>OUTPUT: the matrix of the <span class="math notranslate nohighlight">\(i\)</span>-th dual variable</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Dual objective value is the same as the primal one:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Dual objective value is the same as the primal one:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">(</span><span class="n">maximization</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -1115,8 +1388,33 @@ undefined.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram(maximization=False)
+x = p.new_variable()
+p.set_objective(x[0] - x[1])
+a1 = matrix([[1, 2.], [2., 3.]])
+a2 = matrix([[3, 4.], [4., 5.]])
+a3 = matrix([[5, 6.], [6., 7.]])
+b1 = matrix([[1, 1.], [1., 1.]])
+b2 = matrix([[2, 2.], [2., 2.]])
+b3 = matrix([[3, 3.], [3., 3.]])
+p.add_constraint(a1*x[0] + a2*x[1] &lt;= a3)
+p.add_constraint(b1*x[0] + b2*x[1] &lt;= b3)
+# needs cvxopt
+p.solve()                                                              # tol 1e-08
+x = p.get_values(x).values()
+-(a3*p.dual_variable(0)).trace() - (b3*p.dual_variable(1)).trace()     # tol 1e-07</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Dual variable is orthogonal to the slack</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Dual variable is orthogonal to the slack</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs cvxopt</span>
@@ -1133,6 +1431,18 @@ undefined.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs cvxopt
+g = sum((p.slack(j)*p.dual_variable(j)).trace() for j in range(2)); g  # tol 1.2e-08</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1140,7 +1450,7 @@ undefined.</p>
 <dt class="sig sig-object py" id="sage.numerical.sdp.SemidefiniteProgram.gen">
 <span class="sig-name descname"><span class="pre">gen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/sdp.pyx#L553"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.sdp.SemidefiniteProgram.gen" title="Link to this definition">¶</a></dt>
 <dd><p>Return the linear variable <span class="math notranslate nohighlight">\(x_i\)</span>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">sdp</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">()</span>
@@ -1161,6 +1471,19 @@ undefined.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">sdp = SemidefiniteProgram()
+sdp.gen(0)
+[sdp.gen(i) for i in range(10)]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1171,7 +1494,7 @@ undefined.</p>
 <p>This might be useful when access to additional functions provided by
 the backend is needed.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">This example prints a matrix coefficient:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This example prints a matrix coefficient:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;cvxopt&#39;</span><span class="p">)</span>
@@ -1204,6 +1527,23 @@ the backend is needed.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram(solver='cvxopt')
+x = p.new_variable()
+a1 = matrix([[1, 2.], [2., 3.]])
+a2 = matrix([[3, 4.], [4., 5.]])
+p.add_constraint(a1*x[0] + a2*x[1] &lt;= a1)
+b = p.get_backend()
+b.get_matrix()[0][0]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1224,7 +1564,7 @@ corresponding variable in the instance.</p></li>
 <li><p>Each element of an instance of a <a class="reference internal" href="#sage.numerical.sdp.SDPVariable" title="sage.numerical.sdp.SDPVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">SDPVariable</span></code></a> is replaced
 by its corresponding numerical value.</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">(</span><span class="n">solver</span> <span class="o">=</span> <span class="s2">&quot;cvxopt&quot;</span><span class="p">,</span> <span class="n">maximization</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
@@ -1261,8 +1601,30 @@ by its corresponding numerical value.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram(solver = &quot;cvxopt&quot;, maximization = False)
+x = p.new_variable()
+p.set_objective(x[3] - x[5])
+a1 = matrix([[1, 2.], [2., 3.]])
+a2 = matrix([[3, 4.], [4., 5.]])
+a3 = matrix([[5, 6.], [6., 7.]])
+b1 = matrix([[1, 1.], [1., 1.]])
+b2 = matrix([[2, 2.], [2., 2.]])
+b3 = matrix([[3, 3.], [3., 3.]])
+p.add_constraint(a1*x[3] + a2*x[5] &lt;= a3)
+p.add_constraint(b1*x[3] + b2*x[5] &lt;= b3)
+N(p.solve(), 3)                                                       # needs cvxopt</pre>
 </div>
-<p class="with-sage-tab with-python-tab">To return  the optimal value of <code class="docutils literal notranslate"><span class="pre">x[3]</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">To return  the optimal value of <code class="docutils literal notranslate"><span class="pre">x[3]</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">N</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_values</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span><span class="mi">3</span><span class="p">)</span>                                               <span class="c1"># needs cvxopt</span>
@@ -1277,8 +1639,19 @@ by its corresponding numerical value.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">N(p.get_values(x[3]),3)                                               # needs cvxopt</pre>
 </div>
-<p class="with-sage-tab with-python-tab">To get a dictionary identical to <code class="docutils literal notranslate"><span class="pre">x</span></code> containing optimal
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">To get a dictionary identical to <code class="docutils literal notranslate"><span class="pre">x</span></code> containing optimal
 values for the corresponding variables</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
@@ -1296,6 +1669,18 @@ values for the corresponding variables</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">x_sol = p.get_values(x)                                               # needs cvxopt
+sorted(x_sol)                                                         # needs cvxopt</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1305,7 +1690,7 @@ values for the corresponding variables</p>
 <dd><p>Return the parent for all linear constraints.</p>
 <p>See <a class="reference internal" href="linear_functions.html#module-sage.numerical.linear_functions" title="sage.numerical.linear_functions"><code class="xref py py-mod docutils literal notranslate"><span class="pre">linear_functions</span></code></a> for more
 details.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">()</span>
@@ -1322,6 +1707,18 @@ details.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram()
+p.linear_constraints_parent()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1329,7 +1726,7 @@ details.</p>
 <dt class="sig sig-object py" id="sage.numerical.sdp.SemidefiniteProgram.linear_function">
 <span class="sig-name descname"><span class="pre">linear_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/sdp.pyx#L377"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.sdp.SemidefiniteProgram.linear_function" title="Link to this definition">¶</a></dt>
 <dd><p>Construct a new linear function.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">()</span>
@@ -1346,6 +1743,18 @@ details.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram()
+p.linear_function({0:1})</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1353,7 +1762,7 @@ details.</p>
 <dt class="sig sig-object py" id="sage.numerical.sdp.SemidefiniteProgram.linear_functions_parent">
 <span class="sig-name descname"><span class="pre">linear_functions_parent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/sdp.pyx#L342"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.sdp.SemidefiniteProgram.linear_functions_parent" title="Link to this definition">¶</a></dt>
 <dd><p>Return the parent for all linear functions.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">()</span>
@@ -1370,6 +1779,18 @@ details.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram()
+p.linear_functions_parent()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1378,7 +1799,7 @@ details.</p>
 <span class="sig-name descname"><span class="pre">new_variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/sdp.pyx#L481"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.sdp.SemidefiniteProgram.new_variable" title="Link to this definition">¶</a></dt>
 <dd><p>Return an instance of <a class="reference internal" href="#sage.numerical.sdp.SDPVariable" title="sage.numerical.sdp.SDPVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">SDPVariable</span></code></a> associated
 to the current instance of <a class="reference internal" href="#sage.numerical.sdp.SemidefiniteProgram" title="sage.numerical.sdp.SemidefiniteProgram"><code class="xref py py-class docutils literal notranslate"><span class="pre">SemidefiniteProgram</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">A new variable <code class="docutils literal notranslate"><span class="pre">x</span></code> is defined by:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A new variable <code class="docutils literal notranslate"><span class="pre">x</span></code> is defined by:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--28-input--1" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">()</span>
@@ -1393,6 +1814,18 @@ to the current instance of <a class="reference internal" href="#sage.numerical.s
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram()
+x = p.new_variable()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>It behaves exactly as an usual dictionary would. It can use any key
 argument you may like, as <code class="docutils literal notranslate"><span class="pre">x[5]</span></code> or <code class="docutils literal notranslate"><span class="pre">x[&quot;b&quot;]</span></code>, and has methods
@@ -1404,7 +1837,7 @@ If <code class="docutils literal notranslate"><span class="pre">x</span></code> 
 <code class="docutils literal notranslate"><span class="pre">x[key1][key2]</span></code>. Deprecated.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> – string; associates a name to the variable</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">()</span>
@@ -1437,6 +1870,21 @@ If <code class="docutils literal notranslate"><span class="pre">x</span></code> 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram()
+x = p.new_variable()
+a1 = matrix([[1, 2.], [2., 3.]])
+p.add_constraint(a1*x[0] + a1*x[3] &lt;= 0)
+p.show()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1444,7 +1892,7 @@ If <code class="docutils literal notranslate"><span class="pre">x</span></code> 
 <dt class="sig sig-object py" id="sage.numerical.sdp.SemidefiniteProgram.number_of_constraints">
 <span class="sig-name descname"><span class="pre">number_of_constraints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/sdp.pyx#L567"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.sdp.SemidefiniteProgram.number_of_constraints" title="Link to this definition">¶</a></dt>
 <dd><p>Return the number of constraints assigned so far.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--30-input--1" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">(</span><span class="n">solver</span> <span class="o">=</span> <span class="s2">&quot;cvxopt&quot;</span><span class="p">)</span>
@@ -1481,6 +1929,28 @@ If <code class="docutils literal notranslate"><span class="pre">x</span></code> 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--30-input--3" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram(solver = &quot;cvxopt&quot;)
+x = p.new_variable()
+a1 = matrix([[1, 2.], [2., 3.]])
+a2 = matrix([[3, 4.], [4., 5.]])
+a3 = matrix([[5, 6.], [6., 7.]])
+b1 = matrix([[1, 1.], [1., 1.]])
+b2 = matrix([[2, 2.], [2., 2.]])
+b3 = matrix([[3, 3.], [3., 3.]])
+p.add_constraint(a1*x[0] + a2*x[1] &lt;= a3)
+p.add_constraint(b1*x[0] + b2*x[1] &lt;= b3)
+p.add_constraint(b1*x[0] + a2*x[1] &lt;= b3)
+p.number_of_constraints()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1488,7 +1958,7 @@ If <code class="docutils literal notranslate"><span class="pre">x</span></code> 
 <dt class="sig sig-object py" id="sage.numerical.sdp.SemidefiniteProgram.number_of_variables">
 <span class="sig-name descname"><span class="pre">number_of_variables</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/sdp.pyx#L589"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.sdp.SemidefiniteProgram.number_of_variables" title="Link to this definition">¶</a></dt>
 <dd><p>Return the number of variables used so far.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--31-input--1" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">()</span>
@@ -1507,6 +1977,20 @@ If <code class="docutils literal notranslate"><span class="pre">x</span></code> 
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">number_of_variables</span><span class="p">()</span>
 <span class="go">3</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--31-input--3" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram()
+a = matrix([[1, 2.], [2., 3.]])
+p.add_constraint(a*p[0] - a*p[2] &lt;=  2*a*p[4]  )
+p.number_of_variables()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1533,7 +2017,7 @@ looking for a feasible solution)</p></li>
     \left( \begin{array}{cc} 1 &amp; -1  \\ -1 &amp; 1  \end{array} \right)
 \end{aligned}\end{split}\]</div>
 </div>
-<p class="with-sage-tab with-python-tab">This SDP can be solved as follows:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This SDP can be solved as follows:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--32-input--1" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">(</span><span class="n">maximization</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1566,6 +2050,26 @@ looking for a feasible solution)</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--32-input--3" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram(maximization=True)
+x = p.new_variable()
+p.set_objective(x[1] + 5*x[2])
+a1 = matrix([[1,2],[2,3]])
+a2 = matrix([[1,1],[1,1]])
+a3 = matrix([[1,-1],[-1,1]])
+p.add_constraint(a1*x[1] + a2*x[2] &lt;= a3)
+N(p.solve(), digits=3)                                                # needs cvxopt
+p.set_objective(None)
+_ = p.solve()                                                         # needs cvxopt</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1578,7 +2082,7 @@ looking for a feasible solution)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> – string representing the name of the
 <code class="docutils literal notranslate"><span class="pre">SemidefiniteProgram</span></code></p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--33-input--1" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">()</span>
@@ -1597,6 +2101,19 @@ looking for a feasible solution)</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--33-input--3" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram()
+p.set_problem_name(&quot;Test program&quot;)
+p</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1605,7 +2122,7 @@ looking for a feasible solution)</p></li>
 <span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/sdp.pyx#L603"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.sdp.SemidefiniteProgram.show" title="Link to this definition">¶</a></dt>
 <dd><p>Display the <a class="reference internal" href="#sage.numerical.sdp.SemidefiniteProgram" title="sage.numerical.sdp.SemidefiniteProgram"><code class="xref py py-class docutils literal notranslate"><span class="pre">SemidefiniteProgram</span></code></a> in a human-readable way.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">When constraints and variables have names</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">When constraints and variables have names</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--34-input--1" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">()</span>
@@ -1644,6 +2161,24 @@ looking for a feasible solution)</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--34-input--3" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram()
+x = p.new_variable(name='hihi')
+a1 = matrix([[1,2],[2,3]])
+a2 = matrix([[2,3],[3,4]])
+a3 = matrix([[3,4],[4,5]])
+p.set_objective(x[0] - x[1])
+p.add_constraint(a1*x[0] + a2*x[1]&lt;= a3)
+p.show()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1658,7 +2193,7 @@ undefined.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">index</span></code> – integer; the constraint’s id</p></li>
 </ul>
 <p>OUTPUT: the matrix of the slack of the <span class="math notranslate nohighlight">\(i\)</span>-th constraint</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--35-input--1" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">(</span><span class="n">maximization</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
@@ -1717,6 +2252,33 @@ undefined.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--35-input--3" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram(maximization = False)
+x = p.new_variable()
+p.set_objective(x[0] - x[1])
+a1 = matrix([[1, 2.], [2., 3.]])
+a2 = matrix([[3, 4.], [4., 5.]])
+a3 = matrix([[5, 6.], [6., 7.]])
+b1 = matrix([[1, 1.], [1., 1.]])
+b2 = matrix([[2, 2.], [2., 2.]])
+b3 = matrix([[3, 3.], [3., 3.]])
+p.add_constraint(a1*x[0] + a2*x[1] &lt;= a3)
+p.add_constraint(b1*x[0] + b2*x[1] &lt;= b3)
+# needs cvxopt
+p.solve()                         # tol 1e-08
+B1 = p.slack(1); B1               # tol 1e-08
+B1.is_positive_definite()
+x = sorted(p.get_values(x).values())
+x[0]*b1 + x[1]*b2 - b3 + B1       # tol 1e-09</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1751,7 +2313,7 @@ using CVXOPT).</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">value</span></code> – the parameter’s value if it is to be defined,
 or <code class="docutils literal notranslate"><span class="pre">None</span></code> (default) to obtain its current value</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--36-input--1" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs cvxopt</span>
@@ -1804,6 +2366,31 @@ or <code class="docutils literal notranslate"><span class="pre">None</span></cod
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--36-input--3" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs cvxopt
+p.&lt;x&gt; = SemidefiniteProgram(solver='cvxopt',
+                            maximization=False)
+p.solver_parameter(&quot;show_progress&quot;, True)
+p.solver_parameter(&quot;show_progress&quot;)
+p.set_objective(x[0] - x[1])
+a1 = matrix([[1, 2.], [2., 3.]])
+a2 = matrix([[3, 4.], [4., 2.]])
+a3 = matrix([[5, 6.], [6., 7.]])
+b1 = matrix([[1, 1.], [1., 1.]])
+b2 = matrix([[2, 2.], [2., 1.]])
+b3 = matrix([[3, 3.], [3., 3.]])
+p.add_constraint(a1*x[0] + a2*x[1] &lt;= a3)
+p.add_constraint(b1*x[0] + b2*x[1] &lt;= b3)
+N(p.solve(), 4)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1822,7 +2409,7 @@ or <code class="docutils literal notranslate"><span class="pre">None</span></cod
 <p>The use of the regular <code class="docutils literal notranslate"><span class="pre">sum</span></code> function is not recommended
 as it is much less efficient than this one.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--37-input--1" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">SemidefiniteProgram</span><span class="p">()</span>
@@ -1837,8 +2424,20 @@ as it is much less efficient than this one.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--37-input--3" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = SemidefiniteProgram()
+v = p.new_variable()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The following command:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The following command:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--38-input--1" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">90</span><span class="p">))</span>
@@ -1851,8 +2450,19 @@ as it is much less efficient than this one.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--38-input--3" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s = p.sum(v[i] for i in range(90))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">is much more efficient than:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">is much more efficient than:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--39-input--1" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">90</span><span class="p">))</span>
@@ -1865,13 +2475,28 @@ as it is much less efficient than this one.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--39-input--3" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s = sum(v[i] for i in range(90))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -1981,7 +2606,7 @@ as it is much less efficient than this one.</p>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

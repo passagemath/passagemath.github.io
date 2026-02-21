@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -467,7 +467,7 @@ differential form; if none is provided, the LaTeX symbol is set to
 <code class="docutils literal notranslate"><span class="pre">name</span></code></p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Differential form of degree 2 on a non-parallelizable 2-dimensional
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Differential form of degree 2 on a non-parallelizable 2-dimensional
 manifold:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
@@ -511,8 +511,30 @@ manifold:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(2, 'M')
+U = M.open_subset('U') ; V = M.open_subset('V')
+M.declare_union(U,V)   # M is the union of U and V
+c_xy.&lt;x,y&gt; = U.chart() ; c_uv.&lt;u,v&gt; = V.chart()
+xy_to_uv = c_xy.transition_map(c_uv, (x+y, x-y), intersection_name='W',
+                               restrictions1= x&gt;0, restrictions2= u+v&gt;0)
+uv_to_xy = xy_to_uv.inverse()
+W = U.intersection(V)
+eU = c_xy.frame() ; eV = c_uv.frame()
+a = M.diff_form(2, name='a') ; a
+a.parent()
+a.degree()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Setting the components of <code class="docutils literal notranslate"><span class="pre">a</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Setting the components of <code class="docutils literal notranslate"><span class="pre">a</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span><span class="p">[</span><span class="n">eU</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span>
@@ -537,8 +559,22 @@ manifold:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a[eU,0,1] = x*y^2 + 2*x
+a.add_comp_by_continuation(eV, W, c_uv)
+a.display(eU)
+a.display(eV)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A 1-form on <code class="docutils literal notranslate"><span class="pre">M</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A 1-form on <code class="docutils literal notranslate"><span class="pre">M</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">one_form</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="p">;</span> <span class="n">a</span>
@@ -563,8 +599,21 @@ manifold:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = M.one_form(name='a') ; a
+a.parent()
+a.degree()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Setting the components of the 1-form in a consistent way:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Setting the components of the 1-form in a consistent way:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span><span class="p">[</span><span class="n">eU</span><span class="p">,:]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span>
@@ -587,8 +636,22 @@ manifold:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a[eU,:] = [-y, x]
+a.add_comp_by_continuation(eV, W, c_uv)
+a.display(eU)
+a.display(eV)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">It is also possible to set the components at the 1-form definition, via
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">It is also possible to set the components at the 1-form definition, via
 a dictionary whose keys are the vector frames:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
@@ -606,8 +669,20 @@ a dictionary whose keys are the vector frames:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a1 = M.one_form({eU: [-y, x], eV: [v/2, -u/2]}, name='a')
+a1 == a</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The exterior derivative of the 1-form is a 2-form:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The exterior derivative of the 1-form is a 2-form:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">da</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">exterior_derivative</span><span class="p">()</span> <span class="p">;</span> <span class="n">da</span>
@@ -630,8 +705,21 @@ a dictionary whose keys are the vector frames:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">da = a.exterior_derivative() ; da
+da.display(eU)
+da.display(eV)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The exterior derivative can also be obtained by applying the function
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The exterior derivative can also be obtained by applying the function
 <code class="docutils literal notranslate"><span class="pre">diff</span></code> to a differentiable form:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
@@ -647,8 +735,19 @@ a dictionary whose keys are the vector frames:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">diff(a) is a.exterior_derivative()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Another 1-form defined by its components in <code class="docutils literal notranslate"><span class="pre">eU</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Another 1-form defined by its components in <code class="docutils literal notranslate"><span class="pre">eU</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">b</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">one_form</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">eU</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
@@ -661,8 +760,19 @@ a dictionary whose keys are the vector frames:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">b = M.one_form(1+x*y, x^2, frame=eU, name='b')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Since <code class="docutils literal notranslate"><span class="pre">eU</span></code> is the default vector frame on <code class="docutils literal notranslate"><span class="pre">M</span></code>, it can be omitted
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Since <code class="docutils literal notranslate"><span class="pre">eU</span></code> is the default vector frame on <code class="docutils literal notranslate"><span class="pre">M</span></code>, it can be omitted
 in the definition:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
@@ -678,8 +788,20 @@ in the definition:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">b = M.one_form(1+x*y, x^2, name='b')
+b.add_comp_by_continuation(eV, W, c_uv)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Adding two 1-forms results in another 1-form:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Adding two 1-forms results in another 1-form:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="p">;</span> <span class="n">s</span>
@@ -704,8 +826,21 @@ in the definition:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s = a + b ; s
+s.display(eU)
+s.display(eV)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The exterior product of two 1-forms is a 2-form:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The exterior product of two 1-forms is a 2-form:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">wedge</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="p">;</span> <span class="n">s</span>
@@ -728,8 +863,21 @@ in the definition:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s = a.wedge(b) ; s
+s.display(eU)
+s.display(eV)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Multiplying a 1-form by a scalar field results in another 1-form:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Multiplying a 1-form by a scalar field results in another 1-form:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">scalar_field</span><span class="p">({</span><span class="n">c_xy</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="n">c_uv</span><span class="p">:</span> <span class="n">u</span><span class="o">^</span><span class="mi">2</span><span class="p">},</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;f&#39;</span><span class="p">)</span>
@@ -754,9 +902,23 @@ in the definition:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = M.scalar_field({c_xy: (x+y)^2, c_uv: u^2}, name='f')
+s = f*a ; s
+s.display(eU)
+s.display(eV)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p class="rubric">Examples with SymPy as the symbolic engine</p>
-<p class="with-sage-tab with-python-tab">From now on, we ask that all symbolic calculus on manifold <span class="math notranslate nohighlight">\(M\)</span> are
+<p class="with-sage-tab with-python-tab with-sage-live-tab">From now on, we ask that all symbolic calculus on manifold <span class="math notranslate nohighlight">\(M\)</span> are
 performed by SymPy:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
@@ -770,8 +932,19 @@ performed by SymPy:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.set_calculus_method('sympy')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We define a 2-form <span class="math notranslate nohighlight">\(a\)</span> as above:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We define a 2-form <span class="math notranslate nohighlight">\(a\)</span> as above:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">diff_form</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
@@ -796,8 +969,23 @@ performed by SymPy:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = M.diff_form(2, name='a')
+a[eU,0,1] = x*y^2 + 2*x
+a.add_comp_by_continuation(eV, W, c_uv)
+a.display(eU)
+a.display(eV)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A 1-form on <code class="docutils literal notranslate"><span class="pre">M</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A 1-form on <code class="docutils literal notranslate"><span class="pre">M</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">one_form</span><span class="p">(</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
@@ -820,8 +1008,22 @@ performed by SymPy:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = M.one_form(-y, x, name='a')
+a.add_comp_by_continuation(eV, W, c_uv)
+a.display(eU)
+a.display(eV)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The exterior derivative of <code class="docutils literal notranslate"><span class="pre">a</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The exterior derivative of <code class="docutils literal notranslate"><span class="pre">a</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">da</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">exterior_derivative</span><span class="p">()</span>
@@ -842,8 +1044,21 @@ performed by SymPy:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">da = a.exterior_derivative()
+da.display(eU)
+da.display(eV)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Another 1-form:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Another 1-form:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">b</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">one_form</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
@@ -858,8 +1073,20 @@ performed by SymPy:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">b = M.one_form(1+x*y, x^2, name='b')
+b.add_comp_by_continuation(eV, W, c_uv)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Adding two 1-forms:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Adding two 1-forms:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
@@ -880,8 +1107,21 @@ performed by SymPy:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s = a + b
+s.display(eU)
+s.display(eV)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The exterior product of two 1-forms:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The exterior product of two 1-forms:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">wedge</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
@@ -902,8 +1142,21 @@ performed by SymPy:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s = a.wedge(b)
+s.display(eU)
+s.display(eV)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Multiplying a 1-form by a scalar field:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Multiplying a 1-form by a scalar field:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">scalar_field</span><span class="p">({</span><span class="n">c_xy</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="n">c_uv</span><span class="p">:</span> <span class="n">u</span><span class="o">^</span><span class="mi">2</span><span class="p">},</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;f&#39;</span><span class="p">)</span>
@@ -926,13 +1179,27 @@ performed by SymPy:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = M.scalar_field({c_xy: (x+y)^2, c_uv: u^2}, name='f')
+s = f*a
+s.display(eU)
+s.display(eV)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.manifolds.differentiable.diff_form.DiffForm.degree">
 <span class="sig-name descname"><span class="pre">degree</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/manifolds/differentiable/diff_form.py#L589"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.manifolds.differentiable.diff_form.DiffForm.degree" title="Link to this definition">¶</a></dt>
 <dd><p>Return the degree of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
 <p>OUTPUT: integer <span class="math notranslate nohighlight">\(p\)</span> such that the differential form is a <span class="math notranslate nohighlight">\(p\)</span>-form</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">)</span>
@@ -961,6 +1228,21 @@ performed by SymPy:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(3, 'M')
+a = M.diff_form(2); a
+a.degree()
+b = M.diff_form(1); b
+b.degree()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -980,7 +1262,7 @@ performed by SymPy:</p>
 of the differential form</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Exterior derivative of a 1-form on the 2-sphere:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Exterior derivative of a 1-form on the 2-sphere:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">)</span> <span class="c1"># the 2-dimensional sphere S^2</span>
@@ -1013,8 +1295,29 @@ of the differential form</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(2, 'M') # the 2-dimensional sphere S^2
+U = M.open_subset('U') # complement of the North pole
+c_xy.&lt;x,y&gt; = U.chart() # stereographic coordinates from the North pole
+V = M.open_subset('V') # complement of the South pole
+c_uv.&lt;u,v&gt; = V.chart() # stereographic coordinates from the South pole
+M.declare_union(U,V)   # S^2 is the union of U and V
+xy_to_uv = c_xy.transition_map(c_uv, (x/(x^2+y^2), y/(x^2+y^2)),
+               intersection_name='W', restrictions1= x^2+y^2!=0,
+               restrictions2= u^2+v^2!=0)
+uv_to_xy = xy_to_uv.inverse()
+e_xy = c_xy.frame(); e_uv = c_uv.frame()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The 1-form:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The 1-form:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">one_form</span><span class="p">({</span><span class="n">e_xy</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">]},</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
@@ -1039,8 +1342,22 @@ of the differential form</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = M.one_form({e_xy: [-y^2, x^2]}, name='a')
+a.add_comp_by_continuation(e_uv, U.intersection(V), c_uv)
+a.display(e_xy)
+a.display(e_uv)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Its exterior derivative:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Its exterior derivative:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">da</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">exterior_derivative</span><span class="p">();</span> <span class="n">da</span>
@@ -1063,8 +1380,21 @@ of the differential form</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">da = a.exterior_derivative(); da
+da.display(e_xy)
+da.display(e_uv)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The result is cached, i.e. is not recomputed unless <code class="docutils literal notranslate"><span class="pre">a</span></code> is changed:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The result is cached, i.e. is not recomputed unless <code class="docutils literal notranslate"><span class="pre">a</span></code> is changed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span><span class="o">.</span><span class="n">exterior_derivative</span><span class="p">()</span> <span class="ow">is</span> <span class="n">da</span>
@@ -1079,8 +1409,19 @@ of the differential form</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a.exterior_derivative() is da</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Instead of invoking the method <a class="reference internal" href="#sage.manifolds.differentiable.diff_form.DiffForm.exterior_derivative" title="sage.manifolds.differentiable.diff_form.DiffForm.exterior_derivative"><code class="xref py py-meth docutils literal notranslate"><span class="pre">exterior_derivative()</span></code></a>, one may
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Instead of invoking the method <a class="reference internal" href="#sage.manifolds.differentiable.diff_form.DiffForm.exterior_derivative" title="sage.manifolds.differentiable.diff_form.DiffForm.exterior_derivative"><code class="xref py py-meth docutils literal notranslate"><span class="pre">exterior_derivative()</span></code></a>, one may
 use the global function <code class="docutils literal notranslate"><span class="pre">diff</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
@@ -1096,8 +1437,19 @@ use the global function <code class="docutils literal notranslate"><span class="
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">diff(a) is a.exterior_derivative()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Let us check Cartan’s identity:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let us check Cartan’s identity:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">v</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">vector_field</span><span class="p">({</span><span class="n">e_xy</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">]},</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;v&#39;</span><span class="p">)</span>
@@ -1114,6 +1466,19 @@ use the global function <code class="docutils literal notranslate"><span class="
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">lie_der</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">==</span> <span class="n">v</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="o">+</span> <span class="n">diff</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>  <span class="c1"># long time</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">v = M.vector_field({e_xy: [-y, x]}, name='v')
+v.add_comp_by_continuation(e_uv, U.intersection(V), c_uv)
+a.lie_der(v) == v.contract(diff(a)) + diff(a(v))  # long time</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1161,7 +1526,7 @@ with a default metric and this metric is then used.</p></li>
 <li><p>the <span class="math notranslate nohighlight">\((n-p)\)</span>-form <span class="math notranslate nohighlight">\(*A\)</span></p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Hodge dual of a 1-form on the 2-sphere equipped with the standard
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Hodge dual of a 1-form on the 2-sphere equipped with the standard
 metric: we first construct <span class="math notranslate nohighlight">\(\mathbb{S}^2\)</span> and its metric <span class="math notranslate nohighlight">\(g\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
@@ -1199,8 +1564,31 @@ metric: we first construct <span class="math notranslate nohighlight">\(\mathbb{
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(2, 'S^2', start_index=1)
+U = M.open_subset('U') ; V = M.open_subset('V')
+M.declare_union(U,V)   # S^2 is the union of U and V
+c_xy.&lt;x,y&gt; = U.chart() ; c_uv.&lt;u,v&gt; = V.chart() # stereographic coord. (North and South)
+xy_to_uv = c_xy.transition_map(c_uv, (x/(x^2+y^2), y/(x^2+y^2)),
+               intersection_name='W', restrictions1= x^2+y^2!=0,
+               restrictions2= u^2+v^2!=0)
+uv_to_xy = xy_to_uv.inverse()
+W = U.intersection(V) # The complement of the two poles
+eU = c_xy.frame() ; eV = c_uv.frame()
+g = M.metric('g')
+g[eU,1,1], g[eU,2,2] = 4/(1+x^2+y^2)^2, 4/(1+x^2+y^2)^2
+g[eV,1,1], g[eV,2,2] = 4/(1+u^2+v^2)^2, 4/(1+u^2+v^2)^2</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We endow <span class="math notranslate nohighlight">\(S^2\)</span> with the orientation defined by the stereographic
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We endow <span class="math notranslate nohighlight">\(S^2\)</span> with the orientation defined by the stereographic
 frame from the North pole, i.e. <code class="docutils literal notranslate"><span class="pre">eU</span></code>; <code class="docutils literal notranslate"><span class="pre">eV</span></code> is then left-handed and
 in order to define an orientation on the whole manifold, we introduce a
 vector frame on <code class="docutils literal notranslate"><span class="pre">V</span></code> by swapping <code class="docutils literal notranslate"><span class="pre">eV</span></code>’s vectors:</p>
@@ -1218,8 +1606,20 @@ vector frame on <code class="docutils literal notranslate"><span class="pre">V</
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = V.vector_frame('f', (eV[2], eV[1]))
+M.set_orientation([eU, f])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Then we construct the 1-form and take its Hodge dual w.r.t. <span class="math notranslate nohighlight">\(g\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Then we construct the 1-form and take its Hodge dual w.r.t. <span class="math notranslate nohighlight">\(g\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">one_form</span><span class="p">({</span><span class="n">eU</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">]},</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
@@ -1254,8 +1654,25 @@ vector frame on <code class="docutils literal notranslate"><span class="pre">V</
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = M.one_form({eU: [-y, x]}, name='a')
+a.add_comp_by_continuation(eV, W, c_uv)
+a.display(eU)
+a.display(eV)
+sa = a.hodge_dual(g); sa
+sa.display(eU)
+sa.display(eV)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Instead of calling the method <a class="reference internal" href="#sage.manifolds.differentiable.diff_form.DiffForm.hodge_dual" title="sage.manifolds.differentiable.diff_form.DiffForm.hodge_dual"><code class="xref py py-meth docutils literal notranslate"><span class="pre">hodge_dual()</span></code></a> on the differential
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Instead of calling the method <a class="reference internal" href="#sage.manifolds.differentiable.diff_form.DiffForm.hodge_dual" title="sage.manifolds.differentiable.diff_form.DiffForm.hodge_dual"><code class="xref py py-meth docutils literal notranslate"><span class="pre">hodge_dual()</span></code></a> on the differential
 form, one can invoke the method
 <a class="reference internal" href="metric.html#sage.manifolds.differentiable.metric.PseudoRiemannianMetric.hodge_star" title="sage.manifolds.differentiable.metric.PseudoRiemannianMetric.hodge_star"><code class="xref py py-meth docutils literal notranslate"><span class="pre">hodge_star()</span></code></a>
 of the metric:</p>
@@ -1273,8 +1690,19 @@ of the metric:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--30-input--3" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a.hodge_dual(g) == g.hodge_star(a)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">For a 1-form and a Riemannian metric in dimension 2, the Hodge dual
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">For a 1-form and a Riemannian metric in dimension 2, the Hodge dual
 applied twice is minus the identity:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--31-input--1" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--1">Sage</label><div class="tab-content docutils container">
@@ -1294,8 +1722,20 @@ applied twice is minus the identity:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--31-input--3" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ssa = sa.hodge_dual(g); ssa
+ssa == -a</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The Hodge dual of the metric volume 2-form is the constant scalar
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The Hodge dual of the metric volume 2-form is the constant scalar
 field 1 (considered as a 0-form):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--32-input--1" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--1">Sage</label><div class="tab-content docutils container">
@@ -1331,8 +1771,23 @@ field 1 (considered as a 0-form):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--32-input--3" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">eps = g.volume_form(); eps
+eps.display(eU)
+eps.display(eV)
+seps = eps.hodge_dual(g); seps
+seps.display()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Hodge dual of a 1-form in the Euclidean space <span class="math notranslate nohighlight">\(R^3\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Hodge dual of a 1-form in the Euclidean space <span class="math notranslate nohighlight">\(R^3\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--33-input--1" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -1375,6 +1830,27 @@ field 1 (considered as a 0-form):</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">ssa</span> <span class="o">==</span> <span class="n">a</span>  <span class="c1"># must hold for a Riemannian metric in dimension 3</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--33-input--3" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(3, 'M', start_index=1)
+X.&lt;x,y,z&gt; = M.chart()
+g = M.metric('g')  # the Euclidean metric
+g[1,1], g[2,2], g[3,3] = 1, 1, 1
+var('Ax Ay Az')
+a = M.one_form(Ax, Ay, Az, name='A')
+sa = a.hodge_dual(g) ; sa
+sa.display()
+ssa = sa.hodge_dual(g) ; ssa
+ssa.display()
+ssa == a  # must hold for a Riemannian metric in dimension 3</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1425,7 +1901,7 @@ for the interior product of a multivector field with a differential
 form</p>
 </div>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Interior product of a 1-form with a 2-vector field on the 2-sphere:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Interior product of a 1-form with a 2-vector field on the 2-sphere:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--34-input--1" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;S^2&#39;</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># the sphere S^2</span>
@@ -1486,8 +1962,38 @@ form</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--34-input--3" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(2, 'S^2', start_index=1) # the sphere S^2
+U = M.open_subset('U') ; V = M.open_subset('V')
+M.declare_union(U,V)   # S^2 is the union of U and V
+c_xy.&lt;x,y&gt; = U.chart() # stereographic coord. North
+c_uv.&lt;u,v&gt; = V.chart() # stereographic coord. South
+xy_to_uv = c_xy.transition_map(c_uv, (x/(x^2+y^2), y/(x^2+y^2)),
+               intersection_name='W', restrictions1= x^2+y^2!=0,
+               restrictions2= u^2+v^2!=0)
+uv_to_xy = xy_to_uv.inverse()
+W = U.intersection(V) # The complement of the two poles
+e_xy = c_xy.frame() ; e_uv = c_uv.frame()
+a = M.one_form({e_xy: [y, x]}, name='a')
+a.add_comp_by_continuation(e_uv, W, c_uv)
+b = M.multivector_field(2, name='b')
+b[e_xy,1,2] = x*y
+b.add_comp_by_continuation(e_uv, W, c_uv)
+s = a.interior_product(b); s
+s.display(e_xy)
+s.display(e_uv)
+s == a.contract(b)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Interior product of a 2-form with a 2-vector field:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Interior product of a 2-form with a 2-vector field:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--35-input--1" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">diff_form</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
@@ -1516,8 +2022,23 @@ form</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--35-input--3" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = M.diff_form(2, name='a')
+a[e_xy,1,2] = 4/(x^2+y^2+1)^2   # the standard area 2-form
+a.add_comp_by_continuation(e_uv, W, c_uv)
+s = a.interior_product(b); s
+s.display()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Some checks:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Some checks:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--36-input--1" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">==</span> <span class="n">a</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -1540,6 +2061,19 @@ form</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--36-input--3" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s == a.contract(0, 1, b, 0, 1)
+s.restrict(U) == 2 * a[[e_xy,1,2]] * b[[e_xy,1,2]]
+s.restrict(V) == 2 * a[[e_uv,1,2]] * b[[e_uv,1,2]]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1557,7 +2091,7 @@ form</p>
 <code class="docutils literal notranslate"><span class="pre">self</span> <span class="pre">∧</span> <span class="pre">other</span></code></p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Exterior product of two 1-forms on the 2-sphere:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Exterior product of two 1-forms on the 2-sphere:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--37-input--1" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;S^2&#39;</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># the 2-dimensional sphere S^2</span>
@@ -1608,8 +2142,35 @@ form</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--37-input--3" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(2, 'S^2', start_index=1) # the 2-dimensional sphere S^2
+U = M.open_subset('U') ; V = M.open_subset('V')
+M.declare_union(U,V)   # S^2 is the union of U and V
+c_xy.&lt;x,y&gt; = U.chart() ; c_uv.&lt;u,v&gt; = V.chart() # stereographic coord. (North and South)
+xy_to_uv = c_xy.transition_map(c_uv, (x/(x^2+y^2), y/(x^2+y^2)),
+               intersection_name='W', restrictions1= x^2+y^2!=0,
+               restrictions2= u^2+v^2!=0)
+uv_to_xy = xy_to_uv.inverse()
+W = U.intersection(V) # The complement of the two poles
+e_xy = c_xy.frame() ; e_uv = c_uv.frame()
+a = M.one_form({e_xy: [y, x]}, name='a')
+a.add_comp_by_continuation(e_uv, W, c_uv)
+b = M.one_form({e_xy: [x^2 + y^2, y]}, name='b')
+b.add_comp_by_continuation(e_uv, W, c_uv)
+c = a.wedge(b); c
+c.display(e_xy)
+c.display(e_uv)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If one of the two operands is unnamed, the result is unnamed too:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If one of the two operands is unnamed, the result is unnamed too:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--38-input--1" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">b1</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">diff_form</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># no name set</span>
@@ -1634,8 +2195,23 @@ form</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--38-input--3" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">b1 = M.diff_form(1)  # no name set
+b1[e_xy,:] = x^2 + y^2, y
+b1.add_comp_by_continuation(e_uv, W, c_uv)
+c1 = a.wedge(b1); c1
+c1.display(e_xy)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">To give a name to the result, one shall use the method
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">To give a name to the result, one shall use the method
 <a class="reference internal" href="tensorfield.html#sage.manifolds.differentiable.tensorfield.TensorField.set_name" title="sage.manifolds.differentiable.tensorfield.TensorField.set_name"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_name()</span></code></a>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--39-input--1" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--1">Sage</label><div class="tab-content docutils container">
@@ -1655,8 +2231,20 @@ form</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--39-input--3" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">c1.set_name('c');  c1
+c1.display(e_xy)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Wedging with scalar fields yields the multiplication from right:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Wedging with scalar fields yields the multiplication from right:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--40-input--1" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">scalar_field</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;f&#39;</span><span class="p">)</span>
@@ -1675,6 +2263,20 @@ form</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
 <span class="go">f*a = x*y dx + x^2 dy</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--40-input--3" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = M.scalar_field(x, name='f')
+f.add_expr_by_continuation(c_uv, W)
+t = a.wedge(f)
+t.display()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1725,7 +2327,7 @@ differential form; if none is provided, the LaTeX symbol is set to
 <code class="docutils literal notranslate"><span class="pre">name</span></code></p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">A 2-form on a 4-dimensional manifold:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A 2-form on a 4-dimensional manifold:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--41-input--1" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">)</span>
@@ -1750,8 +2352,22 @@ differential form; if none is provided, the LaTeX symbol is set to
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--41-input--3" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(4, 'M')
+c_txyz.&lt;t,x,y,z&gt; = M.chart()
+a = M.diff_form(2, name='a') ; a
+a.parent()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A differential form is a tensor field of purely covariant type:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A differential form is a tensor field of purely covariant type:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--42-input--1" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span><span class="o">.</span><span class="n">tensor_type</span><span class="p">()</span>
@@ -1766,8 +2382,19 @@ differential form; if none is provided, the LaTeX symbol is set to
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--42-input--3" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a.tensor_type()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">It is antisymmetric, its components being
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">It is antisymmetric, its components being
 <a class="reference external" href="../../../../tensor_free_modules/sage/tensor/modules/comp.html#sage.tensor.modules.comp.CompFullyAntiSym" title="(in Tensors on free modules of finite rank v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompFullyAntiSym</span></code></a>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--43-input--1" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--1">Sage</label><div class="tab-content docutils container">
@@ -1797,8 +2424,23 @@ differential form; if none is provided, the LaTeX symbol is set to
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--43-input--3" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a.symmetries()
+a[0,1] = 2
+a[1,0]
+a.comp()
+type(a.comp())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Setting a component with repeated indices to a nonzero value
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Setting a component with repeated indices to a nonzero value
 results in an error:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--44-input--1" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--1">Sage</label><div class="tab-content docutils container">
@@ -1824,8 +2466,21 @@ results in an error:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--44-input--3" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a[1,1] = 3
+a[1,1] = 0  # OK, albeit useless
+a[1,2] = 3  # OK</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The expansion of a differential form with respect to a given coframe is
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The expansion of a differential form with respect to a given coframe is
 displayed via the method
 <a class="reference external" href="../../../../tensor_free_modules/sage/tensor/modules/free_module_alt_form.html#sage.tensor.modules.free_module_alt_form.FreeModuleAltForm.display" title="(in Tensors on free modules of finite rank v10.8.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">display()</span></code></a>:</p>
 <div class="tab-set docutils container">
@@ -1848,8 +2503,20 @@ displayed via the method
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--45-input--3" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a.display() # expansion with respect to the default coframe (dt, dx, dy, dz)
+latex(a.display()) # output for the notebook</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Differential forms can be added or subtracted:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Differential forms can be added or subtracted:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--46-input--1" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">b</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">diff_form</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -1896,8 +2563,24 @@ displayed via the method
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--46-input--3" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">b = M.diff_form(2)
+b[0,1], b[0,2], b[0,3] = (1,2,3)
+s = a + b ; s
+a[:], b[:], s[:]
+s = a - b ; s
+s[:]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">An example of 3-form is the volume element on <span class="math notranslate nohighlight">\(\RR^3\)</span> in Cartesian
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">An example of 3-form is the volume element on <span class="math notranslate nohighlight">\(\RR^3\)</span> in Cartesian
 coordinates:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--47-input--1" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--1">Sage</label><div class="tab-content docutils container">
@@ -1927,8 +2610,24 @@ coordinates:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--47-input--3" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(3, 'R3', latex_name=r'\RR^3', start_index=1)
+c_cart.&lt;x,y,z&gt; = M.chart()
+eps = M.diff_form(3, name='epsilon', latex_name=r'\epsilon')
+eps[1,2,3] = 1  # the only independent component
+eps[:] # all the components are set from the previous line:
+eps.display()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Spherical components of the volume element from the tensorial
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Spherical components of the volume element from the tensorial
 change-of-frame formula:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--48-input--1" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--1">Sage</label><div class="tab-content docutils container">
@@ -1984,8 +2683,27 @@ change-of-frame formula:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--48-input--3" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">c_spher.&lt;r,th,ph&gt; = M.chart(r'r:[0,+oo) th:[0,pi]:\theta ph:[0,2*pi):\phi')
+spher_to_cart = c_spher.transition_map(c_cart,
+               [r*sin(th)*cos(ph), r*sin(th)*sin(ph), r*cos(th)])
+cart_to_spher = spher_to_cart.set_inverse(sqrt(x^2+y^2+z^2),
+                             atan2(sqrt(x^2+y^2),z), atan2(y, x))
+eps.comp(c_spher.frame()) # computation of the components in the spherical frame
+eps.comp(c_spher.frame())[1,2,3, c_spher]
+eps.display(c_spher.frame())
+eps.display(c_spher.frame(), c_spher)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">As a shortcut of the above command, on can pass just the chart <code class="docutils literal notranslate"><span class="pre">c_spher</span></code>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">As a shortcut of the above command, on can pass just the chart <code class="docutils literal notranslate"><span class="pre">c_spher</span></code>
 to <code class="docutils literal notranslate"><span class="pre">display</span></code>, the vector frame being then assumed to be the coordinate
 frame associated with the chart:</p>
 <div class="tab-set docutils container">
@@ -2002,8 +2720,19 @@ frame associated with the chart:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--49-input--3" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">eps.display(c_spher)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The exterior product of two differential forms is performed via the method
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The exterior product of two differential forms is performed via the method
 <a class="reference external" href="../../../../tensor_free_modules/sage/tensor/modules/free_module_alt_form.html#sage.tensor.modules.free_module_alt_form.FreeModuleAltForm.wedge" title="(in Tensors on free modules of finite rank v10.8.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wedge()</span></code></a>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--50-input--1" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--1">Sage</label><div class="tab-content docutils container">
@@ -2037,8 +2766,23 @@ frame associated with the chart:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--50-input--3" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = M.one_form(x*y*z, -z*x, y*z, name='A')
+b = M.one_form(cos(z), sin(x), cos(y), name='B')
+ab = a.wedge(b) ; ab
+ab[:]
+ab.display()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Let us check the formula relating the exterior product to the tensor
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let us check the formula relating the exterior product to the tensor
 product for 1-forms:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--51-input--1" name="tab-set--51" type="radio"><label class="tab-label" for="tab-set--51-input--1">Sage</label><div class="tab-content docutils container">
@@ -2054,8 +2798,19 @@ product for 1-forms:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--51-input--3" name="tab-set--51" type="radio"><label class="tab-label" for="tab-set--51-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a.wedge(b) == a*b - b*a</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The tensor product of a 1-form and a 2-form is not a 3-form but a tensor
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The tensor product of a 1-form and a 2-form is not a 3-form but a tensor
 field of type <span class="math notranslate nohighlight">\((0,3)\)</span> with less symmetries:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--52-input--1" name="tab-set--52" type="radio"><label class="tab-label" for="tab-set--52-input--1">Sage</label><div class="tab-content docutils container">
@@ -2087,8 +2842,22 @@ field of type <span class="math notranslate nohighlight">\((0,3)\)</span> with l
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--52-input--3" name="tab-set--52" type="radio"><label class="tab-label" for="tab-set--52-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">c = a*ab ; c
+c.symmetries()  # the antisymmetry is only w.r.t. the last 2 arguments:
+d = ab*a ; d
+d.symmetries()  # the antisymmetry is only w.r.t. the first 2 arguments:</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The exterior derivative of a differential form is obtained by means
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The exterior derivative of a differential form is obtained by means
 of the method <a class="reference internal" href="#sage.manifolds.differentiable.diff_form.DiffFormParal.exterior_derivative" title="sage.manifolds.differentiable.diff_form.DiffFormParal.exterior_derivative"><code class="xref py py-meth docutils literal notranslate"><span class="pre">exterior_derivative()</span></code></a>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--53-input--1" name="tab-set--53" type="radio"><label class="tab-label" for="tab-set--53-input--1">Sage</label><div class="tab-content docutils container">
@@ -2120,8 +2889,23 @@ of the method <a class="reference internal" href="#sage.manifolds.differentiable
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--53-input--3" name="tab-set--53" type="radio"><label class="tab-label" for="tab-set--53-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">da = a.exterior_derivative() ; da
+da.display()
+db = b.exterior_derivative() ; db
+db.display()
+dab = ab.exterior_derivative() ; dab</pre>
 </div>
-<p class="with-sage-tab with-python-tab">or by applying the function <code class="docutils literal notranslate"><span class="pre">diff</span></code> to the differential form:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">or by applying the function <code class="docutils literal notranslate"><span class="pre">diff</span></code> to the differential form:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--54-input--1" name="tab-set--54" type="radio"><label class="tab-label" for="tab-set--54-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">diff</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">is</span> <span class="n">a</span><span class="o">.</span><span class="n">exterior_derivative</span><span class="p">()</span>
@@ -2136,8 +2920,19 @@ of the method <a class="reference internal" href="#sage.manifolds.differentiable
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--54-input--3" name="tab-set--54" type="radio"><label class="tab-label" for="tab-set--54-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">diff(a) is a.exterior_derivative()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">As a 3-form over a 3-dimensional manifold, <code class="docutils literal notranslate"><span class="pre">d(A∧B)</span></code> is necessarily
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">As a 3-form over a 3-dimensional manifold, <code class="docutils literal notranslate"><span class="pre">d(A∧B)</span></code> is necessarily
 proportional to the volume 3-form:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--55-input--1" name="tab-set--55" type="radio"><label class="tab-label" for="tab-set--55-input--1">Sage</label><div class="tab-content docutils container">
@@ -2153,8 +2948,19 @@ proportional to the volume 3-form:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--55-input--3" name="tab-set--55" type="radio"><label class="tab-label" for="tab-set--55-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">dab == dab[[1,2,3]]/eps[[1,2,3]]*eps</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We may also check that the classical anti-derivation formula is fulfilled:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We may also check that the classical anti-derivation formula is fulfilled:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--56-input--1" name="tab-set--56" type="radio"><label class="tab-label" for="tab-set--56-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">dab</span> <span class="o">==</span> <span class="n">da</span><span class="o">.</span><span class="n">wedge</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">wedge</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
@@ -2169,8 +2975,19 @@ proportional to the volume 3-form:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--56-input--3" name="tab-set--56" type="radio"><label class="tab-label" for="tab-set--56-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">dab == da.wedge(b) - a.wedge(db)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The Lie derivative of a 2-form is a 2-form:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The Lie derivative of a 2-form is a 2-form:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--57-input--1" name="tab-set--57" type="radio"><label class="tab-label" for="tab-set--57-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">v</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">vector_field</span><span class="p">(</span><span class="n">y</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="o">-</span><span class="n">x</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;v&#39;</span><span class="p">)</span>
@@ -2187,8 +3004,20 @@ proportional to the volume 3-form:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--57-input--3" name="tab-set--57" type="radio"><label class="tab-label" for="tab-set--57-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">v = M.vector_field(y*z, -x*z, x*y, name='v')
+ab.lie_der(v)  # long time</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Let us check Cartan formula, which expresses the Lie derivative in terms
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let us check Cartan formula, which expresses the Lie derivative in terms
 of exterior derivatives:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--58-input--1" name="tab-set--58" type="radio"><label class="tab-label" for="tab-set--58-input--1">Sage</label><div class="tab-content docutils container">
@@ -2206,8 +3035,20 @@ of exterior derivatives:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--58-input--3" name="tab-set--58" type="radio"><label class="tab-label" for="tab-set--58-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ab.lie_der(v) == (v.contract(ab.exterior_derivative())  # long time
+                  + v.contract(ab).exterior_derivative())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A 1-form on a <span class="math notranslate nohighlight">\(\RR^3\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A 1-form on a <span class="math notranslate nohighlight">\(\RR^3\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--59-input--1" name="tab-set--59" type="radio"><label class="tab-label" for="tab-set--59-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">om</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">one_form</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;omega&#39;</span><span class="p">,</span> <span class="n">latex_name</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\omega&#39;</span><span class="p">);</span> <span class="n">om</span>
@@ -2222,8 +3063,19 @@ of exterior derivatives:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--59-input--3" name="tab-set--59" type="radio"><label class="tab-label" for="tab-set--59-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">om = M.one_form(name='omega', latex_name=r'\omega'); om</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A 1-form is of course a differential form:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A 1-form is of course a differential form:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--60-input--1" name="tab-set--60" type="radio"><label class="tab-label" for="tab-set--60-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">om</span><span class="p">,</span> <span class="n">sage</span><span class="o">.</span><span class="n">manifolds</span><span class="o">.</span><span class="n">differentiable</span><span class="o">.</span><span class="n">diff_form</span><span class="o">.</span><span class="n">DiffFormParal</span><span class="p">)</span>
@@ -2248,8 +3100,21 @@ of exterior derivatives:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--60-input--3" name="tab-set--60" type="radio"><label class="tab-label" for="tab-set--60-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">isinstance(om, sage.manifolds.differentiable.diff_form.DiffFormParal)
+om.parent()
+om.tensor_type()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Setting the components with respect to the manifold’s default frame:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Setting the components with respect to the manifold’s default frame:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--61-input--1" name="tab-set--61" type="radio"><label class="tab-label" for="tab-set--61-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">om</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span>
@@ -2270,8 +3135,21 @@ of exterior derivatives:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--61-input--3" name="tab-set--61" type="radio"><label class="tab-label" for="tab-set--61-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">om[:] = (2*z, x, x-y)
+om[:]
+om.display()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A 1-form acts on vector fields:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A 1-form acts on vector fields:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--62-input--1" name="tab-set--62" type="radio"><label class="tab-label" for="tab-set--62-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">v</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">vector_field</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">,</span> <span class="mi">3</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;V&#39;</span><span class="p">)</span>
@@ -2302,8 +3180,22 @@ of exterior derivatives:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--62-input--3" name="tab-set--62" type="radio"><label class="tab-label" for="tab-set--62-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">v = M.vector_field(x, 2*y, 3*z, name='V')
+om(v)
+om(v).display()
+latex(om(v))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The tensor product of two 1-forms is a tensor field of type <span class="math notranslate nohighlight">\((0,2)\)</span>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The tensor product of two 1-forms is a tensor field of type <span class="math notranslate nohighlight">\((0,2)\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--63-input--1" name="tab-set--63" type="radio"><label class="tab-label" for="tab-set--63-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">one_form</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
@@ -2336,6 +3228,21 @@ of exterior derivatives:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--63-input--3" name="tab-set--63" type="radio"><label class="tab-label" for="tab-set--63-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = M.one_form(1, 2, 3, name='A')
+b = M.one_form(6, 5, 4, name='B')
+c = a*b ; c
+c[:]
+c.symmetries()    # c has no symmetries:</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.manifolds.differentiable.diff_form.DiffFormParal.derivative">
@@ -2353,7 +3260,7 @@ of exterior derivatives:</p>
 derivative of the differential form</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Exterior derivative of a 1-form on a 4-dimensional manifold:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Exterior derivative of a 1-form on a 4-dimensional manifold:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--64-input--1" name="tab-set--64" type="radio"><label class="tab-label" for="tab-set--64-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">)</span>
@@ -2386,8 +3293,24 @@ derivative of the differential form</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--64-input--3" name="tab-set--64" type="radio"><label class="tab-label" for="tab-set--64-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(4, 'M')
+c_txyz.&lt;t,x,y,z&gt; = M.chart()
+a = M.one_form(t*x*y*z, z*y**2, x*z**2, x**2 + y**2, name='A')
+da = a.exterior_derivative() ; da
+da.display()
+latex(da)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The result is cached, i.e. is not recomputed unless <code class="docutils literal notranslate"><span class="pre">a</span></code> is changed:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The result is cached, i.e. is not recomputed unless <code class="docutils literal notranslate"><span class="pre">a</span></code> is changed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--65-input--1" name="tab-set--65" type="radio"><label class="tab-label" for="tab-set--65-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span><span class="o">.</span><span class="n">exterior_derivative</span><span class="p">()</span> <span class="ow">is</span> <span class="n">da</span>
@@ -2402,8 +3325,19 @@ derivative of the differential form</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--65-input--3" name="tab-set--65" type="radio"><label class="tab-label" for="tab-set--65-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a.exterior_derivative() is da</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Instead of invoking the method <a class="reference internal" href="#sage.manifolds.differentiable.diff_form.DiffFormParal.exterior_derivative" title="sage.manifolds.differentiable.diff_form.DiffFormParal.exterior_derivative"><code class="xref py py-meth docutils literal notranslate"><span class="pre">exterior_derivative()</span></code></a>, one may
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Instead of invoking the method <a class="reference internal" href="#sage.manifolds.differentiable.diff_form.DiffFormParal.exterior_derivative" title="sage.manifolds.differentiable.diff_form.DiffFormParal.exterior_derivative"><code class="xref py py-meth docutils literal notranslate"><span class="pre">exterior_derivative()</span></code></a>, one may
 use the global function <code class="docutils literal notranslate"><span class="pre">diff</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--66-input--1" name="tab-set--66" type="radio"><label class="tab-label" for="tab-set--66-input--1">Sage</label><div class="tab-content docutils container">
@@ -2419,8 +3353,19 @@ use the global function <code class="docutils literal notranslate"><span class="
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--66-input--3" name="tab-set--66" type="radio"><label class="tab-label" for="tab-set--66-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">diff(a) is a.exterior_derivative()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The exterior derivative is nilpotent:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The exterior derivative is nilpotent:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--67-input--1" name="tab-set--67" type="radio"><label class="tab-label" for="tab-set--67-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">dda</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">exterior_derivative</span><span class="p">()</span> <span class="p">;</span> <span class="n">dda</span>
@@ -2443,8 +3388,21 @@ use the global function <code class="docutils literal notranslate"><span class="
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--67-input--3" name="tab-set--67" type="radio"><label class="tab-label" for="tab-set--67-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">dda = da.exterior_derivative() ; dda
+dda.display()
+dda == 0</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Let us check Cartan’s identity:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let us check Cartan’s identity:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--68-input--1" name="tab-set--68" type="radio"><label class="tab-label" for="tab-set--68-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">v</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">vector_field</span><span class="p">(</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;v&#39;</span><span class="p">)</span>
@@ -2459,6 +3417,18 @@ use the global function <code class="docutils literal notranslate"><span class="
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">lie_der</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">==</span> <span class="n">v</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="o">+</span> <span class="n">diff</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="c1"># long time</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--68-input--3" name="tab-set--68" type="radio"><label class="tab-label" for="tab-set--68-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">v = M.vector_field(-y, x, t, z, name='v')
+a.lie_der(v) == v.contract(diff(a)) + diff(a(v)) # long time</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2507,7 +3477,7 @@ for the interior product of a multivector field with a
 differential form</p>
 </div>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Interior product of a 1-form with a 2-vector field on a
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Interior product of a 1-form with a 2-vector field on a
 3-dimensional manifold:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--69-input--1" name="tab-set--69" type="radio"><label class="tab-label" for="tab-set--69-input--1">Sage</label><div class="tab-content docutils container">
@@ -2545,8 +3515,26 @@ differential form</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--69-input--3" name="tab-set--69" type="radio"><label class="tab-label" for="tab-set--69-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(3, 'M', start_index=1)
+X.&lt;x,y,z&gt; = M.chart()
+a = M.one_form(2, 1+x, y*z, name='a')
+b = M.multivector_field(2, name='b')
+b[1,2], b[1,3], b[2,3] = y^2, z+x, -z^2
+s = a.interior_product(b); s
+s.display()
+s == a.contract(b)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Interior product of a 2-form with a 2-vector field:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Interior product of a 2-form with a 2-vector field:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--70-input--1" name="tab-set--70" type="radio"><label class="tab-label" for="tab-set--70-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">diff_form</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
@@ -2575,6 +3563,21 @@ differential form</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--70-input--3" name="tab-set--70" type="radio"><label class="tab-label" for="tab-set--70-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = M.diff_form(2, name='a')
+a[1,2], a[1,3], a[2,3] = x*y, -3, z
+s = a.interior_product(b); s
+s.display()
+s == a.contract(0,1,b,0,1)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2592,7 +3595,7 @@ differential form</p>
 product <code class="docutils literal notranslate"><span class="pre">self</span> <span class="pre">∧</span> <span class="pre">other</span></code></p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Exterior product of a 1-form and a 2-form on a 3-dimensional
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Exterior product of a 1-form and a 2-form on a 3-dimensional
 manifold:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--71-input--1" name="tab-set--71" type="radio"><label class="tab-label" for="tab-set--71-input--1">Sage</label><div class="tab-content docutils container">
@@ -2630,8 +3633,27 @@ manifold:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--71-input--3" name="tab-set--71" type="radio"><label class="tab-label" for="tab-set--71-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = Manifold(3, 'M', start_index=1)
+X.&lt;x,y,z&gt; = M.chart()
+a = M.one_form(2, 1+x, y*z, name='a')
+b = M.diff_form(2, name='b')
+b[1,2], b[1,3], b[2,3] = y^2, z+x, z^2
+a.display()
+b.display()
+s = a.wedge(b); s
+s.display()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Check:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Check:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--72-input--1" name="tab-set--72" type="radio"><label class="tab-label" for="tab-set--72-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">b</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
@@ -2646,8 +3668,19 @@ manifold:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--72-input--3" name="tab-set--72" type="radio"><label class="tab-label" for="tab-set--72-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s[1,2,3] == a[1]*b[2,3] + a[2]*b[3,1] + a[3]*b[1,2]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Wedging with scalar fields yields the multiplication from right:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Wedging with scalar fields yields the multiplication from right:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--73-input--1" name="tab-set--73" type="radio"><label class="tab-label" for="tab-set--73-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">scalar_field</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;f&#39;</span><span class="p">)</span>
@@ -2666,13 +3699,30 @@ manifold:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--73-input--3" name="tab-set--73" type="radio"><label class="tab-label" for="tab-set--73-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = M.scalar_field(x, name='f')
+t = a.wedge(f)
+t.display()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -2763,7 +3813,7 @@ manifold:</p>
     <script src="../../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../../%5fstatic/copybutton.js"></script>
     <script src="../../../../%5fstatic/tabs.js"></script>
-    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

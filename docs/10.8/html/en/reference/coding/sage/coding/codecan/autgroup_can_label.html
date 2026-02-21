@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -372,7 +372,7 @@ by <code class="docutils literal notranslate"><span class="pre">P</span></code>.
 <ul class="simple">
 <li><p>Thomas Feulner (2012-11-15): initial version</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.coding.codecan.autgroup_can_label</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearCodeAutGroupCanLabel</span>
@@ -411,8 +411,26 @@ by <code class="docutils literal notranslate"><span class="pre">P</span></code>.
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.coding.codecan.autgroup_can_label import LinearCodeAutGroupCanLabel
+C = codes.HammingCode(GF(3), 3).dual_code()
+P = LinearCodeAutGroupCanLabel(C)
+P.get_canonical_form().generator_matrix()
+LinearCode(P.get_transporter()*C.generator_matrix()) == P.get_canonical_form()
+A = P.get_autom_gens()
+all(LinearCode(a*C.generator_matrix()) == C for a in A)
+P.get_autom_order() == GL(3, GF(3)).order()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If the dimension of the dual code is smaller, we will work on this code:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If the dimension of the dual code is smaller, we will work on this code:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">C2</span> <span class="o">=</span> <span class="n">codes</span><span class="o">.</span><span class="n">HammingCode</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
@@ -431,8 +449,21 @@ by <code class="docutils literal notranslate"><span class="pre">P</span></code>.
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C2 = codes.HammingCode(GF(3), 3)
+P2 = LinearCodeAutGroupCanLabel(C2)
+P2.get_canonical_form().parity_check_matrix() == P.get_canonical_form().generator_matrix()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">There is a specialization of this algorithm to pass a coloring on the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">There is a specialization of this algorithm to pass a coloring on the
 coordinates. This is just a list of lists, telling the algorithm which
 columns do share the same coloring:</p>
 <div class="tab-set docutils container">
@@ -467,8 +498,24 @@ columns do share the same coloring:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C = codes.HammingCode(GF(4, 'a'), 3).dual_code()
+P = LinearCodeAutGroupCanLabel(C, P=[ [0], [1], list(range(2, C.length())) ])
+P.get_autom_order()
+A = [a.get_perm() for a in P.get_autom_gens()]
+H = SymmetricGroup(21).subgroup(A)
+H.orbits()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can also restrict the group action to linear isometries:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can also restrict the group action to linear isometries:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">LinearCodeAutGroupCanLabel</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">algorithm_type</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
@@ -485,8 +532,20 @@ columns do share the same coloring:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = LinearCodeAutGroupCanLabel(C, algorithm_type='linear')
+P.get_autom_order() == GL(3, GF(4, 'a')).order()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">and to the action of the symmetric group only:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">and to the action of the symmetric group only:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">LinearCodeAutGroupCanLabel</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">algorithm_type</span><span class="o">=</span><span class="s1">&#39;permutational&#39;</span><span class="p">)</span>
@@ -501,6 +560,18 @@ columns do share the same coloring:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span><span class="o">.</span><span class="n">get_autom_order</span><span class="p">()</span> <span class="o">==</span> <span class="n">C</span><span class="o">.</span><span class="n">permutation_automorphism_group</span><span class="p">()</span><span class="o">.</span><span class="n">order</span><span class="p">()</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = LinearCodeAutGroupCanLabel(C, algorithm_type='permutational')
+P.get_autom_order() == C.permutation_automorphism_group().order()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -535,7 +606,7 @@ action to a Young subgroup of <span class="math notranslate nohighlight">\(S_n\)
 partition <span class="math notranslate nohighlight">\(P\)</span> (as a list of lists) of the set <span class="math notranslate nohighlight">\(\{0, \ldots, n-1\}\)</span>. This is
 an option which is also available in the computation of a canonical form of
 a graph, see <a class="reference external" href="../../../../graphs/sage/graphs/generic_graph.html#sage.graphs.generic_graph.GenericGraph.canonical_label" title="(in Graph Theory v10.8.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sage.graphs.generic_graph.GenericGraph.canonical_label()</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.coding.codecan.autgroup_can_label</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearCodeAutGroupCanLabel</span>
@@ -574,6 +645,24 @@ a graph, see <a class="reference external" href="../../../../graphs/sage/graphs/
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.coding.codecan.autgroup_can_label import LinearCodeAutGroupCanLabel
+C = codes.HammingCode(GF(3), 3).dual_code()
+P = LinearCodeAutGroupCanLabel(C)
+P.get_canonical_form().generator_matrix()
+LinearCode(P.get_transporter()*C.generator_matrix()) == P.get_canonical_form()
+a = P.get_autom_gens()[0]
+(a*C.generator_matrix()).echelon_form() == C.generator_matrix().echelon_form()
+P.get_autom_order() == GL(3, GF(3)).order()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.coding.codecan.autgroup_can_label.LinearCodeAutGroupCanLabel.get_PGammaL_gens">
@@ -584,7 +673,7 @@ code is identified with the multiset of points in the finite projective
 geometry <span class="math notranslate nohighlight">\(PG(k-1, q)\)</span>. The equivalence of codes translates to the
 natural action of <span class="math notranslate nohighlight">\(P\Gamma L(k,q)\)</span>. Therefore, we may interpret the
 group as a subgroup of <span class="math notranslate nohighlight">\(P\Gamma L(k,q)\)</span> as well.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.coding.codecan.autgroup_can_label</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearCodeAutGroupCanLabel</span>
@@ -609,6 +698,22 @@ group as a subgroup of <span class="math notranslate nohighlight">\(P\Gamma L(k,
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.coding.codecan.autgroup_can_label import LinearCodeAutGroupCanLabel
+C = codes.HammingCode(GF(4, 'a'), 3).dual_code()
+A = LinearCodeAutGroupCanLabel(C).get_PGammaL_gens()
+Gamma = C.generator_matrix()
+N = [ x.monic() for x in Gamma.columns() ]
+all((g[0]*n.apply_map(g[1])).monic() in N for n in N for g in A)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -622,7 +727,7 @@ code is identified with the multiset of points in the finite projective
 geometry <span class="math notranslate nohighlight">\(PG(k-1, q)\)</span>. The equivalence of codes translates to the
 natural action of <span class="math notranslate nohighlight">\(P\Gamma L(k,q)\)</span>. Therefore, we may interpret the
 group as a subgroup of <span class="math notranslate nohighlight">\(P\Gamma L(k,q)\)</span> as well.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.coding.codecan.autgroup_can_label</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearCodeAutGroupCanLabel</span>
@@ -641,6 +746,19 @@ group as a subgroup of <span class="math notranslate nohighlight">\(P\Gamma L(k,
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.coding.codecan.autgroup_can_label import LinearCodeAutGroupCanLabel
+C = codes.HammingCode(GF(4, 'a'), 3).dual_code()
+LinearCodeAutGroupCanLabel(C).get_PGammaL_order() == GL(3, GF(4, 'a')).order()*2/3</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -648,7 +766,7 @@ group as a subgroup of <span class="math notranslate nohighlight">\(P\Gamma L(k,
 <dt class="sig sig-object py" id="sage.coding.codecan.autgroup_can_label.LinearCodeAutGroupCanLabel.get_autom_gens">
 <span class="sig-name descname"><span class="pre">get_autom_gens</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/coding/codecan/autgroup_can_label.pyx#L568"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.coding.codecan.autgroup_can_label.LinearCodeAutGroupCanLabel.get_autom_gens" title="Link to this definition">¶</a></dt>
 <dd><p>Return a generating set for the automorphism group of the code.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.coding.codecan.autgroup_can_label</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearCodeAutGroupCanLabel</span>
@@ -671,6 +789,21 @@ group as a subgroup of <span class="math notranslate nohighlight">\(P\Gamma L(k,
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.coding.codecan.autgroup_can_label import LinearCodeAutGroupCanLabel
+C = codes.HammingCode(GF(2), 3).dual_code()
+A = LinearCodeAutGroupCanLabel(C).get_autom_gens()
+Gamma = C.generator_matrix().echelon_form()
+all((g*Gamma).echelon_form() == Gamma for g in A)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -678,7 +811,7 @@ group as a subgroup of <span class="math notranslate nohighlight">\(P\Gamma L(k,
 <dt class="sig sig-object py" id="sage.coding.codecan.autgroup_can_label.LinearCodeAutGroupCanLabel.get_autom_order">
 <span class="sig-name descname"><span class="pre">get_autom_order</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/coding/codecan/autgroup_can_label.pyx#L583"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.coding.codecan.autgroup_can_label.LinearCodeAutGroupCanLabel.get_autom_order" title="Link to this definition">¶</a></dt>
 <dd><p>Return the size of the automorphism group of the code.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.coding.codecan.autgroup_can_label</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearCodeAutGroupCanLabel</span>
@@ -697,6 +830,19 @@ group as a subgroup of <span class="math notranslate nohighlight">\(P\Gamma L(k,
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.coding.codecan.autgroup_can_label import LinearCodeAutGroupCanLabel
+C = codes.HammingCode(GF(2), 3).dual_code()
+LinearCodeAutGroupCanLabel(C).get_autom_order()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -704,7 +850,7 @@ group as a subgroup of <span class="math notranslate nohighlight">\(P\Gamma L(k,
 <dt class="sig sig-object py" id="sage.coding.codecan.autgroup_can_label.LinearCodeAutGroupCanLabel.get_canonical_form">
 <span class="sig-name descname"><span class="pre">get_canonical_form</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/coding/codecan/autgroup_can_label.pyx#L535"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.coding.codecan.autgroup_can_label.LinearCodeAutGroupCanLabel.get_canonical_form" title="Link to this definition">¶</a></dt>
 <dd><p>Return the canonical orbit representative we computed.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.coding.codecan.autgroup_can_label</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearCodeAutGroupCanLabel</span>
@@ -731,6 +877,23 @@ group as a subgroup of <span class="math notranslate nohighlight">\(P\Gamma L(k,
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.coding.codecan.autgroup_can_label import LinearCodeAutGroupCanLabel
+C = codes.HammingCode(GF(3), 3).dual_code()
+CF1 = LinearCodeAutGroupCanLabel(C).get_canonical_form()
+s = SemimonomialTransformationGroup(GF(3), C.length()).an_element()
+C2 = LinearCode(s*C.generator_matrix())
+CF2 = LinearCodeAutGroupCanLabel(C2).get_canonical_form()
+CF1 == CF2</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -738,7 +901,7 @@ group as a subgroup of <span class="math notranslate nohighlight">\(P\Gamma L(k,
 <dt class="sig sig-object py" id="sage.coding.codecan.autgroup_can_label.LinearCodeAutGroupCanLabel.get_transporter">
 <span class="sig-name descname"><span class="pre">get_transporter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/coding/codecan/autgroup_can_label.pyx#L552"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.coding.codecan.autgroup_can_label.LinearCodeAutGroupCanLabel.get_transporter" title="Link to this definition">¶</a></dt>
 <dd><p>Return the element which maps the code to its canonical form.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.coding.codecan.autgroup_can_label</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearCodeAutGroupCanLabel</span>
@@ -763,13 +926,33 @@ group as a subgroup of <span class="math notranslate nohighlight">\(P\Gamma L(k,
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.coding.codecan.autgroup_can_label import LinearCodeAutGroupCanLabel
+C = codes.HammingCode(GF(2), 3).dual_code()
+P = LinearCodeAutGroupCanLabel(C)
+g = P.get_transporter()
+D = P.get_canonical_form()
+(g*C.generator_matrix()).echelon_form() == D.generator_matrix().echelon_form()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -853,7 +1036,7 @@ group as a subgroup of <span class="math notranslate nohighlight">\(P\Gamma L(k,
     <script src="../../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../../%5fstatic/copybutton.js"></script>
     <script src="../../../../%5fstatic/tabs.js"></script>
-    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

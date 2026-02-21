@@ -478,7 +478,7 @@ fields, it would make sense to build on top of the base class
 <a class="reference external" href="../reference/rings/sage/rings/ring.html#sage.rings.ring.Field" title="(in General Rings, Ideals, and Morphisms v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sage.rings.ring.Field</span></code></a> provided by Sage. As said before, it is
 now recommended in that case to just use
 <a class="reference external" href="../reference/structure/sage/structure/parent.html#sage.structure.parent.Parent" title="(in Parents and Elements v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parent</span></code></a> and set the category instead.</p>
-<p class="with-sage-tab with-python-tab">Let us nevertheless provide an example using:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let us nevertheless provide an example using:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.ring</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span>
@@ -491,8 +491,19 @@ now recommended in that case to just use
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.ring import Field</pre>
 </div>
-<p class="with-sage-tab with-python-tab">as this base class still provides a few more methods than a general parent:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">as this base class still provides a few more methods than a general parent:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">Field</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">Parent</span><span class="p">)]</span>
@@ -549,8 +560,19 @@ now recommended in that case to just use
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">[p for p in dir(Field) if p not in dir(Parent)]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The following is a very basic implementation of fraction fields, that needs to
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The following is a very basic implementation of fraction fields, that needs to
 be complemented later.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
@@ -586,10 +608,32 @@ be complemented later.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.structure.unique_representation import UniqueRepresentation
+class MyFrac(UniqueRepresentation, Field):
+    def __init__(self, base):
+        if base not in IntegralDomains():
+            raise ValueError(&quot;%s is no integral domain&quot; % base)
+        Field.__init__(self, base)
+    def _repr_(self):
+        return &quot;NewFrac(%s)&quot;%repr(self.base())
+    def base_ring(self):
+        return self.base().base_ring()
+    def characteristic(self):
+        return self.base().characteristic()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>This basic implementation is formed by the following steps:</p>
 <ul>
-<li><p class="with-sage-tab with-python-tab">Any ring in Sage has a <strong>base</strong> and a <strong>base ring</strong>. The “usual” fraction
+<li><p class="with-sage-tab with-python-tab with-sage-live-tab">Any ring in Sage has a <strong>base</strong> and a <strong>base ring</strong>. The “usual” fraction
 field of a ring <span class="math notranslate nohighlight">\(R\)</span> has the base <span class="math notranslate nohighlight">\(R\)</span> and the base ring <code class="docutils literal notranslate"><span class="pre">R.base_ring()</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
@@ -605,8 +649,19 @@ field of a ring <span class="math notranslate nohighlight">\(R\)</span> has the 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Frac(QQ['x']).base(), Frac(QQ['x']).base_ring()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Declaring the base is easy: We just pass it as an argument to the field
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Declaring the base is easy: We just pass it as an argument to the field
 constructor.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
@@ -620,6 +675,17 @@ constructor.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">Field</span><span class="p">(</span><span class="n">ZZ</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">base</span><span class="p">()</span>
 <span class="go">Univariate Polynomial Ring in x over Integer Ring</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Field(ZZ['x']).base()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -643,7 +709,7 @@ domains. This is our first use case of categories.</p></li>
 go into details, but some automated tests that we study below implicitly
 rely on this method.</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">We see that our basic implementation correctly refuses a ring that is not an
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We see that our basic implementation correctly refuses a ring that is not an
 integral domain:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
@@ -665,6 +731,18 @@ integral domain:</p>
 <span class="gp">...</span>
 <span class="go">ValueError: Ring of integers modulo 15 is no integral domain</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">MyFrac(ZZ['x'])
+MyFrac(Integers(15))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -696,6 +774,19 @@ module, so that the class can be looked up during unpickling.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">import __main__
+__main__.MyFrac = MyFrac
+loads(dumps(MyFrac(ZZ))) is MyFrac(ZZ)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -709,7 +800,7 @@ focus on the single detail that is relevant in each section.</p>
 </section>
 <section id="the-elements">
 <h4>The elements<a class="headerlink" href="#the-elements" title="Link to this heading">¶</a></h4>
-<p class="with-sage-tab with-python-tab">We use the base class <a class="reference external" href="../reference/structure/sage/structure/element.html#sage.structure.element.FieldElement" title="(in Parents and Elements v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sage.structure.element.FieldElement</span></code></a>. Note that
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We use the base class <a class="reference external" href="../reference/structure/sage/structure/element.html#sage.structure.element.FieldElement" title="(in Parents and Elements v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sage.structure.element.FieldElement</span></code></a>. Note that
 in the creation of field elements it is not tested that the given parent is a
 field:</p>
 <div class="tab-set docutils container">
@@ -726,6 +817,18 @@ field:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">FieldElement</span><span class="p">(</span><span class="n">ZZ</span><span class="p">)</span>
 <span class="go">Generic element of a structure</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.structure.element import FieldElement
+FieldElement(ZZ)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -748,7 +851,7 @@ since otherwise, we could not use Sage’s coercion model.</p></li>
 This automatically makes the relational operators like
 <code class="docutils literal notranslate"><span class="pre">==</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> work. Inside this method, you can use
 the <code class="docutils literal notranslate"><span class="pre">richcmp</span></code> functions and related tools provided by sage.</p>
-<p class="with-sage-tab with-python-tab">Note that <code class="docutils literal notranslate"><span class="pre">_richcmp_</span></code> should be provided,
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that <code class="docutils literal notranslate"><span class="pre">_richcmp_</span></code> should be provided,
 since otherwise comparison does not work:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
@@ -782,6 +885,24 @@ since otherwise comparison does not work:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class Foo(sage.structure.element.Element):
+ def __init__(self, parent, x):
+     self.x = x
+ def _repr_(self):
+     return &quot;&lt;%s&gt;&quot; % self.x
+a = Foo(ZZ, 1)
+b = Foo(ZZ, 2)
+a &lt;= b</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </li>
 <li><p>In the single underscore methods, we can assume that
@@ -791,7 +912,7 @@ This is one benefit of the coercion model.</p></li>
 not directly name our class, but we use <code class="docutils literal notranslate"><span class="pre">self.__class__</span></code>. Later, this will
 come in handy.</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">This gives rise to the following code:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This gives rise to the following code:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">MyElement</span><span class="p">(</span><span class="n">FieldElement</span><span class="p">):</span>
@@ -888,10 +1009,63 @@ come in handy.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class MyElement(FieldElement):
+    def __init__(self, parent,n,d=None):
+        B = parent.base()
+        if d is None:
+            d = B.one()
+        if n not in B or d not in B:
+            raise ValueError(&quot;Numerator and denominator must be elements of %s&quot;%B)
+        # Numerator and denominator should not just be &quot;in&quot; B,
+        # but should be defined as elements of B
+        d = B(d)
+        n = B(n)
+        if d==0:
+            raise ZeroDivisionError(&quot;The denominator must not be zero&quot;)
+        if d&lt;0:
+            self.n = -n
+            self.d = -d
+        else:
+            self.n = n
+            self.d = d
+        FieldElement.__init__(self,parent)
+    def numerator(self):
+        return self.n
+    def denominator(self):
+        return self.d
+    def _repr_(self):
+        return &quot;(%s):(%s)&quot;%(self.n,self.d)
+    def _richcmp_(self, other, op):
+        from sage.structure.richcmp import richcmp
+        return richcmp(self.n*other.denominator(), other.numerator()*self.d, op)
+    def _add_(self, other):
+        C = self.__class__
+        D = self.d*other.denominator()
+        return C(self.parent(), self.n*other.denominator()+self.d*other.numerator(), D)
+    def _sub_(self, other):
+        C = self.__class__
+        D = self.d*other.denominator()
+        return C(self.parent(), self.n*other.denominator()-self.d*other.numerator(),D)
+    def _mul_(self, other):
+        C = self.__class__
+        return C(self.parent(), self.n*other.numerator(), self.d*other.denominator())
+    def _div_(self, other):
+        C = self.__class__
+        return C(self.parent(), self.n*other.denominator(), self.d*other.numerator())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <section id="features-and-limitations-of-the-basic-implementation">
 <h5>Features and limitations of the basic implementation<a class="headerlink" href="#features-and-limitations-of-the-basic-implementation" title="Link to this heading">¶</a></h5>
-<p class="with-sage-tab with-python-tab">Thanks to the single underscore methods, some basic arithmetics works, <strong>if</strong>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Thanks to the single underscore methods, some basic arithmetics works, <strong>if</strong>
 we stay inside a single parent structure:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
@@ -917,8 +1091,23 @@ we stay inside a single parent structure:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = MyFrac(ZZ)
+a = MyElement(P, 3, 4)
+b = MyElement(P, 1, 2)
+a+b, a-b, a*b, a/b
+a-b == MyElement(P, 1, 4)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">There is a default implementation of element tests. We can already do</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">There is a default implementation of element tests. We can already do</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">P</span>
@@ -933,8 +1122,19 @@ we stay inside a single parent structure:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a in P</pre>
 </div>
-<p class="with-sage-tab with-python-tab">since <span class="math notranslate nohighlight">\(a\)</span> is defined as an element of <span class="math notranslate nohighlight">\(P\)</span>. However, we cannot verify yet that
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">since <span class="math notranslate nohighlight">\(a\)</span> is defined as an element of <span class="math notranslate nohighlight">\(P\)</span>. However, we cannot verify yet that
 the integers are contained in the fraction field of the ring of integers. It
 does not even give a wrong answer, but results in an error:</p>
 <div class="tab-set docutils container">
@@ -955,6 +1155,17 @@ does not even give a wrong answer, but results in an error:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">1 in P</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>We will take care of this later.</p>
 </section>
@@ -967,7 +1178,7 @@ n\)</span> matrices over a field forms, in general, not more than a vector
 space. Hence, this set (called <a class="reference external" href="../reference/matrices/sage/matrix/matrix_space.html#sage.matrix.matrix_space.MatrixSpace" title="(in Matrices and Spaces of Matrices v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MatrixSpace</span></code></a>)
 is not implemented on top of <a class="reference external" href="../reference/rings/sage/rings/ring.html#sage.rings.ring.Ring" title="(in General Rings, Ideals, and Morphisms v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sage.rings.ring.Ring</span></code></a>.  However, if
 <span class="math notranslate nohighlight">\(m=n\)</span>, then the matrix space is an algebra, thus, is a ring.</p>
-<p class="with-sage-tab with-python-tab">From the point of view of Python base classes, both cases are the same:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">From the point of view of Python base classes, both cases are the same:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">MS1</span> <span class="o">=</span> <span class="n">MatrixSpace</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
@@ -990,8 +1201,22 @@ is not implemented on top of <a class="reference external" href="../reference/ri
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">MS1 = MatrixSpace(QQ,2,3)
+isinstance(MS1, Ring)
+MS2 = MatrixSpace(QQ,2)
+isinstance(MS2, Ring)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Sage’s category framework can differentiate the two cases:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Sage’s category framework can differentiate the two cases:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Rings</span><span class="p">()</span>
@@ -1014,8 +1239,21 @@ is not implemented on top of <a class="reference external" href="../reference/ri
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Rings()
+MS1 in Rings()
+MS2 in Rings()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">And indeed, <code class="docutils literal notranslate"><span class="pre">MS2</span></code> has <em>more</em> methods than <code class="docutils literal notranslate"><span class="pre">MS1</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">And indeed, <code class="docutils literal notranslate"><span class="pre">MS2</span></code> has <em>more</em> methods than <code class="docutils literal notranslate"><span class="pre">MS1</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
@@ -1036,8 +1274,22 @@ is not implemented on top of <a class="reference external" href="../reference/ri
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">import inspect
+L1 = len([s for s in dir(MS1) if inspect.ismethod(getattr(MS1,s,None))])
+L2 = len([s for s in dir(MS2) if inspect.ismethod(getattr(MS2,s,None))])
+L1 &lt; L2</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This is because the class of <code class="docutils literal notranslate"><span class="pre">MS2</span></code> also inherits from the parent
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This is because the class of <code class="docutils literal notranslate"><span class="pre">MS2</span></code> also inherits from the parent
 class for algebras:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
@@ -1061,9 +1313,21 @@ class for algebras:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">MS1.__class__.__bases__
+MS2.__class__.__bases__</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>Below, we will explain how this can be taken advantage of.</p>
-<p class="with-sage-tab with-python-tab">It is no surprise that our parent <span class="math notranslate nohighlight">\(P\)</span> defined above knows that it belongs to
+<p class="with-sage-tab with-python-tab with-sage-live-tab">It is no surprise that our parent <span class="math notranslate nohighlight">\(P\)</span> defined above knows that it belongs to
 the category of fields, as it is derived from the base class of fields.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
@@ -1077,6 +1341,17 @@ the category of fields, as it is derived from the base class of fields.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span><span class="o">.</span><span class="n">category</span><span class="p">()</span>
 <span class="go">Category of fields</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.category()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1106,7 +1381,7 @@ inheritance still works, by virtue of a <code class="docutils literal notranslat
 <p>It is strongly recommended to use the category framework both in Python
 and in Cython.</p>
 </div>
-<p class="with-sage-tab with-python-tab">Let us see whether there is any gain in choosing the category of quotient
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let us see whether there is any gain in choosing the category of quotient
 fields instead of the category of fields:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
@@ -1140,8 +1415,21 @@ fields instead of the category of fields:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">QuotientFields().parent_class, QuotientFields().element_class
+[p for p in dir(QuotientFields().parent_class) if p not in dir(Fields().parent_class)]
+[p for p in dir(QuotientFields().element_class) if p not in dir(Fields().element_class)]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">So, there is no immediate gain for our fraction fields, but additional methods
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">So, there is no immediate gain for our fraction fields, but additional methods
 become available to our fraction field elements. Note that some of these
 methods are place-holders: There is no default implementation, but it is
 <em>required</em> (respectively is <em>optional</em>) to implement these methods:</p>
@@ -1169,6 +1457,20 @@ methods are place-holders: There is no default implementation, but it is
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">QuotientFields().element_class.denominator
+from sage.misc.abstract_method import abstract_methods_of_class
+abstract_methods_of_class(QuotientFields().element_class)['optional']
+abstract_methods_of_class(QuotientFields().element_class)['required']</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>Hence, when implementing elements of a quotient field, it is <em>required</em> to
 implement methods returning the denominator and the numerator, and a method
@@ -1180,7 +1482,7 @@ will complain-–see below.</p>
 </section>
 <section id="implementing-the-category-framework-for-the-parent">
 <h4>Implementing the category framework for the parent<a class="headerlink" href="#implementing-the-category-framework-for-the-parent" title="Link to this heading">¶</a></h4>
-<p class="with-sage-tab with-python-tab">We simply need to declare the correct category by an optional argument of the
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We simply need to declare the correct category by an optional argument of the
 field constructor, where we provide the possibility to override the default
 category:</p>
 <div class="tab-set docutils container">
@@ -1205,8 +1507,24 @@ category:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.categories.quotient_fields import QuotientFields
+class MyFrac(MyFrac):
+    def __init__(self, base, category=None):
+        if base not in IntegralDomains():
+            raise ValueError(&quot;%s is no integral domain&quot; % base)
+        Field.__init__(self, base, category=category or QuotientFields())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">When constructing instances of <code class="docutils literal notranslate"><span class="pre">MyFrac</span></code>, their class is dynamically changed
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">When constructing instances of <code class="docutils literal notranslate"><span class="pre">MyFrac</span></code>, their class is dynamically changed
 into a new class called <code class="docutils literal notranslate"><span class="pre">MyFrac_with_category</span></code>. It is a common sub--class of
 <code class="docutils literal notranslate"><span class="pre">MyFrac</span></code> and of the category’s parent class:</p>
 <div class="tab-set docutils container">
@@ -1233,8 +1551,22 @@ into a new class called <code class="docutils literal notranslate"><span class="
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = MyFrac(ZZ)
+type(P)
+isinstance(P,MyFrac)
+isinstance(P,QuotientFields().parent_class)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The fraction field <span class="math notranslate nohighlight">\(P\)</span> inherits additional methods. For example, the base
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The fraction field <span class="math notranslate nohighlight">\(P\)</span> inherits additional methods. For example, the base
 class <code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code> does not have a method <code class="docutils literal notranslate"><span class="pre">sum</span></code>. But
 <span class="math notranslate nohighlight">\(P\)</span> inherits such method from the category of commutative additive
 monoids-–see
@@ -1253,8 +1585,19 @@ monoids-–see
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.sum.__module__</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We have seen above that we can add elements. Nevertheless, the <code class="docutils literal notranslate"><span class="pre">sum</span></code> method
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We have seen above that we can add elements. Nevertheless, the <code class="docutils literal notranslate"><span class="pre">sum</span></code> method
 does not work, yet:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
@@ -1280,6 +1623,20 @@ does not work, yet:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = MyElement(P, 3, 4)
+b = MyElement(P, 1, 2)
+c = MyElement(P, -1, 2)
+P.sum([a, b, c])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>The reason is that the <code class="docutils literal notranslate"><span class="pre">sum</span></code> method starts with the return value of
 <code class="docutils literal notranslate"><span class="pre">P.zero()</span></code>, which defaults to <code class="docutils literal notranslate"><span class="pre">P(0)</span></code>-–but the conversion of
@@ -1297,7 +1654,7 @@ different way for elements than for parents:</p>
 <li><p>The parent <em>automatically</em> obtains an attribute <code class="docutils literal notranslate"><span class="pre">P.element_class</span></code>, that
 subclasses both <code class="docutils literal notranslate"><span class="pre">P.Element</span></code> and <code class="docutils literal notranslate"><span class="pre">P.category().element_class</span></code>.</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">Hence, for providing our fraction fields with their own element classes, <strong>we
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Hence, for providing our fraction fields with their own element classes, <strong>we
 just need to add a single line to our class</strong>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
@@ -1313,10 +1670,22 @@ just need to add a single line to our class</strong>:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class MyFrac(MyFrac):
+    Element = MyElement</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>This little change provides several benefits:</p>
 <ul>
-<li><p class="with-sage-tab with-python-tab">We can now create elements by simply calling the parent:</p>
+<li><p class="with-sage-tab with-python-tab with-sage-live-tab">We can now create elements by simply calling the parent:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">MyFrac</span><span class="p">(</span><span class="n">ZZ</span><span class="p">)</span>
@@ -1333,9 +1702,21 @@ just need to add a single line to our class</strong>:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = MyFrac(ZZ)
+P(1), P(2,3)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </li>
-<li><p class="with-sage-tab with-python-tab">There is a method <code class="docutils literal notranslate"><span class="pre">zero</span></code> returning the expected result:</p>
+<li><p class="with-sage-tab with-python-tab with-sage-live-tab">There is a method <code class="docutils literal notranslate"><span class="pre">zero</span></code> returning the expected result:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span>
@@ -1350,9 +1731,20 @@ just need to add a single line to our class</strong>:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.zero()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </li>
-<li><p class="with-sage-tab with-python-tab">The <code class="docutils literal notranslate"><span class="pre">sum</span></code> method mentioned above suddenly works:</p>
+<li><p class="with-sage-tab with-python-tab with-sage-live-tab">The <code class="docutils literal notranslate"><span class="pre">sum</span></code> method mentioned above suddenly works:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">MyElement</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
@@ -1373,9 +1765,23 @@ just need to add a single line to our class</strong>:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = MyElement(P, 9, 4)
+b = MyElement(P, 1, 2)
+c = MyElement(P, -1, 2)
+P.sum([a,b,c])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </li>
-<li><p class="with-sage-tab with-python-tab">Exponentiation now works out of the box using the multiplication
+<li><p class="with-sage-tab with-python-tab with-sage-live-tab">Exponentiation now works out of the box using the multiplication
 that we defined:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--28-input--1" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--1">Sage</label><div class="tab-content docutils container">
@@ -1391,12 +1797,23 @@ that we defined:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a^3</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </li>
 </ul>
 <section id="what-did-happen-behind-the-scenes-to-make-this-work">
 <h5>What did happen behind the scenes to make this work?<a class="headerlink" href="#what-did-happen-behind-the-scenes-to-make-this-work" title="Link to this heading">¶</a></h5>
-<p class="with-sage-tab with-python-tab">We provided <code class="docutils literal notranslate"><span class="pre">P.Element</span></code>, and thus obtain <code class="docutils literal notranslate"><span class="pre">P.element_class</span></code>, which is a
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We provided <code class="docutils literal notranslate"><span class="pre">P.Element</span></code>, and thus obtain <code class="docutils literal notranslate"><span class="pre">P.element_class</span></code>, which is a
 <em>lazy attribute</em>.  It provides a <em>dynamic</em> class, which is a sub--class of
 both <code class="docutils literal notranslate"><span class="pre">MyElement</span></code> defined above and of <code class="docutils literal notranslate"><span class="pre">P.category().element_class</span></code>:</p>
 <div class="tab-set docutils container">
@@ -1429,11 +1846,26 @@ both <code class="docutils literal notranslate"><span class="pre">MyElement</spa
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.__class__.element_class
+P.element_class
+type(P.element_class)
+issubclass(P.element_class, MyElement)
+issubclass(P.element_class,P.category().element_class)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>The <em>default</em> <code class="docutils literal notranslate"><span class="pre">__call__</span></code> method of <span class="math notranslate nohighlight">\(P\)</span> passes the given arguments to
 <code class="docutils literal notranslate"><span class="pre">P.element_class</span></code>, adding the argument <code class="docutils literal notranslate"><span class="pre">parent=P</span></code>. This is why we are now
 able to create elements by calling the parent.</p>
-<p class="with-sage-tab with-python-tab">In particular, these elements are instances of that new dynamic class:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In particular, these elements are instances of that new dynamic class:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--30-input--1" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nb">type</span><span class="p">(</span><span class="n">P</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
@@ -1448,6 +1880,17 @@ able to create elements by calling the parent.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--30-input--3" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">type(P(2,3))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1456,7 +1899,7 @@ that this also holds for the result of arithmetic operations, we created
 them as instances of <code class="docutils literal notranslate"><span class="pre">self.__class__</span></code> in the arithmetic methods of
 <code class="docutils literal notranslate"><span class="pre">MyElement</span></code>.</p>
 </div>
-<p class="with-sage-tab with-python-tab"><code class="docutils literal notranslate"><span class="pre">P.zero()</span></code> defaults to returning <code class="docutils literal notranslate"><span class="pre">P(0)</span></code> and thus returns an
+<p class="with-sage-tab with-python-tab with-sage-live-tab"><code class="docutils literal notranslate"><span class="pre">P.zero()</span></code> defaults to returning <code class="docutils literal notranslate"><span class="pre">P(0)</span></code> and thus returns an
 instance of <code class="docutils literal notranslate"><span class="pre">P.element_class</span></code>. Since <code class="docutils literal notranslate"><span class="pre">P.sum([...])</span></code> starts the summation with
 <code class="docutils literal notranslate"><span class="pre">P.zero()</span></code> and the class of the sum only depends on the first
 summand, by our implementation, we have:</p>
@@ -1482,8 +1925,21 @@ summand, by our implementation, we have:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--31-input--3" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">type(a)
+isinstance(a,P.element_class)
+type(P.sum([a,b,c]))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The method <code class="docutils literal notranslate"><span class="pre">factor</span></code> provided by <code class="docutils literal notranslate"><span class="pre">P.category().element_class</span></code> (see above)
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The method <code class="docutils literal notranslate"><span class="pre">factor</span></code> provided by <code class="docutils literal notranslate"><span class="pre">P.category().element_class</span></code> (see above)
 simply works:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--32-input--1" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--1">Sage</label><div class="tab-content docutils container">
@@ -1503,8 +1959,19 @@ simply works:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--32-input--3" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a; a.factor(); P(6,4).factor()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">But that’s surprising: The element <span class="math notranslate nohighlight">\(a\)</span> is just an instance of <code class="docutils literal notranslate"><span class="pre">MyElement</span></code>,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">But that’s surprising: The element <span class="math notranslate nohighlight">\(a\)</span> is just an instance of <code class="docutils literal notranslate"><span class="pre">MyElement</span></code>,
 but not of <code class="docutils literal notranslate"><span class="pre">P.element_class</span></code>, and its class does not know about the factor
 method.  In fact, this is due to a <code class="docutils literal notranslate"><span class="pre">__getattr__</span></code> method defined for
 <a class="reference external" href="../reference/structure/sage/structure/element.html#sage.structure.element.Element" title="(in Parents and Elements v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sage.structure.element.Element</span></code></a>.</p>
@@ -1530,12 +1997,25 @@ method.  In fact, this is due to a <code class="docutils literal notranslate"><s
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--33-input--3" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">hasattr(type(a), 'factor')
+hasattr(P.element_class, 'factor')
+hasattr(a, 'factor')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </section>
 </section>
 <section id="a-first-note-on-performance">
 <h4>A first note on performance<a class="headerlink" href="#a-first-note-on-performance" title="Link to this heading">¶</a></h4>
-<p class="with-sage-tab with-python-tab">The category framework is sometimes blamed for speed regressions, as in
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The category framework is sometimes blamed for speed regressions, as in
 <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/9138">upstream Issue #9138</a> and <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/11900">upstream Issue #11900</a>. But if the category framework is <em>used
 properly</em>, then it is fast. For illustration, we determine the time needed to
 access an attribute inherited from the element class. First, we consider an
@@ -1559,8 +2039,20 @@ category framework properly:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--34-input--3" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">type(a)
+timeit('a.factor',number=1000)     # random</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Now, we consider an element that is equal to <span class="math notranslate nohighlight">\(a\)</span>, but uses the category
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Now, we consider an element that is equal to <span class="math notranslate nohighlight">\(a\)</span>, but uses the category
 framework properly:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--35-input--1" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--1">Sage</label><div class="tab-content docutils container">
@@ -1586,6 +2078,20 @@ framework properly:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--35-input--3" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a2 = P(9,4)
+a2 == a
+type(a2)
+timeit('a2.factor',number=1000)    # random</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>So,  <em>don’t be afraid of using categories!</em></p>
 </section>
@@ -1600,7 +2106,7 @@ framework properly:</p>
 conversion”. However, in Sage, coercion is involved if one wants to be able to
 do arithmetic, comparisons, etc. between elements of distinct parents. Hence,
 <strong>coercion is not about a change of types, but about a change of parents.</strong></p>
-<p class="with-sage-tab with-python-tab">As an illustration, we show that elements of the same type may very well belong
+<p class="with-sage-tab with-python-tab with-sage-live-tab">As an illustration, we show that elements of the same type may very well belong
 to rather different parents:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--36-input--1" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--1">Sage</label><div class="tab-content docutils container">
@@ -1622,8 +2128,21 @@ to rather different parents:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--36-input--3" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P1 = QQ['v,w']; P2 = ZZ['w,v']
+type(P1.gen()) == type(P2.gen())
+P1 == P2</pre>
 </div>
-<p class="with-sage-tab with-python-tab"><span class="math notranslate nohighlight">\(P_2\)</span> naturally is a sub--ring of <span class="math notranslate nohighlight">\(P_1\)</span>. So, it makes sense to be able to add
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"><span class="math notranslate nohighlight">\(P_2\)</span> naturally is a sub--ring of <span class="math notranslate nohighlight">\(P_1\)</span>. So, it makes sense to be able to add
 elements of the two rings-–the result should then live in <span class="math notranslate nohighlight">\(P_1\)</span>, and indeed
 it does:</p>
 <div class="tab-set docutils container">
@@ -1640,6 +2159,17 @@ it does:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--37-input--3" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">(P1.gen()+P2.gen()).parent() is P1</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>It would be rather inconvenient if one needed to <em>manually</em> convert an element
 of <span class="math notranslate nohighlight">\(P_2\)</span> into <span class="math notranslate nohighlight">\(P_1\)</span> before adding. The coercion system does that conversion
@@ -1647,7 +2177,7 @@ automatically.</p>
 </section>
 <section id="not-every-conversion-is-a-coercion">
 <h5>Not every conversion is a coercion<a class="headerlink" href="#not-every-conversion-is-a-coercion" title="Link to this heading">¶</a></h5>
-<p class="with-sage-tab with-python-tab">A coercion happens implicitly, without being explicitly requested by the
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A coercion happens implicitly, without being explicitly requested by the
 user. Hence, coercion must be based on mathematical rigour. In our example,
 any element of <span class="math notranslate nohighlight">\(P_2\)</span> can be naturally interpreted as an element of <span class="math notranslate nohighlight">\(P_1\)</span>. We
 thus have:</p>
@@ -1673,8 +2203,20 @@ thus have:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--38-input--3" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P1.has_coerce_map_from(P2)
+P1.coerce_map_from(P2)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">While there is a conversion from <span class="math notranslate nohighlight">\(P_1\)</span> to <span class="math notranslate nohighlight">\(P_2\)</span> (namely restricted to
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">While there is a conversion from <span class="math notranslate nohighlight">\(P_1\)</span> to <span class="math notranslate nohighlight">\(P_2\)</span> (namely restricted to
 polynomials with integral coefficients), this conversion is not a coercion:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--39-input--1" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--1">Sage</label><div class="tab-content docutils container">
@@ -1702,6 +2244,19 @@ polynomials with integral coefficients), this conversion is not a coercion:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--39-input--3" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P2.convert_map_from(P1)
+P2.has_coerce_map_from(P1)
+P2.coerce_map_from(P1) is None</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <section id="the-four-axioms-requested-for-coercions">
 <h6>The four axioms requested for coercions<a class="headerlink" href="#the-four-axioms-requested-for-coercions" title="Link to this heading">¶</a></h6>
@@ -1710,7 +2265,7 @@ polynomials with integral coefficients), this conversion is not a coercion:</p>
 <p>This first axiom has two implications:</p>
 <ol class="upperalpha">
 <li><p>A coercion is defined on all elements of a parent.</p>
-<p class="with-sage-tab with-python-tab">A polynomial of degree zero over the integers can be interpreted as an
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A polynomial of degree zero over the integers can be interpreted as an
 integer-–but the attempt to convert a polynomial of non-zero degree
 would result in an error:</p>
 <div class="tab-set docutils container">
@@ -1735,12 +2290,24 @@ would result in an error:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--40-input--3" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ZZ(P2.one())
+ZZ(P2.gen(1))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>Hence, we only have a <em>partial</em> map. This is fine for a <em>conversion</em>,
 but a partial map does not qualify as a <em>coercion</em>.</p>
 </li>
 <li><p>Coercions are structure preserving.</p>
-<p class="with-sage-tab with-python-tab">Any real number can be converted to an integer, namely by
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Any real number can be converted to an integer, namely by
 rounding. However, such a conversion is not useful in arithmetic
 operations, since the underlying algebraic structure is not preserved:</p>
 <div class="tab-set docutils container">
@@ -1757,8 +2324,19 @@ operations, since the underlying algebraic structure is not preserved:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--41-input--3" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">int(1.6)+int(2.7) == int(1.6+2.7)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The structure that is to be preserved depends on the category of the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The structure that is to be preserved depends on the category of the
 involved parents. For example, the coercion from the integers into the
 rational field is a homomorphism of euclidean domains:</p>
 <div class="tab-set docutils container">
@@ -1781,12 +2359,23 @@ rational field is a homomorphism of euclidean domains:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--42-input--3" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">QQ.coerce_map_from(ZZ).category_for()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </li>
 </ol>
 </li>
 <li><p>There is at most one coercion from one parent to another</p>
-<p class="with-sage-tab with-python-tab">In addition, if there is a <em>coercion</em> from <span class="math notranslate nohighlight">\(P_2\)</span> to <span class="math notranslate nohighlight">\(P_1\)</span>, then a
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In addition, if there is a <em>coercion</em> from <span class="math notranslate nohighlight">\(P_2\)</span> to <span class="math notranslate nohighlight">\(P_1\)</span>, then a
 <em>conversion</em> from <span class="math notranslate nohighlight">\(P_2\)</span> to <span class="math notranslate nohighlight">\(P_1\)</span> is defined for all elements of <span class="math notranslate nohighlight">\(P_2\)</span> and
 coincides with the coercion.
 Nonetheless, user-exposed maps are copies of the internally used maps whence
@@ -1805,8 +2394,19 @@ the lack of identity between different instantiations:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--43-input--3" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P1.coerce_map_from(P2) is P1.convert_map_from(P2)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">For internally used maps, the maps are identical:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">For internally used maps, the maps are identical:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--44-input--1" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P1</span><span class="o">.</span><span class="n">_internal_coerce_map_from</span><span class="p">(</span><span class="n">P2</span><span class="p">)</span> <span class="ow">is</span> <span class="n">P1</span><span class="o">.</span><span class="n">_internal_convert_map_from</span><span class="p">(</span><span class="n">P2</span><span class="p">)</span>
@@ -1819,6 +2419,17 @@ the lack of identity between different instantiations:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">P1</span><span class="o">.</span><span class="n">_internal_coerce_map_from</span><span class="p">(</span><span class="n">P2</span><span class="p">)</span> <span class="ow">is</span> <span class="n">P1</span><span class="o">.</span><span class="n">_internal_convert_map_from</span><span class="p">(</span><span class="n">P2</span><span class="p">)</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--44-input--3" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P1._internal_coerce_map_from(P2) is P1._internal_convert_map_from(P2)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1839,7 +2450,7 @@ inverse.</p>
 </section>
 <section id="implementing-a-conversion">
 <h4>Implementing a conversion<a class="headerlink" href="#implementing-a-conversion" title="Link to this heading">¶</a></h4>
-<p class="with-sage-tab with-python-tab">We have seen above that some conversions into our fraction fields became
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We have seen above that some conversions into our fraction fields became
 available after providing the attribute <code class="docutils literal notranslate"><span class="pre">Element</span></code>.  However, we cannot
 convert elements of a fraction field into elements of another fraction field,
 yet:</p>
@@ -1861,8 +2472,19 @@ yet:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--45-input--3" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P(2/3)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">For implementing a conversion, <strong>the default __call__ method should (almost)
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">For implementing a conversion, <strong>the default __call__ method should (almost)
 never be overridden.</strong> Instead, <strong>we implement the method
 _element_constructor_</strong>, that should return an instance of the parent’s
 element class.  Some old parent classes violate that rule-–please help to
@@ -1901,8 +2523,30 @@ refactor them!</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--46-input--3" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class MyFrac(MyFrac):
+    def _element_constructor_(self, *args, **kwds):
+        if len(args)!=1:
+            return self.element_class(self, *args, **kwds)
+        x = args[0]
+        try:
+            P = x.parent()
+        except AttributeError:
+            return self.element_class(self, x, **kwds)
+        if P in QuotientFields() and P != self.base():
+            return self.element_class(self, x.numerator(), x.denominator(), **kwds)
+        return self.element_class(self, x, **kwds)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In addition to the conversion from the base ring and from pairs of base ring
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In addition to the conversion from the base ring and from pairs of base ring
 elements, we now also have a conversion from the rationals to our fraction
 field of <span class="math notranslate nohighlight">\(\ZZ\)</span>:</p>
 <div class="tab-set docutils container">
@@ -1925,8 +2569,20 @@ field of <span class="math notranslate nohighlight">\(\ZZ\)</span>:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--47-input--3" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = MyFrac(ZZ)
+P(2); P(2,3); P(3/4)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Recall that above, the test <span class="math notranslate nohighlight">\(1 \in P\)</span> failed with an error. We try again and
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Recall that above, the test <span class="math notranslate nohighlight">\(1 \in P\)</span> failed with an error. We try again and
 find that the error has disappeared. This is because we are now able to
 convert the integer <span class="math notranslate nohighlight">\(1\)</span> into <span class="math notranslate nohighlight">\(P\)</span>. But the containment test still yields a
 wrong answer:</p>
@@ -1944,8 +2600,19 @@ wrong answer:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--48-input--3" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">1 in P</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The technical reason: We have a conversion <span class="math notranslate nohighlight">\(P(1)\)</span> of <span class="math notranslate nohighlight">\(1\)</span> into <span class="math notranslate nohighlight">\(P\)</span>, but this is
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The technical reason: We have a conversion <span class="math notranslate nohighlight">\(P(1)\)</span> of <span class="math notranslate nohighlight">\(1\)</span> into <span class="math notranslate nohighlight">\(P\)</span>, but this is
 not known as a coercion-–yet!</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--49-input--1" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--1">Sage</label><div class="tab-content docutils container">
@@ -1959,6 +2626,17 @@ not known as a coercion-–yet!</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span><span class="o">.</span><span class="n">has_coerce_map_from</span><span class="p">(</span><span class="n">ZZ</span><span class="p">),</span> <span class="n">P</span><span class="o">.</span><span class="n">has_coerce_map_from</span><span class="p">(</span><span class="n">QQ</span><span class="p">)</span>
 <span class="go">(False, False)</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--49-input--3" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.has_coerce_map_from(ZZ), P.has_coerce_map_from(QQ)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1977,7 +2655,7 @@ parent.</p></li>
 or <code class="docutils literal notranslate"><span class="pre">None</span></code>, then there is no coercion from <span class="math notranslate nohighlight">\(R\)</span> to <span class="math notranslate nohighlight">\(P\)</span>. If it returns a map
 with domain <span class="math notranslate nohighlight">\(R\)</span> and codomain <span class="math notranslate nohighlight">\(P\)</span>, then this map is used for coercion. If it
 returns <code class="docutils literal notranslate"><span class="pre">True</span></code>, then the conversion from <span class="math notranslate nohighlight">\(R\)</span> to <span class="math notranslate nohighlight">\(P\)</span> is used as coercion.</p>
-<p class="with-sage-tab with-python-tab">Note that in the following implementation, we need a special case for the
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that in the following implementation, we need a special case for the
 rational field, since <code class="docutils literal notranslate"><span class="pre">QQ.base()</span></code> is not the ring of integers.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--50-input--1" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--1">Sage</label><div class="tab-content docutils container">
@@ -2007,8 +2685,27 @@ rational field, since <code class="docutils literal notranslate"><span class="pr
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--50-input--3" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class MyFrac(MyFrac):
+    def _coerce_map_from_(self, S):
+        if self.base().has_coerce_map_from(S):
+            return True
+        if S in QuotientFields():
+            if self.base().has_coerce_map_from(S.base()):
+                return True
+            if hasattr(S,'ring_of_integers') and self.base().has_coerce_map_from(S.ring_of_integers()):
+                return True</pre>
 </div>
-<p class="with-sage-tab with-python-tab">By the method above, a parent coercing into the base ring will also coerce
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">By the method above, a parent coercing into the base ring will also coerce
 into the fraction field, and a fraction field coerces into another fraction
 field if there is a coercion of the corresponding base rings. Now, we have:</p>
 <div class="tab-set docutils container">
@@ -2027,8 +2724,20 @@ field if there is a coercion of the corresponding base rings. Now, we have:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--51-input--3" name="tab-set--51" type="radio"><label class="tab-label" for="tab-set--51-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = MyFrac(QQ['x'])
+P.has_coerce_map_from(ZZ['x']), P.has_coerce_map_from(Frac(ZZ['x'])), P.has_coerce_map_from(QQ)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can now use coercion from <span class="math notranslate nohighlight">\(\ZZ[x]\)</span> and from <span class="math notranslate nohighlight">\(\QQ\)</span> into <span class="math notranslate nohighlight">\(P\)</span> for arithmetic
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can now use coercion from <span class="math notranslate nohighlight">\(\ZZ[x]\)</span> and from <span class="math notranslate nohighlight">\(\QQ\)</span> into <span class="math notranslate nohighlight">\(P\)</span> for arithmetic
 operations between the two rings:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--52-input--1" name="tab-set--52" type="radio"><label class="tab-label" for="tab-set--52-input--1">Sage</label><div class="tab-content docutils container">
@@ -2044,10 +2753,21 @@ operations between the two rings:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--52-input--3" name="tab-set--52" type="radio"><label class="tab-label" for="tab-set--52-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">3/4+P(2)+ZZ['x'].gen(), (P(2)+ZZ['x'].gen()).parent() is P</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <section id="equality-and-element-containment">
 <h5>Equality and element containment<a class="headerlink" href="#equality-and-element-containment" title="Link to this heading">¶</a></h5>
-<p class="with-sage-tab with-python-tab">Recall that above, the test <span class="math notranslate nohighlight">\(1 \in P\)</span> gave a wrong answer. Let us repeat the
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Recall that above, the test <span class="math notranslate nohighlight">\(1 \in P\)</span> gave a wrong answer. Let us repeat the
 test now:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--53-input--1" name="tab-set--53" type="radio"><label class="tab-label" for="tab-set--53-input--1">Sage</label><div class="tab-content docutils container">
@@ -2061,6 +2781,17 @@ test now:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="ow">in</span> <span class="n">P</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--53-input--3" name="tab-set--53" type="radio"><label class="tab-label" for="tab-set--53-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">1 in P</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2085,7 +2816,7 @@ raise an error and evaluates as true.</p>
 </section>
 <section id="coercion-the-advanced-parts">
 <h3><a class="toc-backref" href="#id7" role="doc-backlink">Coercion-–the advanced parts</a><a class="headerlink" href="#coercion-the-advanced-parts" title="Link to this heading">¶</a></h3>
-<p class="with-sage-tab with-python-tab">So far, we are able to add integers and rational numbers to elements of our
+<p class="with-sage-tab with-python-tab with-sage-live-tab">So far, we are able to add integers and rational numbers to elements of our
 new implementation of the fraction field of <span class="math notranslate nohighlight">\(\ZZ\)</span>.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--54-input--1" name="tab-set--54" type="radio"><label class="tab-label" for="tab-set--54-input--1">Sage</label><div class="tab-content docutils container">
@@ -2097,6 +2828,17 @@ new implementation of the fraction field of <span class="math notranslate nohigh
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.all</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span> <span class="o">=</span> <span class="n">MyFrac</span><span class="p">(</span><span class="n">ZZ</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--54-input--3" name="tab-set--54" type="radio"><label class="tab-label" for="tab-set--54-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = MyFrac(ZZ)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2114,8 +2856,19 @@ new implementation of the fraction field of <span class="math notranslate nohigh
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--55-input--3" name="tab-set--55" type="radio"><label class="tab-label" for="tab-set--55-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">1/2+P(2,3)+1</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Surprisingly, we can even add a polynomial over the integers to an element of
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Surprisingly, we can even add a polynomial over the integers to an element of
 <span class="math notranslate nohighlight">\(P\)</span>, even though the <em>result lives in a new parent</em>, namely in a polynomial
 ring over <span class="math notranslate nohighlight">\(P\)</span>:</p>
 <div class="tab-set docutils container">
@@ -2132,8 +2885,19 @@ ring over <span class="math notranslate nohighlight">\(P\)</span>:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--56-input--3" name="tab-set--56" type="radio"><label class="tab-label" for="tab-set--56-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P(1/2) + ZZ['x'].gen(), (P(1/2) + ZZ['x'].gen()).parent() is P['x']</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In the next, seemingly more easy example, there “obviously” is a coercion from
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In the next, seemingly more easy example, there “obviously” is a coercion from
 the fraction field of <span class="math notranslate nohighlight">\(\ZZ\)</span> to the fraction field of <span class="math notranslate nohighlight">\(\ZZ[x]\)</span>.  However, Sage
 does not know enough about our new implementation of fraction fields. Hence,
 it does not recognise the coercion:</p>
@@ -2151,6 +2915,17 @@ it does not recognise the coercion:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--57-input--3" name="tab-set--57" type="radio"><label class="tab-label" for="tab-set--57-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Frac(ZZ['x']).has_coerce_map_from(P)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>Two obvious questions arise:</p>
 <ol class="arabic simple">
@@ -2162,7 +2937,7 @@ pieces, that we are studying now. Note that we will answer the second question
 <em>not</em> by providing a coercion from <span class="math notranslate nohighlight">\(P\)</span>  to  <span class="math notranslate nohighlight">\(\mathrm{Frac}(\ZZ[x])\)</span>, but by
 teaching Sage to automatically construct <span class="math notranslate nohighlight">\(\mathrm{MyFrac}(\ZZ[x])\)</span> and coerce
 both <span class="math notranslate nohighlight">\(P\)</span> and <span class="math notranslate nohighlight">\(\mathrm{Frac}(\ZZ[x])\)</span> into it.</p>
-<p class="with-sage-tab with-python-tab">If we are lucky, a parent can tell how it has been constructed:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If we are lucky, a parent can tell how it has been constructed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--58-input--1" name="tab-set--58" type="radio"><label class="tab-label" for="tab-set--58-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Poly</span><span class="p">,</span><span class="n">R</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">construction</span><span class="p">()</span>
@@ -2185,13 +2960,27 @@ both <span class="math notranslate nohighlight">\(P\)</span> and <span class="ma
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--58-input--3" name="tab-set--58" type="radio"><label class="tab-label" for="tab-set--58-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Poly,R = QQ['x'].construction()
+Poly,R
+Fract,R = QQ.construction()
+Fract,R</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>In both cases, the first value returned by
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">construction()</span></code> is a mathematical
 construction, called <em>construction functor</em>-–see
 <a class="reference external" href="../reference/coercion/sage/categories/pushout.html#sage.categories.pushout.ConstructionFunctor" title="(in Coercion v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConstructionFunctor</span></code></a>. The second return value
 is a simpler parent to which the construction functor is applied.</p>
-<p class="with-sage-tab with-python-tab">Being functors, the same construction can be applied to different objects of a
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Being functors, the same construction can be applied to different objects of a
 category:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--59-input--1" name="tab-set--59" type="radio"><label class="tab-label" for="tab-set--59-input--1">Sage</label><div class="tab-content docutils container">
@@ -2219,8 +3008,22 @@ category:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--59-input--3" name="tab-set--59" type="radio"><label class="tab-label" for="tab-set--59-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Poly(QQ) is QQ['x']
+Poly(ZZ) is ZZ['x']
+Poly(P) is P['x']
+Fract(QQ['x'])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Let us see on which categories these construction functors are defined:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let us see on which categories these construction functors are defined:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--60-input--1" name="tab-set--60" type="radio"><label class="tab-label" for="tab-set--60-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Poly</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span>
@@ -2247,8 +3050,22 @@ category:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--60-input--3" name="tab-set--60" type="radio"><label class="tab-label" for="tab-set--60-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Poly.domain()
+Poly.codomain()
+Fract.domain()
+Fract.codomain()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In particular, the construction functors can be composed:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In particular, the construction functors can be composed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--61-input--1" name="tab-set--61" type="radio"><label class="tab-label" for="tab-set--61-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Poly</span><span class="o">*</span><span class="n">Fract</span>
@@ -2267,8 +3084,20 @@ category:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--61-input--3" name="tab-set--61" type="radio"><label class="tab-label" for="tab-set--61-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Poly*Fract
+(Poly*Fract)(ZZ) is QQ['x']</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In addition, it is often assumed that we have a coercion from input to output of the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In addition, it is often assumed that we have a coercion from input to output of the
 construction functor:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--62-input--1" name="tab-set--62" type="radio"><label class="tab-label" for="tab-set--62-input--1">Sage</label><div class="tab-content docutils container">
@@ -2302,8 +3131,19 @@ construction functor:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--62-input--3" name="tab-set--62" type="radio"><label class="tab-label" for="tab-set--62-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">((Poly*Fract)(ZZ)).coerce_map_from(ZZ)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Construction functors do not necessarily commute:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Construction functors do not necessarily commute:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--63-input--1" name="tab-set--63" type="radio"><label class="tab-label" for="tab-set--63-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="p">(</span><span class="n">Fract</span><span class="o">*</span><span class="n">Poly</span><span class="p">)(</span><span class="n">ZZ</span><span class="p">)</span>
@@ -2318,6 +3158,17 @@ construction functor:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--63-input--3" name="tab-set--63" type="radio"><label class="tab-label" for="tab-set--63-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">(Fract*Poly)(ZZ)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <section id="the-pushout-of-construction-functors">
 <h4>The pushout of construction functors<a class="headerlink" href="#the-pushout-of-construction-functors" title="Link to this heading">¶</a></h4>
@@ -2325,7 +3176,7 @@ construction functor:</p>
 construction functors <span class="math notranslate nohighlight">\(F_1\)</span>, <span class="math notranslate nohighlight">\(F_2\)</span>, such that <span class="math notranslate nohighlight">\(P_1 = F_1(R)\)</span> and <span class="math notranslate nohighlight">\(P_2 =
 F_2(R)\)</span>. We want to find a new construction functor <span class="math notranslate nohighlight">\(F_3\)</span>, such that both
 <span class="math notranslate nohighlight">\(P_1\)</span> and <span class="math notranslate nohighlight">\(P_2\)</span> coerce into <span class="math notranslate nohighlight">\(P_3 = F_3(R)\)</span>.</p>
-<p class="with-sage-tab with-python-tab">In analogy to a notion of category theory, <span class="math notranslate nohighlight">\(P_3\)</span> is called the
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In analogy to a notion of category theory, <span class="math notranslate nohighlight">\(P_3\)</span> is called the
 <a class="reference external" href="../reference/coercion/sage/categories/pushout.html#sage.categories.pushout.pushout" title="(in Coercion v10.8.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pushout()</span></code></a> of <span class="math notranslate nohighlight">\(P_1\)</span> and <span class="math notranslate nohighlight">\(P_2\)</span>; and similarly
 <span class="math notranslate nohighlight">\(F_3\)</span> is called the pushout of <span class="math notranslate nohighlight">\(F_1\)</span> and <span class="math notranslate nohighlight">\(F_2\)</span>.</p>
 <div class="tab-set docutils container">
@@ -2344,6 +3195,18 @@ F_2(R)\)</span>. We want to find a new construction functor <span class="math no
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--64-input--3" name="tab-set--64" type="radio"><label class="tab-label" for="tab-set--64-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.categories.pushout import pushout
+pushout(Fract(ZZ),Poly(ZZ))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p><span class="math notranslate nohighlight">\(F_1\circ F_2\)</span> and <span class="math notranslate nohighlight">\(F_2\circ F_1\)</span> are natural candidates for the pushout of
 <span class="math notranslate nohighlight">\(F_1\)</span> and <span class="math notranslate nohighlight">\(F_2\)</span>. However, the order of the functors must rely on a canonical
@@ -2354,7 +3217,7 @@ to order them canonically:</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">F1.rank</span></code> is smaller than <code class="docutils literal notranslate"><span class="pre">F2.rank</span></code>, then the pushout is <span class="math notranslate nohighlight">\(F_2\circ
 F_1\)</span> (hence, <span class="math notranslate nohighlight">\(F_1\)</span> is applied first).</p>
 </div>
-<p class="with-sage-tab with-python-tab">We have</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We have</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--65-input--1" name="tab-set--65" type="radio"><label class="tab-label" for="tab-set--65-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Fract</span><span class="o">.</span><span class="n">rank</span><span class="p">,</span> <span class="n">Poly</span><span class="o">.</span><span class="n">rank</span>
@@ -2369,8 +3232,19 @@ F_1\)</span> (hence, <span class="math notranslate nohighlight">\(F_1\)</span> i
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--65-input--3" name="tab-set--65" type="radio"><label class="tab-label" for="tab-set--65-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Fract.rank, Poly.rank</pre>
 </div>
-<p class="with-sage-tab with-python-tab">and thus the pushout is</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">and thus the pushout is</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--66-input--1" name="tab-set--66" type="radio"><label class="tab-label" for="tab-set--66-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Fract</span><span class="o">.</span><span class="n">pushout</span><span class="p">(</span><span class="n">Poly</span><span class="p">),</span> <span class="n">Poly</span><span class="o">.</span><span class="n">pushout</span><span class="p">(</span><span class="n">Fract</span><span class="p">)</span>
@@ -2385,9 +3259,20 @@ F_1\)</span> (hence, <span class="math notranslate nohighlight">\(F_1\)</span> i
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--66-input--3" name="tab-set--66" type="radio"><label class="tab-label" for="tab-set--66-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Fract.pushout(Poly), Poly.pushout(Fract)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>This is why the example above has worked.</p>
-<p class="with-sage-tab with-python-tab">However, only “elementary” construction functors have a rank:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">However, only “elementary” construction functors have a rank:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--67-input--1" name="tab-set--67" type="radio"><label class="tab-label" for="tab-set--67-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="p">(</span><span class="n">Fract</span><span class="o">*</span><span class="n">Poly</span><span class="p">)</span><span class="o">.</span><span class="n">rank</span>
@@ -2406,6 +3291,17 @@ F_1\)</span> (hence, <span class="math notranslate nohighlight">\(F_1\)</span> i
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--67-input--3" name="tab-set--67" type="radio"><label class="tab-label" for="tab-set--67-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">(Fract*Poly).rank</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <section id="shuffling-composite-construction-functors">
 <h5>Shuffling composite construction functors<a class="headerlink" href="#shuffling-composite-construction-functors" title="Link to this heading">¶</a></h5>
@@ -2418,7 +3314,7 @@ constituents:</p>
 </ul>
 <p>If <code class="docutils literal notranslate"><span class="pre">F1.rank</span> <span class="pre">==</span> <span class="pre">G1.rank</span></code>, then the tie needs to be broken by other techniques
 (see below).</p>
-<p class="with-sage-tab with-python-tab">As an illustration, we first get us some functors and then see how chains of
+<p class="with-sage-tab with-python-tab with-sage-live-tab">As an illustration, we first get us some functors and then see how chains of
 functors are shuffled.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--68-input--1" name="tab-set--68" type="radio"><label class="tab-label" for="tab-set--68-input--1">Sage</label><div class="tab-content docutils container">
@@ -2432,6 +3328,17 @@ functors are shuffled.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">AlgClos</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="n">CC</span><span class="o">.</span><span class="n">construction</span><span class="p">();</span> <span class="n">AlgClos</span>
 <span class="go">AlgebraicClosureFunctor</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--68-input--3" name="tab-set--68" type="radio"><label class="tab-label" for="tab-set--68-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">AlgClos, R = CC.construction(); AlgClos</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2449,6 +3356,17 @@ functors are shuffled.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--69-input--3" name="tab-set--69" type="radio"><label class="tab-label" for="tab-set--69-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Compl, R = RR.construction(); Compl</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--70-input--1" name="tab-set--70" type="radio"><label class="tab-label" for="tab-set--70-input--1">Sage</label><div class="tab-content docutils container">
@@ -2462,6 +3380,17 @@ functors are shuffled.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">Matr</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="p">(</span><span class="n">MatrixSpace</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)))</span><span class="o">.</span><span class="n">construction</span><span class="p">();</span> <span class="n">Matr</span>
 <span class="go">MatrixFunctor</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--70-input--3" name="tab-set--70" type="radio"><label class="tab-label" for="tab-set--70-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Matr, R = (MatrixSpace(ZZ,3)).construction(); Matr</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2479,8 +3408,19 @@ functors are shuffled.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--71-input--3" name="tab-set--71" type="radio"><label class="tab-label" for="tab-set--71-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">AlgClos.rank, Compl.rank, Fract.rank, Poly.rank, Matr.rank</pre>
 </div>
-<p class="with-sage-tab with-python-tab">When we apply <code class="docutils literal notranslate"><span class="pre">Fract</span></code>, <code class="docutils literal notranslate"><span class="pre">AlgClos</span></code>, <code class="docutils literal notranslate"><span class="pre">Poly</span></code> and <code class="docutils literal notranslate"><span class="pre">Fract</span></code> to the ring of
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">When we apply <code class="docutils literal notranslate"><span class="pre">Fract</span></code>, <code class="docutils literal notranslate"><span class="pre">AlgClos</span></code>, <code class="docutils literal notranslate"><span class="pre">Poly</span></code> and <code class="docutils literal notranslate"><span class="pre">Fract</span></code> to the ring of
 integers, we obtain:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--72-input--1" name="tab-set--72" type="radio"><label class="tab-label" for="tab-set--72-input--1">Sage</label><div class="tab-content docutils container">
@@ -2496,8 +3436,19 @@ integers, we obtain:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--72-input--3" name="tab-set--72" type="radio"><label class="tab-label" for="tab-set--72-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">(Fract*Poly*AlgClos*Fract)(ZZ)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">When we apply <code class="docutils literal notranslate"><span class="pre">Compl</span></code>, <code class="docutils literal notranslate"><span class="pre">Matr</span></code> and <code class="docutils literal notranslate"><span class="pre">Poly</span></code> to the ring of integers, we
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">When we apply <code class="docutils literal notranslate"><span class="pre">Compl</span></code>, <code class="docutils literal notranslate"><span class="pre">Matr</span></code> and <code class="docutils literal notranslate"><span class="pre">Poly</span></code> to the ring of integers, we
 obtain:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--73-input--1" name="tab-set--73" type="radio"><label class="tab-label" for="tab-set--73-input--1">Sage</label><div class="tab-content docutils container">
@@ -2513,8 +3464,19 @@ obtain:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--73-input--3" name="tab-set--73" type="radio"><label class="tab-label" for="tab-set--73-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">(Poly*Matr*Compl)(ZZ)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Applying the shuffling procedure yields</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Applying the shuffling procedure yields</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--74-input--1" name="tab-set--74" type="radio"><label class="tab-label" for="tab-set--74-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="p">(</span><span class="n">Poly</span><span class="o">*</span><span class="n">Matr</span><span class="o">*</span><span class="n">Fract</span><span class="o">*</span><span class="n">Poly</span><span class="o">*</span><span class="n">AlgClos</span><span class="o">*</span><span class="n">Fract</span><span class="o">*</span><span class="n">Compl</span><span class="p">)(</span><span class="n">ZZ</span><span class="p">)</span>
@@ -2529,8 +3491,19 @@ obtain:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--74-input--3" name="tab-set--74" type="radio"><label class="tab-label" for="tab-set--74-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">(Poly*Matr*Fract*Poly*AlgClos*Fract*Compl)(ZZ)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">and this is indeed equal to the pushout found by Sage:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">and this is indeed equal to the pushout found by Sage:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--75-input--1" name="tab-set--75" type="radio"><label class="tab-label" for="tab-set--75-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pushout</span><span class="p">((</span><span class="n">Fract</span><span class="o">*</span><span class="n">Poly</span><span class="o">*</span><span class="n">AlgClos</span><span class="o">*</span><span class="n">Fract</span><span class="p">)(</span><span class="n">ZZ</span><span class="p">),</span> <span class="p">(</span><span class="n">Poly</span><span class="o">*</span><span class="n">Matr</span><span class="o">*</span><span class="n">Compl</span><span class="p">)(</span><span class="n">ZZ</span><span class="p">))</span>
@@ -2543,6 +3516,17 @@ obtain:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">pushout</span><span class="p">((</span><span class="n">Fract</span><span class="o">*</span><span class="n">Poly</span><span class="o">*</span><span class="n">AlgClos</span><span class="o">*</span><span class="n">Fract</span><span class="p">)(</span><span class="n">ZZ</span><span class="p">),</span> <span class="p">(</span><span class="n">Poly</span><span class="o">*</span><span class="n">Matr</span><span class="o">*</span><span class="n">Compl</span><span class="p">)(</span><span class="n">ZZ</span><span class="p">))</span>
 <span class="go">Univariate Polynomial Ring in x over Full MatrixSpace of 3 by 3 dense matrices over Fraction Field of Univariate Polynomial Ring in x over Algebraic Field</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--75-input--3" name="tab-set--75" type="radio"><label class="tab-label" for="tab-set--75-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pushout((Fract*Poly*AlgClos*Fract)(ZZ), (Poly*Matr*Compl)(ZZ))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2620,6 +3604,28 @@ it to create a fraction field.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--76-input--3" name="tab-set--76" type="radio"><label class="tab-label" for="tab-set--76-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.categories.pushout import ConstructionFunctor
+class MyFracFunctor(ConstructionFunctor):
+    rank = 5
+    def __init__(self, args=None, kwds=None):
+        self.args = args or ()
+        self.kwds = kwds or {}
+        ConstructionFunctor.__init__(self, IntegralDomains(), Fields())
+    def _apply_functor(self, R):
+        return MyFrac(R,*self.args,**self.kwds)
+    def merge(self, other):
+        if isinstance(other, (type(self), sage.categories.pushout.FractionField)):
+            return self</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--77-input--1" name="tab-set--77" type="radio"><label class="tab-label" for="tab-set--77-input--1">Sage</label><div class="tab-content docutils container">
@@ -2635,8 +3641,19 @@ it to create a fraction field.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--77-input--3" name="tab-set--77" type="radio"><label class="tab-label" for="tab-set--77-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">MyFracFunctor()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We verify that our functor can really be used to construct our implementation of fraction fields, and that it can be merged with either itself or the usual fraction field constructor:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We verify that our functor can really be used to construct our implementation of fraction fields, and that it can be merged with either itself or the usual fraction field constructor:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--78-input--1" name="tab-set--78" type="radio"><label class="tab-label" for="tab-set--78-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">MyFracFunctor</span><span class="p">()(</span><span class="n">ZZ</span><span class="p">)</span>
@@ -2649,6 +3666,17 @@ it to create a fraction field.</p></li>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">MyFracFunctor</span><span class="p">()(</span><span class="n">ZZ</span><span class="p">)</span>
 <span class="go">NewFrac(Integer Ring)</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--78-input--3" name="tab-set--78" type="radio"><label class="tab-label" for="tab-set--78-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">MyFracFunctor()(ZZ)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2666,6 +3694,17 @@ it to create a fraction field.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--79-input--3" name="tab-set--79" type="radio"><label class="tab-label" for="tab-set--79-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">MyFracFunctor().merge(MyFracFunctor())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--80-input--1" name="tab-set--80" type="radio"><label class="tab-label" for="tab-set--80-input--1">Sage</label><div class="tab-content docutils container">
@@ -2681,8 +3720,19 @@ it to create a fraction field.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--80-input--3" name="tab-set--80" type="radio"><label class="tab-label" for="tab-set--80-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">MyFracFunctor().merge(Fract)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">There remains to let our new fraction fields know about the new construction
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">There remains to let our new fraction fields know about the new construction
 functor. The arguments that were used when creating the fraction field are
 stored as an attribute—this is a feature provided by
 <a class="reference external" href="../reference/structure/sage/structure/unique_representation.html#sage.structure.unique_representation.CachedRepresentation" title="(in Parents and Elements v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a>. We pass
@@ -2704,6 +3754,19 @@ the construction functor is able to reconstruct the fraction field.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--81-input--3" name="tab-set--81" type="radio"><label class="tab-label" for="tab-set--81-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class MyFrac(MyFrac):
+    def construction(self):
+        return MyFracFunctor(self._reduction[1][1:], self._reduction[2]), self.base()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--82-input--1" name="tab-set--82" type="radio"><label class="tab-label" for="tab-set--82-input--1">Sage</label><div class="tab-content docutils container">
@@ -2719,8 +3782,19 @@ the construction functor is able to reconstruct the fraction field.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--82-input--3" name="tab-set--82" type="radio"><label class="tab-label" for="tab-set--82-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">MyFrac(ZZ['x']).construction()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Due to merging, we have:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Due to merging, we have:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--83-input--1" name="tab-set--83" type="radio"><label class="tab-label" for="tab-set--83-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pushout</span><span class="p">(</span><span class="n">MyFrac</span><span class="p">(</span><span class="n">ZZ</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]),</span> <span class="n">Frac</span><span class="p">(</span><span class="n">QQ</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]))</span>
@@ -2735,11 +3809,22 @@ the construction functor is able to reconstruct the fraction field.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--83-input--3" name="tab-set--83" type="radio"><label class="tab-label" for="tab-set--83-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pushout(MyFrac(ZZ['x']), Frac(QQ['x']))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </section>
 <section id="a-second-note-on-performance">
 <h4>A second note on performance<a class="headerlink" href="#a-second-note-on-performance" title="Link to this heading">¶</a></h4>
-<p class="with-sage-tab with-python-tab">Being able to do arithmetics involving elements of different parents, with the
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Being able to do arithmetics involving elements of different parents, with the
 automatic creation of a pushout to contain the result, is certainly
 convenient-–but one should not rely on it, if speed matters. Simply the
 conversion of elements into different parents takes time. Moreover, by
@@ -2782,6 +3867,25 @@ coercion:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--84-input--3" name="tab-set--84" type="radio"><label class="tab-label" for="tab-set--84-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ZZxy = ZZ['x','y']
+a = ZZxy('x')
+b = 1/2
+timeit(&quot;c = a+b&quot;)    # random
+QQxy = QQ['x','y']
+timeit(&quot;c2 = QQxy(a)+QQxy(b)&quot;) # random
+a2 = QQxy(a)
+b2 = QQxy(b)
+timeit(&quot;c2 = a2+b2&quot;) # random</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>Hence, if one avoids the explicit or implicit conversion into the pushout, but
 works in the pushout right away, one can get a more than 10--fold speed--up.</p>
@@ -2798,7 +3902,7 @@ implementation of fraction fields would not have passed the tests yet.</p>
 <p>We have already seen above that a category can require/suggest certain parent
 or element methods, that the user must/should implement. This is in order to
 smoothly blend with the methods that already exist in Sage.</p>
-<p class="with-sage-tab with-python-tab">The methods that ought to be provided are called
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The methods that ought to be provided are called
 <a class="reference external" href="../reference/misc/sage/misc/abstract_method.html#sage.misc.abstract_method.abstract_method" title="(in Utilities v10.8.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">abstract_method()</span></code></a>. Let us see what methods
 are needed for quotient fields and their elements:</p>
 <div class="tab-set docutils container">
@@ -2811,6 +3915,17 @@ are needed for quotient fields and their elements:</p>
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.all</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.abstract_method</span><span class="w"> </span><span class="kn">import</span> <span class="n">abstract_methods_of_class</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--85-input--3" name="tab-set--85" type="radio"><label class="tab-label" for="tab-set--85-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.abstract_method import abstract_methods_of_class</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2832,12 +3947,24 @@ are needed for quotient fields and their elements:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--86-input--3" name="tab-set--86" type="radio"><label class="tab-label" for="tab-set--86-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">abstract_methods_of_class(QuotientFields().parent_class)['optional']
+abstract_methods_of_class(QuotientFields().parent_class)['required']</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>Hence, the only required method (that is actually required for all parents
 that belong to the category of sets) is an element containment test. That’s
 fine, because the base class <a class="reference external" href="../reference/structure/sage/structure/parent.html#sage.structure.parent.Parent" title="(in Parents and Elements v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parent</span></code></a> provides a
 default containment test.</p>
-<p class="with-sage-tab with-python-tab">The elements have to provide more:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The elements have to provide more:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--87-input--1" name="tab-set--87" type="radio"><label class="tab-label" for="tab-set--87-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">abstract_methods_of_class</span><span class="p">(</span><span class="n">QuotientFields</span><span class="p">()</span><span class="o">.</span><span class="n">element_class</span><span class="p">)[</span><span class="s1">&#39;optional&#39;</span><span class="p">]</span>
@@ -2856,6 +3983,18 @@ default containment test.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--87-input--3" name="tab-set--87" type="radio"><label class="tab-label" for="tab-set--87-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">abstract_methods_of_class(QuotientFields().element_class)['optional']
+abstract_methods_of_class(QuotientFields().element_class)['required']</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>Hence, the elements must provide <code class="docutils literal notranslate"><span class="pre">denominator()</span></code> and <code class="docutils literal notranslate"><span class="pre">numerator()</span></code>
 methods, and must be able to tell whether they are zero or not. The base class
@@ -2872,7 +4011,7 @@ test in the automatic test suite. For example, it is tested</p>
 <li><p>whether the user has implemented the required abstract methods,</p></li>
 <li><p>whether some defining structural properties (e.g., commutativity) hold.</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">For example, if one forgets to implement required methods, one obtains the
+<p class="with-sage-tab with-python-tab with-sage-live-tab">For example, if one forgets to implement required methods, one obtains the
 following error:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--88-input--1" name="tab-set--88" type="radio"><label class="tab-label" for="tab-set--88-input--1">Sage</label><div class="tab-content docutils container">
@@ -2904,8 +4043,25 @@ following error:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--88-input--3" name="tab-set--88" type="radio"><label class="tab-label" for="tab-set--88-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class Foo(Parent):
+ Element = sage.structure.element.Element
+ def __init__(self):
+     Parent.__init__(self, category=QuotientFields())
+Bar = Foo()
+bar = Bar.element_class(Bar)
+bar._test_not_implemented_methods()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Here are the tests that form the test suite of quotient fields:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Here are the tests that form the test suite of quotient fields:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--89-input--1" name="tab-set--89" type="radio"><label class="tab-label" for="tab-set--89-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">QuotientFields</span><span class="p">()</span><span class="o">.</span><span class="n">parent_class</span><span class="p">)</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;_test_&#39;</span><span class="p">)]</span>
@@ -2964,6 +4120,17 @@ following error:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--89-input--3" name="tab-set--89" type="radio"><label class="tab-label" for="tab-set--89-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">[t for t in dir(QuotientFields().parent_class) if t.startswith('_test_')]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>We have implemented all abstract methods (or inherit them from base classes),
 we use the category framework, and we have implemented coercions. So, we are
@@ -2992,8 +4159,22 @@ externally.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--90-input--3" name="tab-set--90" type="radio"><label class="tab-label" for="tab-set--90-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">__main__.MyFrac = MyFrac
+__main__.MyElement = MyElement
+P = MyFrac(ZZ['x'])
+TestSuite(P).run()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Let us see what tests are actually performed:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let us see what tests are actually performed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--91-input--1" name="tab-set--91" type="radio"><label class="tab-label" for="tab-set--91-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">TestSuite</span><span class="p">(</span><span class="n">P</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -3078,11 +4259,22 @@ externally.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--91-input--3" name="tab-set--91" type="radio"><label class="tab-label" for="tab-set--91-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">TestSuite(P).run(verbose=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </section>
 <section id="implementing-a-new-category-with-additional-tests">
 <h4>Implementing a new category with additional tests<a class="headerlink" href="#implementing-a-new-category-with-additional-tests" title="Link to this heading">¶</a></h4>
-<p class="with-sage-tab with-python-tab">As one can see, tests are also performed on elements. There are methods that
+<p class="with-sage-tab with-python-tab with-sage-live-tab">As one can see, tests are also performed on elements. There are methods that
 return one element or a list of some elements, relying on “typical” elements
 that can be found in most algebraic structures.</p>
 <div class="tab-set docutils container">
@@ -3101,8 +4293,19 @@ that can be found in most algebraic structures.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--92-input--3" name="tab-set--92" type="radio"><label class="tab-label" for="tab-set--92-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.an_element(); P.some_elements()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Unfortunately, the list of elements that is returned by the default method is
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Unfortunately, the list of elements that is returned by the default method is
 of length one, and that single element could also be a bit more interesting.
 The method an_element relies on a method <code class="docutils literal notranslate"><span class="pre">_an_element_()</span></code>, so, we implement
 that. We also override the some_elements method.</p>
@@ -3138,6 +4341,27 @@ that. We also override the some_elements method.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--93-input--3" name="tab-set--93" type="radio"><label class="tab-label" for="tab-set--93-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class MyFrac(MyFrac):
+    def _an_element_(self):
+        a = self.base().an_element()
+        b = self.base_ring().an_element()
+        if (a+b)!=0:
+            return self(a)**2/(self(a+b)**3)
+        if b != 0:
+            return self(a)/self(b)**2
+        return self(a)**2*self(b)**3
+    def some_elements(self):
+        return [self.an_element(),self(self.base().an_element()),self(self.base_ring().an_element())]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--94-input--1" name="tab-set--94" type="radio"><label class="tab-label" for="tab-set--94-input--1">Sage</label><div class="tab-content docutils container">
@@ -3157,6 +4381,18 @@ that. We also override the some_elements method.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--94-input--3" name="tab-set--94" type="radio"><label class="tab-label" for="tab-set--94-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = MyFrac(ZZ['x'])
+P.an_element(); P.some_elements()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>Now, as we have more interesting elements, we may also add a test for the
 “factor” method. Recall that the method was inherited from the category, but
@@ -3165,7 +4401,7 @@ it appears that it is not tested.</p>
 same category. Hence, since <code class="docutils literal notranslate"><span class="pre">factor</span></code> is defined in the category of quotient
 fields, a test should be added there. But we will not change source code here and
 will instead create a sub--category.</p>
-<p class="with-sage-tab with-python-tab">Apparently, If <span class="math notranslate nohighlight">\(e\)</span> is an element of a quotient field, the product of the
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Apparently, If <span class="math notranslate nohighlight">\(e\)</span> is an element of a quotient field, the product of the
 factors returned by <code class="docutils literal notranslate"><span class="pre">e.factor()</span></code> should be equal to <span class="math notranslate nohighlight">\(e\)</span>. For forming the
 product, we use the <code class="docutils literal notranslate"><span class="pre">prod</span></code> method, that, no surprise, is inherited from
 another category:</p>
@@ -3183,6 +4419,17 @@ another category:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--95-input--3" name="tab-set--95" type="radio"><label class="tab-label" for="tab-set--95-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.prod.__module__</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>When we want to create a sub--category, we need to provide a method
 <a class="reference external" href="../reference/categories/sage/categories/category.html#sage.categories.category.Category.super_categories" title="(in Category Framework v10.8.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">super_categories()</span></code></a>, that returns a
@@ -3193,7 +4440,7 @@ list of all immediate super categories (here: category of quotient fields).</p>
 sub--class of <code class="docutils literal notranslate"><span class="pre">C.__class__</span></code>! <span class="math notranslate nohighlight">\(S\)</span> becomes a sub--category of <span class="math notranslate nohighlight">\(C\)</span> only
 if <code class="docutils literal notranslate"><span class="pre">S.super_categories()</span></code> returns (a sub--category of) <span class="math notranslate nohighlight">\(C\)</span>!</p>
 </div>
-<p class="with-sage-tab with-python-tab">The parent and element methods of a category are provided as methods of
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The parent and element methods of a category are provided as methods of
 classes that are the attributes <code class="docutils literal notranslate"><span class="pre">ParentMethods</span></code> and <code class="docutils literal notranslate"><span class="pre">Element</span> <span class="pre">Methods</span></code> of
 the category, as follows:</p>
 <div class="tab-set docutils container">
@@ -3224,6 +4471,26 @@ the category, as follows:</p>
 <span class="gp">...</span>             <span class="n">P</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span>
 <span class="gp">...</span>             <span class="k">assert</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">P</span><span class="o">.</span><span class="n">prod</span><span class="p">([</span><span class="n">P</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">**</span><span class="n">e</span> <span class="k">for</span> <span class="n">b</span><span class="p">,</span><span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">factor</span><span class="p">()])</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--96-input--3" name="tab-set--96" type="radio"><label class="tab-label" for="tab-set--96-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.categories.category import Category
+class QuotientFieldsWithTest(Category): # do *not* inherit from QuotientFields, but ...
+    def super_categories(self):
+        return [QuotientFields()]       # ... declare QuotientFields as a super category!
+    class ParentMethods:
+        pass
+    class ElementMethods:
+        def _test_factorisation(self, **options):
+            P = self.parent()
+            assert self == P.prod([P(b)**e for b,e in self.factor()])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3259,8 +4526,23 @@ externally.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--97-input--3" name="tab-set--97" type="radio"><label class="tab-label" for="tab-set--97-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">__main__.MyFrac = MyFrac
+__main__.MyElement = MyElement
+__main__.QuotientFieldsWithTest = QuotientFieldsWithTest
+P = MyFrac(ZZ['x'], category=QuotientFieldsWithTest())
+P.category()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The new test is inherited from the category. Since <code class="docutils literal notranslate"><span class="pre">an_element()</span></code> is returning a
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The new test is inherited from the category. Since <code class="docutils literal notranslate"><span class="pre">an_element()</span></code> is returning a
 complicated element, <code class="docutils literal notranslate"><span class="pre">_test_factorisation</span></code> is a serious test:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--98-input--1" name="tab-set--98" type="radio"><label class="tab-label" for="tab-set--98-input--1">Sage</label><div class="tab-content docutils container">
@@ -3274,6 +4556,17 @@ complicated element, <code class="docutils literal notranslate"><span class="pre
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">P</span><span class="o">.</span><span class="n">an_element</span><span class="p">()</span><span class="o">.</span><span class="n">_test_factorisation</span>
 <span class="go">&lt;bound method QuotientFieldsWithTest.ElementMethods._test_factorisation of (x^2):(x^3 + 3*x^2 + 3*x + 1)&gt;</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--98-input--3" name="tab-set--98" type="radio"><label class="tab-label" for="tab-set--98-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.an_element()._test_factorisation</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3291,8 +4584,19 @@ complicated element, <code class="docutils literal notranslate"><span class="pre
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--99-input--3" name="tab-set--99" type="radio"><label class="tab-label" for="tab-set--99-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.an_element().factor()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Last, we observe that the new test has automatically become part of the test
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Last, we observe that the new test has automatically become part of the test
 suite. We remark that the existing tests became more serious as well, since we
 made <a class="reference external" href="../reference/structure/sage/structure/parent.html#sage.structure.parent.Parent.an_element" title="(in Parents and Elements v10.8.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sage.structure.parent.Parent.an_element()</span></code></a> return something more
 interesting.</p>
@@ -3380,6 +4684,17 @@ interesting.</p>
 <span class="go">running ._test_zero() . . . pass</span>
 <span class="go">running ._test_zero_divisors() . . . pass</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--100-input--3" name="tab-set--100" type="radio"><label class="tab-label" for="tab-set--100-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">TestSuite(P).run(verbose=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3587,7 +4902,11 @@ interesting.</p>
 </section>
 </section>
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>

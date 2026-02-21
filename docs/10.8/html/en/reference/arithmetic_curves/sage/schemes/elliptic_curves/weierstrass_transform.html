@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -358,7 +358,7 @@ or
 <code class="xref py py-func docutils literal notranslate"><span class="pre">EllipticCurve_from_curve()</span></code>
 to construct the transformation starting with a cubic or with a genus
 one curve.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">w</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
@@ -425,6 +425,25 @@ one curve.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;u,v,w&gt; = QQ[]
+f = EllipticCurve_from_cubic(u^3 + v^3 + w^3, [1,-1,0], morphism=True);  f
+finv = f.inverse();  finv
+(u^3 + v^3 + w^3)(f.inverse().defining_polynomials()) * f.inverse().post_rescaling()
+E = finv.domain()
+E.defining_polynomial()(f.defining_polynomials()) * f.post_rescaling()
+f([1,-1,0])
+f([1,0,-1])
+f([0,1,-1])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py class">
 <dt class="sig sig-object py" id="sage.schemes.elliptic_curves.weierstrass_transform.WeierstrassTransformation">
@@ -440,7 +459,7 @@ define the transformation</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">post_multiplication</span></code> – a polynomial to homogeneously
 rescale after substituting the defining polynomials</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P2</span><span class="o">.&lt;</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">w</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">ProjectiveSpace</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">QQ</span><span class="p">)</span>
@@ -519,6 +538,29 @@ rescale after substituting the defining polynomials</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P2.&lt;u,v,w&gt; = ProjectiveSpace(2,QQ)
+C = P2.subscheme(u^3 + v^3 + w^3)
+E = EllipticCurve([2, -1, -1/3, 1/3, -1/27])
+from sage.schemes.elliptic_curves.weierstrass_transform import WeierstrassTransformation
+f = WeierstrassTransformation(C, E, [w, -v-w, -3*u-3*v], 1);  f
+f([-1, 1, 0])
+f([-1, 0, 1])
+f([ 0,-1, 1])
+A2.&lt;a,b&gt; = AffineSpace(2,QQ)
+C = A2.subscheme(a^3 + b^3 + 1)
+f = WeierstrassTransformation(C, E, [1, -b-1, -3*a-3*b], 1);  f
+f([-1,0])
+f([0,-1])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.schemes.elliptic_curves.weierstrass_transform.WeierstrassTransformation.post_rescaling">
@@ -526,7 +568,7 @@ rescale after substituting the defining polynomials</p></li>
 <dd><p>Return the homogeneous rescaling to apply after the coordinate
 substitution.</p>
 <p>OUTPUT: a polynomial; see the example below</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
@@ -549,8 +591,23 @@ substitution.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;a,b,c&gt; = QQ[]
+cubic =  a^3+7*b^3+64*c^3
+P = [2,2,-1]
+f = EllipticCurve_from_cubic(cubic, P, morphism=True).inverse()
+f.post_rescaling()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">So here is what it does. If we just plug in the coordinate
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">So here is what it does. If we just plug in the coordinate
 transformation, we get the defining polynomial up to
 scale. This method returns the overall rescaling of the
 equation to bring the result into the standard form:</p>
@@ -572,6 +629,18 @@ equation to bring the result into the standard form:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">cubic(f.defining_polynomials())
+cubic(f.defining_polynomials()) * f.post_rescaling()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -582,7 +651,7 @@ equation to bring the result into the standard form:</p>
 <span class="sig-prename descclassname"><span class="pre">sage.schemes.elliptic_curves.weierstrass_transform.</span></span><span class="sig-name descname"><span class="pre">WeierstrassTransformationWithInverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codomain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defining_polynomials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">post_multiplication</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inv_defining_polynomials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inv_post_multiplication</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/schemes/elliptic_curves/weierstrass_transform.py#L144"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.schemes.elliptic_curves.weierstrass_transform.WeierstrassTransformationWithInverse" title="Link to this definition">¶</a></dt>
 <dd><p>Construct morphism of a genus-one curve to/from the Weierstrass
 form with its inverse.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">w</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
@@ -623,6 +692,18 @@ form with its inverse.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;u,v,w&gt; = QQ[]
+f = EllipticCurve_from_cubic(u^3 + v^3 + w^3, [1,-1,0], morphism=True);  f</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -637,7 +718,7 @@ form with its inverse.</p>
 <p>OUTPUT:</p>
 <p>A morphism in the opposite direction. This may be a rational
 inverse or an analytic inverse.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span><span class="o">.&lt;</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">w</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
@@ -664,13 +745,30 @@ inverse or an analytic inverse.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;u,v,w&gt; = QQ[]
+f = EllipticCurve_from_cubic(u^3 + v^3 + w^3, [1,-1,0], morphism=True)
+f.inverse()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -754,7 +852,7 @@ inverse or an analytic inverse.</p>
     <script src="../../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../../%5fstatic/copybutton.js"></script>
     <script src="../../../../%5fstatic/tabs.js"></script>
-    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../../../../%5fstatic/jupyter-sphinx-furo.js"></script>

@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -433,7 +433,7 @@ braid generators satisfy a quadratic relation these algebras have been called
 \[s_i s_{i+1} s_i = s_{i+1} s_i s_{i+1} \text{ for } 1 \leq i &lt; n - 1
 \mbox{ and } s_i s_j = s_j s_i \text{ for } 1 \leq i &lt; j - 1 &lt; n - 1.\]</div>
 </div>
-<p class="with-sage-tab with-python-tab">The algebra epimorphism from the braid group algebra over the same base ring is
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The algebra epimorphism from the braid group algebra over the same base ring is
 realized inside the element constructor of the present class, for example in the
 case of the 3 strand cubic Hecke algebra:</p>
 <div class="tab-set docutils container">
@@ -462,6 +462,20 @@ case of the 3 strand cubic Hecke algebra:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3 = algebras.CubicHecke(3)
+BG3 = CHA3.braid_group()
+braid = BG3((1,2,-1,2,2,-1)); braid
+braid_image = CHA3(braid); braid_image</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>If the ring elements <span class="math notranslate nohighlight">\(u, v, w\)</span> (which will be called the <em>cubic equation
 parameters</em> in the sequel) are taken to be <span class="math notranslate nohighlight">\(u = v = 0, w = 1\)</span> the cubic Hecke
@@ -488,7 +502,7 @@ not known if these elements span all of the cubic Hecke algebra.</p>
 cubicbraid groups is known to be an isomorphism of free modules only in the
 cases of less than five strands.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Consider the obstruction <code class="docutils literal notranslate"><span class="pre">b</span></code> of the <em>triple quadratic algebra</em> from Section 2.6
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Consider the obstruction <code class="docutils literal notranslate"><span class="pre">b</span></code> of the <em>triple quadratic algebra</em> from Section 2.6
 of <a class="reference internal" href="../../../../references/index.html#mar2018" id="id2"><span>[Mar2018]</span></a>. We verify that the third power of it is a scalar multiple
 of itself (explicitly <code class="docutils literal notranslate"><span class="pre">2*w^2</span></code> times the <em>Schur element</em> of the three
 dimensional irreducible representation):</p>
@@ -538,8 +552,33 @@ dimensional irreducible representation):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3 = algebras.CubicHecke(3)
+c1, c2 = CHA3.gens()
+b = c1^2*c2 - c2*c1^2 - c1*c2^2 + c2^2*c1; b
+b2 = b*b
+b3 = b2*b
+BR = CHA3.base_ring()
+ER = CHA3.extension_ring()
+u, v, w = BR.gens()
+f =  BR(b3.coefficients()[0]/w)
+try:
+    sh = CHA3.schur_element(CHA3.irred_repr.W3_111)
+except NotImplementedError:    # for the case GAP3 / CHEVIE not available
+    sh = ER(f/(2*w^2))
+ER(f/(2*w^2)) == sh
+b3 == f*b</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Defining the cubic Hecke algebra on 6 strands will need some seconds for
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Defining the cubic Hecke algebra on 6 strands will need some seconds for
 initializing. However, you can do calculations inside the infinite
 algebra as well:</p>
 <div class="tab-set docutils container">
@@ -570,6 +609,22 @@ algebra as well:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">t</span> <span class="o">=</span> <span class="n">CHA6</span><span class="o">.</span><span class="n">an_element</span><span class="p">()</span> <span class="o">*</span> <span class="n">c4</span><span class="p">;</span> <span class="n">t</span>
 <span class="go">-w*c0*c1^-1*c4 + v*c0*c2^-1*c4 + u*c2*c1*c4 - ((v*w-u)/w)*c4</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># optional - database_cubic_hecke
+CHA6 = algebras.CubicHecke(6)
+CHA6.inject_variables()
+s = c0*c1*c2*c3*c4; s
+s^2
+t = CHA6.an_element() * c4; t</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -672,7 +727,7 @@ change the variable names of the generic extension ring (see example 3
 below)</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Cubic Hecke algebra over the ring of definition:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Cubic Hecke algebra over the ring of definition:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA3</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="s1">&#39;s1, s2&#39;</span><span class="p">);</span> <span class="n">CHA3</span>
@@ -717,8 +772,22 @@ below)</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3 = algebras.CubicHecke('s1, s2'); CHA3
+CHA3.gens()
+GER = CHA3.extension_ring(generic=True); GER
+ER = CHA3.extension_ring(); ER</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Element construction:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Element construction:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">ele</span> <span class="o">=</span> <span class="n">CHA3</span><span class="o">.</span><span class="n">an_element</span><span class="p">();</span> <span class="n">ele</span>
@@ -769,8 +838,27 @@ below)</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ele = CHA3.an_element(); ele
+ele2 = ele**2; ele2
+B3 = CHA3.braid_group()
+braid = B3((2,-1, 2, 1)); braid
+ele3 = CHA3(braid); ele3
+ele3t = CHA3((2,-1, 2, 1))
+ele3 == ele3t
+CHA4 = algebras.CubicHecke(4)     # optional database_cubic_hecke
+ele4 = CHA4(ele3); ele4           # optional database_cubic_hecke</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Cubic Hecke algebra over the ring of definition using different variable
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Cubic Hecke algebra over the ring of definition using different variable
 names:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
@@ -804,8 +892,20 @@ names:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">algebras.CubicHecke(3, cubic_equation_parameters='u, v, w', cubic_equation_roots='p, q, r')
+_.extension_ring()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Cubic Hecke algebra over a special base ring with respect to a special
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Cubic Hecke algebra over a special base ring with respect to a special
 cubic equation:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
@@ -863,8 +963,27 @@ cubic equation:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">algebras.CubicHecke('s1, s2', cubic_equation_parameters=(QQ(1),3,1))
+CHA3 = _
+ER = CHA3.extension_ring(); ER
+CHA3.cubic_equation_roots()[0]
+F = GF(25,'u')
+algebras.CubicHecke('s1, s2', cubic_equation_parameters=(F(1), F.gen(), F(3)))
+CHA3 = _
+ER = CHA3.extension_ring(); ER
+CHA3.cubic_equation_roots()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Cubic Hecke algebra over a special extension ring with respect to special
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Cubic Hecke algebra over a special extension ring with respect to special
 roots of the cubic equation:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
@@ -890,6 +1009,19 @@ roots of the cubic equation:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">UCF = UniversalCyclotomicField()
+e3=UCF.gen(3); e5=UCF.gen(5)
+algebras.CubicHecke('s1, s2', cubic_equation_roots=(1, e5, e3))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.Element">
@@ -901,7 +1033,7 @@ roots of the cubic equation:</p>
 <dt class="sig sig-object py" id="sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.algebra_generators">
 <span class="sig-name descname"><span class="pre">algebra_generators</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/algebras/hecke_algebras/cubic_hecke_algebra.py#L1406"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.algebra_generators" title="Link to this definition">¶</a></dt>
 <dd><p>Return the algebra generators of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA2</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -918,6 +1050,18 @@ roots of the cubic equation:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA2 = algebras.CubicHecke(2)
+CHA2.algebra_generators()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -930,7 +1074,7 @@ roots of the cubic equation:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">generic</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>); if <code class="docutils literal notranslate"><span class="pre">True</span></code> the ring
 of definition (here often called the generic base ring) is returned</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA2</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">cubic_equation_roots</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
@@ -953,6 +1097,19 @@ of definition (here often called the generic base ring) is returned</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA2 = algebras.CubicHecke(2, cubic_equation_roots=(3, 4, 5))
+CHA2.base_ring()
+CHA2.base_ring(generic=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -960,7 +1117,7 @@ of definition (here often called the generic base ring) is returned</p></li>
 <dt class="sig sig-object py" id="sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.braid_group">
 <span class="sig-name descname"><span class="pre">braid_group</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/algebras/hecke_algebras/cubic_hecke_algebra.py#L3156"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.braid_group" title="Link to this definition">¶</a></dt>
 <dd><p>Return the braid group attached to <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA2</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -977,6 +1134,18 @@ of definition (here often called the generic base ring) is returned</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA2 = algebras.CubicHecke(2)
+CHA2.braid_group()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -985,7 +1154,7 @@ of definition (here often called the generic base ring) is returned</p></li>
 <span class="sig-name descname"><span class="pre">braid_group_algebra</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/algebras/hecke_algebras/cubic_hecke_algebra.py#L3186"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.braid_group_algebra" title="Link to this definition">¶</a></dt>
 <dd><p>Return the group algebra of braid group attached to <code class="docutils literal notranslate"><span class="pre">self</span></code> over the
 base ring of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA2</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -1004,6 +1173,18 @@ base ring of <code class="docutils literal notranslate"><span class="pre">self</
 <span class="go"> over Multivariate Polynomial Ring in u, v, w</span>
 <span class="go"> over Integer Ring localized at (w,)</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA2 = algebras.CubicHecke(2)
+CHA2.braid_group_algebra()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1028,7 +1209,7 @@ character; if not given a list of all characters is returned</p></li>
 <p>Function or list of Functions from the element class of <code class="docutils literal notranslate"><span class="pre">self</span></code> to
 the (generic or non generic) extension ring depending on the given
 keyword arguments.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA3</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -1081,6 +1262,26 @@ keyword arguments.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3 = algebras.CubicHecke(3)
+ch = CHA3.characters()
+e = CHA3.an_element()
+ch[0](e)
+_.parent()
+ch_w3_100 = CHA3.characters(irr=CHA3.irred_repr.W3_100)
+ch_w3_100(e) == ch[0](e)
+ch_x = CHA3.characters(original=False)
+ch_x[0](e)
+_.parent()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1089,7 +1290,7 @@ keyword arguments.</p>
 <span class="sig-name descname"><span class="pre">chevie</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/algebras/hecke_algebras/cubic_hecke_algebra.py#L1484"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.chevie" title="Link to this definition">¶</a></dt>
 <dd><p>Return the <code class="docutils literal notranslate"><span class="pre">GAP3</span></code>-<code class="docutils literal notranslate"><span class="pre">CHEVIE</span></code> realization of the corresponding
 cyclotomic Hecke algebra in the finite-dimensional case.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA3</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># optional gap3</span>
@@ -1106,6 +1307,18 @@ cyclotomic Hecke algebra in the finite-dimensional case.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3 = algebras.CubicHecke(3)  # optional gap3
+CHA3.chevie()                  # optional gap3</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1113,7 +1326,7 @@ cyclotomic Hecke algebra in the finite-dimensional case.</p>
 <dt class="sig sig-object py" id="sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.cubic_braid_group">
 <span class="sig-name descname"><span class="pre">cubic_braid_group</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/algebras/hecke_algebras/cubic_hecke_algebra.py#L3171"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.cubic_braid_group" title="Link to this definition">¶</a></dt>
 <dd><p>Return the cubic braid group attached to <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA2</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -1130,6 +1343,18 @@ cyclotomic Hecke algebra in the finite-dimensional case.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA2 = algebras.CubicHecke(2)
+CHA2.cubic_braid_group()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1138,7 +1363,7 @@ cyclotomic Hecke algebra in the finite-dimensional case.</p>
 <span class="sig-name descname"><span class="pre">cubic_braid_group_algebra</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/algebras/hecke_algebras/cubic_hecke_algebra.py#L3204"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.cubic_braid_group_algebra" title="Link to this definition">¶</a></dt>
 <dd><p>Return the group algebra of cubic braid group attached to <code class="docutils literal notranslate"><span class="pre">self</span></code> over
 the base ring of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA2</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -1157,6 +1382,18 @@ the base ring of <code class="docutils literal notranslate"><span class="pre">se
 <span class="go"> over Multivariate Polynomial Ring in u, v, w</span>
 <span class="go"> over Integer Ring localized at (w,)</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA2 = algebras.CubicHecke(2)
+CHA2.cubic_braid_group_algebra()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1179,7 +1416,7 @@ cubic equation will be given over the generic base ring</p></li>
 <p>A polynomial over the base ring (resp. generic base ring if <code class="docutils literal notranslate"><span class="pre">generic</span></code>
 is set to True). In case <code class="docutils literal notranslate"><span class="pre">as_coefficients</span></code> is set to <code class="docutils literal notranslate"><span class="pre">True</span></code> a list
 of them is returned.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA2</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">cubic_equation_roots</span><span class="o">=</span><span class="p">(</span><span class="n">E</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="o">~</span><span class="n">E</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
@@ -1208,6 +1445,21 @@ of them is returned.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA2 = algebras.CubicHecke(2, cubic_equation_roots=(E(3), ~E(3), 1))
+CHA2.cubic_equation()
+CHA2.cubic_equation(generic=True)
+CHA2.cubic_equation(as_coefficients=True, generic=True)
+CHA2.cubic_equation(as_coefficients=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1221,7 +1473,7 @@ of them is returned.</p>
 coefficients are returned as elements of the generic base ring</p></li>
 </ul>
 <p>OUTPUT: a triple consisting of the coefficients</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA2</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">cubic_equation_roots</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
@@ -1246,6 +1498,20 @@ coefficients are returned as elements of the generic base ring</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA2 = algebras.CubicHecke(2, cubic_equation_roots=(3, 4, 5))
+CHA2.cubic_equation()
+CHA2.cubic_equation_parameters()
+CHA2.cubic_equation_parameters(generic=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1259,7 +1525,7 @@ coefficients are returned as elements of the generic base ring</p></li>
 roots are returned as elements of the generic extension ring</p></li>
 </ul>
 <p>OUTPUT: a triple consisting of the roots</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA2</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">cubic_equation_roots</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
@@ -1284,6 +1550,20 @@ roots are returned as elements of the generic extension ring</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA2 = algebras.CubicHecke(2, cubic_equation_roots=(3, 4, 5))
+CHA2.cubic_equation()
+CHA2.cubic_equation_roots()
+CHA2.cubic_equation_roots(generic=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1299,7 +1579,7 @@ the number of strands for the subgroup; the default is one strand
 less than <code class="docutils literal notranslate"><span class="pre">self</span></code> has</p></li>
 </ul>
 <p>OUTPUT: an instance of this class realizing the sub-algebra</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA3</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">cubic_equation_roots</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
@@ -1320,6 +1600,18 @@ less than <code class="docutils literal notranslate"><span class="pre">self</spa
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3 = algebras.CubicHecke(3, cubic_equation_roots=(3, 4, 5))
+CHA3.cubic_hecke_subalgebra()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1336,7 +1628,7 @@ irreducible representations of the cubic Hecke algebra on four strands
 cyclotomic generator is returned as an element extension ring of
 definition</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA2</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">cubic_equation_roots</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
@@ -1357,6 +1649,19 @@ definition</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA2 = algebras.CubicHecke(2, cubic_equation_roots=(3, 4, 5))
+CHA2.cyclotomic_generator()
+CHA2.cyclotomic_generator(generic=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1372,7 +1677,7 @@ of the cubic equation.</p>
 extension ring of definition (here often called the generic
 extension ring) is returned</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA2</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">cubic_equation_roots</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
@@ -1399,6 +1704,19 @@ extension ring) is returned</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA2 = algebras.CubicHecke(2, cubic_equation_roots=(3, 4, 5))
+CHA2.extension_ring()
+CHA2.extension_ring(generic=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1406,7 +1724,7 @@ extension ring) is returned</p></li>
 <dt class="sig sig-object py" id="sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.filecache_section">
 <span class="sig-name descname"><span class="pre">filecache_section</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/algebras/hecke_algebras/cubic_hecke_algebra.py#L2746"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.filecache_section" title="Link to this definition">¶</a></dt>
 <dd><p>Return the <code class="docutils literal notranslate"><span class="pre">enum</span></code> to select a section in the file cache.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA2</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -1429,6 +1747,18 @@ extension ring) is returned</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA2 = algebras.CubicHecke(2)
+list(CHA2.filecache_section())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1446,7 +1776,7 @@ element class of <code class="docutils literal notranslate"><span class="pre">se
 <p>OUTPUT:</p>
 <p>Instance of the element class of <code class="docutils literal notranslate"><span class="pre">self</span></code> representing the image of
 <code class="docutils literal notranslate"><span class="pre">element</span></code> under the extension of the Garside involution to <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA3</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -1469,6 +1799,20 @@ element class of <code class="docutils literal notranslate"><span class="pre">se
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3 = algebras.CubicHecke(3)
+ele = CHA3.an_element()
+ele_gar = CHA3.garside_involution(ele); ele_gar
+ele == CHA3.garside_involution(ele_gar)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1476,7 +1820,7 @@ element class of <code class="docutils literal notranslate"><span class="pre">se
 <dt class="sig sig-object py" id="sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.gen">
 <span class="sig-name descname"><span class="pre">gen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/algebras/hecke_algebras/cubic_hecke_algebra.py#L1431"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.gen" title="Link to this definition">¶</a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">i</span></code>-th generator of the algebra.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA2</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -1493,6 +1837,18 @@ element class of <code class="docutils literal notranslate"><span class="pre">se
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA2 = algebras.CubicHecke(2)
+CHA2.gen(0)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1500,7 +1856,7 @@ element class of <code class="docutils literal notranslate"><span class="pre">se
 <dt class="sig sig-object py" id="sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.gens">
 <span class="sig-name descname"><span class="pre">gens</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/algebras/hecke_algebras/cubic_hecke_algebra.py#L1419"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.gens" title="Link to this definition">¶</a></dt>
 <dd><p>Return the generators of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA2</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -1517,6 +1873,18 @@ element class of <code class="docutils literal notranslate"><span class="pre">se
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA2 = algebras.CubicHecke(2)
+CHA2.gens()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1524,7 +1892,7 @@ element class of <code class="docutils literal notranslate"><span class="pre">se
 <dt class="sig sig-object py" id="sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.get_order">
 <span class="sig-name descname"><span class="pre">get_order</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/algebras/hecke_algebras/cubic_hecke_algebra.py#L1315"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.get_order" title="Link to this definition">¶</a></dt>
 <dd><p>Return an ordering of the basis of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA3</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -1539,6 +1907,18 @@ element class of <code class="docutils literal notranslate"><span class="pre">se
 <span class="gp">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">CHA3</span><span class="o">.</span><span class="n">get_order</span><span class="p">())</span>
 <span class="go">24</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3 = algebras.CubicHecke(3)
+len(CHA3.get_order())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1562,7 +1942,7 @@ file cache.</p>
 <a class="reference external" href="../../../../databases/sage/databases/cubic_hecke_db.html#sage.databases.cubic_hecke_db.CubicHeckeFileCache.section" title="(in Databases v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">section</span></code></a>
 that can be selected using <a class="reference internal" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.filecache_section" title="sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.filecache_section"><code class="xref py py-meth docutils literal notranslate"><span class="pre">filecache_section()</span></code></a></p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA2</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -1577,6 +1957,18 @@ that can be selected using <a class="reference internal" href="#sage.algebras.he
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">CHA2</span><span class="o">.</span><span class="n">is_filecache_empty</span><span class="p">()</span>
 <span class="go">False</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA2 = algebras.CubicHecke(2)
+CHA2.is_filecache_empty()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1596,7 +1988,7 @@ involution of an element of <code class="docutils literal notranslate"><span cla
 <p>A cubic Hecke algebra over the same base and extension ring,
 but whose cubic equation is transformed by the mirror involution
 applied to its coefficients and roots.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--28-input--1" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA2</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -1635,8 +2027,24 @@ applied to its coefficients and roots.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA2 = algebras.CubicHecke(2)
+ce = CHA2.cubic_equation(); ce
+CHA2m = CHA2.mirror_image()
+cem =  CHA2m.cubic_equation(); cem
+mi = CHA2.base_ring().mirror_involution(); mi
+cem == cem.parent()([mi(cf) for cf in ce.coefficients()])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Note that both cubic Hecke algebras have the same ring of definition
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that both cubic Hecke algebras have the same ring of definition
 and identical generic cubic equation:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
@@ -1694,8 +2102,27 @@ and identical generic cubic equation:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">cemg = CHA2m.cubic_equation(generic=True)
+CHA2.cubic_equation(generic=True) == cemg
+CHA2.cubic_equation() == cemg
+a, b, c = CHA2.cubic_equation_roots()
+CHA2m.cubic_equation_roots(generic=True) == [a, b, c]
+CHA2m.cubic_equation_roots()
+ai, bi, ci = _
+ai == ~a, bi == ~b, ci == ~c
+CHA2.extension_ring(generic=True).mirror_involution()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The mirror image can not be obtained for specialized cubic Hecke
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The mirror image can not be obtained for specialized cubic Hecke
 algebras if the specialization does not factor through the mirror
 involution on the ring if definition:</p>
 <div class="tab-set docutils container">
@@ -1718,8 +2145,20 @@ involution on the ring if definition:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--30-input--3" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA2s = algebras.CubicHecke(2, cubic_equation_roots=(3, 4, 5))
+CHA2s</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In the next example it is not clear what the mirror image of <code class="docutils literal notranslate"><span class="pre">7</span></code>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In the next example it is not clear what the mirror image of <code class="docutils literal notranslate"><span class="pre">7</span></code>
 should be:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--31-input--1" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--1">Sage</label><div class="tab-content docutils container">
@@ -1739,6 +2178,17 @@ should be:</p>
 <span class="go">RuntimeError: base ring Integer Ring localized at (2, 3, 5)</span>
 <span class="go">does not factor through mirror involution</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--31-input--3" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA2s.mirror_image()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1768,7 +2218,7 @@ method of the element class of <code class="docutils literal notranslate"><span 
 <p>Instance of the element class of the mirror image of <code class="docutils literal notranslate"><span class="pre">self</span></code>
 representing the image of element under the extension of the braid
 mirror involution to <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--32-input--1" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA3</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -1807,6 +2257,25 @@ mirror involution to <code class="docutils literal notranslate"><span class="pre
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--32-input--3" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3 = algebras.CubicHecke(3)
+ele = CHA3.an_element()
+ele_mirr = CHA3.mirror_isomorphism(ele); ele_mirr
+ele_mirr2 = ele.revert_mirror()  # indirect doctest
+ele_mirr == ele_mirr2
+par_mirr = ele_mirr.parent()
+par_mirr == CHA3
+par_mirr == CHA3.mirror_image()
+ele == par_mirr.mirror_isomorphism(ele_mirr)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1814,7 +2283,7 @@ mirror involution to <code class="docutils literal notranslate"><span class="pre
 <dt class="sig sig-object py" id="sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.ngens">
 <span class="sig-name descname"><span class="pre">ngens</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/algebras/hecke_algebras/cubic_hecke_algebra.py#L1394"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.ngens" title="Link to this definition">¶</a></dt>
 <dd><p>The number of generators of the algebra.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--33-input--1" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA2</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -1831,6 +2300,18 @@ mirror involution to <code class="docutils literal notranslate"><span class="pre
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--33-input--3" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA2 = algebras.CubicHecke(2)
+CHA2.ngens()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1840,7 +2321,7 @@ mirror involution to <code class="docutils literal notranslate"><span class="pre
 <dd><p>Return the index of the basis element for the identity element
 in the cubic braid group.</p>
 <blockquote>
-<div><p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<div><p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--34-input--1" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA2</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -1855,6 +2336,18 @@ in the cubic braid group.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">CHA2</span><span class="o">.</span><span class="n">one_basis</span><span class="p">()</span>
 <span class="go">1</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--34-input--3" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA2 = algebras.CubicHecke(2)
+CHA2.one_basis()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1878,7 +2371,7 @@ element class of <code class="docutils literal notranslate"><span class="pre">se
 <p>Instance of the element class of <code class="docutils literal notranslate"><span class="pre">self</span></code> representing the image of
 <code class="docutils literal notranslate"><span class="pre">element</span></code> under the extension of the orientation reversing braid
 involution to <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--35-input--1" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA3</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -1901,6 +2394,20 @@ involution to <code class="docutils literal notranslate"><span class="pre">self<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--35-input--3" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3 = algebras.CubicHecke(3)
+ele = CHA3.an_element()
+ele_ori = CHA3.orientation_antiinvolution(ele); ele_ori
+ele == CHA3.orientation_antiinvolution(ele_ori)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1908,7 +2415,7 @@ involution to <code class="docutils literal notranslate"><span class="pre">self<
 <dt class="sig sig-object py" id="sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.product_on_basis">
 <span class="sig-name descname"><span class="pre">product_on_basis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/algebras/hecke_algebras/cubic_hecke_algebra.py#L1526"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.product_on_basis" title="Link to this definition">¶</a></dt>
 <dd><p>Return product on basis elements indexed by <code class="docutils literal notranslate"><span class="pre">g1</span></code> and <code class="docutils literal notranslate"><span class="pre">g2</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--36-input--1" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA3</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -1933,6 +2440,20 @@ involution to <code class="docutils literal notranslate"><span class="pre">self<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--36-input--3" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3 = algebras.CubicHecke(3)
+g = CHA3.basis().keys().an_element(); g
+CHA3.product_on_basis(g, ~g)
+CHA3.product_on_basis(g, g)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1955,7 +2476,7 @@ that can be selected using <a class="reference internal" href="#sage.algebras.he
 <li><p><code class="docutils literal notranslate"><span class="pre">commit</span></code> – boolean (default: <code class="docutils literal notranslate"><span class="pre">True</span></code>); if set to <code class="docutils literal notranslate"><span class="pre">False</span></code> the
 reset is not written to the filesystem</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--37-input--1" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># optional - database_cubic_hecke</span>
@@ -1982,6 +2503,22 @@ reset is not written to the filesystem</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--37-input--3" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># optional - database_cubic_hecke
+CHA5 = algebras.CubicHecke(5)
+be = CHA5.filecache_section().basis_extensions
+CHA5.is_filecache_empty(be)
+CHA5.reset_filecache(be)
+CHA5.is_filecache_empty(be)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2003,7 +2540,7 @@ element should be returned</p></li>
 the element is returned as element of the generic
 extension ring</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--38-input--1" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA3</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>                 <span class="c1"># optional gap3</span>
@@ -2018,6 +2555,18 @@ extension ring</p></li>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">CHA3</span><span class="o">.</span><span class="n">schur_element</span><span class="p">(</span><span class="n">CHA3</span><span class="o">.</span><span class="n">irred_repr</span><span class="o">.</span><span class="n">W3_111</span><span class="p">)</span>    <span class="c1"># optional gap3</span>
 <span class="go">(u^3*w + v^3 - 6*u*v*w + 8*w^2)/w^2</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--38-input--3" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3 = algebras.CubicHecke(3)                 # optional gap3
+CHA3.schur_element(CHA3.irred_repr.W3_111)    # optional gap3</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2038,7 +2587,7 @@ of the extension ring of <code class="docutils literal notranslate"><span class=
 the element is returned as element of the generic
 extension ring</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--39-input--1" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA3</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>       <span class="c1"># optional gap3</span>
@@ -2057,6 +2606,19 @@ extension ring</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--39-input--3" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3 = algebras.CubicHecke(3)       # optional gap3
+sch_eles = CHA3.schur_elements()    # optional gap3
+sch_eles[6]                         # optional gap3</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2065,7 +2627,7 @@ extension ring</p></li>
 <span class="sig-name descname"><span class="pre">strands</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/algebras/hecke_algebras/cubic_hecke_algebra.py#L2816"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.strands" title="Link to this definition">¶</a></dt>
 <dd><p>Return the number of strands of the braid group whose group algebra
 image is <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--40-input--1" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA4</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -2082,6 +2644,18 @@ image is <code class="docutils literal notranslate"><span class="pre">self</span
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--40-input--3" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA4 = algebras.CubicHecke(2)
+CHA4.strands()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2093,7 +2667,7 @@ image is <code class="docutils literal notranslate"><span class="pre">self</span
 <dd><p>Bases: <a class="reference external" href="../../../../modules/sage/modules/with_basis/indexed_element.html#sage.modules.with_basis.indexed_element.IndexedFreeModuleElement" title="(in Modules v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IndexedFreeModuleElement</span></code></a></p>
 <p>An element of a <a class="reference internal" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra" title="sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra"><code class="xref py py-class docutils literal notranslate"><span class="pre">CubicHeckeAlgebra</span></code></a>.</p>
 <p>For more information see <a class="reference internal" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra" title="sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra"><code class="xref py py-class docutils literal notranslate"><span class="pre">CubicHeckeAlgebra</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--41-input--1" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA3s</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="s1">&#39;s1, s2&#39;</span><span class="p">);</span> <span class="n">CHA3s</span><span class="o">.</span><span class="n">an_element</span><span class="p">()</span>
@@ -2114,6 +2688,19 @@ image is <code class="docutils literal notranslate"><span class="pre">self</span
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--41-input--3" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3s = algebras.CubicHecke('s1, s2'); CHA3s.an_element()
+CHA3.&lt;c1, c2&gt; = algebras.CubicHecke(3)
+c1**3*~c2</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeElement.Tietze">
@@ -2123,7 +2710,7 @@ basis of its parent and <code class="docutils literal notranslate"><span class="
 <p>OUTPUT:</p>
 <p>A tuple representing the pre image braid of <code class="docutils literal notranslate"><span class="pre">self</span></code> if <code class="docutils literal notranslate"><span class="pre">self</span></code> is a
 monomial from the basis <code class="docutils literal notranslate"><span class="pre">None</span></code> else-wise</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--42-input--1" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA3</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -2148,6 +2735,20 @@ monomial from the basis <code class="docutils literal notranslate"><span class="
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--42-input--3" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3 = algebras.CubicHecke(3)
+ele = CHA3.an_element(); ele
+ele.Tietze() is None
+[CHA3(sp).Tietze() for sp in ele.support()]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2159,7 +2760,7 @@ monomial from the basis <code class="docutils literal notranslate"><span class="
 <p>OUTPUT:</p>
 <p>The pre image of <code class="docutils literal notranslate"><span class="pre">self</span></code> as instance of the element class of the group
 algebra of the BraidGroup</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--43-input--1" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA3</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -2192,6 +2793,22 @@ algebra of the BraidGroup</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--43-input--3" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3 = algebras.CubicHecke(3)
+ele = CHA3.an_element(); ele
+b_ele = ele.braid_group_algebra_pre_image(); b_ele
+ele in CHA3
+b_ele in CHA3
+b_ele in CHA3.braid_group_algebra()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2203,7 +2820,7 @@ group.</p>
 <p>OUTPUT:</p>
 <p>The pre image of <code class="docutils literal notranslate"><span class="pre">self</span></code> as instance of the element class of the group
 algebra of the <a class="reference external" href="../../../../groups/sage/groups/cubic_braid.html#sage.groups.cubic_braid.CubicBraidGroup" title="(in Groups v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">CubicBraidGroup</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--44-input--1" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA3</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -2234,6 +2851,22 @@ algebra of the <a class="reference external" href="../../../../groups/sage/group
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">cb_ele</span> <span class="ow">in</span> <span class="n">CHA3</span><span class="o">.</span><span class="n">cubic_braid_group_algebra</span><span class="p">()</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--44-input--3" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3 = algebras.CubicHecke(3)
+ele = CHA3.an_element(); ele
+cb_ele = ele.cubic_braid_group_algebra_pre_image(); cb_ele
+ele in CHA3
+cb_ele in CHA3
+cb_ele in CHA3.cubic_braid_group_algebra()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2286,7 +2919,7 @@ upon the generic base ring</p></li>
 the base ring of the module is the smallest field containing the
 generic extension ring of <code class="docutils literal notranslate"><span class="pre">self</span></code>; ignored if <code class="docutils literal notranslate"><span class="pre">extended=False</span></code></p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--45-input--1" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.knots.knotinfo</span><span class="w"> </span><span class="kn">import</span> <span class="n">KnotInfo</span>
@@ -2347,8 +2980,28 @@ generic extension ring of <code class="docutils literal notranslate"><span class
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--45-input--3" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.knots.knotinfo import KnotInfo
+CHA2 = algebras.CubicHecke(2)
+K3_1 = KnotInfo.K3_1
+b3_1 = CHA2(K3_1.braid())
+mt3_1 = b3_1.formal_markov_trace(); mt3_1
+mt3_1.parent()
+f = b3_1.formal_markov_trace(extended=True); f
+f.parent().base_ring()
+f = b3_1.formal_markov_trace(extended=True, field_embedding=True); f
+f.parent().base_ring()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Obtaining the well known link invariants from it:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Obtaining the well known link invariants from it:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--46-input--1" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">MT</span> <span class="o">=</span> <span class="n">mt3_1</span><span class="o">.</span><span class="n">base_ring</span><span class="p">()</span>
@@ -2401,6 +3054,29 @@ generic extension ring of <code class="docutils literal notranslate"><span class
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--46-input--3" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">MT = mt3_1.base_ring()
+sup = mt3_1.support()
+u, v, w, s = mt3_1.base_ring().gens()
+LK3_1 = mt3_1*s**-3 # since the writhe of K3_1 is 3
+f = MT.specialize_homfly()
+g = sum(f(LK3_1.coefficient(b)) * b.regular_homfly_polynomial() for b in sup); g
+g == K3_1.link().homfly_polynomial()
+f = MT.specialize_kauffman()
+g = sum(f(LK3_1.coefficient(b)) * b.regular_kauffman_polynomial() for b in sup); g
+g == K3_1.kauffman_polynomial()
+f = MT.specialize_links_gould()
+g = sum(f(LK3_1.coefficient(b)) * b.links_gould_polynomial() for b in sup); g
+g == K3_1.link().links_gould_polynomial()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2441,7 +3117,7 @@ block matrix. Each single irreducible can be obtained as item indexed by
 the members of the enum <a class="reference internal" href="cubic_hecke_matrix_rep.html#sage.algebras.hecke_algebras.cubic_hecke_matrix_rep.AbsIrreducibeRep" title="sage.algebras.hecke_algebras.cubic_hecke_matrix_rep.AbsIrreducibeRep"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbsIrreducibeRep</span></code></a> available via
 <a class="reference internal" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.irred_repr" title="sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.irred_repr"><code class="xref py py-attr docutils literal notranslate"><span class="pre">CubicHeckeAlgebra.irred_repr</span></code></a>.
 For details type: <code class="docutils literal notranslate"><span class="pre">CubicHeckeAlgebra.irred_repr?</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--47-input--1" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA3</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -2468,8 +3144,22 @@ For details type: <code class="docutils literal notranslate"><span class="pre">C
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--47-input--3" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3 = algebras.CubicHecke(3)
+CHA3.inject_variables()
+c0m = c0.matrix()
+c0m[CHA3.irred_repr.W3_111]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">using the <code class="docutils literal notranslate"><span class="pre">representation_type</span></code> option:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">using the <code class="docutils literal notranslate"><span class="pre">representation_type</span></code> option:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--48-input--1" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA3</span><span class="o">.&lt;</span><span class="n">c0</span><span class="p">,</span> <span class="n">c1</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>     <span class="c1">#  optional gap3</span>
@@ -2498,8 +3188,23 @@ For details type: <code class="docutils literal notranslate"><span class="pre">C
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--48-input--3" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3.&lt;c0, c1&gt; = algebras.CubicHecke(3)     #  optional gap3
+chevie = CHA3.repr_type.SplitIrredChevie   #  optional gap3
+c0m_ch = c0.matrix(representation_type=chevie) #  optional gap3
+c0m_ch[CHA3.irred_repr.W3_011]             #  optional gap3
+c0m[CHA3.irred_repr.W3_011]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">using the <code class="docutils literal notranslate"><span class="pre">original</span></code> option:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">using the <code class="docutils literal notranslate"><span class="pre">original</span></code> option:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--49-input--1" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">c0mo</span> <span class="o">=</span> <span class="n">c0</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">original</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -2526,8 +3231,22 @@ For details type: <code class="docutils literal notranslate"><span class="pre">C
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--49-input--3" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">c0mo = c0.matrix(original=True)
+c0mo_ch = c0.matrix(representation_type=chevie, original=True) #  optional gap3
+c0mo[CHA3.irred_repr.W3_011]
+c0mo_ch[CHA3.irred_repr.W3_011]            #  optional gap3</pre>
 </div>
-<p class="with-sage-tab with-python-tab">specialized matrices:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">specialized matrices:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--50-input--1" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
@@ -2576,6 +3295,28 @@ For details type: <code class="docutils literal notranslate"><span class="pre">C
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--50-input--3" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">t = (3,7,11)
+CHA4 = algebras.CubicHecke(4, cubic_equation_roots=t)  # optional database_cubic_hecke
+e = CHA4.an_element(); e                     # optional database_cubic_hecke
+em = e.matrix()                              # optional database_cubic_hecke
+em.base_ring()                               # optional database_cubic_hecke
+em.dimensions()                              # optional database_cubic_hecke
+em_irr24 = em[23]                            # optional database_cubic_hecke
+em_irr24.dimensions()                        # optional database_cubic_hecke
+em_irr24[3,2]                                # optional database_cubic_hecke
+emg = e.matrix(representation_type=chevie)   # optional gap3 database_cubic_hecke
+emg_irr24 = emg[23]                          # optional gap3 database_cubic_hecke
+emg_irr24[3,2]                               # optional gap3 database_cubic_hecke</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2584,7 +3325,7 @@ For details type: <code class="docutils literal notranslate"><span class="pre">C
 <span class="sig-name descname"><span class="pre">max_len</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/algebras/hecke_algebras/cubic_hecke_algebra.py#L223"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeElement.max_len" title="Link to this definition">¶</a></dt>
 <dd><p>Return the maximum of the length of Tietze expressions among the
 support of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--51-input--1" name="tab-set--51" type="radio"><label class="tab-label" for="tab-set--51-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA3</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -2605,6 +3346,19 @@ support of <code class="docutils literal notranslate"><span class="pre">self</sp
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--51-input--3" name="tab-set--51" type="radio"><label class="tab-label" for="tab-set--51-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3 = algebras.CubicHecke(3)
+ele = CHA3.an_element(); ele
+ele.max_len()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2616,7 +3370,7 @@ support of <code class="docutils literal notranslate"><span class="pre">self</sp
 <p class="admonition-title">See also</p>
 <p><a class="reference internal" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.garside_involution" title="sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.garside_involution"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CubicHeckeAlgebra.garside_involution()</span></code></a></p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--52-input--1" name="tab-set--52" type="radio"><label class="tab-label" for="tab-set--52-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">roots</span> <span class="o">=</span> <span class="p">(</span><span class="n">E</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="o">~</span><span class="n">E</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
@@ -2643,6 +3397,21 @@ support of <code class="docutils literal notranslate"><span class="pre">self</sp
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--52-input--3" name="tab-set--52" type="radio"><label class="tab-label" for="tab-set--52-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">roots = (E(3), ~E(3), 1)
+CHA3.&lt;c1, c2&gt; = algebras.CubicHecke(3, cubic_equation_roots=roots)
+e = CHA3.an_element(); e
+_.revert_garside()
+_.revert_garside()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2654,7 +3423,7 @@ support of <code class="docutils literal notranslate"><span class="pre">self</sp
 <p class="admonition-title">See also</p>
 <p><a class="reference internal" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.mirror_isomorphism" title="sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.mirror_isomorphism"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CubicHeckeAlgebra.mirror_isomorphism()</span></code></a></p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--53-input--1" name="tab-set--53" type="radio"><label class="tab-label" for="tab-set--53-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA3</span><span class="o">.&lt;</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -2677,6 +3446,20 @@ support of <code class="docutils literal notranslate"><span class="pre">self</sp
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--53-input--3" name="tab-set--53" type="radio"><label class="tab-label" for="tab-set--53-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3.&lt;c1, c2&gt; = algebras.CubicHecke(3)
+e = CHA3.an_element()
+e.revert_mirror()
+_.revert_mirror() == e</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2689,7 +3472,7 @@ orientation of braids.</p>
 <p class="admonition-title">See also</p>
 <p><a class="reference internal" href="#sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.orientation_antiinvolution" title="sage.algebras.hecke_algebras.cubic_hecke_algebra.CubicHeckeAlgebra.orientation_antiinvolution"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CubicHeckeAlgebra.orientation_antiinvolution()</span></code></a></p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--54-input--1" name="tab-set--54" type="radio"><label class="tab-label" for="tab-set--54-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">CHA3</span><span class="o">.&lt;</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">algebras</span><span class="o">.</span><span class="n">CubicHecke</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -2712,13 +3495,31 @@ orientation of braids.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--54-input--3" name="tab-set--54" type="radio"><label class="tab-label" for="tab-set--54-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">CHA3.&lt;c1, c2&gt; = algebras.CubicHecke(3)
+e = CHA3.an_element()
+e.revert_orientation()
+_.revert_orientation() == e</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -2841,7 +3642,7 @@ orientation of braids.</p>
     <script src="../../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../../%5fstatic/copybutton.js"></script>
     <script src="../../../../%5fstatic/tabs.js"></script>
-    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

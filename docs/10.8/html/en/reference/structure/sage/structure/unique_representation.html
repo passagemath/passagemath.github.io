@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -319,7 +319,7 @@
 behavior.</p>
 <section id="what-is-a-cached-representation">
 <h2>What is a cached representation?<a class="headerlink" href="#what-is-a-cached-representation" title="Link to this heading">¶</a></h2>
-<p class="with-sage-tab with-python-tab">Instances of a class have a <em>cached representation behavior</em> when several
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Instances of a class have a <em>cached representation behavior</em> when several
 instances constructed with the same arguments share the same memory
 representation. For example, calling twice:</p>
 <div class="tab-set docutils container">
@@ -336,8 +336,20 @@ representation. For example, calling twice:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">G = SymmetricGroup(6)                                                         # needs sage.groups
+H = SymmetricGroup(6)                                                         # needs sage.groups</pre>
 </div>
-<p class="with-sage-tab with-python-tab">to create the symmetric group on six elements gives back the same
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">to create the symmetric group on six elements gives back the same
 object:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
@@ -351,6 +363,17 @@ object:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span> <span class="ow">is</span> <span class="n">H</span>                                                                        <span class="c1"># needs sage.groups</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">G is H                                                                        # needs sage.groups</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -367,7 +390,7 @@ name, <a class="reference internal" href="factory.html#sage.structure.factory.Un
 representation behaviour, which will be explained below.</p>
 <section id="using-cachedrepresentation">
 <h4>Using <a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a><a class="headerlink" href="#using-cachedrepresentation" title="Link to this heading">¶</a></h4>
-<p class="with-sage-tab with-python-tab">It is often very easy to use <a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a>: One simply writes
+<p class="with-sage-tab with-python-tab with-sage-live-tab">It is often very easy to use <a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a>: One simply writes
 a Python class and adds <a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a> to the list of base
 classes. If one does so, then the arguments used to create an instance of this
 class will by default also be used as keys for the cache:</p>
@@ -401,8 +424,27 @@ class will by default also be used as keys for the cache:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.structure.unique_representation import CachedRepresentation
+class C(CachedRepresentation):
+    def __init__(self, a, b=0):
+        self.a = a
+        self.b = b
+    def __repr__(self):
+        return &quot;C(%s, %s)&quot;%(self.a, self.b)
+a = C(1)
+a is C(1)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In addition, pickling just works, provided that Python is able to look up the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In addition, pickling just works, provided that Python is able to look up the
 class. Hence, in the following two lines, we explicitly put the class into the
 <code class="docutils literal notranslate"><span class="pre">__main__</span></code> module. This is needed in doctests, but not in an interactive
 session:</p>
@@ -424,8 +466,21 @@ session:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">import __main__
+__main__.C = C
+loads(dumps(a)) is a</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Often, this very easy approach is sufficient for applications. However, there
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Often, this very easy approach is sufficient for applications. However, there
 are some pitfalls. Since the arguments are used for caching, all arguments
 must be hashable, i.e., must be valid as dictionary keys:</p>
 <div class="tab-set docutils container">
@@ -450,8 +505,20 @@ must be hashable, i.e., must be valid as dictionary keys:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C((1,2))
+C([1,2])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In addition, equivalent ways of providing the arguments are <em>not</em>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In addition, equivalent ways of providing the arguments are <em>not</em>
 automatically normalised when forming the cache key, and hence different but
 equivalent arguments may yield distinct instances:</p>
 <div class="tab-set docutils container">
@@ -476,8 +543,21 @@ equivalent arguments may yield distinct instances:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C(1) is C(1,0)
+C(1) is C(a=1)
+repr(C(1)) == repr(C(a=1))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">It should also be noted that the arguments are compared by equality, not by
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">It should also be noted that the arguments are compared by equality, not by
 identity. This is often desired, but can imply subtle problems. For example,
 since <code class="docutils literal notranslate"><span class="pre">C(1)</span></code> already is in the cache, and since the unit elements in
 different finite fields are all equal to the integer one, we find:</p>
@@ -499,8 +579,20 @@ different finite fields are all equal to the integer one, we find:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">GF(5)(1) == 1 == GF(3)(1)
+C(1) is C(GF(3)(1)) is C(GF(5)(1))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">But <code class="docutils literal notranslate"><span class="pre">C(2)</span></code> is not in the cache, and the number two is not equal in different
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">But <code class="docutils literal notranslate"><span class="pre">C(2)</span></code> is not in the cache, and the number two is not equal in different
 finite fields (i. e., <code class="docutils literal notranslate"><span class="pre">GF(5)(2)</span> <span class="pre">==</span> <span class="pre">GF(3)(2)</span></code> returns as <code class="docutils literal notranslate"><span class="pre">False</span></code>), even
 though it is equal to the number two in the ring of integers (
 <code class="docutils literal notranslate"><span class="pre">GF(5)(2)</span> <span class="pre">==</span> <span class="pre">2</span> <span class="pre">==</span> <span class="pre">GF(3)(2)</span></code> returns as <code class="docutils literal notranslate"><span class="pre">True</span></code>; equality is not transitive
@@ -522,6 +614,18 @@ have:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">C</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span> <span class="ow">is</span> <span class="n">C</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">))(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
 <span class="go">False</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">GF(5)(2) == GF(3)(2)
+C(GF(3)(2)) is C(GF(5)(2))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -576,7 +680,7 @@ pickling. If the pickle is unpickled, then preprocessing is applied to the
 preprocessed arguments—and this second round of preprocessing must not
 change the arguments further, since otherwise a different instance would be
 created.</p>
-<p class="with-sage-tab with-python-tab">We illustrate the warning by an example. Imagine that one has instances that
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We illustrate the warning by an example. Imagine that one has instances that
 are created with an integer-valued argument, but only depend on the <em>square</em>
 of the argument. It would be a mistake to square the given argument during
 preprocessing:</p>
@@ -618,8 +722,30 @@ preprocessing:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class WrongUsage(CachedRepresentation):
+    &#64;staticmethod
+    def __classcall__(cls, n):
+        return super().__classcall__(cls, n^2)
+    def __init__(self, n):
+        self.n = n
+    def __repr__(self):
+        return &quot;Something(%d)&quot;%self.n
+import __main__
+__main__.WrongUsage = WrongUsage # This is only needed in doctests
+w = WrongUsage(3); w
+w._reduction</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Indeed, the reduction data are obtained from the preprocessed argument. By
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Indeed, the reduction data are obtained from the preprocessed argument. By
 consequence, if the resulting instance is pickled and unpickled, the argument
 gets squared <em>again</em>:</p>
 <div class="tab-set docutils container">
@@ -636,8 +762,19 @@ gets squared <em>again</em>:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">loads(dumps(w))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Instead, the preprocessing should only take the absolute value of the given
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Instead, the preprocessing should only take the absolute value of the given
 argument, while the squaring should happen inside of the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> method,
 where it won’t mess with the cache:</p>
 <div class="tab-set docutils container">
@@ -680,8 +817,30 @@ where it won’t mess with the cache:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class BetterUsage(CachedRepresentation):
+    &#64;staticmethod
+    def __classcall__(cls, n):
+        return super().__classcall__(cls, abs(n))
+    def __init__(self, n):
+        self.n = n^2
+    def __repr__(self):
+        return &quot;SomethingElse(%d)&quot;%self.n
+__main__.BetterUsage = BetterUsage # This is only needed in doctests
+b = BetterUsage(3); b
+loads(dumps(b)) is b
+b is BetterUsage(-3)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In our next example, we create a cached representation class <code class="docutils literal notranslate"><span class="pre">C</span></code> that
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In our next example, we create a cached representation class <code class="docutils literal notranslate"><span class="pre">C</span></code> that
 returns an instance of a sub-class <code class="docutils literal notranslate"><span class="pre">C1</span></code> or <code class="docutils literal notranslate"><span class="pre">C2</span></code> depending on the given
 arguments. This is implemented in a static <code class="docutils literal notranslate"><span class="pre">__classcall_private__</span></code> method of
 <code class="docutils literal notranslate"><span class="pre">C</span></code>, letting it choose the sub-class according to the given arguments. Since
@@ -763,8 +922,49 @@ sub-class (in contrast to a <code class="docutils literal notranslate"><span cla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class C(CachedRepresentation):
+    &#64;staticmethod
+    def __classcall_private__(cls, n, implementation=0):
+        if not implementation:
+            return C.__classcall__(cls, n)
+        if implementation==1:
+            return C1(n)
+        if implementation&gt;1:
+            return C2(n,implementation)
+    def __init__(self, n):
+        self.n = n
+    def __repr__(self):
+        return &quot;C(%d, 0)&quot;%self.n
+class C1(C):
+    def __repr__(self):
+        return &quot;C1(%d)&quot;%self.n
+class C2(C):
+    &#64;staticmethod
+    def __classcall__(cls, n, implementation=0):
+        if implementation:
+            return super().__classcall__(cls, (n,)*implementation)
+        return super().__classcall__(cls, n)
+    def __init__(self, t):
+        self.t = t
+    def __repr__(self):
+        return &quot;C2(%s)&quot;%repr(self.t)
+class C2b(C2):
+    def __repr__(self):
+        return &quot;C2b(%s)&quot;%repr(self.t)
+__main__.C2 = C2      # not needed in an interactive session
+__main__.C2b = C2b</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In the above example, <code class="docutils literal notranslate"><span class="pre">C</span></code> drops the argument <code class="docutils literal notranslate"><span class="pre">implementation</span></code> if it
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In the above example, <code class="docutils literal notranslate"><span class="pre">C</span></code> drops the argument <code class="docutils literal notranslate"><span class="pre">implementation</span></code> if it
 evaluates to <code class="docutils literal notranslate"><span class="pre">False</span></code>, and since the cached <code class="docutils literal notranslate"><span class="pre">__classcall__</span></code> is called in
 this case, we have:</p>
 <div class="tab-set docutils container">
@@ -789,6 +989,19 @@ this case, we have:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C(1)
+C(1) is C(1,0)
+C(1) is C(1,0) is C(1,None) is C(1,[])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>(Note that we were able to bypass the issue of arguments having to be
 hashable by catching the empty list <code class="docutils literal notranslate"><span class="pre">[]</span></code> during preprocessing in the
@@ -798,7 +1011,7 @@ be made hashable – e. g., lists normalized to tuples – in the
 <code class="docutils literal notranslate"><span class="pre">__classcall__</span></code>. See
 <a class="reference external" href="../../../combinat/sage/combinat/crystals/elementary_crystals.html#sage.combinat.crystals.elementary_crystals.TCrystal" title="(in Combinatorics v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TCrystal</span></code></a> for an
 example.)</p>
-<p class="with-sage-tab with-python-tab">If we call <code class="docutils literal notranslate"><span class="pre">C1</span></code> directly or if we provide <code class="docutils literal notranslate"><span class="pre">implementation=1</span></code> to <code class="docutils literal notranslate"><span class="pre">C</span></code>, we
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If we call <code class="docutils literal notranslate"><span class="pre">C1</span></code> directly or if we provide <code class="docutils literal notranslate"><span class="pre">implementation=1</span></code> to <code class="docutils literal notranslate"><span class="pre">C</span></code>, we
 obtain an instance of <code class="docutils literal notranslate"><span class="pre">C1</span></code>. Since it uses the <code class="docutils literal notranslate"><span class="pre">__classcall__</span></code> method
 inherited from <a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a>, the resulting instances are
 cached:</p>
@@ -824,8 +1037,21 @@ cached:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C1(2)
+C(2, implementation=1)
+C(2, implementation=1) is C1(2)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The class <code class="docutils literal notranslate"><span class="pre">C2</span></code> preprocesses the input arguments. Instances can, again, be
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The class <code class="docutils literal notranslate"><span class="pre">C2</span></code> preprocesses the input arguments. Instances can, again, be
 obtained directly or by calling <code class="docutils literal notranslate"><span class="pre">C</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
@@ -845,8 +1071,20 @@ obtained directly or by calling <code class="docutils literal notranslate"><span
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C(1, implementation=3)
+C(1, implementation=3) is C2(1,3)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The argument preprocessing of <code class="docutils literal notranslate"><span class="pre">C2</span></code> is inherited by <code class="docutils literal notranslate"><span class="pre">C2b</span></code>, since
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The argument preprocessing of <code class="docutils literal notranslate"><span class="pre">C2</span></code> is inherited by <code class="docutils literal notranslate"><span class="pre">C2b</span></code>, since
 <code class="docutils literal notranslate"><span class="pre">__classcall__</span></code> and not <code class="docutils literal notranslate"><span class="pre">__classcall_private__</span></code> is used. Pickling works,
 since the preprocessing of arguments is idempotent:</p>
 <div class="tab-set docutils container">
@@ -867,6 +1105,18 @@ since the preprocessing of arguments is idempotent:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">c2b = C2b(2,3); c2b
+loads(dumps(c2b)) is c2b</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </section>
 </section>
@@ -883,7 +1133,7 @@ from a given cache key.</p></li>
 <li><p>create an instance of the factory with a name that allows to conclude where
 it is defined.</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">An example:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">An example:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">C</span><span class="p">():</span>
@@ -922,8 +1172,32 @@ it is defined.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class C():
+    def __init__(self, t):
+        self.t = t
+    def __repr__(self):
+        return &quot;C%s&quot;%repr(self.t)
+from sage.structure.factory import UniqueFactory
+class MyFactory(UniqueFactory):
+    def create_key(self, n, m=None):
+        if isinstance(n, (tuple,list)) and m is None:
+            return tuple(n)
+        return (n,)*m
+    def create_object(self, version, key, **extra_args):
+        # We ignore version and extra_args
+        return C(key)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Now, we define an instance of the factory, stating that it can be found under
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Now, we define an instance of the factory, stating that it can be found under
 the name <code class="docutils literal notranslate"><span class="pre">'F'</span></code> in the <code class="docutils literal notranslate"><span class="pre">__main__</span></code> module. By consequence, pickling works:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
@@ -943,8 +1217,21 @@ the name <code class="docutils literal notranslate"><span class="pre">'F'</span>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">F = MyFactory(&quot;__main__.F&quot;)
+__main__.F = F                # not needed in an interactive session
+loads(dumps(F)) is F</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can now create <em>cached</em> instances of <code class="docutils literal notranslate"><span class="pre">C</span></code> by calling the factory. The
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can now create <em>cached</em> instances of <code class="docutils literal notranslate"><span class="pre">C</span></code> by calling the factory. The
 cache only takes into account the key computed with the method <code class="docutils literal notranslate"><span class="pre">create_key</span></code>
 that we provided. Hence, different given arguments may result in the same
 instance. Note that, again, the cache is weak, hence, the instance might be
@@ -968,8 +1255,20 @@ is preserved.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = F(1, 2); a
+a is F((1,1))</pre>
 </div>
-<p class="with-sage-tab with-python-tab"><strong>If</strong> the class of the returned instances is a sub-class of <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"><strong>If</strong> the class of the returned instances is a sub-class of <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>,
 and <strong>if</strong> the resulting instance allows attribute assignment, then pickling
 of the resulting instances is automatically provided for, and respects the
 cache.</p>
@@ -987,8 +1286,19 @@ cache.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">loads(dumps(a)) is a</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This is because an attribute is stored that explains how the instance was
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This is because an attribute is stored that explains how the instance was
 created:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
@@ -1004,13 +1314,24 @@ created:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a._factory_data</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If a class is used that does not inherit from <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code> then unique
 pickling is <em>not</em> provided.</p>
 </div>
-<p class="with-sage-tab with-python-tab">Caching is only available if the factory is called. If an instance of the
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Caching is only available if the factory is called. If an instance of the
 class is directly created, then the cache is not used:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
@@ -1028,6 +1349,18 @@ class is directly created, then the cache is not used:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">C</span><span class="p">((</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span> <span class="ow">is</span> <span class="n">a</span>
 <span class="go">False</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C((1,1))
+C((1,1)) is a</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1059,7 +1392,7 @@ transparent to use than <a class="reference internal" href="#sage.structure.uniq
 </section>
 <section id="class-inheritance">
 <h4>Class inheritance<a class="headerlink" href="#class-inheritance" title="Link to this heading">¶</a></h4>
-<p class="with-sage-tab with-python-tab">Using <a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a> has the advantage that one has a class and
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Using <a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a> has the advantage that one has a class and
 creates cached instances of this class by the usual Python syntax:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
@@ -1081,8 +1414,21 @@ creates cached instances of this class by the usual Python syntax:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">G = SymmetricGroup(6)                                                                     # needs sage.groups
+issubclass(SymmetricGroup, sage.structure.unique_representation.CachedRepresentation)     # needs sage.groups
+isinstance(G, SymmetricGroup)                                                             # needs sage.groups</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In contrast, a factory is just a callable object that returns something that
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In contrast, a factory is just a callable object that returns something that
 has absolutely nothing to do with the factory, and may in fact return
 instances of quite different classes:</p>
 <div class="tab-set docutils container">
@@ -1119,6 +1465,24 @@ instances of quite different classes:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">Kp</span><span class="p">)</span>
 <span class="go">&lt;class &#39;sage.rings.finite_rings.finite_field_pari_ffelt.FiniteField_pari_ffelt_with_category&#39;&gt;</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">isinstance(GF, sage.structure.factory.UniqueFactory)
+K5 = GF(5)
+type(K5)
+# needs sage.rings.finite_rings
+K25 = GF(25, 'x')
+type(K25)                                                                     # needs sage.libs.linbox
+Kp = GF(next_prime_power(1000000)^2, 'x')
+type(Kp)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1163,7 +1527,7 @@ comparison by identity and a hash that is determined by the memory address of
 the instance. Both the equality test and the hash are implemented in Cython
 and are very fast, even when one has a Python class inheriting from
 <a class="reference external" href="../../../misc/sage/misc/fast_methods.html#sage.misc.fast_methods.WithEqualityById" title="(in Utilities v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">WithEqualityById</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">In many applications, one wants to combine unique instance and cached
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In many applications, one wants to combine unique instance and cached
 representation behaviour. This is called <em>unique representation</em> behaviour.
 We have seen above that symmetric groups have a <em>cached</em> representation
 behaviour. However, they do not show the <em>unique</em> representation behaviour,
@@ -1197,13 +1561,29 @@ subgroups:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.groups
+G = SymmetricGroup(6)
+G3 = G.subgroup([G((1,2,3,4,5,6)), G((1,2))])
+G is G3
+type(G) == type(G3)
+G == G3</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>The unique representation behaviour can conveniently be implemented with a
 class that inherits from <a class="reference internal" href="#sage.structure.unique_representation.UniqueRepresentation" title="sage.structure.unique_representation.UniqueRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">UniqueRepresentation</span></code></a>: By adding
 <a class="reference internal" href="#sage.structure.unique_representation.UniqueRepresentation" title="sage.structure.unique_representation.UniqueRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">UniqueRepresentation</span></code></a> to the base classes, the class will
 simultaneously inherit from <a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a> and from
 <a class="reference external" href="../../../misc/sage/misc/fast_methods.html#sage.misc.fast_methods.WithEqualityById" title="(in Utilities v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">WithEqualityById</span></code></a>.</p>
-<p class="with-sage-tab with-python-tab">For example, a symmetric function algebra is uniquely determined by the base
+<p class="with-sage-tab with-python-tab with-sage-live-tab">For example, a symmetric function algebra is uniquely determined by the base
 ring. Thus, it is reasonable to use <a class="reference internal" href="#sage.structure.unique_representation.UniqueRepresentation" title="sage.structure.unique_representation.UniqueRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">UniqueRepresentation</span></code></a> in this
 case:</p>
 <div class="tab-set docutils container">
@@ -1222,6 +1602,18 @@ case:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">SymmetricFunctions</span><span class="p">,</span> <span class="n">UniqueRepresentation</span><span class="p">)</span>                          <span class="c1"># needs sage.combinat sage.modules</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">isinstance(SymmetricFunctions(CC), SymmetricFunctions)                        # needs sage.combinat sage.modules sage.rings.real_mpfr
+issubclass(SymmetricFunctions, UniqueRepresentation)                          # needs sage.combinat sage.modules</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1270,7 +1662,7 @@ Hence, <em>unique</em> representation behaviour is <em>not</em> provided.</p>
 <p><a class="reference internal" href="#sage.structure.unique_representation.UniqueRepresentation" title="sage.structure.unique_representation.UniqueRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">UniqueRepresentation</span></code></a>, <a class="reference internal" href="#module-sage.structure.unique_representation" title="sage.structure.unique_representation"><code class="xref py py-mod docutils literal notranslate"><span class="pre">unique_representation</span></code></a></p>
 </div>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Providing a class with a weak cache for the instances is easy: Just
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Providing a class with a weak cache for the instances is easy: Just
 inherit from <a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
@@ -1290,8 +1682,22 @@ inherit from <a class="reference internal" href="#sage.structure.unique_represen
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.structure.unique_representation import CachedRepresentation
+class MyClass(CachedRepresentation):
+    # all the rest as usual
+    pass</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We start with a simple class whose constructor takes a single
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We start with a simple class whose constructor takes a single
 value as argument (TODO: find a more meaningful example):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
@@ -1317,8 +1723,25 @@ value as argument (TODO: find a more meaningful example):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class MyClass(CachedRepresentation):
+    def __init__(self, value):
+        self.value = value
+    def __eq__(self, other):
+        if type(self) != type(other):
+            return False
+        return self.value == other.value</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Two coexisting instances of <code class="docutils literal notranslate"><span class="pre">MyClass</span></code> created with the same argument data
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Two coexisting instances of <code class="docutils literal notranslate"><span class="pre">MyClass</span></code> created with the same argument data
 are guaranteed to share the same identity. Since <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/12215">upstream Issue #12215</a>, this is
 only the case if there is some strong reference to the returned instance,
 since otherwise it may be garbage collected:</p>
@@ -1346,8 +1769,23 @@ since otherwise it may be garbage collected:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">x = MyClass(1)
+y = MyClass(1)
+x is y               # There is a strong reference
+z = MyClass(2)
+x is z</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In particular, modifying any one of them modifies the other
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In particular, modifying any one of them modifies the other
 (reference effect):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
@@ -1371,8 +1809,22 @@ since otherwise it may be garbage collected:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">x.value = 3
+x.value, y.value
+y.value = 1
+x.value, y.value</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The arguments can consist of any combination of positional or keyword
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The arguments can consist of any combination of positional or keyword
 arguments, as taken by a usual <a class="reference external" href="https://docs.python.org/reference/datamodel.html#object.__init__" title="(in Python v3.12)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__init__</span></code></a>
 function. However, all values passed in should be hashable:</p>
 <div class="tab-set docutils container">
@@ -1393,9 +1845,20 @@ function. However, all values passed in should be hashable:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--30-input--3" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">MyClass(value = [1,2,3])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p class="rubric">Argument preprocessing</p>
-<p class="with-sage-tab with-python-tab">Sometimes, one wants to do some preprocessing on the arguments, to
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Sometimes, one wants to do some preprocessing on the arguments, to
 put them in some canonical form. The following example illustrates
 how to achieve this; it takes as argument any iterable, and
 canonicalizes it into a tuple (which is hashable!):</p>
@@ -1439,8 +1902,30 @@ canonicalizes it into a tuple (which is hashable!):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--31-input--3" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class MyClass2(CachedRepresentation):
+    &#64;staticmethod
+    def __classcall__(cls, iterable):
+        t = tuple(iterable)
+        return super().__classcall__(cls, t)
+    def __init__(self, value):
+        self.value = value
+x = MyClass2([1,2,3])
+y = MyClass2(tuple([1,2,3]))
+z = MyClass2(i for i in [1,2,3])
+x.value
+x is y, y is z</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A similar situation arises when the constructor accepts default
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A similar situation arises when the constructor accepts default
 values for some of its parameters. Alas, the obvious
 implementation does not work:</p>
 <div class="tab-set docutils container">
@@ -1463,8 +1948,22 @@ implementation does not work:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--32-input--3" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class MyClass3(CachedRepresentation):
+    def __init__(self, value=3):
+        self.value = value
+MyClass3(3) is MyClass3()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Instead, one should do:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Instead, one should do:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--33-input--1" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">MyClass3</span><span class="p">(</span><span class="n">UniqueRepresentation</span><span class="p">):</span>
@@ -1491,6 +1990,23 @@ implementation does not work:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">MyClass3</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="ow">is</span> <span class="n">MyClass3</span><span class="p">()</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--33-input--3" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class MyClass3(UniqueRepresentation):
+    &#64;staticmethod
+    def __classcall__(cls, value=3):
+        return super().__classcall__(cls, value)
+    def __init__(self, value):
+        self.value = value
+MyClass3(3) is MyClass3()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1526,7 +2042,7 @@ method of a class <code class="docutils literal notranslate"><span class="pre">C
 <code class="docutils literal notranslate"><span class="pre">C</span></code>. Of course, instances of a <em>subclass</em> of <code class="docutils literal notranslate"><span class="pre">C</span></code> are fine. Compare
 the examples in <a class="reference internal" href="#module-sage.structure.unique_representation" title="sage.structure.unique_representation"><code class="xref py py-mod docutils literal notranslate"><span class="pre">unique_representation</span></code></a>.</p>
 </div>
-<p class="with-sage-tab with-python-tab">We illustrate what is meant by an “idempotent” preprocessing. Imagine
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We illustrate what is meant by an “idempotent” preprocessing. Imagine
 that one has instances that are created with an integer-valued argument,
 but only depend on the <em>square</em> of the argument. It would be a mistake to
 square the given argument during preprocessing:</p>
@@ -1568,8 +2084,30 @@ square the given argument during preprocessing:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--34-input--3" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class WrongUsage(CachedRepresentation):
+    &#64;staticmethod
+    def __classcall__(cls, n):
+        return super().__classcall__(cls, n^2)
+    def __init__(self, n):
+        self.n = n
+    def __repr__(self):
+        return &quot;Something(%d)&quot;%self.n
+import __main__
+__main__.WrongUsage = WrongUsage # This is only needed in doctests
+w = WrongUsage(3); w
+w._reduction</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Indeed, the reduction data are obtained from the preprocessed
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Indeed, the reduction data are obtained from the preprocessed
 arguments. By consequence, if the resulting instance is pickled and
 unpickled, the argument gets squared <em>again</em>:</p>
 <div class="tab-set docutils container">
@@ -1586,8 +2124,19 @@ unpickled, the argument gets squared <em>again</em>:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--35-input--3" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">loads(dumps(w))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Instead, the preprocessing should only take the absolute value of the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Instead, the preprocessing should only take the absolute value of the
 given argument, while the squaring should happen inside of the
 <code class="docutils literal notranslate"><span class="pre">__init__</span></code> method, where it won’t mess with the cache:</p>
 <div class="tab-set docutils container">
@@ -1630,9 +2179,31 @@ given argument, while the squaring should happen inside of the
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--36-input--3" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class BetterUsage(CachedRepresentation):
+    &#64;staticmethod
+    def __classcall__(cls, n):
+        return super().__classcall__(cls, abs(n))
+    def __init__(self, n):
+        self.n = n^2
+    def __repr__(self):
+        return &quot;SomethingElse(%d)&quot;%self.n
+__main__.BetterUsage = BetterUsage # This is only needed in doctests
+b = BetterUsage(3); b
+loads(dumps(b)) is b
+b is BetterUsage(-3)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p class="rubric">Cached representation and mutability</p>
-<p class="with-sage-tab with-python-tab"><a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a> is primarily intended for implementing
+<p class="with-sage-tab with-python-tab with-sage-live-tab"><a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a> is primarily intended for implementing
 objects which are (at least semantically) immutable. This is in
 particular assumed by the default implementations of <code class="docutils literal notranslate"><span class="pre">copy</span></code> and
 <code class="docutils literal notranslate"><span class="pre">deepcopy</span></code>:</p>
@@ -1656,8 +2227,21 @@ particular assumed by the default implementations of <code class="docutils liter
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--37-input--3" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">copy(x) is x
+from copy import deepcopy
+deepcopy(x) is x</pre>
 </div>
-<p class="with-sage-tab with-python-tab">However, in contrast to <a class="reference internal" href="#sage.structure.unique_representation.UniqueRepresentation" title="sage.structure.unique_representation.UniqueRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">UniqueRepresentation</span></code></a>, using
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">However, in contrast to <a class="reference internal" href="#sage.structure.unique_representation.UniqueRepresentation" title="sage.structure.unique_representation.UniqueRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">UniqueRepresentation</span></code></a>, using
 <a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a> allows for a comparison that is not by
 identity:</p>
 <div class="tab-set docutils container">
@@ -1676,8 +2260,21 @@ identity:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--38-input--3" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">t = MyClass(3)
+z = MyClass(2)
+t.value = 2</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Now <code class="docutils literal notranslate"><span class="pre">t</span></code> and <code class="docutils literal notranslate"><span class="pre">z</span></code> are non-identical, but equal:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Now <code class="docutils literal notranslate"><span class="pre">t</span></code> and <code class="docutils literal notranslate"><span class="pre">z</span></code> are non-identical, but equal:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--39-input--1" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">t</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">z</span><span class="o">.</span><span class="n">value</span>
@@ -1700,9 +2297,22 @@ identity:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--39-input--3" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">t.value == z.value
+t == z
+t is z</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p class="rubric">More on cached representation and identity</p>
-<p class="with-sage-tab with-python-tab"><a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a> is implemented by means of a cache.
+<p class="with-sage-tab with-python-tab with-sage-live-tab"><a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a> is implemented by means of a cache.
 This cache uses weak references in general, but strong references to
 the most recently created objects. Hence, when all other references
 to, say, <code class="docutils literal notranslate"><span class="pre">MyClass(1)</span></code> have been deleted, the instance is
@@ -1771,13 +2381,41 @@ call to <code class="docutils literal notranslate"><span class="pre">MyClass(1)<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--40-input--3" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class SomeClass(UniqueRepresentation):
+    def __init__(self, i):
+        print(&quot;creating new instance for argument %s&quot; % i)
+        self.i = i
+    def __del__(self):
+        print(&quot;deleting instance for argument %s&quot; % self.i)
+class OtherClass(UniqueRepresentation):
+    def __init__(self, i):
+        pass
+O = SomeClass(1)
+O is SomeClass(1)
+O is SomeClass(2)
+L = [OtherClass(i) for i in range(200)]
+del O
+O = SomeClass(1)
+del O
+del L
+L = [OtherClass(i) for i in range(200)]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p class="rubric">Cached representation and pickling</p>
 <p>The default Python pickling implementation (by reconstructing an object
 from its class and dictionary, see “The pickle protocol” in the Python
 Library Reference) does not preserve cached representation, as Python has
 no chance to know whether and where the same object already exists.</p>
-<p class="with-sage-tab with-python-tab"><a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a> tries to ensure appropriate pickling by
+<p class="with-sage-tab with-python-tab with-sage-live-tab"><a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a> tries to ensure appropriate pickling by
 implementing a <a class="reference external" href="https://docs.python.org/library/pickle.html#object.__reduce__" title="(in Python v3.12)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__reduce__</span></code></a> method returning the
 arguments passed to the constructor:</p>
 <div class="tab-set docutils container">
@@ -1800,8 +2438,22 @@ arguments passed to the constructor:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--41-input--3" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">import __main__             # Fake MyClass being defined in a python module
+__main__.MyClass = MyClass
+x = MyClass(1)
+loads(dumps(x)) is x</pre>
 </div>
-<p class="with-sage-tab with-python-tab"><a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a> uses the <a class="reference external" href="https://docs.python.org/library/pickle.html#object.__reduce__" title="(in Python v3.12)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__reduce__</span></code></a> pickle protocol rather than <a class="reference external" href="https://docs.python.org/library/pickle.html#object.__getnewargs__" title="(in Python v3.12)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__getnewargs__</span></code></a> because the latter does not handle keyword
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"><a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a> uses the <a class="reference external" href="https://docs.python.org/library/pickle.html#object.__reduce__" title="(in Python v3.12)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__reduce__</span></code></a> pickle protocol rather than <a class="reference external" href="https://docs.python.org/library/pickle.html#object.__getnewargs__" title="(in Python v3.12)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__getnewargs__</span></code></a> because the latter does not handle keyword
 arguments:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--42-input--1" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--1">Sage</label><div class="tab-content docutils container">
@@ -1823,10 +2475,23 @@ arguments:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--42-input--3" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">x = MyClass(value = 1)
+x.__reduce__()
+x is loads(dumps(x))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p class="with-sage-tab with-python-tab">The default implementation of <a class="reference external" href="https://docs.python.org/library/pickle.html#object.__reduce__" title="(in Python v3.12)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__reduce__</span></code></a>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The default implementation of <a class="reference external" href="https://docs.python.org/library/pickle.html#object.__reduce__" title="(in Python v3.12)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__reduce__</span></code></a>
 in <a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a> requires to store the constructor’s
 arguments in the instance dictionary upon construction:</p>
 <div class="tab-set docutils container">
@@ -1843,8 +2508,19 @@ arguments in the instance dictionary upon construction:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--43-input--3" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">x.__dict__</pre>
 </div>
-<p class="with-sage-tab with-python-tab">It is often easy in a derived subclass to reconstruct the constructor’s
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">It is often easy in a derived subclass to reconstruct the constructor’s
 arguments from the instance data structure. When this is the case,
 <a class="reference external" href="https://docs.python.org/library/pickle.html#object.__reduce__" title="(in Python v3.12)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__reduce__</span></code></a> should be overridden; automagically
 the arguments won’t be stored anymore:</p>
@@ -1882,10 +2558,29 @@ the arguments won’t be stored anymore:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--44-input--3" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class MyClass3(UniqueRepresentation):
+    def __init__(self, value):
+        self.value = value
+    def __reduce__(self):
+        return (MyClass3, (self.value,))
+import __main__; __main__.MyClass3 = MyClass3  # Fake MyClass3 being defined in a python module
+x = MyClass3(1)
+loads(dumps(x)) is x
+x.__dict__</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </div>
 <p class="rubric">Migrating classes to <code class="docutils literal notranslate"><span class="pre">CachedRepresentation</span></code> and unpickling</p>
-<p class="with-sage-tab with-python-tab">We check that, when migrating a class to <a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a>,
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We check that, when migrating a class to <a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a>,
 older pickles can still be reasonably unpickled. Let us create a
 (new style) class, and pickle one of its instances:</p>
 <div class="tab-set docutils container">
@@ -1908,8 +2603,23 @@ older pickles can still be reasonably unpickled. Let us create a
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--45-input--3" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class MyClass4():
+    def __init__(self, value):
+        self.value = value
+import __main__; __main__.MyClass4 = MyClass4  # Fake MyClass4 being defined in a python module
+pickle = dumps(MyClass4(1))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">It can be unpickled:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">It can be unpickled:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--46-input--1" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">y</span> <span class="o">=</span> <span class="n">loads</span><span class="p">(</span><span class="n">pickle</span><span class="p">)</span>
@@ -1926,8 +2636,20 @@ older pickles can still be reasonably unpickled. Let us create a
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--46-input--3" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">y = loads(pickle)
+y.value</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Now, we upgrade the class to derive from <a class="reference internal" href="#sage.structure.unique_representation.UniqueRepresentation" title="sage.structure.unique_representation.UniqueRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">UniqueRepresentation</span></code></a>,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Now, we upgrade the class to derive from <a class="reference internal" href="#sage.structure.unique_representation.UniqueRepresentation" title="sage.structure.unique_representation.UniqueRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">UniqueRepresentation</span></code></a>,
 which inherits from <a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--47-input--1" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--1">Sage</label><div class="tab-content docutils container">
@@ -1949,8 +2671,23 @@ which inherits from <a class="reference internal" href="#sage.structure.unique_r
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--47-input--3" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class MyClass4(UniqueRepresentation, object):
+    def __init__(self, value):
+        self.value = value
+import __main__; __main__.MyClass4 = MyClass4  # Fake MyClass4 being defined in a python module
+__main__.MyClass4 = MyClass4</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The pickle can still be unpickled:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The pickle can still be unpickled:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--48-input--1" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">y</span> <span class="o">=</span> <span class="n">loads</span><span class="p">(</span><span class="n">pickle</span><span class="p">)</span>
@@ -1967,8 +2704,20 @@ which inherits from <a class="reference internal" href="#sage.structure.unique_r
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--48-input--3" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">y = loads(pickle)
+y.value</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Note however that, for the reasons explained above, unique
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note however that, for the reasons explained above, unique
 representation is not guaranteed in this case:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--49-input--1" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--1">Sage</label><div class="tab-content docutils container">
@@ -1984,12 +2733,23 @@ representation is not guaranteed in this case:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--49-input--3" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">y is MyClass4(1)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition-todo admonition" id="id1">
 <p class="admonition-title">Todo</p>
 <p>Illustrate how this can be fixed on a case by case basis.</p>
 </div>
-<p class="with-sage-tab with-python-tab">Now, we redo the same test for a class deriving from SageObject:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Now, we redo the same test for a class deriving from SageObject:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--50-input--1" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">MyClass4</span><span class="p">(</span><span class="n">SageObject</span><span class="p">):</span>
@@ -2026,8 +2786,29 @@ representation is not guaranteed in this case:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--50-input--3" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class MyClass4(SageObject):
+    def __init__(self, value):
+        self.value = value
+import __main__; __main__.MyClass4 = MyClass4  # Fake MyClass4 being defined in a python module
+pickle = dumps(MyClass4(1))
+class MyClass4(UniqueRepresentation, SageObject):
+    def __init__(self, value):
+        self.value = value
+__main__.MyClass4 = MyClass4
+y = loads(pickle)
+y.value</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Caveat: unpickling instances of a formerly old-style class is not supported yet by default:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Caveat: unpickling instances of a formerly old-style class is not supported yet by default:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--51-input--1" name="tab-set--51" type="radio"><label class="tab-label" for="tab-set--51-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">MyClass4</span><span class="p">:</span>
@@ -2064,12 +2845,33 @@ representation is not guaranteed in this case:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--51-input--3" name="tab-set--51" type="radio"><label class="tab-label" for="tab-set--51-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class MyClass4:
+    def __init__(self, value):
+        self.value = value
+import __main__; __main__.MyClass4 = MyClass4  # Fake MyClass4 being defined in a python module
+pickle = dumps(MyClass4(1))
+class MyClass4(UniqueRepresentation, SageObject):
+    def __init__(self, value):
+        self.value = value
+__main__.MyClass4 = MyClass4
+y = loads(pickle)  # todo: not implemented
+y.value            # todo: not implemented</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p class="rubric">Rationale for the current implementation</p>
 <p><a class="reference internal" href="#sage.structure.unique_representation.CachedRepresentation" title="sage.structure.unique_representation.CachedRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedRepresentation</span></code></a> and derived classes use the
 <a class="reference external" href="../../../misc/sage/misc/classcall_metaclass.html#sage.misc.classcall_metaclass.ClasscallMetaclass" title="(in Utilities v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClasscallMetaclass</span></code></a>
 of the standard Python type. The following example explains why.</p>
-<p class="with-sage-tab with-python-tab">We define a variant of <code class="docutils literal notranslate"><span class="pre">MyClass</span></code> where the calls to
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We define a variant of <code class="docutils literal notranslate"><span class="pre">MyClass</span></code> where the calls to
 <a class="reference external" href="https://docs.python.org/reference/datamodel.html#object.__init__" title="(in Python v3.12)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__init__</span></code></a> are traced:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--52-input--1" name="tab-set--52" type="radio"><label class="tab-label" for="tab-set--52-input--1">Sage</label><div class="tab-content docutils container">
@@ -2089,8 +2891,22 @@ of the standard Python type. The following example explains why.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--52-input--3" name="tab-set--52" type="radio"><label class="tab-label" for="tab-set--52-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class MyClass(CachedRepresentation):
+    def __init__(self, value):
+        print(&quot;initializing object&quot;)
+        self.value = value</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Let us create an object twice:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let us create an object twice:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--53-input--1" name="tab-set--53" type="radio"><label class="tab-label" for="tab-set--53-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">x</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -2105,6 +2921,18 @@ of the standard Python type. The following example explains why.</p>
 <span class="go">initializing object</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">z</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--53-input--3" name="tab-set--53" type="radio"><label class="tab-label" for="tab-set--53-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">x = MyClass(1)
+z = MyClass(1)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2133,7 +2961,7 @@ representation behavior for their instances.</p>
 <p><a class="reference internal" href="#module-sage.structure.unique_representation" title="sage.structure.unique_representation"><code class="xref py py-mod docutils literal notranslate"><span class="pre">unique_representation</span></code></a></p>
 </div>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">The short story: to construct a class whose instances have a
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The short story: to construct a class whose instances have a
 unique representation behavior one just has to do:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--54-input--1" name="tab-set--54" type="radio"><label class="tab-label" for="tab-set--54-input--1">Sage</label><div class="tab-content docutils container">
@@ -2151,10 +2979,23 @@ unique representation behavior one just has to do:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--54-input--3" name="tab-set--54" type="radio"><label class="tab-label" for="tab-set--54-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class MyClass(UniqueRepresentation):
+    # all the rest as usual
+    pass</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>Everything below is for the curious or for advanced usage.</p>
 <p class="rubric">What is unique representation?</p>
-<p class="with-sage-tab with-python-tab">Instances of a class have a <em>unique representation behavior</em> when
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Instances of a class have a <em>unique representation behavior</em> when
 instances evaluate equal if and only if they are identical (i.e., share
 the same memory representation), if and only if they were created using
 equal arguments. For example, calling twice:</p>
@@ -2172,8 +3013,20 @@ equal arguments. For example, calling twice:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--55-input--3" name="tab-set--55" type="radio"><label class="tab-label" for="tab-set--55-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f = SymmetricFunctions(QQ)                                                # needs sage.combinat sage.modules
+g = SymmetricFunctions(QQ)                                                # needs sage.combinat sage.modules</pre>
 </div>
-<p class="with-sage-tab with-python-tab">to create the symmetric function algebra over <span class="math notranslate nohighlight">\(\QQ\)</span> actually gives back the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">to create the symmetric function algebra over <span class="math notranslate nohighlight">\(\QQ\)</span> actually gives back the
 same object:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--56-input--1" name="tab-set--56" type="radio"><label class="tab-label" for="tab-set--56-input--1">Sage</label><div class="tab-content docutils container">
@@ -2193,6 +3046,18 @@ same object:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--56-input--3" name="tab-set--56" type="radio"><label class="tab-label" for="tab-set--56-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">f == g                                                                    # needs sage.combinat sage.modules
+f is g                                                                    # needs sage.combinat sage.modules</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>This is a standard design pattern. It allows for sharing cached data (say
 representation theoretical information about a group) as well as for very
@@ -2201,7 +3066,7 @@ for parents and categories. It can also be useful for intensive
 computations where one wants to cache all the operations on a small set of
 elements (say the multiplication table of a small group), and access this
 cache as quickly as possible.</p>
-<p class="with-sage-tab with-python-tab"><a class="reference internal" href="#sage.structure.unique_representation.UniqueRepresentation" title="sage.structure.unique_representation.UniqueRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">UniqueRepresentation</span></code></a> is very easy to use: a class just needs to
+<p class="with-sage-tab with-python-tab with-sage-live-tab"><a class="reference internal" href="#sage.structure.unique_representation.UniqueRepresentation" title="sage.structure.unique_representation.UniqueRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">UniqueRepresentation</span></code></a> is very easy to use: a class just needs to
 derive from it, or make sure some of its super classes does. Also, it
 groups together the class and the factory in a single gadget:</p>
 <div class="tab-set docutils container">
@@ -2222,8 +3087,20 @@ groups together the class and the factory in a single gadget:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--57-input--3" name="tab-set--57" type="radio"><label class="tab-label" for="tab-set--57-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">isinstance(SymmetricFunctions(CC), SymmetricFunctions)                    # needs sage.combinat sage.modules
+issubclass(SymmetricFunctions, UniqueRepresentation)                      # needs sage.combinat sage.modules</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This nice behaviour is not available when one just uses a factory:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This nice behaviour is not available when one just uses a factory:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--58-input--1" name="tab-set--58" type="radio"><label class="tab-label" for="tab-set--58-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span> <span class="n">GF</span><span class="p">)</span>
@@ -2248,6 +3125,18 @@ groups together the class and the factory in a single gadget:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--58-input--3" name="tab-set--58" type="radio"><label class="tab-label" for="tab-set--58-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">isinstance(GF(7), GF)
+isinstance(GF, sage.structure.factory.UniqueFactory)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>In addition, <a class="reference internal" href="factory.html#sage.structure.factory.UniqueFactory" title="sage.structure.factory.UniqueFactory"><code class="xref py py-class docutils literal notranslate"><span class="pre">UniqueFactory</span></code></a> only provides
 the <em>cached</em> representation behaviour, but not the <em>unique</em> representation
@@ -2260,7 +3149,7 @@ on <em>all</em> subclasses (unless the <code class="docutils literal notranslate
 not called in the subclass, which is not recommended). Its implementation
 is also more technical, which leads to some subtleties.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">We start with a simple class whose constructor takes a single value as
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We start with a simple class whose constructor takes a single value as
 argument. This pattern is similar to what is done in
 <a class="reference external" href="../../../combinat/sage/combinat/sf/sf.html#sage.combinat.sf.sf.SymmetricFunctions" title="(in Combinatorics v10.8.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sage.combinat.sf.sf.SymmetricFunctions</span></code></a>:</p>
 <div class="tab-set docutils container">
@@ -2279,8 +3168,21 @@ argument. This pattern is similar to what is done in
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--59-input--3" name="tab-set--59" type="radio"><label class="tab-label" for="tab-set--59-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class MyClass(UniqueRepresentation):
+    def __init__(self, value):
+        self.value = value</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Two coexisting instances of <code class="docutils literal notranslate"><span class="pre">MyClass</span></code> created with the same argument
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Two coexisting instances of <code class="docutils literal notranslate"><span class="pre">MyClass</span></code> created with the same argument
 data are guaranteed to share the same identity. Since <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/12215">upstream Issue #12215</a>, this
 is only the case if there is some strong reference to the returned
 instance, since otherwise it may be garbage collected:</p>
@@ -2308,8 +3210,23 @@ instance, since otherwise it may be garbage collected:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--60-input--3" name="tab-set--60" type="radio"><label class="tab-label" for="tab-set--60-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">x = MyClass(1)
+y = MyClass(1)
+x is y               # There is a strong reference
+z = MyClass(2)
+x is z</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In particular, modifying any one of them modifies the other
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In particular, modifying any one of them modifies the other
 (reference effect):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--61-input--1" name="tab-set--61" type="radio"><label class="tab-label" for="tab-set--61-input--1">Sage</label><div class="tab-content docutils container">
@@ -2333,8 +3250,22 @@ instance, since otherwise it may be garbage collected:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--61-input--3" name="tab-set--61" type="radio"><label class="tab-label" for="tab-set--61-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">x.value = 3
+x.value, y.value
+y.value = 1
+x.value, y.value</pre>
 </div>
-<p class="with-sage-tab with-python-tab">When comparing two instances of a unique representation with <code class="docutils literal notranslate"><span class="pre">==</span></code>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">When comparing two instances of a unique representation with <code class="docutils literal notranslate"><span class="pre">==</span></code>
 or <code class="docutils literal notranslate"><span class="pre">!=</span></code> comparison by identity is used:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--62-input--1" name="tab-set--62" type="radio"><label class="tab-label" for="tab-set--62-input--1">Sage</label><div class="tab-content docutils container">
@@ -2372,8 +3303,25 @@ or <code class="docutils literal notranslate"><span class="pre">!=</span></code>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--62-input--3" name="tab-set--62" type="radio"><label class="tab-label" for="tab-set--62-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">x == y
+x is y
+z = MyClass(2)
+x == z
+x is z
+x != y
+x != z</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A hash function equivalent to <a class="reference external" href="https://docs.python.org/reference/datamodel.html#object.__hash__" title="(in Python v3.12)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">object.__hash__()</span></code></a> is used, which is
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A hash function equivalent to <a class="reference external" href="https://docs.python.org/reference/datamodel.html#object.__hash__" title="(in Python v3.12)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">object.__hash__()</span></code></a> is used, which is
 compatible with comparison by identity. However this means that the hash
 function may change in between Sage sessions, or even within the same Sage
 session.</p>
@@ -2389,6 +3337,17 @@ session.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="nb">hash</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__hash__</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--63-input--3" name="tab-set--63" type="radio"><label class="tab-label" for="tab-set--63-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">hash(x) == object.__hash__(x)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2419,7 +3378,7 @@ The class also provides implementations of <code class="xref py py-meth docutils
 <dl class="py function">
 <dt class="sig sig-object py" id="sage.structure.unique_representation.unreduce">
 <span class="sig-prename descclassname"><span class="pre">sage.structure.unique_representation.</span></span><span class="sig-name descname"><span class="pre">unreduce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keywords</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/structure/unique_representation.py#L734"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.structure.unique_representation.unreduce" title="Link to this definition">¶</a></dt>
-<dd><p class="with-sage-tab with-python-tab">Calls a class on the given arguments:</p>
+<dd><p class="with-sage-tab with-python-tab with-sage-live-tab">Calls a class on the given arguments:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--64-input--1" name="tab-set--64" type="radio"><label class="tab-label" for="tab-set--64-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">sage</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">unique_representation</span><span class="o">.</span><span class="n">unreduce</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,),</span> <span class="p">{})</span>
@@ -2434,6 +3393,17 @@ The class also provides implementations of <code class="xref py py-meth docutils
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--64-input--3" name="tab-set--64" type="radio"><label class="tab-label" for="tab-set--64-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">sage.structure.unique_representation.unreduce(Integer, (1,), {})</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition-todo admonition" id="id2">
 <p class="admonition-title">Todo</p>
@@ -2442,7 +3412,11 @@ The class also provides implementations of <code class="xref py py-meth docutils
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -2539,7 +3513,7 @@ The class also provides implementations of <code class="xref py py-meth docutils
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -358,7 +358,7 @@ of smaller (prime) degree. This class implements such a decomposition
 while exposing (close to) the same interface as “normal”, unfactored
 elliptic-curve isogenies.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">The following example would take quite literally forever with the
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The following example would take quite literally forever with the
 straightforward <a class="reference internal" href="ell_curve_isogeny.html#sage.schemes.elliptic_curves.ell_curve_isogeny.EllipticCurveIsogeny" title="sage.schemes.elliptic_curves.ell_curve_isogeny.EllipticCurveIsogeny"><code class="xref py py-class docutils literal notranslate"><span class="pre">EllipticCurveIsogeny</span></code></a> implementation, but
 decomposing into prime steps is exponentially faster:</p>
 <div class="tab-set docutils container">
@@ -407,8 +407,27 @@ decomposing into prime steps is exponentially faster:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.finite_rings
+p = 3 * 2^143 - 1
+GF(p^2).inject_variables()
+E = EllipticCurve(GF(p^2), [1,0])
+P = E.lift_x(31415926535897932384626433832795028841971 - z2)
+P.order().factor()
+E.isogeny(P, algorithm=&quot;factored&quot;)  # preferred API
+from sage.schemes.elliptic_curves.hom_composite import EllipticCurveHom_composite
+EllipticCurveHom_composite(E, P)  # same as above but use internal API, construct the isogeny directly</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Yet, the interface provided by <a class="reference internal" href="#sage.schemes.elliptic_curves.hom_composite.EllipticCurveHom_composite" title="sage.schemes.elliptic_curves.hom_composite.EllipticCurveHom_composite"><code class="xref py py-class docutils literal notranslate"><span class="pre">EllipticCurveHom_composite</span></code></a>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Yet, the interface provided by <a class="reference internal" href="#sage.schemes.elliptic_curves.hom_composite.EllipticCurveHom_composite" title="sage.schemes.elliptic_curves.hom_composite.EllipticCurveHom_composite"><code class="xref py py-class docutils literal notranslate"><span class="pre">EllipticCurveHom_composite</span></code></a>
 is identical to <a class="reference internal" href="ell_curve_isogeny.html#sage.schemes.elliptic_curves.ell_curve_isogeny.EllipticCurveIsogeny" title="sage.schemes.elliptic_curves.ell_curve_isogeny.EllipticCurveIsogeny"><code class="xref py py-class docutils literal notranslate"><span class="pre">EllipticCurveIsogeny</span></code></a> and other instantiations
 of <a class="reference internal" href="hom.html#sage.schemes.elliptic_curves.hom.EllipticCurveHom" title="sage.schemes.elliptic_curves.hom.EllipticCurveHom"><code class="xref py py-class docutils literal notranslate"><span class="pre">EllipticCurveHom</span></code></a>:</p>
 <div class="tab-set docutils container">
@@ -469,8 +488,27 @@ of <a class="reference internal" href="hom.html#sage.schemes.elliptic_curves.hom
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.finite_rings
+E = EllipticCurve(GF(419), [0,1])
+P = E.lift_x(33); P.order()
+psi = EllipticCurveHom_composite(E, P); psi
+psi(E.lift_x(11))
+psi.rational_maps()
+psi.kernel_polynomial()
+psi.dual()
+psi.formal()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Equality is decided correctly (and, in some cases, much faster than
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Equality is decided correctly (and, in some cases, much faster than
 comparing <a class="reference internal" href="hom.html#sage.schemes.elliptic_curves.hom.EllipticCurveHom.rational_maps" title="sage.schemes.elliptic_curves.hom.EllipticCurveHom.rational_maps"><code class="xref py py-meth docutils literal notranslate"><span class="pre">EllipticCurveHom.rational_maps()</span></code></a>) even when distinct
 factorizations of the same isogeny are compared:</p>
 <div class="tab-set docutils container">
@@ -487,8 +525,19 @@ factorizations of the same isogeny are compared:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">psi == EllipticCurveIsogeny(E, P)                                             # needs sage.rings.finite_rings sage.symbolic</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can easily obtain the individual factors of the composite map:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can easily obtain the individual factors of the composite map:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">psi</span><span class="o">.</span><span class="n">factors</span><span class="p">()</span>                                                                 <span class="c1"># needs sage.rings.finite_rings</span>
@@ -513,6 +562,17 @@ factorizations of the same isogeny are compared:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">psi.factors()                                                                 # needs sage.rings.finite_rings</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>AUTHORS:</p>
 <ul class="simple">
@@ -535,7 +595,7 @@ using square root Velu instead of simple Velu. If not provided,
 the system default is used (see
 <code class="xref py py-class docutils literal notranslate"><span class="pre">EllipticCurve_field.isogeny</span></code> for a more detailed
 discussion.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.schemes.elliptic_curves.hom_composite</span><span class="w"> </span><span class="kn">import</span> <span class="n">EllipticCurveHom_composite</span>
@@ -562,8 +622,21 @@ discussion.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.schemes.elliptic_curves.hom_composite import EllipticCurveHom_composite
+E = EllipticCurve(GF(419), [1,0])                                     # needs sage.rings.finite_rings
+EllipticCurveHom_composite(E, E.lift_x(23))                           # needs sage.rings.finite_rings</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The given kernel generators need not be independent:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The given kernel generators need not be independent:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs database_cremona_mini_ellcurve sage.rings.number_field</span>
@@ -604,12 +677,28 @@ discussion.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs database_cremona_mini_ellcurve sage.rings.number_field
+x = polygen(ZZ, 'x')
+K.&lt;a&gt; = NumberField(x^2 - x - 5)
+E = EllipticCurve('210.b6').change_ring(K)
+E.torsion_subgroup()
+EllipticCurveHom_composite(E, E.torsion_points())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.schemes.elliptic_curves.hom_composite.EllipticCurveHom_composite.dual">
 <span class="sig-name descname"><span class="pre">dual</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/schemes/elliptic_curves/hom_composite.py#L827"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.schemes.elliptic_curves.hom_composite.EllipticCurveHom_composite.dual" title="Link to this definition">¶</a></dt>
 <dd><p>Return the dual of this composite isogeny.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.finite_rings</span>
@@ -660,6 +749,24 @@ discussion.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.finite_rings
+from sage.schemes.elliptic_curves.hom_composite import EllipticCurveHom_composite
+E = EllipticCurve(GF(65537), [1,2,3,4,5])
+P = E.lift_x(7321)
+phi = EllipticCurveHom_composite(E, P); phi
+psi = phi.dual(); psi
+psi * phi == phi.domain().scalar_multiplication(phi.degree())         # needs sage.symbolic
+phi * psi == psi.domain().scalar_multiplication(psi.degree())         # needs sage.symbolic</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -670,7 +777,7 @@ discussion.</p>
 <p>The isogenies are returned in left-to-right order, i.e.,
 the returned tuple <span class="math notranslate nohighlight">\((f_1,...,f_n)\)</span> corresponds to the map
 <span class="math notranslate nohighlight">\(f_n \circ \dots \circ f_1\)</span>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.schemes.elliptic_curves.hom_composite</span><span class="w"> </span><span class="kn">import</span> <span class="n">EllipticCurveHom_composite</span>
@@ -709,6 +816,21 @@ the returned tuple <span class="math notranslate nohighlight">\((f_1,...,f_n)\)<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.schemes.elliptic_curves.hom_composite import EllipticCurveHom_composite
+E = EllipticCurve(GF(43), [1,0])
+P, = E.gens()
+phi = EllipticCurveHom_composite(E, P)
+phi.factors()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -718,7 +840,7 @@ the returned tuple <span class="math notranslate nohighlight">\((f_1,...,f_n)\)<
 <dd><p>Return the formal isogeny corresponding to this composite
 isogeny as a power series in the variable <span class="math notranslate nohighlight">\(t=-x/y\)</span> on the
 domain curve.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.finite_rings</span>
@@ -755,6 +877,23 @@ domain curve.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.finite_rings
+from sage.schemes.elliptic_curves.hom_composite import EllipticCurveHom_composite
+E = EllipticCurve(GF(65537), [1,2,3,4,5])
+P = E.lift_x(7321)
+phi = EllipticCurveHom_composite(E, P)
+phi.formal()
+(phi.dual() * phi).formal(prec=5)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -775,7 +914,7 @@ always return an <a class="reference internal" href="#sage.schemes.elliptic_curv
 else may return another <a class="reference internal" href="hom.html#sage.schemes.elliptic_curves.hom.EllipticCurveHom" title="sage.schemes.elliptic_curves.hom.EllipticCurveHom"><code class="xref py py-class docutils literal notranslate"><span class="pre">EllipticCurveHom</span></code></a> type</p></li>
 </ul>
 <p>OUTPUT: the composite of <code class="docutils literal notranslate"><span class="pre">maps</span></code></p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.schemes.elliptic_curves.hom_composite</span><span class="w"> </span><span class="kn">import</span> <span class="n">EllipticCurveHom_composite</span>
@@ -800,6 +939,22 @@ else may return another <a class="reference internal" href="hom.html#sage.scheme
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.schemes.elliptic_curves.hom_composite import EllipticCurveHom_composite
+E = EllipticCurve(GF(43), [1,0])
+P, = E.gens()
+phi = EllipticCurveHom_composite(E, P)
+psi = EllipticCurveHom_composite.from_factors(phi.factors())
+psi == phi                                                            # needs sage.symbolic</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -810,7 +965,7 @@ else may return another <a class="reference internal" href="hom.html#sage.scheme
 <p>Like the degree, the inseparable degree is multiplicative
 under composition, so this method returns the product of
 the inseparable degrees of the factors.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="n">GF</span><span class="p">(</span><span class="mi">11</span><span class="o">^</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">random_element</span><span class="p">())</span>
@@ -833,6 +988,20 @@ the inseparable degrees of the factors.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">E = EllipticCurve(j=GF(11^5).random_element())
+phi = E.frobenius_isogeny(2) * E.scalar_multiplication(77)
+type(phi)
+phi.inseparable_degree()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -848,7 +1017,7 @@ element exists.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">all</span></code> – boolean; if <code class="docutils literal notranslate"><span class="pre">True</span></code>, returns an iterator over all points
 in the inverse image</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span><span class="o">.&lt;</span><span class="n">P</span><span class="p">,</span> <span class="n">Q</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">5</span><span class="o">^</span><span class="mi">2</span><span class="p">),</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
@@ -891,8 +1060,25 @@ in the inverse image</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">E.&lt;P, Q&gt; = EllipticCurve(GF(5^2), [1, 2, 3, 3, 1])
+f = E.isogeny([P*3, Q*3])
+f
+f(f.inverse_image(f(Q))) == f(Q)
+E.scalar_multiplication(-1).inverse_image(P) == -P
+f.inverse_image(f.codomain().0)
+len(list(f.inverse_image(f(Q), all=True)))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Test a large example. It should finish in a few seconds:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Test a large example. It should finish in a few seconds:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">2</span><span class="o">^</span><span class="mi">143</span> <span class="o">-</span> <span class="mi">1</span>
@@ -923,6 +1109,23 @@ in the inverse image</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = 3 * 2^143 - 1
+GF(p^2).inject_variables()
+E = EllipticCurve(GF(p^2), [1,0])
+P = E.lift_x(31415926535897932384626433832795028841971 - z2)
+f = E.isogeny(P, algorithm=&quot;factored&quot;)
+Q = f(E.lift_x(2718281828459045235360287471352662497757 - z2)); Q
+f.inverse_image(Q)  # long time</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -931,7 +1134,7 @@ in the inverse image</p></li>
 <span class="sig-name descname"><span class="pre">kernel_points</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/schemes/elliptic_curves/hom_composite.py#L951"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.schemes.elliptic_curves.hom_composite.EllipticCurveHom_composite.kernel_points" title="Link to this definition">¶</a></dt>
 <dd><p>Return an iterator over the points in the kernel of this
 elliptic-curve morphism.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span><span class="o">.&lt;</span><span class="n">P</span><span class="p">,</span> <span class="n">Q</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mi">5</span><span class="o">^</span><span class="mi">2</span><span class="p">),</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
@@ -958,6 +1161,20 @@ elliptic-curve morphism.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">E.&lt;P, Q&gt; = EllipticCurve(GF(5^2), [1, 2, 3, 3, 1])
+f = E.isogeny([P*3, Q*3])
+f
+set(f.kernel_points())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -965,7 +1182,7 @@ elliptic-curve morphism.</p>
 <dt class="sig sig-object py" id="sage.schemes.elliptic_curves.hom_composite.EllipticCurveHom_composite.kernel_polynomial">
 <span class="sig-name descname"><span class="pre">kernel_polynomial</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/schemes/elliptic_curves/hom_composite.py#L805"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.schemes.elliptic_curves.hom_composite.EllipticCurveHom_composite.kernel_polynomial" title="Link to this definition">¶</a></dt>
 <dd><p>Return the kernel polynomial of this composite isogeny.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.finite_rings</span>
@@ -1000,6 +1217,22 @@ elliptic-curve morphism.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.finite_rings
+from sage.schemes.elliptic_curves.hom_composite import EllipticCurveHom_composite
+E = EllipticCurve(GF(65537), [1,2,3,4,5])
+P = E.lift_x(7321)
+phi = EllipticCurveHom_composite(E, P); phi
+phi.kernel_polynomial()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1010,7 +1243,7 @@ elliptic-curve morphism.</p>
 of a subgroup <span class="math notranslate nohighlight">\(G\)</span> of the domain curve of this isogeny, return a minimal polynomial
 of the image of <span class="math notranslate nohighlight">\(G\)</span> under this isogeny.</p>
 <p>ALGORITHM: iterative <a class="reference internal" href="hom.html#sage.schemes.elliptic_curves.hom.EllipticCurveHom.push_subgroup" title="sage.schemes.elliptic_curves.hom.EllipticCurveHom.push_subgroup"><code class="xref py py-meth docutils literal notranslate"><span class="pre">EllipticCurveHom.push_subgroup()</span></code></a></p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="n">GF</span><span class="p">((</span><span class="mi">2</span><span class="o">^</span><span class="mi">61</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
@@ -1057,6 +1290,26 @@ of the image of <span class="math notranslate nohighlight">\(G\)</span> under th
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">E = EllipticCurve(GF((2^61-1, 2)), [1,0])
+phi = next(E.isogenies_degree(7)); phi
+psi = E.isogeny(E.lift_x(48), algorithm='factored'); psi
+f = phi.minimal_polynomial()
+g = psi.push_subgroup(f)
+h = psi.codomain().kernel_polynomial_from_divisor(g, phi.degree())
+chi = psi.codomain().isogeny(h); chi
+x = phi.kernel_polynomial().any_root()
+K = E.change_ring(E.base_field().extension(2)).lift_x(x)
+(chi * psi)._eval(K)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1065,7 +1318,7 @@ of the image of <span class="math notranslate nohighlight">\(G\)</span> under th
 <span class="sig-name descname"><span class="pre">rational_maps</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/schemes/elliptic_curves/hom_composite.py#L735"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.schemes.elliptic_curves.hom_composite.EllipticCurveHom_composite.rational_maps" title="Link to this definition">¶</a></dt>
 <dd><p>Return the pair of explicit rational maps defining this composite
 isogeny.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.finite_rings</span>
@@ -1106,6 +1359,22 @@ isogeny.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.finite_rings
+from sage.schemes.elliptic_curves.hom_composite import EllipticCurveHom_composite
+E = EllipticCurve(GF(65537), [1,2,3,4,5])
+P = E.lift_x(7321)
+phi = EllipticCurveHom_composite(E, P)
+phi.rational_maps()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1119,7 +1388,7 @@ such that <span class="math notranslate nohighlight">\(\varphi^* \omega_2 = u \o
 <span class="math notranslate nohighlight">\(\varphi: E_1\to E_2\)</span> is this morphism and <span class="math notranslate nohighlight">\(\omega_i\)</span> are
 the standard Weierstrass differentials on <span class="math notranslate nohighlight">\(E_i\)</span> defined by
 <span class="math notranslate nohighlight">\(\mathrm dx/(2y+a_1x+a_3)\)</span>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.finite_rings</span>
@@ -1158,6 +1427,25 @@ the standard Weierstrass differentials on <span class="math notranslate nohighli
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.finite_rings
+from sage.schemes.elliptic_curves.hom_composite import EllipticCurveHom_composite
+from sage.schemes.elliptic_curves.weierstrass_morphism import WeierstrassIsomorphism
+E = EllipticCurve(GF(65537), [1,2,3,4,5])
+P = E.lift_x(7321)
+phi = EllipticCurveHom_composite(E, P)
+phi = WeierstrassIsomorphism(phi.codomain(), [7,8,9,10]) * phi
+phi.formal()
+phi.scaling_factor()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>ALGORITHM: The scaling factor is multiplicative under
 composition, so we return the product of the individual
@@ -1168,7 +1456,7 @@ scaling factors associated to each factor.</p>
 <dt class="sig sig-object py" id="sage.schemes.elliptic_curves.hom_composite.EllipticCurveHom_composite.x_rational_map">
 <span class="sig-name descname"><span class="pre">x_rational_map</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/schemes/elliptic_curves/hom_composite.py#L780"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.schemes.elliptic_curves.hom_composite.EllipticCurveHom_composite.x_rational_map" title="Link to this definition">¶</a></dt>
 <dd><p>Return the <span class="math notranslate nohighlight">\(x\)</span>-coordinate rational map of this composite isogeny.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.finite_rings</span>
@@ -1193,13 +1481,33 @@ scaling factors associated to each factor.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.finite_rings
+from sage.schemes.elliptic_curves.hom_composite import EllipticCurveHom_composite
+E = EllipticCurve(GF(65537), [1,2,3,4,5])
+P = E.lift_x(7321)
+phi = EllipticCurveHom_composite(E, P)
+phi.x_rational_map() == phi.rational_maps()[0]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -1289,7 +1597,7 @@ scaling factors associated to each factor.</p>
     <script src="../../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../../%5fstatic/copybutton.js"></script>
     <script src="../../../../%5fstatic/tabs.js"></script>
-    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

@@ -580,7 +580,7 @@ including <a class="reference external" href="../reference/rings/sage/rings/abc.
 <span class="go">isinstance(object, sage.rings.abc.pAdicField)</span>
 </pre></div>
 </div>
-<p class="with-sage-tab with-python-tab">Note that going through the abstract base class only incurs a small
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that going through the abstract base class only incurs a small
 performance penalty:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
@@ -610,12 +610,27 @@ performance penalty:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">object = Qp(5)
+from sage.rings.padics.generic_nodes import pAdicFieldGeneric
+%timeit isinstance(object, pAdicFieldGeneric)            # fast                           # not tested
+import sage.rings.abc
+%timeit isinstance(object, sage.rings.abc.pAdicField)    # also fast                      # not tested</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </li>
 <li><p>If it is not possible or desired to create an abstract base class for
 <code class="docutils literal notranslate"><span class="pre">isinstance</span></code> testing (for example, when the class is defined in some
 external package), other solutions need to be used.</p>
-<p class="with-sage-tab with-python-tab">Note that Python caches successful module imports, but repeating an
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that Python caches successful module imports, but repeating an
 unsuccessful module import incurs a cost every time:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
@@ -661,8 +676,30 @@ unsuccessful module import incurs a cost every time:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.schemes.generic.scheme import Scheme
+sZZ = Scheme(ZZ)
+def is_Scheme_or_Pluffe(x):
+   if isinstance(x, Scheme):
+       return True
+   try:
+       from xxxx_does_not_exist import Pluffe            # slow on every call
+   except ImportError:
+       return False
+   return isinstance(x, Pluffe)
+%timeit is_Scheme_or_Pluffe(sZZ)                         # fast                           # not tested
+%timeit is_Scheme_or_Pluffe(ZZ)                          # slow                           # not tested</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The <a class="reference external" href="../reference/misc/sage/misc/lazy_import.html#sage.misc.lazy_import.lazy_import" title="(in Utilities v10.8.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">lazy_import()</span></code></a> mechanism can be used to simplify
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The <a class="reference external" href="../reference/misc/sage/misc/lazy_import.html#sage.misc.lazy_import.lazy_import" title="(in Utilities v10.8.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">lazy_import()</span></code></a> mechanism can be used to simplify
 this pattern via the <code class="xref py py-meth docutils literal notranslate"><span class="pre">__instancecheck__()</span></code>
 method and has similar performance characteristics:</p>
 <div class="tab-set docutils container">
@@ -689,8 +726,21 @@ method and has similar performance characteristics:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">lazy_import('xxxx_does_not_exist', 'Pluffe')
+%timeit isinstance(sZZ, (Scheme, Pluffe))                # fast                           # not tested
+%timeit isinstance(ZZ, (Scheme, Pluffe))                 # slow                           # not tested</pre>
 </div>
-<p class="with-sage-tab with-python-tab">It is faster to do the import only once, for example when loading the module,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">It is faster to do the import only once, for example when loading the module,
 and to cache the failure.  We can use the following idiom, which makes
 use of the fact that <code class="docutils literal notranslate"><span class="pre">isinstance</span></code> accepts arbitrarily nested lists
 and tuples of types:</p>
@@ -724,6 +774,23 @@ and tuples of types:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="o">%</span><span class="k">timeit</span> isinstance(ZZ, (Scheme, Pluffe))                 # fast                           # not tested
 <span class="go">126 ns ± 1.9 ns per loop (...)</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">try:
+    from xxxx_does_not_exist import Pluffe               # runs once
+except ImportError:
+    # Set to empty tuple of types for isinstance
+    Pluffe = ()
+%timeit isinstance(sZZ, (Scheme, Pluffe))                # fast                           # not tested
+%timeit isinstance(ZZ, (Scheme, Pluffe))                 # fast                           # not tested</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -992,7 +1059,11 @@ of the Sage library. This is being addressed in <a class="extlink-issue referenc
 </section>
 </section>
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>

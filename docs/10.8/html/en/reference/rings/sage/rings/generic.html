@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -319,7 +319,7 @@
 <p>A simple binary product tree, i.e., a tree of ring elements in
 which every node equals the product of its children.
 (In particular, the <em>root</em> equals the product of all <em>leaves</em>.)</p>
-<p class="with-sage-tab with-python-tab">Product trees are a very useful building block for fast computer
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Product trees are a very useful building block for fast computer
 algebra. For example, a quasilinear-time Discrete Fourier Transform
 (the famous <em>Fast</em> Fourier Transform) can be implemented as follows
 using the <a class="reference internal" href="#sage.rings.generic.ProductTree.remainders" title="sage.rings.generic.ProductTree.remainders"><code class="xref py py-meth docutils literal notranslate"><span class="pre">remainders()</span></code></a> method of this class:</p>
@@ -357,8 +357,29 @@ using the <a class="reference internal" href="#sage.rings.generic.ProductTree.re
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.finite_rings
+from sage.rings.generic import ProductTree
+F = GF(65537)
+a = F(1111)
+assert a.multiplicative_order() == 1024
+R.&lt;x&gt; = F[]
+ms = [x - a^i for i in range(1024)]               # roots of unity
+ys = [F.random_element() for _ in range(1024)]    # input vector
+tree = ProductTree(ms)
+zs = tree.remainders(R(ys))                       # compute FFT!
+zs == [R(ys) % m for m in ms]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Similarly, the <a class="reference internal" href="#sage.rings.generic.ProductTree.interpolation" title="sage.rings.generic.ProductTree.interpolation"><code class="xref py py-meth docutils literal notranslate"><span class="pre">interpolation()</span></code></a> method can be used to implement
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Similarly, the <a class="reference internal" href="#sage.rings.generic.ProductTree.interpolation" title="sage.rings.generic.ProductTree.interpolation"><code class="xref py py-meth docutils literal notranslate"><span class="pre">interpolation()</span></code></a> method can be used to implement
 the inverse Fast Fourier Transform:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
@@ -372,6 +393,17 @@ the inverse Fast Fourier Transform:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">tree</span><span class="o">.</span><span class="n">interpolation</span><span class="p">(</span><span class="n">zs</span><span class="p">)</span><span class="o">.</span><span class="n">padded_list</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ys</span><span class="p">))</span> <span class="o">==</span> <span class="n">ys</span>                         <span class="c1"># needs sage.rings.finite_rings</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">tree.interpolation(zs).padded_list(len(ys)) == ys                         # needs sage.rings.finite_rings</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -390,7 +422,7 @@ To compute just the product, <a class="reference external" href="../../../misc/s
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">leaves</span></code> – an iterable of elements in a common ring</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.generic</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProductTree</span>
@@ -421,8 +453,25 @@ To compute just the product, <a class="reference external" href="../../../misc/s
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.generic import ProductTree
+R.&lt;x&gt; = GF(101)[]
+vs = [x - i for i in range(1,10)]
+tree = ProductTree(vs)
+tree.root()
+tree.remainders(x^7 + x + 1)
+tree.remainders(x^100)</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.pari</span>
@@ -447,8 +496,23 @@ To compute just the product, <a class="reference external" href="../../../misc/s
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.pari
+vs = prime_range(100)
+tree = ProductTree(vs)
+tree.root().factor()
+tree.remainders(3599)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We can access the individual layers of the tree:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We can access the individual layers of the tree:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">tree</span><span class="o">.</span><span class="n">layers</span>                                                               <span class="c1"># needs sage.libs.pari</span>
@@ -473,6 +537,17 @@ To compute just the product, <a class="reference external" href="../../../misc/s
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">tree.layers                                                               # needs sage.libs.pari</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.rings.generic.ProductTree.interpolation">
@@ -486,7 +561,7 @@ repeated calls since the required CRT bases are cached after
 the first run.</p>
 <p>The base ring must support the <a class="reference external" href="../../../rings_standard/sage/arith/misc.html#sage.arith.misc.xgcd" title="(in Standard Commutative Rings v10.8.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">xgcd()</span></code></a> function for this
 method to work.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.pari</span>
@@ -509,8 +584,23 @@ method to work.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.pari
+from sage.rings.generic import ProductTree
+vs = prime_range(100)
+tree = ProductTree(vs)
+tree.interpolation([1, 1, 2, 1, 9, 1, 7, 15, 8, 20, 15, 6, 27, 11, 2, 6, 0, 25, 49, 5, 51, 4, 19, 74, 13])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This method is faster than <a class="reference external" href="../../../rings_standard/sage/arith/misc.html#sage.arith.misc.CRT" title="(in Standard Commutative Rings v10.8.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">CRT()</span></code></a> for repeated calls with
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This method is faster than <a class="reference external" href="../../../rings_standard/sage/arith/misc.html#sage.arith.misc.CRT" title="(in Standard Commutative Rings v10.8.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">CRT()</span></code></a> for repeated calls with
 the same moduli:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
@@ -538,6 +628,22 @@ the same moduli:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.pari
+vs = prime_range(1000,2000)
+rs = lambda: [randrange(1,100) for _ in vs]
+tree = ProductTree(vs)
+%timeit CRT(rs(), vs)             # not tested
+%timeit tree.interpolation(rs())  # not tested</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -545,7 +651,7 @@ the same moduli:</p>
 <dt class="sig sig-object py" id="sage.rings.generic.ProductTree.leaves">
 <span class="sig-name descname"><span class="pre">leaves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/generic.py#L163"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.generic.ProductTree.leaves" title="Link to this definition">¶</a></dt>
 <dd><p>Return a tuple containing the leaves of this product tree.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.generic</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProductTree</span>
@@ -572,6 +678,22 @@ the same moduli:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.generic import ProductTree
+R.&lt;x&gt; = GF(101)[]
+vs = [x - i for i in range(1,10)]
+tree = ProductTree(vs)
+tree.leaves()
+tree.leaves() == tuple(vs)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -586,7 +708,7 @@ method to work.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">x</span></code> – an element of the base ring of this product tree</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.libs.pari</span>
@@ -615,6 +737,23 @@ method to work.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.pari
+from sage.rings.generic import ProductTree
+vs = prime_range(100)
+tree = ProductTree(vs)
+n = 1085749272377676749812331719267
+tree.remainders(n)
+[n % v for v in vs]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -622,7 +761,7 @@ method to work.</p>
 <dt class="sig sig-object py" id="sage.rings.generic.ProductTree.root">
 <span class="sig-name descname"><span class="pre">root</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/rings/generic.py#L145"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.rings.generic.ProductTree.root" title="Link to this definition">¶</a></dt>
 <dd><p>Return the value at the root of this product tree (i.e., the product of all leaves).</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.generic</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProductTree</span>
@@ -649,6 +788,22 @@ method to work.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.generic import ProductTree
+R.&lt;x&gt; = GF(101)[]
+vs = [x - i for i in range(1,10)]
+tree = ProductTree(vs)
+tree.root()
+tree.root() == prod(vs)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -671,7 +826,7 @@ without fully expanding the product; see the second example below.</p>
 of a common ring</p></li>
 </ul>
 <p>ALGORITHM: Repeated application of the product rule.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.generic</span><span class="w"> </span><span class="kn">import</span> <span class="n">prod_with_derivative</span>
@@ -706,8 +861,26 @@ of a common ring</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.rings.generic import prod_with_derivative
+R.&lt;x&gt; = ZZ[]
+fs = [x^2 + 2*x + 3, 4*x + 5, 6*x^7 + 8*x + 9]
+prod(fs)
+prod(fs).derivative()
+F, dF = prod_with_derivative((f, f.derivative()) for f in fs)
+F
+dF</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The main reason for this function to exist is that it allows us to
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The main reason for this function to exist is that it allows us to
 <em>evaluate</em> the derivative of a product of polynomials at a point
 <span class="math notranslate nohighlight">\(\alpha\)</span> without ever fully expanding the product <em>as a polynomial</em>:</p>
 <div class="tab-set docutils container">
@@ -738,11 +911,31 @@ of a common ring</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">alpha = 42
+F(alpha)
+dF(alpha)
+us = [f(alpha) for f in fs]
+vs = [f.derivative()(alpha) for f in fs]
+prod_with_derivative(zip(us, vs))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -825,7 +1018,7 @@ of a common ring</p></li>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

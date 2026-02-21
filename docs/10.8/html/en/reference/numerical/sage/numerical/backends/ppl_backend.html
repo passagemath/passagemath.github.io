@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -327,7 +327,7 @@ represented by the i-th entry in <code class="docutils literal notranslate"><spa
 <p><code class="docutils literal notranslate"><span class="pre">indices</span></code> and <code class="docutils literal notranslate"><span class="pre">coeffs</span></code> are expected to be of the same
 length.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -358,6 +358,23 @@ length.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.ncols()
+p.nrows()
+p.add_linear_constraints(5, 0, None)
+p.add_col(list(range(5)), list(range(5)))
+p.nrows()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -374,7 +391,7 @@ value).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">upper_bound</span></code> – an upper bound, either a real value or <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> – an optional name for this row (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;PPL&#39;</span><span class="p">)</span>
@@ -437,6 +454,34 @@ value).</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='PPL')
+x = p.new_variable(nonnegative=True)
+p.add_constraint(x[0]/2 + x[1]/3 &lt;= 2/5)
+p.set_objective(x[1])
+p.solve()
+p.add_constraint(x[0] - x[1] &gt;= 1/10)
+p.solve()
+p.set_max(x[0], 1/2)
+p.set_min(x[1], 3/8)
+p.solve()
+from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.add_variables(5)
+p.add_linear_constraint(zip(range(5), range(5)), 2.0, 2.0)
+p.row(0)
+p.row_bounds(0)
+p.add_linear_constraint( zip(range(5), range(5)), 1.0, 1.0, name='foo')
+p.row_name(-1)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -451,7 +496,7 @@ value).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">upper_bound</span></code> – an upper bound, either a real value or <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">names</span></code> – an optional list of names (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -480,6 +525,22 @@ value).</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.add_variables(5)
+p.add_linear_constraints(5, None, 2)
+p.row(4)
+p.row_bounds(4)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -501,7 +562,7 @@ the variable is both positive and real.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> – an optional name for the newly added variable (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
 </ul>
 <p>OUTPUT: the index of the newly created variable</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -548,6 +609,26 @@ the variable is both positive and real.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.ncols()
+p.add_variable()
+p.ncols()
+p.add_variable(lower_bound=-2)
+p.add_variable(name='x',obj=2/3)
+p.col_name(2)
+p.objective_coefficient(2)
+p.add_variable(integer=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -570,7 +651,7 @@ the variables are both positive and real.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">names</span></code> – list of names (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
 </ul>
 <p>OUTPUT: the index of the variable created last</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -601,6 +682,22 @@ the variables are both positive and real.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.ncols()
+p.add_variables(5)
+p.ncols()
+p.add_variables(2, lower_bound=-2.0, obj=42.0, names=['a','b'])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -621,7 +718,7 @@ the variables are both positive and real.</p>
 <p>A pair <code class="docutils literal notranslate"><span class="pre">(lower_bound,</span> <span class="pre">upper_bound)</span></code>. Each of them can be set
 to <code class="docutils literal notranslate"><span class="pre">None</span></code> if the variable is not bounded in the
 corresponding direction, and is a real value otherwise.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -650,6 +747,22 @@ corresponding direction, and is a real value otherwise.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.add_variable()
+p.col_bounds(0)
+p.variable_upper_bound(0, 5)
+p.col_bounds(0)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -663,7 +776,7 @@ corresponding direction, and is a real value otherwise.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> – (<code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*</span></code>) its name; when set to <code class="docutils literal notranslate"><span class="pre">NULL</span></code>
 (default), the method returns the current name</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -686,6 +799,20 @@ corresponding direction, and is a real value otherwise.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.add_variable(name=&quot;I am a variable&quot;)
+p.col_name(0)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -697,7 +824,7 @@ corresponding direction, and is a real value otherwise.</p>
 <p class="admonition-title">Note</p>
 <p>Behaviour is undefined unless <code class="docutils literal notranslate"><span class="pre">solve</span></code> has been called before.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;PPL&#39;</span><span class="p">)</span>
@@ -750,6 +877,30 @@ corresponding direction, and is a real value otherwise.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='PPL')
+x = p.new_variable(nonnegative=True)
+p.add_constraint(5/13*x[0] + x[1]/2 == 8/7)
+p.set_objective(5/13*x[0] + x[1]/2)
+p.solve()
+from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.add_variables(2)
+p.add_linear_constraint([(0,1), (1,2)], None, 3)
+p.set_objective([2, 5])
+p.solve()
+p.get_objective_value()
+p.get_variable_value(0)
+p.get_variable_value(1)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -761,7 +912,7 @@ corresponding direction, and is a real value otherwise.</p>
 <p class="admonition-title">Note</p>
 <p>Behaviour is undefined unless <code class="docutils literal notranslate"><span class="pre">solve</span></code> has been called before.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -800,6 +951,25 @@ corresponding direction, and is a real value otherwise.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.add_variables(2)
+p.add_linear_constraint([(0,1), (1, 2)], None, 3)
+p.set_objective([2, 5])
+p.solve()
+p.get_objective_value()
+p.get_variable_value(0)
+p.get_variable_value(1)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -807,7 +977,7 @@ corresponding direction, and is a real value otherwise.</p>
 <dt class="sig sig-object py" id="sage.numerical.backends.ppl_backend.PPLBackend.init_mip">
 <span class="sig-name descname"><span class="pre">init_mip</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/backends/ppl_backend.pyx#L134"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.backends.ppl_backend.PPLBackend.init_mip" title="Link to this definition">¶</a></dt>
 <dd><p>Converting the matrix form of the MIP Problem to PPL MIP_Problem.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -832,6 +1002,21 @@ corresponding direction, and is a real value otherwise.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver='PPL')
+p.base_ring()
+type(p.zero())
+p.init_mip()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -839,7 +1024,7 @@ corresponding direction, and is a real value otherwise.</p>
 <dt class="sig sig-object py" id="sage.numerical.backends.ppl_backend.PPLBackend.is_maximization">
 <span class="sig-name descname"><span class="pre">is_maximization</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/backends/ppl_backend.pyx#L826"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.backends.ppl_backend.PPLBackend.is_maximization" title="Link to this definition">¶</a></dt>
 <dd><p>Test whether the problem is a maximization</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -864,6 +1049,21 @@ corresponding direction, and is a real value otherwise.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.is_maximization()
+p.set_sense(-1)
+p.is_maximization()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -875,7 +1075,7 @@ corresponding direction, and is a real value otherwise.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">index</span></code> – integer; the variable’s id</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -902,6 +1102,21 @@ corresponding direction, and is a real value otherwise.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.ncols()
+p.add_variable()
+p.is_variable_binary(0)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -913,7 +1128,7 @@ corresponding direction, and is a real value otherwise.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">index</span></code> – integer; the variable’s id</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -940,6 +1155,21 @@ corresponding direction, and is a real value otherwise.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.ncols()
+p.add_variable()
+p.is_variable_continuous(0)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -951,7 +1181,7 @@ corresponding direction, and is a real value otherwise.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">index</span></code> – integer; the variable’s id</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -978,6 +1208,21 @@ corresponding direction, and is a real value otherwise.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.ncols()
+p.add_variable()
+p.is_variable_integer(0)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -985,7 +1230,7 @@ corresponding direction, and is a real value otherwise.</p>
 <dt class="sig sig-object py" id="sage.numerical.backends.ppl_backend.PPLBackend.ncols">
 <span class="sig-name descname"><span class="pre">ncols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/backends/ppl_backend.pyx#L793"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.backends.ppl_backend.PPLBackend.ncols" title="Link to this definition">¶</a></dt>
 <dd><p>Return the number of columns/variables.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -1012,6 +1257,21 @@ corresponding direction, and is a real value otherwise.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.ncols()
+p.add_variables(2)
+p.ncols()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1019,7 +1279,7 @@ corresponding direction, and is a real value otherwise.</p>
 <dt class="sig sig-object py" id="sage.numerical.backends.ppl_backend.PPLBackend.nrows">
 <span class="sig-name descname"><span class="pre">nrows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/backends/ppl_backend.pyx#L810"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.backends.ppl_backend.PPLBackend.nrows" title="Link to this definition">¶</a></dt>
 <dd><p>Return the number of rows/constraints.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -1044,6 +1304,21 @@ corresponding direction, and is a real value otherwise.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.nrows()
+p.add_linear_constraints(2, 2.0, None)
+p.nrows()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1057,7 +1332,7 @@ function</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">variable</span></code> – integer; the variable’s id</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">coeff</span></code> – integer; its coefficient</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -1086,6 +1361,22 @@ function</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.add_variable()
+p.objective_coefficient(0)
+p.objective_coefficient(0,2)
+p.objective_coefficient(0)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1098,7 +1389,7 @@ function</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> – string; the problem’s name. When set to
 <code class="docutils literal notranslate"><span class="pre">None</span></code> (default), the method returns the problem’s name.</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -1119,6 +1410,20 @@ function</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.problem_name(&quot;There once was a french fry&quot;)
+print(p.problem_name())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1135,7 +1440,7 @@ function</p>
 entries whose coefficient is nonzero, and to which <code class="docutils literal notranslate"><span class="pre">coeffs</span></code>
 associates their coefficient on the model of the
 <code class="docutils literal notranslate"><span class="pre">add_linear_constraint</span></code> method.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -1164,6 +1469,22 @@ associates their coefficient on the model of the
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.add_variables(5)
+p.add_linear_constraint(zip(range(5), range(5)), 2, 2)
+p.row(0)
+p.row_bounds(0)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1179,7 +1500,7 @@ associates their coefficient on the model of the
 <p>A pair <code class="docutils literal notranslate"><span class="pre">(lower_bound,</span> <span class="pre">upper_bound)</span></code>. Each of them can be set
 to <code class="docutils literal notranslate"><span class="pre">None</span></code> if the constraint is not bounded in the
 corresponding direction, and is a real value otherwise.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -1208,6 +1529,22 @@ corresponding direction, and is a real value otherwise.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.add_variables(5)
+p.add_linear_constraint(zip(range(5), range(5)), 2, 2)
+p.row(0)
+p.row_bounds(0)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1219,7 +1556,7 @@ corresponding direction, and is a real value otherwise.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">index</span></code> – integer; the row’s id</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -1240,6 +1577,20 @@ corresponding direction, and is a real value otherwise.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.add_linear_constraints(1, 2, None, names=[&quot;Empty constraint 1&quot;])
+p.row_name(0)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1252,7 +1603,7 @@ corresponding direction, and is a real value otherwise.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">coeff</span></code> – list of real values, whose i-th element is the
 coefficient of the i-th variable in the objective function</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;PPL&#39;</span><span class="p">)</span>
@@ -1315,6 +1666,29 @@ coefficient of the i-th variable in the objective function</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='PPL')
+x = p.new_variable(nonnegative=True)
+p.add_constraint(x[0]*5 + x[1]/11 &lt;= 6)
+p.set_objective(x[0])
+p.solve()
+p.set_objective(x[0]/2 + 1)
+p.show()
+p.solve()
+from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.add_variables(5)
+p.set_objective([1, 1, 2, 1, 3])
+[p.objective_coefficient(x) for x in range(5)]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1333,7 +1707,7 @@ coefficient of the i-th variable in the objective function</p></li>
 </div></blockquote>
 </li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -1356,6 +1730,21 @@ coefficient of the i-th variable in the objective function</p></li>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">is_maximization</span><span class="p">()</span>
 <span class="go">False</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.is_maximization()
+p.set_sense(-1)
+p.is_maximization()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1383,7 +1772,7 @@ coefficient of the i-th variable in the objective function</p></li>
 </div></blockquote>
 </li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -1424,6 +1813,26 @@ coefficient of the i-th variable in the objective function</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.add_variables(5)
+p.set_variable_type(0,1)
+p.is_variable_integer(0)
+p.set_variable_type(3,0)
+p.is_variable_integer(3) or p.is_variable_binary(3)
+p.col_bounds(3) # tol 1e-6
+p.set_variable_type(3, -1)
+p.is_variable_continuous(3)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1431,7 +1840,7 @@ coefficient of the i-th variable in the objective function</p></li>
 <dt class="sig sig-object py" id="sage.numerical.backends.ppl_backend.PPLBackend.set_verbosity">
 <span class="sig-name descname"><span class="pre">set_verbosity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">level</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/numerical/backends/ppl_backend.pyx#L529"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.numerical.backends.ppl_backend.PPLBackend.set_verbosity" title="Link to this definition">¶</a></dt>
 <dd><p>Set the log (verbosity) level. Not Implemented.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -1448,6 +1857,19 @@ coefficient of the i-th variable in the objective function</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.set_verbosity(0)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1462,7 +1884,7 @@ the solution cannot be computed for any reason (none
 exists, or the solver was not able to find it, etc…)</p>
 </div>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">A linear optimization problem:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A linear optimization problem:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -1485,8 +1907,23 @@ exists, or the solver was not able to find it, etc…)</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.add_linear_constraints(5, 0, None)
+p.add_col(list(range(5)), list(range(5)))
+p.solve()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">An unbounded problem:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">An unbounded problem:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span><span class="o">.</span><span class="n">objective_coefficient</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
@@ -1507,8 +1944,20 @@ exists, or the solver was not able to find it, etc…)</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p.objective_coefficient(0,1)
+p.solve()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">An integer optimization problem:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">An integer optimization problem:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">MixedIntegerLinearProgram</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;PPL&#39;</span><span class="p">)</span>
@@ -1533,6 +1982,22 @@ exists, or the solver was not able to find it, etc…)</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">p = MixedIntegerLinearProgram(solver='PPL')
+x = p.new_variable(integer=True, nonnegative=True)
+p.add_constraint(2*x[0] + 3*x[1], max = 6)
+p.add_constraint(3*x[0] + 2*x[1], max = 6)
+p.set_objective(x[0] + x[1] + 7)
+p.solve()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1547,7 +2012,7 @@ exists, or the solver was not able to find it, etc…)</p>
 variable has not lower bound. When set to <code class="docutils literal notranslate"><span class="pre">False</span></code>
 (default), the method returns the current value.</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--28-input--1" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -1582,6 +2047,24 @@ variable has not lower bound. When set to <code class="docutils literal notransl
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.add_variable()
+p.col_bounds(0)
+p.variable_lower_bound(0, 5)
+p.col_bounds(0)
+p.variable_lower_bound(0, None)
+p.col_bounds(0)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1596,7 +2079,7 @@ variable has not lower bound. When set to <code class="docutils literal notransl
 variable has not upper bound. When set to <code class="docutils literal notranslate"><span class="pre">False</span></code>
 (default), the method returns the current value.</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.numerical.backends.generic_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_solver</span>
@@ -1631,6 +2114,24 @@ variable has not upper bound. When set to <code class="docutils literal notransl
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.numerical.backends.generic_backend import get_solver
+p = get_solver(solver = &quot;PPL&quot;)
+p.add_variable()
+p.col_bounds(0)
+p.variable_upper_bound(0, 5)
+p.col_bounds(0)
+p.variable_upper_bound(0, None)
+p.col_bounds(0)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1642,7 +2143,11 @@ variable has not upper bound. When set to <code class="docutils literal notransl
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -1750,7 +2255,7 @@ variable has not upper bound. When set to <code class="docutils literal notransl
     <script src="../../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../../%5fstatic/copybutton.js"></script>
     <script src="../../../../%5fstatic/tabs.js"></script>
-    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../../../../%5fstatic/jupyter-sphinx-furo.js"></script>

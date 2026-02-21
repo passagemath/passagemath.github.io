@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -789,7 +789,7 @@ valid and the graph is matching covered, or otherwise an error is thrown.</p></l
 <p>All remaining arguments are passed to the <code class="docutils literal notranslate"><span class="pre">Graph</span></code> constructor</p>
 </div>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Generating an object of the class <code class="docutils literal notranslate"><span class="pre">MatchingCoveredGraph</span></code> from the
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Generating an object of the class <code class="docutils literal notranslate"><span class="pre">MatchingCoveredGraph</span></code> from the
 provided instance of <code class="docutils literal notranslate"><span class="pre">Graph</span></code> without providing any other information:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
@@ -1043,8 +1043,87 @@ provided instance of <code class="docutils literal notranslate"><span class="pre
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">G = MatchingCoveredGraph(graphs.PetersenGraph())
+G
+sorted(G.get_matching())
+G = graphs.StaircaseGraph(4)
+H = MatchingCoveredGraph(G)
+H
+H == G
+sorted(H.get_matching())
+G = Graph({0: [1, 2, 3, 4], 1: [2, 5],
+           2: [5], 3: [4, 5], 4: [5]})
+H = MatchingCoveredGraph(G)
+H
+H == G
+sorted(H.get_matching())
+# needs networkx
+import networkx
+G = Graph(networkx.complete_bipartite_graph(12, 12))
+H = MatchingCoveredGraph(G)
+H
+H == G
+sorted(H.get_matching())
+G = Graph('E|fG', sparse=True)
+H = MatchingCoveredGraph(G)
+H
+H == G
+sorted(H.get_matching())
+# needs sage.modules
+M = Matrix([(0,1,0,0,1,1,0,0,0,0),
+            (1,0,1,0,0,0,1,0,0,0),
+            (0,1,0,1,0,0,0,1,0,0),
+            (0,0,1,0,1,0,0,0,1,0),
+            (1,0,0,1,0,0,0,0,0,1),
+            (1,0,0,0,0,0,0,1,1,0),
+            (0,1,0,0,0,0,0,0,1,1),
+            (0,0,1,0,0,1,0,0,0,1),
+            (0,0,0,1,0,1,1,0,0,0),
+            (0,0,0,0,1,0,1,1,0,0)])
+M
+G = Graph(M)
+H = MatchingCoveredGraph(G)
+H == G
+sorted(H.get_matching())
+# needs sage.modules
+M = Matrix([(-1, 0, 0, 0, 1, 0, 0, 0, 0, 0,-1, 0, 0, 0, 0),
+            ( 1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1, 0, 0, 0),
+            ( 0, 1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1, 0, 0),
+            ( 0, 0, 1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1, 0),
+            ( 0, 0, 0, 1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1),
+            ( 0, 0, 0, 0, 0,-1, 0, 0, 0, 1, 1, 0, 0, 0, 0),
+            ( 0, 0, 0, 0, 0, 0, 0, 1,-1, 0, 0, 1, 0, 0, 0),
+            ( 0, 0, 0, 0, 0, 1,-1, 0, 0, 0, 0, 0, 1, 0, 0),
+            ( 0, 0, 0, 0, 0, 0, 0, 0, 1,-1, 0, 0, 0, 1, 0),
+            ( 0, 0, 0, 0, 0, 0, 1,-1, 0, 0, 0, 0, 0, 0, 1)])
+M
+G = Graph(M)
+H = MatchingCoveredGraph(G)
+H == G
+sorted(H.get_matching())
+G = Graph([(0, 1), (0, 3), (0, 4), (1, 2), (1, 5), (2, 3),
+           (2, 6), (3, 7), (4, 5), (4, 7), (5, 6), (6, 7)])
+H = MatchingCoveredGraph(G)
+H == G
+sorted(H.get_matching())
+# optional - python_igraph
+import igraph
+G = Graph(igraph.Graph([(0, 1), (0, 3), (1, 2), (2, 3)]))
+H = MatchingCoveredGraph(G)
+H
+sorted(H.get_matching())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">One may specify a perfect matching:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">One may specify a perfect matching:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">PetersenGraph</span><span class="p">()</span>
@@ -1111,8 +1190,33 @@ provided instance of <code class="docutils literal notranslate"><span class="pre
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = graphs.PetersenGraph()
+M = P.matching()
+sorted(M)
+G = MatchingCoveredGraph(P, matching=M)
+G
+P == G
+sorted(G.get_matching())
+sorted(G.get_matching()) == sorted(M)
+G = graphs.TruncatedBiwheelGraph(14)
+M = G.matching()
+sorted(M)
+H = MatchingCoveredGraph(G, M)
+H
+H == G
+sorted(H.get_matching()) == sorted(M)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">One may specify some keyword arguments:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">One may specify some keyword arguments:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)],</span> <span class="p">{</span><span class="s1">&#39;weighted&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
@@ -1145,6 +1249,26 @@ provided instance of <code class="docutils literal notranslate"><span class="pre
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">H</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span>
 <span class="go">[(0, 1, None), (0, 1, 5)]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">G = Graph([(0, 1, 5)], {'weighted': True})
+kwds = {
+  'loops': False,
+  'multiedges': True,
+  'pos': {0: (0, 0), 1: (1, 1)}
+}
+H = MatchingCoveredGraph(G, **kwds)
+H
+H.add_edge(0, 1)
+H.edges()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1180,7 +1304,7 @@ is returned.</p></li>
 is returned.</p></li>
 </ul>
 <p>WARNING:</p>
-<p class="with-sage-tab with-python-tab">The following intuitive input results in nonintuitive output,
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The following intuitive input results in nonintuitive output,
 even though the resulting graph behind the intuition might be matching
 covered:</p>
 <div class="tab-set docutils container">
@@ -1215,8 +1339,22 @@ covered:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = graphs.WheelGraph(6)
+G = MatchingCoveredGraph(P)
+G.add_edge((1, 4), 'label')
+G.edges(sort=False)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The key word <code class="docutils literal notranslate"><span class="pre">label</span></code> must be used:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The key word <code class="docutils literal notranslate"><span class="pre">label</span></code> must be used:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">W</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">WheelGraph</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
@@ -1241,8 +1379,22 @@ covered:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">W = graphs.WheelGraph(6)
+G = MatchingCoveredGraph(W)
+G.add_edge((1, 4), label='label')
+G.edges(sort=False)  # No alteration to the existing graph</pre>
 </div>
-<p class="with-sage-tab with-python-tab">An expression, analogous to the syntax mentioned above may be used:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">An expression, analogous to the syntax mentioned above may be used:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">S</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">StaircaseGraph</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
@@ -1333,8 +1485,32 @@ covered:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">S = graphs.StaircaseGraph(4)
+G = MatchingCoveredGraph(S)
+G.add_edge(0, 5)
+G.edges(sort=False)
+G.add_edge((2, 3))
+G.edges(sort=False)
+G.add_edges([(0, 4)])
+G.edges(sort=False)
+G.add_edge(2, 4, 'label')
+G.edges(sort=False)
+G.add_edge((4, 6, 'label'))
+G.edges(sort=False)
+G.add_edges([(4, 7, 'label')])
+G.edges(sort=False)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Note that the <code class="docutils literal notranslate"><span class="pre">weight</span></code> of the edge shall be input as the <code class="docutils literal notranslate"><span class="pre">label</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that the <code class="docutils literal notranslate"><span class="pre">weight</span></code> of the edge shall be input as the <code class="docutils literal notranslate"><span class="pre">label</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
@@ -1369,8 +1545,21 @@ covered:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">G.add_edge((1, 3), label=5)
+G.edges()
+G.add_edge((2, 4, 6), label=6)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Vertex name cannot be <code class="docutils literal notranslate"><span class="pre">None</span></code>, so:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Vertex name cannot be <code class="docutils literal notranslate"><span class="pre">None</span></code>, so:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">W</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">WheelGraph</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
@@ -1421,9 +1610,25 @@ covered:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">W = graphs.WheelGraph(6)
+H = MatchingCoveredGraph(W)
+H.add_edge(None, 1)
+H.edges(sort=False)  # No alteration to the existing graph
+H.add_edge(None, None)
+H.edges(sort=False)  # No alteration to the existing graph</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Adding an already existing edge:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Adding an already existing edge:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">PetersenGraph</span><span class="p">()</span>
@@ -1456,8 +1661,26 @@ covered:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = graphs.PetersenGraph()
+G = MatchingCoveredGraph(P)
+G.add_edge(next(G.edge_iterator()))
+P == G
+G.size()
+G.allow_multiple_edges(True)
+G.add_edge(0, 1)
+G.size()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Adding an edge such that the resulting graph is matching covered:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Adding an edge such that the resulting graph is matching covered:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">PetersenGraph</span><span class="p">()</span>
@@ -1484,8 +1707,22 @@ covered:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = graphs.PetersenGraph()
+G = MatchingCoveredGraph(P)
+G.add_edge(1, 4)
+G.edges(sort=False)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Adding an edge with both the incident vertices being existent such
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Adding an edge with both the incident vertices being existent such
 that the resulting graph is not matching covered:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
@@ -1515,8 +1752,22 @@ that the resulting graph is not matching covered:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C = graphs.CycleGraph(4)
+G = MatchingCoveredGraph(C)
+G.add_edge(0, 2)
+G.edges(sort=False) # No alteration to the existing graph</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Adding an edge with exactly one incident vertex that is nonexistent
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Adding an edge with exactly one incident vertex that is nonexistent
 throws a <a class="reference external" href="https://docs.python.org/library/exceptions.html#ValueError" title="(in Python v3.12)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> exception, as the resulting graph would
 have an odd order:</p>
 <div class="tab-set docutils container">
@@ -1547,8 +1798,22 @@ have an odd order:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C = graphs.CycleGraph(4)
+G = MatchingCoveredGraph(C)
+G.add_edge(0, 4)
+G.edges(sort=False) # No alteration to the existing graph</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Adding an edge with both the incident vertices that is nonexistent
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Adding an edge with both the incident vertices that is nonexistent
 throws a <a class="reference external" href="https://docs.python.org/library/exceptions.html#ValueError" title="(in Python v3.12)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> exception, as the resulting graph would
 have been disconnected:</p>
 <div class="tab-set docutils container">
@@ -1579,8 +1844,22 @@ have been disconnected:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C = graphs.CycleGraph(4)
+G = MatchingCoveredGraph(C)
+G.add_edge(4, 5)
+G.edges(sort=False) # No alteration to the existing graph</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Adding a self-loop:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Adding a self-loop:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">H</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">HeawoodGraph</span><span class="p">()</span>
@@ -1603,6 +1882,20 @@ have been disconnected:</p>
 <span class="gp">...</span>
 <span class="go">ValueError: loops are not allowed in matching covered graphs</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">H = graphs.HeawoodGraph()
+G = MatchingCoveredGraph(H)
+v = next(G.vertex_iterator())
+G.add_edge(v, v)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1644,7 +1937,7 @@ is returned.</p></li>
 is returned.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Providing with an empty list of edges:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Providing with an empty list of edges:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">C</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">CycleGraph</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
@@ -1665,8 +1958,22 @@ is returned.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C = graphs.CycleGraph(6)
+G = MatchingCoveredGraph(C)
+G.add_edges([])
+G == C</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Adding some edges, the incident vertices of each of which are existent,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Adding some edges, the incident vertices of each of which are existent,
 such that the resulting graph is matching covered:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
@@ -1696,8 +2003,23 @@ such that the resulting graph is matching covered:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">S = graphs.StaircaseGraph(4)
+G = MatchingCoveredGraph(S)
+F = [(0, 4), (2, 4), (4, 6), (4, 7)]
+G.add_edges(F)
+G.edges(sort=True, sort_vertices=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Adding some edges, at least one of the incident vertices of some of
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Adding some edges, at least one of the incident vertices of some of
 which are nonexistent such that the resulting graph is matching
 covered:</p>
 <div class="tab-set docutils container">
@@ -1734,8 +2056,25 @@ covered:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C = graphs.CycleGraph(8)
+G = MatchingCoveredGraph(C)
+F = [(0, 9), (1, 8), (2, 9), (3, 8),
+     (4, 9), (5, 8), (6, 9), (7, 8)]
+G.add_edges(F)
+G.edges(sort=True, sort_vertices=True)
+G.is_isomorphic(graphs.BiwheelGraph(5))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Adding a removable double ear to a matching covered graph:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Adding a removable double ear to a matching covered graph:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">H</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">HexahedralGraph</span><span class="p">()</span>
@@ -1768,8 +2107,24 @@ covered:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">H = graphs.HexahedralGraph()
+G = MatchingCoveredGraph(H)
+F = {(0, 8, None), (1, 10), (4, 11, 'label'),
+     (5, 9), (8, 9), (10, 11)}
+G.add_edges(F)
+G.edges(sort=True, sort_vertices=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Adding some edges, the incident vertices of each of which are existent,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Adding some edges, the incident vertices of each of which are existent,
 such that the resulting graph is NOT matching covered:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
@@ -1795,8 +2150,22 @@ such that the resulting graph is NOT matching covered:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C = graphs.CycleGraph(6)
+G = MatchingCoveredGraph(C)
+F = [(0, 2), (3, 5)]
+G.add_edges(F)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Adding some edges, at least one of the incident vertices of some of
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Adding some edges, at least one of the incident vertices of some of
 which are nonexistent such that the resulting graph is NOT matching
 covered:</p>
 <div class="tab-set docutils container">
@@ -1843,8 +2212,26 @@ covered:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">H = graphs.HexahedralGraph()
+G = MatchingCoveredGraph(H)
+F = [(3, 8), (6, 9), (8, 9)]
+G.add_edges(F)
+I = [(0, 8), (1, 9)]
+G.add_edges(I)
+J = [(u, 8) for u in range(8)]
+G.add_edges(J)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Setting the parameter <code class="docutils literal notranslate"><span class="pre">loops</span></code> to either <code class="docutils literal notranslate"><span class="pre">False</span></code> or <code class="docutils literal notranslate"><span class="pre">None</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Setting the parameter <code class="docutils literal notranslate"><span class="pre">loops</span></code> to either <code class="docutils literal notranslate"><span class="pre">False</span></code> or <code class="docutils literal notranslate"><span class="pre">None</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">W</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">WheelGraph</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
@@ -1889,8 +2276,26 @@ covered:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">W = graphs.WheelGraph(6)
+G = MatchingCoveredGraph(W)
+F = [(0, 0), (1, 3), (2, 4)]
+G.add_edges(edges=F, loops=False)
+G.edges(sort=True, sort_vertices=True)
+J = [(1, 1), (3, 5)]
+G.add_edges(edges=J, loops=True)
+G.edges(sort=True, sort_vertices=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Setting the parameter <code class="docutils literal notranslate"><span class="pre">loops</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Setting the parameter <code class="docutils literal notranslate"><span class="pre">loops</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">PetersenGraph</span><span class="p">()</span>
@@ -1915,8 +2320,22 @@ covered:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = graphs.PetersenGraph()
+G = MatchingCoveredGraph(P)
+F = [(0, 0), (0, 2), (0, 3)]
+G.add_edges(edges=F, loops=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Adding a multiple edge:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Adding a multiple edge:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">S</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">StaircaseGraph</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
@@ -1955,6 +2374,25 @@ covered:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">S = graphs.StaircaseGraph(4)
+G = MatchingCoveredGraph(S)
+G.allow_multiple_edges(True)
+F = [(0, 1, 'label'), (0, 4), (1, 2)]
+G.add_edges(F)
+G.edges(sort=False)
+H = [(0, 1)] * 4
+G.add_edges(H)
+G.edge_label(0, 1)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1984,7 +2422,7 @@ existing (matching covered) graph is returned since matching covered
 graphs are free of isolated vertices.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Adding an existing vertex:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Adding an existing vertex:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">PetersenGraph</span><span class="p">()</span>
@@ -2015,8 +2453,25 @@ graphs are free of isolated vertices.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = graphs.PetersenGraph()
+P
+G = MatchingCoveredGraph(P)
+G
+u = next(G.vertex_iterator())
+G.add_vertex(u)
+G</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Adding a new/ non-existing vertex:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Adding a new/ non-existing vertex:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">G</span><span class="o">.</span><span class="n">add_vertex</span><span class="p">()</span>
@@ -2043,6 +2498,19 @@ graphs are free of isolated vertices.</p></li>
 <span class="gp">...</span>
 <span class="go">ValueError: isolated vertices are not allowed in matching covered graphs</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">G.add_vertex()
+u = 100
+G.add_vertex(u)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2074,7 +2542,7 @@ is returned with no change to the existing (matching covered) graph
 since matching covered graphs are free of isolated vertices.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Adding a list of already existing vertices:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Adding a list of already existing vertices:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">T</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">TruncatedBiwheelGraph</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
@@ -2105,8 +2573,25 @@ since matching covered graphs are free of isolated vertices.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T = graphs.TruncatedBiwheelGraph(15)
+T
+G = MatchingCoveredGraph(T)
+G
+S = [0, 1, 2, 3]  # We choose 4 existing vertices
+G.add_vertices(S)
+G</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Adding a list of vertices in which at least one is non-existent or
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Adding a list of vertices in which at least one is non-existent or
 <code class="docutils literal notranslate"><span class="pre">None</span></code> or possibly both:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
@@ -2160,6 +2645,26 @@ since matching covered graphs are free of isolated vertices.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T = graphs.CompleteGraph(2)
+T
+G = MatchingCoveredGraph(T)
+G
+S1 = [2, 3, 4]
+G.add_vertices(S1)
+S2 = [None, None]
+G.add_vertices(S2)
+S3 = [2, None, None, 5]
+G.add_vertices(S3)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2190,7 +2695,7 @@ covered graph, by definition, is free of self-loops. If <code class="docutils li
 set to <code class="docutils literal notranslate"><span class="pre">False</span></code>, there is no output.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Petersen graph is matching covered:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Petersen graph is matching covered:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">PetersenGraph</span><span class="p">()</span>
@@ -2215,6 +2720,20 @@ set to <code class="docutils literal notranslate"><span class="pre">False</span>
 <span class="gp">...</span>
 <span class="go">ValueError: loops are not allowed in matching covered graphs</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = graphs.PetersenGraph()
+P.is_matching_covered()
+G = MatchingCoveredGraph(P)
+G.allow_loops(True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2248,7 +2767,7 @@ to show that loops are forbidden in <a class="reference internal" href="#sage.gr
 by definition, are free of loops.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Petersen graph is matching covered:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Petersen graph is matching covered:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--28-input--1" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">PetersenGraph</span><span class="p">()</span>
@@ -2269,6 +2788,20 @@ by definition, are free of loops.</p></li>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span><span class="o">.</span><span class="n">allows_loops</span><span class="p">()</span>
 <span class="go">False</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = graphs.PetersenGraph()
+P.is_matching_covered()
+G = MatchingCoveredGraph(P)
+G.allows_loops()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2307,7 +2840,7 @@ set, wherein each set is a (unique) maximal barrier of the (matching
 covered) graph.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Show the maximal barrier of the graph <span class="math notranslate nohighlight">\(K_4 \odot K_{3, 3}\)</span>:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Show the maximal barrier of the graph <span class="math notranslate nohighlight">\(K_4 \odot K_{3, 3}\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">([</span>
@@ -2334,8 +2867,25 @@ covered) graph.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">G = Graph([
+   (0, 2), (0, 3), (0, 4), (1, 2),
+   (1, 3), (1, 4), (2, 5), (3, 6),
+   (4, 7), (5, 6), (5, 7), (6, 7)
+])
+H = MatchingCoveredGraph(G)
+H.canonical_partition()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">For a bicritical graph (for instance, the Petersen graph), the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">For a bicritical graph (for instance, the Petersen graph), the
 canonical partition constitutes of only singleton sets each containing
 an individual vertex:</p>
 <div class="tab-set docutils container">
@@ -2356,8 +2906,21 @@ an individual vertex:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--30-input--3" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = graphs.PetersenGraph()
+G = MatchingCoveredGraph(P)
+G.canonical_partition()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">For a bipartite matching covered graph (for instance, the Hexahedral
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">For a bipartite matching covered graph (for instance, the Hexahedral
 graph), the canonical partition consists of two sets each of which
 corresponds to the individual color class:</p>
 <div class="tab-set docutils container">
@@ -2382,6 +2945,21 @@ corresponds to the individual color class:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">bipartition</span><span class="p">())</span> <span class="o">==</span> <span class="n">G</span><span class="o">.</span><span class="n">canonical_partition</span><span class="p">()</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--31-input--3" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">H = graphs.HexahedralGraph()
+G = MatchingCoveredGraph(H)
+G.canonical_partition()
+B = BipartiteGraph(H)
+list(B.bipartition()) == G.canonical_partition()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2428,7 +3006,7 @@ both cases no modifications are made to the existing (matching
 covered) graph.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Deleting a non-existent vertex:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Deleting a non-existent vertex:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--32-input--1" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">W</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">WheelGraph</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
@@ -2461,8 +3039,23 @@ covered) graph.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--32-input--3" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">W = graphs.WheelGraph(12)
+G = MatchingCoveredGraph(W)
+u = 100
+G.delete_vertex(u)
+G.delete_vertex(vertex=u, in_order=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Deleting an existing vertex:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Deleting an existing vertex:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--33-input--1" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">W</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">WheelGraph</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
@@ -2493,6 +3086,21 @@ covered) graph.</p></li>
 <span class="gp">...</span>
 <span class="go">ValueError: odd order is not allowed for matching covered graphs</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--33-input--3" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">W = graphs.WheelGraph(12)
+G = MatchingCoveredGraph(W)
+u = next(G.vertex_iterator())
+G.delete_vertex(u)
+G.delete_vertex(vertex=u, in_order=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2528,7 +3136,7 @@ without any alterations to the existing (matching covered) graph,
 otherwise the vertices are deleted and nothing is returned.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Providing with an empty list of vertices:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Providing with an empty list of vertices:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--34-input--1" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">C</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">CycleGraph</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
@@ -2549,8 +3157,22 @@ otherwise the vertices are deleted and nothing is returned.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--34-input--3" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C = graphs.CycleGraph(6)
+G = MatchingCoveredGraph(C)
+G.delete_vertices([])
+G == C</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Removing all the existent vertices:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Removing all the existent vertices:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--35-input--1" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">MoebiusLadderGraph</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
@@ -2577,8 +3199,22 @@ otherwise the vertices are deleted and nothing is returned.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--35-input--3" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = graphs.MoebiusLadderGraph(10)
+G = MatchingCoveredGraph(M)
+S = list(G.vertices())
+G.delete_vertices(S)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Providing with a list of vertices with at least one non-existent
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Providing with a list of vertices with at least one non-existent
 vertex:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--36-input--1" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--1">Sage</label><div class="tab-content docutils container">
@@ -2612,8 +3248,24 @@ vertex:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--36-input--3" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">S = graphs.StaircaseGraph(4)
+S
+G = MatchingCoveredGraph(S)
+G
+T = list(range(5, 20, 2))
+G.delete_vertices(T)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Removing an odd no. of distinct vertices from
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Removing an odd no. of distinct vertices from
 a matching covered graph:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--37-input--1" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--1">Sage</label><div class="tab-content docutils container">
@@ -2641,8 +3293,22 @@ a matching covered graph:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--37-input--3" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = graphs.PetersenGraph()
+G = MatchingCoveredGraph(P)
+S = [0, 1, 2, 10, 10, 100]
+G.delete_vertices(S)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Providing with a list of existent vertices whose deletion results in a
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Providing with a list of existent vertices whose deletion results in a
 graph which is not matching covered:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--38-input--1" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--1">Sage</label><div class="tab-content docutils container">
@@ -2678,8 +3344,24 @@ graph which is not matching covered:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--38-input--3" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">S = graphs.StaircaseGraph(4)
+S
+G = MatchingCoveredGraph(S)
+G
+T = [1, 4]
+G.delete_vertices(T)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Providing with a list of existent vertices after the deletion of which
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Providing with a list of existent vertices after the deletion of which
 the resulting graph is still matching covered; note that in the
 following example, after the deletion of two vertices from a staircase
 graph, the resulting graph is NOT a staircase graph
@@ -2714,6 +3396,23 @@ graph, the resulting graph is NOT a staircase graph
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--39-input--3" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">S = graphs.StaircaseGraph(4)
+S
+G = MatchingCoveredGraph(S)
+G
+T = [6, 7]
+G.delete_vertices(T)
+G  # Matching covered graph on 6 vertices</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2727,7 +3426,7 @@ graph, the resulting graph is NOT a staircase graph
 perfect matching of the (matching covered) graph.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">If one specifies a perfect matching while initializing the object, the
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If one specifies a perfect matching while initializing the object, the
 value of <code class="docutils literal notranslate"><span class="pre">self._matching</span></code> is the same matching:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--40-input--1" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--1">Sage</label><div class="tab-content docutils container">
@@ -2753,8 +3452,23 @@ value of <code class="docutils literal notranslate"><span class="pre">self._matc
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--40-input--3" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = graphs.PetersenGraph()
+M = [(0, 1), (2, 3), (4, 9), (5, 7), (6, 8)]
+G = MatchingCoveredGraph(P, M)
+sorted(G.get_matching())
+M == sorted(G.get_matching())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If no matching is specified while initializing a matching
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If no matching is specified while initializing a matching
 covered graph, a perfect matching is computed
 <a class="reference internal" href="graph.html#sage.graphs.graph.Graph.matching" title="sage.graphs.graph.Graph.matching"><code class="xref py py-meth docutils literal notranslate"><span class="pre">matching()</span></code></a> and that is captured as
 <code class="docutils literal notranslate"><span class="pre">self._matching</span></code>:</p>
@@ -2782,6 +3496,21 @@ covered graph, a perfect matching is computed
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--41-input--3" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = graphs.PetersenGraph()
+M = P.matching()
+G = MatchingCoveredGraph(P)
+sorted(G.get_matching())
+sorted(M) == sorted(G.get_matching())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2802,7 +3531,7 @@ free of looped edges.</p>
 definition, are free of self-loops.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">A matching covered graph, for instance the Petersen graph, is always free
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A matching covered graph, for instance the Petersen graph, is always free
 of loops:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--42-input--1" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--1">Sage</label><div class="tab-content docutils container">
@@ -2838,8 +3567,24 @@ of loops:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--42-input--3" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = graphs.PetersenGraph()
+G = MatchingCoveredGraph(P)
+G
+G.has_loops()
+G.allows_loops()
+G.add_edge(0, 0)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A matching covered graph may support multiple edges, still no
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A matching covered graph may support multiple edges, still no
 loops are allowed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--43-input--1" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--1">Sage</label><div class="tab-content docutils container">
@@ -2889,6 +3634,26 @@ loops are allowed:</p>
 <span class="gp">...</span>
 <span class="go">ValueError: loops are not allowed in matching covered graphs</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--43-input--3" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">K = graphs.CompleteGraph(2)
+G = MatchingCoveredGraph(K)
+G.allow_multiple_edges(True)
+G
+G.add_edge(0, 1, 'label')
+G.add_edge(0, 0)
+G.edges(sort=False)
+G.allows_loops()
+G.has_loops()
+G.allow_loops(True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2952,7 +3717,7 @@ a maximum matching of a matching covered graph is always a perfect
 matching, otherwise a <a class="reference external" href="https://docs.python.org/library/exceptions.html#ValueError" title="(in Python v3.12)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> is raised.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Note that regardless of the algorithm (as long as the input arguments
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that regardless of the algorithm (as long as the input arguments
 are in valid format), the method always returns the boolean <code class="docutils literal notranslate"><span class="pre">True</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--44-input--1" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--1">Sage</label><div class="tab-content docutils container">
@@ -2984,8 +3749,25 @@ are in valid format), the method always returns the boolean <code class="docutil
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--44-input--3" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = graphs.PetersenGraph()
+P.has_perfect_matching()  # Calls Graph.has_perfect_matching()
+G = MatchingCoveredGraph(P)
+G.has_perfect_matching()  # Calls MatchingCoveredGraph.has_perfect_matching()
+W = graphs.WheelGraph(6)
+H = MatchingCoveredGraph(W)
+H.has_perfect_matching(algorithm='LP_matching')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Providing with an algorithm, that is not one of <code class="docutils literal notranslate"><span class="pre">'Edmonds'</span></code>,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Providing with an algorithm, that is not one of <code class="docutils literal notranslate"><span class="pre">'Edmonds'</span></code>,
 <code class="docutils literal notranslate"><span class="pre">'LP_matching'</span></code> or <code class="docutils literal notranslate"><span class="pre">'LP'</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--45-input--1" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--1">Sage</label><div class="tab-content docutils container">
@@ -3009,6 +3791,19 @@ are in valid format), the method always returns the boolean <code class="docutil
 <span class="go">ValueError: algorithm must be set to &#39;Edmonds&#39;,</span>
 <span class="go">&#39;LP_matching&#39; or &#39;LP&#39;</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--45-input--3" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">S = graphs.StaircaseGraph(4)
+J = MatchingCoveredGraph(S)
+J.has_perfect_matching(algorithm='algorithm')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3039,7 +3834,7 @@ method in order to return <code class="docutils literal notranslate"><span class
 biconnected.</p>
 </div>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">The complete graph on two vertices is the smallest biconnected graph
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The complete graph on two vertices is the smallest biconnected graph
 that is matching covered:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--46-input--1" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--1">Sage</label><div class="tab-content docutils container">
@@ -3059,8 +3854,21 @@ that is matching covered:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--46-input--3" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">K2 = graphs.CompleteGraph(2)
+G = MatchingCoveredGraph(K2)
+G.is_biconnected()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Petersen graph is matching covered and biconnected:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Petersen graph is matching covered and biconnected:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--47-input--1" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">PetersenGraph</span><span class="p">()</span>
@@ -3077,6 +3885,19 @@ that is matching covered:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span><span class="o">.</span><span class="n">is_biconnected</span><span class="p">()</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--47-input--3" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = graphs.PetersenGraph()
+G = MatchingCoveredGraph(P)
+G.is_biconnected()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3138,7 +3959,7 @@ nontrivial barrier cut)</p></li>
 </li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">The complete graph on two vertices <span class="math notranslate nohighlight">\(K_2\)</span> is the smallest brace:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The complete graph on two vertices <span class="math notranslate nohighlight">\(K_2\)</span> is the smallest brace:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--48-input--1" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">K</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">CompleteGraph</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -3157,8 +3978,21 @@ nontrivial barrier cut)</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--48-input--3" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">K = graphs.CompleteGraph(2)
+G = MatchingCoveredGraph(K)
+G.is_brace()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The cycle graph on four vertices <span class="math notranslate nohighlight">\(C_4\)</span> is a brace:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The cycle graph on four vertices <span class="math notranslate nohighlight">\(C_4\)</span> is a brace:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--49-input--1" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">C</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">CycleGraph</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
@@ -3177,8 +4011,21 @@ nontrivial barrier cut)</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--49-input--3" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C = graphs.CycleGraph(4)
+G = MatchingCoveredGraph(C)
+G.is_brace()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Each graph that is isomorphic to a biwheel is a brace:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Each graph that is isomorphic to a biwheel is a brace:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--50-input--1" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">B</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">BiwheelGraph</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
@@ -3197,8 +4044,21 @@ nontrivial barrier cut)</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--50-input--3" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">B = graphs.BiwheelGraph(15)
+G = MatchingCoveredGraph(B)
+G.is_brace()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A circular ladder graph of order eight or more on <span class="math notranslate nohighlight">\(2n\)</span> vertices for
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A circular ladder graph of order eight or more on <span class="math notranslate nohighlight">\(2n\)</span> vertices for
 an even <span class="math notranslate nohighlight">\(n\)</span> is a brace:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--51-input--1" name="tab-set--51" type="radio"><label class="tab-label" for="tab-set--51-input--1">Sage</label><div class="tab-content docutils container">
@@ -3220,8 +4080,22 @@ an even <span class="math notranslate nohighlight">\(n\)</span> is a brace:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--51-input--3" name="tab-set--51" type="radio"><label class="tab-label" for="tab-set--51-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">n = 10
+CL = graphs.CircularLadderGraph(n)
+G = MatchingCoveredGraph(CL)
+G.is_brace()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A moebius ladder graph of order six or more on <span class="math notranslate nohighlight">\(2n\)</span> vertices for an odd
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A moebius ladder graph of order six or more on <span class="math notranslate nohighlight">\(2n\)</span> vertices for an odd
 <span class="math notranslate nohighlight">\(n\)</span> is a brace:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--52-input--1" name="tab-set--52" type="radio"><label class="tab-label" for="tab-set--52-input--1">Sage</label><div class="tab-content docutils container">
@@ -3243,6 +4117,20 @@ an even <span class="math notranslate nohighlight">\(n\)</span> is a brace:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--52-input--3" name="tab-set--52" type="radio"><label class="tab-label" for="tab-set--52-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">n = 11
+ML = graphs.MoebiusLadderGraph(n)
+G = MatchingCoveredGraph(ML)
+G.is_brace()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>Note that the union of the above mentioned four families of braces,
 that are:</p>
@@ -3252,7 +4140,7 @@ that are:</p>
 <li><p>the moebius ladder graph <code class="docutils literal notranslate"><span class="pre">MoebiusLadderGraph(n)</span></code> for odd <code class="docutils literal notranslate"><span class="pre">n</span></code>,</p></li>
 </ol>
 <p>is referred to as the <em>McCuaig</em> <em>family</em> <em>of</em> <em>braces.</em></p>
-<p class="with-sage-tab with-python-tab">The only simple brace of order six is the complete graph of the same
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The only simple brace of order six is the complete graph of the same
 order, that is <span class="math notranslate nohighlight">\(K_{3, 3}\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--53-input--1" name="tab-set--53" type="radio"><label class="tab-label" for="tab-set--53-input--1">Sage</label><div class="tab-content docutils container">
@@ -3290,8 +4178,30 @@ order, that is <span class="math notranslate nohighlight">\(K_{3, 3}\)</span>:</
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--53-input--3" name="tab-set--53" type="radio"><label class="tab-label" for="tab-set--53-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">L = list(graphs(6,
+         lambda G: G.size() &lt;= 15 and
+                   G.is_bipartite())
+)
+L = list(G for G in L if G.is_connected() and
+                         G.is_matching_covered()
+)
+M = list(MatchingCoveredGraph(G) for G in L)
+B = list(G for G in M if G.is_brace())
+K = graphs.CompleteBipartiteGraph(3, 3)
+G = MatchingCoveredGraph(K)
+next(iter(B)).is_isomorphic(G)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The nonplanar <span class="math notranslate nohighlight">\(K_{3, 3}\)</span>-free brace Heawood graph is the unique cubic
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The nonplanar <span class="math notranslate nohighlight">\(K_{3, 3}\)</span>-free brace Heawood graph is the unique cubic
 graph of girth six with the fewest number of vertices (that is 14).
 Note that by <span class="math notranslate nohighlight">\(K_{3, 3}\)</span>-free, it shows that the Heawood graph does not
 contain a subgraph that is isomorphic to a graph obtained by
@@ -3318,8 +4228,23 @@ bisubdivision of <span class="math notranslate nohighlight">\(K_{3, 3}\)</span>:
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--54-input--3" name="tab-set--54" type="radio"><label class="tab-label" for="tab-set--54-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">K = graphs.CompleteBipartiteGraph(3, 3)
+J = graphs.HeawoodGraph()
+H = MatchingCoveredGraph(J)
+(H.is_brace() and not H.is_planar() and                               # needs planarity
+ H.is_regular(k=3) and H.girth() == 6)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Braces of order six or more are 3-connected:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Braces of order six or more are 3-connected:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--55-input--1" name="tab-set--55" type="radio"><label class="tab-label" for="tab-set--55-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">H</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">HexahedralGraph</span><span class="p">()</span>
@@ -3338,8 +4263,21 @@ bisubdivision of <span class="math notranslate nohighlight">\(K_{3, 3}\)</span>:
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--55-input--3" name="tab-set--55" type="radio"><label class="tab-label" for="tab-set--55-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">H = graphs.HexahedralGraph()
+G = MatchingCoveredGraph(H)
+G.is_brace() and G.is_triconnected()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Braces of order four or more are 2-extendable:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Braces of order four or more are 2-extendable:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--56-input--1" name="tab-set--56" type="radio"><label class="tab-label" for="tab-set--56-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">H</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">EllinghamHorton54Graph</span><span class="p">()</span>
@@ -3382,8 +4320,33 @@ bisubdivision of <span class="math notranslate nohighlight">\(K_{3, 3}\)</span>:
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--56-input--3" name="tab-set--56" type="radio"><label class="tab-label" for="tab-set--56-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">H = graphs.EllinghamHorton54Graph()
+G = MatchingCoveredGraph(H)
+G.is_brace()
+e = next(G.edge_iterator(labels=False)); f = None
+for f in G.edge_iterator(labels=False):
+    if not (set(e) &amp; set(f)):
+         break
+S = [u for x in [e, f] for u in set(x)]
+J = H.copy(); J.delete_vertices(S)
+M = Graph(J.matching())
+M.add_edges([e, f])
+if all(d == 1 for d in M.degree()) and \
+   G.order() == M.order() and \
+   G.order() == 2*M.size():
+     print(f'graph {G} is 2-extendable')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Every edge in a brace of order at least six is removable:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Every edge in a brace of order at least six is removable:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--57-input--1" name="tab-set--57" type="radio"><label class="tab-label" for="tab-set--57-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">H</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">CircularLadderGraph</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
@@ -3402,8 +4365,21 @@ bisubdivision of <span class="math notranslate nohighlight">\(K_{3, 3}\)</span>:
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--57-input--3" name="tab-set--57" type="radio"><label class="tab-label" for="tab-set--57-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">H = graphs.CircularLadderGraph(8)
+G = MatchingCoveredGraph(H)
+# len(G.removble_edges()) == G.size()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Every brace of order eight has the hexahedral graph as a spanning
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Every brace of order eight has the hexahedral graph as a spanning
 subgraph:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--58-input--1" name="tab-set--58" type="radio"><label class="tab-label" for="tab-set--58-input--1">Sage</label><div class="tab-content docutils container">
@@ -3441,8 +4417,30 @@ subgraph:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--58-input--3" name="tab-set--58" type="radio"><label class="tab-label" for="tab-set--58-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">H = graphs.HexahedralGraph()
+L = list(graphs(8,
+         lambda G: G.size() &lt;= 28 and
+                   G.is_bipartite())
+)
+L = list(G for G in L if G.is_connected() and
+                         G.is_matching_covered()
+)
+M = list(MatchingCoveredGraph(G) for G in L)
+B = list(G for G in M if G.is_brace())
+C = list(G for G in M if Graph(G).subgraph_search(H) is not None)
+B == C</pre>
 </div>
-<p class="with-sage-tab with-python-tab">For every brace <span class="math notranslate nohighlight">\(G[A, B]\)</span> of order at least six, the graph
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">For every brace <span class="math notranslate nohighlight">\(G[A, B]\)</span> of order at least six, the graph
 <span class="math notranslate nohighlight">\(G - a_1 - a_2 - b_1 - b_2\)</span> has a perfect matching for any two distinct
 vertices <span class="math notranslate nohighlight">\(a_1\)</span> and <span class="math notranslate nohighlight">\(a_2\)</span> in <span class="math notranslate nohighlight">\(A\)</span> and any two distinct vertices <span class="math notranslate nohighlight">\(b_1\)</span> and
 <span class="math notranslate nohighlight">\(b_2\)</span> in <span class="math notranslate nohighlight">\(B\)</span>:</p>
@@ -3472,8 +4470,24 @@ vertices <span class="math notranslate nohighlight">\(a_1\)</span> and <span cla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--59-input--3" name="tab-set--59" type="radio"><label class="tab-label" for="tab-set--59-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">H =  graphs.CompleteBipartiteGraph(10, 10)
+G = MatchingCoveredGraph(H)
+G.is_brace()
+S = [0, 1, 10, 12]
+G.delete_vertices(S)
+G.has_perfect_matching()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">For a brace <span class="math notranslate nohighlight">\(G[A, B]\)</span> of order six or more, <span class="math notranslate nohighlight">\(|N(X)| \geq |X| + 2\)</span>, for
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">For a brace <span class="math notranslate nohighlight">\(G[A, B]\)</span> of order six or more, <span class="math notranslate nohighlight">\(|N(X)| \geq |X| + 2\)</span>, for
 all <span class="math notranslate nohighlight">\(X \subset A\)</span> such that <span class="math notranslate nohighlight">\(0 &lt; |X| &lt;|A| - 1\)</span>, where
 <span class="math notranslate nohighlight">\(N(S) := \{b | (a, b) \in E \wedge a \in S\}\)</span> is called the neighboring set
 of <span class="math notranslate nohighlight">\(S\)</span>:</p>
@@ -3507,8 +4521,26 @@ of <span class="math notranslate nohighlight">\(S\)</span>:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--60-input--3" name="tab-set--60" type="radio"><label class="tab-label" for="tab-set--60-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">H = graphs.MoebiusLadderGraph(15)
+G = MatchingCoveredGraph(H)
+G.is_brace()
+A, _ = G.bipartite_sets()
+# needs random
+X = random.sample(list(A), random.randint(1, len(A) - 1))
+N = {v for u in X for v in G.neighbor_iterator(u)}
+len(N) &gt;= len(X) + 2</pre>
 </div>
-<p class="with-sage-tab with-python-tab">For a brace <span class="math notranslate nohighlight">\(G\)</span> of order four or more with a perfect matching <span class="math notranslate nohighlight">\(M\)</span>, the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">For a brace <span class="math notranslate nohighlight">\(G\)</span> of order four or more with a perfect matching <span class="math notranslate nohighlight">\(M\)</span>, the
 graph <span class="math notranslate nohighlight">\(G - a - b\)</span> is matching covered for each edge <span class="math notranslate nohighlight">\((a, b)\)</span> in <span class="math notranslate nohighlight">\(M\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--61-input--1" name="tab-set--61" type="radio"><label class="tab-label" for="tab-set--61-input--1">Sage</label><div class="tab-content docutils container">
@@ -3544,8 +4576,28 @@ graph <span class="math notranslate nohighlight">\(G - a - b\)</span> is matchin
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--61-input--3" name="tab-set--61" type="radio"><label class="tab-label" for="tab-set--61-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">H = graphs.HeawoodGraph()
+G = MatchingCoveredGraph(H)
+G.is_brace()
+M = G.get_matching()
+L = []
+for a, b, *_ in M:
+    J = G.copy(); J.delete_vertices([a, b])
+    if J.is_matching_covered():
+         L.append(J)
+len(L) == len(M)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A cycle graph of order six or more is a bipartite matching covered
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A cycle graph of order six or more is a bipartite matching covered
 graph, but is not a brace:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--62-input--1" name="tab-set--62" type="radio"><label class="tab-label" for="tab-set--62-input--1">Sage</label><div class="tab-content docutils container">
@@ -3565,8 +4617,21 @@ graph, but is not a brace:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--62-input--3" name="tab-set--62" type="radio"><label class="tab-label" for="tab-set--62-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C = graphs.CycleGraph(10)
+G = MatchingCoveredGraph(C)
+G.is_brace()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A ladder graph of order six or more is a bipartite matching covered
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A ladder graph of order six or more is a bipartite matching covered
 graph, that is not a brace. The tight cut decomposition of a ladder
 graph produces a list graphs the underlying graph of each of which
 is isomorphic to a 4-cycle:</p>
@@ -3588,8 +4653,21 @@ is isomorphic to a 4-cycle:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--63-input--3" name="tab-set--63" type="radio"><label class="tab-label" for="tab-set--63-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">L = graphs.LadderGraph(10)
+G = MatchingCoveredGraph(L)
+G.is_brace()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">One may set the <code class="docutils literal notranslate"><span class="pre">coNP_certificate</span></code> to be <code class="docutils literal notranslate"><span class="pre">True</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">One may set the <code class="docutils literal notranslate"><span class="pre">coNP_certificate</span></code> to be <code class="docutils literal notranslate"><span class="pre">True</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--64-input--1" name="tab-set--64" type="radio"><label class="tab-label" for="tab-set--64-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">H</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">HexahedralGraph</span><span class="p">()</span>
@@ -3699,8 +4777,54 @@ is isomorphic to a 4-cycle:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--64-input--3" name="tab-set--64" type="radio"><label class="tab-label" for="tab-set--64-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">H = graphs.HexahedralGraph()
+G = MatchingCoveredGraph(H)
+G.is_brace(coNP_certificate=True)
+C = graphs.CycleGraph(6)
+D = MatchingCoveredGraph(C)
+is_brace, nontrivial_tight_cut, nontrivial_odd_component, \
+nontrivial_tight_cut_variant, cut_identifier = \
+D.is_brace(coNP_certificate=True)
+is_brace is False
+J = C.subgraph(vertices=nontrivial_odd_component)
+J.is_isomorphic(graphs.PathGraph(3))
+len(nontrivial_tight_cut) == 2
+nontrivial_tight_cut_variant
+# Corresponding barrier
+cut_identifier == {a for u, v, *_ in nontrivial_tight_cut for a in [u, v] \
+if a not in nontrivial_odd_component}
+for u, v, *_ in nontrivial_tight_cut:
+    assert (u in nontrivial_odd_component and v not in nontrivial_odd_component)
+L = graphs.LadderGraph(3) # A ladder graph with two constituent braces
+G = MatchingCoveredGraph(L)
+is_brace, nontrivial_tight_cut, nontrivial_odd_component, cut_variant, cut_identifier = \
+G.is_brace(coNP_certificate=True)
+is_brace is False
+G1 = L.copy()
+G1.merge_vertices(list(nontrivial_odd_component))
+G1.to_simple().is_isomorphic(graphs.CycleGraph(4))
+G2 = L.copy()
+G2.merge_vertices([v for v in G if v not in nontrivial_odd_component])
+G2.to_simple().is_isomorphic(graphs.CycleGraph(4))
+cut_variant
+cut_identifier == {a for u, v, *_ in nontrivial_tight_cut for a in [u, v] \
+if a not in nontrivial_odd_component}
+H = graphs.CompleteBipartiteGraph(3, 3)
+H.delete_edge(0, 3)
+G = MatchingCoveredGraph(H)
+G.is_brace(coNP_certificate=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If the input matching covered graph is nonbipartite, a
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If the input matching covered graph is nonbipartite, a
 <a class="reference external" href="https://docs.python.org/library/exceptions.html#ValueError" title="(in Python v3.12)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> is thrown:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--65-input--1" name="tab-set--65" type="radio"><label class="tab-label" for="tab-set--65-input--1">Sage</label><div class="tab-content docutils container">
@@ -3734,6 +4858,22 @@ is isomorphic to a 4-cycle:</p>
 <span class="gp">...</span>
 <span class="go">ValueError: the input graph is not bipartite</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--65-input--3" name="tab-set--65" type="radio"><label class="tab-label" for="tab-set--65-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">K4 = graphs.CompleteGraph(4)
+G = MatchingCoveredGraph(K4)
+G.is_brace()
+P = graphs.PetersenGraph()
+H = MatchingCoveredGraph(P)
+H.is_brace(coNP_certificate=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3801,7 +4941,7 @@ two vertex cut (in this case the nontrivial tight cuts are
 </li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">The complete graph on four vertices <span class="math notranslate nohighlight">\(K_4\)</span> is the smallest brick:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The complete graph on four vertices <span class="math notranslate nohighlight">\(K_4\)</span> is the smallest brick:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--66-input--1" name="tab-set--66" type="radio"><label class="tab-label" for="tab-set--66-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">K</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">CompleteGraph</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
@@ -3820,8 +4960,21 @@ two vertex cut (in this case the nontrivial tight cuts are
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--66-input--3" name="tab-set--66" type="radio"><label class="tab-label" for="tab-set--66-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">K = graphs.CompleteGraph(4)
+G = MatchingCoveredGraph(K)
+G.is_brick()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The triangular circular ladder (a graph on six vertices), aka
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The triangular circular ladder (a graph on six vertices), aka
 <span class="math notranslate nohighlight">\(\overline{C_6}\)</span> is a brick:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--67-input--1" name="tab-set--67" type="radio"><label class="tab-label" for="tab-set--67-input--1">Sage</label><div class="tab-content docutils container">
@@ -3841,8 +4994,21 @@ two vertex cut (in this case the nontrivial tight cuts are
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--67-input--3" name="tab-set--67" type="radio"><label class="tab-label" for="tab-set--67-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C6Bar = graphs.CircularLadderGraph(3)
+G = MatchingCoveredGraph(C6Bar)
+G.is_brick()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Each of Petersen graph, Bicorn graph, Tricorn graph, Cubeplex graph,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Each of Petersen graph, Bicorn graph, Tricorn graph, Cubeplex graph,
 Twinplex graph, Wagner graph is a brick:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--68-input--1" name="tab-set--68" type="radio"><label class="tab-label" for="tab-set--68-input--1">Sage</label><div class="tab-content docutils container">
@@ -3865,8 +5031,25 @@ Twinplex graph, Wagner graph is a brick:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--68-input--3" name="tab-set--68" type="radio"><label class="tab-label" for="tab-set--68-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.symbolic
+MatchingCoveredGraph(graphs.PetersenGraph()).is_brick() and \
+MatchingCoveredGraph(graphs.StaircaseGraph(4)).is_brick() and \
+MatchingCoveredGraph(graphs.TricornGraph()).is_brick() and \
+MatchingCoveredGraph(graphs.CubeplexGraph()).is_brick() and \
+MatchingCoveredGraph(graphs.TwinplexGraph()).is_brick() and \
+MatchingCoveredGraph(graphs.WagnerGraph()).is_brick()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The Murty graph is the smallest simple brick that is not odd-intercyclic:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The Murty graph is the smallest simple brick that is not odd-intercyclic:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--69-input--1" name="tab-set--69" type="radio"><label class="tab-label" for="tab-set--69-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">MurtyGraph</span><span class="p">()</span>
@@ -3885,8 +5068,21 @@ Twinplex graph, Wagner graph is a brick:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--69-input--3" name="tab-set--69" type="radio"><label class="tab-label" for="tab-set--69-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = graphs.MurtyGraph()
+G = MatchingCoveredGraph(M)
+G.is_brick()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A circular ladder graph of order six or more on <span class="math notranslate nohighlight">\(2n\)</span> vertices for an
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A circular ladder graph of order six or more on <span class="math notranslate nohighlight">\(2n\)</span> vertices for an
 odd <span class="math notranslate nohighlight">\(n\)</span> is a brick:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--70-input--1" name="tab-set--70" type="radio"><label class="tab-label" for="tab-set--70-input--1">Sage</label><div class="tab-content docutils container">
@@ -3908,8 +5104,22 @@ odd <span class="math notranslate nohighlight">\(n\)</span> is a brick:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--70-input--3" name="tab-set--70" type="radio"><label class="tab-label" for="tab-set--70-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">n = 11
+CL = graphs.CircularLadderGraph(n)
+G = MatchingCoveredGraph(CL)
+G.is_brick()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A moebius ladder graph of order eight or more on <span class="math notranslate nohighlight">\(2n\)</span> vertices for an
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A moebius ladder graph of order eight or more on <span class="math notranslate nohighlight">\(2n\)</span> vertices for an
 even <span class="math notranslate nohighlight">\(n\)</span> is a brick:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--71-input--1" name="tab-set--71" type="radio"><label class="tab-label" for="tab-set--71-input--1">Sage</label><div class="tab-content docutils container">
@@ -3931,8 +5141,22 @@ even <span class="math notranslate nohighlight">\(n\)</span> is a brick:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--71-input--3" name="tab-set--71" type="radio"><label class="tab-label" for="tab-set--71-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">n = 10
+ML = graphs.MoebiusLadderGraph(n)
+G = MatchingCoveredGraph(ML)
+G.is_brick()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A wheel graph of an even order is a brick:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A wheel graph of an even order is a brick:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--72-input--1" name="tab-set--72" type="radio"><label class="tab-label" for="tab-set--72-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">W</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">WheelGraph</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
@@ -3951,8 +5175,21 @@ even <span class="math notranslate nohighlight">\(n\)</span> is a brick:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--72-input--3" name="tab-set--72" type="radio"><label class="tab-label" for="tab-set--72-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">W = graphs.WheelGraph(10)
+G = MatchingCoveredGraph(W)
+G.is_brick()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A graph that is isomorphic to a truncated biwheel graph is a brick:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A graph that is isomorphic to a truncated biwheel graph is a brick:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--73-input--1" name="tab-set--73" type="radio"><label class="tab-label" for="tab-set--73-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">TB</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">TruncatedBiwheelGraph</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
@@ -3971,8 +5208,21 @@ even <span class="math notranslate nohighlight">\(n\)</span> is a brick:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--73-input--3" name="tab-set--73" type="radio"><label class="tab-label" for="tab-set--73-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">TB = graphs.TruncatedBiwheelGraph(15)
+G = MatchingCoveredGraph(TB)
+G.is_brick()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Each of the graphs in the staircase graph family with order eight or
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Each of the graphs in the staircase graph family with order eight or
 more is a brick:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--74-input--1" name="tab-set--74" type="radio"><label class="tab-label" for="tab-set--74-input--1">Sage</label><div class="tab-content docutils container">
@@ -3992,8 +5242,21 @@ more is a brick:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--74-input--3" name="tab-set--74" type="radio"><label class="tab-label" for="tab-set--74-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ST = graphs.StaircaseGraph(9)
+G = MatchingCoveredGraph(ST)
+G.is_brick()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Bricks are 3-connected:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Bricks are 3-connected:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--75-input--1" name="tab-set--75" type="radio"><label class="tab-label" for="tab-set--75-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">PetersenGraph</span><span class="p">()</span>
@@ -4016,8 +5279,22 @@ more is a brick:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--75-input--3" name="tab-set--75" type="radio"><label class="tab-label" for="tab-set--75-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = graphs.PetersenGraph()
+G = MatchingCoveredGraph(P)
+G.is_brick()
+G.is_triconnected()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Bricks are bicritical:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Bricks are bicritical:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--76-input--1" name="tab-set--76" type="radio"><label class="tab-label" for="tab-set--76-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">PetersenGraph</span><span class="p">()</span>
@@ -4040,8 +5317,22 @@ more is a brick:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--76-input--3" name="tab-set--76" type="radio"><label class="tab-label" for="tab-set--76-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = graphs.PetersenGraph()
+G = MatchingCoveredGraph(P)
+G.is_brick()
+G.is_bicritical()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Examples of nonbipartite matching covered graphs that are not
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Examples of nonbipartite matching covered graphs that are not
 bricks:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--77-input--1" name="tab-set--77" type="radio"><label class="tab-label" for="tab-set--77-input--1">Sage</label><div class="tab-content docutils container">
@@ -4109,8 +5400,38 @@ bricks:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--77-input--3" name="tab-set--77" type="radio"><label class="tab-label" for="tab-set--77-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">H = Graph([
+    (0, 3), (0, 4), (0, 7),
+    (1, 3), (1, 5), (1, 7),
+    (2, 3), (2, 6), (2, 7),
+    (4, 5), (4, 6), (5, 6)
+])
+G = MatchingCoveredGraph(H)
+G.is_bipartite()
+G.is_bicritical()
+G.is_triconnected()
+G.is_brick()
+H = Graph([
+    (0, 1), (0, 2), (0, 3), (0, 4), (1, 2),
+    (1, 5), (2, 5), (3, 4), (3, 5), (4, 5)
+])
+G = MatchingCoveredGraph(H)
+G.is_bipartite()
+G.is_bicritical()
+G.is_triconnected()
+G.is_brick()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">One may set the <code class="docutils literal notranslate"><span class="pre">coNP_certificate</span></code> to be <code class="docutils literal notranslate"><span class="pre">True</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">One may set the <code class="docutils literal notranslate"><span class="pre">coNP_certificate</span></code> to be <code class="docutils literal notranslate"><span class="pre">True</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--78-input--1" name="tab-set--78" type="radio"><label class="tab-label" for="tab-set--78-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">K4</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">CompleteGraph</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
@@ -4285,8 +5606,44 @@ bricks:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--78-input--3" name="tab-set--78" type="radio"><label class="tab-label" for="tab-set--78-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">K4 = graphs.CompleteGraph(4)
+G = MatchingCoveredGraph(K4)
+G.is_brick(coNP_certificate=True)
+# K(4) ⊙ K(3, 3) is nonbipartite but not a brick
+H = graphs.MurtyGraph(); H.delete_edge(0, 1)
+G = MatchingCoveredGraph(H)
+G.is_brick(coNP_certificate=True)
+H = Graph([
+    (0, 12), (0, 13), (0, 15), (1, 4), (1, 13), (1, 14),
+    (1, 19), (2, 4), (2, 13), (2, 14), (2, 17), (3, 9),
+    (3, 13), (3, 16), (3, 21), (4, 6), (4, 7), (5, 7),
+    (5, 8), (5, 12), (6, 8), (6, 11), (7, 10), (8, 9),
+    (9, 10), (10, 11), (11, 12), (14, 15), (14, 16), (15, 16),
+    (17, 18), (17, 21), (18, 19), (18, 20), (19, 20), (20, 21)
+])
+G = MatchingCoveredGraph(H)
+G.is_brick(coNP_certificate=True)
+J = Graph([
+    (0, 1), (0, 2), (0, 3), (0, 4), (0, 5),
+    (0, 6), (0, 7), (0, 8), (0, 9), (0, 10),
+    (1, 2), (1, 11), (2, 11), (3, 4), (3, 11),
+    (4, 11), (5, 6), (5, 11), (6, 11), (7, 8),
+    (7, 11), (8, 11), (9, 10), (9, 11), (10, 11)
+])
+G = MatchingCoveredGraph(J)
+G.is_brick(coNP_certificate=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If the input matching covered graph is bipartite, a
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If the input matching covered graph is bipartite, a
 <a class="reference external" href="https://docs.python.org/library/exceptions.html#ValueError" title="(in Python v3.12)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> is thrown:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--79-input--1" name="tab-set--79" type="radio"><label class="tab-label" for="tab-set--79-input--1">Sage</label><div class="tab-content docutils container">
@@ -4320,6 +5677,22 @@ bricks:</p>
 <span class="gp">...</span>
 <span class="go">ValueError: the input graph is bipartite</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--79-input--3" name="tab-set--79" type="radio"><label class="tab-label" for="tab-set--79-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">H = graphs.HexahedralGraph()
+G = MatchingCoveredGraph(H)
+G.is_brick()
+J = graphs.HeawoodGraph()
+G = MatchingCoveredGraph(J)
+G.is_brick(coNP_certificate=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -4358,7 +5731,7 @@ graph; note that, the list is empty since matching covered graphs do
 not contain any looped edges.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">A matching covered graph, for instance the Heawood graph, by
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A matching covered graph, for instance the Heawood graph, by
 definition, is always free of loops:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--80-input--1" name="tab-set--80" type="radio"><label class="tab-label" for="tab-set--80-input--1">Sage</label><div class="tab-content docutils container">
@@ -4394,8 +5767,24 @@ definition, is always free of loops:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--80-input--3" name="tab-set--80" type="radio"><label class="tab-label" for="tab-set--80-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">H = graphs.HeawoodGraph()
+G = MatchingCoveredGraph(H)
+G
+G.add_edge(0, 0)
+G.loops()
+G.loop_edges()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A matching covered graph may support multiple edges, still no
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A matching covered graph may support multiple edges, still no
 loops are allowed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--81-input--1" name="tab-set--81" type="radio"><label class="tab-label" for="tab-set--81-input--1">Sage</label><div class="tab-content docutils container">
@@ -4439,8 +5828,27 @@ loops are allowed:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--81-input--3" name="tab-set--81" type="radio"><label class="tab-label" for="tab-set--81-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C = graphs.CycleGraph(4)
+G = MatchingCoveredGraph(C)
+G.allow_multiple_edges(True)
+G
+G.add_edge(0, 1, 'label')
+G.add_edge(0, 0)
+G.edges(sort=False)
+G.loops()
+G.loop_edges()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">One may set the <code class="docutils literal notranslate"><span class="pre">label</span></code> to either <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">One may set the <code class="docutils literal notranslate"><span class="pre">label</span></code> to either <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--82-input--1" name="tab-set--82" type="radio"><label class="tab-label" for="tab-set--82-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">G</span><span class="o">.</span><span class="n">loop_edges</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -4457,6 +5865,18 @@ loops are allowed:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span><span class="o">.</span><span class="n">loops</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">[]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--82-input--3" name="tab-set--82" type="radio"><label class="tab-label" for="tab-set--82-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">G.loop_edges(labels=False)
+G.loops(labels=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -4492,7 +5912,7 @@ graph; note that, the list is empty since matching covered graphs do
 not contain any looped edges.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">A matching covered graph, for instance the Möbius graph of order 8, by
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A matching covered graph, for instance the Möbius graph of order 8, by
 definition, is always free of loops:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--83-input--1" name="tab-set--83" type="radio"><label class="tab-label" for="tab-set--83-input--1">Sage</label><div class="tab-content docutils container">
@@ -4524,8 +5944,23 @@ definition, is always free of loops:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--83-input--3" name="tab-set--83" type="radio"><label class="tab-label" for="tab-set--83-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = graphs.MoebiusLadderGraph(4)
+G = MatchingCoveredGraph(M)
+G
+G.add_edge(0, 0)
+G.loop_vertices()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A matching covered graph may support multiple edges, still no
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A matching covered graph may support multiple edges, still no
 loops are allowed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--84-input--1" name="tab-set--84" type="radio"><label class="tab-label" for="tab-set--84-input--1">Sage</label><div class="tab-content docutils container">
@@ -4569,6 +6004,24 @@ loops are allowed:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">G</span><span class="o">.</span><span class="n">loop_vertices</span><span class="p">()</span>
 <span class="go">[]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--84-input--3" name="tab-set--84" type="radio"><label class="tab-label" for="tab-set--84-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">S = graphs.StaircaseGraph(4)
+G = MatchingCoveredGraph(S)
+G.allow_multiple_edges(True)
+G
+G.add_edge(0, 1, 'label')
+G.add_edge(0, 0)
+G.edges(sort=False)
+G.loop_vertices()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -4621,7 +6074,7 @@ graph, otherwise a set of vertices that constitute the (unique)
 maximal barrier containing the vertex is returned.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">The graph <span class="math notranslate nohighlight">\(K_4 \odot K_{3, 3}\)</span> is matching covered. Show the set of
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The graph <span class="math notranslate nohighlight">\(K_4 \odot K_{3, 3}\)</span> is matching covered. Show the set of
 vertices in the (unique) maximal barrier containing the vertex <span class="math notranslate nohighlight">\(2\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--85-input--1" name="tab-set--85" type="radio"><label class="tab-label" for="tab-set--85-input--1">Sage</label><div class="tab-content docutils container">
@@ -4651,8 +6104,26 @@ vertices in the (unique) maximal barrier containing the vertex <span class="math
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--85-input--3" name="tab-set--85" type="radio"><label class="tab-label" for="tab-set--85-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">G = Graph([
+   (0, 2), (0, 3), (0, 4), (1, 2),
+   (1, 3), (1, 4), (2, 5), (3, 6),
+   (4, 7), (5, 6), (5, 7), (6, 7)
+])
+H = MatchingCoveredGraph(G)
+B = H.maximal_barrier(2)
+B</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Let <span class="math notranslate nohighlight">\(B\)</span> be a maximal barrier of a matching covered graph <span class="math notranslate nohighlight">\(G\)</span> (which is,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let <span class="math notranslate nohighlight">\(B\)</span> be a maximal barrier of a matching covered graph <span class="math notranslate nohighlight">\(G\)</span> (which is,
 of course, a matchable graph). The graph, <span class="math notranslate nohighlight">\(J := G - B\)</span> has no even
 component:</p>
 <div class="tab-set docutils container">
@@ -4673,8 +6144,21 @@ component:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--86-input--3" name="tab-set--86" type="radio"><label class="tab-label" for="tab-set--86-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">J = G.copy()
+J.delete_vertices(B)
+all(len(K)%2 != 0 for K in J.connected_components(sort=True))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Let <span class="math notranslate nohighlight">\(B\)</span> be a maximal barrier in a matching covered graph <span class="math notranslate nohighlight">\(G\)</span> and let
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let <span class="math notranslate nohighlight">\(B\)</span> be a maximal barrier in a matching covered graph <span class="math notranslate nohighlight">\(G\)</span> and let
 <span class="math notranslate nohighlight">\(M\)</span> be a perfect matching of <span class="math notranslate nohighlight">\(G\)</span>. If <span class="math notranslate nohighlight">\(K\)</span> is an odd component of
 <span class="math notranslate nohighlight">\(J := G - B\)</span>, then <span class="math notranslate nohighlight">\(M \cap \partial_G(K)\)</span> has precisely one edge and if
 <span class="math notranslate nohighlight">\(v\)</span> is the end of that edge in <span class="math notranslate nohighlight">\(V(K)\)</span>, then <span class="math notranslate nohighlight">\(M \cap E(K)\)</span> is a perfect
@@ -4725,8 +6209,34 @@ matching of <span class="math notranslate nohighlight">\(K - v\)</span>:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--87-input--3" name="tab-set--87" type="radio"><label class="tab-label" for="tab-set--87-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">K = J.subgraph(vertices=(J.connected_components(sort=True))[0])
+# Let F := \partial_G(K) and T := M \cap F
+F = [edge for edge in G.edge_iterator()
+     if (edge[0] in K and edge[1] not in K)
+     or (edge[0] not in K and edge[1] in K)
+]
+M = H.get_matching()
+T = [edge for edge in F if edge in M]
+len(T) == 1
+v = T[0][0] if T[0][0] in K else T[0][1]
+# Let N := M \cap E(K) and L := K - v
+N = Graph([edge for edge in K.edge_iterator() if edge in M])
+L = K.copy()
+L.delete_vertex(v)
+# Check if N is a perfect matching of L
+L.order() == 2*N.size()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Let <span class="math notranslate nohighlight">\(B\)</span> be a maximal barrier of a matching covered graph <span class="math notranslate nohighlight">\(G\)</span> (which is,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Let <span class="math notranslate nohighlight">\(B\)</span> be a maximal barrier of a matching covered graph <span class="math notranslate nohighlight">\(G\)</span> (which is,
 of course, a matchable graph). The graph induced by each component of
 <span class="math notranslate nohighlight">\(G - B\)</span> is factor critical:</p>
 <div class="tab-set docutils container">
@@ -4747,8 +6257,21 @@ of course, a matchable graph). The graph induced by each component of
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--88-input--3" name="tab-set--88" type="radio"><label class="tab-label" for="tab-set--88-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">all((K.subgraph(vertices=connected_component)).is_factor_critical()
+    for connected_component in K.connected_components(sort=True)
+)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">For a bicritical graph (for instance, the Petersen graph), for each
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">For a bicritical graph (for instance, the Petersen graph), for each
 vertex the maximal barrier is a singleton set containing only that
 vertex:</p>
 <div class="tab-set docutils container">
@@ -4771,8 +6294,22 @@ vertex:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--89-input--3" name="tab-set--89" type="radio"><label class="tab-label" for="tab-set--89-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = graphs.PetersenGraph()
+G = MatchingCoveredGraph(P)
+u = 0
+set([u]) == G.maximal_barrier(u)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In a bipartite matching covered graph (for instance, the Hexahedral
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In a bipartite matching covered graph (for instance, the Hexahedral
 graph), for a vertex, the maximal barrier is the set of vertices of
 the color class that the particular vertex belongs to. In other words,
 there are precisely two maximal barriers in a bipartite matching
@@ -4803,8 +6340,25 @@ covered graph, that is, the vertex sets of the individual color class:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--90-input--3" name="tab-set--90" type="radio"><label class="tab-label" for="tab-set--90-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">G = graphs.HexahedralGraph()
+H = MatchingCoveredGraph(G)
+A, _ = H.bipartite_sets()
+# needs random
+import random
+a = random.choice(list(A))
+A == H.maximal_barrier(a)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Maximal barriers of matching covered graph constitute a partition of
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Maximal barriers of matching covered graph constitute a partition of
 its vertex set:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--91-input--1" name="tab-set--91" type="radio"><label class="tab-label" for="tab-set--91-input--1">Sage</label><div class="tab-content docutils container">
@@ -4850,6 +6404,31 @@ its vertex set:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--91-input--3" name="tab-set--91" type="radio"><label class="tab-label" for="tab-set--91-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">S = set()
+for v in H:
+    B = tuple(sorted(list(H.maximal_barrier(v))))
+    S.add(B)
+S = list(S)
+# Check that S is a partition of the vertex set of H
+# Part 1: Check if S spans the vertex set of H
+sorted([u for B in S for u in B]) == sorted(list(H))
+# Part 2: Check if each maximal barrier in S is disjoint
+is_disjoint = True
+for i in range(len(S)):
+    for j in range(i+1, len(S)):
+        c = [v for v in S[i] if v in S[j]]
+        is_disjoint = (len(c) == 0)
+is_disjoint</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>REFERENCES:</p>
 <ul class="simple">
@@ -4883,7 +6462,7 @@ of looped edges.</p>
 contain zero loops.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">A matching covered graph, for instance the Truncated biwheel graph,
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A matching covered graph, for instance the Truncated biwheel graph,
 by definition, is always free of loops:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--92-input--1" name="tab-set--92" type="radio"><label class="tab-label" for="tab-set--92-input--1">Sage</label><div class="tab-content docutils container">
@@ -4919,8 +6498,24 @@ by definition, is always free of loops:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--92-input--3" name="tab-set--92" type="radio"><label class="tab-label" for="tab-set--92-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T = graphs.TruncatedBiwheelGraph(5)
+G = MatchingCoveredGraph(T)
+G
+G.add_edge(0, 0)
+G.loop_vertices()
+G.number_of_loops()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A matching covered graph may support multiple edges, still no
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A matching covered graph may support multiple edges, still no
 loops are allowed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--93-input--1" name="tab-set--93" type="radio"><label class="tab-label" for="tab-set--93-input--1">Sage</label><div class="tab-content docutils container">
@@ -4970,6 +6565,25 @@ loops are allowed:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--93-input--3" name="tab-set--93" type="radio"><label class="tab-label" for="tab-set--93-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">B = graphs.BiwheelGraph(4)
+G = MatchingCoveredGraph(B)
+G.allow_multiple_edges(True)
+G
+G.add_edge(0, 1, 'label')
+G.add_edge(0, 0)
+G.edges(sort=False)
+G.loop_vertices()
+G.number_of_loops()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -5008,7 +6622,7 @@ labels corresponding to which the looped edges are to be removed. If
 any loops.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">A matching covered graph, for instance the Wheel graph of order six, is
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A matching covered graph, for instance the Wheel graph of order six, is
 always free of loops:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--94-input--1" name="tab-set--94" type="radio"><label class="tab-label" for="tab-set--94-input--1">Sage</label><div class="tab-content docutils container">
@@ -5046,8 +6660,24 @@ always free of loops:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--94-input--3" name="tab-set--94" type="radio"><label class="tab-label" for="tab-set--94-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">W = graphs.WheelGraph(6)
+G = MatchingCoveredGraph(W)
+G
+G.add_edge(0, 0)
+G.remove_loops()
+G.edges(sort=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A matching covered graph may support multiple edges, still no
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A matching covered graph may support multiple edges, still no
 loops are allowed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--95-input--1" name="tab-set--95" type="radio"><label class="tab-label" for="tab-set--95-input--1">Sage</label><div class="tab-content docutils container">
@@ -5091,8 +6721,28 @@ loops are allowed:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--95-input--3" name="tab-set--95" type="radio"><label class="tab-label" for="tab-set--95-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">K = graphs.CompleteGraph(2)
+G = MatchingCoveredGraph(K)
+G.allow_multiple_edges(True)
+G
+G.add_edge(0, 1, 'label')
+G.add_edge(0, 0)
+G.edges(sort=False)
+G.remove_loops(vertices=[0, 1])
+G.edges(sort=False)
+G.remove_loops(vertices=[0..100])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Note that the parameter <code class="docutils literal notranslate"><span class="pre">vertices</span></code> must be either <code class="docutils literal notranslate"><span class="pre">None</span></code> or an
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Note that the parameter <code class="docutils literal notranslate"><span class="pre">vertices</span></code> must be either <code class="docutils literal notranslate"><span class="pre">None</span></code> or an
 iterable:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--96-input--1" name="tab-set--96" type="radio"><label class="tab-label" for="tab-set--96-input--1">Sage</label><div class="tab-content docutils container">
@@ -5130,6 +6780,22 @@ iterable:</p>
 <span class="gp">...</span>
 <span class="go">TypeError: &#39;bool&#39; object is not iterable</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--96-input--3" name="tab-set--96" type="radio"><label class="tab-label" for="tab-set--96-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">G.remove_loops(vertices='')
+G.edges(sort=False)
+G.remove_loops(vertices=None)
+G.edges(sort=False)
+G.remove_loops(vertices=0)
+G.remove_loops(vertices=False)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -5195,7 +6861,7 @@ is returned. Also, a <a class="reference external" href="https://docs.python.org
 arguments are not valid.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Subdividing <span class="math notranslate nohighlight">\(4\)</span> times an edge of the Petersen graph. Please note that
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Subdividing <span class="math notranslate nohighlight">\(4\)</span> times an edge of the Petersen graph. Please note that
 the perfect matching captured at <code class="docutils literal notranslate"><span class="pre">self.get_matching()</span></code> also gets
 updated:</p>
 <div class="tab-set docutils container">
@@ -5245,8 +6911,35 @@ updated:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--97-input--3" name="tab-set--97" type="radio"><label class="tab-label" for="tab-set--97-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = graphs.PetersenGraph()
+G = MatchingCoveredGraph(P)
+from collections import Counter
+V, E = set(G.vertices()), list(G.edges(sort=True, sort_vertices=True))
+M = set(G.get_matching())
+G.subdivide_edge(0, 1, 4)
+W, F = set(G.vertices()), list(G.edges(sort=True, sort_vertices=True))
+N = set(G.get_matching())
+sorted(W - V)
+sorted(list((Counter(F) - Counter(E)).elements())), \
+sorted(list((Counter(E) - Counter(F)).elements()))
+if (0, 1, None) in M:
+    assert sorted(N - M), sorted(M - N) == \
+        ([(0, 10, None), (1, 13, None), (11, 12, None)], [(0, 1, None)])
+else:
+    assert sorted(N - M), sorted(M - N) == \
+        ([(10, 11, None), (12, 13, None)], [])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Subdividing a multiple edge/ some multiple edges:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Subdividing a multiple edge/ some multiple edges:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--98-input--1" name="tab-set--98" type="radio"><label class="tab-label" for="tab-set--98-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">K</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">CycleGraph</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
@@ -5296,8 +6989,33 @@ updated:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--98-input--3" name="tab-set--98" type="radio"><label class="tab-label" for="tab-set--98-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">K = graphs.CycleGraph(4)
+K.allow_multiple_edges(1)
+K.add_edges([(0, 1, 2), (0, 1, 3), (0, 1, 0.5)])
+K.delete_edge(0, 1, None)
+G = MatchingCoveredGraph(K)
+from collections import Counter
+V, E = set(G.vertices()), list(G.edges(sort=True, sort_vertices=True))
+G.edge_label(0, 1)
+G.subdivide_edge((0, 1), 6)  # the edge: (0, 1, 2)
+G.subdivide_edge((0, 1, 3), 2)  # the edge: (0, 1, 3)
+G.subdivide_edge(1, 2, None, 2)  # the edge: (1, 2, None)
+W, F = set(G.vertices()), list(G.edges(sort=True, sort_vertices=True))
+sorted(W - V)
+sorted(list((Counter(F) - Counter(E)).elements())), \
+sorted(list((Counter(E) - Counter(F)).elements()))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Setting <code class="docutils literal notranslate"><span class="pre">k</span></code> to <span class="math notranslate nohighlight">\(0\)</span> does not change the graph:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Setting <code class="docutils literal notranslate"><span class="pre">k</span></code> to <span class="math notranslate nohighlight">\(0\)</span> does not change the graph:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--99-input--1" name="tab-set--99" type="radio"><label class="tab-label" for="tab-set--99-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">H</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -5316,8 +7034,21 @@ updated:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--99-input--3" name="tab-set--99" type="radio"><label class="tab-label" for="tab-set--99-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">H = G.copy()
+G.subdivide_edge(0, 4, 0)  # the edge: (0, 4, None)
+H == G and H.edges(sort=True) == G.edges(sort=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If too many or too less arguments are given, an exception is raised:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If too many or too less arguments are given, an exception is raised:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--100-input--1" name="tab-set--100" type="radio"><label class="tab-label" for="tab-set--100-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">G</span><span class="o">.</span><span class="n">subdivide_edge</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
@@ -5344,8 +7075,20 @@ updated:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--100-input--3" name="tab-set--100" type="radio"><label class="tab-label" for="tab-set--100-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">G.subdivide_edge(0, 1, 'label', 4, 6)
+G.subdivide_edge((0, 1, 'label', 4))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A <a class="reference external" href="https://docs.python.org/library/exceptions.html#ValueError" title="(in Python v3.12)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> is returned for <span class="math notranslate nohighlight">\(k\)</span> being in an invalid format or
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A <a class="reference external" href="https://docs.python.org/library/exceptions.html#ValueError" title="(in Python v3.12)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> is returned for <span class="math notranslate nohighlight">\(k\)</span> being in an invalid format or
 being not an even nonnegative, or for nonexistent or invalid edges:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--101-input--1" name="tab-set--101" type="radio"><label class="tab-label" for="tab-set--101-input--1">Sage</label><div class="tab-content docutils container">
@@ -5429,6 +7172,24 @@ being not an even nonnegative, or for nonexistent or invalid edges:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--101-input--3" name="tab-set--101" type="radio"><label class="tab-label" for="tab-set--101-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">G.subdivide_edge(0, 4, 'label')  # No. of subdivision: 'label'
+G.subdivide_edge(0, 4, 3)  # No. of subdivisions: 3
+G.subdivide_edge(0, 4, -1)  # No. of subdivisions: -1
+G.subdivide_edge(0, 4, 0.5)  # No. of subdivisions: 0.5
+G.subdivide_edge(0, 5, 4)
+G.subdivide_edge((0, 5), 4)
+G.subdivide_edge((0, 1, 'label', None), 4)
+G.subdivide_edge((0), 4)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -5487,7 +7248,7 @@ returned if <code class="docutils literal notranslate"><span class="pre">k</span
 the provided arguments are not valid.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Subdividing each edge of <span class="math notranslate nohighlight">\(K_4\)</span> some even number of times. Please note
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Subdividing each edge of <span class="math notranslate nohighlight">\(K_4\)</span> some even number of times. Please note
 that the perfect matching captured at <code class="docutils literal notranslate"><span class="pre">self.get_matching()</span></code> also gets
 updated:</p>
 <div class="tab-set docutils container">
@@ -5543,8 +7304,37 @@ updated:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--102-input--3" name="tab-set--102" type="radio"><label class="tab-label" for="tab-set--102-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C = graphs.CycleGraph(4)
+G = MatchingCoveredGraph(C)
+from collections import Counter
+V, E = set(G.vertices()), list(G.edges(sort=True, sort_vertices=True))
+M = set(G.get_matching())
+G.subdivide_edges(E, 2)
+W, F = set(G.vertices()), list(G.edges(sort=True, sort_vertices=True))
+N = set(G.get_matching())
+sorted(W - V)
+sorted(list((Counter(F) - Counter(E)).elements())), \
+sorted(list((Counter(E) - Counter(F)).elements()))
+if (0, 1, None) in M:
+    assert sorted(N - M), sorted(M - N) == \
+        ([(0, 8, None), (1, 9, None), (2, 4, None), (3, 5, None), \
+      (6, 7, None), (10, 11, None)], [(0, 1, None), (2, 3, None)])
+else:
+    assert sorted(N - M), sorted(M - N) == \
+        ([(0, 6, None), (1, 10, None), (2, 11, None), (3, 7, None), \
+          (4, 5, None), (8, 9, None)], [(0, 3, None), (1, 2, None)])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If a single is present multiple times in the iterable, if that many (or
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If a single is present multiple times in the iterable, if that many (or
 more) edges are present in the graph, each of those edges gets subdivided:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--103-input--1" name="tab-set--103" type="radio"><label class="tab-label" for="tab-set--103-input--1">Sage</label><div class="tab-content docutils container">
@@ -5595,8 +7385,36 @@ more) edges are present in the graph, each of those edges gets subdivided:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--103-input--3" name="tab-set--103" type="radio"><label class="tab-label" for="tab-set--103-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C = graphs.CycleGraph(4)
+G = MatchingCoveredGraph(C)
+G.allow_multiple_edges(True)
+G.add_edges([(0, 1)] * 3)
+from collections import Counter
+V, E = set(G.vertices()), list(G.edges(sort=True, sort_vertices=True))
+M = list(G.get_matching())
+G.subdivide_edges([(0, 1), (0, 1, None)], 2)
+W, F = set(G.vertices()), list(G.edges(sort=True, sort_vertices=True))
+N = set(G.get_matching())
+sorted(W - V)
+sorted(list((Counter(F) - Counter(E)).elements())), \
+sorted(list((Counter(E) - Counter(F)).elements()))
+if (0, 1, None) in M:
+    assert sorted(N - M), sorted(M - N) == \
+        ([(0, 4, None), (1, 5, None)], [(0, 1, None)])
+    assert sorted(N - M), sorted(M - N) == \
+        ([(4, 5, None)], [])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Subdividing edges with at least one of which is a multiple edge:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Subdividing edges with at least one of which is a multiple edge:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--104-input--1" name="tab-set--104" type="radio"><label class="tab-label" for="tab-set--104-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">T</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">TricornGraph</span><span class="p">()</span>
@@ -5650,8 +7468,34 @@ more) edges are present in the graph, each of those edges gets subdivided:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--104-input--3" name="tab-set--104" type="radio"><label class="tab-label" for="tab-set--104-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">T = graphs.TricornGraph()
+G = MatchingCoveredGraph(T)
+G.allow_multiple_edges(True)
+G.add_edges([
+    (0, 1, 2), (0, 1, 3),
+    (2, 3, 0.5), (2, 3, 4)
+])
+G.delete_edge(0, 1, None)
+from collections import Counter
+V, E = set(G.vertices()), list(G.edges(sort=True, sort_vertices=True))
+G.subdivide_edges([(0, 1), (1, 2), (2, 3)], 4)
+# edges considered: (0, 1, 2), (1, 2, None), (2, 3, None)
+W, F = set(G.vertices()), list(G.edges(sort=True, sort_vertices=True))
+sorted(W - V)
+sorted(list((Counter(F) - Counter(E)).elements())), \
+sorted(list((Counter(E) - Counter(F)).elements()))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Setting <code class="docutils literal notranslate"><span class="pre">k</span></code> to <span class="math notranslate nohighlight">\(0\)</span> does not change the graph:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Setting <code class="docutils literal notranslate"><span class="pre">k</span></code> to <span class="math notranslate nohighlight">\(0\)</span> does not change the graph:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--105-input--1" name="tab-set--105" type="radio"><label class="tab-label" for="tab-set--105-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">H</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -5670,8 +7514,21 @@ more) edges are present in the graph, each of those edges gets subdivided:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--105-input--3" name="tab-set--105" type="radio"><label class="tab-label" for="tab-set--105-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">H = G.copy()
+G.subdivide_edges([(0, 10), (1, 13), (2, 17)], 0)
+H == G and H.edges(sort=True) == G.edges(sort=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Subdividing edges with at least one of which is nonexistent:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Subdividing edges with at least one of which is nonexistent:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--106-input--1" name="tab-set--106" type="radio"><label class="tab-label" for="tab-set--106-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">G</span><span class="o">.</span><span class="n">subdivide_edges</span><span class="p">([(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)],</span> <span class="mi">4</span><span class="p">)</span>
@@ -5702,8 +7559,21 @@ more) edges are present in the graph, each of those edges gets subdivided:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--106-input--3" name="tab-set--106" type="radio"><label class="tab-label" for="tab-set--106-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">G.subdivide_edges([(4, 5), (1, 5)], 4)
+# edges considered: (4, 5, None), (1, 5, None)
+G.subdivide_edges([(0, 4), (0, 4, None)], 4)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">When <code class="docutils literal notranslate"><span class="pre">k</span></code> is not a nonnegative even integer:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">When <code class="docutils literal notranslate"><span class="pre">k</span></code> is not a nonnegative even integer:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--107-input--1" name="tab-set--107" type="radio"><label class="tab-label" for="tab-set--107-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">G</span><span class="o">.</span><span class="n">subdivide_edges</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)],</span> <span class="mi">3</span><span class="p">)</span>
@@ -5722,8 +7592,19 @@ more) edges are present in the graph, each of those edges gets subdivided:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--107-input--3" name="tab-set--107" type="radio"><label class="tab-label" for="tab-set--107-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">G.subdivide_edges([(0, 1), (1, 2), (2, 3)], 3)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Providing a noniterable object as <code class="docutils literal notranslate"><span class="pre">edges</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Providing a noniterable object as <code class="docutils literal notranslate"><span class="pre">edges</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--108-input--1" name="tab-set--108" type="radio"><label class="tab-label" for="tab-set--108-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">G</span><span class="o">.</span><span class="n">subdivide_edges</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">order</span><span class="p">(),</span> <span class="mi">4</span><span class="p">)</span>
@@ -5742,8 +7623,19 @@ more) edges are present in the graph, each of those edges gets subdivided:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--108-input--3" name="tab-set--108" type="radio"><label class="tab-label" for="tab-set--108-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">G.subdivide_edges(G.order(), 4)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Providing arguments in an invalid format:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Providing arguments in an invalid format:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--109-input--1" name="tab-set--109" type="radio"><label class="tab-label" for="tab-set--109-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">G</span><span class="o">.</span><span class="n">subdivide_edges</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span> <span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">)],</span> <span class="mi">4</span><span class="p">)</span>
@@ -5778,6 +7670,19 @@ more) edges are present in the graph, each of those edges gets subdivided:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--109-input--3" name="tab-set--109" type="radio"><label class="tab-label" for="tab-set--109-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">G.subdivide_edges([(0, ), (0, 1, 'label')], 4)
+G.subdivide_edges([(0, 1, 2, 4), (0, 1, 'label')], 4)
+G.subdivide_edges([0, (0, 1, 'label')], 4)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -5804,7 +7709,7 @@ otherwise an exception is returned without any alterations to
 <code class="docutils literal notranslate"><span class="pre">self._matching</span></code>.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Providing with a valid perfect matching of the graph:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Providing with a valid perfect matching of the graph:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--110-input--1" name="tab-set--110" type="radio"><label class="tab-label" for="tab-set--110-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">PetersenGraph</span><span class="p">()</span>
@@ -5831,13 +7736,33 @@ otherwise an exception is returned without any alterations to
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--110-input--3" name="tab-set--110" type="radio"><label class="tab-label" for="tab-set--110-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = graphs.PetersenGraph()
+G = MatchingCoveredGraph(P)
+sorted(G.get_matching())
+M = [(0, 1), (2, 3), (4, 9), (5, 7), (6, 8)]
+G.update_matching(M)
+sorted(G.get_matching())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -5940,7 +7865,7 @@ otherwise an exception is returned without any alterations to
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

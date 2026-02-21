@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -342,7 +342,7 @@ numbers, so it is the floating-point precision. This is a non-trivial
 issue, since there are various interfaces for different things.</p>
 <section id="internal-representation-and-conversion-between-sage-and-pari">
 <h3>Internal representation and conversion between Sage and PARI<a class="headerlink" href="#internal-representation-and-conversion-between-sage-and-pari" title="Link to this heading">¶</a></h3>
-<p class="with-sage-tab with-python-tab">Real numbers in PARI have a precision associated to them, which is
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Real numbers in PARI have a precision associated to them, which is
 always a multiple of the CPU wordsize. So, it is a multiple of 32
 of 64 bits. When converting from Sage to PARI, the precision is rounded
 up to the nearest multiple of the wordsize:</p>
@@ -370,8 +370,22 @@ up to the nearest multiple of the wordsize:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">x = 1.0
+x.precision()
+pari(x)
+pari(x).bitprecision()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">With a higher precision:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">With a higher precision:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">x</span> <span class="o">=</span> <span class="n">RealField</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">pi</span><span class="p">()</span>
@@ -392,8 +406,21 @@ up to the nearest multiple of the wordsize:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">x = RealField(100).pi()
+x.precision()
+pari(x).bitprecision()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">When converting back to Sage, the precision from PARI is taken:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">When converting back to Sage, the precision from PARI is taken:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">x</span> <span class="o">=</span> <span class="n">RealField</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">pi</span><span class="p">()</span>
@@ -416,10 +443,24 @@ up to the nearest multiple of the wordsize:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">x = RealField(100).pi()
+y = pari(x).sage()
+y
+parent(y)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>So <code class="docutils literal notranslate"><span class="pre">pari(x).sage()</span></code> is definitely not equal to <code class="docutils literal notranslate"><span class="pre">x</span></code> since it has
 28 bogus bits.</p>
-<p class="with-sage-tab with-python-tab">Therefore, some care must be taken when juggling reals back and forth
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Therefore, some care must be taken when juggling reals back and forth
 between Sage and PARI. The correct way of avoiding this is to convert
 <code class="docutils literal notranslate"><span class="pre">pari(x).sage()</span></code> back into a domain with the right precision. This has
 to be done by the user (or by Sage functions that use PARI library
@@ -465,6 +506,25 @@ functions). For instance, if we want to use the PARI library to compute
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.symbolic
+R = RealField(100)
+s = R(pi); s
+p = pari(s).sqrt()
+x = p.sage(); x    # wow, more digits than I expected!
+x.prec()           # has precision 'improved' from 100 to 128?
+x == RealField(128)(pi).sqrt()  # sadly, no!
+R(x)               # x should be brought back to precision 100
+R(x) == s.sqrt()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </section>
 <section id="output-precision-for-printing">
@@ -474,7 +534,7 @@ printed by default. The maximum number of digits when printing a PARI
 real can be set using the methods
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Pari.set_real_precision_bits()</span></code> or
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Pari.set_real_precision()</span></code>.</p>
-<p class="with-sage-tab with-python-tab">We create a very precise approximation of pi and see how it is printed
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We create a very precise approximation of pi and see how it is printed
 in PARI:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
@@ -488,8 +548,19 @@ in PARI:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pi = pari(RealField(1000).pi())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The default precision is 15 digits:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The default precision is 15 digits:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pi</span>
@@ -504,8 +575,19 @@ in PARI:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pi</pre>
 </div>
-<p class="with-sage-tab with-python-tab">With a different precision:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">With a different precision:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">_</span> <span class="o">=</span> <span class="n">pari</span><span class="o">.</span><span class="n">set_real_precision</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
@@ -522,8 +604,20 @@ in PARI:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">_ = pari.set_real_precision(50)
+pi</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Back to the default:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Back to the default:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">_</span> <span class="o">=</span> <span class="n">pari</span><span class="o">.</span><span class="n">set_real_precision</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
@@ -540,6 +634,18 @@ in PARI:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">_ = pari.set_real_precision(15)
+pi</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </section>
 <section id="input-precision-for-function-calls">
@@ -553,7 +659,7 @@ three kinds of calls:</p>
 <li><p>Using the library interface with inexact inputs, for example
 <code class="docutils literal notranslate"><span class="pre">pari(1.0).sin()</span></code>.</p></li>
 </ol>
-<p class="with-sage-tab with-python-tab">In the first case, the relevant precision is the one set by the methods
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In the first case, the relevant precision is the one set by the methods
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Pari.set_real_precision_bits()</span></code> or
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Pari.set_real_precision()</span></code>:</p>
 <div class="tab-set docutils container">
@@ -578,13 +684,27 @@ three kinds of calls:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pari.set_real_precision_bits(150)
+pari(&quot;sin(1)&quot;)
+pari.set_real_precision_bits(53)
+pari(&quot;sin(1)&quot;)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>In the second case, the precision can be given as the argument
 <code class="docutils literal notranslate"><span class="pre">precision</span></code> in the function call, with a default of 53 bits.
 The real precision set by
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Pari.set_real_precision_bits()</span></code> or
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Pari.set_real_precision()</span></code> is irrelevant.</p>
-<p class="with-sage-tab with-python-tab">In these examples, we convert to Sage to ensure that PARI’s real
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In these examples, we convert to Sage to ensure that PARI’s real
 precision is not used when printing the numbers. As explained before,
 this artificially increases the precision to a multiple of the
 wordsize.</p>
@@ -616,8 +736,21 @@ wordsize.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s = pari(1).sin(precision=180).sage(); print(s); print(parent(s))
+s = pari(1).sin(precision=40).sage(); print(s); print(parent(s))
+s = pari(1).sin().sage(); print(s); print(parent(s))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In the third case, the precision is determined only by the inexact
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In the third case, the precision is determined only by the inexact
 inputs and the <code class="docutils literal notranslate"><span class="pre">precision</span></code> argument is ignored:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
@@ -641,11 +774,24 @@ inputs and the <code class="docutils literal notranslate"><span class="pre">prec
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pari(1.0).sin(precision=180).sage()
+pari(1.0).sin(precision=40).sage()
+pari(RealField(100).one()).sin().sage()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </section>
 <section id="elliptic-curve-functions">
 <h3>Elliptic curve functions<a class="headerlink" href="#elliptic-curve-functions" title="Link to this heading">¶</a></h3>
-<p class="with-sage-tab with-python-tab">An elliptic curve given with exact <span class="math notranslate nohighlight">\(a\)</span>-invariants is considered an
+<p class="with-sage-tab with-python-tab with-sage-live-tab">An elliptic curve given with exact <span class="math notranslate nohighlight">\(a\)</span>-invariants is considered an
 exact object. Therefore, you should set the precision for each method
 call individually:</p>
 <div class="tab-set docutils container">
@@ -674,11 +820,30 @@ call individually:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">e = pari([0,0,0,-82,0]).ellinit()
+eta1 = e.elleta(precision=50)[0]
+eta1.sage()
+eta1 = e.elleta(precision=150)[0]
+eta1.sage()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </section>
 </section>
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -760,7 +925,7 @@ call individually:</p>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

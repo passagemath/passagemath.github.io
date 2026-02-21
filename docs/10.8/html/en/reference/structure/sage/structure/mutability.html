@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -320,7 +320,7 @@
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sage.structure.mutability.</span></span><span class="sig-name descname"><span class="pre">Mutability</span></span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/structure/mutability.pyx#L18"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.structure.mutability.Mutability" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class to mix in mutability feature.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">class</span><span class="w"> </span><span class="nc">A</span><span class="p">(</span><span class="n">SageObject</span><span class="p">,</span> <span class="n">Mutability</span><span class="p">):</span>
@@ -381,6 +381,32 @@
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">class A(SageObject, Mutability):
+    def __init__(self, val):
+        self._val = val
+    def change(self, val):
+        self._require_mutable()
+        self._val = val
+    def __hash__(self):
+        self._require_immutable()
+        return hash(self._val)
+a = A(4)
+a._val
+a.change(6); a._val
+hash(a)
+a.set_immutable()
+a.change(4)
+hash(a)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.structure.mutability.Mutability.is_immutable">
@@ -388,7 +414,7 @@
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if this object is immutable (cannot be changed)
 and <code class="docutils literal notranslate"><span class="pre">False</span></code> if it is not.</p>
 <p>To make this object immutable use self.set_immutable().</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">v</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="o">/</span><span class="mi">5</span><span class="p">])</span>
@@ -417,6 +443,22 @@ and <code class="docutils literal notranslate"><span class="pre">False</span></c
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">v = Sequence([1,2,3,4/5])
+v[0] = 5
+v
+v.is_immutable()
+v.set_immutable()
+v.is_immutable()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -426,7 +468,7 @@ and <code class="docutils literal notranslate"><span class="pre">False</span></c
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if this object is mutable (can be changed)
 and <code class="docutils literal notranslate"><span class="pre">False</span></code> if it is not.</p>
 <p>To make this object immutable use <code class="docutils literal notranslate"><span class="pre">self.set_immutable()</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">v</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="o">/</span><span class="mi">5</span><span class="p">])</span>
@@ -455,6 +497,22 @@ and <code class="docutils literal notranslate"><span class="pre">False</span></c
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">v = Sequence([1,2,3,4/5])
+v[0] = 5
+v
+v.is_mutable()
+v.set_immutable()
+v.is_mutable()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -462,7 +520,7 @@ and <code class="docutils literal notranslate"><span class="pre">False</span></c
 <dt class="sig sig-object py" id="sage.structure.mutability.Mutability.set_immutable">
 <span class="sig-name descname"><span class="pre">set_immutable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/structure/mutability.pyx#L118"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.structure.mutability.Mutability.set_immutable" title="Link to this definition">¶</a></dt>
 <dd><p>Make this object immutable, so it can never again be changed.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">v</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="o">/</span><span class="mi">5</span><span class="p">])</span>
@@ -491,6 +549,21 @@ and <code class="docutils literal notranslate"><span class="pre">False</span></c
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">v = Sequence([1,2,3,4/5])
+v[0] = 5
+v
+v.set_immutable()
+v[3] = 7</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -505,7 +578,7 @@ and <code class="docutils literal notranslate"><span class="pre">False</span></c
 <p>Objects whose methods use this decorator should have an attribute
 <code class="docutils literal notranslate"><span class="pre">_is_immutable</span></code>. Otherwise, the object is assumed to be mutable.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.structure.mutability</span><span class="w"> </span><span class="kn">import</span> <span class="n">require_mutable</span><span class="p">,</span> <span class="n">require_immutable</span>
@@ -572,6 +645,36 @@ and <code class="docutils literal notranslate"><span class="pre">False</span></c
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.structure.mutability import require_mutable, require_immutable
+class A():
+ def __init__(self, val):
+     self._m = val
+ &#64;require_mutable
+ def change(self, new_val):
+     'change self'
+     self._m = new_val
+ &#64;require_immutable
+ def __hash__(self):
+     'implement hash'
+     return hash(self._m)
+a = A(5)
+a.change(6)
+hash(a)   # indirect doctest
+a._is_immutable = True
+hash(a)
+a.change(7)
+from sage.misc.sageinspect import sage_getdoc
+print(sage_getdoc(a.__hash__))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>AUTHORS:</p>
 <ul class="simple">
@@ -588,7 +691,7 @@ and <code class="docutils literal notranslate"><span class="pre">False</span></c
 <p>Objects whose methods use this decorator should have an attribute
 <code class="docutils literal notranslate"><span class="pre">_is_immutable</span></code>. Otherwise, the object is assumed to be mutable.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.structure.mutability</span><span class="w"> </span><span class="kn">import</span> <span class="n">require_mutable</span><span class="p">,</span> <span class="n">require_immutable</span>
@@ -655,6 +758,36 @@ and <code class="docutils literal notranslate"><span class="pre">False</span></c
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.structure.mutability import require_mutable, require_immutable
+class A():
+    def __init__(self, val):
+        self._m = val
+    &#64;require_mutable
+    def change(self, new_val):
+        'change self'
+        self._m = new_val
+    &#64;require_immutable
+    def __hash__(self):
+        'implement hash'
+        return hash(self._m)
+a = A(5)
+a.change(6)
+hash(a)
+a._is_immutable = True
+hash(a)
+a.change(7)   # indirect doctest
+from sage.misc.sageinspect import sage_getdoc
+print(sage_getdoc(a.change))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>AUTHORS:</p>
 <ul class="simple">
@@ -663,7 +796,11 @@ and <code class="docutils literal notranslate"><span class="pre">False</span></c
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -746,7 +883,7 @@ and <code class="docutils literal notranslate"><span class="pre">False</span></c
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>

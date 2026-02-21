@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -436,7 +436,7 @@ differ in the examples for demonstration purpose.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">target_directory</span></code> – the name of the directory to be written;
 if it exists then the previous contents will be kept</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.temporary_file</span><span class="w"> </span><span class="kn">import</span> <span class="n">atomic_dir</span>
@@ -493,6 +493,37 @@ if it exists then the previous contents will be kept</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.temporary_file import atomic_dir
+target_dir = tmp_dir()
+with atomic_dir(target_dir) as d:
+    target_file = os.path.join(d.name, 'test')
+    with open(target_file, 'w') as f:
+       _ = f.write(&quot;First&quot;)
+       f.flush()
+    with atomic_dir(target_dir) as e:
+        target_file2 = os.path.join(e.name, 'test')
+        with open(target_file2, 'w') as g:
+           _ = g.write(&quot;Second&quot;)
+           g.flush()
+    with open(target_file, 'r') as f:
+        f.read()
+with atomic_dir(target_dir) as d:
+    target_file = os.path.join(d.name, 'test')
+    with open(target_file, 'w') as f:
+       _ = f.write(&quot;Third&quot;)
+target = os.path.join(target_dir, 'test')
+with open(target, 'r') as h:
+    h.read()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -530,7 +561,7 @@ supplied.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> – additional keyword arguments passed to the underlying
 <span class="math notranslate nohighlight">\(io.open\)</span> call</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.misc.temporary_file</span><span class="w"> </span><span class="kn">import</span> <span class="n">atomic_write</span>
@@ -567,8 +598,29 @@ supplied.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.temporary_file import atomic_write
+target_file = tmp_filename()
+with open(target_file, 'w') as f:
+    _ = f.write(&quot;Old contents&quot;)
+with atomic_write(target_file) as f:
+    _ = f.write(&quot;New contents&quot;)
+    f.flush()
+    with open(target_file, 'r') as f2:
+        f2.read()
+with open(target_file, 'r') as f:
+    f.read()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The name of the temporary file can be accessed using <code class="docutils literal notranslate"><span class="pre">f.name</span></code>.
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The name of the temporary file can be accessed using <code class="docutils literal notranslate"><span class="pre">f.name</span></code>.
 It is not a problem to close and re-open the temporary file:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
@@ -602,8 +654,28 @@ It is not a problem to close and re-open the temporary file:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.misc.temporary_file import atomic_write
+target_file = tmp_filename()
+with open(target_file, 'w') as f:
+    _ = f.write(&quot;Old contents&quot;)
+with atomic_write(target_file) as f:
+    f.close()
+    with open(f.name, 'w') as f2:
+        _ = f2.write(&quot;Newer contents&quot;)
+with open(target_file, 'r') as f:
+    f.read()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If an exception occurs while writing the file, the target file is
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If an exception occurs while writing the file, the target file is
 not touched:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
@@ -633,8 +705,23 @@ not touched:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">with atomic_write(target_file) as f:
+    _ = f.write(&quot;Newest contents&quot;)
+    raise RuntimeError
+with open(target_file, 'r') as f:
+    f.read()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Some examples of using the <code class="docutils literal notranslate"><span class="pre">append</span></code> option. Note that the file
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Some examples of using the <code class="docutils literal notranslate"><span class="pre">append</span></code> option. Note that the file
 is never opened in “append” mode, it is possible to overwrite
 existing data:</p>
 <div class="tab-set docutils container">
@@ -675,8 +762,30 @@ existing data:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">target_file = tmp_filename()
+with atomic_write(target_file, append=True) as f:
+    _ = f.write(&quot;Hello&quot;)
+with atomic_write(target_file, append=True) as f:
+    _ = f.write(&quot; World&quot;)
+with open(target_file, 'r') as f:
+    f.read()
+with atomic_write(target_file, append=True) as f:
+    _ = f.seek(0)
+    _ = f.write(&quot;HELLO&quot;)
+with open(target_file, 'r') as f:
+    f.read()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If the target file is a symbolic link, the link is kept and the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If the target file is a symbolic link, the link is kept and the
 target of the link is written to:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
@@ -702,8 +811,24 @@ target of the link is written to:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">link_to_target = os.path.join(tmp_dir(), &quot;templink&quot;)
+os.symlink(target_file, link_to_target)
+with atomic_write(link_to_target) as f:
+    _ = f.write(&quot;Newest contents&quot;)
+with open(target_file, 'r') as f:
+    f.read()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We check the permission bits of the new file. Note that the old
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We check the permission bits of the new file. Note that the old
 permissions do not matter:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
@@ -737,8 +862,27 @@ permissions do not matter:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">os.chmod(target_file, 0o600)
+_ = os.umask(0o022)
+with atomic_write(target_file) as f:
+    pass
+'{:#o}'.format(os.stat(target_file).st_mode &amp; 0o777)
+_ = os.umask(0o077)
+with atomic_write(target_file, mode=0o777) as f:
+    pass
+'{:#o}'.format(os.stat(target_file).st_mode &amp; 0o777)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Test writing twice to the same target file. The outermost <code class="docutils literal notranslate"><span class="pre">with</span></code>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Test writing twice to the same target file. The outermost <code class="docutils literal notranslate"><span class="pre">with</span></code>
 “wins”:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
@@ -766,8 +910,25 @@ permissions do not matter:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">with open(target_file, 'w') as f:
+    _ = f.write('&gt;&gt;&gt; ')
+with atomic_write(target_file, append=True) as f,         ....:          atomic_write(target_file, append=True) as g:
+    _ = f.write(&quot;AAA&quot;); f.close()
+    _ = g.write(&quot;BBB&quot;); g.close()
+with open(target_file, 'r') as f:
+    f.read()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Supplying an encoding means we’re writing the file in “text mode” (in the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Supplying an encoding means we’re writing the file in “text mode” (in the
 same sense as <span class="math notranslate nohighlight">\(io.open\)</span>) and so we must write unicode strings:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
@@ -795,8 +956,25 @@ same sense as <span class="math notranslate nohighlight">\(io.open\)</span>) and
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">target_file = tmp_filename()
+with atomic_write(target_file, binary=False,
+                  encoding='utf-8') as f:
+    _ = f.write(u'Hélas')
+import io
+with io.open(target_file, encoding='utf-8') as f:
+    print(f.read())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Supplying an encoding in binary mode (or other arguments that don’t
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Supplying an encoding in binary mode (or other arguments that don’t
 make sense to <span class="math notranslate nohighlight">\(io.open\)</span> in binary mode) is an error:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
@@ -826,6 +1004,21 @@ make sense to <span class="math notranslate nohighlight">\(io.open\)</span> in b
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">writer = atomic_write(target_file, binary=True,
+                      encoding='utf-8')
+with writer as f:
+    _ = f.write(u'Hello')
+os.path.exists(writer.tempname)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -853,7 +1046,7 @@ directory is automatically removed when sage terminates.</p>
 <p>OUTPUT:</p>
 <p>The absolute path of the temporary directory created, with a
 trailing slash (or whatever the path separator is on your OS).</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">d</span> <span class="o">=</span> <span class="n">tmp_dir</span><span class="p">(</span><span class="s1">&#39;dir_testing_&#39;</span><span class="p">,</span> <span class="s1">&#39;.extension&#39;</span><span class="p">)</span>
@@ -874,8 +1067,22 @@ trailing slash (or whatever the path separator is on your OS).</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">d = tmp_dir('dir_testing_', '.extension')
+d   # random output
+os.chdir(d)
+f = open('file_inside_d', 'w')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Temporary directories are unaccessible by other users:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Temporary directories are unaccessible by other users:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">st_mode</span> <span class="o">&amp;</span> <span class="mo">0o077</span>
@@ -890,6 +1097,18 @@ trailing slash (or whatever the path separator is on your OS).</p>
 <span class="go">0</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">os.stat(d).st_mode &amp; 0o077
+f.close()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -917,7 +1136,7 @@ want a filename extension in the usual sense, this should start
 with a dot.</p></li>
 </ul>
 <p>OUTPUT: the absolute path of the temporary file created</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">fn</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">(</span><span class="s1">&#39;just_for_testing_&#39;</span><span class="p">,</span> <span class="s1">&#39;.extension&#39;</span><span class="p">)</span>
@@ -936,8 +1155,21 @@ with a dot.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">fn = tmp_filename('just_for_testing_', '.extension')
+fn  # random
+f = open(fn, 'w')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Temporary files are unaccessible by other users:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Temporary files are unaccessible by other users:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span><span class="o">.</span><span class="n">st_mode</span> <span class="o">&amp;</span> <span class="mo">0o077</span>
@@ -954,11 +1186,27 @@ with a dot.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">os.stat(fn).st_mode &amp; 0o077
+f.close()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -1038,7 +1286,7 @@ with a dot.</p></li>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

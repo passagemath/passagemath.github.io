@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -437,7 +437,7 @@ this matrix along with corresponding unimodular transformations, from
 which a completion is readily obtained.</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Three polynomials whose GCD is <span class="math notranslate nohighlight">\(1\)</span> can be completed into a unimodular
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Three polynomials whose GCD is <span class="math notranslate nohighlight">\(1\)</span> can be completed into a unimodular
 matrix:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
@@ -475,8 +475,24 @@ matrix:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ring.&lt;x&gt; = GF(7)[]
+mat = matrix([[x*(x-1)*(x-2), (x-2)*(x-3)*(x-4), (x-4)*(x-5)*(x-6)]])
+mat
+rcomp = mat.basis_completion(); rcomp
+basis = mat.stack(rcomp); basis
+basis.determinant()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The following matrix has rank <span class="math notranslate nohighlight">\(2\)</span> and trivial Smith form. It can be
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The following matrix has rank <span class="math notranslate nohighlight">\(2\)</span> and trivial Smith form. It can be
 completed row-wise into a <span class="math notranslate nohighlight">\(3 \times 3\)</span> unimodular matrix (column-wise,
 there is nothing to complete):</p>
 <div class="tab-set docutils container">
@@ -505,8 +521,24 @@ there is nothing to complete):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">mat = matrix(ring, 2, 3, \
+  [[x^2 + 5*x + 5,   3*x^2 + x + 3, 4*x^2 + 5*x + 4], \
+   [5*x^2 + 4*x,   3*x^2 + 4*x + 5, 5*x^2 + 5*x + 3]])
+rcomp = mat.basis_completion(); rcomp
+mat.stack(rcomp).determinant()
+mat.basis_completion(row_wise=False)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The following matrix has rank 1 and its nonzero Smith factor is <span class="math notranslate nohighlight">\(x+3\)</span>.
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The following matrix has rank 1 and its nonzero Smith factor is <span class="math notranslate nohighlight">\(x+3\)</span>.
 A row-wise completion has a single nonzero row, whereas a column-wise
 completion has two columns; in both cases, the Smith form is preserved:</p>
 <div class="tab-set docutils container">
@@ -562,8 +594,27 @@ completion has two columns; in both cases, the Smith form is preserved:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">mat = matrix(ring, 3, 2, \
+  [[    x^3 + x^2 + 5*x + 5,         2*x^3 + 2*x + 4], \
+   [  3*x^3 + 2*x^2 + x + 3,   6*x^3 + 5*x^2 + x + 1], \
+   [2*x^3 + 5*x^2 + 3*x + 4, 4*x^3 + 6*x^2 + 5*x + 6]])
+mat.smith_form(transformation=False)
+rcomp = mat.basis_completion(); rcomp
+ccomp = mat.basis_completion(row_wise=False); ccomp
+rcomp.stack(mat).smith_form(transformation=False)
+ccomp.augment(mat).smith_form(transformation=False)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Here are a few more examples, similar to the above but over fields
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Here are a few more examples, similar to the above but over fields
 other than <code class="docutils literal notranslate"><span class="pre">GF(7)</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
@@ -643,6 +694,34 @@ other than <code class="docutils literal notranslate"><span class="pre">GF(7)</s
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ring.&lt;x&gt; = QQ[]
+mat = matrix([[x*(x-1)*(x-2), (x-2)*(x-3)*(x-4), (x-4)*(x-5)*(x-6)]])
+mat
+rcomp = mat.basis_completion(algorithm='smith'); rcomp
+mat.stack(rcomp).determinant()
+mat = matrix([[x*(x-1), x*(x-2)], \
+              [x*(x-2), x*(x-3)], \
+              [(x-1)*(x-2), (x-1)*(x-3)]])
+mat.smith_form(transformation=False)
+ccomp = mat.basis_completion(row_wise=False, algorithm='smith')
+ccomp
+ccomp.augment(mat).smith_form(transformation=False)
+# needs sage.rings.number_field
+field.&lt;a&gt; = NumberField(x**2 - 2)
+ring.&lt;y&gt; = field[]
+mat = matrix([[3*a*y - 1, (-8*a - 1)*y - 2*a + 1]])
+rcomp = mat.basis_completion(algorithm='smith'); rcomp
+mat.stack(rcomp).determinant()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -669,7 +748,7 @@ this selects the coefficient of degree <span class="math notranslate nohighlight
 row (resp. column) dimension of this matrix</p></li>
 </ul>
 <p>OUTPUT: a matrix over the base field</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -706,8 +785,26 @@ row (resp. column) dimension of this matrix</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+M = matrix([
+   [  x^3+5*x^2+5*x+1,       5,       6*x+4,         0],
+   [      6*x^2+3*x+1,       1,           2,         0],
+   [2*x^3+4*x^2+6*x+4, 5*x + 1, 2*x^2+5*x+5, x^2+5*x+6]
+    ])
+M.coefficient_matrix(2)
+M.coefficient_matrix(0) == M.constant_matrix()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Row-wise and column-wise coefficient extraction are available:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Row-wise and column-wise coefficient extraction are available:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span><span class="o">.</span><span class="n">coefficient_matrix</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
@@ -736,8 +833,20 @@ row (resp. column) dimension of this matrix</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.coefficient_matrix([3,2,1])
+M.coefficient_matrix([2,0,1,3], row_wise=False)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Negative degrees give zero coefficients:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Negative degrees give zero coefficients:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span><span class="o">.</span><span class="n">coefficient_matrix</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">row_wise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -756,8 +865,19 @@ row (resp. column) dimension of this matrix</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.coefficient_matrix([-1,0,1,3], row_wise=False)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Length of list of degrees is checked:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Length of list of degrees is checked:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span><span class="o">.</span><span class="n">coefficient_matrix</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
@@ -790,6 +910,18 @@ row (resp. column) dimension of this matrix</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.coefficient_matrix([2,1,1,2])
+M.coefficient_matrix([3,2,1], row_wise=False)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -811,7 +943,7 @@ Here, if the <span class="math notranslate nohighlight">\(j\)</span>-th column o
 <code class="docutils literal notranslate"><span class="pre">None</span></code> is interpreted as <code class="docutils literal notranslate"><span class="pre">shifts=[0,...,0]</span></code></p></li>
 </ul>
 <p>OUTPUT: list of integers</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -836,8 +968,22 @@ Here, if the <span class="math notranslate nohighlight">\(j\)</span>-th column o
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+M = matrix(pR, [[3*x+1, 0, 1], [x^3+3, 0, 0]])
+M.column_degrees()
+M.column_degrees(shifts=[0,2])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A zero column in a polynomial matrix can be identified in the (shifted)
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A zero column in a polynomial matrix can be identified in the (shifted)
 column degrees as the entries equal to <code class="docutils literal notranslate"><span class="pre">min(shifts)-1</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
@@ -853,8 +999,19 @@ column degrees as the entries equal to <code class="docutils literal notranslate
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.column_degrees(shifts=[-2,1])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The column degrees of a column-empty matrix <span class="math notranslate nohighlight">\(m\times 0\)</span> is an empty
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The column degrees of a column-empty matrix <span class="math notranslate nohighlight">\(m\times 0\)</span> is an empty
 list, while those of a row-empty matrix <span class="math notranslate nohighlight">\(0\times n\)</span> is a list of <span class="math notranslate nohighlight">\(n\)</span>
 times <span class="math notranslate nohighlight">\(-1\)</span>:</p>
 <div class="tab-set docutils container">
@@ -889,6 +1046,22 @@ times <span class="math notranslate nohighlight">\(-1\)</span>:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = matrix(pR, 3, 0)
+M.column_degrees()
+M.column_degrees(shifts=[1,2,3])
+M = matrix(pR, 0, 3)
+M.column_degrees()
+M.column_degrees(shifts=[])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -902,7 +1075,7 @@ times <span class="math notranslate nohighlight">\(-1\)</span>:</p>
 <dd><p>Return the constant coefficient of this matrix seen as a polynomial
 with matrix coefficients; this is also this matrix evaluated at zero.</p>
 <p>OUTPUT: a matrix over the base field</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -935,6 +1108,23 @@ with matrix coefficients; this is also this matrix evaluated at zero.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+M = matrix([
+   [  x^3+5*x^2+5*x+1,       5,       6*x+4,         0],
+   [      6*x^2+3*x+1,       1,           2,         0],
+   [2*x^3+4*x^2+6*x+4, 5*x + 1, 2*x^2+5*x+5, x^2+5*x+6]
+    ])
+M.constant_matrix()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -946,7 +1136,7 @@ with matrix coefficients; this is also this matrix evaluated at zero.</p>
 of all its entries. If the matrix is nonzero, this is a nonnegative
 integer; here, the degree of the zero matrix is -1.</p>
 <p>OUTPUT: integer</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -965,8 +1155,21 @@ integer; here, the degree of the zero matrix is -1.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+M = matrix(pR, [[3*x+1, 0, 1], [x^3+3, 0, 0]])
+M.degree()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A zero matrix (including empty matrices) has degree <code class="docutils literal notranslate"><span class="pre">-1</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A zero matrix (including empty matrices) has degree <code class="docutils literal notranslate"><span class="pre">-1</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">pR</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -987,6 +1190,20 @@ integer; here, the degree of the zero matrix is -1.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">M</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
 <span class="go">-1</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = matrix(pR, 2, 3)
+M.degree()
+M = matrix(pR, 3, 0)
+M.degree()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1016,7 +1233,7 @@ then shifts apply to the columns of the matrix and otherwise to its
 rows (see the class description for more details)</p></li>
 </ul>
 <p>OUTPUT: integer matrix</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -1045,8 +1262,22 @@ rows (see the class description for more details)</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+M = matrix(pR, [[3*x+1, 0, 1], [x^3+3, 0, 0]])
+M.degree_matrix()
+M.degree_matrix(shifts=[0,1,2])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The zero entries in the polynomial matrix can be identified in the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The zero entries in the polynomial matrix can be identified in the
 (shifted) degree matrix as the entries equal to <code class="docutils literal notranslate"><span class="pre">min(shifts)-1</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
@@ -1064,8 +1295,19 @@ rows (see the class description for more details)</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.degree_matrix(shifts=[-2,1,2])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Using <code class="docutils literal notranslate"><span class="pre">row_wise=False</span></code>, the function supports shifts applied to the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Using <code class="docutils literal notranslate"><span class="pre">row_wise=False</span></code>, the function supports shifts applied to the
 rows of the matrix (which, in terms of modules, means that we are
 working column-wise, see the class documentation):</p>
 <div class="tab-set docutils container">
@@ -1082,6 +1324,17 @@ working column-wise, see the class documentation):</p>
 <span class="go">[ 0 -2 -1]</span>
 <span class="go">[ 5 -2 -2]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.degree_matrix(shifts=[-1,2], row_wise=False)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1106,7 +1359,7 @@ return the transformation matrix</p></li>
 <li><p>the Hermite normal form <span class="math notranslate nohighlight">\(H\)</span> of this matrix <span class="math notranslate nohighlight">\(A\)</span> .</p></li>
 <li><p>(optional) transformation matrix <span class="math notranslate nohighlight">\(U\)</span> such that <span class="math notranslate nohighlight">\(UA = H\)</span> .</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -1171,6 +1424,29 @@ return the transformation matrix</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.&lt;x&gt; = GF(7)[]
+A = matrix(M, 2, 3, [x, 1, 2*x, x, 1+x, 2])
+A.hermite_form()
+A.hermite_form(transformation=True)
+A = matrix(M, 2, 3, [x, 1, 2*x, 2*x, 2, 4*x])
+A.hermite_form(transformation=True, include_zero_rows=False)
+H, U = A.hermite_form(transformation=True,
+                      include_zero_rows=True); H, U
+U * A == H
+H, U = A.hermite_form(transformation=True,
+                      include_zero_rows=False)
+U * A
+U * A == H</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -1205,7 +1481,7 @@ that <span class="math notranslate nohighlight">\(AB\)</span> and <span class="m
 <p>ALGORITHM: This uses Newton iteration, performing about <span class="math notranslate nohighlight">\(\log(d)\)</span>
 polynomial matrix multiplications in size <span class="math notranslate nohighlight">\(m \times m\)</span> and in degree
 less than <span class="math notranslate nohighlight">\(2d\)</span>, where <span class="math notranslate nohighlight">\(m\)</span> is the row dimension of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -1270,6 +1546,27 @@ less than <span class="math notranslate nohighlight">\(2d\)</span>, where <span 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+A = matrix(pR, 3, 3,
+           [[4*x+5,           5*x^2 + x + 1, 4*x^2 + 4],
+            [6*x^2 + 6*x + 6, 4*x^2 + 5*x,   4*x^2 + x + 3],
+            [3*x^2 + 2,       4*x + 1,       x^2 + 3*x]])
+B = A.inverse_series_trunc(4); B
+(B*A).truncate(4) == 1
+A.inverse_series_trunc(0)
+A[:2,:].inverse_series_trunc(4)
+A[0,:] = A[0,:] - A[0,:](0) + A[1,:](0) + A[2,:](0)
+A.inverse_series_trunc(4)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -1291,7 +1588,7 @@ polynomials with matrix coefficients when the matrix size is
 <dd><p>Return whether this polynomial matrix is constant,
 that is, all its entries are constant.</p>
 <p>OUTPUT: boolean</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -1324,6 +1621,25 @@ that is, all its entries are constant.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">M</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">zero</span><span class="p">(</span><span class="n">pR</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">));</span> <span class="n">M</span><span class="o">.</span><span class="n">is_constant</span><span class="p">()</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+M = matrix([
+   [  x^3+5*x^2+5*x+1,       5,       6*x+4,         0],
+   [      6*x^2+3*x+1,       1,           2,         0],
+   [2*x^3+4*x^2+6*x+4, 5*x + 1, 2*x^2+5*x+5, x^2+5*x+6]
+    ])
+M.is_constant()
+M = matrix(pR, [[1,5,2], [3,1,5]]); M.is_constant()
+M = matrix.zero(pR, 3, 5); M.is_constant()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1369,7 +1685,7 @@ working with lower triangular Hermite forms.</p></li>
 Hermite forms</p></li>
 </ul>
 <p>OUTPUT: boolean</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -1426,8 +1742,32 @@ Hermite forms</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+M = matrix(pR, [[x^4+6*x^3+4*x+4, 3*x+6,     3  ],
+                [0,               x^2+5*x+5, 2  ],
+                [0,               0,         x+5]])
+M.is_hermite()
+M.is_hermite(row_wise=False)
+M.is_hermite(row_wise=False, lower_echelon=True)
+N = matrix(pR, [[x+5, 0,               0        ],
+                [2,   x^4+6*x^3+4*x+4, 0        ],
+                [3,   3*x^3+6,         x^2+5*x+5]])
+N.is_hermite()
+N.is_hermite(lower_echelon=True)
+N.is_hermite(row_wise=False)
+N.is_hermite(row_wise=False, lower_echelon=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Rectangular matrices with zero rows are supported. Zero rows (resp.
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Rectangular matrices with zero rows are supported. Zero rows (resp.
 columns) can be forbidden, and otherwise they should be at the bottom
 (resp. the right-hand side) of the matrix:</p>
 <div class="tab-set docutils container">
@@ -1458,6 +1798,22 @@ columns) can be forbidden, and otherwise they should be at the bottom
 <span class="gp">...</span>                    <span class="n">include_zero_vectors</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="go">False</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">N[:,1:].is_hermite(lower_echelon=True)
+N[[1,2,0],1:].is_hermite(lower_echelon=True)
+N[:2,:].is_hermite(row_wise=False, lower_echelon=True)
+N[:2,:].is_hermite(row_wise=False,
+                   lower_echelon=True,
+                   include_zero_vectors=False)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1500,7 +1856,7 @@ nonsingular and in shifted weak Popov form is done via
 <a class="reference internal" href="#sage.matrix.matrix_polynomial_dense.Matrix_polynomial_dense.is_weak_popov" title="sage.matrix.matrix_polynomial_dense.Matrix_polynomial_dense.is_weak_popov"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_weak_popov()</span></code></a>; verification that the matrix generates the
 module of approximants is done via the characterization in Theorem 2.1
 of <a class="reference internal" href="../../../references/index.html#gn2018" id="id3"><span>[GN2018]</span></a> .</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">97</span><span class="p">)[]</span>
@@ -1513,8 +1869,19 @@ of <a class="reference internal" href="../../../references/index.html#gn2018" id
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(97)[]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We consider the following example from [Arne Storjohann, Notes on
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We consider the following example from [Arne Storjohann, Notes on
 computing minimal approximant bases, 2006]:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
@@ -1558,8 +1925,33 @@ computing minimal approximant bases, 2006]:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">order = 8; shifts = [1,1,0,0,0]
+pmat = matrix(pR, 5, 1, [
+    pR([35,  0, 41, 87,  3, 42, 22, 90]),
+    pR([80, 15, 62, 87, 14, 93, 24,  0]),
+    pR([42, 57, 90, 87, 22, 80, 71, 53]),
+    pR([37, 72, 74,  6,  5, 75, 23, 47]),
+    pR([36, 10, 74,  1, 29, 44, 87, 74])])
+appbas = matrix(pR, [
+    [x+47,   57, 58*x+44,     9*x+23,      93*x+76],
+    [  15, x+18, 52*x+23,     15*x+58,     93*x+88],
+    [  17,   86, x^2+77*x+16, 76*x+29,     90*x+78],
+    [  44,   36, 3*x+42,      x^2+50*x+26, 85*x+44],
+    [   2,   22, 54*x+94,     73*x+24,     x^2+2*x+25]])
+appbas.is_minimal_approximant_basis(                                  # needs sage.libs.pari
+    pmat, order, shifts, row_wise=True, normal_form=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The matrix <span class="math notranslate nohighlight">\(x^8 \mathrm{Id}_5\)</span> is square, nonsingular, in Popov form,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The matrix <span class="math notranslate nohighlight">\(x^8 \mathrm{Id}_5\)</span> is square, nonsingular, in Popov form,
 and its rows are approximants for <code class="docutils literal notranslate"><span class="pre">pmat</span></code> at order 8. However, it is
 not an approximant basis since its rows generate a module strictly
 contained in the set of approximants for <code class="docutils literal notranslate"><span class="pre">pmat</span></code> at order 8:</p>
@@ -1579,8 +1971,20 @@ contained in the set of approximants for <code class="docutils literal notransla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = x^8 * matrix.identity(pR, 5)
+M.is_minimal_approximant_basis(pmat, 8)                               # needs sage.libs.pari</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Since <code class="docutils literal notranslate"><span class="pre">pmat</span></code> is a single column, with nonzero constant coefficient,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Since <code class="docutils literal notranslate"><span class="pre">pmat</span></code> is a single column, with nonzero constant coefficient,
 its column-wise approximant bases at order 8 are all <span class="math notranslate nohighlight">\(1\times 1\)</span>
 matrices <span class="math notranslate nohighlight">\([c x^8]\)</span> for some nonzero field element <span class="math notranslate nohighlight">\(c\)</span>:</p>
 <div class="tab-set docutils container">
@@ -1601,8 +2005,21 @@ matrices <span class="math notranslate nohighlight">\([c x^8]\)</span> for some 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = matrix(pR, [x^8])
+M.is_minimal_approximant_basis(
+    pmat, 8, row_wise=False, normal_form=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Exceptions are raised if input dimensions are not sound:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Exceptions are raised if input dimensions are not sound:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">appbas</span><span class="o">.</span><span class="n">is_minimal_approximant_basis</span><span class="p">(</span><span class="n">pmat</span><span class="p">,</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">],</span> <span class="n">shifts</span><span class="p">)</span>
@@ -1649,6 +2066,20 @@ matrices <span class="math notranslate nohighlight">\([c x^8]\)</span> for some 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">appbas.is_minimal_approximant_basis(pmat, [8,8], shifts)
+appbas.is_minimal_approximant_basis(
+    pmat, order, shifts, row_wise=False)
+matrix(pR, [x^8]).is_minimal_approximant_basis(pmat, 8)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -1684,7 +2115,7 @@ matrix is a left kernel basis is done by checking that the rank is
 correct, that the product is indeed zero, and that the matrix is
 saturated, i.e. it has unimodular column bases (see Lemma 6.10 of
 <a class="reference external" href="https://arxiv.org/pdf/1807.01272.pdf">https://arxiv.org/pdf/1807.01272.pdf</a> for details).</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">97</span><span class="p">)[]</span>
@@ -1707,8 +2138,22 @@ saturated, i.e. it has unimodular column bases (see Lemma 6.10 of
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(97)[]
+pmat = matrix(pR, [[1], [x], [x**2]])
+kerbas = matrix(pR, [[x,-1,0], [0,x,-1]])
+kerbas.is_minimal_kernel_basis(pmat)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A matrix in Popov form which has the right rank, all rows in the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A matrix in Popov form which has the right rank, all rows in the
 kernel, but does not generate the kernel:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--28-input--1" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--1">Sage</label><div class="tab-content docutils container">
@@ -1726,8 +2171,20 @@ kernel, but does not generate the kernel:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">kerbas = matrix(pR, [[x**2,0,-1], [0,x,-1]])
+kerbas.is_minimal_kernel_basis(pmat)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Shifts and right kernel bases are supported (with <code class="docutils literal notranslate"><span class="pre">row_wise</span></code>), and one can test whether the kernel basis is normalized in shifted-Popov form (with <code class="docutils literal notranslate"><span class="pre">normal_form</span></code>):</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Shifts and right kernel bases are supported (with <code class="docutils literal notranslate"><span class="pre">row_wise</span></code>), and one can test whether the kernel basis is normalized in shifted-Popov form (with <code class="docutils literal notranslate"><span class="pre">normal_form</span></code>):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">kerbas</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">pR</span><span class="p">,</span> <span class="p">[[</span><span class="o">-</span><span class="n">x</span><span class="p">,</span><span class="o">-</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
@@ -1746,6 +2203,20 @@ kernel, but does not generate the kernel:</p>
 <span class="gp">...</span>     <span class="n">normal_form</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">shifts</span><span class="o">=</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">kerbas = matrix(pR, [[-x,-x**2], [1,0], [0,1]])
+kerbas.is_minimal_kernel_basis(
+    pmat.transpose(), row_wise=False,
+    normal_form=True, shifts=[0,1,2])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1786,7 +2257,7 @@ Popov forms</p></li>
 <p>REFERENCES:</p>
 <p>For the square case, without shifts: <a class="reference internal" href="../../../references/index.html#pop1972" id="id4"><span>[Pop1972]</span></a> and <a class="reference internal" href="../../../references/index.html#kai1980" id="id5"><span>[Kai1980]</span></a> (Section
 6.7.2). For the general case: <a class="reference internal" href="../../../references/index.html#blv2006" id="id6"><span>[BLV2006]</span></a> .</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--30-input--1" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -1845,8 +2316,31 @@ Popov forms</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--30-input--3" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+M = matrix(pR, [[x^4+6*x^3+4*x+4, 3*x+6,     3  ],
+                [x^2+6*x+6,       x^2+5*x+5, 2  ],
+                [3*x,             6*x+5,     x+5]])
+M.is_popov()
+M.is_popov(shifts=[0,1,2])
+M[:,:2].is_popov()
+M[:2,:].is_popov(shifts=[0,1,2])
+M = matrix(pR, [[x^4+3*x^3+x^2+2*x+6, x^3+5*x^2+5*x+1],
+                [6*x+1,               x^2+4*x+1      ],
+                [6,                   6              ]])
+M.is_popov(row_wise=False)
+M.is_popov(shifts=[0,2,3], row_wise=False)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">One can forbid zero rows (or columns if not working row-wise):</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">One can forbid zero rows (or columns if not working row-wise):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--31-input--1" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">N</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">pR</span><span class="p">,</span> <span class="p">[[</span><span class="n">x</span><span class="o">^</span><span class="mi">4</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span><span class="o">+</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span>     <span class="p">],</span>
@@ -1875,8 +2369,23 @@ Popov forms</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--31-input--3" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">N = matrix(pR, [[x^4+3*x^3+x^2+2*x+6, 6*x+1     ],
+                [5*x^2+5*x+1,         x^2+4*x+1 ],
+                [0,                   0         ]])
+N.is_popov()
+N.is_popov(include_zero_vectors=False)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">One can verify Popov form up to row permutation (or column permutation
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">One can verify Popov form up to row permutation (or column permutation
 if not working row-wise):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--32-input--1" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--1">Sage</label><div class="tab-content docutils container">
@@ -1918,6 +2427,23 @@ if not working row-wise):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--32-input--3" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.swap_columns(0, 1)
+M.is_popov(shifts=[0,2,3], row_wise=False)
+M.is_popov(shifts=[0,2,3], row_wise=False,
+           up_to_permutation=True)
+N.swap_rows(0, 2)
+N.is_popov()
+N.is_popov(up_to_permutation=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1951,7 +2477,7 @@ zero columns in column reduced forms)</p></li>
 <p>OUTPUT: boolean</p>
 <p>REFERENCES:</p>
 <p><a class="reference internal" href="../../../references/index.html#wol1974" id="id7"><span>[Wol1974]</span></a> (Section 2.5, without shifts) and <a class="reference internal" href="../../../references/index.html#vbb1992" id="id8"><span>[VBB1992]</span></a> (Section 3).</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--33-input--1" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -1998,6 +2524,25 @@ zero columns in column reduced forms)</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--33-input--3" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+M = matrix(pR, [[3*x+1, 0, 1], [x^3+3, 0, 0]])
+M.is_reduced()
+M.is_reduced(shifts=[0,1,2])
+M.is_reduced(shifts=[2,0], row_wise=False)
+M.is_reduced(shifts=[2,0], row_wise=False,
+             include_zero_vectors=False)
+M = matrix(pR, [[3*x+1, 0, 1], [x^3+3, 0, 0], [0, 1, 0]])
+M.is_reduced(shifts=[2,0,0], row_wise=False)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -2033,7 +2578,7 @@ checking for an ordered weak Popov form</p></li>
 <p>REFERENCES:</p>
 <p><a class="reference internal" href="../../../references/index.html#kai1980" id="id9"><span>[Kai1980]</span></a> (Section 6.7.2, square case without shifts), <a class="reference internal" href="../../../references/index.html#ms2003" id="id10"><span>[MS2003]</span></a>
 (without shifts), <a class="reference internal" href="../../../references/index.html#blv1999" id="id11"><span>[BLV1999]</span></a> .</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--34-input--1" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -2056,8 +2601,23 @@ checking for an ordered weak Popov form</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--34-input--3" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+M = matrix([ [x^3+3*x^2+6*x+6, 3*x^2+3*x+6, 4*x^2+x+3],
+             [5,               1,           0        ],
+             [2*x^2+2,         2*x+5,       x^2+4*x+6] ])
+M.is_weak_popov()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">One can check whether the leading positions, in addition to being
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">One can check whether the leading positions, in addition to being
 pairwise distinct, are actually in increasing order:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--35-input--1" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--1">Sage</label><div class="tab-content docutils container">
@@ -2085,8 +2645,22 @@ pairwise distinct, are actually in increasing order:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--35-input--3" name="tab-set--35" type="radio"><label class="tab-label" for="tab-set--35-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.is_weak_popov(ordered=True)
+N = M.with_swapped_rows(1, 2)
+N.is_weak_popov()
+N.is_weak_popov(ordered=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Shifts and orientation (row-wise or column-wise) are supported:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Shifts and orientation (row-wise or column-wise) are supported:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--36-input--1" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span><span class="o">.</span><span class="n">is_weak_popov</span><span class="p">(</span><span class="n">shifts</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
@@ -2109,8 +2683,21 @@ pairwise distinct, are actually in increasing order:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--36-input--3" name="tab-set--36" type="radio"><label class="tab-label" for="tab-set--36-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.is_weak_popov(shifts=[2,3,1])
+M.is_weak_popov(shifts=[0,2,0], row_wise=False,
+                ordered=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Rectangular matrices are supported:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Rectangular matrices are supported:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--37-input--1" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([</span>
@@ -2141,8 +2728,25 @@ pairwise distinct, are actually in increasing order:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--37-input--3" name="tab-set--37" type="radio"><label class="tab-label" for="tab-set--37-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = matrix([
+   [  x^3+5*x^2+5*x+1,       5,       6*x+4,         0],
+   [      6*x^2+3*x+1,       1,           2,         0],
+   [2*x^3+4*x^2+6*x+4, 5*x + 1, 2*x^2+5*x+5, x^2+5*x+6]
+    ])
+M.is_weak_popov(shifts=[0,2,1,3])
+M.is_weak_popov(shifts=[0,2,1,3], ordered=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Zero rows (resp. columns) can be forbidden:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Zero rows (resp. columns) can be forbidden:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--38-input--1" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([</span>
@@ -2175,6 +2779,25 @@ pairwise distinct, are actually in increasing order:</p>
 <span class="gp">...</span>                 <span class="n">include_zero_vectors</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="go">False</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--38-input--3" name="tab-set--38" type="radio"><label class="tab-label" for="tab-set--38-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = matrix([
+  [      6*x+4,       0,             5*x+1, 0],
+  [          2, 5*x + 1,       6*x^2+3*x+1, 0],
+  [2*x^2+5*x+5,       1, 2*x^3+4*x^2+6*x+4, 0]
+  ])
+M.is_weak_popov(shifts=[2,1,0], row_wise=False,
+                ordered=True)
+M.is_weak_popov(shifts=[2,1,0], row_wise=False,
+                include_zero_vectors=False)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2212,7 +2835,7 @@ working row-wise (see the class description)</p></li>
 <p>OUTPUT: a matrix over the base field</p>
 <p>REFERENCES:</p>
 <p><a class="reference internal" href="../../../references/index.html#wol1974" id="id12"><span>[Wol1974]</span></a> (Section 2.5, without shifts) and <a class="reference internal" href="../../../references/index.html#vbb1992" id="id13"><span>[VBB1992]</span></a> (Section 3).</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--39-input--1" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -2271,6 +2894,24 @@ working row-wise (see the class description)</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--39-input--3" name="tab-set--39" type="radio"><label class="tab-label" for="tab-set--39-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+M = matrix(pR, [[3*x+1, 0, 1], [x^3+3, 0, 0]])
+M.leading_matrix()
+M.leading_matrix().base_ring()
+M.leading_matrix(shifts=[0,1,2])
+M.leading_matrix(row_wise=False)
+M.leading_matrix(shifts=[-2,1], row_wise=False)
+M.leading_matrix(shifts=[2,0], row_wise=False)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2304,7 +2945,7 @@ implies that the pivot degrees are returned</p></li>
 of integers otherwise</p>
 <p>REFERENCES:</p>
 <p><a class="reference internal" href="../../../references/index.html#kai1980" id="id14"><span>[Kai1980]</span></a> (Section 6.7.2, without shifts).</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--40-input--1" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -2349,8 +2990,26 @@ of integers otherwise</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--40-input--3" name="tab-set--40" type="radio"><label class="tab-label" for="tab-set--40-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+M = matrix(pR, [[3*x+1, 0, 1], [x^3+3, 0, 0]])
+M.leading_positions()
+M.leading_positions(return_degree=True)
+M.leading_positions(shifts=[0,5,2], return_degree=True)
+M.leading_positions(row_wise=False, return_degree=True)
+M.leading_positions(shifts=[1,2], row_wise=False,
+                    return_degree=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In case several entries in the row (resp. column) reach the shifted row
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In case several entries in the row (resp. column) reach the shifted row
 (resp. column) degree, the leading position is chosen as the rightmost
 (resp. bottommost) such entry:</p>
 <div class="tab-set docutils container">
@@ -2375,8 +3034,21 @@ of integers otherwise</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--41-input--3" name="tab-set--41" type="radio"><label class="tab-label" for="tab-set--41-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.leading_positions(shifts=[0,5,1], return_degree=True)
+M.leading_positions(shifts=[2,0], row_wise=False,
+                    return_degree=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The leading positions and pivot degrees of an empty matrix (<span class="math notranslate nohighlight">\(0\times n\)</span>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The leading positions and pivot degrees of an empty matrix (<span class="math notranslate nohighlight">\(0\times n\)</span>
 or <span class="math notranslate nohighlight">\(m\times 0\)</span>) are taken by convention as follows:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--42-input--1" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--1">Sage</label><div class="tab-content docutils container">
@@ -2400,6 +3072,19 @@ or <span class="math notranslate nohighlight">\(m\times 0\)</span>) are taken by
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--42-input--3" name="tab-set--42" type="radio"><label class="tab-label" for="tab-set--42-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = matrix(pR, 0, 3)
+M.leading_positions(return_degree=True)
+M.leading_positions(shifts=[], row_wise=False, return_degree=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -2412,7 +3097,7 @@ entrywise.</p>
 <p>This method directly calls <a class="reference internal" href="#sage.matrix.matrix_polynomial_dense.Matrix_polynomial_dense.right_quo_rem" title="sage.matrix.matrix_polynomial_dense.Matrix_polynomial_dense.right_quo_rem"><code class="xref py py-meth docutils literal notranslate"><span class="pre">right_quo_rem()</span></code></a> on transposed
 matrices, and transposes the result. See <a class="reference internal" href="#sage.matrix.matrix_polynomial_dense.Matrix_polynomial_dense.right_quo_rem" title="sage.matrix.matrix_polynomial_dense.Matrix_polynomial_dense.right_quo_rem"><code class="xref py py-meth docutils literal notranslate"><span class="pre">right_quo_rem()</span></code></a> for a
 complete documentation and more examples.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--43-input--1" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -2471,8 +3156,31 @@ complete documentation and more examples.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--43-input--3" name="tab-set--43" type="radio"><label class="tab-label" for="tab-set--43-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+A = matrix(pR, 3, 2,
+           [[      3*x^3 + 3*x,         2*x^3 + 4],
+            [  3*x^3 + 6*x + 5, 6*x^3 + 5*x^2 + 1],
+            [  2*x^3 + 2*x + 6,   3*x^2 + 2*x + 2]])
+B = matrix(pR, 3, 3,
+           [[              3,       x + 3,               6],
+            [3*x^3 + 3*x + 1, 4*x^2 + 3*x,   6*x^3 + x + 4],
+            [  4*x^2 + x + 4, 3*x^2 + 4*x, 3*x^2 + 3*x + 2]])
+Q, R = A.left_quo_rem(B); Q, R
+rdegR = R.row_degrees(); rdegB = B.row_degrees()
+A == B*Q+R and all(rdegR[i] &lt; rdegB[i] for i in range(3))
+A[:2,:].left_quo_rem(B)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Rectangular or rank-deficient matrices are supported but there may be
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Rectangular or rank-deficient matrices are supported but there may be
 no quotient and remainder (unless the matrix has full row rank, see
 <a class="reference internal" href="#sage.matrix.matrix_polynomial_dense.Matrix_polynomial_dense.right_quo_rem" title="sage.matrix.matrix_polynomial_dense.Matrix_polynomial_dense.right_quo_rem"><code class="xref py py-meth docutils literal notranslate"><span class="pre">right_quo_rem()</span></code></a>):</p>
 <div class="tab-set docutils container">
@@ -2517,6 +3225,21 @@ no quotient and remainder (unless the matrix has full row rank, see
 <span class="go">ValueError: division of these matrices does not admit a remainder</span>
 <span class="go">with the required degree property</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--44-input--3" name="tab-set--44" type="radio"><label class="tab-label" for="tab-set--44-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Q, R = A[:2,:].left_quo_rem(B[:2,:]); Q, R
+rdegR = R.row_degrees(); rdegB = B[:2,:].row_degrees()
+A[:2,:] == B[:2,:]*Q+R
+all([rdegR[i] &lt; rdegB[i] for i in range(len(rdegR))])
+A.left_quo_rem(B[:,:2])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2572,7 +3295,7 @@ of <code class="docutils literal notranslate"><span class="pre">self</span></cod
 <p>The implementation is inspired from the iterative algorithms described
 in <a class="reference internal" href="../../../references/index.html#vbb1992" id="id15"><span>[VBB1992]</span></a> and <a class="reference internal" href="../../../references/index.html#bl1994" id="id16"><span>[BL1994]</span></a> ; for obtaining the normal form, it relies
 directly on Lemmas 3.3 and 4.1 in <a class="reference internal" href="../../../references/index.html#jnsv2016" id="id17"><span>[JNSV2016]</span></a> .</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--45-input--1" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -2601,8 +3324,25 @@ directly on Lemmas 3.3 and 4.1 in <a class="reference internal" href="../../../r
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--45-input--3" name="tab-set--45" type="radio"><label class="tab-label" for="tab-set--45-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+order = [4, 3]; shifts = [-1, 2, 0]
+F = matrix(pR, [[5*x^3 + 4*x^2 + 4*x + 6, 5*x^2 + 4*x + 1],
+                [        2*x^2 + 2*x + 3, 6*x^2 + 6*x + 3],
+                [4*x^3         +   x + 1, 4*x^2 + 2*x + 3]])
+P = F.minimal_approximant_basis(order, shifts)
+P.is_minimal_approximant_basis(F, order, shifts)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">By default, the computed basis is not required to be in normal form
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">By default, the computed basis is not required to be in normal form
 (and will not be except in rare special cases):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--46-input--1" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--1">Sage</label><div class="tab-content docutils container">
@@ -2630,8 +3370,24 @@ directly on Lemmas 3.3 and 4.1 in <a class="reference internal" href="../../../r
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--46-input--3" name="tab-set--46" type="radio"><label class="tab-label" for="tab-set--46-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.is_minimal_approximant_basis(F, order, shifts,
+                               normal_form=True)
+P = F.minimal_approximant_basis(order, shifts,
+                                normal_form=True)
+P.is_minimal_approximant_basis(F, order, shifts,
+                               normal_form=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If shifts are not specified, they are chosen as uniform <span class="math notranslate nohighlight">\([0,\ldots,0]\)</span>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If shifts are not specified, they are chosen as uniform <span class="math notranslate nohighlight">\([0,\ldots,0]\)</span>
 by default. Besides, if the orders are all the same, one can rather
 give a single integer:</p>
 <div class="tab-set docutils container">
@@ -2650,8 +3406,20 @@ give a single integer:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--47-input--3" name="tab-set--47" type="radio"><label class="tab-label" for="tab-set--47-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">(F.minimal_approximant_basis(3) ==
+ F.minimal_approximant_basis([3,3], shifts=[0,0,0]))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">One can work column-wise by specifying <code class="docutils literal notranslate"><span class="pre">row_wise=False</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">One can work column-wise by specifying <code class="docutils literal notranslate"><span class="pre">row_wise=False</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--48-input--1" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">minimal_approximant_basis</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
@@ -2680,8 +3448,25 @@ give a single integer:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--48-input--3" name="tab-set--48" type="radio"><label class="tab-label" for="tab-set--48-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = F.minimal_approximant_basis([5,2,2], [0,1],
+                                row_wise=False)
+P.is_minimal_approximant_basis(F, [5,2,2], shifts=[0,1],
+                               row_wise=False)
+(F.minimal_approximant_basis(3, row_wise=True) ==
+ F.transpose().minimal_approximant_basis(
+     3, row_wise=False).transpose())</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Zero or negative order entries are supported, and amount to ignoring
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Zero or negative order entries are supported, and amount to ignoring
 the corresponding column of <code class="docutils literal notranslate"><span class="pre">self</span></code> (or corresponding row, if column-wise):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--49-input--1" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--1">Sage</label><div class="tab-content docutils container">
@@ -2703,8 +3488,21 @@ the corresponding column of <code class="docutils literal notranslate"><span cla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--49-input--3" name="tab-set--49" type="radio"><label class="tab-label" for="tab-set--49-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = F.minimal_approximant_basis([4, 0, 3], row_wise=False)
+P == F.minimal_approximant_basis([4, -2, 3], row_wise=False)
+P == F[[0,2],:].minimal_approximant_basis([4,3], row_wise=False)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Errors are raised if the input dimensions are not sound:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Errors are raised if the input dimensions are not sound:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--50-input--1" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">minimal_approximant_basis</span><span class="p">([</span><span class="mi">4</span><span class="p">],</span> <span class="n">shifts</span><span class="p">)</span>
@@ -2731,6 +3529,18 @@ the corresponding column of <code class="docutils literal notranslate"><span cla
 <span class="gp">...</span>
 <span class="go">ValueError: shifts length should be the row dimension</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--50-input--3" name="tab-set--50" type="radio"><label class="tab-label" for="tab-set--50-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = F.minimal_approximant_basis([4], shifts)
+P = F.minimal_approximant_basis(order, [0,0,0,0])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2789,7 +3599,7 @@ output basis is in <code class="docutils literal notranslate"><span class="pre">
 <p>The implementation is inspired from the iterative algorithms described
 in <a class="reference internal" href="../../../references/index.html#bec1992" id="id18"><span>[Bec1992]</span></a> and <a class="reference internal" href="../../../references/index.html#vbb1992" id="id19"><span>[VBB1992]</span></a> ; for obtaining the normal form, it relies
 directly on Lemmas 3.3 and 4.1 in <a class="reference internal" href="../../../references/index.html#jnsv2016" id="id20"><span>[JNSV2016]</span></a> .</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--51-input--1" name="tab-set--51" type="radio"><label class="tab-label" for="tab-set--51-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">ff</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
@@ -2804,8 +3614,20 @@ directly on Lemmas 3.3 and 4.1 in <a class="reference internal" href="../../../r
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--51-input--3" name="tab-set--51" type="radio"><label class="tab-label" for="tab-set--51-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">ff = GF(7)
+xring.&lt;x&gt; = ff[]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This method supports any number of columns or rows, as well as
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This method supports any number of columns or rows, as well as
 arbitrary shifts and lists of points:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--52-input--1" name="tab-set--52" type="radio"><label class="tab-label" for="tab-set--52-input--1">Sage</label><div class="tab-content docutils container">
@@ -2847,12 +3669,33 @@ arbitrary shifts and lists of points:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--52-input--3" name="tab-set--52" type="radio"><label class="tab-label" for="tab-set--52-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">F = matrix([[5*x^3 + 4*x^2 + 4*x + 6, 5*x^3 + 5*x^2 +   5],
+            [2*x^3 + 2*x^2 + 2*x + 3, 3*x^3 +   6*x +   4],
+            [          x^2 + 6*x + 3, 5*x^3 + 2*x^2 + 3*x]])
+points = [[ff(3), ff(0), ff(6), ff(3)], [ff(1), ff(1), ff(1)]]
+mod1 = (x - 3) * x * (x - 6) * (x - 3)
+mod2 = (x - 1)**3
+P = F.minimal_interpolant_basis(points, shifts=[0,0,0])
+P.is_weak_popov(ordered=True)
+G = P*F
+G[:,0] % mod1 == 0 and G[:,1] % mod2 == 0
+P.det() == mod1 * mod2</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <p>The last test highlights that for “sufficiently generic” input, the
 fact that the returned matrix generates the module of interpolants is
 equivalent to the fact that its determinant is the product of the
 linear factors defined by the interpolation points.</p>
-<p class="with-sage-tab with-python-tab">If shifts are not specified, they are chosen as uniform <span class="math notranslate nohighlight">\([0,\ldots,0]\)</span>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If shifts are not specified, they are chosen as uniform <span class="math notranslate nohighlight">\([0,\ldots,0]\)</span>
 by default. Besides, if the lists of points are all identical, one can
 rather give a single list:</p>
 <div class="tab-set docutils container">
@@ -2871,8 +3714,20 @@ rather give a single list:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--53-input--3" name="tab-set--53" type="radio"><label class="tab-label" for="tab-set--53-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = F.minimal_interpolant_basis([points[0], points[0]])
+P == F.minimal_interpolant_basis(points[0], shifts=[0,0,0])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">One can work column-wise by specifying <code class="docutils literal notranslate"><span class="pre">row_wise=False</span></code>. Empty lists
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">One can work column-wise by specifying <code class="docutils literal notranslate"><span class="pre">row_wise=False</span></code>. Empty lists
 of points are supported, and amount to ignoring the corresponding
 column of <code class="docutils literal notranslate"><span class="pre">self</span></code> (or corresponding row, if column-wise):</p>
 <div class="tab-set docutils container">
@@ -2907,8 +3762,26 @@ column of <code class="docutils literal notranslate"><span class="pre">self</spa
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--54-input--3" name="tab-set--54" type="radio"><label class="tab-label" for="tab-set--54-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">points[1] = []
+shifts = [-1, 2, 0]
+Ft = F.transpose()
+P = Ft.minimal_interpolant_basis(points, shifts=shifts, row_wise=False)
+P == Ft[0,:].minimal_interpolant_basis([points[0]], shifts=shifts, row_wise=False)
+P.is_weak_popov(shifts=shifts, ordered=True, row_wise=False)
+G = Ft * P
+G[0,:] % mod1 == 0 and P.det() == mod1</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Errors are raised if the input dimensions are not sound:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Errors are raised if the input dimensions are not sound:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--55-input--1" name="tab-set--55" type="radio"><label class="tab-label" for="tab-set--55-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">minimal_interpolant_basis</span><span class="p">([</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
@@ -2935,6 +3808,18 @@ column of <code class="docutils literal notranslate"><span class="pre">self</spa
 <span class="gp">...</span>
 <span class="go">ValueError: shifts length should be the row dimension</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--55-input--3" name="tab-set--55" type="radio"><label class="tab-label" for="tab-set--55-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = F.minimal_interpolant_basis([points[0]])
+P = F.minimal_interpolant_basis(points, shifts=[0,0,0,0])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -2976,7 +3861,7 @@ of <code class="docutils literal notranslate"><span class="pre">self</span></cod
 <p>ALGORITHM: uses minimal approximant basis computation at a
 sufficiently large order so that the approximant basis contains
 a kernel basis as a submatrix.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--56-input--1" name="tab-set--56" type="radio"><label class="tab-label" for="tab-set--56-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -3033,8 +3918,28 @@ a kernel basis as a submatrix.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--56-input--3" name="tab-set--56" type="radio"><label class="tab-label" for="tab-set--56-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+pmat = matrix([[(x+1)*(x+3)], [(x+1)*(x+3)+1]])
+pmat.minimal_kernel_basis()
+pmat = matrix([[(x+1)*(x+3)], [(x+1)*(x+4)]])
+pmat.minimal_kernel_basis()
+pmat.minimal_kernel_basis(row_wise=False)
+pmat = matrix(pR, [[1, x, x**2]])
+pmat.minimal_kernel_basis(row_wise=False, normal_form=True)
+pmat.minimal_kernel_basis(row_wise=False, normal_form=True,
+                          shifts=[0,1,2])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Some particular cases (matrix is zero, dimension is zero, column is zero):</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Some particular cases (matrix is zero, dimension is zero, column is zero):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--57-input--1" name="tab-set--57" type="radio"><label class="tab-label" for="tab-set--57-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">matrix</span><span class="p">(</span><span class="n">pR</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">minimal_kernel_basis</span><span class="p">()</span>
@@ -3079,6 +3984,21 @@ a kernel basis as a submatrix.</p>
 <span class="go">[6 x 0]</span>
 <span class="go">[6 6 1]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--57-input--3" name="tab-set--57" type="radio"><label class="tab-label" for="tab-set--57-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">matrix(pR, 2, 1).minimal_kernel_basis()
+matrix(pR, 2, 0).minimal_kernel_basis()
+matrix(pR, 0, 2).minimal_kernel_basis()
+matrix(pR, 3, 2, [[1,0],[1,0],[1,0]]).minimal_kernel_basis()
+matrix(pR, 3, 2, [[x,0],[1,0],[x+1,0]]).minimal_kernel_basis()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3136,7 +4056,7 @@ working row-wise (resp. column-wise), then <code class="docutils literal notrans
 upper bounds on those of <code class="docutils literal notranslate"><span class="pre">self</span></code> entry-wise</p></li>
 </ul>
 <p>OUTPUT: a polynomial matrix</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--58-input--1" name="tab-set--58" type="radio"><label class="tab-label" for="tab-set--58-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -3149,8 +4069,19 @@ upper bounds on those of <code class="docutils literal notranslate"><span class=
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--58-input--3" name="tab-set--58" type="radio"><label class="tab-label" for="tab-set--58-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">When M is a diagonal of powers of the variable, a relation basis is the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">When M is a diagonal of powers of the variable, a relation basis is the
 same as an approximant basis:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--59-input--1" name="tab-set--59" type="radio"><label class="tab-label" for="tab-set--59-input--1">Sage</label><div class="tab-content docutils container">
@@ -3180,8 +4111,26 @@ same as an approximant basis:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--59-input--3" name="tab-set--59" type="radio"><label class="tab-label" for="tab-set--59-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = matrix.diagonal([x**4, x**3], sparse=False)
+shifts = [-1, 2, 0]
+F = matrix(pR, [[5*x^3 + 4*x^2 + 4*x + 6, 5*x^2 + 4*x + 1],
+                [        2*x^2 + 2*x + 3, 6*x^2 + 6*x + 3],
+                [4*x^3         +   x + 1, 4*x^2 + 2*x + 3]])
+P_app = F.minimal_approximant_basis([4, 3], shifts, normal_form=True)
+P_rel = F.minimal_relation_basis(M, shifts, normal_form=True)
+P_app == P_rel</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If <code class="docutils literal notranslate"><span class="pre">self</span></code> is the identity matrix, then relation bases are simply
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If <code class="docutils literal notranslate"><span class="pre">self</span></code> is the identity matrix, then relation bases are simply
 matrices that are left-unimodularly equivalent to <span class="math notranslate nohighlight">\(M\)</span>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--60-input--1" name="tab-set--60" type="radio"><label class="tab-label" for="tab-set--60-input--1">Sage</label><div class="tab-content docutils container">
@@ -3205,8 +4154,23 @@ matrices that are left-unimodularly equivalent to <span class="math notranslate 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--60-input--3" name="tab-set--60" type="radio"><label class="tab-label" for="tab-set--60-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># M is both row and column reduced
+M = x**3 + matrix([[6*x**2, 2, x], [2, 2, 6*x], [x**2, 3, 6]])
+F1 = matrix.identity(pR, 3)  # cdeg(F1) &lt; cdeg(M)
+P1 = F1.minimal_relation_basis(M, shifts=[0,1,2], normal_form=True)
+P1 == M.popov_form(shifts=[0,1,2])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">One can consider column-wise relations; unspecified shift means taking
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">One can consider column-wise relations; unspecified shift means taking
 the uniform <span class="math notranslate nohighlight">\([0,\ldots, 0]\)</span> shift:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--61-input--1" name="tab-set--61" type="radio"><label class="tab-label" for="tab-set--61-input--1">Sage</label><div class="tab-content docutils container">
@@ -3236,8 +4200,25 @@ the uniform <span class="math notranslate nohighlight">\([0,\ldots, 0]\)</span> 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--61-input--3" name="tab-set--61" type="radio"><label class="tab-label" for="tab-set--61-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">F2 = matrix([[              1, 6*x + 2,   5,         3, 5*x^2 + 3],
+             [2*x^2 + 4*x + 4, 3*x + 1, 5*x, 6*x^2 + 5,         6],
+             [        5*x + 4, 3*x + 1,   2,   2*x + 2,   2*x + 1]])
+P2 = F2.minimal_relation_basis(M, row_wise=False)
+P2.is_weak_popov(shifts=[0]*5, row_wise=False)
+Q,R = (F2*P2).left_quo_rem(M)  # F2*P2 = M*Q + 0
+R == 0</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Unless requiring a normal form, the output basis will most often not be
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Unless requiring a normal form, the output basis will most often not be
 the canonical one:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--62-input--1" name="tab-set--62" type="radio"><label class="tab-label" for="tab-set--62-input--1">Sage</label><div class="tab-content docutils container">
@@ -3253,8 +4234,19 @@ the canonical one:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--62-input--3" name="tab-set--62" type="radio"><label class="tab-label" for="tab-set--62-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P2.is_popov(shifts=[0]*5, row_wise=False)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">By default, this supports input <code class="docutils literal notranslate"><span class="pre">self</span></code> that are not reduced modulo
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">By default, this supports input <code class="docutils literal notranslate"><span class="pre">self</span></code> that are not reduced modulo
 <code class="docutils literal notranslate"><span class="pre">M</span></code>, unless <code class="docutils literal notranslate"><span class="pre">reduced_input</span></code> is specified as <code class="docutils literal notranslate"><span class="pre">True</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--63-input--1" name="tab-set--63" type="radio"><label class="tab-label" for="tab-set--63-input--1">Sage</label><div class="tab-content docutils container">
@@ -3280,8 +4272,23 @@ the canonical one:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--63-input--3" name="tab-set--63" type="radio"><label class="tab-label" for="tab-set--63-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">G1 = F1 + x * M  # G1 == F1 mod M; G1 not reduced mod M
+P1bis = G1.minimal_relation_basis(M, shifts=[0,1,2], normal_form=True)
+P1bis == P1
+P = G1.minimal_relation_basis(M, shifts=[0,1,2], reduced_input=True)
+P.is_weak_popov(shifts=[0,1,2])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">By default, this supports any nonsingular matrix <code class="docutils literal notranslate"><span class="pre">M</span></code>, and nonsingularity
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">By default, this supports any nonsingular matrix <code class="docutils literal notranslate"><span class="pre">M</span></code>, and nonsingularity
 is checked (unless <code class="docutils literal notranslate"><span class="pre">reduced_input</span></code> is specified as <code class="docutils literal notranslate"><span class="pre">True</span></code>):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--64-input--1" name="tab-set--64" type="radio"><label class="tab-label" for="tab-set--64-input--1">Sage</label><div class="tab-content docutils container">
@@ -3319,6 +4326,24 @@ is checked (unless <code class="docutils literal notranslate"><span class="pre">
 <span class="gp">...</span>
 <span class="go">ValueError: modulus matrix must be nonsingular</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--64-input--3" name="tab-set--64" type="radio"><label class="tab-label" for="tab-set--64-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M1 = matrix([[1,x**10,x**10],[0,1,0],[0,0,1]]) * M
+M1.is_reduced(row_wise=False)  # M1 not column reduced
+P1bis = F1.minimal_relation_basis(M1, shifts=[0,1,2], normal_form=True)
+P1bis == P1  # True since M and M1 have same row space
+P = F1.minimal_relation_basis(M1, shifts=[0,1,2], reduced_input=True)
+P.is_weak_popov(shifts=[0,1,2])
+M2 = M.with_row_set_to_multiple_of_row(0, 1, x)  # M2 is singular
+F1.minimal_relation_basis(M2)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3362,7 +4387,7 @@ transformation.</p></li>
 <p>This method implements the Mulders-Storjohann algorithm of <a class="reference internal" href="../../../references/index.html#ms2003" id="id21"><span>[MS2003]</span></a>
 for transforming a weak Popov form into Popov form, straightforwardly
 extended to the case of shifted forms.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--65-input--1" name="tab-set--65" type="radio"><label class="tab-label" for="tab-set--65-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -3403,8 +4428,27 @@ extended to the case of shifted forms.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--65-input--3" name="tab-set--65" type="radio"><label class="tab-label" for="tab-set--65-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+M = matrix(pR, [
+    [      6*x+4,       5*x^3+5*x,       6*x^2+2*x+2],
+    [4*x^2+5*x+2, x^4+5*x^2+2*x+4, 4*x^3+6*x^2+6*x+5]])
+# needs sage.combinat
+P, U = M.popov_form(transformation=True)
+P
+U
+P.is_popov() and U.is_invertible() and U*M == P</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Demonstrating shifts and specific case of Hermite form:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Demonstrating shifts and specific case of Hermite form:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--66-input--1" name="tab-set--66" type="radio"><label class="tab-label" for="tab-set--66-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.combinat</span>
@@ -3437,8 +4481,24 @@ extended to the case of shifted forms.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--66-input--3" name="tab-set--66" type="radio"><label class="tab-label" for="tab-set--66-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.combinat
+P = M.popov_form(shifts=[0,2,4]); P
+P.is_popov(shifts=[0,2,4])
+P == M.popov_form(shifts=[-6,-4,-2])
+dd = sum(M.row_degrees()) + 1
+M.popov_form(shifts=[2*dd,dd,0]) == M.hermite_form()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Column-wise form is the row-wise form of the transpose:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Column-wise form is the row-wise form of the transpose:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--67-input--1" name="tab-set--67" type="radio"><label class="tab-label" for="tab-set--67-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span><span class="o">.</span><span class="n">popov_form</span><span class="p">()</span> <span class="o">==</span> <span class="n">M</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">popov_form</span><span class="p">(</span><span class="n">row_wise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
@@ -3453,8 +4513,19 @@ extended to the case of shifted forms.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--67-input--3" name="tab-set--67" type="radio"><label class="tab-label" for="tab-set--67-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.popov_form() == M.T.popov_form(row_wise=False).T</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Zero vectors can be discarded:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Zero vectors can be discarded:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--68-input--1" name="tab-set--68" type="radio"><label class="tab-label" for="tab-set--68-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span><span class="o">.</span><span class="n">popov_form</span><span class="p">(</span><span class="n">row_wise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -3497,6 +4568,24 @@ extended to the case of shifted forms.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">M</span><span class="o">*</span><span class="n">U</span><span class="p">[:,:</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span> <span class="o">==</span> <span class="n">P</span> <span class="ow">and</span> <span class="p">(</span><span class="n">M</span><span class="o">*</span><span class="n">U</span><span class="p">[:,</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span><span class="o">.</span><span class="n">is_zero</span><span class="p">()</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--68-input--3" name="tab-set--68" type="radio"><label class="tab-label" for="tab-set--68-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.popov_form(row_wise=False)
+# needs sage.combinat
+P, U = M.popov_form(transformation=True,
+                    row_wise=False,
+                    include_zero_vectors=False)
+P
+U
+M*U[:,:2] == P and (M*U[:,2]).is_zero()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3556,7 +4645,7 @@ is <code class="docutils literal notranslate"><span class="pre">True</span></cod
 </ul>
 <p>OUTPUT: a polynomial matrix if <code class="docutils literal notranslate"><span class="pre">return_quotient=False</span></code>, two
 polynomial matrices otherwise.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--69-input--1" name="tab-set--69" type="radio"><label class="tab-label" for="tab-set--69-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -3611,8 +4700,30 @@ polynomial matrices otherwise.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--69-input--3" name="tab-set--69" type="radio"><label class="tab-label" for="tab-set--69-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+B = matrix(pR, [
+    [      6*x+4,       5*x^3+5*x,       6*x^2+2*x+2],
+    [4*x^2+5*x+2, x^4+5*x^2+2*x+4, 4*x^3+6*x^2+6*x+5]])
+A = matrix(pR, 1, 3, [
+    [3*x^4+3*x^3+4*x^2+5*x+1, x^4+x^3+5*x^2+4*x+4, 4*x^4+2*x^3+x]])
+Q, R = A.reduce(B,return_quotient=True); R
+A == Q*B + R
+P = B.popov_form(); P.leading_positions(return_degree=True)
+R.degree_matrix()
+A.reduce(P) == R
+A.reduce(P[:,:2])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Demonstrating shifts:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Demonstrating shifts:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--70-input--1" name="tab-set--70" type="radio"><label class="tab-label" for="tab-set--70-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">Qs</span><span class="p">,</span> <span class="n">Rs</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">shifts</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="n">return_quotient</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span> <span class="n">Rs</span>
@@ -3645,8 +4756,24 @@ polynomial matrices otherwise.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--70-input--3" name="tab-set--70" type="radio"><label class="tab-label" for="tab-set--70-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">Qs, Rs = A.reduce(B, shifts=[0,2,4], return_quotient=True); Rs
+A == Qs*B + Rs
+Ps = B.popov_form(shifts=[0,2,4])
+Ps.leading_positions(shifts=[0,2,4], return_degree=True)
+Rs.degree_matrix()
+A.reduce(Ps, shifts=[0,2,4]) == Rs</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If <code class="docutils literal notranslate"><span class="pre">return_quotient</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>, only the normal form is returned:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If <code class="docutils literal notranslate"><span class="pre">return_quotient</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>, only the normal form is returned:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--71-input--1" name="tab-set--71" type="radio"><label class="tab-label" for="tab-set--71-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">R</span> <span class="o">==</span> <span class="n">A</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">B</span><span class="p">)</span> <span class="ow">and</span> <span class="n">Rs</span> <span class="o">==</span> <span class="n">A</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">shifts</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
@@ -3661,8 +4788,19 @@ polynomial matrices otherwise.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--71-input--3" name="tab-set--71" type="radio"><label class="tab-label" for="tab-set--71-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R == A.reduce(B) and Rs == A.reduce(B, shifts=[0,2,4])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Demonstrating column-wise normal forms, with a matrix <span class="math notranslate nohighlight">\(A\)</span> which has
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Demonstrating column-wise normal forms, with a matrix <span class="math notranslate nohighlight">\(A\)</span> which has
 several columns, and a matrix <span class="math notranslate nohighlight">\(B\)</span> which does not have full column rank
 (its column-wise Popov form has a zero column):</p>
 <div class="tab-set docutils container">
@@ -3707,6 +4845,24 @@ several columns, and a matrix <span class="math notranslate nohighlight">\(B\)</
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--72-input--3" name="tab-set--72" type="radio"><label class="tab-label" for="tab-set--72-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = matrix(pR, 2, 2,
+    [[5*x^3 + 2*x^2 + 4*x + 1,           x^3 + 4*x + 4],
+     [2*x^3 + 5*x^2 + 2*x + 4,         2*x^3 + 3*x + 2]])
+Q, R = A.reduce(B, row_wise=False, return_quotient=True); R
+A == B*Q + R
+P = B.popov_form(row_wise=False); P
+P.leading_positions(row_wise=False, return_degree=True)
+R.degree_matrix()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -3747,7 +4903,7 @@ zero columns in column reduced forms)</p></li>
 such that <span class="math notranslate nohighlight">\(UA = R\)</span> and <span class="math notranslate nohighlight">\(R\)</span> is reduced and <span class="math notranslate nohighlight">\(U\)</span> is unimodular where <span class="math notranslate nohighlight">\(A\)</span>
 is <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--73-input--1" name="tab-set--73" type="radio"><label class="tab-label" for="tab-set--73-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">3</span><span class="p">)[]</span>
@@ -3794,8 +4950,27 @@ is <code class="docutils literal notranslate"><span class="pre">self</span></cod
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--73-input--3" name="tab-set--73" type="radio"><label class="tab-label" for="tab-set--73-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(3)[]
+A = matrix(pR, 3, [x,   x^2, x^3,
+                   x^2, x^1, 0,
+                   x^3, x^3, x^3])
+R = A.reduced_form(); R
+R.is_reduced()
+R2 = A.reduced_form(shifts=[6,3,0]); R2
+R2.is_reduced(shifts=[6,3,0])
+R2.is_reduced()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If the matrix is an <span class="math notranslate nohighlight">\(n \times 1\)</span> matrix with at least one nonzero entry,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If the matrix is an <span class="math notranslate nohighlight">\(n \times 1\)</span> matrix with at least one nonzero entry,
 <span class="math notranslate nohighlight">\(R\)</span> has a single nonzero entry and that entry is a scalar multiple of
 the greatest-common-divisor of the entries of the matrix:</p>
 <div class="tab-set docutils container">
@@ -3820,8 +4995,21 @@ the greatest-common-divisor of the entries of the matrix:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--74-input--3" name="tab-set--74" type="radio"><label class="tab-label" for="tab-set--74-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = matrix([[x*(x-1)*(x+1)], [x*(x-2)*(x+2)], [x]])
+R = A.reduced_form()
+R</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A zero matrix is already reduced:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A zero matrix is already reduced:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--75-input--1" name="tab-set--75" type="radio"><label class="tab-label" for="tab-set--75-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">pR</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
@@ -3840,8 +5028,20 @@ the greatest-common-divisor of the entries of the matrix:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--75-input--3" name="tab-set--75" type="radio"><label class="tab-label" for="tab-set--75-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A = matrix(pR, 2, [0,0,0,0])
+A.reduced_form()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In the following example, the original matrix is already reduced, but
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In the following example, the original matrix is already reduced, but
 the output is a different matrix: currently this method is an alias for
 <a class="reference internal" href="#sage.matrix.matrix_polynomial_dense.Matrix_polynomial_dense.weak_popov_form" title="sage.matrix.matrix_polynomial_dense.Matrix_polynomial_dense.weak_popov_form"><code class="xref py py-meth docutils literal notranslate"><span class="pre">weak_popov_form()</span></code></a>, which is a stronger reduced form:</p>
 <div class="tab-set docutils container">
@@ -3876,8 +5076,23 @@ the output is a different matrix: currently this method is an alias for
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--76-input--3" name="tab-set--76" type="radio"><label class="tab-label" for="tab-set--76-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">R.&lt;x&gt; = QQ['x']
+A = matrix([[x,x,x],[0,0,x]]); A
+A.is_reduced()
+W = A.reduced_form(); W
+W.is_weak_popov()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The last example shows the usage of the transformation parameter:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The last example shows the usage of the transformation parameter:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--77-input--1" name="tab-set--77" type="radio"><label class="tab-label" for="tab-set--77-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.finite_rings</span>
@@ -3920,6 +5135,26 @@ the output is a different matrix: currently this method is an alias for
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">U</span><span class="o">.</span><span class="n">is_invertible</span><span class="p">()</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--77-input--3" name="tab-set--77" type="radio"><label class="tab-label" for="tab-set--77-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.finite_rings
+Fq.&lt;a&gt; = GF(2^3)
+pR.&lt;x&gt; = Fq[]
+A = matrix(pR, [[x^2+a,  x^4+a],
+                [  x^3,  a*x^4]])
+W, U = A.reduced_form(transformation=True)
+W, U
+W.is_reduced()
+U*W == A
+U.is_invertible()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -3968,7 +5203,7 @@ the row (resp. column) dimension of this matrix</p></li>
 then the input <code class="docutils literal notranslate"><span class="pre">degree</span></code> and <code class="docutils literal notranslate"><span class="pre">row_wise</span></code> are ignored</p></li>
 </ul>
 <p>OUTPUT: a polynomial matrix</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--78-input--1" name="tab-set--78" type="radio"><label class="tab-label" for="tab-set--78-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -4023,8 +5258,27 @@ then the input <code class="docutils literal notranslate"><span class="pre">degr
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--78-input--3" name="tab-set--78" type="radio"><label class="tab-label" for="tab-set--78-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+M = matrix([
+   [  x^3+5*x^2+5*x+1,       5,       6*x+4,         0],
+   [      6*x^2+3*x+1,       1,           2,         0],
+   [2*x^3+4*x^2+6*x+4, 5*x + 1, 2*x^2+5*x+5, x^2+5*x+6]
+    ])
+M.reverse()
+M.reverse(1)
+M.reverse(0) == M.constant_matrix()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Entry-wise reversing with respect to each entry’s degree:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Entry-wise reversing with respect to each entry’s degree:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--79-input--1" name="tab-set--79" type="radio"><label class="tab-label" for="tab-set--79-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span><span class="o">.</span><span class="n">reverse</span><span class="p">(</span><span class="n">entry_wise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -4049,8 +5303,19 @@ then the input <code class="docutils literal notranslate"><span class="pre">degr
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--79-input--3" name="tab-set--79" type="radio"><label class="tab-label" for="tab-set--79-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.reverse(entry_wise=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Row-wise and column-wise degree reversing are available:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Row-wise and column-wise degree reversing are available:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--80-input--1" name="tab-set--80" type="radio"><label class="tab-label" for="tab-set--80-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span><span class="o">.</span><span class="n">reverse</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
@@ -4089,6 +5354,18 @@ then the input <code class="docutils literal notranslate"><span class="pre">degr
 <span class="go">[4*x^3 + 6*x^2 + 4*x + 2                   x + 5         5*x^2 +</span>
 <span class="go">5*x + 2         6*x^2 + 5*x + 1]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--80-input--3" name="tab-set--80" type="radio"><label class="tab-label" for="tab-set--80-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.reverse([2,3,1])
+M.reverse(M.column_degrees(), row_wise=False)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -4145,7 +5422,7 @@ can be returned as a remainder along with the quotient <span class="math notrans
 <p>A <a class="reference external" href="https://docs.python.org/library/exceptions.html#ValueError" title="(in Python v3.12)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> is raised if the dimensions of <code class="docutils literal notranslate"><span class="pre">self</span></code> and <span class="math notranslate nohighlight">\(B\)</span> are
 not conformal, or if there exists no quotient and remainder.</p>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">Case where <span class="math notranslate nohighlight">\(B\)</span> is a square, column reduced matrix:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Case where <span class="math notranslate nohighlight">\(B\)</span> is a square, column reduced matrix:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--81-input--1" name="tab-set--81" type="radio"><label class="tab-label" for="tab-set--81-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -4236,8 +5513,38 @@ not conformal, or if there exists no quotient and remainder.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--81-input--3" name="tab-set--81" type="radio"><label class="tab-label" for="tab-set--81-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+A = matrix(pR, 2, 3,
+    [[3*x^3 + 3*x, 3*x^3 + 6*x + 5,   2*x^3 + 2*x + 6],
+     [2*x^3 + 4,   6*x^3 + 5*x^2 + 1, 3*x^2 + 2*x + 2]])
+B = matrix(pR, 3, 3,
+    [[4*x^2 + 3*x + 3, 3*x^2 + 3*x + 1,   4*x^2 + x + 4],
+     [6*x^2 + 2*x + 3,     4*x^2 + 3*x,     3*x^2 + 4*x],
+     [5*x^2 + 3*x + 6,   6*x^2 + x + 4, 3*x^2 + 3*x + 2]])
+B.is_reduced(row_wise=False)
+Q, R = A.right_quo_rem(B); Q, R
+A == Q*B+R and R.degree() &lt; 2
+A[:,:2].right_quo_rem(B)
+B = matrix(pR, 3, 3,
+    [[3,     3*x^3 + 3*x + 1, 4*x^2 + x + 4],
+     [x + 3, 4*x^2 + 3*x,     3*x^2 + 4*x],
+     [6,     6*x^3 + x + 4,   3*x^2 + 3*x + 2]])
+B.is_reduced(row_wise=False)
+Q, R = A.right_quo_rem(B); Q, R
+cdegR = R.column_degrees(); cdegB = B.column_degrees()
+A == Q*B+R and all([cdegR[i] &lt; cdegB[i] for i in range(3)])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">With a nonsingular but also non-reduced matrix, there exists a
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">With a nonsingular but also non-reduced matrix, there exists a
 solution, but it might not be unique:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--82-input--1" name="tab-set--82" type="radio"><label class="tab-label" for="tab-set--82-input--1">Sage</label><div class="tab-content docutils container">
@@ -4301,8 +5608,33 @@ solution, but it might not be unique:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--82-input--3" name="tab-set--82" type="radio"><label class="tab-label" for="tab-set--82-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">B = matrix(pR, 3, 3,
+    [[              5,               0, 2*x + 6],
+     [            4*x, 3*x^2 + 4*x + 5,   x + 1],
+     [3*x^2 + 5*x + 2, 6*x^3 + 4*x + 6,       3]])
+B.det() != 0 and (not B.is_reduced(row_wise=False))
+Q, R = A.right_quo_rem(B); Q, R
+cdegR = R.column_degrees(); cdegB = B.column_degrees()
+A == Q*B+R and all(cdegR[i] &lt; cdegB[i] for i in range(3))
+Q2 = matrix(pR, 2, 3,
+     [[6*x^2 + 3*x + 1, 4*x^2 + 3*x + 6, 5*x + 1],
+      [  x^2 + 5*x + 3, 5*x^2 + 3*x + 2,   x + 2]])
+R2 = matrix(pR, 2, 3,
+     [[    5*x, 3*x + 4, 5],
+      [4*x + 6,     5*x, 4]])
+A == Q2*B + R2</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The same remark holds more generally for full column rank matrices:
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The same remark holds more generally for full column rank matrices:
 there exists a solution, but it might not be unique. However, for all
 other cases (rank-deficient matrix <span class="math notranslate nohighlight">\(B\)</span> or matrix <span class="math notranslate nohighlight">\(B\)</span> having strictly
 fewer rows than columns) there may be no solution:</p>
@@ -4358,8 +5690,23 @@ fewer rows than columns) there may be no solution:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--83-input--3" name="tab-set--83" type="radio"><label class="tab-label" for="tab-set--83-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C = B.stack(B[1,:] + B[2,:])  # 4 x 3, full column rank
+Q, R = A.right_quo_rem(C); Q, R
+A.right_quo_rem(B[:2,:])  # matrix 2 x 3, full row rank               # needs sage.rings.finite_rings
+D = copy(B); D[2,:] = B[0,:]+B[1,:]  # square, singular
+A.right_quo_rem(D)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">In the latter case (rank-deficient or strictly fewer rows than columns,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">In the latter case (rank-deficient or strictly fewer rows than columns,
 with no solution to <span class="math notranslate nohighlight">\(A = XB\)</span>), there might still be a quotient and
 remainder, in which case this method will find it via normal form
 computation:</p>
@@ -4383,6 +5730,20 @@ computation:</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">A</span> <span class="o">==</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">B</span> <span class="o">+</span> <span class="n">matrix</span><span class="p">([[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">)]])</span>
 <span class="go">True</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--84-input--3" name="tab-set--84" type="radio"><label class="tab-label" for="tab-set--84-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">B = matrix(pR, 1, 2, [[x, x]])
+A = matrix(pR, 1, 2, [[x, x+2]])
+A.right_quo_rem(B)
+A == 1*B + matrix([[0,2]])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -4418,7 +5779,7 @@ Here, if the <span class="math notranslate nohighlight">\(i\)</span>-th row of <
 of <em>defect</em> commonly used in the rational approximation literature
 (see for example <a class="reference internal" href="../../../references/index.html#bec1992" id="id24"><span>[Bec1992]</span></a> ).</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--85-input--1" name="tab-set--85" type="radio"><label class="tab-label" for="tab-set--85-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -4443,8 +5804,22 @@ of <em>defect</em> commonly used in the rational approximation literature
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--85-input--3" name="tab-set--85" type="radio"><label class="tab-label" for="tab-set--85-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+M = matrix(pR, [[3*x+1, 0, 1], [x^3+3, 0, 0]])
+M.row_degrees()
+M.row_degrees(shifts=[0,1,2])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">A zero row in a polynomial matrix can be identified in the (shifted)
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">A zero row in a polynomial matrix can be identified in the (shifted)
 row degrees as the entries equal to <code class="docutils literal notranslate"><span class="pre">min(shifts)-1</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--86-input--1" name="tab-set--86" type="radio"><label class="tab-label" for="tab-set--86-input--1">Sage</label><div class="tab-content docutils container">
@@ -4468,8 +5843,21 @@ row degrees as the entries equal to <code class="docutils literal notranslate"><
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--86-input--3" name="tab-set--86" type="radio"><label class="tab-label" for="tab-set--86-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = matrix(pR, [[3*x+1, 0, 1], [x^3+3, 0, 0], [0, 0, 0]])
+M.row_degrees()
+M.row_degrees(shifts=[-2,1,2])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">The row degrees of a row-empty matrix <span class="math notranslate nohighlight">\(0\times n\)</span> is an empty list,
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The row degrees of a row-empty matrix <span class="math notranslate nohighlight">\(0\times n\)</span> is an empty list,
 while those of a column-empty matrix <span class="math notranslate nohighlight">\(m\times 0\)</span> is a list of <span class="math notranslate nohighlight">\(m\)</span> times
 <span class="math notranslate nohighlight">\(-1\)</span>:</p>
 <div class="tab-set docutils container">
@@ -4504,6 +5892,22 @@ while those of a column-empty matrix <span class="math notranslate nohighlight">
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--87-input--3" name="tab-set--87" type="radio"><label class="tab-label" for="tab-set--87-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = matrix(pR, 0, 3)
+M.row_degrees()
+M.row_degrees(shifts=[1,2,3])
+M = matrix(pR, 3, 0)
+M.row_degrees()
+M.row_degrees(shifts=[])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -4530,7 +5934,7 @@ discarded.</p>
 row (resp. column) dimension of this matrix</p></li>
 </ul>
 <p>OUTPUT: a polynomial matrix</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--88-input--1" name="tab-set--88" type="radio"><label class="tab-label" for="tab-set--88-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -4563,8 +5967,25 @@ row (resp. column) dimension of this matrix</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--88-input--3" name="tab-set--88" type="radio"><label class="tab-label" for="tab-set--88-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+M = matrix([
+   [  x^3+5*x^2+5*x+1,       5,       6*x+4,         0],
+   [      6*x^2+3*x+1,       1,           2,         0],
+   [2*x^3+4*x^2+6*x+4, 5*x + 1, 2*x^2+5*x+5, x^2+5*x+6]
+    ])
+M.shift(-2)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Row-wise and column-wise shifting are available:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Row-wise and column-wise shifting are available:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--89-input--1" name="tab-set--89" type="radio"><label class="tab-label" for="tab-set--89-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span><span class="o">.</span><span class="n">shift</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
@@ -4599,8 +6020,21 @@ row (resp. column) dimension of this matrix</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--89-input--3" name="tab-set--89" type="radio"><label class="tab-label" for="tab-set--89-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.shift([-1,2,-2])
+M.shift([-1,1,0,0], row_wise=False)
+M.shift([-d for d in M.row_degrees()]) == M.leading_matrix()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Length of input shift degree list is checked:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Length of input shift degree list is checked:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--90-input--1" name="tab-set--90" type="radio"><label class="tab-label" for="tab-set--90-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span><span class="o">.</span><span class="n">shift</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
@@ -4631,6 +6065,18 @@ row (resp. column) dimension of this matrix</p></li>
 <span class="go">ValueError: length of input shift list should be the column</span>
 <span class="go">dimension of the input matrix</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--90-input--3" name="tab-set--90" type="radio"><label class="tab-label" for="tab-set--90-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.shift([1,3,1,4])
+M.shift([5,2,-1], row_wise=False)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -4667,7 +6113,7 @@ Dixon &amp; Moenck-Carter iteration. Otherwise, a left minimal approximant
 basis of a matrix formed by <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> is computed, for an appropriate
 shift which ensures that this basis reveals either a solution <span class="math notranslate nohighlight">\(X\)</span> or
 the fact that no such solution exists.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--91-input--1" name="tab-set--91" type="radio"><label class="tab-label" for="tab-set--91-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -4720,8 +6166,32 @@ the fact that no such solution exists.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--91-input--3" name="tab-set--91" type="radio"><label class="tab-label" for="tab-set--91-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+A = matrix(pR, 3, 3,
+           [[4*x+5,           5*x^2 + x + 1, 4*x^2 + 4],
+            [6*x^2 + 6*x + 6, 4*x^2 + 5*x,   4*x^2 + x + 3],
+            [3*x^2 + 2,       4*x + 1,       x^2 + 3*x]])
+A.is_square() and A.constant_matrix().is_invertible()
+B = vector([2*x^2 + 6*x + 6, 0, x + 6])
+X = A.solve_left_series_trunc(B, 4); X
+B == X*A % x**4
+B = matrix(pR, 2, 3,
+           [[3*x, x^2 + x + 2, x^2 + 2*x + 3],
+            [  0,   6*x^2 + 1,             1]])
+A.solve_left_series_trunc(B, 3)
+X = A.solve_left_series_trunc(B, 37); B == X*A % x**37</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Dimensions of input are checked:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Dimensions of input are checked:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--92-input--1" name="tab-set--92" type="radio"><label class="tab-label" for="tab-set--92-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span><span class="o">.</span><span class="n">solve_left_series_trunc</span><span class="p">(</span><span class="n">B</span><span class="p">[:,:</span><span class="mi">2</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
@@ -4740,8 +6210,19 @@ the fact that no such solution exists.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--92-input--3" name="tab-set--92" type="radio"><label class="tab-label" for="tab-set--92-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A.solve_left_series_trunc(B[:,:2], 3)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Raises an exception when no solution:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Raises an exception when no solution:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--93-input--1" name="tab-set--93" type="radio"><label class="tab-label" for="tab-set--93-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span><span class="p">[</span><span class="mi">2</span><span class="p">:,:]</span><span class="o">.</span><span class="n">solve_left_series_trunc</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
@@ -4772,8 +6253,21 @@ the fact that no such solution exists.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--93-input--3" name="tab-set--93" type="radio"><label class="tab-label" for="tab-set--93-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A[2:,:].solve_left_series_trunc(B, 4)
+Ax = x*A; C = vector(pR, [1,1,1])
+Ax.solve_left_series_trunc(C, 5)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Supports rectangular and rank-deficient cases:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Supports rectangular and rank-deficient cases:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--94-input--1" name="tab-set--94" type="radio"><label class="tab-label" for="tab-set--94-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span><span class="p">[:,:</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">solve_left_series_trunc</span><span class="p">(</span><span class="n">B</span><span class="p">[:,:</span><span class="mi">2</span><span class="p">],</span> <span class="mi">4</span><span class="p">)</span>
@@ -4806,6 +6300,22 @@ the fact that no such solution exists.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">A</span><span class="o">.</span><span class="n">solve_left_series_trunc</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
 <span class="go">[4*x^2 + 6*x + 2       3*x^2 + x               0]</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--94-input--3" name="tab-set--94" type="radio"><label class="tab-label" for="tab-set--94-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A[:,:2].solve_left_series_trunc(B[:,:2], 4)
+V = matrix([[3*x^2 + 4*x + 1, 4*x]])
+A[:2,:].solve_left_series_trunc(V*A[:2,:], 4) == V
+A[1,:] = (x+1) * A[0,:]; A[2,:] = (x+5) * A[0,:]
+B = (3*x^3+x^2+2)*A[0,:]
+A.solve_left_series_trunc(B, 6)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -4842,7 +6352,7 @@ Dixon &amp; Moenck-Carter iteration. Otherwise, a right minimal approximant
 basis of a matrix formed by <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> is computed, for an appropriate
 shift which ensures that this basis reveals either a solution <span class="math notranslate nohighlight">\(X\)</span> or
 the fact that no such solution exists.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--95-input--1" name="tab-set--95" type="radio"><label class="tab-label" for="tab-set--95-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -4897,8 +6407,33 @@ the fact that no such solution exists.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--95-input--3" name="tab-set--95" type="radio"><label class="tab-label" for="tab-set--95-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+A = matrix(pR, 3, 3,
+    [[4*x+5,           5*x^2 + x + 1, 4*x^2 + 4],
+     [6*x^2 + 6*x + 6, 4*x^2 + 5*x,   4*x^2 + x + 3],
+     [3*x^2 + 2,       4*x + 1,       x^2 + 3*x]])
+A.is_square() and A.constant_matrix().is_invertible()
+B = vector([2*x^2 + 6*x + 6, 0, x + 6])
+X = A.solve_right_series_trunc(B, 4); X
+B == A*X % x**4
+B = matrix(pR, 3, 2,
+           [[5*x^2 + 6*x + 3, 4*x^2 + 6*x + 4],
+            [  x^2 + 4*x + 2,         5*x + 2],
+            [        5*x + 3,               0]])
+A.solve_right_series_trunc(B, 3)
+X = A.solve_right_series_trunc(B, 37); B == A*X % x**37</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Dimensions of input are checked:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Dimensions of input are checked:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--96-input--1" name="tab-set--96" type="radio"><label class="tab-label" for="tab-set--96-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span><span class="o">.</span><span class="n">solve_right_series_trunc</span><span class="p">(</span><span class="n">B</span><span class="p">[:</span><span class="mi">2</span><span class="p">,:],</span> <span class="mi">3</span><span class="p">)</span>
@@ -4917,8 +6452,19 @@ the fact that no such solution exists.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--96-input--3" name="tab-set--96" type="radio"><label class="tab-label" for="tab-set--96-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A.solve_right_series_trunc(B[:2,:], 3)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Raises an exception when no solution:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Raises an exception when no solution:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--97-input--1" name="tab-set--97" type="radio"><label class="tab-label" for="tab-set--97-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span><span class="p">[:,</span><span class="mi">2</span><span class="p">:]</span><span class="o">.</span><span class="n">solve_right_series_trunc</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
@@ -4949,8 +6495,21 @@ the fact that no such solution exists.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--97-input--3" name="tab-set--97" type="radio"><label class="tab-label" for="tab-set--97-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A[:,2:].solve_right_series_trunc(B, 4)
+Ax = x*A; C = vector(pR, [1,1,1])
+Ax.solve_right_series_trunc(C, 5)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Supports rectangular and rank-deficient cases:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Supports rectangular and rank-deficient cases:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--98-input--1" name="tab-set--98" type="radio"><label class="tab-label" for="tab-set--98-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">A</span><span class="p">[:</span><span class="mi">2</span><span class="p">,:]</span><span class="o">.</span><span class="n">solve_right_series_trunc</span><span class="p">(</span><span class="n">B</span><span class="p">[:</span><span class="mi">2</span><span class="p">,:],</span><span class="mi">4</span><span class="p">)</span>
@@ -4991,6 +6550,22 @@ the fact that no such solution exists.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--98-input--3" name="tab-set--98" type="radio"><label class="tab-label" for="tab-set--98-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">A[:2,:].solve_right_series_trunc(B[:2,:],4)
+V = matrix([[2*x^2 + 5*x + 1], [3*x^2+4]])
+A[:,:2].solve_right_series_trunc(A[:,:2]*V, 4) == V
+A[:,1] = (x+1) * A[:,0]; A[:,2] = (x+5) * A[:,0]
+B = (3*x^3+x^2+2)*A[:,0]
+A.solve_right_series_trunc(B, 6)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -5023,7 +6598,7 @@ for the truncation for a negative <span class="math notranslate nohighlight">\(d
 row (resp. column) dimension of this matrix</p></li>
 </ul>
 <p>OUTPUT: a polynomial matrix</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--99-input--1" name="tab-set--99" type="radio"><label class="tab-label" for="tab-set--99-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -5060,8 +6635,26 @@ row (resp. column) dimension of this matrix</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--99-input--3" name="tab-set--99" type="radio"><label class="tab-label" for="tab-set--99-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+M = matrix([
+   [  x^3+5*x^2+5*x+1,       5,       6*x+4,         0],
+   [      6*x^2+3*x+1,       1,           2,         0],
+   [2*x^3+4*x^2+6*x+4, 5*x + 1, 2*x^2+5*x+5, x^2+5*x+6]
+    ])
+M.truncate(2)
+M.truncate(1) == M.constant_matrix()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Row-wise and column-wise truncation are available:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Row-wise and column-wise truncation are available:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--100-input--1" name="tab-set--100" type="radio"><label class="tab-label" for="tab-set--100-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span><span class="o">.</span><span class="n">truncate</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
@@ -5090,8 +6683,20 @@ row (resp. column) dimension of this matrix</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--100-input--3" name="tab-set--100" type="radio"><label class="tab-label" for="tab-set--100-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.truncate([3,2,1])
+M.truncate([2,1,1,2], row_wise=False)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Length of list of truncation orders is checked:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Length of list of truncation orders is checked:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--101-input--1" name="tab-set--101" type="radio"><label class="tab-label" for="tab-set--101-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span><span class="o">.</span><span class="n">truncate</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
@@ -5122,6 +6727,18 @@ row (resp. column) dimension of this matrix</p></li>
 <span class="go">ValueError: length of input precision list should be the column</span>
 <span class="go">dimension of the input matrix</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--101-input--3" name="tab-set--101" type="radio"><label class="tab-label" for="tab-set--101-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.truncate([2,1,1,2])
+M.truncate([3,2,1], row_wise=False)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -5174,7 +6791,7 @@ unimodular transformation.</p>
 <p>ALGORITHM:</p>
 <p>This method implements the Mulders-Storjohann algorithm of <a class="reference internal" href="../../../references/index.html#ms2003" id="id25"><span>[MS2003]</span></a>,
 straightforwardly extended to the case of shifted forms.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--102-input--1" name="tab-set--102" type="radio"><label class="tab-label" for="tab-set--102-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">pR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">7</span><span class="p">)[]</span>
@@ -5211,8 +6828,26 @@ straightforwardly extended to the case of shifted forms.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--102-input--3" name="tab-set--102" type="radio"><label class="tab-label" for="tab-set--102-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">pR.&lt;x&gt; = GF(7)[]
+M = matrix(pR, [
+   [      6*x+4,       5*x^3+5*x,       6*x^2+2*x+2],
+   [4*x^2+5*x+2, x^4+5*x^2+2*x+4, 4*x^3+6*x^2+6*x+5]])
+P, U = M.weak_popov_form(transformation=True)
+P
+U
+P.is_weak_popov() and U.is_invertible() and U*M == P</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Demonstrating the <code class="docutils literal notranslate"><span class="pre">ordered</span></code> option:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Demonstrating the <code class="docutils literal notranslate"><span class="pre">ordered</span></code> option:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--103-input--1" name="tab-set--103" type="radio"><label class="tab-label" for="tab-set--103-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span><span class="o">.</span><span class="n">leading_positions</span><span class="p">()</span>
@@ -5237,8 +6872,21 @@ straightforwardly extended to the case of shifted forms.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--103-input--3" name="tab-set--103" type="radio"><label class="tab-label" for="tab-set--103-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P.leading_positions()
+PP = M.weak_popov_form(ordered=True); PP
+PP.leading_positions()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Demonstrating shifts:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Demonstrating shifts:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--104-input--1" name="tab-set--104" type="radio"><label class="tab-label" for="tab-set--104-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">weak_popov_form</span><span class="p">(</span><span class="n">shifts</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">]);</span> <span class="n">P</span>
@@ -5259,8 +6907,20 @@ straightforwardly extended to the case of shifted forms.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--104-input--3" name="tab-set--104" type="radio"><label class="tab-label" for="tab-set--104-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = M.weak_popov_form(shifts=[0,2,4]); P
+P == M.weak_popov_form(shifts=[-10,-8,-6])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Column-wise form is the row-wise form of the transpose:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Column-wise form is the row-wise form of the transpose:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--105-input--1" name="tab-set--105" type="radio"><label class="tab-label" for="tab-set--105-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span><span class="o">.</span><span class="n">weak_popov_form</span><span class="p">()</span> <span class="o">==</span> <span class="n">M</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">weak_popov_form</span><span class="p">(</span><span class="n">row_wise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
@@ -5275,8 +6935,19 @@ straightforwardly extended to the case of shifted forms.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--105-input--3" name="tab-set--105" type="radio"><label class="tab-label" for="tab-set--105-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.weak_popov_form() == M.T.weak_popov_form(row_wise=False).T</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Zero vectors can be discarded:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Zero vectors can be discarded:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--106-input--1" name="tab-set--106" type="radio"><label class="tab-label" for="tab-set--106-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span><span class="o">.</span><span class="n">weak_popov_form</span><span class="p">(</span><span class="n">row_wise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -5321,8 +6992,26 @@ straightforwardly extended to the case of shifted forms.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--106-input--3" name="tab-set--106" type="radio"><label class="tab-label" for="tab-set--106-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M.weak_popov_form(row_wise=False)
+# needs sage.combinat
+P, U = M.weak_popov_form(transformation=True,
+                         row_wise=False,
+                         include_zero_vectors=False)
+P
+U
+M*U[:,:2] == P and (M*U[:,2]).is_zero()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Empty matrices are supported:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Empty matrices are supported:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--107-input--1" name="tab-set--107" type="radio"><label class="tab-label" for="tab-set--107-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">pR</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -5355,6 +7044,20 @@ straightforwardly extended to the case of shifted forms.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--107-input--3" name="tab-set--107" type="radio"><label class="tab-label" for="tab-set--107-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">M = matrix.random(pR, 0, 3)
+M.weak_popov_form()
+M.weak_popov_form(transformation=True)
+M.weak_popov_form(row_wise=False, transformation=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -5368,7 +7071,11 @@ straightforwardly extended to the case of shifted forms.</p>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -5479,7 +7186,7 @@ straightforwardly extended to the case of shifted forms.</p>
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

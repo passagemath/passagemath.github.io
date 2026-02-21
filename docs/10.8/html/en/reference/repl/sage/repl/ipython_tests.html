@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -316,7 +316,7 @@
         <article role="main" id="furo-main-content">
           <section id="tests-for-the-ipython-integration">
 <span id="sage-repl-ipython-tests"></span><h1>Tests for the IPython integration<a class="headerlink" href="#tests-for-the-ipython-integration" title="Link to this heading">¶</a></h1>
-<p class="with-sage-tab with-python-tab" id="module-sage.repl.ipython_tests">First, test the pinfo magic for Python code. This is what IPython
+<p class="with-sage-tab with-python-tab with-sage-live-tab" id="module-sage.repl.ipython_tests">First, test the pinfo magic for Python code. This is what IPython
 calls when you ask for the single-questionmark help, like <code class="docutils literal notranslate"><span class="pre">foo?</span></code></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
@@ -372,8 +372,22 @@ calls when you ask for the single-questionmark help, like <code class="docutils 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.repl.interpreter import get_test_shell
+shell = get_test_shell()
+shell.run_cell(u'from sage.repl.ipython_tests import dummy')
+shell.run_cell(u'%pinfo dummy')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Next, test the pinfo magic for Cython code:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Next, test the pinfo magic for Cython code:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.repl.interpreter</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_test_shell</span>
@@ -412,8 +426,22 @@ calls when you ask for the single-questionmark help, like <code class="docutils 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.repl.interpreter import get_test_shell
+shell = get_test_shell()
+shell.run_cell(u'from sage.tests.stl_vector import stl_int_vector')
+shell.run_cell(u'%pinfo stl_int_vector')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Test that the signature is displayed even with <code class="docutils literal notranslate"><span class="pre">binding=False</span></code>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Test that the signature is displayed even with <code class="docutils literal notranslate"><span class="pre">binding=False</span></code>
 as long as <code class="docutils literal notranslate"><span class="pre">embedsignature=True</span></code> is set
 (unfortunately the type is not displayed, see <code class="docutils literal notranslate"><span class="pre">sage_signature</span></code>):</p>
 <div class="tab-set docutils container">
@@ -452,8 +480,27 @@ as long as <code class="docutils literal notranslate"><span class="pre">embedsig
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.misc.cython
+shell.run_cell(r&quot;&quot;&quot;
+%%cython
+# cython: binding=False, embedsignature=True
+cpdef int f(int a):
+    return a+1
+&quot;&quot;&quot;)
+shell.run_cell(u'print(f.__doc__)')
+shell.run_cell(u'%pinfo f')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Next, test the <code class="docutils literal notranslate"><span class="pre">pinfo</span></code> magic for <code class="docutils literal notranslate"><span class="pre">R</span></code> interface code, see <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/26906">upstream Issue #26906</a>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Next, test the <code class="docutils literal notranslate"><span class="pre">pinfo</span></code> magic for <code class="docutils literal notranslate"><span class="pre">R</span></code> interface code, see <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/26906">upstream Issue #26906</a>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.repl.interpreter</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_test_shell</span>   <span class="c1"># optional - rpy2</span>
@@ -490,8 +537,21 @@ as long as <code class="docutils literal notranslate"><span class="pre">embedsig
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.repl.interpreter import get_test_shell   # optional - rpy2
+shell = get_test_shell()                           # optional - rpy2
+shell.run_cell(u'%pinfo r.lm')                     # optional - rpy2</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Next, test the pinfo2 magic for Python code. This is what IPython
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Next, test the pinfo2 magic for Python code. This is what IPython
 calls when you ask for the double-questionmark help, like <code class="docutils literal notranslate"><span class="pre">foo??</span></code></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
@@ -557,8 +617,23 @@ calls when you ask for the double-questionmark help, like <code class="docutils 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># known bug: windows (hangs - https://github.com/msys2/MINGW-packages/issues/24738#issuecomment-3659177777)
+from sage.repl.interpreter import get_test_shell
+shell = get_test_shell()
+shell.run_cell(u'from sage.repl.ipython_tests import dummy')
+shell.run_cell(u'%pinfo2 dummy')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Next, test the pinfo2 magic for Cython code:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Next, test the pinfo2 magic for Cython code:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># known bug: windows (hangs - https://github.com/msys2/MINGW-packages/issues/24738#issuecomment-3659177777)</span>
@@ -625,8 +700,23 @@ calls when you ask for the double-questionmark help, like <code class="docutils 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># known bug: windows (hangs - https://github.com/msys2/MINGW-packages/issues/24738#issuecomment-3659177777)
+from sage.repl.interpreter import get_test_shell
+shell = get_test_shell()
+shell.run_cell(u'from sage.tests.stl_vector import stl_int_vector')
+shell.run_cell(u'%pinfo2 stl_int_vector')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Next, test the <code class="docutils literal notranslate"><span class="pre">pinfo2</span></code> magic for <code class="docutils literal notranslate"><span class="pre">R</span></code> interface code, see <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/26906">upstream Issue #26906</a>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Next, test the <code class="docutils literal notranslate"><span class="pre">pinfo2</span></code> magic for <code class="docutils literal notranslate"><span class="pre">R</span></code> interface code, see <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/26906">upstream Issue #26906</a>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># known bug: windows (hangs - https://github.com/msys2/MINGW-packages/issues/24738#issuecomment-3659177777)</span>
@@ -659,8 +749,22 @@ calls when you ask for the double-questionmark help, like <code class="docutils 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># known bug: windows (hangs - https://github.com/msys2/MINGW-packages/issues/24738#issuecomment-3659177777)
+from sage.repl.interpreter import get_test_shell   # optional - rpy2
+shell = get_test_shell()                           # optional - rpy2
+shell.run_cell(u'%pinfo2 r.lm')                    # optional - rpy2</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Test that there are no warnings being ignored internally:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Test that there are no warnings being ignored internally:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
@@ -677,6 +781,18 @@ calls when you ask for the double-questionmark help, like <code class="docutils 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">import warnings
+warnings.simplefilter('error');  get_test_shell()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py function">
 <dt class="sig sig-object py" id="sage.repl.ipython_tests.dummy">
@@ -688,7 +804,7 @@ calls when you ask for the double-questionmark help, like <code class="docutils 
 <li><p><code class="docutils literal notranslate"><span class="pre">argument</span></code> – anything; dummy argument</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">optional</span></code> – anything (optional); dummy optional</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.repl.ipython_tests</span><span class="w"> </span><span class="kn">import</span> <span class="n">dummy</span>
@@ -705,11 +821,27 @@ calls when you ask for the double-questionmark help, like <code class="docutils 
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.repl.ipython_tests import dummy
+dummy(1)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -785,7 +917,7 @@ calls when you ask for the double-questionmark help, like <code class="docutils 
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>

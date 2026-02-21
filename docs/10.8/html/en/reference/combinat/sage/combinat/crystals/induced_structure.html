@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -695,7 +695,7 @@ known.</p>
 structure is of the second type <span class="math notranslate nohighlight">\(\Phi : C \to X\)</span></p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">We construct a crystal structure of Gelfand-Tsetlin patterns by going
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We construct a crystal structure of Gelfand-Tsetlin patterns by going
 through their bijection with semistandard tableaux:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
@@ -721,8 +721,24 @@ through their bijection with semistandard tableaux:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D = crystals.Tableaux(['A',3], shapes=PartitionsInBox(4,3))
+G = GelfandTsetlinPatterns(4, 3)
+phi = lambda x: D(x.to_tableau())
+phi_inv = lambda x: G(x.to_tableau())
+I = crystals.Induced(G, phi, phi_inv)
+I.digraph().is_isomorphic(D.digraph(), edge_labels=True)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Now we construct the above example but inducing the structure going the
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Now we construct the above example but inducing the structure going the
 other way (from tableaux to Gelfand-Tsetlin patterns). This can also
 give us more information coming from the crystal.</p>
 <div class="tab-set docutils container">
@@ -757,8 +773,24 @@ give us more information coming from the crystal.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D2 = crystals.Tableaux(['A',3], shapes=PartitionsInBox(4,1))
+G2 = GelfandTsetlinPatterns(4, 1)
+phi2 = lambda x: D2(x.to_tableau())
+phi2_inv = lambda x: G2(x.to_tableau())
+I2 = crystals.Induced(D2, phi2_inv, phi2, from_crystal=True)
+I2.module_generators</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We check an example when the codomain is larger than the domain
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We check an example when the codomain is larger than the domain
 (although here the crystal structure is trivial):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
@@ -790,8 +822,26 @@ give us more information coming from the crystal.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = Permutations(4)
+D = crystals.Tableaux(['A',3], shapes=Partitions(4))
+T = crystals.TensorProduct(D, D)
+phi = lambda p: T(D(RSK(p)[0]), D(RSK(p)[1]))
+phi_inv = lambda d: RSK_inverse(d[0].to_tableau(), d[1].to_tableau(), output='permutation')
+all(phi_inv(phi(p)) == p for p in P) # Check it really is the inverse
+I = crystals.Induced(P, phi, phi_inv)
+I.digraph()</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We construct an example without a specified inverse map:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We construct an example without a specified inverse map:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">X</span> <span class="o">=</span> <span class="n">Words</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
@@ -816,6 +866,22 @@ give us more information coming from the crystal.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">X = Words(2,4)
+L = crystals.Letters(['A',1])
+T = crystals.TensorProduct(*[L]*4)
+Phi = lambda x : T(*[L(i) for i in x])
+I = crystals.Induced(X, Phi)
+I.digraph()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py class">
 <dt class="sig sig-object py" id="sage.combinat.crystals.induced_structure.InducedCrystal.Element">
@@ -826,7 +892,7 @@ give us more information coming from the crystal.</p>
 <dt class="sig sig-object py" id="sage.combinat.crystals.induced_structure.InducedCrystal.Element.e">
 <span class="sig-name descname"><span class="pre">e</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/crystals/induced_structure.py#L299"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.crystals.induced_structure.InducedCrystal.Element.e" title="Link to this definition">¶</a></dt>
 <dd><p>Return <span class="math notranslate nohighlight">\(e_i\)</span> of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">crystals</span><span class="o">.</span><span class="n">Tableaux</span><span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">shapes</span><span class="o">=</span><span class="n">PartitionsInBox</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
@@ -857,6 +923,25 @@ give us more information coming from the crystal.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D = crystals.Tableaux(['A',3], shapes=PartitionsInBox(4,3))
+G = GelfandTsetlinPatterns(4, 3)
+phi = lambda x: D(x.to_tableau())
+phi_inv = lambda x: G(x.to_tableau())
+I = crystals.Induced(G, phi, phi_inv)
+elt = I([[1, 1, 0, 0], [1, 1, 0], [1, 0], [1]])
+elt.e(1)
+elt.e(2)
+elt.e(3)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -864,7 +949,7 @@ give us more information coming from the crystal.</p>
 <dt class="sig sig-object py" id="sage.combinat.crystals.induced_structure.InducedCrystal.Element.epsilon">
 <span class="sig-name descname"><span class="pre">epsilon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/crystals/induced_structure.py#L352"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.crystals.induced_structure.InducedCrystal.Element.epsilon" title="Link to this definition">¶</a></dt>
 <dd><p>Return <span class="math notranslate nohighlight">\(\varepsilon_i\)</span> of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">crystals</span><span class="o">.</span><span class="n">Tableaux</span><span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">shapes</span><span class="o">=</span><span class="n">PartitionsInBox</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
@@ -891,6 +976,23 @@ give us more information coming from the crystal.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D = crystals.Tableaux(['A',3], shapes=PartitionsInBox(4,3))
+G = GelfandTsetlinPatterns(4, 3)
+phi = lambda x: D(x.to_tableau())
+phi_inv = lambda x: G(x.to_tableau())
+I = crystals.Induced(G, phi, phi_inv)
+elt = I([[1, 1, 0, 0], [1, 1, 0], [1, 0], [1]])
+[elt.epsilon(i) for i in I.index_set()]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -898,7 +1000,7 @@ give us more information coming from the crystal.</p>
 <dt class="sig sig-object py" id="sage.combinat.crystals.induced_structure.InducedCrystal.Element.f">
 <span class="sig-name descname"><span class="pre">f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/crystals/induced_structure.py#L325"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.crystals.induced_structure.InducedCrystal.Element.f" title="Link to this definition">¶</a></dt>
 <dd><p>Return <span class="math notranslate nohighlight">\(f_i\)</span> of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">crystals</span><span class="o">.</span><span class="n">Tableaux</span><span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">shapes</span><span class="o">=</span><span class="n">PartitionsInBox</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
@@ -931,6 +1033,25 @@ give us more information coming from the crystal.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D = crystals.Tableaux(['A',3], shapes=PartitionsInBox(4,3))
+G = GelfandTsetlinPatterns(4, 3)
+phi = lambda x: D(x.to_tableau())
+phi_inv = lambda x: G(x.to_tableau())
+I = crystals.Induced(G, phi, phi_inv)
+elt = I([[1, 1, 0, 0], [1, 1, 0], [1, 0], [1]])
+elt.f(1)
+elt.f(2)
+elt.f(3)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -938,7 +1059,7 @@ give us more information coming from the crystal.</p>
 <dt class="sig sig-object py" id="sage.combinat.crystals.induced_structure.InducedCrystal.Element.phi">
 <span class="sig-name descname"><span class="pre">phi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/crystals/induced_structure.py#L369"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.crystals.induced_structure.InducedCrystal.Element.phi" title="Link to this definition">¶</a></dt>
 <dd><p>Return <span class="math notranslate nohighlight">\(\varphi_i\)</span> of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">crystals</span><span class="o">.</span><span class="n">Tableaux</span><span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">shapes</span><span class="o">=</span><span class="n">PartitionsInBox</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
@@ -965,6 +1086,23 @@ give us more information coming from the crystal.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D = crystals.Tableaux(['A',3], shapes=PartitionsInBox(4,3))
+G = GelfandTsetlinPatterns(4, 3)
+phi = lambda x: D(x.to_tableau())
+phi_inv = lambda x: G(x.to_tableau())
+I = crystals.Induced(G, phi, phi_inv)
+elt = I([[1, 1, 0, 0], [1, 1, 0], [1, 0], [1]])
+[elt.phi(i) for i in I.index_set()]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -972,7 +1110,7 @@ give us more information coming from the crystal.</p>
 <dt class="sig sig-object py" id="sage.combinat.crystals.induced_structure.InducedCrystal.Element.weight">
 <span class="sig-name descname"><span class="pre">weight</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/crystals/induced_structure.py#L386"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.crystals.induced_structure.InducedCrystal.Element.weight" title="Link to this definition">¶</a></dt>
 <dd><p>Return the weight of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">crystals</span><span class="o">.</span><span class="n">Tableaux</span><span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">shapes</span><span class="o">=</span><span class="n">PartitionsInBox</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
@@ -999,6 +1137,23 @@ give us more information coming from the crystal.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D = crystals.Tableaux(['A',3], shapes=PartitionsInBox(4,3))
+G = GelfandTsetlinPatterns(4, 3)
+phi = lambda x: D(x.to_tableau())
+phi_inv = lambda x: G(x.to_tableau())
+I = crystals.Induced(G, phi, phi_inv)
+elt = I([[1, 1, 0, 0], [1, 1, 0], [1, 0], [1]])
+elt.weight()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1008,7 +1163,7 @@ give us more information coming from the crystal.</p>
 <dt class="sig sig-object py" id="sage.combinat.crystals.induced_structure.InducedCrystal.cardinality">
 <span class="sig-name descname"><span class="pre">cardinality</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/crystals/induced_structure.py#L277"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.crystals.induced_structure.InducedCrystal.cardinality" title="Link to this definition">¶</a></dt>
 <dd><p>Return the cardinality of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">Permutations</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
@@ -1035,6 +1190,23 @@ give us more information coming from the crystal.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">P = Permutations(4)
+D = crystals.Tableaux(['A',3], shapes=Partitions(4))
+T = crystals.TensorProduct(D, D)
+phi = lambda p: T(D(RSK(p)[0]), D(RSK(p)[1]))
+phi_inv = lambda d: RSK_inverse(d[0].to_tableau(), d[1].to_tableau(), output='permutation')
+I = crystals.Induced(P, phi, phi_inv)
+I.cardinality() == factorial(4)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1059,7 +1231,7 @@ morphism.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">inverse</span></code> – (optional) the inverse map <span class="math notranslate nohighlight">\(\Phi^{-1}\)</span></p></li>
 </ul>
 <p>EXAMPLES:</p>
-<p class="with-sage-tab with-python-tab">We construct a crystal structure on generalized permutations with a
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We construct a crystal structure on generalized permutations with a
 fixed first row by using RSK:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
@@ -1083,6 +1255,22 @@ fixed first row by using RSK:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C = crystals.Tableaux(['A',3], shape=[2,1])
+def psi(x):
+    ret = RSK_inverse(x.to_tableau(), Tableau([[1,1],[2]]))
+    return (tuple(ret[0]), tuple(ret[1]))
+psi_inv = lambda x: C(RSK(*x)[0])
+I = crystals.Induced(C, psi, psi_inv, from_crystal=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py class">
 <dt class="sig sig-object py" id="sage.combinat.crystals.induced_structure.InducedFromCrystal.Element">
@@ -1093,7 +1281,7 @@ fixed first row by using RSK:</p>
 <dt class="sig sig-object py" id="sage.combinat.crystals.induced_structure.InducedFromCrystal.Element.e">
 <span class="sig-name descname"><span class="pre">e</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/crystals/induced_structure.py#L599"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.crystals.induced_structure.InducedFromCrystal.Element.e" title="Link to this definition">¶</a></dt>
 <dd><p>Return <span class="math notranslate nohighlight">\(e_i\)</span> of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">crystals</span><span class="o">.</span><span class="n">Tableaux</span><span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">shapes</span><span class="o">=</span><span class="n">PartitionsInBox</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
@@ -1124,6 +1312,25 @@ fixed first row by using RSK:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D = crystals.Tableaux(['A',3], shapes=PartitionsInBox(4,1))
+G = GelfandTsetlinPatterns(4, 1)
+def phi(x): return G(x.to_tableau())
+def phi_inv(x): return D(G(x).to_tableau())
+I = crystals.Induced(D, phi, phi_inv, from_crystal=True)
+elt = I([[1, 1, 0, 0], [1, 1, 0], [1, 0], [1]])
+elt.e(1)
+elt.e(2)
+elt.e(3)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1131,7 +1338,7 @@ fixed first row by using RSK:</p>
 <dt class="sig sig-object py" id="sage.combinat.crystals.induced_structure.InducedFromCrystal.Element.epsilon">
 <span class="sig-name descname"><span class="pre">epsilon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/crystals/induced_structure.py#L646"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.crystals.induced_structure.InducedFromCrystal.Element.epsilon" title="Link to this definition">¶</a></dt>
 <dd><p>Return <span class="math notranslate nohighlight">\(\varepsilon_i\)</span> of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">crystals</span><span class="o">.</span><span class="n">Tableaux</span><span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">shapes</span><span class="o">=</span><span class="n">PartitionsInBox</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
@@ -1158,6 +1365,23 @@ fixed first row by using RSK:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D = crystals.Tableaux(['A',3], shapes=PartitionsInBox(4,1))
+G = GelfandTsetlinPatterns(4, 1)
+def phi(x): return G(x.to_tableau())
+def phi_inv(x): return D(G(x).to_tableau())
+I = crystals.Induced(D, phi, phi_inv, from_crystal=True)
+elt = I([[1, 1, 0, 0], [1, 1, 0], [1, 0], [1]])
+[elt.epsilon(i) for i in I.index_set()]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1165,7 +1389,7 @@ fixed first row by using RSK:</p>
 <dt class="sig sig-object py" id="sage.combinat.crystals.induced_structure.InducedFromCrystal.Element.f">
 <span class="sig-name descname"><span class="pre">f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/crystals/induced_structure.py#L622"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.crystals.induced_structure.InducedFromCrystal.Element.f" title="Link to this definition">¶</a></dt>
 <dd><p>Return <span class="math notranslate nohighlight">\(f_i\)</span> of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">crystals</span><span class="o">.</span><span class="n">Tableaux</span><span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">shapes</span><span class="o">=</span><span class="n">PartitionsInBox</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
@@ -1198,6 +1422,25 @@ fixed first row by using RSK:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D = crystals.Tableaux(['A',3], shapes=PartitionsInBox(4,1))
+G = GelfandTsetlinPatterns(4, 1)
+def phi(x): return G(x.to_tableau())
+def phi_inv(x): return D(G(x).to_tableau())
+I = crystals.Induced(D, phi, phi_inv, from_crystal=True)
+elt = I([[1, 1, 0, 0], [1, 1, 0], [1, 0], [1]])
+elt.f(1)
+elt.f(2)
+elt.f(3)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1205,7 +1448,7 @@ fixed first row by using RSK:</p>
 <dt class="sig sig-object py" id="sage.combinat.crystals.induced_structure.InducedFromCrystal.Element.phi">
 <span class="sig-name descname"><span class="pre">phi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/crystals/induced_structure.py#L663"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.crystals.induced_structure.InducedFromCrystal.Element.phi" title="Link to this definition">¶</a></dt>
 <dd><p>Return <span class="math notranslate nohighlight">\(\varphi_i\)</span> of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">crystals</span><span class="o">.</span><span class="n">Tableaux</span><span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">shapes</span><span class="o">=</span><span class="n">PartitionsInBox</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
@@ -1232,6 +1475,23 @@ fixed first row by using RSK:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D = crystals.Tableaux(['A',3], shapes=PartitionsInBox(4,1))
+G = GelfandTsetlinPatterns(4, 1)
+def phi(x): return G(x.to_tableau())
+def phi_inv(x): return D(G(x).to_tableau())
+I = crystals.Induced(D, phi, phi_inv, from_crystal=True)
+elt = I([[1, 1, 0, 0], [1, 1, 0], [1, 0], [1]])
+[elt.epsilon(i) for i in I.index_set()]</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1239,7 +1499,7 @@ fixed first row by using RSK:</p>
 <dt class="sig sig-object py" id="sage.combinat.crystals.induced_structure.InducedFromCrystal.Element.weight">
 <span class="sig-name descname"><span class="pre">weight</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/crystals/induced_structure.py#L680"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.crystals.induced_structure.InducedFromCrystal.Element.weight" title="Link to this definition">¶</a></dt>
 <dd><p>Return the weight of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">crystals</span><span class="o">.</span><span class="n">Tableaux</span><span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">shapes</span><span class="o">=</span><span class="n">PartitionsInBox</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
@@ -1266,6 +1526,23 @@ fixed first row by using RSK:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">D = crystals.Tableaux(['A',3], shapes=PartitionsInBox(4,1))
+G = GelfandTsetlinPatterns(4, 1)
+def phi(x): return G(x.to_tableau())
+def phi_inv(x): return D(G(x).to_tableau())
+I = crystals.Induced(D, phi, phi_inv, from_crystal=True)
+elt = I([[1, 1, 0, 0], [1, 1, 0], [1, 0], [1]])
+elt.weight()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1275,7 +1552,7 @@ fixed first row by using RSK:</p>
 <dt class="sig sig-object py" id="sage.combinat.crystals.induced_structure.InducedFromCrystal.cardinality">
 <span class="sig-name descname"><span class="pre">cardinality</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/combinat/crystals/induced_structure.py#L577"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.combinat.crystals.induced_structure.InducedFromCrystal.cardinality" title="Link to this definition">¶</a></dt>
 <dd><p>Return the cardinality of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">C</span> <span class="o">=</span> <span class="n">crystals</span><span class="o">.</span><span class="n">Tableaux</span><span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
@@ -1302,13 +1579,34 @@ fixed first row by using RSK:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">C = crystals.Tableaux(['A',3], shape=[2,1])
+def psi(x):
+    ret = RSK_inverse(x.to_tableau(), Tableau([[1,1],[2]]))
+    return (tuple(ret[0]), tuple(ret[1]))
+psi_inv = lambda x: C(RSK(*x)[0])
+I = crystals.Induced(C, psi, psi_inv, from_crystal=True)
+I.cardinality() == C.cardinality()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -1407,7 +1705,7 @@ fixed first row by using RSK:</p>
     <script src="../../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../../%5fstatic/copybutton.js"></script>
     <script src="../../../../%5fstatic/tabs.js"></script>
-    <script src="../../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"macros": {"ZZ": "\\Bold{Z}", "NN": "\\Bold{N}", "RR": "\\Bold{R}", "CC": "\\Bold{C}", "QQ": "\\Bold{Q}", "QQbar": "\\overline{\\QQ}", "GF": ["\\Bold{F}_{#1}", 1], "Zp": ["\\Bold{Z}_{#1}", 1], "Qp": ["\\Bold{Q}_{#1}", 1], "Zmod": ["\\ZZ/#1\\ZZ", 1], "CDF": "\\Bold{C}", "CIF": "\\Bold{C}", "CLF": "\\Bold{C}", "RDF": "\\Bold{R}", "RIF": "\\Bold{I} \\Bold{R}", "RLF": "\\Bold{R}", "SL": "\\mathrm{SL}", "PSL": "\\mathrm{PSL}", "lcm": "\\mathop{\\operatorname{lcm}}", "dist": "\\mathrm{dist}", "im": "\\mathop{\\operatorname{im}}", "rank": "\\mathop{\\operatorname{rank}}", "PP": "\\Bold{P}", "OO": "\\mathcal{O}", "Bold": ["\\mathbf{#1}", 1]}, "inlineMath": [["$", "$"], ["\\(", "\\)"]], "maxBuffer": 51200, "autoload": {"color": [], "colorv2": ["color"]}}}</script>

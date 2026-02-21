@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -347,7 +347,7 @@ mailing list.</p></li>
 </section>
 <section id="sageinteractiveshell">
 <h2>SageInteractiveShell<a class="headerlink" href="#sageinteractiveshell" title="Link to this heading">¶</a></h2>
-<p class="with-sage-tab with-python-tab">The <code class="xref py py-class docutils literal notranslate"><span class="pre">SageInteractiveShell</span></code> object is the object responsible for
+<p class="with-sage-tab with-python-tab with-sage-live-tab">The <code class="xref py py-class docutils literal notranslate"><span class="pre">SageInteractiveShell</span></code> object is the object responsible for
 accepting input from the user and evaluating it.  From the command-line,
 this object can be retrieved by running:</p>
 <div class="tab-set docutils container">
@@ -362,8 +362,19 @@ this object can be retrieved by running:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">shell = get_ipython()   # not tested</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Any input is preprocessed and evaluated inside the <code class="docutils literal notranslate"><span class="pre">shell.run_cell</span></code>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Any input is preprocessed and evaluated inside the <code class="docutils literal notranslate"><span class="pre">shell.run_cell</span></code>
 method. If the command line processing does not do what you want it to
 do, you can step through it in the debugger:</p>
 <div class="tab-set docutils container">
@@ -376,6 +387,17 @@ do, you can step through it in the debugger:</p>
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.all</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="o">%</span><span class="k">debug</span> shell.run_cell(&#39;?&#39;)        # not tested
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">%debug shell.run_cell('?')        # not tested</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -433,7 +455,7 @@ system.  This also works with strings such as
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">line</span></code> – string; the line to transform</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.symbolic</span>
@@ -474,8 +496,29 @@ system.  This also works with strings such as
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.symbolic
+from sage.repl.interpreter import interface_shell_embed, InterfaceShellTransformer
+from sage.interfaces.maxima_lib import maxima
+shell = interface_shell_embed(maxima)
+ift = InterfaceShellTransformer(shell=shell, config=shell.config,
+    prefilter_manager=shell.prefilter_manager)
+ift.shell.ex('a = 3')
+ift.preparse_imports_from_sage('2 + sage(a)')
+maxima.eval('sage0')
+ift.preparse_imports_from_sage('2 + maxima(a)')
+ift.preparse_imports_from_sage('2 + gap(a)')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Since <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/28439">upstream Issue #28439</a>, this also works with more complicated expressions
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Since <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/28439">upstream Issue #28439</a>, this also works with more complicated expressions
 containing nested parentheses:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
@@ -505,6 +548,24 @@ containing nested parentheses:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.libs.gap sage.symbolic
+shell = interface_shell_embed(gap)
+shell.user_ns = locals()
+ift = InterfaceShellTransformer(shell=shell, config=shell.config,
+    prefilter_manager=shell.prefilter_manager)
+line = '2 + sage((1+2)*gap(-(5-3)^2).sage()) - gap(1+(2-1))'
+line = ift.preparse_imports_from_sage(line)
+gap.eval(line)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -523,7 +584,7 @@ string representing the result of that evaluation.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">continue_prompt</span></code> – boolean; whether this line is a continuation in a
 sequence of multiline input</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.repl.interpreter</span><span class="w"> </span><span class="kn">import</span> <span class="n">interface_shell_embed</span><span class="p">,</span> <span class="n">InterfaceShellTransformer</span>
@@ -570,6 +631,29 @@ sequence of multiline input</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.repl.interpreter import interface_shell_embed, InterfaceShellTransformer
+# needs sage.symbolic
+shell = interface_shell_embed(maxima)
+ift = InterfaceShellTransformer(shell=shell, config=shell.config,
+    prefilter_manager=shell.prefilter_manager)
+ift.transform('2+2', False)   # note: output contains triple quotation marks
+ift.shell.ex('a = 4')
+ift.transform(r'sage(a)+4', False)
+ift.temporary_objects
+shell = interface_shell_embed(gap)                                    # needs sage.libs.gap
+ift = InterfaceShellTransformer(shell=shell, config=shell.config,     # needs sage.libs.gap
+    prefilter_manager=shell.prefilter_manager)
+ift.transform('2+2', False)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -581,7 +665,7 @@ sequence of multiline input</p></li>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IPAppCrashHandler</span></code></p>
 <p>A custom <code class="xref py py-class docutils literal notranslate"><span class="pre">CrashHandler</span></code> which gives the user
 instructions on how to post the problem to sage-support.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.repl.interpreter</span><span class="w"> </span><span class="kn">import</span> <span class="n">SageTerminalApp</span><span class="p">,</span> <span class="n">SageCrashHandler</span>
@@ -612,6 +696,20 @@ instructions on how to post the problem to sage-support.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.repl.interpreter import SageTerminalApp, SageCrashHandler
+app = SageTerminalApp.instance()
+sch = SageCrashHandler(app); sch
+sorted(sch.info.items())</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -622,7 +720,7 @@ instructions on how to post the problem to sage-support.</p>
 <p>IPython Shell for the Sage IPython Notebook.</p>
 <p>The doctests are not tested since they would change the current
 rich output backend away from the doctest rich output backend.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.repl.interpreter</span><span class="w"> </span><span class="kn">import</span> <span class="n">SageNotebookInteractiveShell</span>
@@ -639,12 +737,24 @@ rich output backend away from the doctest rich output backend.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.repl.interpreter import SageNotebookInteractiveShell
+SageNotebookInteractiveShell()   # not tested</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.repl.interpreter.SageNotebookInteractiveShell.init_display_formatter">
 <span class="sig-name descname"><span class="pre">init_display_formatter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/interpreter.py#L261"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.interpreter.SageNotebookInteractiveShell.init_display_formatter" title="Link to this definition">¶</a></dt>
 <dd><p>Switch to the Sage IPython notebook rich output backend.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.repl.interpreter</span><span class="w"> </span><span class="kn">import</span> <span class="n">SageNotebookInteractiveShell</span>
@@ -659,6 +769,18 @@ rich output backend away from the doctest rich output backend.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.repl.interpreter import SageNotebookInteractiveShell
+SageNotebookInteractiveShell().init_display_formatter()   # not tested</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -667,7 +789,7 @@ rich output backend away from the doctest rich output backend.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="sage.repl.interpreter.SagePreparseTransformer">
 <span class="sig-prename descclassname"><span class="pre">sage.repl.interpreter.</span></span><span class="sig-name descname"><span class="pre">SagePreparseTransformer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/interpreter.py#L422"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.interpreter.SagePreparseTransformer" title="Link to this definition">¶</a></dt>
-<dd><p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<dd><p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.repl.interpreter</span><span class="w"> </span><span class="kn">import</span> <span class="n">SagePreparseTransformer</span>
@@ -692,6 +814,21 @@ rich output backend away from the doctest rich output backend.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.repl.interpreter import SagePreparseTransformer
+spt = SagePreparseTransformer
+spt(['1+1r+2.3^2.3r\n'])
+preparser(False)
+spt(['2.3^2\n'])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -714,7 +851,7 @@ classes.</p>
 <dd><p>Print the basic Sage usage.</p>
 <p>This method ends up being called when you enter <code class="docutils literal notranslate"><span class="pre">?</span></code> and
 nothing else on the command line.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.repl.interpreter</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_test_shell</span>
@@ -735,6 +872,20 @@ nothing else on the command line.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.repl.interpreter import get_test_shell
+shell = get_test_shell()
+shell.run_cell('?')
+shell.quit()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -742,7 +893,7 @@ nothing else on the command line.</p>
 <dt class="sig sig-object py" id="sage.repl.interpreter.SageShellOverride.system_raw">
 <span class="sig-name descname"><span class="pre">system_raw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/interpreter.py#L224"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.interpreter.SageShellOverride.system_raw" title="Link to this definition">¶</a></dt>
 <dd><p>Run a system command.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.repl.interpreter</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_test_shell</span>
@@ -779,6 +930,25 @@ nothing else on the command line.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.repl.interpreter import get_test_shell
+shell = get_test_shell()
+shell.system_raw('false')
+shell.user_ns['_exit_code'] &gt; 0
+shell.system_raw('true')
+shell.user_ns['_exit_code']
+shell.system_raw('R --version')   # optional - r
+shell.user_ns['_exit_code']       # optional - r
+shell.quit()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -803,7 +973,7 @@ nothing else on the command line.</p>
 <p>This code is based on
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">TerminalIPythonApp.init_shell()</span></code>.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.repl.interpreter</span><span class="w"> </span><span class="kn">import</span> <span class="n">SageTerminalApp</span>
@@ -820,6 +990,19 @@ nothing else on the command line.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">app</span><span class="o">.</span><span class="n">shell</span>
 <span class="go">&lt;sage.repl.interpreter.SageTestShell object at 0x...&gt;</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.repl.interpreter import SageTerminalApp
+app = SageTerminalApp.instance()
+app.shell</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -861,7 +1044,7 @@ nothing else on the command line.</p>
 <p>IPython Shell for the Sage IPython Commandline Interface.</p>
 <p>The doctests are not tested since they would change the current
 rich output backend away from the doctest rich output backend.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.repl.interpreter</span><span class="w"> </span><span class="kn">import</span> <span class="n">SageTerminalInteractiveShell</span>
@@ -878,12 +1061,24 @@ rich output backend away from the doctest rich output backend.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.repl.interpreter import SageTerminalInteractiveShell
+SageTerminalInteractiveShell()   # not tested</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.repl.interpreter.SageTerminalInteractiveShell.init_display_formatter">
 <span class="sig-name descname"><span class="pre">init_display_formatter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/interpreter.py#L289"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.interpreter.SageTerminalInteractiveShell.init_display_formatter" title="Link to this definition">¶</a></dt>
 <dd><p>Switch to the Sage IPython commandline rich output backend.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.repl.interpreter</span><span class="w"> </span><span class="kn">import</span> <span class="n">SageTerminalInteractiveShell</span>
@@ -896,6 +1091,18 @@ rich output backend away from the doctest rich output backend.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.repl.interpreter</span><span class="w"> </span><span class="kn">import</span> <span class="n">SageTerminalInteractiveShell</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">SageTerminalInteractiveShell</span><span class="p">()</span><span class="o">.</span><span class="n">init_display_formatter</span><span class="p">()</span>   <span class="c1"># not tested</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.repl.interpreter import SageTerminalInteractiveShell
+SageTerminalInteractiveShell().init_display_formatter()   # not tested</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -916,7 +1123,7 @@ rich output backend away from the doctest rich output backend.</p>
 <p>Care must be taken in these doctests to quit the test shell in
 order to switch back the rich output display backend to the
 doctest backend.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.repl.interpreter</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_test_shell</span>
@@ -935,12 +1142,25 @@ doctest backend.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.repl.interpreter import get_test_shell
+shell = get_test_shell();  shell
+shell.quit()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.repl.interpreter.SageTestShell.init_display_formatter">
 <span class="sig-name descname"><span class="pre">init_display_formatter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/repl/interpreter.py#L332"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.repl.interpreter.SageTestShell.init_display_formatter" title="Link to this definition">¶</a></dt>
 <dd><p>Switch to the Sage IPython commandline rich output backend.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.repl.interpreter</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_test_shell</span>
@@ -963,6 +1183,21 @@ doctest backend.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.repl.interpreter import get_test_shell
+shell = get_test_shell();  shell
+shell.quit()
+shell.init_display_formatter()
+shell.quit()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -977,7 +1212,7 @@ display backend. This method restores the previous display
 backend, which is the
 <a class="reference internal" href="rich_output/backend_doctest.html#sage.repl.rich_output.backend_doctest.BackendDoctest" title="sage.repl.rich_output.backend_doctest.BackendDoctest"><code class="xref py py-class docutils literal notranslate"><span class="pre">BackendDoctest</span></code></a>
 during doctests.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.repl.interpreter</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_test_shell</span>
@@ -1012,6 +1247,23 @@ during doctests.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.repl.interpreter import get_test_shell
+from sage.repl.rich_output import get_display_manager
+get_display_manager()
+shell = get_test_shell()
+get_display_manager()
+shell.quit()
+get_display_manager()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1022,7 +1274,7 @@ during doctests.</p>
 <p>Starting with IPython-3.0, this returns an success/failure
 information. Since it is more convenient for doctests, we
 ignore it.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.repl.interpreter</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_test_shell</span>
@@ -1047,6 +1299,21 @@ ignore it.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.repl.interpreter import get_test_shell
+shell = get_test_shell()
+rc = shell.run_cell('2^50')
+rc is None
+shell.quit()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1058,7 +1325,7 @@ ignore it.</p>
 <dd><p>Return a IPython shell that can be used in testing the functions
 in this module.</p>
 <p>OUTPUT: an IPython shell</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.repl.interpreter</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_test_shell</span>
@@ -1085,6 +1352,21 @@ in this module.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.repl.interpreter import get_test_shell
+shell = get_test_shell(); shell
+shell.parent.shell_class
+shell.parent.test_shell
+shell.quit()</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1099,7 +1381,7 @@ appropriate <code class="docutils literal notranslate"><span class="pre">interfa
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">interface</span></code> – a Sage <code class="docutils literal notranslate"><span class="pre">PExpect</span></code> interface instance</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.repl.interpreter</span><span class="w"> </span><span class="kn">import</span> <span class="n">interface_shell_embed</span>
@@ -1118,6 +1400,19 @@ appropriate <code class="docutils literal notranslate"><span class="pre">interfa
 <span class="go">[ false, true, true, false, true, false, true, false, false, false ]</span>
 <span class="go">&lt;ExecutionResult object at ..., execution_count=... error_before_exec=None error_in_exec=None ...result=[ false, true, true, false, true, false, true, false, false, false ]&gt;</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.repl.interpreter import interface_shell_embed
+shell = interface_shell_embed(gap)                                        # needs sage.libs.gap
+shell.run_cell('List( [1..10], IsPrime )')                                # needs sage.libs.gap</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1139,7 +1434,7 @@ wrapped in a <code class="docutils literal notranslate"><span class="pre">\verb<
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">on</span></code> – boolean; whether to turn on preparsing</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span>
@@ -1166,11 +1461,30 @@ wrapped in a <code class="docutils literal notranslate"><span class="pre">\verb<
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">2/3
+preparser(False)
+2/3  # not tested since doctests are always preparsed
+preparser(True)
+2^3</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -1291,7 +1605,7 @@ wrapped in a <code class="docutils literal notranslate"><span class="pre">\verb<
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>

@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/jupyter-sphinx.css?v=572af1d6" />
-    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../%5fstatic/thebelab.css?v=8af4a044" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/styles/furo-extensions.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-furo.css" />
     <link rel="stylesheet" type="text/css" href="../../../%5fstatic/custom-jupyter-sphinx.css" />
@@ -292,7 +292,7 @@ using interval arithmetic (<a class="extlink-issue reference external" href="htt
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Context swapping out the pre-parsed source with the original for
 better reporting.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.sources</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileDocTestSource</span>
@@ -329,6 +329,27 @@ better reporting.</p>
 <span class="gp">...</span>     <span class="n">ex</span><span class="o">.</span><span class="n">source</span>
 <span class="go">&#39;doctest_var = 42; doctest_var^2\n&#39;</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.sources import FileDocTestSource
+from sage.doctest.control import DocTestDefaults
+filename = sage.doctest.forker.__file__
+FDS = FileDocTestSource(filename, DocTestDefaults())
+doctests, extras = FDS.create_doctests(globals())
+ex = doctests[0].examples[0]
+ex.sage_source
+ex.source
+from sage.doctest.parsing import OriginalSource
+with OriginalSource(ex):
+    ex.source</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -382,7 +403,7 @@ instances.  There will be at least one string between
 successive examples (exactly one unless long or optional
 tests are removed), and it will begin and end with a string.</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.parsing</span><span class="w"> </span><span class="kn">import</span> <span class="n">SageDocTestParser</span>
@@ -413,8 +434,25 @@ tests are removed), and it will begin and end with a string.</p></li>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.parsing import SageDocTestParser
+DTP = SageDocTestParser(('sage','magma','guava'))
+example = 'Explanatory text::\n\n    sage: E = magma(&quot;EllipticCurve([1, 1, 1, -10, -10])&quot;) # optional: magma\n\nLater text'
+parsed = DTP.parse(example)
+parsed[0]
+parsed[1].sage_source
+parsed[2]</pre>
 </div>
-<p class="with-sage-tab with-python-tab">If the doctest parser is not created to accept a given
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">If the doctest parser is not created to accept a given
 optional argument, the corresponding examples will just be
 removed:</p>
 <div class="tab-set docutils container">
@@ -435,8 +473,21 @@ removed:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">DTP2 = SageDocTestParser(('sage',))
+parsed2 = DTP2.parse(example)
+parsed2</pre>
 </div>
-<p class="with-sage-tab with-python-tab">You can mark doctests as having a particular tolerance:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">You can mark doctests as having a particular tolerance:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">example2</span> <span class="o">=</span> <span class="s1">&#39;sage: gamma(1.6) # tol 2.0e-11</span><span class="se">\n</span><span class="s1">0.893515349287690&#39;</span>
@@ -467,8 +518,24 @@ removed:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">example2 = 'sage: gamma(1.6) # tol 2.0e-11\n0.893515349287690'
+ex = DTP.parse(example2)[1]
+ex.sage_source
+ex.want
+type(ex.want)
+ex.want.tol                                                           # needs sage.rings.real_interval_field</pre>
 </div>
-<p class="with-sage-tab with-python-tab">You can use continuation lines:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">You can use continuation lines:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;sage: for i in range(4):</span><span class="se">\n</span><span class="s2">....:     print(i)</span><span class="se">\n</span><span class="s2">....:</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -487,8 +554,21 @@ removed:</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">s = &quot;sage: for i in range(4):\n....:     print(i)\n....:\n&quot;
+ex = DTP2.parse(s)[1]
+ex.source</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Optional tags at the start of an example block persist to the end of
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Optional tags at the start of an example block persist to the end of
 the block (delimited by a blank line):</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">Sage</label><div class="tab-content docutils container">
@@ -526,8 +606,24 @@ the block (delimited by a blank line):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># long time, needs sage.rings.number_field
+QQbar(I)^10000
+QQbar(I)^10000  # not tested
+# needs sage.rings.finite_rings
+GF(7)
+GF(10)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Test that <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/26575">upstream Issue #26575</a> is resolved:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Test that <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/26575">upstream Issue #26575</a> is resolved:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">example3</span> <span class="o">=</span> <span class="s1">&#39;sage: Zp(5,4,print_mode=&quot;digits&quot;)(5)</span><span class="se">\n</span><span class="s1">...00010&#39;</span>
@@ -552,8 +648,23 @@ the block (delimited by a blank line):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--6-input--3" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">example3 = 'sage: Zp(5,4,print_mode=&quot;digits&quot;)(5)\n...00010'
+parsed3 = DTP.parse(example3)
+dte = parsed3[1]
+dte.sage_source
+dte.want</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Style warnings:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Style warnings:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="n">test_string</span><span class="p">):</span>
@@ -682,6 +793,24 @@ the block (delimited by a blank line):</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">def parse(test_string):
+    return [x if isinstance(x, str)
+              else (getattr(x, 'warnings', None), x.sage_source, x.source)
+            for x in DTP.parse(test_string)]
+parse('sage: 1 # optional guava mango\nsage: 2 # optional guava\nsage: 3 # optional guava\nsage: 4 # optional guava\nsage: 5 # optional guava\n\nsage: 11 # optional guava')
+parse('sage: 1 # optional guava\nsage: 2 # optional guava mango\nsage: 3 # optional guava\nsage: 4 # optional guava\nsage: 5 # optional guava\n')
+parse('sage: # optional mango\nsage: 1 # optional guava\nsage: 2 # optional guava mango\nsage: 3 # optional guava\nsage: 4 # optional guava\n sage: 5 # optional guava\n')  # optional - guava mango
+parse('::\n\n    sage: 1 # optional guava\n    sage: 2 # optional guava mango\n    sage: 3 # optional guava\n\n::\n\n    sage: 4 # optional guava\n     sage: 5 # optional guava\n')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -698,7 +827,7 @@ the block (delimited by a blank line):</p>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/doctest.html#doctest.OutputChecker" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">OutputChecker</span></code></a></p>
 <p>A modification of the doctest OutputChecker that can check
 relative and absolute tolerance of answers.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--8-input--1" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.parsing</span><span class="w"> </span><span class="kn">import</span> <span class="n">SageOutputChecker</span><span class="p">,</span> <span class="n">MarkedOutput</span><span class="p">,</span> <span class="n">SageDocTestParser</span>
@@ -759,6 +888,32 @@ relative and absolute tolerance of answers.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--8-input--3" name="tab-set--8" type="radio"><label class="tab-label" for="tab-set--8-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.parsing import SageOutputChecker, MarkedOutput, SageDocTestParser
+import doctest
+optflag = doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
+DTP = SageDocTestParser(('sage','magma','guava'))
+OC = SageOutputChecker()
+example2 = 'sage: gamma(1.6) # tol 2.0e-11\n0.893515349287690'
+ex = DTP.parse(example2)[1]
+ex.sage_source
+ex.want
+type(ex.want)
+# needs sage.rings.real_interval_field
+ex.want.tol
+OC.check_output(ex.want, '0.893515349287690', optflag)
+OC.check_output(ex.want, '0.8935153492877', optflag)
+OC.check_output(ex.want, '0', optflag)
+OC.check_output(ex.want, 'x + 0.8935153492877', optflag)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sage.doctest.parsing.SageOutputChecker.check_output">
@@ -773,7 +928,7 @@ relative and absolute tolerance of answers.</p>
 </ul>
 <p>OUTPUT: boolean; whether <code class="docutils literal notranslate"><span class="pre">got</span></code> matches <code class="docutils literal notranslate"><span class="pre">want</span></code> up to the specified
 tolerance</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--9-input--1" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.parsing</span><span class="w"> </span><span class="kn">import</span> <span class="n">MarkedOutput</span><span class="p">,</span> <span class="n">SageOutputChecker</span>
@@ -814,8 +969,33 @@ tolerance</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--9-input--3" name="tab-set--9" type="radio"><label class="tab-label" for="tab-set--9-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.parsing import MarkedOutput, SageOutputChecker
+import doctest
+optflag = doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
+rndstr = MarkedOutput(&quot;I'm wrong!&quot;).update(random=True)
+tentol = MarkedOutput(&quot;10.0&quot;).update(tol=.1)
+tenabs = MarkedOutput(&quot;10.0&quot;).update(abs_tol=.1)
+tenrel = MarkedOutput(&quot;10.0&quot;).update(rel_tol=.1)
+zerotol = MarkedOutput(&quot;0.0&quot;).update(tol=.1)
+zeroabs = MarkedOutput(&quot;0.0&quot;).update(abs_tol=.1)
+zerorel = MarkedOutput(&quot;0.0&quot;).update(rel_tol=.1)
+zero = &quot;0.0&quot;
+nf = &quot;9.5&quot;
+ten = &quot;10.05&quot;
+eps = &quot;-0.05&quot;
+OC = SageOutputChecker()</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--10-input--1" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">OC</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="n">rndstr</span><span class="p">,</span><span class="n">nf</span><span class="p">,</span><span class="n">optflag</span><span class="p">)</span>
@@ -926,8 +1106,43 @@ tolerance</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--10-input--3" name="tab-set--10" type="radio"><label class="tab-label" for="tab-set--10-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">OC.check_output(rndstr,nf,optflag)
+# needs sage.rings.real_interval_field
+OC.check_output(tentol,nf,optflag)
+OC.check_output(tentol,ten,optflag)
+OC.check_output(tentol,zero,optflag)
+# needs sage.rings.real_interval_field
+OC.check_output(tenabs,nf,optflag)
+OC.check_output(tenabs,ten,optflag)
+OC.check_output(tenabs,zero,optflag)
+# needs sage.rings.real_interval_field
+OC.check_output(tenrel,nf,optflag)
+OC.check_output(tenrel,ten,optflag)
+OC.check_output(tenrel,zero,optflag)
+# needs sage.rings.real_interval_field
+OC.check_output(zerotol,zero,optflag)
+OC.check_output(zerotol,eps,optflag)
+OC.check_output(zerotol,ten,optflag)
+# needs sage.rings.real_interval_field
+OC.check_output(zeroabs,zero,optflag)
+OC.check_output(zeroabs,eps,optflag)
+OC.check_output(zeroabs,ten,optflag)
+# needs sage.rings.real_interval_field
+OC.check_output(zerorel,zero,optflag)
+OC.check_output(zerorel,eps,optflag)
+OC.check_output(zerorel,ten,optflag)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">More explicit tolerance checks:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">More explicit tolerance checks:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--11-input--1" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.real_interval_field</span>
@@ -966,8 +1181,25 @@ tolerance</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--11-input--3" name="tab-set--11" type="radio"><label class="tab-label" for="tab-set--11-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.real_interval_field
+_ = x  # rel tol 1e10                                                 # needs sage.symbolic
+raise RuntimeError   # rel tol 1e10
+1  # abs tol 2
+print(&quot;0.9999&quot;)    # rel tol 1e-4
+print(&quot;1.00001&quot;)   # abs tol 1e-5
+0  # rel tol 1</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Abs tol checks over the complex domain:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Abs tol checks over the complex domain:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--12-input--1" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.real_interval_field sage.symbolic</span>
@@ -984,8 +1216,20 @@ tolerance</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--12-input--3" name="tab-set--12" type="radio"><label class="tab-label" for="tab-set--12-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.real_interval_field sage.symbolic
+[1, -1.3, -1.5 + 0.1*I, 0.5 - 0.1*I, -1.5*I]  # abs tol 1.0</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Spaces before numbers or between the sign and number are ignored:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Spaces before numbers or between the sign and number are ignored:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--13-input--1" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.real_interval_field</span>
@@ -1002,8 +1246,20 @@ tolerance</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--13-input--3" name="tab-set--13" type="radio"><label class="tab-label" for="tab-set--13-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.real_interval_field
+print(&quot;[ - 1, 2]&quot;)  # abs tol 1e-10</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Tolerance on Python 3 for string results with unicode prefix:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Tolerance on Python 3 for string results with unicode prefix:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--14-input--1" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">a</span> <span class="o">=</span> <span class="s1">&#39;Cyrano&#39;</span><span class="p">;</span> <span class="n">a</span>
@@ -1026,8 +1282,21 @@ tolerance</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--14-input--3" name="tab-set--14" type="radio"><label class="tab-label" for="tab-set--14-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">a = 'Cyrano'; a
+b = ['Fermat', 'Euler']; b
+c = 'you'; c</pre>
 </div>
-<p class="with-sage-tab with-python-tab">This illustrates that <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/33588">upstream Issue #33588</a> is fixed:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">This illustrates that <a class="extlink-issue reference external" href="https://github.com/sagemath/sage/issues/33588">upstream Issue #33588</a> is fixed:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--15-input--1" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.parsing</span><span class="w"> </span><span class="kn">import</span> <span class="n">SageOutputChecker</span><span class="p">,</span> <span class="n">SageDocTestParser</span>
@@ -1064,6 +1333,26 @@ tolerance</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--15-input--3" name="tab-set--15" type="radio"><label class="tab-label" for="tab-set--15-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.parsing import SageOutputChecker, SageDocTestParser
+import doctest
+optflag = doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
+DTP = SageDocTestParser(('sage','magma','guava'))
+OC = SageOutputChecker()
+example = &quot;sage: 1.3090169943749475 # tol 1e-8\n1.3090169943749475&quot;
+ex = DTP.parse(example)[1]
+OC.check_output(ex.want, '1.3090169943749475', optflag)
+OC.check_output(ex.want, 'ANYTHING1.3090169943749475', optflag)
+OC.check_output(ex.want, 'Long-step dual simplex will be used\n1.3090169943749475', optflag)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1091,7 +1380,7 @@ of adding a regular expression which would also change the
 <code class="docutils literal notranslate"><span class="pre">want</span></code> string. This is why <code class="docutils literal notranslate"><span class="pre">want</span></code> is an input and an output
 of the method even if currently kept invariant.</p>
 </div>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--16-input--1" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.parsing</span><span class="w"> </span><span class="kn">import</span> <span class="n">SageOutputChecker</span>
@@ -1118,8 +1407,23 @@ of the method even if currently kept invariant.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--16-input--3" name="tab-set--16" type="radio"><label class="tab-label" for="tab-set--16-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.parsing import SageOutputChecker
+OC = SageOutputChecker()
+OC.do_fixup('1.3090169943749475','1.3090169943749475')
+OC.do_fixup('1.3090169943749475','ANYTHING1.3090169943749475')
+OC.do_fixup('1.3090169943749475','Long-step dual simplex will be used\n1.3090169943749475')</pre>
 </div>
-<p class="with-sage-tab with-python-tab">When <code class="docutils literal notranslate"><span class="pre">want</span></code> is an instance of class <code class="xref py py-class docutils literal notranslate"><span class="pre">MarkedOutput</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">When <code class="docutils literal notranslate"><span class="pre">want</span></code> is an instance of class <code class="xref py py-class docutils literal notranslate"><span class="pre">MarkedOutput</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--17-input--1" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.parsing</span><span class="w"> </span><span class="kn">import</span> <span class="n">SageOutputChecker</span><span class="p">,</span> <span class="n">SageDocTestParser</span>
@@ -1160,6 +1464,27 @@ of the method even if currently kept invariant.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--17-input--3" name="tab-set--17" type="radio"><label class="tab-label" for="tab-set--17-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.parsing import SageOutputChecker, SageDocTestParser
+import doctest
+optflag = doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
+DTP = SageDocTestParser(('sage','magma','guava'))
+OC = SageOutputChecker()
+example = &quot;sage: 1.3090169943749475\n1.3090169943749475&quot;
+ex = DTP.parse(example)[1]
+ex.want
+OC.do_fixup(ex.want,'1.3090169943749475')
+OC.do_fixup(ex.want,'ANYTHING1.3090169943749475')
+OC.do_fixup(ex.want,'Long-step dual simplex will be used\n1.3090169943749475')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1167,7 +1492,7 @@ of the method even if currently kept invariant.</p>
 <dt class="sig sig-object py" id="sage.doctest.parsing.SageOutputChecker.human_readable_escape_sequences">
 <span class="sig-name descname"><span class="pre">human_readable_escape_sequences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/parsing.py#L1205"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.parsing.SageOutputChecker.human_readable_escape_sequences" title="Link to this definition">¶</a></dt>
 <dd><p>Make ANSI escape sequences human readable.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--18-input--1" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;This is </span><span class="se">\x1b</span><span class="s1">[1mbold</span><span class="se">\x1b</span><span class="s1">[0m text&#39;</span><span class="p">)</span>
@@ -1180,6 +1505,17 @@ of the method even if currently kept invariant.</p>
 <span class="gp">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;This is </span><span class="se">\x1b</span><span class="s1">[1mbold</span><span class="se">\x1b</span><span class="s1">[0m text&#39;</span><span class="p">)</span>
 <span class="go">This is &lt;CSI-1m&gt;bold&lt;CSI-0m&gt; text</span>
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--18-input--3" name="tab-set--18" type="radio"><label class="tab-label" for="tab-set--18-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">print('This is \x1b[1mbold\x1b[0m text')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
 </div>
 </div>
 </div>
@@ -1198,7 +1534,7 @@ was actually obtained.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">optionflags</span></code> – integer; passed down to <a class="reference external" href="https://docs.python.org/library/doctest.html#doctest.OutputChecker" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">doctest.OutputChecker</span></code></a></p></li>
 </ul>
 <p>OUTPUT: string, describing how <code class="docutils literal notranslate"><span class="pre">got</span></code> fails to match <code class="docutils literal notranslate"><span class="pre">example.want</span></code></p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--19-input--1" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.parsing</span><span class="w"> </span><span class="kn">import</span> <span class="n">MarkedOutput</span><span class="p">,</span> <span class="n">SageOutputChecker</span>
@@ -1241,8 +1577,34 @@ was actually obtained.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--19-input--3" name="tab-set--19" type="radio"><label class="tab-label" for="tab-set--19-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.parsing import MarkedOutput, SageOutputChecker
+import doctest
+optflag = doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
+tentol = doctest.Example('',MarkedOutput(&quot;10.0\n&quot;).update(tol=.1))
+tenabs = doctest.Example('',MarkedOutput(&quot;10.0\n&quot;).update(abs_tol=.1))
+tenrel = doctest.Example('',MarkedOutput(&quot;10.0\n&quot;).update(rel_tol=.1))
+zerotol = doctest.Example('',MarkedOutput(&quot;0.0\n&quot;).update(tol=.1))
+zeroabs = doctest.Example('',MarkedOutput(&quot;0.0\n&quot;).update(abs_tol=.1))
+zerorel = doctest.Example('',MarkedOutput(&quot;0.0\n&quot;).update(rel_tol=.1))
+tlist = doctest.Example('',MarkedOutput(&quot;[10.0, 10.0, 10.0, 10.0, 10.0, 10.0]\n&quot;).update(abs_tol=0.987))
+zero = &quot;0.0&quot;
+nf = &quot;9.5&quot;
+ten = &quot;10.05&quot;
+eps = &quot;-0.05&quot;
+L = &quot;[9.9, 8.7, 10.3, 11.2, 10.8, 10.0]&quot;
+OC = SageOutputChecker()</pre>
 </div>
-<p class="with-sage-tab with-python-tab"></p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab"></p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--20-input--1" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="c1"># needs sage.rings.real_interval_field</span>
@@ -1313,6 +1675,21 @@ was actually obtained.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--20-input--3" name="tab-set--20" type="radio"><label class="tab-label" for="tab-set--20-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block"># needs sage.rings.real_interval_field
+print(OC.output_difference(tenabs,nf,optflag))
+print(OC.output_difference(tentol,zero,optflag))
+print(OC.output_difference(tentol,eps,optflag))
+print(OC.output_difference(tlist,L,optflag))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1322,7 +1699,7 @@ was actually obtained.</p>
 <dt class="sig sig-object py" id="sage.doctest.parsing.get_source">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.parsing.</span></span><span class="sig-name descname"><span class="pre">get_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">example</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/parsing.py#L622"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.parsing.get_source" title="Link to this definition">¶</a></dt>
 <dd><p>Return the source with the leading ‘sage: ‘ stripped off.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--21-input--1" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.parsing</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_source</span>
@@ -1355,6 +1732,25 @@ was actually obtained.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--21-input--3" name="tab-set--21" type="radio"><label class="tab-label" for="tab-set--21-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.parsing import get_source
+from sage.doctest.sources import DictAsObject
+example = DictAsObject({})
+example.sage_source = &quot;2 + 2&quot;
+example.source = &quot;sage: 2 + 2&quot;
+get_source(example)
+example = DictAsObject({})
+example.source = &quot;3 + 3&quot;
+get_source(example)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1368,7 +1764,7 @@ was actually obtained.</p>
 </ul>
 <p>OUTPUT: dictionary whose keys are strings (tags);
 see <a class="reference internal" href="#sage.doctest.parsing.parse_optional_tags" title="sage.doctest.parsing.parse_optional_tags"><code class="xref py py-func docutils literal notranslate"><span class="pre">parse_optional_tags()</span></code></a></p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--22-input--1" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.parsing</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_file_optional_tags</span>
@@ -1411,6 +1807,29 @@ see <a class="reference internal" href="#sage.doctest.parsing.parse_optional_tag
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--22-input--3" name="tab-set--22" type="radio"><label class="tab-label" for="tab-set--22-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.parsing import parse_file_optional_tags
+filename = tmp_filename(ext='.pyx')
+with open(filename, &quot;r&quot;) as f:
+    parse_file_optional_tags(enumerate(f))
+with open(filename, &quot;w&quot;) as f:
+    _ = f.write(&quot;# nodoctest&quot;)
+with open(filename, &quot;r&quot;) as f:
+    parse_file_optional_tags(enumerate(f))
+with open(filename, &quot;w&quot;) as f:
+    _ = f.write(&quot;# sage.doctest: &quot;    # broken in two source lines to avoid the pattern
+                &quot;optional - xyz&quot;)     # of relint (multiline_doctest_comment)
+with open(filename, &quot;r&quot;) as f:
+    parse_file_optional_tags(enumerate(f))</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1439,7 +1858,7 @@ for a tag, which may appear in parentheses after the tag in <code class="docutil
 additionally return <code class="docutils literal notranslate"><span class="pre">string</span></code> with the optional tags removed but other
 comments kept and a boolean <code class="docutils literal notranslate"><span class="pre">is_persistent</span></code></p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--23-input--1" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.parsing</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_optional_tags</span>
@@ -1492,8 +1911,29 @@ comments kept and a boolean <code class="docutils literal notranslate"><span cla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--23-input--3" name="tab-set--23" type="radio"><label class="tab-label" for="tab-set--23-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.parsing import parse_optional_tags
+parse_optional_tags(&quot;sage: magma('2 + 2')# optional: magma&quot;)
+parse_optional_tags(&quot;sage: #optional -- mypkg&quot;)
+parse_optional_tags(&quot;sage: print(1)  # parentheses are optional here&quot;)
+parse_optional_tags(&quot;sage: print(1)  # optional&quot;)
+sorted(list(parse_optional_tags(&quot;sage: #optional -- foo bar, baz&quot;)))
+parse_optional_tags(&quot;sage: #optional -- foo.bar, baz&quot;)
+parse_optional_tags(&quot;sage: #needs foo.bar, baz&quot;)
+sorted(list(parse_optional_tags(&quot;    sage: factor(10^(10^10) + 1) # LoNg TiME, NoT TeSTED; OptioNAL -- P4cka9e&quot;)))
+parse_optional_tags(&quot;    sage: raise RuntimeError # known bug&quot;)
+sorted(list(parse_optional_tags(&quot;    sage: determine_meaning_of_life() # long time, not implemented&quot;)))</pre>
 </div>
-<p class="with-sage-tab with-python-tab">We don’t parse inside strings:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">We don’t parse inside strings:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--24-input--1" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">parse_optional_tags</span><span class="p">(</span><span class="s2">&quot;    sage: print(&#39;  # long time&#39;)&quot;</span><span class="p">)</span>
@@ -1512,8 +1952,20 @@ comments kept and a boolean <code class="docutils literal notranslate"><span cla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--24-input--3" name="tab-set--24" type="radio"><label class="tab-label" for="tab-set--24-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">parse_optional_tags(&quot;    sage: print('  # long time')&quot;)
+parse_optional_tags(&quot;    sage: print('  # long time')  # not tested&quot;)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">UTF-8 works:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">UTF-8 works:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--25-input--1" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">parse_optional_tags</span><span class="p">(</span><span class="s2">&quot;&#39;ěščřžýáíéďĎ&#39;&quot;</span><span class="p">)</span>
@@ -1528,8 +1980,19 @@ comments kept and a boolean <code class="docutils literal notranslate"><span cla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--25-input--3" name="tab-set--25" type="radio"><label class="tab-label" for="tab-set--25-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">parse_optional_tags(&quot;'ěščřžýáíéďĎ'&quot;)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Tags with parenthesized explanations:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Tags with parenthesized explanations:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--26-input--1" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">parse_optional_tags</span><span class="p">(</span><span class="s2">&quot;    sage: 1 + 1  # long time (1 year, 2 months??), optional - bliss (because)&quot;</span><span class="p">)</span>
@@ -1544,8 +2007,19 @@ comments kept and a boolean <code class="docutils literal notranslate"><span cla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--26-input--3" name="tab-set--26" type="radio"><label class="tab-label" for="tab-set--26-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">parse_optional_tags(&quot;    sage: 1 + 1  # long time (1 year, 2 months??), optional - bliss (because)&quot;)</pre>
 </div>
-<p class="with-sage-tab with-python-tab">With <code class="docutils literal notranslate"><span class="pre">return_string_sans_tags=True</span></code>:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">With <code class="docutils literal notranslate"><span class="pre">return_string_sans_tags=True</span></code>:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--27-input--1" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">parse_optional_tags</span><span class="p">(</span><span class="s2">&quot;sage: print(1)  # very important 1  # optional - foo&quot;</span><span class="p">,</span>
@@ -1580,6 +2054,24 @@ comments kept and a boolean <code class="docutils literal notranslate"><span cla
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--27-input--3" name="tab-set--27" type="radio"><label class="tab-label" for="tab-set--27-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">parse_optional_tags(&quot;sage: print(1)  # very important 1  # optional - foo&quot;,
+                    return_string_sans_tags=True)
+parse_optional_tags(&quot;sage: print(    # very important too  # optional - foo\n....:     2)&quot;,
+                    return_string_sans_tags=True)
+parse_optional_tags(&quot;sage: #this is persistent #needs scipy&quot;,
+                    return_string_sans_tags=True)
+parse_optional_tags(&quot;sage: #this is not #needs scipy\n....: import scipy&quot;,
+                    return_string_sans_tags=True)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1595,7 +2087,7 @@ specified in <code class="docutils literal notranslate"><span class="pre">source
 </ul>
 <p>OUTPUT: <code class="docutils literal notranslate"><span class="pre">want</span></code> if there are no tolerance tags specified; a
 <code class="xref py py-class docutils literal notranslate"><span class="pre">MarkedOutput</span></code> version otherwise</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--28-input--1" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.parsing</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_tolerance</span>
@@ -1628,6 +2120,23 @@ specified in <code class="docutils literal notranslate"><span class="pre">source
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--28-input--3" name="tab-set--28" type="radio"><label class="tab-label" for="tab-set--28-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.parsing import parse_tolerance
+marked = parse_tolerance(&quot;sage: s.update(abs_tol = .0000001)&quot;, &quot;&quot;)
+type(marked)
+marked = parse_tolerance(&quot;sage: s.update(tol = 0.1); s.rel_tol # abs tol     0.01 &quot;, &quot;&quot;)
+marked.tol
+marked.rel_tol
+marked.abs_tol                                                            # needs sage.rings.real_interval_field</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1635,7 +2144,7 @@ specified in <code class="docutils literal notranslate"><span class="pre">source
 <dt class="sig sig-object py" id="sage.doctest.parsing.pre_hash">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.parsing.</span></span><span class="sig-name descname"><span class="pre">pre_hash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/parsing.py#L609"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.parsing.pre_hash" title="Link to this definition">¶</a></dt>
 <dd><p>Prepends a string with its length.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--29-input--1" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.parsing</span><span class="w"> </span><span class="kn">import</span> <span class="n">pre_hash</span>
@@ -1652,6 +2161,18 @@ specified in <code class="docutils literal notranslate"><span class="pre">source
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--29-input--3" name="tab-set--29" type="radio"><label class="tab-label" for="tab-set--29-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.parsing import pre_hash
+pre_hash(&quot;abc&quot;)</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1661,7 +2182,7 @@ specified in <code class="docutils literal notranslate"><span class="pre">source
 <dd><p>Return a symmetric function of the arguments as hex strings.</p>
 <p>The arguments should be 32 character strings consisting of hex
 digits: 0-9 and a-f.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--30-input--1" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.parsing</span><span class="w"> </span><span class="kn">import</span> <span class="n">reduce_hex</span>
@@ -1682,6 +2203,19 @@ digits: 0-9 and a-f.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--30-input--3" name="tab-set--30" type="radio"><label class="tab-label" for="tab-set--30-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.parsing import reduce_hex
+reduce_hex([&quot;abc&quot;, &quot;12399aedf&quot;])
+reduce_hex([&quot;12399aedf&quot;,&quot;abc&quot;])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1695,7 +2229,7 @@ digits: 0-9 and a-f.</p>
 <a class="reference internal" href="#sage.doctest.parsing.parse_optional_tags" title="sage.doctest.parsing.parse_optional_tags"><code class="xref py py-func docutils literal notranslate"><span class="pre">parse_optional_tags()</span></code></a></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">prefix</span></code> – to be put before a nonempty string</p></li>
 </ul>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--31-input--1" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.parsing</span><span class="w"> </span><span class="kn">import</span> <span class="n">unparse_optional_tags</span>
@@ -1730,6 +2264,24 @@ digits: 0-9 and a-f.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--31-input--3" name="tab-set--31" type="radio"><label class="tab-label" for="tab-set--31-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.parsing import unparse_optional_tags
+unparse_optional_tags({})
+unparse_optional_tags({'magma': None})
+unparse_optional_tags({'fictional_optional': None,
+                       'sage.rings.number_field': None,
+                       'scipy': 'just because',
+                       'bliss': None})
+unparse_optional_tags(['long time', 'not tested', 'p4cka9e'], prefix='')</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
@@ -1737,7 +2289,7 @@ digits: 0-9 and a-f.</p>
 <dt class="sig sig-object py" id="sage.doctest.parsing.update_optional_tags">
 <span class="sig-prename descclassname"><span class="pre">sage.doctest.parsing.</span></span><span class="sig-name descname"><span class="pre">update_optional_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_tags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_tags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_rewrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/passagemath/passagemath/blob/main/src/sage/doctest/parsing.py#L388"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sage.doctest.parsing.update_optional_tags" title="Link to this definition">¶</a></dt>
 <dd><p>Return the doctest <code class="docutils literal notranslate"><span class="pre">line</span></code> with tags changed.</p>
-<p class="with-sage-tab with-python-tab">EXAMPLES:</p>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">EXAMPLES:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--32-input--1" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.doctest.parsing</span><span class="w"> </span><span class="kn">import</span> <span class="n">update_optional_tags</span><span class="p">,</span> <span class="n">optional_tag_columns</span><span class="p">,</span> <span class="n">standard_tag_columns</span>
@@ -1816,8 +2368,44 @@ digits: 0-9 and a-f.</p>
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--32-input--3" name="tab-set--32" type="radio"><label class="tab-label" for="tab-set--32-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">from sage.doctest.parsing import update_optional_tags, optional_tag_columns, standard_tag_columns
+ruler = ''
+for column in optional_tag_columns:
+    ruler += ' ' * (column - len(ruler)) + 'V'
+for column in standard_tag_columns:
+    ruler += ' ' * (column - len(ruler)) + 'v'
+def print_with_ruler(lines):
+    print('|' + ruler)
+    for line in lines:
+        print('|' + line)
+print_with_ruler([  # the tags are obscured in the source file to avoid relint warnings
+    update_optional_tags('    sage: something()  # opt' 'ional - latte_int',
+                         remove_tags=['latte_int', 'wasnt_even_there']),
+    update_optional_tags('    sage: nothing_to_be_seen_here()',
+                         tags=['scipy', 'long time']),
+    update_optional_tags('    sage: nothing_to_be_seen_here(honestly=True)',
+                         add_tags=['scipy', 'long time']),
+    update_optional_tags('    sage: nothing_to_be_seen_here(honestly=True, very=True)',
+                         add_tags=['scipy', 'long time']),
+    update_optional_tags('    sage: no_there_is_absolutely_nothing_to_be_seen_here_i_am_serious()#opt' 'ional:bliss',
+                         add_tags=['scipy', 'long time']),
+    update_optional_tags('    sage: ntbsh()  # abbrv for above#opt' 'ional:bliss',
+                         add_tags={'scipy': None, 'long time': '30s on the highest setting'}),
+    update_optional_tags('    sage: no_there_is_absolutely_nothing_to_be_seen_here_i_am_serious()  # really, you can trust me here',
+                         add_tags=['scipy']),
+])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">When no tags are changed, by default, the unchanged input is returned.
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">When no tags are changed, by default, the unchanged input is returned.
 We can force a rewrite; unconditionally or whenever standard tags are involved.
 But even when forced, if comments are already aligned at one of the standard alignment columns,
 this alignment is kept even if we would normally realign farther to the left:</p>
@@ -1889,8 +2477,37 @@ this alignment is kept even if we would normally realign farther to the left:</p
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--33-input--3" name="tab-set--33" type="radio"><label class="tab-label" for="tab-set--33-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">print_with_ruler([
+    update_optional_tags('    sage: unforced()       # opt' 'ional - latte_int'),
+    update_optional_tags('    sage: unforced()  # opt' 'ional - latte_int',
+                         add_tags=['latte_int']),
+    update_optional_tags('    sage: forced()#opt' 'ional- latte_int',
+                         force_rewrite=True),
+    update_optional_tags('    sage: forced()  # opt' 'ional - scipy',
+                         force_rewrite='standard'),
+    update_optional_tags('    sage: aligned_with_below()                                  # opt' 'ional - 4ti2',
+                         force_rewrite=True),
+    update_optional_tags('    sage: aligned_with_above()                                  # opt' 'ional - 4ti2',
+                         force_rewrite=True),
+    update_optional_tags('    sage: also_already_aligned()                                                                                        # ne' 'eds scipy',
+                         force_rewrite='standard'),
+    update_optional_tags('    sage: two_columns_first_preserved()         # lo' 'ng time                             # ne' 'eds scipy',
+                         force_rewrite='standard'),
+    update_optional_tags('    sage: two_columns_first_preserved()                 # lo' 'ng time                                 # ne' 'eds scipy',
+                         force_rewrite='standard'),
+])</pre>
 </div>
-<p class="with-sage-tab with-python-tab">Rewriting a persistent (block-scoped) tag:</p>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p class="with-sage-tab with-python-tab with-sage-live-tab">Rewriting a persistent (block-scoped) tag:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--34-input--1" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">print_with_ruler</span><span class="p">([</span>
@@ -1913,11 +2530,29 @@ this alignment is kept even if we would normally realign farther to the left:</p
 </pre></div>
 </div>
 </div>
+<input class="tab-input" id="tab-set--34-input--3" name="tab-set--34" type="radio"><label class="tab-label" for="tab-set--34-input--3">Sage Live</label><div class="tab-content docutils container">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input live-doc code_cell docutils container">
+<div class="thebelab-code" data-executable="true" data-language="sage"><div class="docutils container">
+<pre class="literal-block">print_with_ruler([
+    update_optional_tags('    sage:    #opt' 'ional:magma sage.symbolic',
+                         force_rewrite=True),
+])</pre>
+</div>
+</div></div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
 </div>
 </dd></dl>
 
 </section>
-
+<button title="Make live" class="thebelab-button" id="thebelab-activate-button" onclick="initThebelab()">Make live</button>
+<script type="text/x-thebe-config">
+{"requestKernel": true, "binderOptions": {"repo": "passagemath/passagemath-binder-env", "ref": "main"}, "kernelOptions": {"name": "sagemath", "kernelName": "sagemath", "path": "."}, "selector": "div.live-doc", "codeMirrorConfig": {"lineNumbers": true}, "predefinedOutput": true}
+</script>
+<script type="text/javascript" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
         </article>
       </div>
       <footer>
@@ -2018,7 +2653,7 @@ this alignment is kept even if we would normally realign farther to the left:</p
     <script src="../../../%5fstatic/clipboard.min.js"></script>
     <script src="../../../%5fstatic/copybutton.js"></script>
     <script src="../../../%5fstatic/tabs.js"></script>
-    <script src="../../../%5fstatic/thebelab-helper.js"></script>
+    <script src="../../../%5fstatic/thebelab-helper.js?v=d2a12aaf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../../../%5fstatic/jupyter-sphinx-furo.js"></script>
