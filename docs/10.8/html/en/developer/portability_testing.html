@@ -205,7 +205,7 @@
     <img class="sidebar-logo only-dark" src="_static/logo_sagemath_white.svg" alt="Dark Logo"/>
   </div>
   
-      <span class="sidebar-brand-text">passagemath 10.8.13 Documentation</span>
+      <span class="sidebar-brand-text">passagemath 10.8.14 Documentation</span>
   
 </a><div class="select-wrapper">
   <select id="versions-menu" onchange="changeVersion()">
@@ -452,10 +452,10 @@ example, the file <code class="docutils literal notranslate"><span class="pre">b
 <span class="l l-Scalar l-Scalar-Plain">tar</span>
 <span class="l l-Scalar l-Scalar-Plain">bc</span>
 <span class="l l-Scalar l-Scalar-Plain">gcc</span>
-<span class="l l-Scalar l-Scalar-Plain"># On debian buster, need C++ even to survive &#39;configure&#39;. Otherwise</span><span class="p p-Indicator">:</span>
+<span class="l l-Scalar l-Scalar-Plain"># On debian buster, need C++ even to survive 'configure'. Otherwise</span><span class="p p-Indicator">:</span>
 <span class="c1"># checking how to run the C++ preprocessor... /lib/cpp</span>
-<span class="c1"># configure: error: in `/sage&#39;:</span>
-<span class="c1"># configure: error: C++ preprocessor &quot;/lib/cpp&quot; fails sanity check</span>
+<span class="c1"># configure: error: in `/sage':</span>
+<span class="c1"># configure: error: C++ preprocessor "/lib/cpp" fails sanity check</span>
 <span class="l l-Scalar l-Scalar-Plain">g++</span>
 <span class="c1"># Needed if we download some packages from a https upstream URL</span>
 <span class="l l-Scalar l-Scalar-Plain">ca-certificates</span>
@@ -540,8 +540,8 @@ of the container you just exited</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">root@39d693b2a75d:/sage# </span>^D
 <span class="gp">$ </span>docker<span class="w"> </span>ps<span class="w"> </span>-a<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n3
 <span class="go">CONTAINER ID   IMAGE           COMMAND       CREATED         STATUS</span>
-<span class="go">39d693b2a75d   ubuntu:latest   &quot;/bin/bash&quot;   8 minutes ago   Exited (0) 6 seconds ago</span>
-<span class="go">9f3398da43c2   ubuntu:latest   &quot;/bin/bash&quot;   8 minutes ago   Exited (0) 8 minutes ago</span>
+<span class="go">39d693b2a75d   ubuntu:latest   "/bin/bash"   8 minutes ago   Exited (0) 6 seconds ago</span>
+<span class="go">9f3398da43c2   ubuntu:latest   "/bin/bash"   8 minutes ago   Exited (0) 8 minutes ago</span>
 </pre></div>
 </div>
 <p>We can go back to the container with the command</p>
@@ -589,7 +589,7 @@ on their respective machines.</p>
 <h3>Generating dockerfiles<a class="headerlink" href="#generating-dockerfiles" title="Link to this heading">¶</a></h3>
 <p>passagemath also provides a script for generating a <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, which is
 a recipe for automatically building a new image</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>.github/workflows/write-dockerfile.sh<span class="w"> </span>debian<span class="w"> </span><span class="s2">&quot;:standard: :optional:&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>Dockerfile
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>.github/workflows/write-dockerfile.sh<span class="w"> </span>debian<span class="w"> </span><span class="s2">":standard: :optional:"</span><span class="w"> </span>&gt;<span class="w"> </span>Dockerfile
 </pre></div>
 </div>
 <p>(The second argument is passed to <code class="docutils literal notranslate"><span class="pre">sage</span> <span class="pre">-package</span> <span class="pre">list</span></code> to find packages for the listed package types.)</p>
@@ -624,19 +624,19 @@ image…:</p>
 <span class="go">ADD build ./build</span>
 <span class="go">RUN ./bootstrap</span>
 <span class="go">ADD src/bin src/bin</span>
-<span class="go">ARG EXTRA_CONFIGURE_ARGS=&quot;&quot;</span>
+<span class="go">ARG EXTRA_CONFIGURE_ARGS=""</span>
 <span class="go">RUN ./configure --enable-build-as-root ${EXTRA_CONFIGURE_ARGS} || (cat config.log; exit 1)</span>
 </pre></div>
 </div>
 <p>Finally, to build and test…:</p>
 <div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="go">ARG NUMPROC=8</span>
-<span class="go">ENV MAKE=&quot;make -j${NUMPROC}&quot;</span>
-<span class="go">ARG USE_MAKEFLAGS=&quot;-k&quot;</span>
+<span class="go">ENV MAKE="make -j${NUMPROC}"</span>
+<span class="go">ARG USE_MAKEFLAGS="-k"</span>
 <span class="go">RUN make ${USE_MAKEFLAGS} base-toolchain</span>
-<span class="go">ARG TARGETS_PRE=&quot;all-sage-local&quot;</span>
+<span class="go">ARG TARGETS_PRE="all-sage-local"</span>
 <span class="go">RUN make ${USE_MAKEFLAGS} ${TARGETS_PRE}</span>
 <span class="go">ADD src src</span>
-<span class="go">ARG TARGETS=&quot;build ptest&quot;</span>
+<span class="go">ARG TARGETS="build ptest"</span>
 <span class="go">RUN make ${USE_MAKEFLAGS} ${TARGETS}</span>
 </pre></div>
 </div>
@@ -645,7 +645,7 @@ command <code class="docutils literal notranslate"><span class="pre">docker</spa
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>docker<span class="w"> </span>build<span class="w"> </span>.<span class="w"> </span>-f<span class="w"> </span>Dockerfile<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--build-arg<span class="w"> </span><span class="nv">BASE_IMAGE</span><span class="o">=</span>ubuntu:latest<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--build-arg<span class="w"> </span><span class="nv">NUMPROC</span><span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--build-arg<span class="w"> </span><span class="nv">EXTRA_CONFIGURE_ARGS</span><span class="o">=</span><span class="s2">&quot;--with-python=/usr/bin/python3.42&quot;</span>
+<span class="w">  </span>--build-arg<span class="w"> </span><span class="nv">EXTRA_CONFIGURE_ARGS</span><span class="o">=</span><span class="s2">"--with-python=/usr/bin/python3.42"</span>
 </pre></div>
 </div>
 <p>These arguments (and their default values) are defined using <code class="docutils literal notranslate"><span class="pre">ARG</span></code>
@@ -657,20 +657,20 @@ small package, by setting the arguments <code class="docutils literal notranslat
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>docker<span class="w"> </span>build<span class="w"> </span>.<span class="w"> </span>-f<span class="w"> </span>Dockerfile<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--build-arg<span class="w"> </span><span class="nv">TARGETS_PRE</span><span class="o">=</span>ratpoints<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--build-arg<span class="w"> </span><span class="nv">TARGETS</span><span class="o">=</span>ratpoints<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--build-arg<span class="w"> </span><span class="nv">USE_MAKEFLAGS</span><span class="o">=</span><span class="s2">&quot;V=0&quot;</span>
+<span class="w">  </span>--build-arg<span class="w"> </span><span class="nv">USE_MAKEFLAGS</span><span class="o">=</span><span class="s2">"V=0"</span>
 <span class="go">Sending build context to Docker daemon    285MB</span>
 <span class="go">Step 1/28 : ARG BASE_IMAGE=ubuntu:latest</span>
 <span class="go">...</span>
 <span class="go">Step 2/28 : FROM ${BASE_IMAGE}</span>
 <span class="go">---&gt; 549b9b86cb8d</span>
 <span class="go">...</span>
-<span class="go">Step 25/28 : RUN make SAGE_SPKG=&quot;sage-spkg -y -o&quot; ${USE_MAKEFLAGS} ${TARGETS_PRE}</span>
+<span class="go">Step 25/28 : RUN make SAGE_SPKG="sage-spkg -y -o" ${USE_MAKEFLAGS} ${TARGETS_PRE}</span>
 <span class="go">...</span>
-<span class="go">make[1]: Entering directory &#39;/sage/build/make&#39;</span>
-<span class="go">sage-logger -p &#39;sage-spkg -y -o  ratpoints-2.1.3.p5&#39; &#39;/sage/logs/pkgs/ratpoints-2.1.3.p5.log&#39;</span>
+<span class="go">make[1]: Entering directory '/sage/build/make'</span>
+<span class="go">sage-logger -p 'sage-spkg -y -o  ratpoints-2.1.3.p5' '/sage/logs/pkgs/ratpoints-2.1.3.p5.log'</span>
 <span class="go">[ratpoints-2.1.3.p5] installing. Log file: /sage/logs/pkgs/ratpoints-2.1.3.p5.log</span>
 <span class="go">  [ratpoints-2.1.3.p5] successfully installed.</span>
-<span class="go">make[1]: Leaving directory &#39;/sage/build/make&#39;</span>
+<span class="go">make[1]: Leaving directory '/sage/build/make'</span>
 
 <span class="go">real        0m18.886s</span>
 <span class="go">user        0m1.779s</span>
@@ -731,11 +731,11 @@ might not work on all platforms, <code class="docutils literal notranslate"><spa
 <span class="go">Step 2/28 : FROM ${BASE_IMAGE}</span>
 <span class="go">---&gt; 549b9b86cb8d</span>
 <span class="go">...</span>
-<span class="go">Step 24/28 : ARG TARGETS_PRE=&quot;all-sage-local&quot;</span>
+<span class="go">Step 24/28 : ARG TARGETS_PRE="all-sage-local"</span>
 <span class="go">---&gt; Running in 17d0ddb5ad7b</span>
 <span class="go">Removing intermediate container 17d0ddb5ad7b</span>
 <span class="go">---&gt; 7b51411520c3</span>
-<span class="go">Step 25/28 : RUN make SAGE_SPKG=&quot;sage-spkg -y -o&quot; ${USE_MAKEFLAGS} ${TARGETS_PRE}</span>
+<span class="go">Step 25/28 : RUN make SAGE_SPKG="sage-spkg -y -o" ${USE_MAKEFLAGS} ${TARGETS_PRE}</span>
 <span class="go">---&gt; Running in 61833bea6a6d</span>
 <span class="go">make -j4 build/make/Makefile --stop</span>
 <span class="go">...</span>
@@ -747,20 +747,20 @@ might not work on all platforms, <code class="docutils literal notranslate"><spa
 <span class="go">...</span>
 <span class="go">[surf-1.0.6-gcc6] /usr/bin/ld: cannot find -lfl</span>
 <span class="go">[surf-1.0.6-gcc6] collect2: error: ld returned 1 exit status</span>
-<span class="go">[surf-1.0.6-gcc6] Makefile:504: recipe for target &#39;surf&#39; failed</span>
+<span class="go">[surf-1.0.6-gcc6] Makefile:504: recipe for target 'surf' failed</span>
 <span class="go">[surf-1.0.6-gcc6] make[3]: *** [surf] Error 1</span>
 <span class="go">...</span>
 <span class="go">[surf-1.0.6-gcc6] Error installing package surf-1.0.6-gcc6</span>
 <span class="go">...</span>
-<span class="go">Makefile:2088: recipe for target &#39;/sage/local/var/lib/sage/installed/surf-1.0.6-gcc6&#39; failed</span>
+<span class="go">Makefile:2088: recipe for target '/sage/local/var/lib/sage/installed/surf-1.0.6-gcc6' failed</span>
 <span class="go">make[1]: *** [/sage/local/var/lib/sage/installed/surf-1.0.6-gcc6] Error 1</span>
-<span class="go">make[1]: Target &#39;surf&#39; not remade because of errors.</span>
-<span class="go">make[1]: Leaving directory &#39;/sage/build/make&#39;</span>
+<span class="go">make[1]: Target 'surf' not remade because of errors.</span>
+<span class="go">make[1]: Leaving directory '/sage/build/make'</span>
 <span class="go">...</span>
 <span class="go">Error building Sage.</span>
 
 <span class="go">The following package(s) may have failed to build (not necessarily</span>
-<span class="go">during this run of &#39;make surf&#39;):</span>
+<span class="go">during this run of 'make surf'):</span>
 
 <span class="go">* package:         surf-1.0.6-gcc6</span>
 <span class="go">  last build time: Mar 26 22:07</span>
@@ -768,9 +768,9 @@ might not work on all platforms, <code class="docutils literal notranslate"><spa
 <span class="go">  build directory: /sage/local/var/tmp/sage/build/surf-1.0.6-gcc6</span>
 
 <span class="go">...</span>
-<span class="go">Makefile:31: recipe for target &#39;surf&#39; failed</span>
+<span class="go">Makefile:31: recipe for target 'surf' failed</span>
 <span class="go">make: *** [surf] Error 1</span>
-<span class="go">The command &#39;/bin/sh -c make SAGE_SPKG=&quot;sage-spkg -y -o&quot; ${USE_MAKEFLAGS} ${TARGETS_PRE}&#39;</span>
+<span class="go">The command '/bin/sh -c make SAGE_SPKG="sage-spkg -y -o" ${USE_MAKEFLAGS} ${TARGETS_PRE}'</span>
 <span class="go">returned a non-zero code: 2</span>
 </pre></div>
 </div>
@@ -779,8 +779,8 @@ image is created.  However, the container in which the last step of
 the build was attempted exists</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>docker<span class="w"> </span>ps<span class="w"> </span>-a<span class="w"> </span><span class="p">|</span>head<span class="w"> </span>-n3
 <span class="go">CONTAINER ID        IMAGE                      COMMAND                   CREATED             STATUS</span>
-<span class="go">61833bea6a6d        7b51411520c3               &quot;/bin/sh -c &#39;make SA…&quot;    9 minutes ago       Exited (2) 1 minute ago</span>
-<span class="go">73987568712c        ubuntu-latest-minimal-17   &quot;/bin/bash&quot;               24 hours ago        Exited (0) 23 hours ago</span>
+<span class="go">61833bea6a6d        7b51411520c3               "/bin/sh -c 'make SA…"    9 minutes ago       Exited (2) 1 minute ago</span>
+<span class="go">73987568712c        ubuntu-latest-minimal-17   "/bin/bash"               24 hours ago        Exited (0) 23 hours ago</span>
 </pre></div>
 </div>
 <p>We can copy the build directory from the container for inspection</p>
@@ -805,7 +805,7 @@ create an image from the container</p>
 <span class="gp">$ </span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>003fbd511<span class="w"> </span>bash
 <span class="gp">root@2d9ac65f4572:/sage# </span><span class="o">(</span><span class="nb">cd</span><span class="w"> </span>/sage/local/var/tmp/sage/build/surf*<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>/sage/sage<span class="w"> </span>--buildsh<span class="o">)</span>
 
-<span class="go">Starting subshell with Sage environment variables set.  Don&#39;t forget</span>
+<span class="go">Starting subshell with Sage environment variables set.  Don't forget</span>
 <span class="go">to exit when you are done.</span>
 <span class="go">...</span>
 <span class="go">Note: SAGE_ROOT=/sage</span>
@@ -813,7 +813,7 @@ create an image from the container</p>
 <span class="go">/usr/lib/libflint-2.5.2.so  /usr/lib/libflint-2.5.2.so.13.5.2  /usr/lib/libflint.a  /usr/lib/libflint.so</span>
 <span class="gp gp-VirtualEnv">(sage-buildsh)</span> <span class="gp">root@2d9ac65f4572:surf-1.0.6-gcc6$ </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>apt-file
 <span class="gp gp-VirtualEnv">(sage-buildsh)</span> <span class="gp">root@2d9ac65f4572:surf-1.0.6-gcc6$ </span>apt-file<span class="w"> </span>update
-<span class="gp gp-VirtualEnv">(sage-buildsh)</span> <span class="gp">root@2d9ac65f4572:surf-1.0.6-gcc6$ </span>apt-file<span class="w"> </span>search<span class="w"> </span><span class="s2">&quot;/usr/lib/libfl.a&quot;</span>
+<span class="gp gp-VirtualEnv">(sage-buildsh)</span> <span class="gp">root@2d9ac65f4572:surf-1.0.6-gcc6$ </span>apt-file<span class="w"> </span>search<span class="w"> </span><span class="s2">"/usr/lib/libfl.a"</span>
 <span class="go">flex-old: /usr/lib/libfl.a</span>
 <span class="go">freebsd-buildutils: /usr/lib/libfl.a</span>
 <span class="gp gp-VirtualEnv">(sage-buildsh)</span> <span class="gp">root@2d9ac65f4572:surf-1.0.6-gcc6$ </span>apt-get<span class="w"> </span>install<span class="w"> </span>flex-old
@@ -824,7 +824,7 @@ create an image from the container</p>
 <span class="go">  /usr/bin/install -c  surf /sage/local/bin/surf</span>
 <span class="go">/usr/bin/install -c -m 644 ./surf.1 /sage/local/share/man/man1/surf.1</span>
 <span class="go">...</span>
-<span class="go">make[1]: Leaving directory &#39;/sage/local/var/tmp/sage/build/surf-1.0.6-gcc6/src&#39;</span>
+<span class="go">make[1]: Leaving directory '/sage/local/var/tmp/sage/build/surf-1.0.6-gcc6/src'</span>
 <span class="gp gp-VirtualEnv">(sage-buildsh)</span> <span class="gp">root@2d9ac65f4572:surf-1.0.6-gcc6$ </span><span class="nb">exit</span>
 <span class="gp">root@2d9ac65f4572:/sage# </span><span class="nb">exit</span>
 <span class="gp">$</span>
@@ -901,7 +901,7 @@ use the factors in the listed order.)</p>
 <p>Arbitrary extra arguments to <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">build</span></code> can be supplied through
 the environment variable <code class="docutils literal notranslate"><span class="pre">EXTRA_DOCKER_BUILD_ARGS</span></code>.  For example,
 for a non-silent build (<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">V=1</span></code>), use</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nv">EXTRA_DOCKER_BUILD_ARGS</span><span class="o">=</span><span class="s2">&quot;--build-arg USE_MAKEFLAGS=\&quot;V=1\&quot;&quot;</span><span class="w"> </span><span class="se">\</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nv">EXTRA_DOCKER_BUILD_ARGS</span><span class="o">=</span><span class="s2">"--build-arg USE_MAKEFLAGS=\"V=1\""</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>tox<span class="w"> </span>-e<span class="w"> </span>docker-ubuntu-bionic-standard
 </pre></div>
 </div>
@@ -928,14 +928,14 @@ suffix <code class="docutils literal notranslate"><span class="pre">with-targets
 example, to create the images corresponding to the state of the OS
 after installing all system packages (<code class="docutils literal notranslate"><span class="pre">with-system-packages</span></code>) and
 the one just after running the <code class="docutils literal notranslate"><span class="pre">configure</span></code> script (<code class="docutils literal notranslate"><span class="pre">configured</span></code>)</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nv">DOCKER_TARGETS</span><span class="o">=</span><span class="s2">&quot;with-system-packages configured with-targets&quot;</span><span class="w"> </span><span class="se">\</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nv">DOCKER_TARGETS</span><span class="o">=</span><span class="s2">"with-system-packages configured with-targets"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>tox<span class="w"> </span>-e<span class="w"> </span>docker-centos-8-standard<span class="w"> </span>--<span class="w"> </span>ratpoints
 <span class="go">...</span>
 <span class="go">Sending build context to Docker daemon ...</span>
 <span class="go">Step 1/109 : ARG BASE_IMAGE=fedora:latest</span>
 <span class="go">Step 2/109 : FROM ${BASE_IMAGE} as with-system-packages</span>
 <span class="go">...</span>
-<span class="go">Step 109/109 : RUN yum install -y zlib-devel || echo &quot;(ignoring error)&quot;</span>
+<span class="go">Step 109/109 : RUN yum install -y zlib-devel || echo "(ignoring error)"</span>
 <span class="go">...</span>
 <span class="go">Successfully built 4bb14c3d5646</span>
 <span class="go">Successfully tagged sage-centos-8-standard-with-system-packages:9.1.beta9-435-g861ba33bbc-dirty</span>
@@ -981,17 +981,17 @@ provide these prerequisites.</p>
 positional arguments (separated from tox options by <code class="docutils literal notranslate"><span class="pre">--</span></code>):</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>tox<span class="w"> </span>-e<span class="w"> </span>local-direct<span class="w"> </span>--<span class="w"> </span>ratpoints
 <span class="go">local-direct create: /Users/mkoeppe/.../worktree-local/.tox/local-direct</span>
-<span class="go">local-direct run-test-pre: PYTHONHASHSEED=&#39;2211987514&#39;</span>
+<span class="go">local-direct run-test-pre: PYTHONHASHSEED='2211987514'</span>
 <span class="go">...</span>
 <span class="go">src/doc/bootstrap:48: installing src/doc/en/installation/debian.txt...</span>
-<span class="go">bootstrap:69: installing &#39;config/config.rpath&#39;</span>
-<span class="go">configure.ac:328: installing &#39;config/compile&#39;</span>
-<span class="go">configure.ac:113: installing &#39;config/config.guess&#39;</span>
+<span class="go">bootstrap:69: installing 'config/config.rpath'</span>
+<span class="go">configure.ac:328: installing 'config/compile'</span>
+<span class="go">configure.ac:113: installing 'config/config.guess'</span>
 <span class="go">...</span>
 <span class="go">checking for a BSD-compatible install... /usr/bin/install -c</span>
 <span class="go">checking whether build environment is sane... yes</span>
 <span class="go">...</span>
-<span class="go">sage-logger -p &#39;sage-spkg -y -o  ratpoints-2.1.3.p5&#39; &#39;.../worktree-local/logs/pkgs/ratpoints-2.1.3.p5.log&#39;</span>
+<span class="go">sage-logger -p 'sage-spkg -y -o  ratpoints-2.1.3.p5' '.../worktree-local/logs/pkgs/ratpoints-2.1.3.p5.log'</span>
 <span class="go">[ratpoints-2.1.3.p5] installing. Log file: .../worktree-local/logs/pkgs/ratpoints-2.1.3.p5.log</span>
 <span class="go">  [ratpoints-2.1.3.p5] successfully installed.</span>
 <span class="go">...</span>
@@ -1080,7 +1080,7 @@ Homebrew package manager.</p>
 an isolated copy of Homebrew with all prerequisites for bootstrapping</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>tox<span class="w"> </span>-e<span class="w"> </span>local-homebrew-macos-minimal<span class="w"> </span>--<span class="w"> </span>lrslib
 <span class="go">local-homebrew-macos-minimal create: .../worktree-local/.tox/local-homebrew-macos-minimal</span>
-<span class="go">local-homebrew-macos-minimal run-test-pre: PYTHONHASHSEED=&#39;4246149402&#39;</span>
+<span class="go">local-homebrew-macos-minimal run-test-pre: PYTHONHASHSEED='4246149402'</span>
 <span class="go">...</span>
 <span class="go">Initialized empty Git repository in .../worktree-local/.tox/local-homebrew-macos-minimal/homebrew/.git/</span>
 <span class="go">...</span>
@@ -1097,15 +1097,15 @@ an isolated copy of Homebrew with all prerequisites for bootstrapping</p>
 <span class="go">because macOS provides the BSD gettext library &amp; some software gets confused if both are in the library path.</span>
 
 <span class="go">If you need to have gettext first in your PATH run:</span>
-<span class="go">  echo &#39;export PATH=&quot;.../worktree-local/.tox/local-homebrew-macos-minimal/homebrew/opt/gettext/bin:$PATH&quot;&#39; &gt;&gt; ~/.bash_profile</span>
+<span class="go">  echo 'export PATH=".../worktree-local/.tox/local-homebrew-macos-minimal/homebrew/opt/gettext/bin:$PATH"' &gt;&gt; ~/.bash_profile</span>
 
 <span class="go">For compilers to find gettext you may need to set:</span>
-<span class="go">  export LDFLAGS=&quot;-L.../worktree-local/.tox/local-homebrew-macos-minimal/homebrew/opt/gettext/lib&quot;</span>
-<span class="go">  export CPPFLAGS=&quot;-I.../worktree-local/.tox/local-homebrew-macos-minimal/homebrew/opt/gettext/include&quot;</span>
+<span class="go">  export LDFLAGS="-L.../worktree-local/.tox/local-homebrew-macos-minimal/homebrew/opt/gettext/lib"</span>
+<span class="go">  export CPPFLAGS="-I.../worktree-local/.tox/local-homebrew-macos-minimal/homebrew/opt/gettext/include"</span>
 <span class="go">...</span>
-<span class="go">local-homebrew-macos-minimal run-test: commands[0] | bash -c &#39;export PATH=.../worktree-local/.tox/local-homebrew-macos-minimal/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin &amp;&amp; . .homebrew-build-env &amp;&amp; ./bootstrap &amp;&amp; ./configure --prefix=.../worktree-local/.tox/local-homebrew-macos-minimal/local    &amp;&amp; make -k V=0 ... lrslib&#39;</span>
+<span class="go">local-homebrew-macos-minimal run-test: commands[0] | bash -c 'export PATH=.../worktree-local/.tox/local-homebrew-macos-minimal/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin &amp;&amp; . .homebrew-build-env &amp;&amp; ./bootstrap &amp;&amp; ./configure --prefix=.../worktree-local/.tox/local-homebrew-macos-minimal/local    &amp;&amp; make -k V=0 ... lrslib'</span>
 <span class="go">...</span>
-<span class="go">bootstrap:69: installing &#39;config/config.rpath&#39;</span>
+<span class="go">bootstrap:69: installing 'config/config.rpath'</span>
 <span class="go">...</span>
 <span class="go">checking for a BSD-compatible install... /usr/bin/install -c</span>
 <span class="go">checking whether build environment is sane... yes</span>
@@ -1115,7 +1115,7 @@ an isolated copy of Homebrew with all prerequisites for bootstrapping</p>
 <span class="go">configure: hint: installing the following system packages is recommended and may avoid building some of the above SPKGs from source:</span>
 <span class="go">configure:   $ brew install cmake gcc gsl mpfi ninja openblas gpatch r readline xz zeromq</span>
 <span class="go">...</span>
-<span class="go">sage-logger -p &#39;sage-spkg -y -o  lrslib-062+autotools-2017-03-03.p1&#39; &#39;.../worktree-local/logs/pkgs/lrslib-062+autotools-2017-03-03.p1.log&#39;</span>
+<span class="go">sage-logger -p 'sage-spkg -y -o  lrslib-062+autotools-2017-03-03.p1' '.../worktree-local/logs/pkgs/lrslib-062+autotools-2017-03-03.p1.log'</span>
 <span class="go">[lrslib-062+autotools-2017-03-03.p1] installing. Log file: .../worktree-local/logs/pkgs/lrslib-062+autotools-2017-03-03.p1.log</span>
 <span class="go">  [lrslib-062+autotools-2017-03-03.p1] successfully installed.</span>
 <span class="go">...</span>
@@ -1332,7 +1332,7 @@ receives the additional Docker tag <code class="docutils literal notranslate"><s
 image for the platform <a class="reference external" href="https://github.com/passagemath/passagemath/pkgs/container/sage%2Fsage-ubuntu-focal-standard-with-targets-optional">ubuntu-focal-standard</a>. Thus,
 for example, the following command will work</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>ghcr.io/passagemath/passagemath/sage-ubuntu-focal-standard-with-targets-optional:dev<span class="w"> </span>bash
-<span class="go">Unable to find image &#39;ghcr.io/passagemath/passagemath/sage-ubuntu-focal-standard-with-targets-optional:dev&#39; locally</span>
+<span class="go">Unable to find image 'ghcr.io/passagemath/passagemath/sage-ubuntu-focal-standard-with-targets-optional:dev' locally</span>
 <span class="go">dev: Pulling from passagemath/passagemath/sage-ubuntu-focal-standard-with-targets-optional</span>
 <span class="go">d5fd17ec1767: Already exists</span>
 <span class="go">67586203f0c7: Pull complete</span>
@@ -1344,7 +1344,7 @@ for example, the following command will work</p>
 <span class="gp">root@8055a7ba0607:/sage# </span>./sage
 <span class="go">┌────────────────────────────────────────────────────────────────────┐</span>
 <span class="go">│ SageMath version 9.6, Release Date: 2022-05-15                     │</span>
-<span class="go">│ Using Python 3.8.10. Type &quot;help()&quot; for help.                       │</span>
+<span class="go">│ Using Python 3.8.10. Type "help()" for help.                       │</span>
 <span class="go">└────────────────────────────────────────────────────────────────────┘</span>
 <span class="go">sage:</span>
 </pre></div>
@@ -1742,6 +1742,16 @@ installation of Sage, including the HTML documentation, but <code class="docutil
 <td><p><a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-fedora-45-python3.14-standard-with-system-packages"><img alt="image-fedora-45-python3.14-standard-with-system-packages" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-fedora-45-python3.14-standard-with-system-packages/size?tag=dev&amp;label=with-system-packages&amp;color=%23696969" /></a> <a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-fedora-45-python3.14-standard-with-targets-pre"><img alt="image-fedora-45-python3.14-standard-with-targets-pre" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-fedora-45-python3.14-standard-with-targets-pre/latest_tag?ignore=latest,dev,*-failed&amp;label=with-targets-pre&amp;color=%235d8a4c" /></a> <a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-fedora-45-python3.14-standard-with-targets"><img alt="image-fedora-45-python3.14-standard-with-targets" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-fedora-45-python3.14-standard-with-targets/latest_tag?ignore=latest,dev,*-failed&amp;label=with-targets&amp;color=%2350ab2e" /></a> <a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-fedora-45-python3.14-standard-with-targets-optional"><img alt="image-fedora-45-python3.14-standard-with-targets-optional" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-fedora-45-python3.14-standard-with-targets-optional/latest_tag?ignore=latest,dev,*-failed&amp;label=with-targets-optional&amp;color=%2344cc11" /></a></p></td>
 <td><p><a class="reference external" href="https://codespaces.new/passagemath/passagemath?devcontainer_path=.devcontainer%2Fportability-fedora-45-python3.14-standard%2Fdevcontainer.json"><img alt="codespace-fedora-45-python3.14-standard" src="https://github.com/codespaces/badge.svg" /></a></p></td>
 </tr>
+<tr class="row-even"><td><p><strong>fedora</strong>-46-python3.14</p>
+<p>   ‑<em>minimal</em></p>
+</td>
+<td><p><a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-fedora-46-python3.14-minimal-with-system-packages"><img alt="image-fedora-46-python3.14-minimal-with-system-packages" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-fedora-46-python3.14-minimal-with-system-packages/size?tag=dev&amp;label=with-system-packages&amp;color=%23696969" /></a> <a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-fedora-46-python3.14-minimal-with-targets-pre"><img alt="image-fedora-46-python3.14-minimal-with-targets-pre" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-fedora-46-python3.14-minimal-with-targets-pre/latest_tag?ignore=latest,dev,*-failed&amp;label=with-targets-pre&amp;color=%23677895" /></a> <a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-fedora-46-python3.14-minimal-with-targets"><img alt="image-fedora-46-python3.14-minimal-with-targets" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-fedora-46-python3.14-minimal-with-targets/latest_tag?ignore=latest,dev,*-failed&amp;label=with-targets&amp;color=%236686c1" /></a> <a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-fedora-46-python3.14-minimal-with-targets-optional"><img alt="image-fedora-46-python3.14-minimal-with-targets-optional" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-fedora-46-python3.14-minimal-with-targets-optional/latest_tag?ignore=latest,dev,*-failed&amp;label=with-targets-optional&amp;color=%236495ed" /></a></p></td>
+<td><p><a class="reference external" href="https://codespaces.new/passagemath/passagemath?devcontainer_path=.devcontainer%2Fportability-fedora-46-python3.14-minimal%2Fdevcontainer.json"><img alt="codespace-fedora-46-python3.14-minimal" src="https://github.com/codespaces/badge.svg" /></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>   ‑<em>standard</em></p></td>
+<td><p><a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-fedora-46-python3.14-standard-with-system-packages"><img alt="image-fedora-46-python3.14-standard-with-system-packages" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-fedora-46-python3.14-standard-with-system-packages/size?tag=dev&amp;label=with-system-packages&amp;color=%23696969" /></a> <a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-fedora-46-python3.14-standard-with-targets-pre"><img alt="image-fedora-46-python3.14-standard-with-targets-pre" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-fedora-46-python3.14-standard-with-targets-pre/latest_tag?ignore=latest,dev,*-failed&amp;label=with-targets-pre&amp;color=%235d8a4c" /></a> <a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-fedora-46-python3.14-standard-with-targets"><img alt="image-fedora-46-python3.14-standard-with-targets" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-fedora-46-python3.14-standard-with-targets/latest_tag?ignore=latest,dev,*-failed&amp;label=with-targets&amp;color=%2350ab2e" /></a> <a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-fedora-46-python3.14-standard-with-targets-optional"><img alt="image-fedora-46-python3.14-standard-with-targets-optional" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-fedora-46-python3.14-standard-with-targets-optional/latest_tag?ignore=latest,dev,*-failed&amp;label=with-targets-optional&amp;color=%2344cc11" /></a></p></td>
+<td><p><a class="reference external" href="https://codespaces.new/passagemath/passagemath?devcontainer_path=.devcontainer%2Fportability-fedora-46-python3.14-standard%2Fdevcontainer.json"><img alt="codespace-fedora-46-python3.14-standard" src="https://github.com/codespaces/badge.svg" /></a></p></td>
+</tr>
 <tr class="row-even"><td><p><strong>centos</strong>-stream-9-python3.12</p>
 <p>   ‑<em>minimal</em></p>
 </td>
@@ -1871,6 +1881,16 @@ installation of Sage, including the HTML documentation, but <code class="docutil
 <tr class="row-odd"><td><p>   ‑<em>standard</em></p></td>
 <td><p><a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-opensuse-16.0-python3.13-standard-with-system-packages"><img alt="image-opensuse-16.0-python3.13-standard-with-system-packages" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-opensuse-16.0-python3.13-standard-with-system-packages/size?tag=dev&amp;label=with-system-packages&amp;color=%23696969" /></a> <a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-opensuse-16.0-python3.13-standard-with-targets-pre"><img alt="image-opensuse-16.0-python3.13-standard-with-targets-pre" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-opensuse-16.0-python3.13-standard-with-targets-pre/latest_tag?ignore=latest,dev,*-failed&amp;label=with-targets-pre&amp;color=%235d8a4c" /></a> <a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-opensuse-16.0-python3.13-standard-with-targets"><img alt="image-opensuse-16.0-python3.13-standard-with-targets" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-opensuse-16.0-python3.13-standard-with-targets/latest_tag?ignore=latest,dev,*-failed&amp;label=with-targets&amp;color=%2350ab2e" /></a> <a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-opensuse-16.0-python3.13-standard-with-targets-optional"><img alt="image-opensuse-16.0-python3.13-standard-with-targets-optional" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-opensuse-16.0-python3.13-standard-with-targets-optional/latest_tag?ignore=latest,dev,*-failed&amp;label=with-targets-optional&amp;color=%2344cc11" /></a></p></td>
 <td><p><a class="reference external" href="https://codespaces.new/passagemath/passagemath?devcontainer_path=.devcontainer%2Fportability-opensuse-16.0-python3.13-standard%2Fdevcontainer.json"><img alt="codespace-opensuse-16.0-python3.13-standard" src="https://github.com/codespaces/badge.svg" /></a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>opensuse</strong>-16.1</p>
+<p>   ‑<em>minimal</em></p>
+</td>
+<td><p><a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-opensuse-16.1-minimal-with-system-packages"><img alt="image-opensuse-16.1-minimal-with-system-packages" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-opensuse-16.1-minimal-with-system-packages/size?tag=dev&amp;label=with-system-packages&amp;color=%23696969" /></a> <a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-opensuse-16.1-minimal-with-targets-pre"><img alt="image-opensuse-16.1-minimal-with-targets-pre" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-opensuse-16.1-minimal-with-targets-pre/latest_tag?ignore=latest,dev,*-failed&amp;label=with-targets-pre&amp;color=%23677895" /></a> <a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-opensuse-16.1-minimal-with-targets"><img alt="image-opensuse-16.1-minimal-with-targets" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-opensuse-16.1-minimal-with-targets/latest_tag?ignore=latest,dev,*-failed&amp;label=with-targets&amp;color=%236686c1" /></a> <a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-opensuse-16.1-minimal-with-targets-optional"><img alt="image-opensuse-16.1-minimal-with-targets-optional" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-opensuse-16.1-minimal-with-targets-optional/latest_tag?ignore=latest,dev,*-failed&amp;label=with-targets-optional&amp;color=%236495ed" /></a></p></td>
+<td><p><a class="reference external" href="https://codespaces.new/passagemath/passagemath?devcontainer_path=.devcontainer%2Fportability-opensuse-16.1-minimal%2Fdevcontainer.json"><img alt="codespace-opensuse-16.1-minimal" src="https://github.com/codespaces/badge.svg" /></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>   ‑<em>standard</em></p></td>
+<td><p><a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-opensuse-16.1-standard-with-system-packages"><img alt="image-opensuse-16.1-standard-with-system-packages" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-opensuse-16.1-standard-with-system-packages/size?tag=dev&amp;label=with-system-packages&amp;color=%23696969" /></a> <a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-opensuse-16.1-standard-with-targets-pre"><img alt="image-opensuse-16.1-standard-with-targets-pre" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-opensuse-16.1-standard-with-targets-pre/latest_tag?ignore=latest,dev,*-failed&amp;label=with-targets-pre&amp;color=%235d8a4c" /></a> <a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-opensuse-16.1-standard-with-targets"><img alt="image-opensuse-16.1-standard-with-targets" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-opensuse-16.1-standard-with-targets/latest_tag?ignore=latest,dev,*-failed&amp;label=with-targets&amp;color=%2350ab2e" /></a> <a class="reference external" href="https://ghcr.io/passagemath/passagemath/sage-opensuse-16.1-standard-with-targets-optional"><img alt="image-opensuse-16.1-standard-with-targets-optional" src="https://ghcr-badge.egpl.dev/passagemath/passagemath/sage-opensuse-16.1-standard-with-targets-optional/latest_tag?ignore=latest,dev,*-failed&amp;label=with-targets-optional&amp;color=%2344cc11" /></a></p></td>
+<td><p><a class="reference external" href="https://codespaces.new/passagemath/passagemath?devcontainer_path=.devcontainer%2Fportability-opensuse-16.1-standard%2Fdevcontainer.json"><img alt="codespace-opensuse-16.1-standard" src="https://github.com/codespaces/badge.svg" /></a></p></td>
 </tr>
 <tr class="row-even"><td><p><strong>opensuse</strong>-tumbleweed</p>
 <p>   ‑<em>minimal</em></p>
@@ -2179,7 +2199,7 @@ tree is not configured.)</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=196c8d4a"></script>
+</div><script src="_static/documentation_options.js?v=d2e51d87"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>

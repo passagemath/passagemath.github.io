@@ -205,7 +205,7 @@
     <img class="sidebar-logo only-dark" src="_static/logo_sagemath_white.svg" alt="Dark Logo"/>
   </div>
   
-      <span class="sidebar-brand-text">passagemath 10.8.13 Documentation</span>
+      <span class="sidebar-brand-text">passagemath 10.8.14 Documentation</span>
   
 </a><div class="select-wrapper">
   <select id="versions-menu" onchange="changeVersion()">
@@ -308,7 +308,7 @@
 interface. For speed, efficiency, or convenience, you can implement
 parts of the code using any of the following languages: <a class="reference internal" href="coding_in_cython.html#chapter-cython"><span class="std std-ref">Cython</span></a>, C/C++, Fortran 95, GAP, Common Lisp, Singular, and
 PARI/GP. You can also use all C/C++ libraries included with Sage,
-see <a class="reference external" href="../reference/spkg/index.html#spkg" title="(in Packages and Features v10.8.13)"><span>Packages and Features</span></a>. And if you are okay with your code depending on
+see <a class="reference external" href="../reference/spkg/index.html#spkg" title="(in Packages and Features v10.8.14)"><span>Packages and Features</span></a>. And if you are okay with your code depending on
 external programs, you can use Octave, or even Magma,
 Mathematica, or Maple.</p>
 <p>In this chapter, we discuss interfaces between Sage and <a class="reference internal" href="#section-pari-library"><span class="std std-ref">PARI</span></a>, <a class="reference internal" href="#section-gap"><span class="std std-ref">GAP</span></a> and
@@ -335,7 +335,7 @@ polynomial or matrix, will have our new method. So you can do
 <a class="extlink-sage_root reference external" href="https://github.com/passagemath/passagemath/tree/main/src/sage/libs/cypari2/gen.pyx">SAGE_ROOT/src/sage/libs/cypari2/gen.pyx</a>, and this is where we
 add the method <code class="docutils literal notranslate"><span class="pre">matfrobenius</span></code>:</p>
 <div class="highlight-cython notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">matfrobenius</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="mf">0</span><span class="p">):</span>
-    <span class="s">r&quot;&quot;&quot;</span>
+    <span class="s">r"""</span>
 <span class="s">    M.matfrobenius(flag=0): Return the Frobenius form of the square</span>
 <span class="s">    matrix M. If flag is 1, return only the elementary divisors (a list</span>
 <span class="s">    of polynomials). If flag is 2, return a two-components vector [F,B]</span>
@@ -344,14 +344,14 @@ add the method <code class="docutils literal notranslate"><span class="pre">matf
 
 <span class="s">    EXAMPLES::</span>
 
-<span class="s">        sage: a = pari(&#39;[1,2;3,4]&#39;)</span>
+<span class="s">        sage: a = pari('[1,2;3,4]')</span>
 <span class="s">        sage: a.matfrobenius()</span>
 <span class="s">        [0, 2; 1, 5]</span>
 <span class="s">        sage: a.matfrobenius(flag=1)</span>
 <span class="s">        [x^2 - 5*x - 2]</span>
 <span class="s">        sage: a.matfrobenius(2)</span>
 <span class="s">        [[0, 2; 1, 5], [1, -1/3; 0, 1/3]]</span>
-<span class="s">    &quot;&quot;&quot;</span>
+<span class="s">    """</span>
     <span class="n">sig_on</span><span class="p">()</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_gen</span><span class="p">(</span><span class="n">matfrobenius</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="p">,</span> <span class="n">flag</span><span class="p">,</span> <span class="mf">0</span><span class="p">))</span>
 </pre></div>
@@ -384,8 +384,8 @@ may have a name that is different from the corresponding gp function
 class where we call the <code class="docutils literal notranslate"><span class="pre">matfrobenius()</span></code> method on the PARI object
 associated to the matrix after doing some sanity checking. Then we
 convert output from PARI to Sage objects:</p>
-<div class="highlight-cython notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">frobenius_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="mf">0</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s">&#39;x&#39;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="highlight-cython notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">frobenius_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="mf">0</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s">'x'</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Return the Frobenius form (rational canonical form) of this matrix.</span>
 
 <span class="sd">    INPUT:</span>
@@ -402,9 +402,9 @@ convert output from PARI to Sage objects:</p>
 <span class="sd">           is the Frobenius form and B is the basis change so that</span>
 <span class="sd">           `M=B^{-1}FB`.</span>
 
-<span class="sd">    -  ``var`` -- a string (default: &#39;x&#39;)</span>
+<span class="sd">    -  ``var`` -- a string (default: 'x')</span>
 
-<span class="sd">    ALGORITHM: uses PARI&#39;s :pari:`matfrobenius`</span>
+<span class="sd">    ALGORITHM: uses PARI's :pari:`matfrobenius`</span>
 
 <span class="sd">    EXAMPLES::</span>
 
@@ -415,11 +415,11 @@ convert output from PARI to Sage objects:</p>
 <span class="sd">        [ 0  1 12]</span>
 <span class="sd">        sage: A.frobenius_form(1)</span>
 <span class="sd">        [x^3 - 12*x^2 - 18*x]</span>
-<span class="sd">        sage: A.frobenius_form(1, var=&#39;y&#39;)</span>
+<span class="sd">        sage: A.frobenius_form(1, var='y')</span>
 <span class="sd">        [y^3 - 12*y^2 - 18*y]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_square</span><span class="p">():</span>
-        <span class="k">raise</span> <span class="ne">ArithmeticError</span><span class="p">(</span><span class="s">&quot;frobenius matrix of non-square matrix not defined.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ArithmeticError</span><span class="p">(</span><span class="s">"frobenius matrix of non-square matrix not defined."</span><span class="p">)</span>
 
     <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pari__</span><span class="p">()</span><span class="o">.</span><span class="n">matfrobenius</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">flag</span> <span class="o">==</span> <span class="mf">0</span><span class="p">:</span>
@@ -428,7 +428,7 @@ convert output from PARI to Sage objects:</p>
         <span class="n">r</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_ring</span><span class="p">(),</span> <span class="n">names</span><span class="o">=</span><span class="n">var</span><span class="p">)</span>
         <span class="n">retr</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
-            <span class="n">retr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;^&quot;</span><span class="p">,</span><span class="s">&quot;**&quot;</span><span class="p">),</span> <span class="p">{</span><span class="s">&#39;x&#39;</span><span class="p">:</span><span class="n">r</span><span class="o">.</span><span class="n">gen</span><span class="p">()},</span> <span class="n">r</span><span class="o">.</span><span class="n">gens_dict</span><span class="p">()))</span>
+            <span class="n">retr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">"^"</span><span class="p">,</span><span class="s">"**"</span><span class="p">),</span> <span class="p">{</span><span class="s">'x'</span><span class="p">:</span><span class="n">r</span><span class="o">.</span><span class="n">gen</span><span class="p">()},</span> <span class="n">r</span><span class="o">.</span><span class="n">gens_dict</span><span class="p">()))</span>
         <span class="k">return</span> <span class="n">retr</span>
     <span class="k">elif</span> <span class="n">flag</span> <span class="o">==</span> <span class="mf">2</span><span class="p">:</span>
         <span class="n">F</span> <span class="o">=</span> <span class="n">matrix_space</span><span class="o">.</span><span class="n">MatrixSpace</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrows</span><span class="p">())(</span><span class="n">v</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span><span class="o">.</span><span class="n">python</span><span class="p">())</span>
@@ -447,7 +447,7 @@ for the sake of efficiency.</p>
 <p>For example, suppose we want to make a wrapper for the computation of
 the Cartan matrix of a simple Lie algebra. The Cartan matrix of <span class="math notranslate nohighlight">\(G_2\)</span>
 is available in GAP using the commands:</p>
-<div class="highlight-gap notranslate"><div class="highlight"><pre><span></span><span class="nv">gap</span><span class="o">&gt;</span> <span class="nv">L</span><span class="o">:=</span> <span class="nv">SimpleLieAlgebra</span><span class="p">(</span> <span class="s">&quot;G&quot;</span><span class="o">,</span> <span class="nv">2</span><span class="o">,</span> <span class="nv">Rationals</span> <span class="p">)</span><span class="o">;</span>
+<div class="highlight-gap notranslate"><div class="highlight"><pre><span></span><span class="nv">gap</span><span class="o">&gt;</span> <span class="nv">L</span><span class="o">:=</span> <span class="nv">SimpleLieAlgebra</span><span class="p">(</span> <span class="s">"G"</span><span class="o">,</span> <span class="nv">2</span><span class="o">,</span> <span class="nv">Rationals</span> <span class="p">)</span><span class="o">;</span>
 <span class="o">&lt;</span><span class="nv">Lie</span> <span class="nv">algebra</span> <span class="nv">of</span> <span class="nv">dimension</span> <span class="nv">14</span> <span class="nv">over</span> <span class="nv">Rationals</span><span class="o">&gt;</span>
 <span class="nv">gap</span><span class="o">&gt;</span> <span class="nv">R</span><span class="o">:=</span> <span class="nv">RootSystem</span><span class="p">(</span> <span class="nv">L</span> <span class="p">)</span><span class="o">;</span>
 <span class="o">&lt;</span><span class="nv">root</span> <span class="nv">system</span> <span class="nv">of</span> <span class="nv">rank</span> <span class="nv">2</span><span class="o">&gt;</span>
@@ -457,7 +457,7 @@ is available in GAP using the commands:</p>
 <p class="with-sage-tab with-python-tab with-sage-live-tab">In Sage, one can access these commands by typing:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio" /><label class="tab-label" for="tab-set--0-input--1">Sage</label><div class="tab-content docutils container">
-<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">libgap</span><span class="o">.</span><span class="n">SimpleLieAlgebra</span><span class="p">(</span><span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">);</span> <span class="n">L</span>
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">libgap</span><span class="o">.</span><span class="n">SimpleLieAlgebra</span><span class="p">(</span><span class="s2">"G"</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">);</span> <span class="n">L</span>
 <span class="go">&lt;Lie algebra of dimension 14 over Rationals&gt;</span>
 <span class="gp">sage:</span> <span class="n">R</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">RootSystem</span><span class="p">();</span> <span class="n">R</span>
 <span class="go">&lt;root system of rank 2&gt;</span>
@@ -468,7 +468,7 @@ is available in GAP using the commands:</p>
 </div>
 <input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio" /><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.all</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span> <span class="o">=</span> <span class="n">libgap</span><span class="o">.</span><span class="n">SimpleLieAlgebra</span><span class="p">(</span><span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">QQ</span><span class="p">);</span> <span class="n">L</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span> <span class="o">=</span> <span class="n">libgap</span><span class="o">.</span><span class="n">SimpleLieAlgebra</span><span class="p">(</span><span class="s2">"G"</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">QQ</span><span class="p">);</span> <span class="n">L</span>
 <span class="go">&lt;Lie algebra of dimension 14 over Rationals&gt;</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">RootSystem</span><span class="p">();</span> <span class="n">R</span>
 <span class="go">&lt;root system of rank 2&gt;</span>
@@ -502,7 +502,7 @@ applying <code class="docutils literal notranslate"><span class="pre">libgap.eva
 object using other GAP commands as <code class="docutils literal notranslate"><span class="pre">libgap</span></code> methods. At the end, one
 can convert back to sage using the method <code class="docutils literal notranslate"><span class="pre">sage</span></code> if it works.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">cartan_matrix</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">rank</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Return the Cartan matrix of given Chevalley type and rank.</span>
 
 <span class="sd">    INPUT:</span>
@@ -513,16 +513,16 @@ can convert back to sage using the method <code class="docutils literal notransl
 
 <span class="sd">    EXAMPLES::</span>
 
-<span class="sd">        sage: cartan_matrix(&quot;A&quot;,5)</span>
+<span class="sd">        sage: cartan_matrix("A",5)</span>
 <span class="sd">        [ 2 -1  0  0  0]</span>
 <span class="sd">        [-1  2 -1  0  0]</span>
 <span class="sd">        [ 0 -1  2 -1  0]</span>
 <span class="sd">        [ 0  0 -1  2 -1]</span>
 <span class="sd">        [ 0  0  0 -1  2]</span>
-<span class="sd">        sage: cartan_matrix(&quot;G&quot;,2)</span>
+<span class="sd">        sage: cartan_matrix("G",2)</span>
 <span class="sd">        [ 2 -1]</span>
 <span class="sd">        [-3  2]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">L</span> <span class="o">=</span> <span class="n">libgap</span><span class="o">.</span><span class="n">SimpleLieAlgebra</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">libgap</span><span class="o">.</span><span class="n">Rationals</span><span class="p">)</span>
     <span class="n">R</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">RootSystem</span><span class="p">()</span>
     <span class="n">sM</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">CartanMatrix</span><span class="p">()</span>
@@ -575,8 +575,8 @@ includes a shared library version of the GAP kernel, available as
 <a class="reference internal" href="#section-gap"><span class="std std-ref">GAP</span></a> is:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio" /><label class="tab-label" for="tab-set--1-input--1">Sage</label><div class="tab-content docutils container">
-<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">SimpleLieAlgebra</span> <span class="o">=</span> <span class="n">libgap</span><span class="o">.</span><span class="n">function_factory</span><span class="p">(</span><span class="s1">&#39;SimpleLieAlgebra&#39;</span><span class="p">)</span>
-<span class="gp">sage:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">SimpleLieAlgebra</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">)</span>
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">SimpleLieAlgebra</span> <span class="o">=</span> <span class="n">libgap</span><span class="o">.</span><span class="n">function_factory</span><span class="p">(</span><span class="s1">'SimpleLieAlgebra'</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">SimpleLieAlgebra</span><span class="p">(</span><span class="s1">'G'</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">)</span>
 <span class="gp">sage:</span> <span class="n">R</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">RootSystem</span><span class="p">();</span>  <span class="n">R</span>
 <span class="go">&lt;root system of rank 2&gt;</span>
 <span class="gp">sage:</span> <span class="n">R</span><span class="o">.</span><span class="n">CartanMatrix</span><span class="p">()</span>    <span class="c1"># output is a GAP matrix</span>
@@ -589,8 +589,8 @@ includes a shared library version of the GAP kernel, available as
 </div>
 <input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio" /><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.all</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">SimpleLieAlgebra</span> <span class="o">=</span> <span class="n">libgap</span><span class="o">.</span><span class="n">function_factory</span><span class="p">(</span><span class="s1">&#39;SimpleLieAlgebra&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span> <span class="o">=</span> <span class="n">SimpleLieAlgebra</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">QQ</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">SimpleLieAlgebra</span> <span class="o">=</span> <span class="n">libgap</span><span class="o">.</span><span class="n">function_factory</span><span class="p">(</span><span class="s1">'SimpleLieAlgebra'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span> <span class="o">=</span> <span class="n">SimpleLieAlgebra</span><span class="p">(</span><span class="s1">'G'</span><span class="p">,</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">QQ</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">RootSystem</span><span class="p">();</span>  <span class="n">R</span>
 <span class="go">&lt;root system of rank 2&gt;</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span><span class="o">.</span><span class="n">CartanMatrix</span><span class="p">()</span>    <span class="c1"># output is a GAP matrix</span>
@@ -642,7 +642,7 @@ to carry this out.</p>
                                                        0&lt;
      by: G.-M. Greuel, G. Pfister, H. Schoenemann        \   May 2005
 FB Mathematik der Universitaet, D-67653 Kaiserslautern    \
-&gt; LIB &quot;brnoeth.lib&quot;;
+&gt; LIB "brnoeth.lib";
 [...]
 &gt; ring s=5,(x,y),lp;
 &gt; poly f=y^2-x^9-x;
@@ -712,16 +712,16 @@ Total number of rational places : 6
 interface to Singular:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio" /><label class="tab-label" for="tab-set--2-input--1">Sage</label><div class="tab-content docutils container">
-<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">singular</span><span class="o">.</span><span class="n">LIB</span><span class="p">(</span><span class="s2">&quot;brnoeth.lib&quot;</span><span class="p">)</span>
-<span class="gp">sage:</span> <span class="n">singular</span><span class="o">.</span><span class="n">ring</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="s1">&#39;(x,y)&#39;</span><span class="p">,</span><span class="s1">&#39;lp&#39;</span><span class="p">)</span>
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">singular</span><span class="o">.</span><span class="n">LIB</span><span class="p">(</span><span class="s2">"brnoeth.lib"</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">singular</span><span class="o">.</span><span class="n">ring</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="s1">'(x,y)'</span><span class="p">,</span><span class="s1">'lp'</span><span class="p">)</span>
 <span class="go">    polynomial ring, over a field, global ordering</span>
 <span class="go">    // coefficients: ZZ/5...</span>
 <span class="go">    // number of vars : 2</span>
 <span class="go">    //        block   1 : ordering lp</span>
 <span class="go">    //                  : names    x y</span>
 <span class="go">    //        block   2 : ordering C</span>
-<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">singular</span><span class="p">(</span><span class="s1">&#39;y^2-x^9-x&#39;</span><span class="p">)</span>
-<span class="gp">sage:</span> <span class="nb">print</span><span class="p">(</span><span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;list X1=Adj_div(</span><span class="si">%s</span><span class="s2">);&quot;</span><span class="o">%</span><span class="k">f</span>.name()))
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">singular</span><span class="p">(</span><span class="s1">'y^2-x^9-x'</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="nb">print</span><span class="p">(</span><span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"list X1=Adj_div(</span><span class="si">%s</span><span class="s2">);"</span><span class="o">%</span><span class="k">f</span>.name()))
 <span class="go">Computing affine singular points ...</span>
 <span class="go">Computing all points at infinity ...</span>
 <span class="go">Computing affine singular places ...</span>
@@ -730,17 +730,17 @@ interface to Singular:</p>
 <span class="go">Adjunction divisor computed successfully</span>
 
 <span class="go">The genus of the curve is 4</span>
-<span class="gp">sage:</span> <span class="nb">print</span><span class="p">(</span><span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;list X2=NSplaces(1,X1);&quot;</span><span class="p">))</span>
+<span class="gp">sage:</span> <span class="nb">print</span><span class="p">(</span><span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"list X2=NSplaces(1,X1);"</span><span class="p">))</span>
 <span class="go">Computing non-singular affine places of degree 1 ...</span>
-<span class="gp">sage:</span> <span class="nb">print</span><span class="p">(</span><span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;list X3=extcurve(1,X2);&quot;</span><span class="p">))</span>
+<span class="gp">sage:</span> <span class="nb">print</span><span class="p">(</span><span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"list X3=extcurve(1,X2);"</span><span class="p">))</span>
 
 <span class="go">Total number of rational places : 6</span>
 
-<span class="gp">sage:</span> <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;def R=X3[1][5];&quot;</span><span class="p">)</span>
-<span class="go">&#39;&#39;</span>
-<span class="gp">sage:</span> <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;setring R;&quot;</span><span class="p">)</span>
-<span class="go">&#39;&#39;</span>
-<span class="gp">sage:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;POINTS;&quot;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"def R=X3[1][5];"</span><span class="p">)</span>
+<span class="go">''</span>
+<span class="gp">sage:</span> <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"setring R;"</span><span class="p">)</span>
+<span class="go">''</span>
+<span class="gp">sage:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"POINTS;"</span><span class="p">)</span>
 
 <span class="gp">sage:</span> <span class="nb">print</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="c1"># random</span>
 <span class="go">[1]:</span>
@@ -756,16 +756,16 @@ interface to Singular:</p>
 </div>
 <input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio" /><label class="tab-label" for="tab-set--2-input--2">Python</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.all</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">singular</span><span class="o">.</span><span class="n">LIB</span><span class="p">(</span><span class="s2">&quot;brnoeth.lib&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">singular</span><span class="o">.</span><span class="n">ring</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="s1">&#39;(x,y)&#39;</span><span class="p">,</span><span class="s1">&#39;lp&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">singular</span><span class="o">.</span><span class="n">LIB</span><span class="p">(</span><span class="s2">"brnoeth.lib"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">singular</span><span class="o">.</span><span class="n">ring</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="s1">'(x,y)'</span><span class="p">,</span><span class="s1">'lp'</span><span class="p">)</span>
 <span class="go">    polynomial ring, over a field, global ordering</span>
 <span class="go">    // coefficients: ZZ/5...</span>
 <span class="go">    // number of vars : 2</span>
 <span class="go">    //        block   1 : ordering lp</span>
 <span class="go">    //                  : names    x y</span>
 <span class="go">    //        block   2 : ordering C</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">singular</span><span class="p">(</span><span class="s1">&#39;y^2-x^9-x&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;list X1=Adj_div(</span><span class="si">%s</span><span class="s2">);&quot;</span><span class="o">%</span><span class="k">f</span>.name()))
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">singular</span><span class="p">(</span><span class="s1">'y^2-x^9-x'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"list X1=Adj_div(</span><span class="si">%s</span><span class="s2">);"</span><span class="o">%</span><span class="k">f</span>.name()))
 <span class="go">Computing affine singular points ...</span>
 <span class="go">Computing all points at infinity ...</span>
 <span class="go">Computing affine singular places ...</span>
@@ -774,17 +774,17 @@ interface to Singular:</p>
 <span class="go">Adjunction divisor computed successfully</span>
 <span class="go">&lt;BLANKLINE&gt;</span>
 <span class="go">The genus of the curve is 4</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;list X2=NSplaces(1,X1);&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"list X2=NSplaces(1,X1);"</span><span class="p">))</span>
 <span class="go">Computing non-singular affine places of degree 1 ...</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;list X3=extcurve(1,X2);&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"list X3=extcurve(1,X2);"</span><span class="p">))</span>
 <span class="go">&lt;BLANKLINE&gt;</span>
 <span class="go">Total number of rational places : 6</span>
 <span class="go">&lt;BLANKLINE&gt;</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;def R=X3[1][5];&quot;</span><span class="p">)</span>
-<span class="go">&#39;&#39;</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;setring R;&quot;</span><span class="p">)</span>
-<span class="go">&#39;&#39;</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;POINTS;&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"def R=X3[1][5];"</span><span class="p">)</span>
+<span class="go">''</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"setring R;"</span><span class="p">)</span>
+<span class="go">''</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"POINTS;"</span><span class="p">)</span>
 
 <span class="gp">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="c1"># random</span>
 <span class="go">[1]:</span>
@@ -826,9 +826,9 @@ determine where the coordinates of the points are placed in the string
 <span class="math notranslate nohighlight">\(L\)</span>. Python has some very useful string manipulation commands to do
 just that.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">points_parser</span><span class="p">(</span><span class="n">string_points</span><span class="p">,</span> <span class="n">F</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    This function will parse a string of points</span>
-<span class="sd">    of X over a finite field F returned by Singular&#39;s NSplaces</span>
+<span class="sd">    of X over a finite field F returned by Singular's NSplaces</span>
 <span class="sd">    command into a Python list of points with entries from F.</span>
 
 <span class="sd">    EXAMPLES::</span>
@@ -836,32 +836,32 @@ just that.</p>
 <span class="sd">        sage: F = GF(5)</span>
 <span class="sd">        sage: points_parser(L,F)</span>
 <span class="sd">        ((0, 1, 0), (3, 4, 1), (0, 0, 1), (2, 3, 1), (3, 1, 1), (2, 2, 1))</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">Pts</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
     <span class="c1"># start block to compute a pt</span>
     <span class="n">L1</span> <span class="o">=</span> <span class="n">L</span>
     <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">L1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">32</span><span class="p">:</span>
-        <span class="n">idx</span> <span class="o">=</span><span class="n">L1</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;     &quot;</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">=</span><span class="n">L1</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">"     "</span><span class="p">)</span>
         <span class="n">pt</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="c1"># start block1 for compute pt</span>
-        <span class="n">idx</span> <span class="o">=</span> <span class="n">L1</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;     &quot;</span><span class="p">)</span>
-        <span class="n">idx2</span> <span class="o">=</span> <span class="n">L1</span><span class="p">[</span><span class="n">idx</span><span class="p">:]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">L1</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">"     "</span><span class="p">)</span>
+        <span class="n">idx2</span> <span class="o">=</span> <span class="n">L1</span><span class="p">[</span><span class="n">idx</span><span class="p">:]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">L2</span> <span class="o">=</span> <span class="n">L1</span><span class="p">[</span><span class="n">idx</span><span class="p">:</span><span class="n">idx</span><span class="o">+</span><span class="n">idx2</span><span class="p">]</span>
         <span class="n">pt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">F</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">L2</span><span class="p">)))</span>
         <span class="c1"># end block1 to compute pt</span>
         <span class="n">L1</span> <span class="o">=</span> <span class="n">L1</span><span class="p">[</span><span class="n">idx</span><span class="o">+</span><span class="mi">8</span><span class="p">:]</span> <span class="c1"># repeat block 2 more times</span>
         <span class="c1"># start block2 for compute pt</span>
-        <span class="n">idx</span> <span class="o">=</span> <span class="n">L1</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;     &quot;</span><span class="p">)</span>
-        <span class="n">idx2</span> <span class="o">=</span> <span class="n">L1</span><span class="p">[</span><span class="n">idx</span><span class="p">:]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">L1</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">"     "</span><span class="p">)</span>
+        <span class="n">idx2</span> <span class="o">=</span> <span class="n">L1</span><span class="p">[</span><span class="n">idx</span><span class="p">:]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">L2</span> <span class="o">=</span> <span class="n">L1</span><span class="p">[</span><span class="n">idx</span><span class="p">:</span><span class="n">idx</span><span class="o">+</span><span class="n">idx2</span><span class="p">]</span>
         <span class="n">pt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">F</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">L2</span><span class="p">)))</span>
         <span class="c1"># end block2 to compute pt</span>
         <span class="n">L1</span><span class="o">=</span><span class="n">L1</span><span class="p">[</span><span class="n">idx</span><span class="o">+</span><span class="mi">8</span><span class="p">:]</span> <span class="c1"># repeat block 1 more time</span>
         <span class="c1"># start block3 for compute pt</span>
-        <span class="n">idx</span><span class="o">=</span><span class="n">L1</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;     &quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="ow">in</span> <span class="n">L1</span><span class="p">[</span><span class="n">idx</span><span class="p">:]:</span>
-            <span class="n">idx2</span> <span class="o">=</span> <span class="n">L1</span><span class="p">[</span><span class="n">idx</span><span class="p">:]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">idx</span><span class="o">=</span><span class="n">L1</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">"     "</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="ow">in</span> <span class="n">L1</span><span class="p">[</span><span class="n">idx</span><span class="p">:]:</span>
+            <span class="n">idx2</span> <span class="o">=</span> <span class="n">L1</span><span class="p">[</span><span class="n">idx</span><span class="p">:]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">idx2</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">L1</span><span class="p">[</span><span class="n">idx</span><span class="p">:])</span>
         <span class="n">L2</span> <span class="o">=</span> <span class="n">L1</span><span class="p">[</span><span class="n">idx</span><span class="p">:</span><span class="n">idx</span><span class="o">+</span><span class="n">idx2</span><span class="p">]</span>
@@ -882,7 +882,7 @@ moment, there is no “translation” between elements of <span class="math notr
 Singular and Sage unless <span class="math notranslate nohighlight">\(d=1\)</span>. So, for this reason, we restrict
 ourselves to points of degree one.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">places_on_curve</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">F</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    INPUT:</span>
 
 <span class="sd">    - f -- element of F[x,y], defining X: f(x,y)=0</span>
@@ -895,23 +895,23 @@ ourselves to points of degree one.</p>
 <span class="sd">    EXAMPLES::</span>
 
 <span class="sd">        sage: F = GF(5)</span>
-<span class="sd">        sage: R = PolynomialRing(F,2,names=[&quot;x&quot;,&quot;y&quot;])</span>
+<span class="sd">        sage: R = PolynomialRing(F,2,names=["x","y"])</span>
 <span class="sd">        sage: x,y = R.gens()</span>
 <span class="sd">        sage: f = y^2-x^9-x</span>
 <span class="sd">        sage: places_on_curve(f,F)</span>
 <span class="sd">        ((0, 1, 0), (3, 4, 1), (0, 0, 1), (2, 3, 1), (3, 1, 1), (2, 2, 1))</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">d</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">characteristic</span><span class="p">()</span>
-    <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s1">&#39;LIB &quot;brnoeth.lib&quot;;&#39;</span><span class="p">)</span>
-    <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;ring s=&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;,(x,y),lp;&quot;</span><span class="p">)</span>
-    <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;poly f=&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
-    <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;list X1=Adj_div(f);&quot;</span><span class="p">)</span>
-    <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;list X2=NSplaces(&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;,X1);&quot;</span><span class="p">)</span>
-    <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;list X3=extcurve(&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;,X2);&quot;</span><span class="p">)</span>
-    <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;def R=X3[1][5];&quot;</span><span class="p">)</span>
-    <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;setring R;&quot;</span><span class="p">)</span>
-    <span class="n">L</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;POINTS;&quot;</span><span class="p">)</span>
+    <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s1">'LIB "brnoeth.lib";'</span><span class="p">)</span>
+    <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"ring s="</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">+</span><span class="s2">",(x,y),lp;"</span><span class="p">)</span>
+    <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"poly f="</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+    <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"list X1=Adj_div(f);"</span><span class="p">)</span>
+    <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"list X2=NSplaces("</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">+</span><span class="s2">",X1);"</span><span class="p">)</span>
+    <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"list X3=extcurve("</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">+</span><span class="s2">",X2);"</span><span class="p">)</span>
+    <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"def R=X3[1][5];"</span><span class="p">)</span>
+    <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"setring R;"</span><span class="p">)</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"POINTS;"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">points_parser</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">F</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -921,7 +921,7 @@ same as the ordering in the Singular variable <code class="docutils literal notr
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio" /><label class="tab-label" for="tab-set--3-input--1">Sage</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">F</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">sage:</span> <span class="n">R</span> <span class="o">=</span> <span class="n">MPolynomialRing</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span><span class="s2">&quot;y&quot;</span><span class="p">])</span>
+<span class="gp">sage:</span> <span class="n">R</span> <span class="o">=</span> <span class="n">MPolynomialRing</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"x"</span><span class="p">,</span><span class="s2">"y"</span><span class="p">])</span>
 <span class="gp">sage:</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">gens</span><span class="p">()</span>
 <span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mi">3</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="n">y</span><span class="o">^</span><span class="mi">3</span><span class="o">+</span><span class="n">x</span>
 <span class="gp">sage:</span> <span class="n">places_on_curve</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">F</span><span class="p">)</span>
@@ -932,7 +932,7 @@ same as the ordering in the Singular variable <code class="docutils literal notr
 <input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio" /><label class="tab-label" for="tab-set--3-input--2">Python</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.all</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">F</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">MPolynomialRing</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span><span class="s2">&quot;y&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">MPolynomialRing</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"x"</span><span class="p">,</span><span class="s2">"y"</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">gens</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="n">y</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">+</span><span class="n">x</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">places_on_curve</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">F</span><span class="p">)</span>
@@ -964,29 +964,29 @@ the code is much simpler, as illustrated below. First, we demonstrate
 computing the places on a curve in a particular case:</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio" /><label class="tab-label" for="tab-set--4-input--1">Sage</label><div class="tab-content docutils container">
-<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">singular</span><span class="o">.</span><span class="n">lib</span><span class="p">(</span><span class="s1">&#39;brnoeth.lib&#39;</span><span class="p">)</span>
-<span class="gp">sage:</span> <span class="n">R</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">ring</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;(x,y)&#39;</span><span class="p">,</span> <span class="s1">&#39;lp&#39;</span><span class="p">)</span>
-<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;y^2 - x^9 - x&#39;</span><span class="p">)</span>
+<div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">sage:</span> <span class="n">singular</span><span class="o">.</span><span class="n">lib</span><span class="p">(</span><span class="s1">'brnoeth.lib'</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">R</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">ring</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">'(x,y)'</span><span class="p">,</span> <span class="s1">'lp'</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'y^2 - x^9 - x'</span><span class="p">)</span>
 <span class="gp">sage:</span> <span class="n">X1</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">Adj_div</span><span class="p">()</span>
 <span class="gp">sage:</span> <span class="n">X2</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">NSplaces</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">X1</span><span class="p">)</span>
 <span class="gp">sage:</span> <span class="n">X3</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">extcurve</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span>
 <span class="gp">sage:</span> <span class="n">R</span> <span class="o">=</span> <span class="n">X3</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span>
 <span class="gp">sage:</span> <span class="n">singular</span><span class="o">.</span><span class="n">set_ring</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
-<span class="gp">sage:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;POINTS&#39;</span><span class="p">)</span>
+<span class="gp">sage:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'POINTS'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio" /><label class="tab-label" for="tab-set--4-input--2">Python</label><div class="tab-content docutils container">
 <div class="highlight-ipycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sage.all</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">singular</span><span class="o">.</span><span class="n">lib</span><span class="p">(</span><span class="s1">&#39;brnoeth.lib&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">ring</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="s1">&#39;(x,y)&#39;</span><span class="p">,</span> <span class="s1">&#39;lp&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;y^2 - x^9 - x&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">singular</span><span class="o">.</span><span class="n">lib</span><span class="p">(</span><span class="s1">'brnoeth.lib'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">ring</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="s1">'(x,y)'</span><span class="p">,</span> <span class="s1">'lp'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'y^2 - x^9 - x'</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">X1</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">Adj_div</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">X2</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">NSplaces</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">X1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">X3</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">extcurve</span><span class="p">(</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">X2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">R</span> <span class="o">=</span> <span class="n">X3</span><span class="p">[</span><span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">)][</span><span class="n">Integer</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt;</span> <span class="n">singular</span><span class="o">.</span><span class="n">set_ring</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;POINTS&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span> <span class="n">L</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'POINTS'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1046,15 +1046,15 @@ function is not required:</p>
     <span class="n">p</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">characteristic</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">F</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-    <span class="n">singular</span><span class="o">.</span><span class="n">lib</span><span class="p">(</span><span class="s1">&#39;brnoeth.lib&#39;</span><span class="p">)</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">ring</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;(x,y)&#39;</span><span class="p">,</span> <span class="s1">&#39;lp&#39;</span><span class="p">)</span>
-    <span class="n">f</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;y^2 - x^9 - x&#39;</span><span class="p">)</span>
+    <span class="n">singular</span><span class="o">.</span><span class="n">lib</span><span class="p">(</span><span class="s1">'brnoeth.lib'</span><span class="p">)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">ring</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">'(x,y)'</span><span class="p">,</span> <span class="s1">'lp'</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'y^2 - x^9 - x'</span><span class="p">)</span>
     <span class="n">X1</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">Adj_div</span><span class="p">()</span>
     <span class="n">X2</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">NSplaces</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">X1</span><span class="p">)</span>
     <span class="n">X3</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">extcurve</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span>
     <span class="n">R</span> <span class="o">=</span> <span class="n">X3</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span>
     <span class="n">singular</span><span class="o">.</span><span class="n">setring</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
-    <span class="n">L</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;POINTS&#39;</span><span class="p">)</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">singular</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'POINTS'</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">[(</span><span class="nb">int</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">3</span><span class="p">]))</span> \
              <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">size</span><span class="p">())</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
 </pre></div>
@@ -1090,12 +1090,12 @@ operating system routines, and also the class <code class="docutils literal notr
 basic class for interfaces. The third line defines the class
 <code class="docutils literal notranslate"><span class="pre">Octave</span></code>; it derives from <code class="docutils literal notranslate"><span class="pre">Expect</span></code> as well. After this comes a
 docstring, which we omit here (see the file for details). Next comes:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script_subdirectory</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">logfile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script_subdirectory</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">logfile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
              <span class="n">server</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">server_tmpdir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">Expect</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;octave&#39;</span><span class="p">,</span>
-                    <span class="n">prompt</span> <span class="o">=</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">,</span>
-                    <span class="n">command</span> <span class="o">=</span> <span class="s2">&quot;octave --no-line-editing --silent&quot;</span><span class="p">,</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="s1">'octave'</span><span class="p">,</span>
+                    <span class="n">prompt</span> <span class="o">=</span> <span class="s1">'&gt;'</span><span class="p">,</span>
+                    <span class="n">command</span> <span class="o">=</span> <span class="s2">"octave --no-line-editing --silent"</span><span class="p">,</span>
                     <span class="n">server</span> <span class="o">=</span> <span class="n">server</span><span class="p">,</span>
                     <span class="n">server_tmpdir</span> <span class="o">=</span> <span class="n">server_tmpdir</span><span class="p">,</span>
                     <span class="n">script_subdirectory</span> <span class="o">=</span> <span class="n">script_subdirectory</span><span class="p">,</span>
@@ -1107,20 +1107,20 @@ docstring, which we omit here (see the file for details). Next comes:</p>
 </div>
 <p>This uses the class <code class="docutils literal notranslate"><span class="pre">Expect</span></code> to set up the Octave interface:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Set the variable var to the given value.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">=</span><span class="si">%s</span><span class="s1">;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">var</span><span class="p">,</span><span class="n">value</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s1">'</span><span class="si">%s</span><span class="s1">=</span><span class="si">%s</span><span class="s1">;'</span> <span class="o">%</span> <span class="p">(</span><span class="n">var</span><span class="p">,</span><span class="n">value</span><span class="p">)</span>
     <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Error executing code in Octave</span><span class="se">\n</span><span class="s2">CODE:</span><span class="se">\n\t</span><span class="si">%s</span><span class="se">\n</span><span class="s2">Octave ERROR:</span><span class="se">\n\t</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">out</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">"error"</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Error executing code in Octave</span><span class="se">\n</span><span class="s2">CODE:</span><span class="se">\n\t</span><span class="si">%s</span><span class="se">\n</span><span class="s2">Octave ERROR:</span><span class="se">\n\t</span><span class="si">%s</span><span class="s2">"</span><span class="o">%</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">out</span><span class="p">))</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Get the value of the variable var.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">var</span><span class="p">)</span>
-    <span class="n">i</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s1">'</span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="n">var</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">'='</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">console</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1131,7 +1131,7 @@ docstring, which we omit here (see the file for details). Next comes:</p>
 <code class="docutils literal notranslate"><span class="pre">octave.get('x')</span></code> returns <code class="docutils literal notranslate"><span class="pre">'</span> <span class="pre">3'</span></code>. Running <code class="docutils literal notranslate"><span class="pre">octave.console()</span></code>
 dumps the user into an Octave interactive shell:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">solve_linear_system</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Use octave to compute a solution x to A*x = b, as a list.</span>
 
 <span class="sd">    INPUT:</span>
@@ -1153,23 +1153,23 @@ dumps the user into an Octave interactive shell:</p>
 <span class="sd">        [-0.333333, 0.666667, 0]</span>
 
 <span class="sd">    AUTHOR: David Joyner and William Stein</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">m</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">nrows</span><span class="p">()</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">ncols</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">m</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;dimensions of A and b must be compatible&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"dimensions of A and b must be compatible"</span><span class="p">)</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">sage.matrix.all</span><span class="w"> </span><span class="kn">import</span> <span class="n">MatrixSpace</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">sage.rings.all</span><span class="w"> </span><span class="kn">import</span> <span class="n">QQ</span>
     <span class="n">MS</span> <span class="o">=</span> <span class="n">MatrixSpace</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">b</span>  <span class="o">=</span> <span class="n">MS</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>  <span class="c1"># converted b to a &quot;column vector&quot;</span>
+    <span class="n">b</span>  <span class="o">=</span> <span class="n">MS</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>  <span class="c1"># converted b to a "column vector"</span>
     <span class="n">sA</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sage2octave_matrix_string</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
     <span class="n">sb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sage2octave_matrix_string</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;a = &quot;</span> <span class="o">+</span> <span class="n">sA</span> <span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;b = &quot;</span> <span class="o">+</span> <span class="n">sb</span> <span class="p">)</span>
-    <span class="n">soln</span> <span class="o">=</span> <span class="n">octave</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;c = a </span><span class="se">\\</span><span class="s2"> b&quot;</span><span class="p">)</span>
-    <span class="n">soln</span> <span class="o">=</span> <span class="n">soln</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2"> &quot;</span><span class="p">,</span> <span class="s2">&quot;[&quot;</span><span class="p">)</span>
-    <span class="n">soln</span> <span class="o">=</span> <span class="n">soln</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;]&quot;</span><span class="p">)</span>
-    <span class="n">soln</span> <span class="o">=</span> <span class="n">soln</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"a = "</span> <span class="o">+</span> <span class="n">sA</span> <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"b = "</span> <span class="o">+</span> <span class="n">sb</span> <span class="p">)</span>
+    <span class="n">soln</span> <span class="o">=</span> <span class="n">octave</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">"c = a </span><span class="se">\\</span><span class="s2"> b"</span><span class="p">)</span>
+    <span class="n">soln</span> <span class="o">=</span> <span class="n">soln</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\n\n</span><span class="s2"> "</span><span class="p">,</span> <span class="s2">"["</span><span class="p">)</span>
+    <span class="n">soln</span> <span class="o">=</span> <span class="n">soln</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\n\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"]"</span><span class="p">)</span>
+    <span class="n">soln</span> <span class="o">=</span> <span class="n">soln</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">","</span><span class="p">)</span>
     <span class="n">sol</span>  <span class="o">=</span> <span class="n">soln</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
     <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="n">sol</span><span class="p">)</span>
 </pre></div>
@@ -1260,7 +1260,7 @@ software packages.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=196c8d4a"></script>
+</div><script src="_static/documentation_options.js?v=d2e51d87"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>
